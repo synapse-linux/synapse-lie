@@ -1,6 +1,36 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Finite-value/cache GPU controls and real Terminal smoke — 2026-10-05 UTC
+
+The newly sealed `2359488` runtime, code checkpoint `5bdd405`, compiles on
+`.161` and passes **37 original-weight OpenAI checks in AR and 37 in MTP**.
+The [receipt](development/validation/c17-finite-cache-point-gpu-2026-10-05.json)
+binds the new binaries, actual 45-file C17 provider inventory, host oracles and
+three independently admitted/closed windows. Forty collected files match SHA;
+CPU/GPU/NVMe maxima are 74.125/68/67.85 C. Original models stay unchanged and
+all owned processes, named service and original lease close correctly.
+These checks qualify selected wire/grammar/tool/lifecycle paths for this
+source; per-branch quality/fault/allocations and matched cost remain pending.
+The older closed-stderr native benchmark abort is not diagnosed by these runs.
+
+Actual Core-19 smoke `lie-point-r16-core19-smoke-r1` starts at 19:12:36 UTC.
+Its persistent CPU supervisor on `.157` is `4191489` (start ticks `179295094`); Harbor 0.20
+actually runs the unchanged `git-leak-recovery` task after doctor passes source,
+runtime, model and context checks. GPU inference is exclusively the `.161`
+HTTP port 8000 endpoint, supervisor `63047` (start ticks `9598139`), model process `63857` (start ticks `9601616`).
+Context 262,144 / output ceiling 4,096, AR, C1 and the benchmark's default two
+conditional attempts/three hours per attempt are preserved. The server observes
+44 whole-process threads including runtime helpers, not a reactive-worker count
+or proof of speedup. No task reward or final closure is available yet.
+
+Initial direct HTTP GETs fail because UFW lacks port 8000. The own temporary permit
+allows only `.157` to `.161:8000`, with exact supervisor identity and automatic
+retirement; foreign rules stay intact. Retried direct GET succeeds without a
+tunnel. The CPU client uses an existing read-only Harbor environment and its
+own source/cache/job/lease/thermal supervisor; no installation or Q2 mutation
+occurs. All six roadmap tasks remain active. No publication occurs.
+
 ## Physical 1M prefill and fixed TG128 pass — 2026-10-05 UTC
 
 The newly declared `.161` `1bff953` C1 AR run completes **1,048,448 physical
@@ -13,7 +43,7 @@ The older natural-EOS43 failure remains unchanged.
 The [receipt](development/validation/physical1m-fixed-point-gpu-2026-10-05.json)
 binds eleven SHA-verified artifacts and the portable raw archive. Supervisor,
 child and controller exit zero; the GPU process/kernel KFD retire before
-restoring the initially active router. Original lease dev66307/inode105946405
+restoring the initially active router. Original lease device 66307 / inode 105946405
 releases at 18:42:53.125145 UTC; four original shard stats remain unchanged.
 CPU/GPU/NVMe peaks are 78/79/66.85 C, GTT peaks at 109.183 GiB and available
 RAM bottoms at 5.379 GiB. Process thread counts are not recorded for this run.

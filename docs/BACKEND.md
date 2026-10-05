@@ -50,7 +50,11 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
    all 37 checks in both AR and MTP on `.161`; the interrupted result remains
    evidence for r12. The unchanged smoke source/client and its cached task image
    are ready; Core-19 currently has 4/19 cached task images. No task score exists
-   yet. [Current GPU receipt](development/validation/c17-sampling-point-gpu-2026-10-05.json).
+   yet in those earlier windows. The newer finite-value/cache runtime `2359488`
+   also passes AR37/MTP37. Its unchanged Core-19 smoke task is now running under
+   persistent supervision, with the CPU client on `.157` and GPU HTTP port 8000 on
+   `.161`; no final task reward is available.
+   [Current GPU receipt](development/validation/c17-finite-cache-point-gpu-2026-10-05.json).
 3. **Close full 1M context acceptance.** The newly declared `1bff953` `.161`
    run completes all **1,048,448 physical prefill tokens and 128 output tokens**
    with explicit YaRN4 and `--ignore-eos`. The
@@ -165,8 +169,9 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
    counts and independent host refusal/language tests. The compiled-schema cache now also uses C17 ordering, synchronization and
    opaque ownership, with [host witnesses](development/validation/c17-grammar-cache-host-2026-10-05.json).
    Dispatch/reference memo and private composition caches still need extraction
-   within the same task. Newer finite-value/cache slices await matching
-   provider/application rebuilds and their own GPU gates.
+   within the same task. Newer finite-value/cache slices have a matching
+   provider/application rebuild and pass their own AR37/MTP37 GPU controls
+   ([receipt](development/validation/c17-finite-cache-point-gpu-2026-10-05.json)).
    The integrated `1bff953` runtime now passes 37 original-weight OpenAI controls
    in both AR and MTP, including selected grammar/tool paths, and six seeded
    native TG128 sessions. This does not close individual grammar-branch,

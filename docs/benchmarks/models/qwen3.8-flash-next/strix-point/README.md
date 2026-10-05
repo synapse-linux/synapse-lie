@@ -385,6 +385,17 @@ verified model/process/service/lease closure and 67 SHA-verified artifacts.
 The separate [physical1M fixed-TG128 gate](#physical-1m-context-and-fixed-generation)
 also passes; recall and matched long-context comparisons remain open.
 
+The newer `2359488` runtime includes default-ON C17 finite values/container
+construction and compiled-schema caching. Its matching build and **37 AR plus
+37 MTP OpenAI controls** pass with 40 SHA-verified artifacts and complete
+process/model/service/lease closure. The
+[receipt and raw bindings](../../../../development/validation/c17-finite-cache-point-gpu-2026-10-05.json)
+and [portable archive](data/rocm10-finite-cache-openai-r16.tar.gz) identify that
+source. These are functional checks; the earlier rate tables retain their
+original runtimes. Broader numerical/fault/resource/matched-cost gates remain
+open. The later unchanged Terminal Bench smoke is running separately; it has
+no final task reward at this checkpoint.
+
 Two additional `.161` windows start `synapse-lie-server` in the same supervised
 ROCm 10 Distrobox, once with AR and once with the copied Q8 predictor explicitly
 enabled. Both use the original UD shards, 16,384-token configured context,

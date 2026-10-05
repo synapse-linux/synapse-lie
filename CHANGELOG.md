@@ -17,12 +17,14 @@ stable release is declared. Detailed validation history is in
 - Shared C17 compiled-schema cache with copied keys, bounded opaque values and
   concurrent access. Compilation stays outside its lock; the default-ON
   provider retains an OFF reference. Host cache/ownership/refusal comparisons
-  pass; matching rebuilt-runtime GPU and cost checks remain pending.
+  and matching GPU OpenAI AR/MTP controls pass; broader branch, fault and
+  matched cost checks remain pending.
 
 - Shared C17 finite JSON value filtering/canonicalization, string/key quoting,
   ordered object/array rules and bounded character accounting. The default-ON
-  provider retains an OFF reference. Host language and refusal checks pass;
-  this newer slice awaits its own GPU qualification.
+  provider retains an OFF reference. Host language/refusal checks and matching
+  GPU OpenAI AR/MTP controls pass; broader numerical, fault and cost gates remain
+  pending.
 
 - Shared C17 JSON Schema conjunction, local reference resolution, structural
   value equality and keyword validation. The default-ON selection retains an

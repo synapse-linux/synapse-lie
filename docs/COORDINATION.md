@@ -1,8 +1,32 @@
 # DS4 / synapse-lie coordination
 
+## Real Terminal smoke CPU/GPU window — 2026-10-05
+
+New `2359488` build, AR37 and MTP37 finish, collect and retire under their own
+fresh `.161` leases; the [receipt](development/validation/c17-finite-cache-point-gpu-2026-10-05.json)
+does not inherit qualification from the earlier `1bff953` capacity run.
+
+Fresh Q2 release/non-use plus actual `.157` verification sees 1,083 identities /
+863 groups retired, original four locks free briefly, kernel KFD empty and seven model
+stat identities unchanged. No foreign lock is held for the CPU client.
+The own persistent client `4191489` (start ticks `179295094`) starts at 19:12:36 UTC with
+CPU-only lease device 52 / inode 4486194. Doctor and actual Harbor 0.20 startup pass.
+The unchanged Core-19 smoke runs against `.161` HTTP port 8000, not a tunnel.
+No dependency installation, Q2 environment/cache modification or `.157` GPU
+work occurs. Q2 reconfirms non-use until actual root CPU closure; no release
+or standing reservation is inferred from a progress snapshot.
+
+The GPU eval supervisor `63047` (start ticks `9598139`) retains the original `.161` lease
+device 66307 / inode 105946405. Its model process `63857` (start ticks `9601616`) is READY at 262,144 context;
+there is no final task reward or endpoint release yet. CPU 98 C / NVMe 85 C guards and
+owned retirement remain active. Initial external GETs fail on UFW's missing port 8000
+permit. The own scoped permit admits only `192.168.5.157` to `192.168.5.161:8000`,
+supervised by `64078` (start ticks `9638531`) and automatically retired when the exact eval
+owner closes. No global firewall disable or foreign rule removal occurs.
+
 ## Physical1M closure and fresh r16 window — 2026-10-05
 
-The frozen `1bff953` physical1M supervisor53019/start8719211 completes the
+The frozen `1bff953` physical1M supervisor `53019` (start ticks `8719211`) completes the
 declared PP1,048,448/TG128 run and actually retires. Collection verifies eleven
 files, supervisor/owned children absent, original lease free, unchanged model
 stats and router restored. The [receipt](development/validation/physical1m-fixed-point-gpu-2026-10-05.json)
@@ -10,14 +34,14 @@ records release at 18:42:53.125145 UTC. The previous EOS43 failure is retained.
 
 The Point thread supplies fresh non-use with no `.161` job/client/lease/waiter/
 reservation. Root then stages sealed source `2359488`, code `5bdd405`, in its
-own r16 root. The new GPU-device-free build supervisor56982/start9482399
-acquires the original lease dev66307/inode105946405 and follows fresh actual
-KFD/resource/CPU98/NVMe85 admission plus the already authorized named router
+own r16 root. The new GPU-device-free build supervisor `56982` (start ticks `9482399`)
+acquires the original lease device 66307 / inode 105946405 and follows fresh actual
+KFD/resource/CPU 98 C / NVMe 85 C admission plus the already authorized named router
 stop/restore. This build is separate from original-weight qualification.
 
 Q2 reports `.157` terminal release `b52d7308` at 18:39:19.580005 UTC and fresh
 non-use for the root CPU-only external Terminal client. Root verifies that
-release SHA and existing Harbor0.20/Docker29.7.2/Compose5.5/source prerequisites
+release SHA and existing Harbor 0.20/Docker29.7.2/Compose5.5/source prerequisites
 read-only. No root `.157` GPU job/build/model access, installation, foreign
 signal or Q2 environment/cache change occurs. The future own CPU client needs
 its fresh admission; no job or task score has started at this record.
@@ -350,7 +374,7 @@ Every further agent window requires its own fresh ownership/admission.
 Fresh read-only `.161` witness at 06:24:10.934843 UTC observes the external
 training PID29223/start2470351 and router PID29377/start2474081 in actual/kernel
 KFD inventories. CPU is 91.625 C, available RAM 86,383,816,704 bytes. The original
-lease dev66307/inode105946405 is free; boot/filesystem/four shard stats are
+lease device 66307 / inode 105946405 is free; boot/filesystem/four shard stats are
 unchanged. The brief nonblocking probe reserves nothing and does not admit GPU work.
 
 Root extracts sampler-history bookkeeping into C17 and preserves the original
@@ -374,7 +398,7 @@ its ownership/admission/release are separate from the six tasks here.
 Fresh read-only `.161` witness at 05:43:05.088403 UTC observes external
 PID29223/start2470351 and router PID29377/start2474081 in descriptor/kernel KFD
 inventories. CPU is 80.375 C, available RAM 87,005,990,912 bytes. Original lease
-dev66307/inode105946405 is free; boot, filesystem and original model stats remain
+device 66307 / inode 105946405 is free; boot, filesystem and original model stats remain
 unchanged. The brief nonblocking probe is neither a reservation nor admission.
 
 Root completes local HTTP creation-time steering plans and individual stored
@@ -397,7 +421,7 @@ window requires fresh ownership/admission.
 Fresh read-only `.161` witness at 05:01:54.702189 UTC observes external
 PID29223/start2470351 and router PID29377/start2474081 in descriptor/kernel KFD
 inventories. CPU is 79.25 C, available RAM 86,524,407,808 bytes. Original lease
-dev66307/inode105946405 is free; boot, filesystem and original model stats remain
+device 66307 / inode 105946405 is free; boot, filesystem and original model stats remain
 unchanged. The brief nonblocking probe is neither a reservation nor admission.
 
 Root's source/host increment adds copied deterministic core/bench steering plans
@@ -420,7 +444,7 @@ window requires fresh ownership/admission.
 Fresh read-only `.161` witness at 04:06:49.060745 UTC observes external
 PID29223/start2470351 and router PID29377/start2474081 in descriptor/kernel KFD
 inventories. CPU is 79.75 C, available RAM 86,713,753,600 bytes. Original lease
-dev66307/inode105946405 is free; boot, filesystem and original model stats remain
+device 66307 / inode 105946405 is free; boot, filesystem and original model stats remain
 unchanged. The brief nonblocking probe is neither a reservation nor admission.
 
 Root's source/host increment adds asynchronous per-job steering on the existing
@@ -441,7 +465,7 @@ every new window requires fresh ownership/admission.
 The fresh read-only witness at 03:20:53.768099 UTC observes external
 PID29223/start2470351 and restored router PID29377/start2474081 in descriptor and
 kernel KFD inventories. CPU is 80.625 C, available RAM 86,254,231,552 bytes;
-original lease dev66307/inode105946405 is free, with boot/filesystem/model stats
+original lease device 66307 / inode 105946405 is free, with boot/filesystem/model stats
 unchanged. The brief nonblocking probe is not a reservation or GPU admission.
 
 Root completes initial shared-core/server/bench steering source and 16 Debug,
@@ -458,7 +482,7 @@ Any further window needs fresh ownership/admission. Root GPU work uses `.161`.
 The read-only witness at 01:49:21.180644 UTC still observes external
 PID29223/start2470351 and router PID29377/start2474081 in descriptor/kernel KFD
 inventories. CPU is 79.625 C, available RAM 87,580,016,640 bytes. Original lease
-dev66307/inode105946405 is free; boot/filesystem/model stats are unchanged.
+device 66307 / inode 105946405 is free; boot/filesystem/model stats are unchanged.
 No remote GPU build/run, heavyweight model hash, conversion, service mutation,
 foreign signal, retry, waiter or reservation follows this witness.
 
@@ -475,7 +499,7 @@ fresh ownership/admission. Root GPU qualification remains scoped to `.161`.
 The read-only `.161` witness at 01:26:22.453930 UTC still observes external
 PID29223/start2470351 in session-424 and router PID29377/start2474081 in descriptor
 and kernel KFD inventories. CPU is 79.625 C, available RAM 87,568,154,624 bytes;
-original lease dev66307/inode105946405 is free. Boot/filesystem/model stats are
+original lease device 66307 / inode 105946405 is free. Boot/filesystem/model stats are
 unchanged. This witness does not reserve a lease or admit GPU work.
 
 Root completes direct C steering admission/retained-forward source binding and
@@ -493,7 +517,7 @@ At 00:52:53.054202 UTC the read-only `.161` inspection still observes external
 PID29223/start2470351 in session-424 and restored router
 PID29377/start2474081 in both descriptor and kernel KFD inventories. CPU is
 81 C, available RAM 87,629,848,576 bytes, and the original private lease
-dev66307/inode105946405 is free. The boot, filesystem and original model stats
+device 66307 / inode 105946405 is free. The boot, filesystem and original model stats
 are unchanged. This witness does not reserve a lease or authorize GPU work.
 
 Root completes C17 metadata/staged-restore host development and eight Debug plus
@@ -524,7 +548,7 @@ increment, without changing the frozen r12 AR/MTP receipts or their closure.
 Fresh admission at 22:57:20.466869 UTC verifies empty actual/kernel KFD clients
 after stopping only the authorized router. The device-free r12 compilation of
 `a3066a7` exits 0 and releases at 22:59:56.903782 UTC. Its six collected artifacts
-verify; router PID26789 is restored and lease dev66307/inode105946405 is free.
+verify; router PID26789 is restored and lease device 66307 / inode 105946405 is free.
 
 The separately admitted AR37 window passes all original-weight checks and
 releases at 23:11:50.074654 UTC. Seventeen artifacts verify, models are unchanged,
@@ -544,7 +568,7 @@ still present. Point confirms it owns no remote process or reservation.
 
 The MTP37 window remains unqualified. Foreign processes are unchanged; no root
 GPU job, waiter, automatic retry or reservation remains on `.161` or `.157`.
-Further GPU work requires fresh availability and admission. CPU98/NVMe85 and
+Further GPU work requires fresh availability and admission. CPU 98 C / NVMe 85 C and
 GPU observation remain; no tuning or dependency installation occurs.
 [Receipt](development/validation/automatic-output-point-gpu-2026-10-04.json).
 
@@ -560,10 +584,10 @@ The frozen r11 original-weight MTP window passes the same 34 OpenAI checks as
 AR and releases at 22:22:10.325729 UTC. Server/client/controller/supervisor exits
 are 0; collection exits 0 and fifteen artifacts hash-verify. Model/predictor
 stats stay unchanged, all owned processes retire, router PID23248 is restored
-and lease dev66307/inode105946405 is free. The owned container init's subsequent
+and lease device 66307 / inode 105946405 is free. The owned container init's subsequent
 stop exit 143 is preserved separately. Collection SHA-256 is
 `4a10a330e1973dd221bb56e0afcf031eb760e407788ef34c2f2012a6a1db012b`.
-CPU/GPU/NVMe maxima are 61.5/66/66.85 C under CPU98/NVMe85 and GPU observation.
+CPU/GPU/NVMe maxima are 61.5/66/66.85 C under CPU 98 C / NVMe 85 C and GPU observation.
 
 The earlier refused MTP window remains failed; this new gate qualifies r11
 wire/lifetimes only. Root has no standing GPU lease, job, waiter or reservation
@@ -651,7 +675,7 @@ retired Responses replay. The scratch gate preserves the previous chunk256
 output IDs while sampling 78.33 GiB GTT; the enlarged-capacity gate samples
 93.68 GiB and preserves the same short output IDs. Original-weight gate CPU/GPU/NVMe
 maxima are 63/66/67.85 C; the device-free build CPU maximum is 72.125 C.
-CPU98/NVMe85 guards apply, with GPU observed only. The earlier r9 HTTP
+CPU 98 C / NVMe 85 C guards apply, with GPU observed only. The earlier r9 HTTP
 incrementality failure remains exit 1 with successful closure. These short
 gates do not qualify physical 1M, full task evaluation or replicated performance.
 

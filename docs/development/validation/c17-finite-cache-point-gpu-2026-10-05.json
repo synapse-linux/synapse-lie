@@ -1,0 +1,516 @@
+{
+  "schema": "synapse-lie.c17-finite-cache-point-original-qualification.v1",
+  "at_utc": "2026-10-05T19:19:21.296212+00:00",
+  "state": "PASSED",
+  "source_commit": "23594881f406adcaf47e156d4f8e880aa735b081",
+  "code_checkpoint": "5bdd40573698a7afe74846ded1f9b18add616cd7",
+  "target": "pop@192.168.5.161",
+  "gpu_target": "gfx1150",
+  "model": "Qwen3.8-Flash-Next UD-Q4_K_XL",
+  "upstream_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "New matching default-ON finite JSON/container construction and compiled-schema C17 cache build, followed by 37 original-weight OpenAI wire/lifecycle/tool/output checks in each AR/MTP mode. Not full branch/quality/fault/allocation-exact/matched-cost coverage; no Terminal Bench task score.",
+  "host_receipts": [
+    {
+      "path": "docs/development/validation/c17-schema-values-host-2026-10-05.json",
+      "sha256": "01a1255e7a1e7fb74f80cc305338c2821ab451dfa99957b496b2281ba897d28e"
+    },
+    {
+      "path": "docs/development/validation/c17-grammar-cache-host-2026-10-05.json",
+      "sha256": "b9ce98620306ba3cb2467aceee0887dad82da9eccd068f2a3c8d09d9256aa411"
+    }
+  ],
+  "source_capsule": {
+    "path": "evidence/context-r16-source-seal.json",
+    "sha256": "2cb8e823978fd04367918a9ee5ab8e8d94dad01a8f772521c863f2eeb9eb3f55"
+  },
+  "bundle": {
+    "path": "evidence/context-r16-bundle-result.json",
+    "sha256": "1ec9cd2467b5c70c320696ed19977cece3bcd2cb6b101a32e0f07e1904af321b"
+  },
+  "provider_build_receipt": {
+    "path": "evidence/context-r16-provider-build-receipt.json",
+    "sha256": "51b9541a985a534f79f91e89a471b44ed8040d06d99802e8fc81b686046bcc66"
+  },
+  "compiled_owned_files": {
+    "adapters/gufo_distribution.hpp": "7b0370bf509a1a99370b48877fb7e3b8a4d060bf6c8fcdc037a090a72ef6169d",
+    "adapters/gufo_grammar.hpp": "5a1b26a1dd27ae806a86de08c94caabbc98e989f6afe4eb15a4e5f79bed77125",
+    "adapters/gufo_grammar_builder.hpp": "c30d48f0845eb5a6b02b1592450fdc5a36b3c9b1fbe63153420c438148742cd5",
+    "adapters/gufo_grammar_cache.hpp": "62d01ddae21a28175a0db91407204ebfff8bf9068a182d636c57fbf1186d304a",
+    "adapters/gufo_grammar_number.hpp": "ceb9b43371f7c2369fcf220a7bbdfaa12b2b39366cc51904ea70cc7c9f5eae65",
+    "adapters/gufo_grammar_regex.hpp": "45828984d95b4be1b7dd869793576b08c8f7e709ed3dc5931332c43f39ad434f",
+    "adapters/gufo_grammar_regex_compile.hpp": "c8c7190ba2be8997270a3701fad4c0b2804b23e7283497b212b6b233886ca249",
+    "adapters/gufo_grammar_regex_parse.hpp": "930b4e20b6f1294ec499639eb3c26997779af50924fd829e9685ec9bfae67b96",
+    "adapters/gufo_grammar_string.hpp": "81608a7cdd2a98d5fd960ebf12a2a9eb7875dfb77607ef7b8f570a877bbca5e2",
+    "adapters/gufo_grammar_vocabulary.hpp": "6a0fdeaf7e8d0fe8427cd30e71b50ac044a0225d2e1fcd8a714d17ec0ec9ea7d",
+    "adapters/gufo_history.hpp": "2ea84ec1d0ed3367da9105132e0e2cb532d5df5dd132f830834455a8d9fd2998",
+    "adapters/gufo_sampling.hpp": "a80a797acabcf4b0647de55bdd95bba93f8f85d5ccb98f8d47f62c1f7a6dae2d",
+    "adapters/gufo_schema_transform.hpp": "cb977a05cdc98937d332d6e0e4ac497a32fdd4d4e3222d19d88b61435fc231fa",
+    "adapters/gufo_schema_values.hpp": "addb570d4197de23ca1bf8713f718671feea3c142cdb6524e7275fdb3fdb9f3e",
+    "include/lie/grammar.h": "ffa1e0c91788fac658e4b6ffb6d8e1b5a597cf415b79f7989a82e49174ab9631",
+    "include/lie/grammar_builder.h": "4f6749ffbd46bbc52ce54f5b038939085b9be8303b36b1041d9fa1e8b02bf89a",
+    "include/lie/grammar_cache.h": "57b822369091ef4e06dfda530f112d5d22b29c804e5f77dd7610269aa9763ec0",
+    "include/lie/grammar_number.h": "894708afc6b7c57d756f04814666fd74278e55366dfd58d4957a34fa52f4048d",
+    "include/lie/grammar_regex.h": "dc7c470ca1d4ef4980208a5f4da6e4b67c355bf3177724d47ac677a6d2c1562c",
+    "include/lie/grammar_regex_compile.h": "e4f77df63c3f9cf4101778258aff38ee8f63f81718ba1d74d63b90897a80e838",
+    "include/lie/grammar_regex_parse.h": "973c6273c11a1ad28287f8e25a185d92df86036d3346e3aea41a5191256065e8",
+    "include/lie/grammar_string.h": "e122f37df0d485ee3acc31f7871ca4410eb2f399e097c4f73dd5ca6b75b06ac9",
+    "include/lie/grammar_unicode.h": "9c715179a3377435329f6851235ea72d87d150d6c6ca7728caec7bcd0dea8f86",
+    "include/lie/grammar_vocabulary.h": "30bfe3435e21af1ad40d4c295fa8c2a670e5893958a36f8a60d04dafabd1f619",
+    "include/lie/sampling.h": "8196861ddbd9ffc2696170561def1b3e53b94182953487b5819fc848dbd15d09",
+    "include/lie/sampling_distribution.h": "1e80e4a6d3404804f44d32588bde6fc2e5231e9d9e726da2697dbbbf9c9c9555",
+    "include/lie/sampling_history.h": "281311d757079302b9aef0f2833e26fdd59a6ac604d7ec079dd14a21988b1597",
+    "include/lie/schema_transform.h": "9eb58f6eba63b0b2fa3d9678c312bf3097f81f30c3a583221bd7bf424704fd7d",
+    "include/lie/schema_values.h": "41d0e84736c1593b225c0d73ee652290a73ecb53cd5e600075a3acf83ed60164",
+    "src/grammar.c": "8916abc13c0450befb55bb624737167916f54be37cd217845d2b0884ab83a4f3",
+    "src/grammar_builder.c": "6718814c6e2f318f41264cce0909b807f02816c46ceef0f8c2ae6854c14ac4f8",
+    "src/grammar_cache.c": "e7dfe04eae201d9a02c01e867ebf4ffd4b1d1e28f3a7b6a2a47281ef426e7349",
+    "src/grammar_number.c": "1d0aa31ef73b2f8b81d61de0f2d931d09c54cdf5c4aef996489546b9e200b95d",
+    "src/grammar_regex.c": "c0907831e823ba7a4adf8e02b9d9a806fe7300305980cd5da45f5301f1f9976f",
+    "src/grammar_regex_compile.c": "35fc72306f922f28e5be23dfcb8a890e4176c265f395c471e7ad80a6c97788fb",
+    "src/grammar_regex_parse.c": "bf44aa90b933250256ca58511d9d36d306763614b339f568b3994111c9f0e112",
+    "src/grammar_string.c": "d9f1000350ac35e900807977aeec8af69e808633481068fcbdbf0705ef8c10ef",
+    "src/grammar_unicode.c": "b2c97a0309e83ee9d7ca79c0fb4ce14e0f15c2e1ee400616602d37e9c1b71a23",
+    "src/grammar_vocabulary.c": "c06c8711ad7a1d5916a5b983b1e7d433a0a9c3e97748a870fed3308da1970e9b",
+    "src/sampling.c": "f2faac79a00fb7b74217283ae3782041c46af9fcce4d64f796b5015f6e0b1439",
+    "src/sampling_distribution.c": "9e459e1c14dc20c44a132a57401e84120a70495c28b963b33667d57f9ec0592b",
+    "src/sampling_history.c": "e66e74c690d274804e17b3127ddb0bf5837c7f3403a76e2980b99e1a13578398",
+    "src/schema_internal.h": "98984dc297293c664a9a076d968711212697e7591c2cffe1c348e7c79c30cbac",
+    "src/schema_transform.c": "1ffd1d3a589b5678d1277d2c4ccb225eccf6a6947c58e7751f12e12f1bbce371",
+    "src/schema_values.c": "a2413e3cc39f844e5d62106d54e9ad85540aee89edaa41e7db8a2c29132c6609"
+  },
+  "runs": [
+    {
+      "label": "context-r16-build-r1",
+      "mode": "build",
+      "result": {
+        "path": "evidence/context-r16-build-r1/result.json",
+        "sha256": "6a12f651f5abd5d73508c541c6b5d706a3b173e3bc5062f099707bd233600d17"
+      },
+      "collection": {
+        "path": "evidence/context-r16-build-r1/collection.json",
+        "sha256": "62427b801d886c396329b9fdb106b6f5451b04eab94dae1435300a3806316f59"
+      },
+      "started_at": "2026-10-05T18:44:27.620818+00:00",
+      "ended_at": "2026-10-05T18:47:20.540805+00:00",
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "artifacts_sha_verified": 6,
+      "peak_c": {
+        "k10temp": 74.125,
+        "amdgpu": 48.0,
+        "nvme": 56.85
+      },
+      "owned_children_retired": true,
+      "owned_kernel_kfd_retired_before_restore": true,
+      "original_lease": {
+        "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+        "device": 66307,
+        "inode": 105946405,
+        "cooperative_lie_only": true
+      },
+      "lease_released_at": "2026-10-05T18:47:20.540788+00:00",
+      "router_restored": true,
+      "process_thread_count": null,
+      "build_scope": "BUILT_NOT_GPU_TESTED; separate following original-weight gates apply to recorded binaries"
+    },
+    {
+      "label": "context-r16-openai-auto-ar-r1",
+      "mode": "ar",
+      "result": {
+        "path": "evidence/context-r16-openai-auto-ar-r1/result.json",
+        "sha256": "45fcaf6c8223b51a7ca7bfb261486909205028ef0668772b3e405e1220ed2aec"
+      },
+      "collection": {
+        "path": "evidence/context-r16-openai-auto-ar-r1/collection.json",
+        "sha256": "74f3303003053a92d3bc4b022836c6c525357d0a09230a9369087fed06ddcad1"
+      },
+      "started_at": "2026-10-05T18:51:42.294202+00:00",
+      "ended_at": "2026-10-05T18:55:36.440632+00:00",
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "artifacts_sha_verified": 17,
+      "peak_c": {
+        "k10temp": 63.25,
+        "amdgpu": 66.0,
+        "nvme": 67.85
+      },
+      "owned_children_retired": true,
+      "owned_kernel_kfd_retired_before_restore": true,
+      "original_lease": {
+        "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+        "device": 66307,
+        "inode": 105946405,
+        "cooperative_lie_only": true
+      },
+      "lease_released_at": "2026-10-05T18:55:36.440618+00:00",
+      "router_restored": true,
+      "process_thread_count": null,
+      "checks": 37,
+      "passed": [
+        "models",
+        "chat_json",
+        "chat_sse",
+        "responses_json",
+        "responses_sse",
+        "chat_function_json",
+        "chat_function_sse",
+        "chat_tool_result",
+        "responses_function_json",
+        "responses_function_sse",
+        "responses_tool_replay",
+        "responses_tool_result",
+        "allowed_tools",
+        "chat_choices_json",
+        "chat_choices_sse",
+        "chat_seed_replay",
+        "chat_logprobs",
+        "chat_logprobs_sse",
+        "chat_bias_positive",
+        "chat_bias_negative",
+        "chat_stop_json",
+        "chat_stop_sse",
+        "chat_json_object",
+        "responses_json_object",
+        "chat_json_schema",
+        "responses_json_schema",
+        "chat_store_crud",
+        "responses_background_disconnect",
+        "responses_cursor_replay",
+        "responses_input_pagination",
+        "responses_cancel_after_output",
+        "responses_delete",
+        "responses_truncation",
+        "unsupported_fields",
+        "models_context_output_limits",
+        "chat_automatic_output",
+        "responses_automatic_output"
+      ],
+      "model_stats_unchanged": true,
+      "server_exit_code": 0,
+      "gtt_peak_bytes": 90559934464,
+      "min_available_ram_bytes": 31053742080,
+      "http_result": {
+        "path": "evidence/context-r16-openai-auto-ar-r1/http-result.json",
+        "sha256": "35e61b3a09f9dce5d3c4e929f3113df7d6f1b85feb7d60fe3e932a736e37595b"
+      }
+    },
+    {
+      "label": "context-r16-openai-auto-mtp-r1",
+      "mode": "mtp",
+      "result": {
+        "path": "evidence/context-r16-openai-auto-mtp-r1/result.json",
+        "sha256": "74bd65e14b600b49ba4257aa82ea5730cecd7f750339428ef562d1a6b8a01584"
+      },
+      "collection": {
+        "path": "evidence/context-r16-openai-auto-mtp-r1/collection.json",
+        "sha256": "c83e9d105c6a8c89dc5b95b83e160cc9aa38223734cb55e824dfd966ab5014a4"
+      },
+      "started_at": "2026-10-05T18:57:13.102436+00:00",
+      "ended_at": "2026-10-05T19:00:02.969262+00:00",
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "artifacts_sha_verified": 17,
+      "peak_c": {
+        "k10temp": 67.75,
+        "amdgpu": 68.0,
+        "nvme": 67.85
+      },
+      "owned_children_retired": true,
+      "owned_kernel_kfd_retired_before_restore": true,
+      "original_lease": {
+        "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+        "device": 66307,
+        "inode": 105946405,
+        "cooperative_lie_only": true
+      },
+      "lease_released_at": "2026-10-05T19:00:02.969250+00:00",
+      "router_restored": true,
+      "process_thread_count": null,
+      "checks": 37,
+      "passed": [
+        "models",
+        "chat_json",
+        "chat_sse",
+        "responses_json",
+        "responses_sse",
+        "chat_function_json",
+        "chat_function_sse",
+        "chat_tool_result",
+        "responses_function_json",
+        "responses_function_sse",
+        "responses_tool_replay",
+        "responses_tool_result",
+        "allowed_tools",
+        "chat_choices_json",
+        "chat_choices_sse",
+        "chat_seed_replay",
+        "chat_logprobs",
+        "chat_logprobs_sse",
+        "chat_bias_positive",
+        "chat_bias_negative",
+        "chat_stop_json",
+        "chat_stop_sse",
+        "chat_json_object",
+        "responses_json_object",
+        "chat_json_schema",
+        "responses_json_schema",
+        "chat_store_crud",
+        "responses_background_disconnect",
+        "responses_cursor_replay",
+        "responses_input_pagination",
+        "responses_cancel_after_output",
+        "responses_delete",
+        "responses_truncation",
+        "unsupported_fields",
+        "models_context_output_limits",
+        "chat_automatic_output",
+        "responses_automatic_output"
+      ],
+      "model_stats_unchanged": true,
+      "server_exit_code": 0,
+      "gtt_peak_bytes": 93769113600,
+      "min_available_ram_bytes": 27557183488,
+      "http_result": {
+        "path": "evidence/context-r16-openai-auto-mtp-r1/http-result.json",
+        "sha256": "95ebf83cdaa2413457cf8087e84e0cee328486a474bfcf5fa416d616425cf8df"
+      }
+    }
+  ],
+  "portable_raw_archive": {
+    "path": "docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-finite-cache-openai-r16.tar.gz",
+    "sha256": "cb57ffe4fc524c2401327607229cf6837dfe3975fab48b44dd0a7178738906c4",
+    "bytes": 468232,
+    "files": 53
+  },
+  "portable_bindings": {
+    "context-r16-build-r1/collection.json": {
+      "sha256": "62427b801d886c396329b9fdb106b6f5451b04eab94dae1435300a3806316f59",
+      "bytes": 3069
+    },
+    "context-r16-build-r1/controller-result.json": {
+      "sha256": "ebc247fbab4a3054e8c769515c5d087184e132ed39ccdd0fa1dde8781adcf98a",
+      "bytes": 541
+    },
+    "context-r16-build-r1/manifest.json": {
+      "sha256": "5c613a9f6132b35a14bf6e07594341c62919157ce905f0622288823eddea9fa8",
+      "bytes": 1143
+    },
+    "context-r16-build-r1/plan.json": {
+      "sha256": "51a5195e6b1bf300590ece1e40d40e158600751c1c00b1d344ffb5998cbf98dc",
+      "bytes": 523
+    },
+    "context-r16-build-r1/result.json": {
+      "sha256": "6a12f651f5abd5d73508c541c6b5d706a3b173e3bc5062f099707bd233600d17",
+      "bytes": 92124
+    },
+    "context-r16-build-r1/runner.py": {
+      "sha256": "6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322",
+      "bytes": 100339
+    },
+    "context-r16-build-r1/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "context-r16-build-r1/stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "context-r16-build-r1/telemetry.jsonl": {
+      "sha256": "46fcc13f90480004bde01f614d1df50b8035d05cc542e21a0908d73b22fb19ab",
+      "bytes": 204639
+    },
+    "context-r16-bundle-result.json": {
+      "sha256": "1ec9cd2467b5c70c320696ed19977cece3bcd2cb6b101a32e0f07e1904af321b",
+      "bytes": 1375
+    },
+    "context-r16-openai-auto-ar-r1/collection.json": {
+      "sha256": "74f3303003053a92d3bc4b022836c6c525357d0a09230a9369087fed06ddcad1",
+      "bytes": 8633
+    },
+    "context-r16-openai-auto-ar-r1/controller-result.json": {
+      "sha256": "a5be3550757afee3729ff02e1e8c0c60726fae85e821b9f7a2261793a78d7f2c",
+      "bytes": 827
+    },
+    "context-r16-openai-auto-ar-r1/distrobox-create.log": {
+      "sha256": "06043d3773ccffef1ddacc9fde62fa5acedc7a0a3b376a10e95e050e607f3679",
+      "bytes": 281
+    },
+    "context-r16-openai-auto-ar-r1/distrobox.stderr.log": {
+      "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227",
+      "bytes": 1073
+    },
+    "context-r16-openai-auto-ar-r1/distrobox.stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "context-r16-openai-auto-ar-r1/http-controls-result.json": {
+      "sha256": "0e8e1fdff39178e59417a842b6a029c177ca396d6e56932c17260e2a63713039",
+      "bytes": 2971
+    },
+    "context-r16-openai-auto-ar-r1/http-controls.py": {
+      "sha256": "5a52223a674d850f4493794cc5cc190e807abd10b01adbe9faa29285fa0b54bd",
+      "bytes": 18408
+    },
+    "context-r16-openai-auto-ar-r1/http-gate.py": {
+      "sha256": "906c205db1d966221e810deb659357a078e14e758993316b7b792ee52784ad3e",
+      "bytes": 18736
+    },
+    "context-r16-openai-auto-ar-r1/http-output-budget-result.json": {
+      "sha256": "043d0b195d765c90d49a11ed8ed70ccc013632aa9dbd2f75699b94c75f87f0b0",
+      "bytes": 5475
+    },
+    "context-r16-openai-auto-ar-r1/http-output-budget.py": {
+      "sha256": "46fe16867cc37ab0ec684b02c4a1ae87dbf412b108bb6c5f1f5f5d3975156311",
+      "bytes": 7386
+    },
+    "context-r16-openai-auto-ar-r1/http-result.json": {
+      "sha256": "35e61b3a09f9dce5d3c4e929f3113df7d6f1b85feb7d60fe3e932a736e37595b",
+      "bytes": 1795
+    },
+    "context-r16-openai-auto-ar-r1/http-wire.jsonl": {
+      "sha256": "944eb447930acb0f25a1a091f246b30fd55afeb6e575b96a5f791b3dab05b840",
+      "bytes": 908831
+    },
+    "context-r16-openai-auto-ar-r1/manifest.json": {
+      "sha256": "b50bb225d6827df5669c11e593214187f156517fe4c93ba4edbe32f995230ec4",
+      "bytes": 4766
+    },
+    "context-r16-openai-auto-ar-r1/plan.json": {
+      "sha256": "d721cb20fea41c81d6b0227b324af64e94e2527f553eb3b10aa7a4b2dd8f4831",
+      "bytes": 809
+    },
+    "context-r16-openai-auto-ar-r1/result.json": {
+      "sha256": "45fcaf6c8223b51a7ca7bfb261486909205028ef0668772b3e405e1220ed2aec",
+      "bytes": 98358
+    },
+    "context-r16-openai-auto-ar-r1/runner.py": {
+      "sha256": "6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322",
+      "bytes": 100339
+    },
+    "context-r16-openai-auto-ar-r1/server.log": {
+      "sha256": "16dc9fb53ae4fa6ef3fb368acde53373adb8fada1e2e911cb76f91d7aaf3403e",
+      "bytes": 92
+    },
+    "context-r16-openai-auto-ar-r1/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "context-r16-openai-auto-ar-r1/stdout.log": {
+      "sha256": "5fbfc2212348d1a9196765720731ec132d5d32561229871a9956a72a10ac7ed1",
+      "bytes": 66673
+    },
+    "context-r16-openai-auto-ar-r1/telemetry.jsonl": {
+      "sha256": "a6fc4eb39a42e479af018aa8ea5947edeedbc3c7299ef540b10d6c339335b4e8",
+      "bytes": 411623
+    },
+    "context-r16-openai-auto-mtp-r1/collection.json": {
+      "sha256": "c83e9d105c6a8c89dc5b95b83e160cc9aa38223734cb55e824dfd966ab5014a4",
+      "bytes": 8657
+    },
+    "context-r16-openai-auto-mtp-r1/controller-result.json": {
+      "sha256": "c741d6940c094a367733eeecd5a3dce3bd1aee33859d3a6943095dab6e89ca91",
+      "bytes": 828
+    },
+    "context-r16-openai-auto-mtp-r1/distrobox-create.log": {
+      "sha256": "46ebe69e2d2ad0f64a48ce1a03eaa2ad63d956d189dd30154fe9c1dd01cf0f8b",
+      "bytes": 284
+    },
+    "context-r16-openai-auto-mtp-r1/distrobox.stderr.log": {
+      "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227",
+      "bytes": 1073
+    },
+    "context-r16-openai-auto-mtp-r1/distrobox.stdout.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "context-r16-openai-auto-mtp-r1/http-controls-result.json": {
+      "sha256": "0eeb615c2f7d98a6644dec6c06f4f738231223188a3a29805e59f63e254d5342",
+      "bytes": 2975
+    },
+    "context-r16-openai-auto-mtp-r1/http-controls.py": {
+      "sha256": "5a52223a674d850f4493794cc5cc190e807abd10b01adbe9faa29285fa0b54bd",
+      "bytes": 18408
+    },
+    "context-r16-openai-auto-mtp-r1/http-gate.py": {
+      "sha256": "906c205db1d966221e810deb659357a078e14e758993316b7b792ee52784ad3e",
+      "bytes": 18736
+    },
+    "context-r16-openai-auto-mtp-r1/http-output-budget-result.json": {
+      "sha256": "043d0b195d765c90d49a11ed8ed70ccc013632aa9dbd2f75699b94c75f87f0b0",
+      "bytes": 5475
+    },
+    "context-r16-openai-auto-mtp-r1/http-output-budget.py": {
+      "sha256": "46fe16867cc37ab0ec684b02c4a1ae87dbf412b108bb6c5f1f5f5d3975156311",
+      "bytes": 7386
+    },
+    "context-r16-openai-auto-mtp-r1/http-result.json": {
+      "sha256": "95ebf83cdaa2413457cf8087e84e0cee328486a474bfcf5fa416d616425cf8df",
+      "bytes": 1902
+    },
+    "context-r16-openai-auto-mtp-r1/http-wire.jsonl": {
+      "sha256": "02071a4e8e31a3d6aba4874828095ea8194fa2fc65baaf14e0ee9b2cb4d488f1",
+      "bytes": 725475
+    },
+    "context-r16-openai-auto-mtp-r1/manifest.json": {
+      "sha256": "6d9cd96efd00a9aa87f9628457bcbe64d4244a32c3bb1be8e3843953ab430355",
+      "bytes": 5424
+    },
+    "context-r16-openai-auto-mtp-r1/plan.json": {
+      "sha256": "83bb1cb15944d778e2a21a8595d9b2f2ac51df2f64325e4d31f55c55dad59796",
+      "bytes": 810
+    },
+    "context-r16-openai-auto-mtp-r1/result.json": {
+      "sha256": "74bd65e14b600b49ba4257aa82ea5730cecd7f750339428ef562d1a6b8a01584",
+      "bytes": 99872
+    },
+    "context-r16-openai-auto-mtp-r1/runner.py": {
+      "sha256": "6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322",
+      "bytes": 100339
+    },
+    "context-r16-openai-auto-mtp-r1/server.log": {
+      "sha256": "08e40dc0cc3468f75948157bc0362142f2091bd1e412ffe0de97575c3310c955",
+      "bytes": 92
+    },
+    "context-r16-openai-auto-mtp-r1/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "context-r16-openai-auto-mtp-r1/stdout.log": {
+      "sha256": "537adb05fd36be13c1b385af52d2ffd41a80b2b74e22389762d1a54e2227f02f",
+      "bytes": 66686
+    },
+    "context-r16-openai-auto-mtp-r1/telemetry.jsonl": {
+      "sha256": "a13980cb691170150c521a144ac1386481eafdb14f8622afff0288327eee0781",
+      "bytes": 296284
+    },
+    "context-r16-provider-build-collection.json": {
+      "sha256": "0395ed9ec47ea73c7aef1045975f2d01ced0292bedbf4476732f1513bdc05759",
+      "bytes": 348
+    },
+    "context-r16-provider-build-receipt.json": {
+      "sha256": "51b9541a985a534f79f91e89a471b44ed8040d06d99802e8fc81b686046bcc66",
+      "bytes": 130496
+    },
+    "context-r16-source-seal.json": {
+      "sha256": "2cb8e823978fd04367918a9ee5ab8e8d94dad01a8f772521c863f2eeb9eb3f55",
+      "bytes": 1326
+    }
+  },
+  "threads_scope": "Process thread count was not recorded for these three windows. The later separately supervised actual eval endpoint observes44 including runtime helpers; that is not a reactive-worker count or a speedup.",
+  "ownership": "LIE C17 grammar/sampling policy with private C++/HIP Gufo model/controller/composition delegation remains transitional.",
+  "prior_failures": {
+    "previous_gpu_receipt": {
+      "path": "docs/development/validation/c17-sampling-point-gpu-2026-10-05.json",
+      "sha256": "f50c62ebcad0319a183bba81eb511cb23fe51236a99e3804e062b4b8e97bd917"
+    },
+    "policy": "Prior missing include/partial initialization build failures remain in their original receipt; new build does not rewrite them. Closed-stderr native-bench abort remains unresolved."
+  },
+  "pending": [
+    "Actual unchanged Terminal Bench smoke/Core19 rewards; smoke currently running, no final score",
+    "1M recall quality and matched Gufo/Halogen depth/concurrency",
+    "Nonzero steering quality/graphs/correction/invalidation/cache",
+    "Independent sampling probability/tool transitions and matched cost",
+    "Remaining dispatch/reference/private composition ownership, per-branch/fault/resource/cost gates"
+  ],
+  "all_six_owned_tasks_remain_open": true
+}
