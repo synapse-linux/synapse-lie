@@ -1,6 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+The [new fused IQ2 sign/code table](Q2-IQ2-FUSED-GRID.md) is prepared from the
+saved best1505.152258 provider after the owner defers Q4. Exhaustive host
+encoding passes262144 scalar checks. Assembly shows31–32 fewer instructions
+and10-to6 global64-bit loads in eight IQ2 bodies, with149 others exact,
+VGPR/LDS unchanged and zero private scratch. Device/host fixtures compile;
+95 launch guards and25 Debug/25 ASan tests pass. The frozen42-fixture plan
+admits one new exhaustive-table/whole-output component and original fixed
+model after checkpoint/fresh admission, even after a safe numerical/timing
+rejection. No model speedup is inferred and no old control/cohort or Q4 reruns.
+
 The original Q4 one-shot fails during metadata binding with exit1 before Upload/Forward: missing qwen4exp.rope.dimension_sections. There are no PP/TG samples or numerical verdict. The failure and all artifacts are retained, the GPU window is released, and the owner explicitly resumes Q2 and defers Q4. No UD followup is admitted or started.
 
 The owner requests one [original Q4 comparison](Q4-ONESHOT.md) of the cumulative

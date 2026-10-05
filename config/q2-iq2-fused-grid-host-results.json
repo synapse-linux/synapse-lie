@@ -1,0 +1,24 @@
+{
+  "schema": "synapse-lie.q2-iq2-fused-grid-host.v1",
+  "capsule_sha256": "9f95bc9c64130b4149d639ac4e4c7f4800278fb3e23ef043326dabacf6de00dd",
+  "archive_sha256": "7894ac0f494d06498b43d68a74ba0eb623d97ae2c2ebe5e06e53fe2b85f170f2",
+  "fixture_files_verified": 42,
+  "source_files_verified": 1020,
+  "plan_sha256": "d8004415fab07a88a5a7794a7a416c006189952cd9e7ef12ab50245e7dfac6e9",
+  "test_counts": {
+    "debug": 25,
+    "asan_ubsan": 25
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts": 7,
+  "model_inference": false,
+  "gpu_run": false,
+  "goal_met": false
+}
