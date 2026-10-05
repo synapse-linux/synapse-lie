@@ -56,6 +56,11 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 compact probability distributions, p-q residual correction and exact
+  host MTP proposal/verification arithmetic. Caller-owned storage and refusal
+  checks preserve RNG/results. The default-ON sampler option selects the port;
+  OFF retains Gufo numerical behavior. GPU correctness and cost remain pending.
+
 - Shared C17 sampler history for prompt-tail repetition and full committed-token
   frequency/presence counts, with independent copying and transactional refusals.
   The default-ON sampler option selects it in the provider; OFF retains Gufo

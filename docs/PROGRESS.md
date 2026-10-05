@@ -8,6 +8,29 @@ identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
 matrices remain explicitly historical; raw receipts and failures are unchanged.
 
+## C17 compact distributions and host MTP arithmetic — 2026-10-05 UTC
+
+Ordered/compact normalization, mapped penalties, p-q residual correction and
+exact host proposal/verification arithmetic now belong to the shared C17
+sampler. Caller-owned storage and refusal checks preserve published results and
+RNG. The default-ON provider recipe uses storage/options/error glue; OFF retains
+Gufo numerical behavior and the same layouts. Reactive device/controller
+ownership and DS4 RAM/SSD framing are unchanged.
+
+Final 18 Debug, 18 ASan/UBSan/LeakSanitizer and 16 pristine/ON/OFF host checks pass,
+with 34 public C++ headers and strict C17/symbol checks. Complete 1,728-profile /
+6,912-decision witnesses agree byte-exactly. CPU peak is 88.375 C; no guard trips.
+[Source-bound commands, full witnesses and limits](development/validation/c17-distribution-host-2026-10-05.json)
+retain the tooling failure and the older unexplained closed-stderr abort.
+
+Original-weight continuation/resources/cost remain unqualified. Grammar/masking
+is still the remaining source extraction in the identified three-component task;
+model/controller and GPU-resident numerical kernels remain transitional. The
+fresh `.161` witness at 07:28:56.951902 UTC still observes Gemma training PID 29223
+and router PID 29377 in descriptor/kernel KFD. No root remote GPU build/run/hash,
+service mutation, foreign signal, waiter or reservation starts. All six owned
+tasks remain open.
+
 ## C17 sampler history; host checks only — 2026-10-05 UTC
 
 Prompt-tail repetition and committed generated-token counts now use the owned

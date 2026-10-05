@@ -54,5 +54,11 @@ The request-history implementation in src/sampling_history.c follows the same
 independently pinned Gufo semantics for prompt repetition and committed-token
 counts, with this notice and license retained. The exact conditional integration
 is recorded in adapters/gufo-state/history-sampling-edits.json. C17 owns this
-bookkeeping; vector storage/deep copies, grammar, deferred draws and compact
-speculative distributions remain transitional Gufo responsibilities.
+bookkeeping. The attributed src/sampling_distribution.c port follows official
+src/core/sampling.cpp and src/models/qwen38_flash_next/mtp_sampling.hpp at the
+same pin, including exact rounding and draw order. Its conditional integration
+is recorded in adapters/gufo-state/distribution-sampling-edits.json. C17 owns
+ordered/compact normalization, residual correction and host discrete proposal/
+verification arithmetic. Vector storage/deep copies, grammar, entropy acquisition,
+deferred draws, speculative controller and GPU-resident numerical kernels remain
+transitional Gufo responsibilities.

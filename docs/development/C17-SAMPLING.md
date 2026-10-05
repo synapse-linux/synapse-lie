@@ -1,5 +1,5 @@
 <!-- SPDX-License-Identifier: MIT -->
-# C17 sampling and request history
+# C17 sampling, request history and speculative probabilities
 
 The first model-executor extraction on `feature/c17-sampling` replaces dense
 token selection and random draws with `src/sampling.c`, shared through
@@ -38,17 +38,16 @@ and retains no input pointer. Failed builds publish a zero result count;
 invalid draws leave RNG unchanged. The caller owns workspace cleanup.
 
 `adapters/gufo_sampling.hpp` translates the provider's controls and containers.
-The separate `adapters/gufo_history.hpp` supplies vector storage and exception
-translation for C17 history bookkeeping. Gufo still supplies vector deep-copy
-storage, deferred draws, entropy acquisition, grammar compilation/masking and
-compact speculative distributions/residual construction. Their random draws and dense target
-distributions use C. Reporting logits still use the provider transform before
-the existing C probability normalizer. These remaining dependencies must be
-extracted in later slices; the sampler as a whole is not yet autonomous C.
+`adapters/gufo_history.hpp` and `adapters/gufo_distribution.hpp` supply storage
+and exception glue for the owned C17 components. Gufo still supplies vector
+deep copies, deferred draws, entropy acquisition, grammar compilation/masking,
+model/session and speculative-controller state, and selected GPU numerical
+kernels. Reporting logits still use the provider transform before the existing
+C probability normalizer. The sampler as a whole is not yet autonomous C.
 Existing eligible GPU argmax shortcuts remain delegated and preserved.
 
 Reactive readiness, per-row credits, cancellation, native batching and MTP
-verification are unchanged. There is still one device-owner worker. The C
+controller ownership are unchanged. There is still one device-owner worker. The C
 selection call is synchronous; it does not add an asynchronous GPU forward or
 establish a throughput improvement.
 
@@ -74,8 +73,7 @@ acceptance and free-distribution history through C; its glue only grows live
 vector entries, shrinks unpublished scratch and translates errors. Grammar is
 staged before acceptance and published after C success. Free distributions do
 not acquire entropy merely to construct penalty counts. Numerical forward,
-grammar algorithms, compact distributions and speculative correction ownership
-remain transitional.
+grammar algorithms and speculative model/controller state remain transitional.
 
 Host qualification passes 14,400 independent FIFO/count transitions, refusal,
 copy and overflow fixtures, 1,728 complete history transitions across 48 profiles,
@@ -87,10 +85,55 @@ root-schema fixture and the sandbox LeakSanitizer failures are retained in the
 continuation, allocation-exact resources and matched cost remain unqualified;
 earlier dense-selector GPU receipts do not cover this source increment.
 
+## Ordered distributions and MTP probabilities
+
+`lie/sampling_distribution.h` adds model-neutral ABI 1 for caller-owned ranked
+rows, sparse draft masses and exact proposals. `src/sampling_distribution.c`
+owns normalization, duplicate-key rejection, deterministic ranking/lookup,
+compact penalty mapping, p-q residual correction and discrete host MTP
+proposal/verification arithmetic. The core and native clients can use it without
+HTTP, Gufo types, model weights or device calls.
+
+The ranked path preserves the pinned free/compact algorithm, including its
+second normalization and filter rounding. It is distinct from the dense linear
+fast path. Compact output IDs index the logits; proposal creation remaps them to
+raw model token IDs. Dense bias remains a dense target operation; compact
+sampling retains the pinned bias-free behavior. Compiled grammar can mask the
+borrowed logits before these operations; its implementation remains delegated.
+
+Sparse repeated IDs accumulate in original occurrence order. Residual rows keep
+target order and fall back to the target when p-q has no positive mass. Ordinary
+singleton draws consume no RNG. Proposals quantize to F32 integer masses summing
+to 2^24, assign the rounding remainder to their first entry, and always consume
+one draw, including singletons. Verification validates masses before constructing
+the target, draws once for acceptance, and draws the residual only on rejection.
+Resource or malformed-input refusal preserves the published result and RNG.
+History, rollback, stop handling and deferred corrections keep their existing
+inference-controller ownership.
+
+All storage and growth budgets belong to the caller; no allocator, retained
+pointer, inference thread or device call belongs to this module. Borrowed sources
+must be disjoint from mutable workspaces/output, and growth must preserve them.
+The exact `distribution-sampling-edits.json` recipe selects C17 by default and
+compiles the legacy numerical helpers only for OFF. Provider receipts bind all
+nine sampling source/header/glue files and all three extraction recipes.
+
+Independent C oracles cover 2,048 residual draws and 768 proposal/verification
+draws, plus mapped penalties, zero/duplicate/nonfinite masses, buffer aliasing,
+first/second growth refusal and unchanged RNG/output on refusal. Complete host
+witnesses compare compact/target FP64 rows, F32 proposals, token decisions and
+RNG states against pristine Gufo and OFF across 1,728 profiles and 6,912 MTP
+decisions, with additional raw residual and grammar-masked cases. Qualification
+and limits are recorded in the
+[source-bound receipt](validation/c17-distribution-host-2026-10-05.json).
+Original-weight GPU continuation, resource fit and matched performance remain
+pending; existing dense-selector GPU receipts do not qualify this increment.
+
 ## Build selection and observability
 
 `LIE_C17_SAMPLING=ON` is the default for the verified state-access provider.
-An explicit OFF build retains legacy provider selection and history bookkeeping. Use the same
+An explicit OFF build retains legacy provider selection, history bookkeeping
+and compact/speculative probability arithmetic. Use the same
 selection in the provider build and the linked application; verification refuses
 an incompatible receipt. Acquire the pin once using the
 [build guide](../guides/BUILD.md#gpu-inference-build), then use unused labels:

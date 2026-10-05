@@ -55,7 +55,7 @@ set(CORE
   src/models/qwen/hip/kernels/hipblaslt_gemm.hip
   src/models/qwen/hip/kernels/sample.hip)
 list(TRANSFORM CORE PREPEND "${GUFO_SOURCE}/")
-list(APPEND CORE "${LIE_ROOT}/src/sampling.c" "${LIE_ROOT}/src/sampling_history.c")
+list(APPEND CORE "${LIE_ROOT}/src/sampling.c" "${LIE_ROOT}/src/sampling_history.c" "${LIE_ROOT}/src/sampling_distribution.c")
 list(APPEND CORE "${LIE_ROOT}/src/weight_decode.c")
 list(APPEND CORE "${LIE_ROOT}/src/steering_activation.c")
 add_library(gufo_core STATIC ${CORE})

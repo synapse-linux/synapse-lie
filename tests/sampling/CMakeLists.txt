@@ -42,12 +42,12 @@ foreach(arm IN ITEMS reference candidate fallback)
   if(arm STREQUAL "reference")
     list(APPEND sources "${pristine}/src/core/sampling.cpp")
   else()
-    list(APPEND sources "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c")
+    list(APPEND sources "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c" "${REPO}/src/sampling_distribution.c")
   endif()
   add_library(${arm} STATIC ${sources})
   if(NOT arm STREQUAL "reference")
     target_include_directories(${arm} PUBLIC "${variant}" "${REPO}/include")
-    target_include_directories(${arm} PRIVATE "${REPO}/adapters")
+    target_include_directories(${arm} PUBLIC "${REPO}/adapters")
   endif()
   target_include_directories(${arm} PUBLIC "${pristine}")
   if(arm STREQUAL "candidate")
@@ -76,6 +76,8 @@ foreach(arm IN ITEMS reference candidate fallback)
   target_link_libraries(${arm}-probe PRIVATE ${arm})
   add_executable(${arm}-history "${REPO}/tests/sampling/history.cpp")
   target_link_libraries(${arm}-history PRIVATE ${arm})
+  add_executable(${arm}-distribution "${REPO}/tests/sampling/distribution.cpp")
+  target_link_libraries(${arm}-distribution PRIVATE ${arm})
   add_executable(${arm}-vocabulary "${REPO}/tests/sampling/vocabulary.cpp")
   target_link_libraries(${arm}-vocabulary PRIVATE ${arm})
   if(LIE_SAMPLING_PERFORMANCE)
@@ -124,3 +126,10 @@ add_test(NAME sampling-history-reference-parity COMMAND "${CMAKE_COMMAND}"
   "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/history-parity"
   -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
 set_tests_properties(sampling-history-reference-parity PROPERTIES TIMEOUT 120)
+add_test(NAME compact-distribution-reference-parity COMMAND "${CMAKE_COMMAND}"
+  "-DREFERENCE=$<TARGET_FILE:reference-distribution>"
+  "-DCANDIDATE=$<TARGET_FILE:candidate-distribution>"
+  "-DFALLBACK=$<TARGET_FILE:fallback-distribution>"
+  "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/distribution-parity"
+  -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
+set_tests_properties(compact-distribution-reference-parity PROPERTIES TIMEOUT 120)

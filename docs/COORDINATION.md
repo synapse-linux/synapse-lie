@@ -1,5 +1,27 @@
 # DS4 / synapse-lie coordination
 
+## C17 probability host checks; no GPU admission — 2026-10-05 UTC
+
+Fresh read-only `.161` witness at 07:28:56.951902 UTC observes external Gemma
+training PID 29223/start 2470351 and router PID 29377/start 2474081 in actual/kernel
+KFD. CPU is 89.25 C, available RAM 86,238,363,648 bytes. Original lease dev 66307 /
+inode 105946405 is free; boot/filesystem/four shard stats are unchanged. Its
+brief nonblocking probe reserves nothing and does not admit GPU work.
+
+Root extracts compact/residual/host MTP probability arithmetic into C17.
+Final 18 Debug, 18 sanitizer, 16 pristine/ON/OFF host checks and 34 public headers
+pass with GPUs masked; local CPU peak 88.375 C.
+[Receipt](development/validation/c17-distribution-host-2026-10-05.json) binds
+commands, source and witnesses. GPU continuation/cost remain pending.
+No remote GPU build/run/hash/conversion, service change, foreign signal, waiter
+or standing lease occurs; root GPU work remains assigned to `.161`.
+
+Root freshly confirms no `.157` job/build/eval client/lease/waiter/reservation/
+restart or interleaving. Q2 separately reported source `c3164a2` and release
+`effb3e6f046de261e8b89cce5d94cbc9aa8c12882d539965c43a57bc5b1f3b05`
+at 06:58:48.219732 UTC; those reports are not root qualification or a root task.
+Every further agent window requires its own fresh ownership/admission.
+
 ## C17 sampler-history host checks; no GPU admission — 2026-10-05 UTC
 
 Fresh read-only `.161` witness at 06:24:10.934843 UTC observes the external

@@ -7,8 +7,11 @@ It changes no inference-worker count or existing timing/count semantics.
 The new sampler-history extraction adds no counter/timer or worker. Its selected
 source/header/glue and exact integration recipe are bound in the provider build
 receipt; this does not extend older dense-selector GPU qualification to history.
-Caller storage includes transient bulk scratch; allocation-exact provider cost
-remains a separate gate.
+The new compact/speculative probability extraction likewise adds no worker or
+metric. Its additional source/header/glue and exact recipe are receipt-bound;
+`dense_sampling` still identifies the dense selector, not complete sampler or
+model ownership. Caller storage includes transient bulk and probability scratch;
+allocation-exact provider cost remains a separate gate.
 
 This is a C registry and an Actuator v3 JSON shape, not a JVM or a full Spring
 implementation. The official Actuator reference and Micrometer timer source

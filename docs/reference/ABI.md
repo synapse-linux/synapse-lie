@@ -22,6 +22,17 @@ change. Independent copy leaves RNG and grammar to their owners. The transitiona
 provider keeps its ON/OFF vector layout, with storage/exception glue only. No
 executor, request, generation or persisted-state layout changes.
 
+`lie/sampling_distribution.h` adds separate distribution ABI 1 for tagged ranked
+rows, mutable proposal output and immutable proposal views. Caller-owned storage
+and growth supply all workspace; borrowed sources stay disjoint. Builder refusal
+publishes count zero, while normalization/proposal/verification refusal preserves
+published input/result and RNG. Sparse duplicate IDs accumulate in source order;
+compact positions are explicitly remapped to raw model IDs. Proposal creation
+always consumes one draw; target singleton draws do not. Host verification owns
+probability arithmetic only; model/controller state stays with its existing owner.
+Provider ON/OFF layouts and executor/request/generation/persisted-state ABIs do
+not change. See [exact numerical/draw rules](../development/C17-SAMPLING.md#ordered-distributions-and-mtp-probabilities).
+
 `lie/steering.h` defines bank ABI 1 and separate session-policy ABI 1.
 The policy owns finite scales, bounded prepared transactions, owner-only commits,
 confirmed retained-target history and locked metadata snapshots. Its scope hashes

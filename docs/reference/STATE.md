@@ -41,6 +41,13 @@ request and is not serialized into DS4 model-prefix payloads. Model RAM/SSD cach
 identity, predictor state and tensor framing remain unchanged. Copies retain
 independent history; RNG/deferred draws and grammar keep their existing owners.
 
+The owned C17 compact/speculative probability component uses borrowed rows and
+caller-owned scratch only. It retains no proposal, model state or pointers, and
+changes no DS4 RAM/SSD format, cache identity or predictor/controller checkpoint.
+Verification refusal does not publish its acceptance draw or a correction token.
+Rollback, pending/deferred corrections and confirmed model frontier remain with
+the existing inference owner; host probability checks do not qualify GPU restore.
+
 ## MTP development boundary
 
 The [MTP binding](../development/MTP.md) captures DS4 predictor K/V, full raw
