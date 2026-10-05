@@ -38,6 +38,7 @@ HC_BK_MANIFESTS = {v: 'config/q2-hc-bn64-source.json' if v.startswith('hc-bn64-'
                      else 'config/q2-hc-bk256-run-source.json' for v in HC_BK_VARIANTS}
 DEFERRED_SOURCES = {'q2-counting-hc-moe-deferred': 'hc-moe-deferred'}
 FIXED_PROFILE_MODE = 'q2-fixed-moe-profile'
+IQ2_RAW_PREFETCH_MANIFEST = 'config/q2-iq2-raw-prefetch-source.json'
 IQ2_RAW_PREFETCH_MODE = 'iq2-raw-prefetch-check'
 IQ2_RAW_PREFETCH_SOURCES = {'q2-counting-iq2-raw-prefetch': 'iq2-raw-prefetch'}
 SSM_ROW128_MODE = 'ssm-row128-check'
@@ -489,7 +490,7 @@ def main():
             if actual != variant['files']:
                 p.error('Q8 grouped provider inventory changed')
         if args.source_variant in IQ2_RAW_PREFETCH_SOURCES.values():
-            info = json.loads((ROOT/'config/q2-iq2-iq2-raw-prefetch-source.json').read_text())
+            info = json.loads((ROOT/IQ2_RAW_PREFETCH_MANIFEST).read_text())
             variant = info['variants'][args.source_variant]
             for key in ('parent_manifest', 'measured_parent', 'control_include', 'patch'):
                 if file_sha256(ROOT/variant[key]) != variant[key+'_sha256']:

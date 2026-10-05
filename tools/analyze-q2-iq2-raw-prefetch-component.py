@@ -15,7 +15,7 @@ require, sha, read = hc.require, hc.sha, hc.read
 def main():
     output = ROOT/'config/q2-iq2-raw-prefetch-component-results.json'
     require(not output.exists(), 'Refusing to overwrite component evidence')
-    plan_path = ROOT/'config/q2-iq2-raw-prefetch-plan.json'
+    plan_path = ROOT/'config/q2-iq2-raw-prefetch-plan-fixed.json'
     plan = read(plan_path)
     for name, digest in {**plan['manifests'], **plan['fixtures']}.items():
         require(sha(ROOT/name) == digest, 'Frozen identity changed: '+name)

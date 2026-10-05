@@ -1,0 +1,24 @@
+{
+  "schema": "synapse-lie.q2-iq2-raw-prefetch-host.v1",
+  "capsule_sha256": "842f997b62a68375e8dd1b99cc153eed2acaf064d05da5c9cab64f21a3d29b5f",
+  "archive_sha256": "fb290d5c13401095e3cbd7c932aec4e97010aa7b70c8779bcccda9a2ae93333a",
+  "fixture_files_verified": 36,
+  "source_files_verified": 1020,
+  "plan_sha256": "5493c0b14f01dc53c3f2764e2b9659f057bd45ac38f97631b81438c5ab3054d9",
+  "test_counts": {
+    "debug": 25,
+    "asan_ubsan": 25
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts": 7,
+  "model_inference": false,
+  "gpu_run": false,
+  "goal_met": false
+}

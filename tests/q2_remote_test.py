@@ -21,6 +21,11 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_iq2_raw_prefetch_manifest_binding(self):
+        self.assertEqual(remote.IQ2_RAW_PREFETCH_MANIFEST,
+                         'config/q2-iq2-raw-prefetch-source.json')
+        self.assertTrue((remote.ROOT / remote.IQ2_RAW_PREFETCH_MANIFEST).is_file())
+
     def test_iq2_raw_prefetch_new_component_or_matched_counting_only(self):
         variant = 'iq2-raw-prefetch'
         for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):

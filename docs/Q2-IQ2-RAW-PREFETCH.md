@@ -61,10 +61,20 @@ Both failures remain separate from numerical/performance evidence.
 
 New `.157` host fixtures pass25/25 Debug and25/25 ASan/UBSan; six command exits are zero, seven artifacts and36 frozen fixture files verify. These fixtures access neither models nor GPU.
 
-GPU component/model evidence is pending fresh coordinated admission. Static
+The initial component launch exits1 locally before SSH/GPU because its source
+manifest name contains an extra `iq2-`. The original plan, local staging and
+command failure remain retained. Its unused window closes03:52:26UTC with no
+component/model/build started, KFD empty, four free original leases and unchanged
+model stats. The corrected launcher uses a named manifest binding and a new
+87th guard. A distinct plan and new host/component labels preserve the original
+failure. The new host capsule again passes25/25 Debug and25/25 ASan/UBSan;
+provider and static source evidence stay unchanged. The next helper binds that
+closed unused window, rather than its own future release.
+
+GPU component/model evidence is pending fresh coordinated R2 admission. Static
 preparation establishes neither original-weight quality nor Q2/UD parity.
 
-[Frozen plan](../config/q2-iq2-raw-prefetch-plan.json),
+[Corrected frozen plan](../config/q2-iq2-raw-prefetch-plan-fixed.json),
 [source inventory](../config/q2-iq2-raw-prefetch-source.json),
 [static evidence](../config/q2-iq2-raw-prefetch-static.json),
 [patch](../experiments/q2-iq2-raw-prefetch.patch),

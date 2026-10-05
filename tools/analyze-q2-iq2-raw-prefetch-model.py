@@ -17,7 +17,7 @@ require, sha, read = hc.require, hc.sha, hc.read
 def main():
     output = ROOT / 'config/q2-iq2-raw-prefetch-model-results.json'
     require(not output.exists(), 'Refusing to overwrite model evidence')
-    plan_path = ROOT / 'config/q2-iq2-raw-prefetch-plan.json'
+    plan_path = ROOT / 'config/q2-iq2-raw-prefetch-plan-fixed.json'
     plan = read(plan_path)
     require(len(plan['arms']) == 1 and not plan['run_controls'] and
             plan['model_performance_test_despite_numeric_or_timing_rejection'], 'Candidate-only scope changed')
@@ -31,7 +31,7 @@ def main():
     for name in ('03.log', '06.log'):
         require('100% tests passed out of 25' in (host_path / 'results' / name).read_text(), 'Missing host gate')
     host_binding = hc.capsule(host_path, plan['fixtures'])
-    require(host_binding['capsule_sha256'] == read(ROOT / 'config/q2-iq2-raw-prefetch-host-results.json')['capsule_sha256'],
+    require(host_binding['capsule_sha256'] == read(ROOT / 'config/q2-iq2-raw-prefetch-host-r2-results.json')['capsule_sha256'],
             'Host capsule changed')
     component_path = ROOT / 'config/q2-iq2-raw-prefetch-component-results.json'
     component = read(component_path)
@@ -76,7 +76,7 @@ def main():
     metrics = ('prefill_tok_s', 'decode_steps_s', 'prefill_s', 'decode_s')
     changes = {key: {metric: 100 * (model['measurements'][metric]['median'] /
                    ref['measurements'][metric]['median'] - 1) for metric in metrics} for key, ref in references.items()}
-    release_path = ROOT / 'config/q2-iq2-raw-prefetch-window-release.json'
+    release_path = ROOT / 'config/q2-iq2-raw-prefetch-r2-window-release.json'
     release = read(release_path)
     require(release['state'] == 'Q2_IQ2_RAW_PREFETCH_WINDOW_RELEASED' and not release['gpu_reserved'] and
             not release['kfd'] and not release['owned_group_members'] and release['model_stats_unchanged'] and

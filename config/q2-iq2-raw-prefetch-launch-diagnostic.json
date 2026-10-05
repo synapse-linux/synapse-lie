@@ -1,0 +1,36 @@
+{
+  "schema": "synapse-lie.q2-iq2-raw-prefetch-launch-diagnostic.v1",
+  "original_plan_sha256": "a8667fcb0831fb5eea7fc352026c272f587d9ab1ba584e054c4cd7c0d05a34d0",
+  "corrected_plan_sha256": "5493c0b14f01dc53c3f2764e2b9659f057bd45ac38f97631b81438c5ab3054d9",
+  "failed_command": {
+    "argv": [
+      "python3",
+      "-B",
+      "tools/q2-remote.py",
+      "iq2-raw-prefetch-check",
+      "q2-iq2-raw-prefetch-component-r1",
+      "--source-variant",
+      "iq2-raw-prefetch"
+    ],
+    "started_at": "2026-10-05T03:51:06.074419+00:00",
+    "finished_at": "2026-10-05T03:51:06.474918+00:00",
+    "exit_code": 1
+  },
+  "failed_stderr_sha256": "e3112f35a260270b4897186c7d4046ad53a6ecb97760cb80d7b65dbc4b5675a2",
+  "manifest_typo_confirmed": true,
+  "numerical_failure": false,
+  "gpu_or_remote_build_started": false,
+  "unchanged_manifests": true,
+  "changed_fixtures": [
+    "tests/q2_remote_test.py",
+    "tools/q2-remote.py"
+  ],
+  "unused_release_sha256": "18b0a66a151f8c29c87485902871675d57c0eec1bb7f5b93131269aa19c4eb27",
+  "new_local_guards": 87,
+  "new_host_tests": {
+    "debug": 25,
+    "asan_ubsan": 25
+  },
+  "qualified_model_or_component_rerun": false,
+  "goal_met": false
+}

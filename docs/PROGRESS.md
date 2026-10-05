@@ -14,7 +14,13 @@ format qualification, old candidates and Q2/UD controls are not rerun.
 All86 scope guards and new production/fixture compilation pass. Initial
 fixture wrapping and nine unchanged inherited format failures are retained.
 New `.157` host Debug/ASan gates each pass25/25 with all six commands zero;36 fixtures/four manifests are frozen. GPU evidence awaits fresh admission anchored to release58d6fd7e.
-[Mechanism, scope and frozen plan](Q2-IQ2-RAW-PREFETCH.md).
+Initial component launch fails locally before SSH/GPU because a copied manifest
+filename contains a duplicated `iq2-`. Original command/plan/staging retained;
+the unused window closes03:52:26UTC, KFD empty and original leases/stats intact.
+A distinct corrected plan uses a named binding and new87th guard; new host
+capsule passes25+25. No production arithmetic changes or qualified model/component
+reruns. R2 needs fresh handover/admission anchored to this closure.
+[Mechanism, scope and corrected frozen plan](Q2-IQ2-RAW-PREFETCH.md).
 
 ## SSM row128 measured: exact outputs, slower model — 2026-10-05 UTC
 
