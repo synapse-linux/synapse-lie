@@ -1,10 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-The [compact expert chain](Q2-COMPACT-EXPERT-CHAIN.md) prepares the next Q2 experiment from saved1574.
-Gate/up writes compact expert-major rows; unchanged wave packing and adapted
-down consume that order. Original buffers, arithmetic and dispatch counts are
-retained. Local compilation and162 unchanged kernel bodies pass; GPU component
-and original2048/tg128 model validation remain pending. This is not a speed claim.
+The [compact expert chain](Q2-COMPACT-EXPERT-CHAIN.md) completes at 1572.956730 PP /
+25.17514880 TG, nominal -0.098361% PP versus saved 1574.505432. All 96
+component pairs and 21 parent model files match; independent routing and
+packing checks pass. Complete component time increases 0.287% balanced and
+0.413% skew. Preserve the experiment and keep scaled-wave-pack as the base.
+All 13 runtime commands exit zero; 469 artifacts verify and the GPU is released.
+Full parity and inherited task quality remain open.
 
 Expert-ordered scaled-Q2 activation trial completes at1571.009498 PP, nominal
 -0.222034% versus saved1574.505432. Its packing/down component saves4.745116%,

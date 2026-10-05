@@ -1,0 +1,75 @@
+{
+  "schema": "synapse-lie.q2-compact-expert-chain-final.v1",
+  "plan_sha256": "0ac53afb05106845b050a848a1c6ad2cfc9cefc6a9770232e24353443597f0e5",
+  "model_result_sha256": "28cf207f401d9d9dc58d59a8fe065c65994c2e9f390dea176e9fec080d3d4bb4",
+  "component_result_sha256": "9622295c59ccfa4b7383bc491a864c371e6eef44b321f79c7835f2221bfa3274",
+  "release_sha256": "88dcb8d8d4ef79e78ec412f4e346a63ae125b179d6c5e7cc2a538a0faddf9e5a",
+  "runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "standard_artifacts_verified": 469,
+  "complete_output_arrays_verified": 432,
+  "frozen_fixtures_verified": 80,
+  "frozen_manifests_verified": 4,
+  "provider_files_verified": 1028,
+  "retired_identities": 1067,
+  "retired_groups": 850,
+  "figures": {
+    "docs/figures/q2-compact-expert-chain-component.csv": "b1dedff8aefb765d99c79e5b758686a1994e92e170b7dacdfa4695ca29f0db0d",
+    "docs/figures/q2-compact-expert-chain-component.svg": "3a0fe3a438c5243d257f70d4f701ef58308753fd6429fcb25d48a4156cd15e7a",
+    "docs/figures/q2-compact-expert-chain-component.png": "35fbf574cc96ea5a7896cd48223a64f2ea50f282ad76baf5a5abbeaf5b688802",
+    "docs/figures/q2-compact-expert-chain-model-wrapped.csv": "a5ecb76c50f624f62e6d0af049ad05c4e773fd471b93fcfd89b5837a07d854d1",
+    "docs/figures/q2-compact-expert-chain-model-wrapped.svg": "082fcb074b08bf1db59a247dfed7feb4c7bda2454d0b83b3c8753a1163d7659a",
+    "docs/figures/q2-compact-expert-chain-model-wrapped.png": "49266971affdc28cdf6d1487ca46991c5d1ea653907d5629bf559fc2a63d6f4c"
+  },
+  "preserved_nonzero_exits": {
+    "prepare-command.json": 1,
+    "shared-format-command.json": 1
+  },
+  "non_runtime_preview_failure": {
+    "exit_code": 1,
+    "error": "StatisticsError: no median for empty data",
+    "cause": "Preview read the launcher wrapper stdout instead of the collected results/03.log; no performance result inferred.",
+    "gpu_run": false
+  },
+  "all96_component_pairs_exact": true,
+  "strict_oracle_pass": true,
+  "reported_oracle_errors_signed_zero_only": true,
+  "all56_timings_retained": true,
+  "parent_model_checks": {
+    "input_exact": true,
+    "output_tokens_exact": true,
+    "changed_files": [],
+    "max_matched_history_kl": 0.0
+  },
+  "thermal_max_c": {
+    "q2-compact-expert-chain-host-r1": {
+      "amdgpu": 38.0,
+      "k10temp": 64.75
+    },
+    "q2-compact-expert-chain-component-r1": {
+      "amdgpu": 39.0,
+      "k10temp": 61.625
+    },
+    "q2-compact-expert-chain-model-r1": {
+      "amdgpu": 70.0,
+      "k10temp": 79.75
+    }
+  },
+  "controls_rerun": false,
+  "independent_quality": false,
+  "full_curve": false,
+  "goal_met": false
+}

@@ -1,10 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-Compact expert chain prepares after9002cdc and release13ba43fc. Root reports
-no .157 job/reservation; its physical1M work remains on .161. Host27+27 is
-terminal and collection/verification follows. New GPU work requires the frozen
-80-fixture/four-manifest plan, source checkpoint and fresh full registry/PID/
-group/KFD/original-lease/model-stat admission. No ownership is inherited.
+Compact expert chain releases 2026-10-05T17:50:10.710664 UTC, SHA256
+88dcb8d8d4ef79e78ec412f4e346a63ae125b179d6c5e7cc2a538a0faddf9e5a.
+Fresh admission 55d1b15f from 852ce69 follows release 13ba43fc and root non-use;
+root acknowledges .157 exclusion until collected release. Host/component/model
+are terminal and collected: all 13 command exits zero, 469 artifacts including
+432 arrays. Closure verifies 1067 retired identities / 850 groups, KFD empty,
+four original leases free and seven unchanged model stat tuples. Canonical,
+main and remote release-active-ready mirrors match; core is notified. No Q2
+job/build/client/lease/waiter/reservation/restart/cleanup remains. Next owner
+core; any new Q2 work requires fresh admission. Keep saved 1574 as the base.
+[Release](../config/q2-compact-expert-chain-window-release.json).
 
 Expert-order window releases2026-10-05T17:11:36.064569UTC, SHA256
 13ba43fc1b39ae5906d62f36515a3f6061059912f76c9bfa9dd41b99a4360571.

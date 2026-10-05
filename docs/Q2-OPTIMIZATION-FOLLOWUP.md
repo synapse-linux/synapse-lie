@@ -55,7 +55,7 @@ control rerun or context-curve expansion follows this update.
 
 | Region | Remaining concrete work | Status / priority |
 | --- | --- | --- |
-| Compact expert producer layout | Write compact expert-major rows in gate/up, preserve wave packing, then consume contiguous rows in down. | [Prepared candidate](Q2-COMPACT-EXPERT-CHAIN.md): local compilation and162 unchanged kernels pass; guarded GPU routing/chain and original model remain pending. No new allocation or dispatch. |
+| Compact expert producer layout | Write compact expert-major rows in gate/up, preserve wave packing, then consume contiguous rows in down. | [Completed experiment](Q2-COMPACT-EXPERT-CHAIN.md): 96 exact numerical pairs, independent routing/packing pass, 21 exact parent files; model 1572.956730 PP (-0.098361%). Full-chain component time +0.287% balanced / +0.413% skew. Preserve; keep 1574. This trial is no longer pending. |
 | Active routed expert chain | Adapt producer-Q8 or fused SwiGLU/down to the actual WMMA route, preserving logical640/stored768 tails and documenting arithmetic changes. | Source audit only; high. Existing fallback routing/quantization reuse is already present. |
 | Measured marginal: active-chain activation packing | One wave per complete640-value row, eight rows per CTA; preserve row maximum and scaled-half contract. | [Completed candidate](Q2-SCALED-WAVE-PACK.md):52 exact component pairs,21 exact parent model files; packing/down time-0.632%, model1574.505432 PP nominal+0.056191% with overlapping ranges. Scalar oracle exit1 retained and fully attributed to signed zero in both arms. This trial is no longer pending; full producer fusion remains open. |
 | Active-chain activation traversal | Pack scaled half rows in existing expert order, then read contiguously in down. | [Completed experiment](Q2-SCALED-EXPERT-ORDER.md):107 exact component pairs,cycle-4.745%; model1571.009498 PP (-0.222034%) and21 exact parent files. Preserve variant; keep1574. This test is no longer pending. |
@@ -83,6 +83,14 @@ trace remains historical. Decode15-call busy/span is86.971%; bandwidth/cache/
 active-wave attribution is still unisolated. This closes the profiling proposal
 below without changing original1571.716479 PP/25.20732109 TG or the curve gate.
 It profiles the saved parent, not the subsequently measured shared-pair provider.
+
+The compact producer experiment now closes the follow-up suggested by the
+negative expert-order trial. Both changed traversal mechanisms are measured;
+neither adds a model gain to saved 1574. Full-chain component timings include
+routing and gate/up, unlike the preceding packing/down scope. These results
+prioritize eliminating actual intermediate passes (active producer-Q8/fused
+down, ordered expert consumption, HC materialization) over another equivalent
+row-ordering trial. They do not isolate a bandwidth/cache/occupancy cause.
 
 The [wave-packing disposition](../config/q2-scaled-wave-pack-disposition.json)
 retains1574.505432 PP for the next measured composition alongside saved1573/1571.
