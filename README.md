@@ -8,7 +8,7 @@ The current numerical backend is an embedded Gufo adapter using C++ and HIP,
 with an owned [C17 dense sampler](docs/development/C17-SAMPLING.md).
 Sampler correctness checks pass; performance qualification remains open.
 [Directional steering](docs/development/STEERING.md) is under development;
-its bank, policy and cache metadata have host tests. Shared-worker/cache integration,
+its bank, policy and model-state cache binding have host tests. Shared-worker integration,
 public controls and GPU qualification remain pending.
 
 **Development status:** text inference is tested with Qwen3.8 Flash Next

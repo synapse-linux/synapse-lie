@@ -5,7 +5,7 @@ The C17 shared library owns direction-bank loading, bounded host allocation,
 immutable values, session policy transactions, history/cache identities and
 explicit state metadata. Owned HIP activation operators and target-provider
 hooks are qualified only by host contracts and syntax checks. Direct C model and
-session binding is present in provider source; shared-worker/cache integration,
+session/model-state binding is present in provider source; shared-worker integration,
 public HTTP/bench controls and GPU qualification remain open.
 Loading a bank or advancing policy metadata is not model inference and does
 not qualify steering quality or performance.
@@ -176,7 +176,7 @@ when capturing RAM/SSD state; a token-only prefix must not reuse state produced
 under different steering. No extra provider/HTTP thread is introduced.
 
 Remaining work in roadmap item 5 is qualification of the HIP binding,
-shared-worker admission/accounting, policy integration into model cache, live scale
+shared-worker admission/accounting, scoped RAM/SSD text lookup, live scale
 changes, HTTP and native bench exposure. GPU gates on
 `.161` must prove unchanged output with steering absent/zero, malformed input
 refusal before model mutation, prompt/decode edits, scale transitions, independent
@@ -225,10 +225,9 @@ The private scale setter accepts only a pristine session with no prior mutation,
 warm shape or graph. No live scale transition is exposed. This leaves graph
 scalars immutable and introduces no worker, HTTP state or scheduling thread.
 Active steering refuses both private provider snapshot APIs. The direct LIE
-binding refuses state transfer for every admitted bank, including zero scales,
-until history-aware state compatibility is wired. Existing model opens without
-a bank retain their RAM/SSD path. These private provider hooks are not a working
-HTTP/bench steering feature.
+state binding below uses owned C17 metadata admission instead of those APIs.
+Existing model opens without a bank retain their RAM/SSD path. These private
+provider hooks are not a working HTTP/bench steering feature.
 
 `steering-edits.json` records 25 exact replacements against independently fetched
 Gufo `f783fedb`; owned kernels retain MIT markers and no DS4 source is imported.
@@ -265,12 +264,46 @@ branches have not been performance-qualified. Model queries separate host/device
 vector bytes; sequence queries expose policy metadata and composed cache scope.
 Vector bytes do not include allocator overhead or model workspace.
 
-`prefix_state_supported` is false for this increment. All direction-enabled model
-state/SSD identity requests refuse before transfer or heavyweight hashing,
-including zero scales, so restore cannot silently desynchronize the two
-frontiers. The shared worker, HTTP and native bench do not yet call this factory.
-History-aware cache binding and resource admission must be completed before
-exposing the feature through those clients.
+The direct query now advertises the source binding's prefix-state support when
+the verified provider is compiled; this is not hardware qualification. The shared
+worker, HTTP and native bench do not yet call the steering factory. Resource
+admission and scoped lookup must be completed before exposing it through those
+clients. SSD model identity still binds actual admitted weight descriptors and
+arithmetic/device policy; bank/scales/history belong to the checked prefix scope.
+
+## Model-state cache binding
+
+[`lie/steering_state.h`](../../include/lie/steering_state.h) defines independent
+C17 binding ABI 1. It plans canonical metadata tails, inspects a model-prefix
+view and validates capture/restore without model types, device calls or a second
+tensor allocation. The trusted provider supplies its independently expected
+model format and re-describes the returned prefix against actual model geometry.
+Layout validation alone is not complete model admission.
+
+An active or previously steered prefix appends U8[192] policy metadata and a
+U8[32] combined scope. Existing vision scope is reused at its original offset.
+A plain KVC model adds the eight-byte `LIEDIR1` plus NUL auxiliary boundary;
+existing MTP/vision auxiliary bytes remain in place. The original DS4 tensor body
+and leading client extension stay unchanged. No active scales and no steered
+history preserve the exact legacy layout, scope and filenames even with an
+admitted but unused bank.
+
+Prefix restore stages decoded policy metadata, validates the bank and retained
+frontier, and compares both initial scales and combined scope with the requested
+destination policy before any model transfer. A mixed history or steering later
+switched off cannot masquerade as an initially unsteered prefix. This contract
+supports matching prefix reuse with fresh sampler state, not arbitrary resume
+under newly substituted scales. The underlying model codec independently checks
+tensor framing, positions and predictor/controller state before GPU mutation.
+
+The source binding passes the validated combined scope to the original model
+codec, retaining image-position and MTP validation without copying the tensor
+payload again. After successful transfer it commits the independently observed
+model position before suppressing cancelled delivery. Interrupted transfers
+discard the plan and retire the private destination; a failed commit after
+mutation poisons the model. Native Gufo snapshots still refuse active steering.
+The shared RAM/SSD budgets charge the typed tail through ordinary retained-state
+accounting; no additional runtime thread is created.
 
 ## Validation
 
@@ -316,3 +349,15 @@ wrong-owner refusal. All 31 public C++ headers and complete-adapter syntax with
 steering enabled, disabled and without state access pass. No device object,
 linked GPU runtime, original-weight session or steering cost is qualified.
 [Admission validation receipt](validation/steering-admission-host-2026-10-05.json).
+
+The model-prefix binding passes ten Debug and ten ASan/UBSan/LSan checks. Its
+native fixture exercises aligned/KVC/auxiliary layouts, actual shared RAM/SSD,
+all-byte policy corruption, scope/bank/scale/history refusal, independent model
+admission and wrong-owner/retained-plan lifetimes. Actual C Qwen AR/MTP/vision
+state codecs accept the combined scope while preserving their component bytes;
+these are synthetic tensors, not model inference. All 32 public C++ headers
+and complete adapter syntax enabled/disabled/without state access pass. Initial
+build exit 2 from a fixture field-name typo and test exit 8 from expecting INVALID
+for an unsupported magic are retained; corrected checks pass. No linked GPU
+runtime or original-weight state continuation is qualified.
+[Binding validation receipt](validation/steering-binding-host-2026-10-05.json).

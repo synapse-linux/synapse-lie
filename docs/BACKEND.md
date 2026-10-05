@@ -66,9 +66,11 @@ do not constitute implementation tasks. GPU qualification in this queue uses
    immutable banks, scale transactions, history/cache identities and RAM/SSD
    metadata. Direct C model admission and session policies are wired in the
    provider source to prefill, AR and batch AR/MTP, committing only the actual
-   retained frontier. Nine Debug and nine sanitizer host checks plus complete
-   adapter syntax pass. Shared-worker admission/resource accounting, model-cache
-   binding, live scale transitions and HTTP/bench exposure remain open; this
+   retained frontier. The provider source now binds policy metadata to model
+   capture/restore, retaining DS4 framing and validating combined semantic scope
+   before transfer. Ten Debug and ten sanitizer host checks plus complete
+   adapter syntax pass. Shared-worker admission/resource accounting, scoped
+   lookup, live scale transitions and HTTP/bench exposure remain open; this
    source increment has no GPU qualification.
    Cover both prompt evaluation and generation, session scale changes,
    cache compatibility and AR/MTP interaction. Require unchanged baseline output

@@ -45,9 +45,10 @@ public:
   }
 #endif
   static bool Describe(Session& s,uint64_t domain,uint32_t chunk,
-                       const lie_state_layout* source,lie_state_layout& out,uint8_t quant=0,uint32_t drafts=0) {
+                       const lie_state_layout* source,lie_state_layout& out,uint8_t quant=0,uint32_t drafts=0,
+                       bool owned_steering=false) {
     auto& d=*s.session_;const auto& c=s.model_->config();
-    if(!s.valid_||s.LieSteeringActive()||d.spec_tokens_||
+    if(!s.valid_||(!owned_steering&&s.LieSteeringActive())||d.spec_tokens_||
        (source?s.Position()!=0:s.tokens_.empty()||s.tokens_.size()!=s.Position()||s.logits_.size()!=s.model_->VocabSize()))return false;
 #ifdef LIE_DS4_RUNTIME_CACHE
     const bool mtp=s.MtpEnabled(),vision=bool(s.image_prompt_);
@@ -89,8 +90,26 @@ public:
     return lie_qwen_state_layout(&geometry,&out)!=0;
 #endif
   }
+  static uint32_t StateFormat(const Session& s) {
+#ifdef LIE_DS4_RUNTIME_CACHE
+    return (s.MtpEnabled()||s.image_prompt_)?LIE_STATE_KVC_AUX:LIE_STATE_KVC;
+#else
+    (void)s;return LIE_STATE_ALIGNED;
+#endif
+  }
+  static bool SemanticScope(const Session& s,std::array<unsigned char,32>& scope) {
+    scope.fill(0);
+    if(!s.image_prompt_)return true;
+    if(s.image_prompt_->cache_identity.size()!=scope.size())return false;
+    std::copy(s.image_prompt_->cache_identity.begin(),s.image_prompt_->cache_identity.end(),scope.begin());
+    return true;
+  }
   static lie_status Copy(Session& s,const lie_state_layout& layout,void* bytes,bool restore,
-                   const std::atomic<bool>& cancelled,std::string& error) {
+                   const std::atomic<bool>& cancelled,std::string& error,
+                   const unsigned char* owned_scope=nullptr) {
+    // Only the LIE binding may supply a scope already validated by its C17
+    // policy transaction. Native snapshot APIs retain their steering refusal.
+    if(s.LieSteeringActive()&&!owned_scope){error="steering state requires owned policy admission";return LIE_INVALID;}
     auto& d=*s.session_;const auto& c=s.model_->config();auto stream=d.owner_->stream();
 #ifdef LIE_DS4_RUNTIME_CACHE
     const auto geometry=Geometry(s);uint64_t payload=0;
@@ -118,6 +137,7 @@ public:
       }
       positions={rows,static_cast<size_t>(part->bytes)};
     }
+    if(owned_scope)std::copy_n(owned_scope,scope.size(),scope.begin());
     const bool mtp=layout.model_data[3]!=0;
     auto controller=s.draft_length_;
     if(restore){

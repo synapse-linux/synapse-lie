@@ -8,6 +8,38 @@ identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
 matrices remain explicitly historical; raw receipts and failures are unchanged.
 
+## Steering model-prefix RAM/SSD binding — 2026-10-05 UTC
+
+The model-neutral C17 state binding plans and validates steering metadata tails
+without copying the tensor payload again. The provider source revalidates the
+actual model prefix, admits policy/scales/combined semantic scope before transfer,
+and commits exactly its observed restored position before suppressing cancelled
+delivery. Model codecs still independently validate geometry, image positions
+and predictor/controller content. Native Gufo snapshots retain their active
+steering refusal; the LIE path uses its owned typed state contracts.
+
+Active or earlier-steered state retains explicit policy metadata. An admitted but
+unused bank preserves exact legacy layout, scope and filenames. Existing MTP
+and vision auxiliary components remain in place; the DS4 tensor body and leading
+client extension are unchanged. A previously steered prefix switched off later
+cannot be reused as initially unsteered state. Existing RAM/SSD accounting charges
+the tail; no runtime thread, tensor scratch copy or Python product dependency is added.
+
+Ten Debug and ten ASan/UBSan/LSan tests pass, with 32 public C++ headers and
+complete-adapter syntax enabled/disabled/without state access. The native tests
+exercise actual shared RAM/SSD and C Qwen AR/MTP/vision codecs with synthetic
+tensors. Local CPU peak is 65.125 C. Initial build exit 2 from a fixture field-name
+typo and test exit 8 from requiring INVALID for an unsupported magic are retained;
+production codec behavior is unchanged. These results do not qualify actual
+GPU continuation, numerical steering, quality or cost.
+
+Shared-worker resource admission/scoped text lookup, live scale changes and
+HTTP/bench exposure remain open. At 01:49:21.180644 UTC `.161` still shows foreign
+PID29223/start2470351 and restored router PID29377/start2474081 in actual/kernel
+KFD inventories. Root starts no GPU window, build, service mutation, waiter or
+reservation; all frozen GPU/evaluation results and the seven-item queue remain.
+[Commands, hashes and scope](development/validation/steering-binding-host-2026-10-05.json).
+
 ## Direct steering admission and retained-forward binding — 2026-10-05 UTC
 
 The C17 model contract now validates direction options against actual model

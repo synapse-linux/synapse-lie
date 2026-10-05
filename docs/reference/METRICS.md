@@ -177,7 +177,9 @@ samples are qualified by the activation descriptor or syntax checks.
 The 192-byte policy metadata serializes semantic history/scales/frontier only;
 it does not restore source revision, capacity, allocation or executed-token
 counters. A restore uses the destination's capacity and advances its own local
-revision once. Actual cache/resource/HTTP metrics wiring remains pending. Host state
+revision once. Typed policy/scope tails use ordinary retained RAM/SSD accounting;
+the source binding adds no tensor scratch copy or runtime thread. Shared-worker
+resource/HTTP projection and GPU continuation remain pending. Host state
 roundtrips and checksum validation are not numerical or performance samples.
 
 The native core report requires positive prefill time and call count when new

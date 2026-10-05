@@ -157,7 +157,8 @@ lie_status lie_backend_open_steered(const char *, const lie_model_options *,
   const lie_steering_model_options *, lie_model **, lie_error *);
 lie_status lie_model_steering_info(lie_model *, lie_steering_model_info *, lie_error *);
 /* Initial owner-only configuration, before prefill, restore or sampling.
- * Live scale changes and model-state cache wiring are not supported yet. */
+ * Live scale changes are not supported yet. Prefix restore validates owned
+ * policy metadata together with complete model state before transfer. */
 lie_status lie_sequence_configure_steering(lie_sequence *,
   const lie_steering_settings *, lie_error *);
 lie_status lie_sequence_steering_info(lie_sequence *, lie_steering_policy_info *, lie_error *);

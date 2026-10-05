@@ -1,5 +1,22 @@
 # DS4 / synapse-lie coordination
 
+## Steering model-state host binding; no GPU admission — 2026-10-05 UTC
+
+The read-only witness at 01:49:21.180644 UTC still observes external
+PID29223/start2470351 and router PID29377/start2474081 in descriptor/kernel KFD
+inventories. CPU is 79.625 C, available RAM 87,580,016,640 bytes. Original lease
+dev66307/inode105946405 is free; boot/filesystem/model stats are unchanged.
+No remote GPU build/run, heavyweight model hash, conversion, service mutation,
+foreign signal, retry, waiter or reservation follows this witness.
+
+Root completes model-prefix state source binding and ten Debug plus ten sanitizer
+host checks, with GPUs masked and local CPU maximum 65.125 C. No inference
+runtime thread is added. Q2 separately reports release b776d025 at 01:57:25 UTC
+and clean checkpoint 5132162 for its half-byte candidate; root retains no `.157`
+job, build, eval client, waiter, lease or reservation. Any further window needs
+fresh ownership/admission. Root GPU qualification remains scoped to `.161`.
+[Host receipt](development/validation/steering-binding-host-2026-10-05.json).
+
 ## Steering admission host work; no new GPU window — 2026-10-05 UTC
 
 The read-only `.161` witness at 01:26:22.453930 UTC still observes external

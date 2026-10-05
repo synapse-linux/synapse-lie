@@ -27,7 +27,7 @@ metadata; they retain the existing policy ABI and structures. Captured capacity,
 revision and runtime counters are not serialized. Restore validates the matched
 bank and independently confirmed model frontier before live mutation, and requires
 an exact completed transfer to commit. Host RAM/SSD fixtures qualify this protocol;
-the actual model-cache binding remains open.
+the actual GPU model-cache continuation remains unqualified.
 See [format, policy and actual binding requirements](../development/STEERING.md).
 
 Independent steering model ABI 1 adds bounded model options, an explicit C
@@ -36,17 +36,25 @@ Initial scale configuration and C17 retained-forward prepare/complete are wired
 into provider source; an independently observed frontier mismatch or failed
 post-mutation commit poisons the model. Existing model opens keep their absent-bank
 path. These additive functions do not change existing executor/request/generation
-structures. Shared-worker/cache/public-client integration and GPU qualification
+structures. Shared-worker/public-client integration and GPU qualification
 remain open. See [direct binding](../development/STEERING.md#direct-modelsession-binding).
 
 `lie/steering_activation.h` defines separate C17 activation ABI 1: bounded row
 geometry, finite scale, checked span capacities and caller-owned output. Every
 refusal preserves that output. It is not a model executor or a persisted state
 format. The owned HIP operator and private provider hooks have host/syntax
-validation only. Initial scales are immutable after numerical work; the LIE
-binding refuses capture/restore for all admitted banks until history-aware state
-wiring exists, including banks with zero scales.
+validation only. Initial scales are immutable after numerical work. Native
+provider snapshots refuse active steering; the owned typed state path below
+validates history and scope before model transfer.
 Executor ABI 3, generation ABI 3, request ABI 8 and DS4 payloads are unchanged.
+
+`lie/steering_state.h` defines separate C17 binding ABI 1: canonical auxiliary
+layout/view, actual-frontier capture and staged prefix restore. The model binding
+revalidates actual geometry and numerical payload independently. Restore requires
+matched initial scales/history/semantic scope before upload and commits exactly
+the observed completed model frontier. Inactive unused directions preserve legacy
+framing. Host RAM/SSD and real model-codec fixtures qualify this protocol with
+synthetic tensors; actual GPU continuation remains pending.
 
 `lie/weight_decode.h` defines independent C17 weight-decode ABI 1. F16/Q8_0
 encoded bytes are borrowed, lengths are exact, and BF16 output is caller-owned.
@@ -226,7 +234,7 @@ operations are thread-safe under the documented existing-pin lifetime rule.
 
 This host primitive does not activate provider steering, change request or
 executor ABIs, or alter state/KVC framing. Model-derived admission and session
-history are now bound in provider source; shared-worker/cache integration and
+history and typed model-state are now bound in provider source; shared-worker integration and
 numerical GPU qualification remain required.
 [Format, ownership and binding requirements](../development/STEERING.md).
 

@@ -12,6 +12,7 @@
 #include "lie/state.h"
 #include "lie/store.h"
 #include "lie/steering.h"
+#include "lie/steering_state.h"
 #include "gufo_chat.hpp"
 #include "src/models/qwen38_flash_next/engine.hpp"
 #include "src/models/qwen/chat_template.hpp"
@@ -313,13 +314,13 @@ extern "C" lie_status lie_model_steering_info(lie_model *m,lie_steering_model_in
 #ifdef LIE_GUFO_STATE_ACCESS
         value.device_vector_bytes=m->runtime->model->LieSteeringBytes();
 #endif
-        *out=value;return LIE_OK; // History-aware cache binding is not available yet.
+        value.prefix_state_supported=lie_backend_prefix_state_supported()!=0;
+        *out=value;return LIE_OK;
     });
 }
 extern "C" lie_status lie_model_state_identity(lie_model *m,lie_state_identity *id,uint64_t *domain,lie_error *e){
     if(!m||!id||!domain)return error(e,LIE_INVALID,"invalid SSD identity output");
     return guarded(m->runtime,e,[&]{
-        if(m->runtime->steering_bank)return error(e,LIE_UNSUPPORTED,"steered SSD identity requires the pending history-aware state binding");
         if(!lie_backend_prefix_state_supported())return error(e,LIE_UNSUPPORTED,"component state access required for SSD");
 #ifndef LIE_DS4_RUNTIME_CACHE
         if(m->runtime->drafts)return error(e,LIE_UNSUPPORTED,"complete predictor state required for MTP SSD identity");
@@ -786,11 +787,32 @@ extern "C" lie_status lie_sequence_state_describe(lie_sequence *s,const lie_stat
     if(!s||!out)return error(e,LIE_INVALID,"invalid state description");
     return guarded(s->runtime,e,[&]{
         if(s->cancelled.load())return error(e,LIE_CANCELLED,"cancelled before state description");
-        if(s->steering)return error(e,LIE_UNSUPPORTED,"steering requires the pending history-aware model-state binding");
 #ifdef LIE_GUFO_STATE_ACCESS
         /* Captures own only the completed token frontier, never sampler/RNG
          * state. Restoring still requires a fresh unstarted destination. */
-        if((source&&(s->stopped||s->sampling_started))||!qfn::LieStateAccess::Describe(*s->session,s->runtime->state_domain,s->runtime->chunk,source,*out,s->runtime->state_quant,s->runtime->drafts))
+        if(source&&(s->stopped||s->sampling_started))return error(e,LIE_INVALID,"non-prefix state destination");
+        if(s->steering){
+            lie_steering_state_view view{};view.abi_version=LIE_STEERING_STATE_BINDING_ABI;view.struct_bytes=sizeof(view);
+            lie_status rc=LIE_OK;
+            if(source){rc=lie_steering_state_inspect(source,qfn::LieStateAccess::StateFormat(*s->session),&view,e);
+                if(rc!=LIE_OK)return rc;}
+            lie_state_layout model{},expected{};
+            if(!qfn::LieStateAccess::Describe(*s->session,s->runtime->state_domain,s->runtime->chunk,
+                    source?&view.model:nullptr,model,s->runtime->state_quant,s->runtime->drafts,true))
+                return error(e,LIE_INVALID,"unsupported, foreign or non-prefix model state");
+            if(source){
+                if(view.policy_offset!=LIE_STEERING_STATE_NO_OFFSET)rc=lie_steering_state_extend(&model,&expected,e);
+                else expected=model;
+                if(rc!=LIE_OK)return rc;
+                if(!lie_state_layout_equal(source,&expected))return error(e,LIE_INVALID,"steering state layout mismatch");
+            }else{
+                rc=lie_steering_state_plan(s->steering,&model,&expected,e);
+                if(rc==LIE_BACKEND_FAILED)return failed(s->runtime,e,e?e->message:"steering capture frontier divergence");
+                if(rc!=LIE_OK)return rc;
+            }
+            *out=expected;return LIE_OK;
+        }
+        if(!qfn::LieStateAccess::Describe(*s->session,s->runtime->state_domain,s->runtime->chunk,source,*out,s->runtime->state_quant,s->runtime->drafts))
             return error(e,LIE_INVALID,"unsupported, foreign or non-prefix state");
         return LIE_OK;
 #else
@@ -808,7 +830,22 @@ static lie_status state_copy(lie_sequence *s,const lie_state_layout *layout,void
     return guarded(s->runtime,e,[&]{
 #ifdef LIE_GUFO_STATE_ACCESS
         std::string message;
-        lie_status copied=qfn::LieStateAccess::Copy(*s->session,*layout,data,restore,s->cancelled,message);
+        SteeringStep policy;
+        lie_steering_state_view view;view.abi_version=LIE_STEERING_STATE_BINDING_ABI;view.struct_bytes=sizeof(view);
+        std::array<unsigned char,32> semantic{},scope{};
+        const lie_state_layout *model=layout;
+        if(s->steering){
+            auto admitted=lie_steering_state_inspect(layout,qfn::LieStateAccess::StateFormat(*s->session),&view,e);
+            if(admitted!=LIE_OK)return admitted;
+            if(!qfn::LieStateAccess::SemanticScope(*s->session,semantic))return error(e,LIE_INVALID,"missing model semantic scope");
+            admitted=restore?lie_steering_state_prepare_restore(s->steering,layout,view.model.format,
+                semantic.data(),data,bytes,&policy.update,scope.data(),e):
+                lie_steering_policy_cache_scope(s->steering,semantic.data(),scope.data(),e);
+            if(admitted!=LIE_OK)return admitted;
+            model=&view.model;
+        }
+        lie_status copied=qfn::LieStateAccess::Copy(*s->session,*model,data,restore,s->cancelled,message,
+            s->steering?scope.data():nullptr);
         if(copied!=LIE_OK){
             // Cancelled transfers have completed every submitted copy. Their
             // private sequence is retired; no incomplete state is published.
@@ -816,6 +853,14 @@ static lie_status state_copy(lie_sequence *s,const lie_state_layout *layout,void
             if(copied==LIE_INVALID||copied==LIE_UNSUPPORTED||copied==LIE_RESOURCE_LIMIT)
                 return error(e,copied,message.c_str()); // Payload admission precedes every device mutation.
             return failed(s->runtime,e,message);
+        }
+        if(s->steering){
+            auto confirmed=restore?lie_steering_update_commit(&policy.update,s->session->Position(),e):
+                lie_steering_state_capture(s->steering,layout,view.model.format,semantic.data(),data,bytes,e);
+            if(confirmed!=LIE_OK){
+                if(restore||confirmed==LIE_BACKEND_FAILED)return failed(s->runtime,e,e?e->message:"steering model-state confirmation failed");
+                return confirmed;
+            }
         }
         if(s->cancelled.load())return error(e,LIE_CANCELLED,"cancelled after completed state transfer");
         return LIE_OK;
