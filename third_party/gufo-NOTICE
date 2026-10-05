@@ -7,6 +7,14 @@ See THIRD_PARTY_NOTICES.md for provenance, versions and distribution boundaries;
 full imported notices are installed alongside it in third-party/.
 
 Adapted code includes:
+- The C17 finite-value and container algorithms in src/schema_values.c follow
+  official src/core/json_constraint.cpp at the same independently fetched
+  f783fedb pin. schema-values-edits.json records nine exact default-ON/OFF
+  replacements. C17 owns type matching, finite-value filtering/canonicalization,
+  JSON string/key quoting, object suffix/array bound rule construction and
+  iterative character accounting. JSON staging, cached leaf predicates,
+  binary-double serialization and schema dispatch/reference memo remain
+  provider glue. gufo-LICENSE is retained; no DS4 or sibling source is imported.
 - The C17 schema transformation algorithms in src/schema_transform.c follow
   official src/core/json_constraint.cpp at the independently fetched immutable
   f783fedb9bea2ec7de941f6da4e02f4a4596b29e pin (MIT, gufo-LICENSE retained).
@@ -174,8 +182,9 @@ official Gufo f783fedb JsonConstraintCompiler. The iterative cycle stack and
 owned construction/flat-table lifetimes use the public model-neutral contract
 in include/lie/grammar_builder.h. Adapter gufo_grammar_builder.hpp translates
 typed views/errors and preserves private reasoning/tool composition templates.
-JSON Schema traversal/reference/conjunction/finite-value transformations and
-binary-double normalization remain transitional; this is not full compiler,
+JSON Schema dispatch/reference memo/compile cache and binary-double leaf
+translation remain transitional; transformations/finite values now use C17.
+This is not full compiler,
 provider/model storage ownership or C++ dependency removal. No DS4 or sibling
 CachyOS source/artifact is imported. Host language/lifetime/refusal witnesses
 do not qualify original-weight GPU numerical/resource/performance behavior.

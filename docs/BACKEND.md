@@ -159,8 +159,11 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
    and schema conjunction/distribution/merging now use shared C17
    ([host witnesses](development/validation/c17-schema-transform-host-2026-10-05.json)).
    Provider container views/staging and format/binary-double multipleOf leaf
-   translation remain private glue/policy. Schema visiting and finite-value
-   normalization still need extraction within the same task.
+   translation remain private glue/policy. Finite-value filtering/canonicalization,
+   JSON quoting and object/array construction now use C17 with bounded shared
+   counts and independent host refusal/language tests. Dispatch/reference memo
+   and compile cache still need extraction within the same task; the newer
+   finite-value slice awaits matching provider/application rebuild and GPU gates.
    The integrated `1bff953` runtime now passes 37 original-weight OpenAI controls
    in both AR and MTP, including selected grammar/tool paths, and six seeded
    native TG128 sessions. This does not close individual grammar-branch,

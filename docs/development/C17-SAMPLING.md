@@ -50,7 +50,7 @@ invalid draws leave RNG unchanged. The caller owns workspace cleanup.
 `adapters/gufo_sampling.hpp` translates the provider's controls and containers.
 `adapters/gufo_history.hpp` and `adapters/gufo_distribution.hpp` supply storage
 and exception glue for the owned C17 components. Gufo still supplies vector
-deep copies, deferred draws, entropy acquisition, schema visiting/value normalization,
+deep copies, deferred draws, entropy acquisition, schema dispatch/caching,
 provider container storage, model/session and
 speculative-controller state, and selected GPU numerical
 kernels. Reporting logits still use the provider transform before the existing
@@ -338,7 +338,7 @@ and exception translation. Syntax/assertion expansion now use C17; the Unicode
 context below preserves insertion-ordered full-set identity through ICU C APIs.
 JSON Schema compilation and provider container storage remain open. The three exact `grammar-compiler-edits.json` edits select the C
 compiler with default ON; OFF keeps the entire original compiler. The current
-38-file provider inventory and recipes require matching archive/application
+42-file provider inventory and recipes require matching archive/application
 rebuilds. Provider snapshot marshalling remains separate work.
 
 [Source-bound host evidence](validation/c17-grammar-compiler-host-2026-10-05.json)
@@ -368,7 +368,7 @@ compiler and provider container storage still need extraction. No upstream type 
 RNG, device call, HTTP operation or DS4 RAM/SSD state is added.
 
 Two exact `grammar-parser-edits.json` edits select the C17 parser with default
-ON; OFF retains the original syntax/expansion implementation. The 38-file
+ON; OFF retains the original syntax/expansion implementation. The 42-file
 provider inventory and recipes require matching source/archive/application
 builds. [Host evidence](validation/c17-grammar-parser-host-2026-10-05.json)
 records independent C language/refusal/allocator tests and pristine/ON/OFF
@@ -402,7 +402,7 @@ The provider glue now supplies context RAII, a synchronous borrowed input view,
 exception and enum translation. `LIE_C17_SAMPLING` selects this path by default;
 OFF retains the pinned C++ path. `LIE_UNICODE_ICU=ON` builds the standalone C
 module by default; a minimal core can omit it with OFF. A C17 provider build
-requires ICU. The 38-file private inventory and changed compiler/parser/build
+requires ICU. The 42-file private inventory and changed compiler/parser/build
 recipes require a new matching sealed provider/application rebuild.
 
 [Host evidence](validation/c17-grammar-uset-host-2026-10-05.json) records 26 Debug,
@@ -459,7 +459,7 @@ copy/source/program-release lifetimes. All twelve earlier full witness hashes
 remain unchanged. Three minimal-core checks with ICU OFF also pass. All 42 public
 headers and strict C17/symbol checks pass; local CPU maximum is 90.5 C.
 
-The 38-file inventory and changed runtime recipe/glue require matching sealed
+The 42-file inventory and changed runtime recipe/glue require matching sealed
 provider/application rebuilds. Worker/events, RNG, request/executor/generation
 and DS4 RAM/SSD layouts remain unchanged. These synthetic tests are not new
 original-weight AR/MTP/tool/grammar continuation, GPU fault/fit, allocation-exact
@@ -492,10 +492,9 @@ inference state or add a worker.
 translation. Format expansion and binary-double `multipleOf` translation remain
 leaf policy in the provider; they do not perform C traversal or merging. The
 default-ON sampler selection uses five exact `schema-transform-edits.json`
-replacements; OFF retains original function bodies. The 38-file sealed inventory
-requires matching provider/application builds. Schema visiting, finite-value
-filtering/canonicalization, compile caching and model/controller storage remain
-transitional. A conjunction helper is not full schema admission.
+replacements; OFF retains original function bodies. The 42-file sealed inventory
+requires matching provider/application builds. Schema dispatch/reference memo, compile caching and model/controller storage
+remain transitional; finite-value/container algorithms now use C17 below. A conjunction helper is not full schema admission.
 
 The [host receipt](validation/c17-schema-transform-host-2026-10-05.json)
 records independent ordered-tree/boundary/refusal oracles and complete pristine/
@@ -504,6 +503,52 @@ escapes/indices, object order and unchanged source values. New original-weight
 AR/MTP/tools/grammar continuation, allocation-exact resources and measured cost
 remain open. These host witnesses do not qualify an autonomous C model executor
 or a reactive speedup.
+
+## Finite values and container rules
+
+`lie/schema_values.h` defines a separate model-neutral ABI 1 over the shared
+stable borrowed JSON views. `src/schema_values.c` owns finite-value type
+matching, reference and `anyOf` filtering, enum/const comparison and ordered
+object/array canonicalization. C17 also quotes JSON string/key bytes, constructs
+finite-value rules, validates required fields, builds ordered objects through
+two comma suffix states, constructs bounded arrays and counts string/key
+characters. Integer type matching retains the pinned binary-double policy.
+
+Normalization publishes a private canonical value or a successful exclusion;
+operational refusal preserves the caller's result. Private writer staging is
+retired on all outcomes. Rules copy literal/symbol spans into the C builder.
+Property and character counts share one construction state across nested child
+visitors; copying the counts around a callback would lose nested accounting.
+Refusal can retain earlier private increments/rules, so retire the counts,
+builder and callback staging rather than reuse a failed construction.
+
+Character traversal is iterative, with sixteen inline frames and bounded growth
+for deeper trees. The default value/reference limit is 256, character budget
+120,000 and work budget 64 million counted units. Accounting counts bytes that
+are not UTF8 continuation bytes, matching the pinned method; it is not Unicode
+validation. Quote, symbol and required-name buffers use paired allocator hooks.
+These checks exclude provider JSON/ICU staging and whole-process cost.
+
+`gufo_schema_values.hpp` supplies borrowed views, private JSON staging,
+nonthrowing error translation, cached string/number leaf predicates and
+binary-double serialization. The child visitor still owns dispatch/reference
+memo and the compile cache. Nine unique pinned `schema-values-edits.json`
+replacements select the C17 algorithms under the existing default-ON switch;
+OFF retains the original bodies. Matching provider/application builds require
+the 42-file inventory and `schema_values_edits_sha256`. This adds no inference
+worker, engine/event/RNG layout, model state or DS4 RAM/SSD payload field.
+
+The [host receipt](validation/c17-schema-values-host-2026-10-05.json) records
+258 independent tree/language/boundary oracles, 115 callback refusals and
+16 C allocation refusals. All 628 complete value/type/container witnesses agree
+between pristine Gufo, C17 and OFF, and all 14 earlier full witness hashes are
+unchanged. Four Debug, four ASan/UBSan/LeakSanitizer, 30 reference-project and
+four ICU-OFF checks pass, with 45 public C++ headers. The sandbox's `ptrace`
+prevents LeakSanitizer from operating; failed attempts are preserved and reruns
+outside that constraint keep every sanitizer enabled. Original-weight GPU
+continuation, private provider allocation faults, allocation-exact resources
+and matched cost remain open for this newer source, including the preserved
+reactive scheduling path. Frozen `1bff953` GPU receipts do not cover it.
 
 ## Grammar construction and validation
 
@@ -533,9 +578,9 @@ its original construction and validation bodies execute only with
 `LIE_C17_SAMPLING=OFF`. The adapter translates typed inputs/errors and copies
 private templates needed by the still-transitional reasoning/tool composition.
 The base grammar creates its runtime program directly from the C tables.
-Schema-tree traversal, reference resolution, conjunction, enum/const
-canonicalization, binary-double bound normalization, compile cache and provider
-template/model/controller storage remain transitional. This is not a completed
+Schema dispatch/reference memo, binary-double leaf translation, compile cache
+and provider template/model/controller storage remain transitional. Structural
+transformations and finite-value/container algorithms now use C17. This is not a completed
 JSON Schema compiler or autonomous model executor.
 
 [Source-bound host evidence](validation/c17-grammar-builder-host-2026-10-05.json)

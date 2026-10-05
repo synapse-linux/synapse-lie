@@ -43,7 +43,7 @@ foreach(arm IN ITEMS reference candidate fallback)
     list(APPEND sources "${pristine}/src/core/sampling.cpp")
   else()
     list(REMOVE_ITEM sources "${pristine}/src/core/json_constraint.cpp" "${pristine}/src/core/json_schema_lexeme.cpp" "${pristine}/src/core/json_schema_regex.cpp")
-    list(APPEND sources "${variant}/src/core/json_constraint.cpp" "${REPO}/src/grammar.c" "${REPO}/src/grammar_builder.c" "${REPO}/src/schema_transform.c" "${variant}/src/core/json_schema_lexeme.cpp" "${REPO}/src/grammar_number.c" "${variant}/src/core/json_schema_regex.cpp" "${REPO}/src/grammar_regex.c" "${REPO}/src/grammar_string.c" "${REPO}/src/grammar_vocabulary.c" "${REPO}/src/grammar_regex_compile.c" "${REPO}/src/grammar_regex_parse.c" "${REPO}/src/grammar_unicode.c" "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c" "${REPO}/src/sampling_distribution.c")
+    list(APPEND sources "${variant}/src/core/json_constraint.cpp" "${REPO}/src/grammar.c" "${REPO}/src/grammar_builder.c" "${REPO}/src/schema_transform.c" "${REPO}/src/schema_values.c" "${variant}/src/core/json_schema_lexeme.cpp" "${REPO}/src/grammar_number.c" "${variant}/src/core/json_schema_regex.cpp" "${REPO}/src/grammar_regex.c" "${REPO}/src/grammar_string.c" "${REPO}/src/grammar_vocabulary.c" "${REPO}/src/grammar_regex_compile.c" "${REPO}/src/grammar_regex_parse.c" "${REPO}/src/grammar_unicode.c" "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c" "${REPO}/src/sampling_distribution.c")
   endif()
   add_library(${arm} STATIC ${sources})
   if(NOT arm STREQUAL "reference")
@@ -83,10 +83,14 @@ foreach(arm IN ITEMS reference candidate fallback)
   endif()
   string(REPLACE "private:\n  static std::uint32_t Byte" "public:\n  static std::uint32_t Byte" schema_text "${schema_text}")
   string(APPEND schema_text "\nnamespace gufo::sampling {\njson::Value LieSchemaConjoinProbe(const json::Value &root,const json::Value &l,const json::Value &r,unsigned depth) { return JsonConstraintCompiler(root,false).Conjoin(l,r,depth); }\nbool LieSchemaEqualProbe(const json::Value &a,const json::Value &b) { return JsonConstraintCompiler::EqualValue(a,b); }\nconst json::Value *LieSchemaReferenceProbe(const json::Value &root,const json::Value &ref) { return JsonConstraintCompiler(root,false).Reference(ref); }\nvoid LieSchemaKeysProbe(const json::Value &n) { JsonConstraintCompiler(n,false).Keys(n); }\n}\n")
+  string(APPEND schema_text "\nnamespace gufo::sampling {\nstd::string LieSchemaValueProbe(const json::Value &root,const json::Value &schema,const json::Value &value,size_t depth) { auto normalized=JsonConstraintCompiler(root,false).ValueFor(schema,value,depth); return normalized ? std::string(\"MATCH \")+normalized->dump() : std::string(\"EXCLUDED\"); }\nbool LieSchemaTypeProbe(const json::Value &value,std::string_view type) { return JsonConstraintCompiler::MatchesType(value,type); }\n}\n")
   file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/${arm}-schema-constraint.cpp" "${schema_text}")
   add_executable(${arm}-schema-probe "${REPO}/tests/sampling/schema.cpp"
     "${CMAKE_CURRENT_BINARY_DIR}/${arm}-schema-constraint.cpp")
   target_link_libraries(${arm}-schema-probe PRIVATE ${arm})
+  add_executable(${arm}-values-probe "${REPO}/tests/sampling/values.cpp"
+    "${CMAKE_CURRENT_BINARY_DIR}/${arm}-schema-constraint.cpp")
+  target_link_libraries(${arm}-values-probe PRIVATE ${arm})
   foreach(test IN ITEMS logit grammar mtp)
     if(test STREQUAL "logit")
       set(test_source tests/cli/logit_sampler_test.cpp)
@@ -160,6 +164,13 @@ add_test(NAME schema-transform-reference-parity COMMAND "${CMAKE_COMMAND}"
   "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/schema-parity"
   -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
 set_tests_properties(schema-transform-reference-parity PROPERTIES TIMEOUT 120)
+add_test(NAME schema-values-reference-parity COMMAND "${CMAKE_COMMAND}"
+  "-DREFERENCE=$<TARGET_FILE:reference-values-probe>"
+  "-DCANDIDATE=$<TARGET_FILE:candidate-values-probe>"
+  "-DFALLBACK=$<TARGET_FILE:fallback-values-probe>"
+  "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/values-parity"
+  -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
+set_tests_properties(schema-values-reference-parity PROPERTIES TIMEOUT 120)
 add_executable(candidate-controls "${REPO}/tests/test_gufo_sampling.cpp")
 target_link_libraries(candidate-controls PRIVATE candidate)
 add_test(NAME candidate-controls COMMAND candidate-controls)

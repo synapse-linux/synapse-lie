@@ -2,15 +2,12 @@
 /* Schema algorithms adapted independently from the pinned Gufo compiler;
  * provenance and retained leaf policies are recorded in third_party/gufo-NOTICE. */
 #include "lie/schema_transform.h"
+#include "schema_internal.h"
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct {
-  const lie_schema_transform_description *d;
-  size_t work;
-  lie_schema_error *error;
-} context;
+typedef lie_schema_context context;
 typedef struct { lie_schema_node a, b; } pair;
 #define TRY(call) do { lie_schema_status rc_ = (call); if (rc_ != LIE_SCHEMA_OK) return rc_; } while (0)
 static lie_schema_status fail(context *c, lie_schema_status rc, const char *msg) {
@@ -392,3 +389,18 @@ lie_schema_status lie_schema_conjoin(const lie_schema_transform_description *d, 
   if (!valid(d) || !root || !left || !right || !out || !d->access.clone || !d->access.create || !d->access.put || !d->access.append || !d->access.format || !d->access.multiple) return LIE_SCHEMA_INVALID;
   context c={d,0,e}; return conjoin(&c,root,left,right,depth,out);
 }
+bool lie_schema_internal_valid(const lie_schema_transform_description *d) { return valid(d); }
+lie_schema_status lie_schema_internal_tick(context *c,size_t n) { return tick(c,n); }
+lie_schema_status lie_schema_internal_fail(context *c,lie_schema_status r,const char *s) { return fail(c,r,s); }
+void *lie_schema_internal_allocate(context *c,size_t n) { return allocate(c,n); }
+void lie_schema_internal_release(context *c,void *p) { release(c,p); }
+lie_schema_status lie_schema_internal_describe(context *c,lie_schema_node n,lie_schema_value *v) { return describe(c,n,v); }
+lie_schema_status lie_schema_internal_child(context *c,lie_schema_node n,size_t i,lie_schema_bytes *k,lie_schema_node *v) { return child(c,n,i,k,v); }
+lie_schema_status lie_schema_internal_find(context *c,lie_schema_node n,lie_schema_bytes k,lie_schema_node *v) { return find(c,n,k,v); }
+lie_schema_status lie_schema_internal_field(context *c,lie_schema_node n,const char *k,lie_schema_node *v) { return field(c,n,k,v); }
+lie_schema_status lie_schema_internal_equal(context *c,lie_schema_node a,lie_schema_node b,bool *v) { return equal(c,a,b,v); }
+lie_schema_status lie_schema_internal_reference(context *c,lie_schema_node n,lie_schema_node r,lie_schema_node *v) { return reference(c,n,r,v); }
+lie_schema_status lie_schema_internal_clone(context *c,lie_schema_node n,lie_schema_node *v) { return clone(c,n,v); }
+lie_schema_status lie_schema_internal_create(context *c,lie_schema_value n,lie_schema_node *v) { return create(c,n,v); }
+lie_schema_status lie_schema_internal_put(context *c,lie_schema_node n,lie_schema_bytes k,lie_schema_node v) { return put(c,n,k,v); }
+lie_schema_status lie_schema_internal_append(context *c,lie_schema_node n,lie_schema_node v) { return append(c,n,v); }

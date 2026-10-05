@@ -1,6 +1,34 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Finite values and container construction in C17 — 2026-10-05
+
+The previously preserved draft now executes finite JSON type/filter/reference/
+branch normalization, ordered canonicalization, JSON string/key quoting,
+object suffix/array bound rule construction and iterative character accounting
+in shared C17. One property/character state includes nested child visitor work;
+private staging and scratch retire on refusal. The provider retains cached leaf
+predicates, binary-double serialization, dispatch/reference memo and compile
+cache. No worker, HTTP/event/RNG ABI or DS4 RAM/SSD layout changes.
+
+The [host receipt](development/validation/c17-schema-values-host-2026-10-05.json)
+records 258 independent tree/language/boundary oracles, 115 callback refusals,
+16 C allocation refusal points and 628 complete pristine/C17/OFF witnesses.
+All 14 earlier full witness hashes remain unchanged. Four Debug, four
+ASan/UBSan/LeakSanitizer, 30 reference-project and four ICU-OFF checks pass;
+45 public headers and strict C17/symbol checks pass. Local CPU maximum is
+93.125 C, below the existing 98 C guard; no tuning occurs.
+
+The preparation-script indent failure, ambiguous unsigned test-value build
+and sandbox/LeakSanitizer `ptrace` failures remain recorded. Corrected fixture
+casts and reruns outside `ptrace` preserve assertions and every sanitizer.
+Nine exact source edits, the 42-file private inventory and named recipe hash
+require new matching sealed provider/application builds. The active `.161`
+physical1M test and earlier AR37/MTP37/profile results remain bound to frozen
+`1bff953`; they do not cover this new slice. All six owned roadmap tasks remain
+open, including Terminal Bench rewards, TG128/recall, matched depth/concurrency,
+nonzero steering and broader original-weight grammar/sampling/resources/cost.
+
 ## Integrated C17 runtime on Strix Point — 2026-10-05
 
 Checkpoint `1bff953` builds and passes **37 original-weight OpenAI controls in

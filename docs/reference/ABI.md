@@ -48,7 +48,7 @@ C17. Advance supports exact input/output alias in predicate scratch; mask
 application supports exact in-place logits but refuses other overlap. Refusal
 preserves output ownership; empty snapshots are valid dead language prefixes.
 Private provider grammar layout/source changes require matching archive/application
-rebuilds and the current 38-file receipt. Executor/request/generation and DS4 payload
+rebuilds and the current 42-file receipt. Executor/request/generation and DS4 payload
 ABIs are unchanged. See [ownership and remaining compiler/predicates](../development/C17-SAMPLING.md#byte-grammar-and-logit-masking).
 
 The additive snapshot-reader/writer ABI 1 in `lie/grammar.h` moves frame
@@ -62,7 +62,7 @@ own their data; program/input release does not invalidate an exported snapshot.
 Paired program/state allocator hooks retire import/plan storage on all paths.
 Default frame/stack/lexeme limits remain 8192/16384/4160; counted heap-sort work
 uses the state work budget. Provider vector/State layout remains unchanged,
-with only view/growth/exception glue, and requires a matching 38-file rebuild.
+with only view/growth/exception glue, and requires a matching 42-file rebuild.
 No executor/request/generation or DS4 persisted layout changes. See
 [snapshot bridge ownership](../development/C17-SAMPLING.md#snapshot-readwrite-bridge).
 
@@ -76,9 +76,9 @@ must outlive their use. Failure preserves output, latches mutation status and
 requires builder retirement; successful earlier primitives may remain. An invalid
 output argument can refuse before mutation. The default construction budget is
 64 million counted units, distinct from runtime state work. This adds no engine,
-request/generation, worker/event or persisted-state layout. The current 38-file
+request/generation, worker/event or persisted-state layout. The current 42-file
 inventory and extended runtime recipe require matching sealed provider/application
-builds. Schema transformations and provider composition templates remain
+builds. Schema dispatch/caching and provider composition templates remain
 transitional. See [construction ownership](../development/C17-SAMPLING.md#grammar-construction-and-validation).
 
 `lie/schema_transform.h` adds separate schema-transformation ABI 1. Tagged
@@ -90,8 +90,22 @@ are unique and ordered. Output/error storage is disjoint from views/context;
 error detail borrows the input tree. Equality is iterative; conjunction has a
 64-level reference budget. Format and binary-double multipleOf leaf policy stay
 in the adapter. No model, worker, RNG, engine or DS4 layout changes. Matching
-38-file provider/application builds are required. See
+42-file provider/application builds are required. See
 [schema ownership](../development/C17-SAMPLING.md#json-schema-conjunction-and-reference-resolution).
+
+`lie/schema_values.h` adds separate finite-value/container ABI 1 using the same
+stable borrowed reader and private staging contracts. C17 owns type matching,
+reference/branch filtering and ordered canonicalization, JSON string/key
+quoting, finite-value traversal, object suffix states, array bounds and counted
+characters. Defaults are 256 value/reference levels, 120,000 counted characters
+and the transform's 64-million-unit work budget. Counts consume a private
+construction state shared across nested visitor callbacks. Normalization and
+other result arguments publish only on success; exclusion publishes
+`{false, NULL}`. Refusal requires retirement of staging/builder/counts. Leaf
+predicates, binary-double serialization and schema dispatch/reference memo
+remain synchronous provider hooks. No engine, worker, event, RNG or persisted
+DS4 layout changes. See
+[finite-value ownership](../development/C17-SAMPLING.md#finite-values-and-container-rules).
 
 `lie/grammar_number.h` adds separate numeric-grammar ABI 1: copied immutable
 numeric policies, borrowed exact decimal spans and transactional match/value/LCM
@@ -110,7 +124,7 @@ vocabulary/no-token/mask-work refusal codes without changing existing layouts.
 A caller-synchronized bounded mask cache owns C snapshot keys and opaque retained
 payloads; successful publication consumes incoming ownership, refusal consumes
 nothing. Provider private vocabulary/cache layouts change in both ON/OFF arms;
-matching archive/application rebuild and the 38-file source-bound receipt are
+matching archive/application rebuild and the 42-file source-bound receipt are
 required. No executor/request/generation or DS4 persisted layout changes.
 
 `lie/grammar_regex.h` adds separate Unicode-DFA ABI 1: tagged descriptions,
@@ -123,7 +137,7 @@ predicates and copied mask-key canonicalization are C17. Refusals preserve live
 state/matches; caller-owned policies/allocator contexts outlive calls. See
 [ownership and budgets](../development/C17-SAMPLING.md#string-and-unicode-dfa-runtime).
 Private provider construction layout/source requires matching builds and the
-38-file receipt; executor/request/generation/DS4 persisted layouts do not change.
+42-file receipt; executor/request/generation/DS4 persisted layouts do not change.
 
 `lie/grammar_regex_compile.h` adds separate compiler ABI 1. A mutable,
 caller-synchronized construction context owns copied scalar classes, normalized
@@ -135,7 +149,7 @@ remain after a refused operation. Published programs never change. Syntax parsin
 and assertion expansion now use C17. The Unicode context owns registry/input
 storage using ICU C APIs; ICU remains the actual set/property/conversion dependency. This adds no executor/request/generation or persisted-state
 layout; matching provider/application
-builds and the 38-file inventory plus compiler recipe are required.
+builds and the 42-file inventory plus compiler recipe are required.
 
 `lie/grammar_regex_parse.h` adds separate parser ABI 1. It borrows UTF16 units
 and a model-neutral opaque Unicode-set callback table for one synchronous call.
@@ -148,7 +162,7 @@ Syntax refusals have deterministic English reasons; resource/work/node/compiler
 refusals preserve root and published programs. Successful compiler entries may
 remain after a refused parse. Default AST/work limits are 65,536 nodes and
 32 million work units; original 16,384-byte and 32-level group limits remain.
-Matching provider/application builds and the 38-file inventory/parser recipe
+Matching provider/application builds and the 42-file inventory/parser recipe
 are required; no executor/request/generation or persisted-state layout changes.
 
 `lie/grammar_unicode.h` adds separate Unicode-context ABI 1. The context owns

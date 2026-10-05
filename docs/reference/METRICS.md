@@ -29,7 +29,7 @@ ownership is not implied by `dense_sampling`.
 
 Numeric grammar extraction adds no metric or worker. Its copied policy and
 per-call arithmetic workspace count as additional bounded allocations. The
-current 38-file provider inventory and numeric edit recipe bind its selection;
+current 42-file provider inventory and numeric edit recipe bind its selection;
 `dense_sampling` does not identify complete grammar/compiler ownership. Actual
 allocation cost and original-weight GPU comparisons remain separate gates.
 
@@ -37,7 +37,7 @@ The Unicode extraction adds no metric/worker. Copied DFA tables, unique graph
 edges and optional reachability scratch are owned C allocations. The provider
 retires transitional construction vectors after sealing; this is not a measured
 GPU memory or speed claim. State canonicalization touches only a copied mask key.
-The 38-file inventory and owned recipes bind the source selection. Vocabulary
+The 42-file inventory and owned recipes bind the source selection. Vocabulary
 trie/transition/cache policy and regex expression/derivative/partition/BFS
 algorithms and regex syntax/assertion expansion are now C17. Unicode-set registry,
 range translation and input buffers are C17 using ICU C APIs. ICU remains the
@@ -73,7 +73,7 @@ whole-provider allocation cost and GPU continuation remain separate gates.
 Grammar construction adds bounded C rule/class/table and
 productivity/cycle scratch allocations. Its 64-million-unit default work budget
 is admission accounting, not elapsed time or throughput. The provider retains
-private composition templates and schema transformations. The independent
+private composition templates, schema dispatch/caching and leaf translation. The independent
 fixture peak counts requested owned payload only, excluding helper headers,
 provider/ICU/process/GPU allocations. No new HTTP metric or inference worker
 is introduced; original-weight allocation-exact cost remains unqualified.
@@ -84,6 +84,15 @@ avoid heap storage for small comparisons; larger frontiers use bounded growth.
 The 64-million-unit work limit is a refusal budget, not timing or throughput.
 Own allocator checks exclude provider/ICU/process/GPU allocations. Original-weight
 allocation-exact resources and matched cost remain separate gates.
+
+Finite-value/container construction adds a separate bounded C scratch stack,
+quoted-byte/symbol buffers and required-name sorting. Sixteen inline traversal
+frames avoid scratch allocation for shallow values; deeper values grow only
+up to their declared limit. Shared property/character counts include nested
+visitor work. Callback staging, cached predicates, binary-double serialization
+and builder allocations have distinct ownership; the C refusal checks do not
+measure their whole-process cost. This adds no inference worker or HTTP metric,
+and its 64-million-unit work budget is not elapsed time or throughput.
 
 This is a C registry and an Actuator v3 JSON shape, not a JVM or a full Spring
 implementation. The official Actuator reference and Micrometer timer source

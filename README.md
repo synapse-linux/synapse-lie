@@ -6,10 +6,11 @@ and a command-line benchmark tool. Its shared C17 core manages reactive
 scheduling, concurrent requests, cancellation, metrics and prompt caching.
 The current numerical backend is an embedded Gufo adapter using C++ and HIP,
 with owned [C17 sampling and grammar components](docs/development/C17-SAMPLING.md).
-Dense sampling has recorded GPU checks. The integrated C17 grammar/history/
-distribution runtime also passes 37 OpenAI controls in both AR and MTP on
-Strix Point; broader numerical, resource and performance gates remain open.
-Gufo still owns model/controller state, schema visiting/value normalization and private
+Dense sampling has recorded GPU checks. Checkpoint `1bff953` also passes
+37 OpenAI controls in both AR and MTP on Strix Point. Newer finite-value/
+container extraction has host checks and awaits its own GPU qualification;
+broader numerical, resource and performance gates remain open.
+Gufo still owns model/controller state, schema dispatch/caching and private
 container templates; ICU remains the Unicode set/property/conversion dependency.
 [Directional steering](docs/guides/USAGE.md#directional-steering) has shared-core
 and server/bench controls with host validation, including scheduled benchmark

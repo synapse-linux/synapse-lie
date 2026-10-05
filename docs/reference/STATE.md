@@ -63,7 +63,7 @@ Owned C17 byte-grammar snapshots are request-local and independently copied
 while sampling or verifying speculation. Programs/mask-cache predicates are not
 serialized in DS4 RAM/SSD model-prefix payloads. Failed expansion/advance or
 canonicalization does not change the request's live state. The provider still
-supplies schema visiting/value normalization and private container storage. Concrete
+supplies schema dispatch/caching and private container storage. Concrete
 rule/primitive construction and productive/nullable/cycle validation now use
 the C17 builder. Unicode registry/input and snapshot read/write planning/copies
 now use shared C17 contracts, with ICU retained for set/property/conversion
@@ -75,9 +75,21 @@ C17 schema transformations borrow immutable typed JSON views and publish only
 private staging results. Equality/pointer/pattern scratch retires on every path;
 the provider retires its deque/container staging at the exception boundary.
 Conjunction refusal leaves input trees and the published result unchanged.
-Format/binary-double leaf policy, schema visiting and finite-value normalization
+Format/binary-double leaf policy and schema dispatch/caching
 remain transitional. These construction objects add no inference state, DS4
 payload, RAM/SSD identity, RNG transition or reactive frontier.
+
+Finite-value normalization owns only private construction results and temporary
+scratch. Ordered canonical objects preserve schema property order, followed by
+permitted extra members; array order remains unchanged. Exclusion publishes no
+value and refusal preserves the previous result. Literal and object/array
+rules copy spans into the C builder. Nested visitor callbacks share one private
+property/character counter object; partial successful increments are retired
+with failed construction. Sixteen inline frames and bounded stack/quote/symbol/
+required-name buffers retire on success and refusal. These objects add no model
+or sampler checkpoint, DS4 RAM/SSD payload, cache identity or reactive frontier.
+The newer source still requires matching provider/application rebuild and its
+own original-weight continuation/resource/cost qualification.
 
 C17 numeric policies own their copied canonical bounds and multiple, including
 integer-grid reduction. Prefix checks own and retire private arithmetic scratch;
@@ -114,10 +126,10 @@ opaque set callbacks are borrowed for one synchronous call. The Unicode context
 owns full-set registry, range translations and UTF8 buffers through ICU C APIs;
 ICU remains the property/set/conversion dependency. JSON Schema compilation and
 provider container storage remain transitional. The C17 builder owns concrete
-rule/primitive construction and iterative validation, while schema traversal/
-references/conjunction/finite-value normalization and provider composition
-templates remain transitional. Snapshot bridge planning,
-validation and payload copies now use C17.
+rule/primitive construction and iterative validation, while schema dispatch/
+reference memo and provider composition templates remain transitional.
+Structural transformations and finite-value/container algorithms now use C17.
+Snapshot bridge planning, validation and payload copies now use C17.
 
 ## MTP development boundary
 

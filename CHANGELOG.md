@@ -9,6 +9,11 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 finite JSON value filtering/canonicalization, string/key quoting,
+  ordered object/array rules and bounded character accounting. The default-ON
+  provider retains an OFF reference. Host language and refusal checks pass;
+  this newer slice awaits its own GPU qualification.
+
 - Shared C17 JSON Schema conjunction, local reference resolution, structural
   value equality and keyword validation. The default-ON selection retains an
   OFF reference. Provider JSON storage and format/binary-double leaf policy
@@ -16,7 +21,7 @@ stable release is declared. Detailed validation history is in
 
 - Shared C17 grammar construction, JSON byte primitives, decimal-prefix
   intervals, productivity/cycle validation and dead-alternative pruning.
-  Schema transformations and provider composition templates remain transitional;
+  Schema dispatch/caching and provider composition templates remain transitional;
   host language/lifetime checks pass, while GPU resources/cost remain pending.
 
 - Shared C17 snapshot read/write bridge with bounded import, staged export,

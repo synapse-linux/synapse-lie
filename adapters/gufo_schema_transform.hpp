@@ -64,9 +64,7 @@ class SchemaArena {
   std::exception_ptr failure_;
   template<class F> static lie_schema_status protect(void *p, F &&f) noexcept {
     auto &a=*static_cast<SchemaArena *>(p);
-    try { f(a); return LIE_SCHEMA_OK; }
-    catch (const gufo::sampling::JsonSchemaEmpty &) { a.failure_=std::current_exception(); return LIE_SCHEMA_EMPTY; }
-    catch (...) { a.failure_=std::current_exception(); return LIE_SCHEMA_CALLBACK; }
+    return a.invoke(std::forward<F>(f));
   }
   SchemaValue *store(SchemaValue value) {
     if (values_.size()>=262144) throw std::invalid_argument("JSON Schema: schema expansion exceeds its resource budget");
@@ -108,15 +106,28 @@ class SchemaArena {
     return protect(p,[&](auto &a){ *out=a.store(gufo::sampling::JsonSchemaLexeme::IntersectMultipleOf(schema_value(l),schema_value(r))); });
   }
 public:
-  SchemaValue conjoin(const SchemaValue &root,const SchemaValue &l,const SchemaValue &r,unsigned depth) {
+  template<class F> lie_schema_status invoke(F &&f) noexcept {
+    try { f(*this); return LIE_SCHEMA_OK; }
+    catch (const gufo::sampling::JsonSchemaEmpty &) { failure_=std::current_exception(); return LIE_SCHEMA_EMPTY; }
+    catch (...) { failure_=std::current_exception(); return LIE_SCHEMA_CALLBACK; }
+  }
+  lie_schema_transform_description description() {
     auto d=schema_reader(); d.access.context=this;
     d.access.clone=clone; d.access.create=create; d.access.put=put; d.access.append=append;
-    d.access.format=format; d.access.multiple=multiple;
-    lie_schema_node out=nullptr; lie_schema_error e{};
-    const auto rc=lie_schema_conjoin(&d,&root,&l,&r,depth,&out,&e);
+    d.access.format=format; d.access.multiple=multiple; return d;
+  }
+  void check(lie_schema_status rc,const lie_schema_error &e) {
     if (failure_ && (rc==LIE_SCHEMA_CALLBACK || (rc==LIE_SCHEMA_EMPTY && !e.message))) std::rethrow_exception(failure_);
     schema_check(rc,e);
-    return std::move(*const_cast<SchemaValue *>(static_cast<const SchemaValue *>(out)));
+  }
+  SchemaValue take(lie_schema_node n) {
+    return std::move(*const_cast<SchemaValue *>(static_cast<const SchemaValue *>(n)));
+  }
+  SchemaValue conjoin(const SchemaValue &root,const SchemaValue &l,const SchemaValue &r,unsigned depth) {
+    const auto d=description();
+    lie_schema_node out=nullptr; lie_schema_error e{};
+    const auto rc=lie_schema_conjoin(&d,&root,&l,&r,depth,&out,&e);
+    check(rc,e); return take(out);
   }
 };
 inline SchemaValue schema_conjoin(const SchemaValue &root,const SchemaValue &l,const SchemaValue &r,unsigned depth) {
