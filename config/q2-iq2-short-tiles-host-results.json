@@ -1,0 +1,24 @@
+{
+  "schema": "synapse-lie.q2-iq2-short-tiles-host.v1",
+  "capsule_sha256": "9d05274eba63b494728d7ef7eca7a42cce4456101b2bab5be32301eb22a79081",
+  "archive_sha256": "fc35ffe39fdb7bc7ad6bfc1225abf20c80e4e000fd2b73e75b9ed05c63890752",
+  "fixture_files_verified": 56,
+  "source_files_verified": 1020,
+  "plan_sha256": "a3c50353be6401ca43d1656e4a4928e93c0dd01ddebb3e8338ae9a8e0a45fe62",
+  "test_counts": {
+    "debug": 27,
+    "asan_ubsan": 27
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts": 7,
+  "model_inference": false,
+  "gpu_run": false,
+  "goal_met": false
+}
