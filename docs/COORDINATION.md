@@ -1,6 +1,29 @@
 # DS4 / synapse-lie coordination
 
 
+## Regex compiler C17 host-only ownership — 2026-10-05
+
+The latest `.161` read-only witness still observes Gemma LoRA training
+PID 29223/start 2470351 and router PID 29377/start 2474081 in actual/kernel
+KFD, with GPU 100%. Original lease dev 66307/inode 105946405 is briefly free
+EX|NB and released; no reservation or GPU admission follows. Boot/filesystem
+and four original model stat identities are unchanged. No root GPU build/run/
+model hash/conversion, service mutation, foreign signal, waiter or standing
+lease occurs on `.161` or `.157`.
+
+Root advances owned C17 expression/derivative/Unicode-partition/BFS algorithms
+with [source-bound host evidence](development/validation/c17-grammar-compiler-host-2026-10-05.json).
+Final 23 Debug, 23 sanitizer and 23 pristine/ON/OFF tests, 40 headers and strict
+symbols pass with GPUs masked. Local CPU maximum is 90.125 C, without tuning.
+The 27-file inventory/compiler recipe requires a new verified provider/application
+build. Worker/events and DS4 framing remain unchanged; all six root tasks are open.
+
+Root freshly confirms no `.157` job/build/eval client/KFD/lease/waiter/reservation/
+restart/cleanup/interleaving after Q2 reported release `1626b7e4` at
+11:03:17.478662 UTC. Q2 separately reports live-compose admission at
+11:21:43.529360 UTC from `526a8db`, receipt `48f7cf91b2b0f8dcdb7204ac0a602b3523a385196a0ca396ad5962171bf5977d`.
+This is separately assigned ownership, not root qualification or a root task.
+
 ## Vocabulary C17 host-only ownership — 2026-10-05
 
 Fresh readonly `.161` witness at 10:32:59.150260 UTC still observes foreign

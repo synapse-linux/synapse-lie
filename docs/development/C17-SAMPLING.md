@@ -40,7 +40,8 @@ invalid draws leave RNG unchanged. The caller owns workspace cleanup.
 `adapters/gufo_sampling.hpp` translates the provider's controls and containers.
 `adapters/gufo_history.hpp` and `adapters/gufo_distribution.hpp` supply storage
 and exception glue for the owned C17 components. Gufo still supplies vector
-deep copies, deferred draws, entropy acquisition, schema/regex compilation, provider snapshot marshalling, model/session and
+deep copies, deferred draws, entropy acquisition, JSON Schema compilation,
+regex syntax/property parsing, provider snapshot marshalling, model/session and
 speculative-controller state, and selected GPU numerical
 kernels. Reporting logits still use the provider transform before the existing
 C probability normalizer. The sampler as a whole is not yet autonomous C.
@@ -73,7 +74,8 @@ acceptance and free-distribution history through C; its glue only grows live
 vector entries, shrinks unpublished scratch and translates errors. Grammar is
 staged before acceptance and published after C success. Free distributions do
 not acquire entropy merely to construct penalty counts. Numerical forward,
-schema/regex compilation, provider snapshot marshalling and speculative model/controller
+schema compilation, regex syntax/property parsing, provider snapshot marshalling
+and speculative model/controller
 state remain transitional.
 
 Host qualification passes 14,400 independent FIFO/count transitions, refusal,
@@ -160,8 +162,9 @@ completion, canonicalization and logit masking to C; OFF retains Gufo's runtime.
 Storage/error/predicate translation stays in `gufo_grammar.hpp`.
 
 This is a byte-runtime extraction, not a complete C grammar compiler. JSON
-Schema/regex compilation and the
-vocabulary trie, transition interning and shared mask cache remain delegated.
+Schema compilation, regex syntax/property parsing and assertion expansion remain
+delegated. Vocabulary/transition/cache and expression/DFA compiler ownership are
+described in their sections below.
 The provider still marshals snapshots between vector storage and C state. Those
 algorithms/storage and their cost remain explicit work in the same grammar task.
 The direct Gufo reference now selects legacy byte-grammar methods as well as
@@ -201,8 +204,9 @@ Resource/work refusal preserves output ownership and matches. The header declare
 explicit decimal/exponent/digit/work limits; bounded workspace cost remains a GPU
 acceptance gate. No HTTP/model/device operation, RNG or inference thread belongs
 to this component. JSON library numeric conversion/representability and exception
-translation remain in `gufo_grammar_number.hpp`. Schema/regex compilation, vocabulary trie/transition/cache algorithms and provider
-snapshot marshalling still need extraction within the same identified task.
+translation remain in `gufo_grammar_number.hpp`. Schema compilation, regex syntax/
+property parsing, assertion expansion and provider snapshot marshalling still
+need extraction within the same identified task.
 
 The four exact `grammar-number-edits.json` edits select C17 by the existing
 `LIE_C17_SAMPLING=ON` default and retain the legacy numeric implementation with
@@ -224,7 +228,8 @@ classes, raw DFA tables and accepting flags. C17 builds sorted unique successor
 and predecessor graphs, computes shortest accepting distances, prunes unreachable
 edges and derives maximum suffix. Runtime range lookup, exact length reachability
 and Brent cycle skipping are C17. This is a real DFA runtime extraction; the
-regex parser/derivative compiler and Unicode class partitioning remain C++/ICU.
+regex syntax parser and Unicode property sets remain C++/ICU. Expression
+derivatives and class partitioning now use the C17 compiler described below.
 Default budgets retain 4096 states and 262144 transitions/ranges; 256 million
 counted work units explicitly bound construction and queries. Constructor scratch
 is retired; queries allocate at most 12 bytes per state, only when their minimum
@@ -254,8 +259,8 @@ source-bound provider build; frozen GPU receipts do not qualify this increment.
 compares every encoded state and canonical key across pristine/ON/OFF, alongside
 independent finite-language and Unicode spelling oracles, allocator/budget faults,
 malformed states and existing complete numerical/grammar witnesses. These checks
-perform no model forward. Schema/regex compiler and vocabulary trie/transition/
-cache extraction, original-weight AR/MTP/tool continuation, allocation-exact
+perform no model forward. Remaining schema/syntax/property compilation and
+snapshot marshalling, original-weight AR/MTP/tool continuation, allocation-exact
 resources and matched cost remain open on `.161`.
 
 ## Vocabulary trie, transition interning and mask cache
@@ -293,16 +298,52 @@ cover independent byte languages, every allocation refusal, direct/cached/full
 interning, 4096-byte paths, cache order/races and retained snapshots. Pristine,
 ON and OFF arms compare every token mask and accepted encoded state, including
 Unicode fragments, numeric and tool/reasoning branches. These are synthetic
-host checks. Schema/regex compilation and provider snapshot marshalling, new
+host checks. Remaining schema/syntax/property compilation and provider snapshot
+marshalling, new
 original-weight AR/MTP continuation, allocation-exact resources and matched GPU
 cost remain open on `.161`.
+
+## Regex expression and DFA compilation
+
+`lie/grammar_regex_compile.h` and `src/grammar_regex_compile.c` own model-neutral
+compiler ABI 1. Callers supply copied scalar classes and expression operations;
+C17 interns immutable expression DAGs, normalizes union/intersection/concatenation
+and repetitions, and precomputes nullable results for eight assertion contexts.
+Memoized derivatives use an explicit heap stack. Unicode membership partitioning
+and BFS state construction retain the pinned provider's insertion/state order.
+Seal copies an immutable runtime program and retires all temporary graph tables.
+Published programs survive compiler release.
+
+Default limits are 32,768 expressions, 1,048,576 derivatives, 4,096 states,
+262,144 transitions/ranges and 256 million counted work units. Refusals preserve
+outputs and previously published programs; successful internal memo entries may
+remain after a refused operation. Paired fresh aligned allocator hooks outlive
+the compiler and published programs. Construction is caller-synchronized and
+creates no inference thread, RNG, device call or HTTP operation.
+
+`gufo_grammar_regex_compile.hpp` retains syntax parsing/assertion expansion and
+ICU property resolution/full-set identity. It translates normalized operations
+into the C contract and preserves insertion-ordered scalar classes. These
+remaining C++ responsibilities and JSON Schema compilation still require
+extraction. The three exact `grammar-compiler-edits.json` edits select the C
+compiler with default ON; OFF keeps the entire original compiler. The 27-file
+private provider inventory and recipe require matching archive/application
+rebuilds. Provider snapshot marshalling remains separate work.
+
+[Source-bound host evidence](validation/c17-grammar-compiler-host-2026-10-05.json)
+records independent finite-language, all-scalar, allocator/refusal, eight-context
+and deep-DAG tests without a model. Source-pinned pristine/ON/OFF
+witnesses compare state IDs, Unicode transitions, acceptance, length queries,
+suffix bounds and refusals. These checks do not establish original-weight
+continuation, GPU memory fit, allocation-exact provider cost or a speedup.
 
 ## Build selection and observability
 
 `LIE_C17_SAMPLING=ON` is the default for the verified state-access provider.
 An explicit OFF build retains legacy provider selection, history bookkeeping
 and compact/speculative probability arithmetic, byte-grammar runtime, numeric/Unicode
-predicates and vocabulary/cache algorithms. Use the same
+predicates, vocabulary/cache algorithms and regex expression/derivative/DFA
+construction. Use the same
 selection in the provider build and the linked application; verification refuses
 an incompatible receipt. Acquire the pin once using the
 [build guide](../guides/BUILD.md#gpu-inference-build), then use unused labels:

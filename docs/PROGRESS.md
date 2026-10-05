@@ -2,6 +2,32 @@
 # Development progress
 
 
+## Regex expression/derivative/DFA compiler C17 host slice — 2026-10-05
+
+From checkpoint `afdeaea`, C17 now owns normalized expression DAGs, minimum
+widths/eight nullable contexts, memoized iterative derivatives, Unicode membership
+partitioning and BFS state construction. Sealing copies an immutable runtime
+program and retires temporary graph storage. Regex syntax/assertion expansion,
+ICU property/full-set identity, JSON Schema compilation and provider snapshot
+marshalling remain transitional; this is not the full autonomous C executor.
+
+The [source-bound host receipt](development/validation/c17-grammar-compiler-host-2026-10-05.json)
+records 23 Debug, 23 ASan/UBSan/LeakSanitizer and 23 pristine/ON/OFF tests,
+40 public headers and strict C17/symbol checks. Independent tests cover 66,540
+finite-language queries, all 1,112,064 scalars, 91 allocation refusal points,
+budgets and a 4,096-edge expression DAG. The new complete comparison covers
+104 compilations, 20 syntax refusals, 242 reachable states, 81,180,672 scalar
+transitions and 4,356 finish queries. All nine earlier witness hashes remain
+unchanged. Local CPU maximum is 90.125 C. No numerical GPU or performance
+qualification is added; no inference worker, reactive event or DS4 format changes.
+
+Three exact edits and the 27-file provider inventory require matching sealed
+provider/application rebuilds. `.161` remains occupied by external Gemma LoRA
+training and llama-router in actual/kernel KFD; the latest read-only observation
+still shows GPU 100%. No root GPU build/run/hash/conversion, service change,
+foreign signal, reservation or standing lease occurs. All six owned queue items
+remain open; further schema/syntax/property extraction can proceed locally.
+
 ## Vocabulary trie/transition/mask-cache C17 host slice — 2026-10-05
 
 From clean checkpoint `c803cd2`, C17 now owns copied vocabulary bytes/trie,

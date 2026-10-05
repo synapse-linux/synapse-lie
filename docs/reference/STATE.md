@@ -52,7 +52,8 @@ Owned C17 byte-grammar snapshots are request-local and independently copied
 while sampling or verifying speculation. Programs/mask-cache predicates are not
 serialized in DS4 RAM/SSD model-prefix payloads. Failed expansion/advance or
 canonicalization does not change the request's live state. The provider still
-supplies schema/regex compilation and vector snapshot marshalling; its new
+supplies schema compilation, regex syntax/property parsing and vector snapshot
+marshalling; its new
 private layout requires a matching source/archive/application rebuild.
 Original-weight grammar/correction/cache continuation remains pending.
 
@@ -78,6 +79,14 @@ opaque retained payloads. Vector/shared_ptr projection remains adapter glue;
 retained snapshots survive cache eviction. Canonical keys never mutate live
 request counters. Hashes are internal accelerators, not DS4 RAM/SSD identities.
 No model state serialization or reactive frontier changes in this slice.
+
+Regex construction now owns C17 expression DAGs, nullable context bits,
+derivative memo tables and temporary Unicode partition/BFS graphs. A sealed
+program deep-copies its data and survives compiler release; refusal preserves
+published output and programs. Internal successful memo entries may remain after
+a refused construction call. No compiler tables enter DS4 RAM/SSD checkpoints
+or change model-prefix scope or the reactive frontier. Syntax/property parsing,
+assertion expansion and JSON Schema compilation remain transitional.
 
 ## MTP development boundary
 

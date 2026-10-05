@@ -101,7 +101,20 @@ C17 owns copied token/trie storage, bounded iterative traversal, exact state
 interning and canonical-state mask-cache lookup/eviction/publication. Snapshot
 clone/comparison/hash are in the attributed src/grammar.c port. Provider piece,
 state, vector/shared_ptr lifetime, mutex and exception translation stay in
-adapters/gufo_grammar_vocabulary.hpp and exact glue edits. Schema/regex compiler,
-Unicode class partitioning and provider snapshot marshalling remain upstream.
+adapters/gufo_grammar_vocabulary.hpp and exact glue edits. Regex syntax/property
+parsing, JSON Schema compilation and provider snapshot marshalling remain upstream.
 No sibling CachyOS artifact or DS4 source is imported; host witnesses are not
 new numerical GPU/performance qualification.
+
+Regex expression/derivative/Unicode-partition/BFS compiler extraction
+---------------------------------------------------------------
+src/grammar_regex_compile.c, include/lie/grammar_regex_compile.h and
+adapters/gufo_grammar_regex_compile.hpp are attributed ports from the same
+independently fetched official Gufo f783fedb MIT pin. Exact integration is in
+adapters/gufo-state/grammar-compiler-edits.json. C17 owns expression interning,
+normalization/minimum widths/nullable contexts, iterative memoized derivatives,
+Unicode membership partitioning and BFS graph construction. The glue retains
+syntax/assertion expansion, ICU property/full-set identity, scalar range copying
+and exception translation; JSON Schema compilation remains upstream. No sibling
+CachyOS or DS4 code/artifact is imported. Host comparisons do not qualify a new
+original-weight GPU/runtime/performance build.

@@ -19,7 +19,7 @@ ownership is not implied by `dense_sampling`.
 
 Numeric grammar extraction adds no metric or worker. Its copied policy and
 per-call arithmetic workspace count as additional bounded allocations. The
-current 24-file provider inventory and numeric edit recipe bind its selection;
+current 27-file provider inventory and numeric edit recipe bind its selection;
 `dense_sampling` does not identify complete grammar/compiler ownership. Actual
 allocation cost and original-weight GPU comparisons remain separate gates.
 
@@ -27,9 +27,10 @@ The Unicode extraction adds no metric/worker. Copied DFA tables, unique graph
 edges and optional reachability scratch are owned C allocations. The provider
 retires transitional construction vectors after sealing; this is not a measured
 GPU memory or speed claim. State canonicalization touches only a copied mask key.
-The 24-file inventory and owned recipes bind the source selection. Vocabulary
-trie/transition/cache policy is now C17; schema/regex compilation and provider
-snapshot marshalling remain delegated.
+The 27-file inventory and owned recipes bind the source selection. Vocabulary
+trie/transition/cache policy and regex expression/derivative/partition/BFS
+algorithms are now C17. Syntax/property parsing, JSON Schema compilation and
+provider snapshot marshalling remain delegated.
 
 Vocabulary queries expose optional local counters for visited nodes, advances,
 interned states (including dead/input slots), direct nodes, transition hits and
@@ -37,6 +38,13 @@ peak depth. These are not new
 HTTP metrics or inference worker counters. Failed queries leave caller counters
 unchanged. Fixture allocator peaks count requested payload only; they do not
 establish whole-process allocations, GPU memory fit or provider latency.
+
+Regex compilation adds no HTTP metric or inference worker. Its counted work
+budget is a construction admission limit, not elapsed time or throughput.
+Expression/derivative hash tables and temporary partition/BFS storage belong to
+the C17 compiler. Fixture allocator peaks exclude helper headers, the provider,
+whole-process and GPU allocations; original-weight resources and cost remain
+separate gates.
 
 This is a C registry and an Actuator v3 JSON shape, not a JVM or a full Spring
 implementation. The official Actuator reference and Micrometer timer source

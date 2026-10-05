@@ -130,8 +130,11 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
    Vocabulary trie construction, token acceptance, iterative traversal, exact
    transition interning and canonical-state mask-cache policy now use C17
    ([host witnesses](development/validation/c17-grammar-vocabulary-host-2026-10-05.json)).
-   Schema/regex compilation, Unicode class partitioning and provider snapshot
-   marshalling still need extraction within the same grammar task;
+   Regex expression simplification, memoized iterative derivatives, Unicode
+   partitioning and BFS DFA construction now also use the C17 core
+   ([host witnesses](development/validation/c17-grammar-compiler-host-2026-10-05.json)). Regex syntax,
+   assertion expansion and Unicode property parsing, JSON Schema compilation and
+   provider snapshot marshalling still need extraction within the same grammar task;
    original-weight continuation, allocation-exact resources and cost remain open.
 
 Current commands, ownership and evidence are maintained in

@@ -176,6 +176,11 @@ stable release is declared. Detailed validation history is in
 
 ### Changed
 
+- Regex expression simplification, iterative derivatives, Unicode partitioning
+  and DFA construction now use the shared C17 core. The default-ON sampler
+  selection retains an OFF reference. Regex syntax/Unicode properties and JSON
+  Schema parsing remain in the provider; GPU correctness and cost remain pending.
+
 - Token vocabulary tries, grammar mask traversal, transition interning and shared
   mask-cache policy now use the model-neutral C17 core. Matching provider and
   application rebuilds are required. Default selection remains ON, with the
