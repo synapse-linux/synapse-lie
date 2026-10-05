@@ -1,6 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
+Compact IQ2 commit window releases at2026-10-05T08:50:49.013536UTC after two
+new components and two original exact2048/tg128 models. All20 runtime commands
+exit0/67 artifacts verify. Each variant has81 exact component pairs,21 exact
+parent model files and nine exact internal replays. PP1493.182914/1500.783083
+regress0.795225%/0.290281%; measured best1505 remains unchanged. All sources
+and negative results are retained. Closure retires802 identities/634 groups,
+KFD empty, four unchanged original leases free and seven unchanged model stat
+tuples. Canonical/main/remote/active/ready mirrors match; core is notified.
+No Q2 job/build/lease/waiter/reservation/restart/interleaving/cleanup remains.
+Core owns next window; future GPU work requires fresh handover/admission from
+[release](../config/q2-iq2-slice-commit-window-release.json), SHA256
+ddac7b0d0a6c210dd2c03ab06ab1337c627bde773583f725764de22a8e121fe4.
+Q4 and the full curve remain deferred; no qualified control/cohort rerun.
+
 Compact IQ2 commit preparation uses two new8/16-value variants from measured
 best1505 and retains the original exact2048/tg128 controls. Fresh root handover
 after release2fa8f9c0 confirms no root .157 job/build/eval/client/KFD/lease/

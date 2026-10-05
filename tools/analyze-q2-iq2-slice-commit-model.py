@@ -62,12 +62,12 @@ def main():
                      datetime.datetime.fromisoformat(c['started_at'])).total_seconds() for c in receipt['commands']],
                  compilation_excluded_from_pp_tg=True, input_sha256=plan['input_sha256'])
     references, replay = {}, {}
-    for key, label, variant in (
+    for key, label, reference_variant in (
         ('fixed_q2', 'q2-counting-regression-mixed-r1', 'curve-iq2-mixed-q2'),
         ('fixed_ud', 'q2-counting-regression-ud-r1', 'qualified'),
         ('best_parent', 'q2-iq2-raw-prefetch-model-r1', 'iq2-raw-prefetch')):
         ref_path = ROOT / 'evidence' / label
-        ref_root, references[key] = prior.shared.arm(ref_path, variant)
+        ref_root, references[key] = prior.shared.arm(ref_path, reference_variant)
         hc.curve.artifacts(ref_path)
         replay[key] = prior.comparison(ref_root, root)
         require(replay[key]['input_exact'], 'Historical comparison input differs')
@@ -76,6 +76,19 @@ def main():
         require(references[key]['measurements'] == fixed['arms'][frozen_key]['measurements'], 'Fixed reference changed')
     parent = read(ROOT / 'config/q2-iq2-raw-prefetch-model-results.json')
     require(references['best_parent']['measurements'] == parent['model']['measurements'], 'Saved best parent changed')
+    load_events = [json.loads(line) for line in (root/'04.log').read_text().splitlines()
+                   if line.startswith('{"event":"loaded"')]
+    parent_log = ROOT/'evidence/q2-iq2-raw-prefetch-model-r1/results/04.log'
+    parent_load = [json.loads(line) for line in parent_log.read_text().splitlines()
+                   if line.startswith('{"event":"loaded"')]
+    require(len(load_events) == len(parent_load) == 1, 'Missing actual load event')
+    require(load_events[0]['resident_bytes'] == parent_load[0]['resident_bytes'] == 43156012544,
+            'Compact model resident memory changed')
+    require(load_events[0]['max_context'] == plan['context_capacity'] and
+            load_events[0]['prefill_chunk'] == plan['chunk'] and not load_events[0]['mtp'],
+            'Actual model capacity/chunk/MTP changed')
+    model['loaded'] = load_events[0]
+
     metrics = ('prefill_tok_s', 'decode_steps_s', 'prefill_s', 'decode_s')
     changes = {key: {metric: 100 * (model['measurements'][metric]['median'] /
                    ref['measurements'][metric]['median'] - 1) for metric in metrics} for key, ref in references.items()}
