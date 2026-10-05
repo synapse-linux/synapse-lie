@@ -25,6 +25,8 @@ and new client applications are not queued here. Their architectural boundaries
 do not constitute implementation tasks. GPU qualification in this queue uses
 `.161` with fresh coordination and admission for every run.
 
+Item 1 records completed qualification. The active queue is items 2–7 below.
+
 1. **Completed: OpenAI GPU controls for the r11 runtime.**
    The corrected `abb69d5` runtime passes the same 34 original-weight checks
    in AR and explicit MTP, including tools and 21 additional controls. The new
@@ -59,7 +61,7 @@ do not constitute implementation tasks. GPU qualification in this queue uses
    work, cache policy, output length, repetitions and server lifecycle. Retain
    PP, TG, TTFT, resources and correctly scaled graphs. Profile the prefill
    decline above 256K and separate batching from reactive responsiveness.
-5. **Implement DS4 directional steering in LIE.** Load its per-layer `.f32`
+5. **Complete DS4 directional steering in LIE.** Load its per-layer `.f32`
    directions, validate geometry against the loaded model, and expose FFN and
    attention scales through model-neutral shared-core contracts used by HTTP
    and bench. The [owned C17 implementation](development/STEERING.md) now covers
@@ -72,15 +74,18 @@ do not constitute implementation tasks. GPU qualification in this queue uses
    adapter syntax pass. Shared-worker admission/resource accounting, scoped
    lookup, live scale transitions and HTTP/bench exposure remain open; this
    source increment has no GPU qualification.
+   Expose DS4's `--dir-steering-file`, `--dir-steering-ffn` and
+   `--dir-steering-attn` through the same core used by server and bench;
+   these CLI controls are not available yet.
    Cover both prompt evaluation and generation, session scale changes,
    cache compatibility and AR/MTP interaction. Require unchanged baseline output
    with steering off, malformed-vector refusal and measured quality/performance
    with steering on. DS4 documents Qwen's 48-by-2560 bank and its HC branches;
    that implementation is Metal-only, so it is not evidence for LIE HIP.
    [Upstream steering contract](https://github.com/antirez/ds4/blob/main/dir-steering/README.md).
-6. **Complete DS4 sampling-temperature coverage.** Temperature already exists
-   in LIE; verify its greedy and positive-temperature behavior against DS4's
-   declared profiles, including temperature 1, top-p 1 and min-p 0.05. The
+6. **Complete DS4 generation-temperature and sampling-profile coverage.**
+   Temperature already exists in LIE. Qualify the greedy temperature-0 baseline
+   and the declared temperature-1 profile with top-p 1, top-k 0 and min-p 0.05. The
    top-k/min-p controls are now exposed in the shared contract, both HTTP APIs
    and native core bench, with CPU contract checks. Retain explicit seeds and
    qualify the new profile on original weights in AR and exact
@@ -95,8 +100,8 @@ do not constitute implementation tasks. GPU qualification in this queue uses
    Move provider-owned grammar/masking, sampler history and compact speculative
    distributions behind LIE contracts, one component at a time. Require bounded
    lifetimes, numerical oracles and GPU comparisons before replacing each
-   component. Preserve the shared reactive core; complete model/provider rewrites
-   remain architectural goals until their implementation slices are defined.
+   component. Preserve the shared reactive core and limit this task to those
+   three identified extractions.
 
 Current commands, ownership and evidence are maintained in
 [progress](PROGRESS.md), [coordination](COORDINATION.md) and the

@@ -1,8 +1,8 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
-The [current roadmap](BACKEND.md#current-roadmap--2026-10-05-utc) is this thread's
-owned queue: completed r11 OpenAI AR/MTP controls, Terminal Bench, full 1M acceptance, requested
+The [current roadmap](BACKEND.md#current-roadmap--2026-10-05-utc) records completed
+r11 OpenAI AR/MTP controls and six open tasks: Terminal Bench, full 1M acceptance, requested
 benchmark methods, DS4 directional steering and sampling temperatures, and the
 identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
