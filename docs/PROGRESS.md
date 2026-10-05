@@ -1,6 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+The owner requests one [original Q4 comparison](Q4-ONESHOT.md) of the cumulative
+applicable Q8/shared-path changes. The frozen plan reuses the actual fixed
+reference and best retained binaries without rebuilding, with the original
+exact2048/tg128 tester. Nineteen new runner guards pass and qualified host
+Debug/ASan25/25 evidence is reused. This is not added to future Q2 checks;
+no engine source or original evidence changes. GPU work awaits a fresh
+checkpoint admission after the explicit core non-use handover.
+
 The [new IQ2 raw/selective-Q2 composition](Q2-IQ2-RAW-SELECTIVE.md)
 completes on .157 at PP1503.961988/TG25.19241290. Its nominal prefill change
 is-0.079080% versus the saved IQ2 raw parent1505.152258, with overlapping

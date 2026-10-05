@@ -1,6 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
+One owner-requested original Q4 comparison is prepared with two immutable
+retained LIE binaries and the unchanged exact2048/tg128 tester, no builds or
+recurring Q4 check. Fresh core handover after release4d34e1e confirms no
+.157 root job/build/eval/client/lease/waiter/reservation/restart/interleaving.
+The new helper anchors that exact release; checkpoint and fresh admission
+remain mandatory. Existing25+25 host evidence is reused;19 new runner guards
+pass with no GPU/model access. No Q2/UD control, component cohort, full curve,
+remote cleanup, dependency installation, tuning or deployment is planned.
+[One-shot plan](../config/q4-oneshot-plan.json).
+
 Latest IQ2 raw/selective-Q2 window releases at2026-10-05T05:39:08.060027+00:00
 after one new original exact2048/tg128 model, with no component or qualified
 control rerun. All10 host/model commands exit zero and all33 artifacts verify.

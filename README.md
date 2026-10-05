@@ -1,6 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Synapse LIE — original Q2 support for official Gufo
 
+An owner-requested [one-shot original Q4 comparison](docs/Q4-ONESHOT.md)
+is prepared using the two retained reference/candidate binaries, unchanged
+exact2048/tg128 timing and no compilation. This is a single separate campaign,
+not a new recurring Q2 check. Engine sources and the Q2/UD target are unchanged.
+
 The [new IQ2 raw/selective-Q2 composition](docs/Q2-IQ2-RAW-SELECTIVE.md)
 completes on .157 at PP1503.961988/TG25.19241290. Its nominal prefill change
 is-0.079080% versus the saved IQ2 raw parent1505.152258, with overlapping

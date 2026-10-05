@@ -1,0 +1,75 @@
+{
+  "schema": "synapse-lie.q4-oneshot-plan.v1",
+  "at": "2026-10-05T06:02:36.462282+00:00",
+  "label": "q4-oneshot-model-r1",
+  "host": "paperboy@192.168.5.157",
+  "remote_root": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "model": {
+    "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q4.gguf",
+    "bytes": 177280286720,
+    "device": 52,
+    "inode": 3116346,
+    "mtime_ns": 1789871998360000000,
+    "ctime_ns": 1790258428459084412
+  },
+  "model_historical_sha256": "680944460a8cbe93ba8b6d7b6107213ffb7e22320bd913000e563ca0a0f25a8a",
+  "full_model_hash": false,
+  "arms": [
+    {
+      "key": "before",
+      "label": "q2-counting-regression-mixed-r1",
+      "receipt_sha256": "5fc8f29875f5fc239b8758887f0bec6dd66391971785151e8864e76e1094e1b6",
+      "binary_sha256": "fb2a243fbe4e7db822ad718ea694a84e2d54a4950a855451c1399ebed7a00326",
+      "original_fixtures": {
+        "experiments/counting-baseline/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+        "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867"
+      }
+    },
+    {
+      "key": "after",
+      "label": "q2-iq2-raw-prefetch-model-r1",
+      "receipt_sha256": "a05fd61ec0b26247f64ea2d5c4227999edb3e4fc1cabb6e66ca855c93b642ab3",
+      "binary_sha256": "5b9db7b26efb02c960729dc29837dbf8d3844fbe2ce20fedce67e40fc84c85bd",
+      "original_fixtures": {
+        "experiments/counting-baseline/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+        "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867"
+      }
+    }
+  ],
+  "fixtures": {
+    "tools/q4-oneshot-runner.py": "b1ba45c178acbae4e8d086fc976a7923ab9a6aaea7b046f7ded79ff15a33a73a",
+    "tools/q2_binary_replay.py": "6fca7f8ff07ea89ededa053e512b45e330f9f0e3fbd98b4280c7514844d37f05",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "config/q4-oneshot-sources.json": "bd75a792f09e6bd1432c5fbf948b530f21b5b30205f25651f2b29dfb365a48b3",
+    "config/q4-oneshot-libraries.json": "00fcd4b449fec25d23d2d8eed358917dd274064ca577740df39d4f3828e1a351"
+  },
+  "protocol": {
+    "context_capacity": 9216,
+    "chunk": 2048,
+    "prompt_tokens": 2048,
+    "output_tokens": 128,
+    "timed_decode_calls": 127,
+    "warmups": 1,
+    "repetitions": 3,
+    "cooldown_seconds": 15,
+    "mtp": false,
+    "concurrency": 1
+  },
+  "input_sha256": "75343e606f5b815fe01f69ddc6ce50a997e2de96d8a20304a82a7f24f1180b35",
+  "automatic_repetition": false,
+  "build_commands": 0,
+  "registry": "/tmp/synapse-lie-ds4-coordination/runs.jsonl",
+  "window_helper": "tools/q4-oneshot-window.py",
+  "window_helper_sha256": "15160d840bad22caa4b1e7c9fc6f5d68a8f60d0d13dc7966d6299fece354cf4c",
+  "previous_release_sha256": "4d34e1e62f487e2069e5503fe343bcab5c80030166a5b50f6fc644275f95fb2a",
+  "host_gate_reused": "config/q2-iq2-raw-selective-host-results.json",
+  "host_gate_sha256": "e8bbdcab89bd43ef3d470a0cc6a2fd8f86436c256acbc06bafc454f0d1eb5132",
+  "engine_source_changed": false,
+  "independent_model_quality": false,
+  "numerical_acceptance": false,
+  "full_curve": false,
+  "goal_met": false,
+  "scope": "One fresh Q4 comparison of cumulative retained changes. IQ2 and Q2-specific routes remain conditional and cannot explain a Q4 gain unless used. No Q4-only engine change; no repetition on subsequent Q2 improvements."
+}
