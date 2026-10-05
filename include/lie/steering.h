@@ -161,9 +161,15 @@ lie_status lie_backend_open_steered(const char *, const lie_model_options *,
   const lie_steering_model_options *, lie_model **, lie_error *);
 lie_status lie_model_steering_info(lie_model *, lie_steering_model_info *, lie_error *);
 /* Initial owner-only configuration, before prefill, restore or sampling.
- * Live scale changes are not supported yet. Prefix restore validates owned
+ * Prefix restore validates owned
  * policy metadata together with complete model state before transfer. */
 lie_status lie_sequence_configure_steering(lie_sequence *,
+  const lie_steering_settings *, lie_error *);
+/* Owner-only idle-boundary change of future activation scales. Past retained
+ * state/logits and an already sampled MTP correction remain valid and intact.
+ * Incompatible captured graphs/controller assumptions are invalidated before
+ * policy commit; a post-mutation failure poisons the model, never retries. */
+lie_status lie_sequence_change_steering(lie_sequence *,
   const lie_steering_settings *, lie_error *);
 lie_status lie_sequence_steering_info(lie_sequence *, lie_steering_policy_info *, lie_error *);
 lie_status lie_sequence_steering_cache_scope(lie_sequence *,

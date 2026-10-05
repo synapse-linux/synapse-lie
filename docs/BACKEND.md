@@ -73,7 +73,10 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
    before transfer. Shared-worker admission/resource projection, scoped text
    lookup and initial server/native core bench controls are wired. Sixteen Debug
    and sixteen sanitizer host checks pass, including synthetic AR/MTP/vision
-   RAM/SSD process restart and both HTTP APIs. Live scale transitions and
+   RAM/SSD process restart and both HTTP APIs. Asynchronous shared-core job
+   changes now preserve past state, update mixed-history scopes and isolate
+   concurrent policies in host tests. The direct provider's graph/controller
+   invalidation passes syntax checks. Dynamic HTTP/bench controls and
    original-weight GPU qualification remain open.
    DS4's `--dir-steering-file`, `--dir-steering-ffn` and
    `--dir-steering-attn` now select fixed initial model-wide scales through the

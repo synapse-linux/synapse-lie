@@ -30,6 +30,12 @@ lie_status lie_model_steering_info(lie_model *m,lie_steering_model_info *out,lie
 lie_status lie_sequence_steering_cache_scope(lie_sequence *s,const unsigned char semantic[32],unsigned char out[32],lie_error *e){
     (void)s;(void)semantic;(void)out;(void)e;return LIE_UNSUPPORTED;
 }
+lie_status lie_sequence_change_steering(lie_sequence *s,const lie_steering_settings *settings,lie_error *e){
+    (void)s;(void)settings;(void)e;return LIE_UNSUPPORTED;
+}
+lie_status lie_sequence_steering_info(lie_sequence *s,lie_steering_policy_info *out,lie_error *e){
+    (void)s;(void)out;(void)e;return LIE_UNSUPPORTED;
+}
 const char *lie_backend_name(void) { return "bench-fixture-NOT-INFERENCE"; }
 const char *lie_backend_ownership(void) { return "synthetic-test-fixture"; }
 const char *lie_backend_dense_sampling(void) { return "synthetic-test-fixture"; }

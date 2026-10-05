@@ -106,6 +106,14 @@ static void run(char *const args[], int expected) {
     dup2(fd, STDERR_FILENO);
     close(fd);
     if(closed_stderr){
+      /* Preserve sanitizer diagnostics when this fault deliberately breaks
+       * stderr. Keep every inherited sanitizer option; change only its sink. */
+      const char *existing=getenv("ASAN_OPTIONS");
+      size_t bytes=(existing?strlen(existing):0)+strlen(root)+64;
+      char *options=malloc(bytes);if(!options)_exit(126);
+      snprintf(options,bytes,"%s%slog_path=%s/asan-child",existing?existing:"",existing&&*existing?":":"",root);
+      if(setenv("ASAN_OPTIONS",options,1))_exit(126);
+      free(options);
       int output_pipe[2];if(pipe(output_pipe))_exit(126);
       close(output_pipe[0]);if(dup2(output_pipe[1],STDERR_FILENO)<0)_exit(126);
       close(output_pipe[1]);

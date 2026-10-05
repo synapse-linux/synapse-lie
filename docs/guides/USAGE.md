@@ -61,7 +61,8 @@ are FFN 1 and attention 0; vector data has a 16 MiB admission budget. Use the sa
 file and initial scales after restart to reuse steered RAM/SSD prefixes. Omit the
 file for ordinary inference. These controls also work in `--suite core` bench;
 direct executor suites do not accept them. Initial controls have host tests;
-live changes and numerical GPU quality/performance qualification remain pending.
+dynamic HTTP/bench controls and numerical GPU quality/performance qualification
+remain pending. The shared core has a separate asynchronous live-job API.
 See [format and implementation](../development/STEERING.md).
 
 ## Chat, streaming and Responses

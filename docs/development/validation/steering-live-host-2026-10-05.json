@@ -1,0 +1,427 @@
+{
+  "schema": "synapse-lie.steering-live-host-qualification.v1",
+  "at_utc": "2026-10-05T04:14:05.019060+00:00",
+  "baseline_checkpoint": "80a29d999c202ab89bc3cf57c1d8baba49546011",
+  "scope": "Executed shared C17 core/cache/control lifetimes with synthetic model frontiers; provider binding syntax only. NOT-INFERENCE, no numerical or GPU performance qualification.",
+  "implementation": [
+    "One copied pending scale request per job, immediate ticket admission, owner-only application and immutable latest-completion snapshots through retirement.",
+    "Past retained tensors/logits/history/image identity preserved; source invalidates private graphs and MTP controller/proposal scratch, preserving an already sampled boundary correction.",
+    "Refresh combined scope after every retained forward/change; no initial-scope reuse of mixed history. Existing request/executor/generation/state/core options/info layouts unchanged.",
+    "No steering numerical queries or live-admission mutex in absent-bank dispatch; no inference thread or Python product/default-test dependency added."
+  ],
+  "coverage": [
+    "AR/MTP, vision and joint paths; real aligned and DS4-KVC RAM/SSD captures and existing process-restart regressions.",
+    "Copied scale inputs mutated after admission; malformed/no-op changes, one pending request saturation, pending cancellation and mutating provider failure.",
+    "Two concurrent synthetic rows selected in one reactive dispatch retain independent scales/history/frontiers.",
+    "16 final Debug and 16 final ASan/UBSan/LeakSanitizer checks; 3 build-off checks; 32 public C++ headers.",
+    "9 complete provider/adapter ON/OFF/unavailable syntax checks derived by the production CMake variant verifier; not object/link/GPU proof."
+  ],
+  "sources": [
+    {
+      "path": "adapters/gufo-state/steering-edits.json",
+      "sha256": "223a28d0891acaa9f814d620255618db53f9a86bfb255f07e51efe2ba0189bf3"
+    },
+    {
+      "path": "adapters/gufo.cpp",
+      "sha256": "f18846eb97b4590cd488053926f483bc4f6b12cfa904706f88043a9ae7f3d441"
+    },
+    {
+      "path": "include/lie/core.h",
+      "sha256": "8c1305f41193c39f3f0bbaa406f2888f84180c25aacd6d147efdd164c18c48c5"
+    },
+    {
+      "path": "include/lie/steering.h",
+      "sha256": "665c3c12bb7c4a64d29fa76b8904afff5aa0ed011dc42399e31b58d6d8d15103"
+    },
+    {
+      "path": "src/executor_unavailable.c",
+      "sha256": "e221aebcc0ac8a38c2747567185e76c687c0be74d856f37f679e31a71ed392b1"
+    },
+    {
+      "path": "src/worker.c",
+      "sha256": "ae32c95d0f99c529f1abe26d0f635a8fef3465b56807fc3a17abbc2bcdbf4eeb"
+    },
+    {
+      "path": "tests/bench_executor.c",
+      "sha256": "b203e00ccaf01a0f9ce2c2b54ac05b70953082c41698ee5c0e1a6b312c815590"
+    },
+    {
+      "path": "tests/fake_executor.c",
+      "sha256": "740f5b1acb594b413936494337f6232606fb86fa6954f2e83344b5ddf0c227e4"
+    },
+    {
+      "path": "tests/fake_executor.h",
+      "sha256": "54a1f229815fb81f0a744d9674ea91d980ac9b6b6cdf4e019671878c4fed5e72"
+    },
+    {
+      "path": "tests/test_native_bench.c",
+      "sha256": "fdcab5334e784bcb64195f66599066ed0c5ab08ab99dcef0e08f9de2249a94ba"
+    },
+    {
+      "path": "tests/test_steering_core.c",
+      "sha256": "e0d092792a0eee8b0b0de097e841c6459758f915a87b5f55335d7e4fda13ed69"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "e5de2fd5c23fb9b7d750f4030511fbab3e3a212e79505319601fc7062349e841"
+    },
+    {
+      "path": "cmake/provider/Source.cmake",
+      "sha256": "98bfa0b772e94007e4551e4d8867050ff4971354f937f56c135fd140777f34c2"
+    },
+    {
+      "path": "third_party/gufo-source.json",
+      "sha256": "8891dc1d32fdebbeba4a0fe13e3a13c5a9d7cdb95483c6b0edec7897a074db51"
+    }
+  ],
+  "checks": [
+    {
+      "directory": "evidence/steering-live-debug-build-r9",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 69.75,
+      "result_sha256": "bc71be9192265e5bc2337cdcd2270965b7f7660f61c9790470058e2d72912494",
+      "log_sha256": "523544848dcbcd1ee088477c27c01c23d9f13a4a7eee632ed269256a7d701e67",
+      "temperature_log_sha256": "385bdf15486d487cf6cfe09fb889d2a9b5a8dfa0086d27e726236af192e64957"
+    },
+    {
+      "directory": "evidence/steering-live-asan-build-r5",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 69.75,
+      "result_sha256": "0b9e3ca64cd2640e3aca7f7c3d2d7974a7cc56b47ca2678114ae3a580d18ab9f",
+      "log_sha256": "5d9a31748352cfa56111e4d626ba71e42893921fec7d129abc4d058e3b8d37b5",
+      "temperature_log_sha256": "859b33ab90b0e6afda525107f14a1bda3aad71444dcc309accd23fe117cdbb7b"
+    },
+    {
+      "directory": "evidence/steering-live-debug-test-r4",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-.*|core-prefix-cache|core-ssd-reactive|core-kvc-ssd-reactive|vision-semantic-cache.*|mtp-ssd-prefix-reactive|context-million-admission-lifecycle|native-benchmark-contract)$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 59.0,
+      "result_sha256": "8a86c23fd06483c8f6bc1efc1207cba7eb8721e01107d711fcf29c209faf4acc",
+      "log_sha256": "40d93db8aeab5575b43b22c21c034c97389755e3d0ca87afb47b1a11d6215616",
+      "temperature_log_sha256": "fbfed9dba5a51bfba1785b34c516b65af2235fcee69a65e774105e2a0c98337e"
+    },
+    {
+      "directory": "evidence/steering-live-asan-test-r4",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-.*|core-prefix-cache|core-ssd-reactive|core-kvc-ssd-reactive|vision-semantic-cache.*|mtp-ssd-prefix-reactive|context-million-admission-lifecycle|native-benchmark-contract)$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 58.375,
+      "result_sha256": "d9a7bb0d1a71333d34da824581e79763a0d362b1fce26a2797d980d0f5a99350",
+      "log_sha256": "2bd32a1913ecbc3ae188be875abe4eb12b77f6cb550b34ef62c8ab051bb52e79",
+      "temperature_log_sha256": "a9522d1e7bca48069cebfc1c16ff477684fb217657086339e9ff9a30290b4c40"
+    },
+    {
+      "directory": "evidence/steering-live-off-build-r3",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/steering-core-off",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 66.125,
+      "result_sha256": "014c1f18d87d6a97a6596d053d87507d6b37de4d3a6cedaf805e27a8d384c90f",
+      "log_sha256": "f49835e6da087d9b12b5fce42a37045147cea51c93cdc93582a298d79bc77b6b",
+      "temperature_log_sha256": "620552d4364ac549691f60d61908a92764648ae512b6c91d1fba8e8c79c7b1c0"
+    },
+    {
+      "directory": "evidence/steering-live-off-test-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/steering-core-off",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-core-.*|context-million-admission-lifecycle)$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 53.5,
+      "result_sha256": "a5ce4105be055422b659e4e1438ee32fd4f2049d9118fe72550e4b6d9c8b6085",
+      "log_sha256": "759a9f6d8ec7a638a5c52be8c88c64425a618a7d0103c53122354e401bf38962",
+      "temperature_log_sha256": "1d050e04ef246273ff167d8fde33c94be8f1536f4f33b03448bdaca962cb0ab6"
+    },
+    {
+      "directory": "evidence/steering-live-public-headers-r2",
+      "argv": [
+        "c++",
+        "-std=c++20",
+        "-fsyntax-only",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-Iinclude",
+        "evidence/steering-binding-public-headers-r1.cpp"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 60.125,
+      "result_sha256": "b83b2a8c98c5d75610d6e872054ae4257aea48068ac75da793d41444bed1f78d",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "9fea2f9fe61adfaa39f18a7e8d7a47e61947be8a3894c6b6cb14fc0a19306c5c"
+    },
+    {
+      "directory": "evidence/steering-live-source-materialize-r1",
+      "argv": [
+        "cmake",
+        "-P",
+        "evidence/steering-live-materialize-r1.cmake"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 80.875,
+      "result_sha256": "3f929b89d9a087e59d4d98c29e14a62a5d3508ec39ce0cca205c3d32fbd0ff41",
+      "log_sha256": "eecf232f11e977183cfb0c00e56bb3614c46c84ba25e93c930c0b9c3910d94bd",
+      "temperature_log_sha256": "66356bc4c1705a4b4684ec283f4226f95edb64c2568d750a3d5da64d038c584d"
+    },
+    {
+      "directory": "evidence/steering-live-provider-syntax-r1",
+      "argv": [
+        "python3",
+        "-B",
+        "evidence/steering-live-syntax-r1.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 71.125,
+      "result_sha256": "212fe4fdb897f726ff5be148fbc3b6afd19539584691103f713e6417a8964036",
+      "log_sha256": "b5179fe22249eb80c66dac48304cf7fcdc26f8d7175e2a99e26d7a4a5b135446",
+      "temperature_log_sha256": "37442a9f259c8f87602507880326afb7528192f125c41a80093466aa82692f7e"
+    },
+    {
+      "directory": "evidence/steering-live-progress-stress-r1",
+      "argv": [
+        "python3",
+        "-B",
+        "evidence/steering-live-progress-stress-r1.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 54.125,
+      "result_sha256": "93ec9379e74d7abe91c0d500760f017c6ad95eb18a444c2b0f7b3d578beb6134",
+      "log_sha256": "27bf91e3120162e2f08fc08385419d6a325f524c805f5a93da04ae0abec77a1c",
+      "temperature_log_sha256": "fe713010ca9d3c3401c7c70be210b32e661eeac7ecaf498badf676a62f9c65ce"
+    }
+  ],
+  "provider_syntax": {
+    "path": "evidence/steering-live-syntax-files-r1/result.json",
+    "sha256": "40fa0f54c40f0bfc31faa5ba4d999abc182536963d0ad72417fc5b6a9c0dbdca",
+    "commands": 9
+  },
+  "source_variant": {
+    "path": ".deps/steering-live-source-check-r1",
+    "files_manifest": "evidence/steering-live-source-files-r1.json",
+    "files_manifest_sha256": "4964e1d39ec3431a30e6614c34efbd1c6fa55bec1af102c1ad6570b609cc1f5e",
+    "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "steering_edits": 29
+  },
+  "retained_failed_checks": [
+    {
+      "directory": "evidence/steering-live-debug-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j2"
+      ],
+      "child_exit_code": 2,
+      "exit_code": 2,
+      "cpu_max_c": 58.125,
+      "result_sha256": "6dc78243e869f305355d96869fbece406d3edb80150efabdd3f1e3a95c8129f8",
+      "log_sha256": "b90ebfd59d959ac5f2d3129ad5ee7e0942b3b46bf417ddbc89348b785620377b",
+      "temperature_log_sha256": "59d33d2f5b36c2e5a61375f0fa457405ed1f56e4df03bd85431e08dd7e3a97cb",
+      "reason": "New core helper misleading indentation; compiler refuses, corrected source."
+    },
+    {
+      "directory": "evidence/steering-live-debug-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j2"
+      ],
+      "child_exit_code": 2,
+      "exit_code": 2,
+      "cpu_max_c": 69.875,
+      "result_sha256": "6e937acf8be28ffe24b83b446474f13365de3624977aaa6b35369038a5f07f27",
+      "log_sha256": "5bf30d299df65ec24e90e7e783d8582a42659708c6b66853cbc0c32375a03b1a",
+      "temperature_log_sha256": "af231db4c41a4754026d3ec2c4f5bfc5980d093df3f567b5c44e8a5197b62d39",
+      "reason": "New fixture used a nonexistent input enum; corrected to the existing messages enum."
+    },
+    {
+      "directory": "evidence/steering-live-debug-core-test-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^steering-core-.*"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "cpu_max_c": 55.0,
+      "result_sha256": "78f0982d796041ee6cf0f5ccb9f78ea017f9e06666ced66c0d97bd53cdf24a15",
+      "log_sha256": "f09c270f924630673625a21993effae9307725ae2c9f50baf60763b652f6dee0",
+      "temperature_log_sha256": "a8c0cee34ad5238c024384b69c00e842471449a7d101f36742c4a165b35a8fec",
+      "reason": "Image fixture retained incompatible raw-text fields; corrected fixture admission."
+    },
+    {
+      "directory": "evidence/steering-live-asan-test-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-.*|core-prefix-cache|core-ssd-reactive|core-kvc-ssd-reactive|vision-semantic-cache.*|mtp-ssd-prefix-reactive|context-million-admission-lifecycle|native-benchmark-contract)$"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "cpu_max_c": 58.75,
+      "result_sha256": "42221c89a36461566e04ed68c164ee7b7b245cba267f892c8791efef72949646",
+      "log_sha256": "fc3684fdf460f6017e128fd092053602e9a22c9f0f665c7846ef55bfcb1c794c",
+      "temperature_log_sha256": "26d8caaeed63ef8185af42401ba74795f7df4eb8fb9903cd0f417f4919db6535",
+      "reason": "One native benchmark closed-stderr child aborted with signal6 after writing the expected failed progress record. No sanitizer diagnostic survived the broken stderr; root cause remains unresolved. Diagnostic native rerun, 32 isolated fault repetitions and final suites pass, without disabling checks."
+    },
+    {
+      "directory": "evidence/steering-live-debug-build-r7",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j2"
+      ],
+      "child_exit_code": 2,
+      "exit_code": 2,
+      "cpu_max_c": 54.5,
+      "result_sha256": "0f066e377be21854ed0679a6c369a91caedd10debc4af3e83067da7aad47b6ee",
+      "log_sha256": "4a5aeb20217361498a1a60f5de706a07aedf29c39568c508a75f038e1eb23c5f",
+      "temperature_log_sha256": "9f2ec39aecd05565c6a548b2b8adbbb73a725c1033c6927245d39f00ae887f32",
+      "reason": "Diagnostic test helper misleading indentation; compiler refuses, corrected fixture."
+    },
+    {
+      "directory": "evidence/steering-live-asan-build-r3",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "-j2"
+      ],
+      "child_exit_code": 2,
+      "exit_code": 2,
+      "cpu_max_c": 56.25,
+      "result_sha256": "a8f6a6ba87e9412ba6378cddaa9ed5813f8a46457d9f928c6e50b5659e2b15e5",
+      "log_sha256": "7f961f5872d4a89fe9d6cfe353762c05e46377360f45362970391b9a66450741",
+      "temperature_log_sha256": "07b370f22dd260f26118e182c222dfaf304d688d6c1da0b9b408a534261369d5",
+      "reason": "Same diagnostic fixture misleading indentation; compiler refuses, corrected fixture."
+    }
+  ],
+  "stderr_diagnosis": {
+    "path": "evidence/steering-live-progress-stress-files-r1/result.json",
+    "sha256": "f5f9c792dc4e7dea248cf6f6e7e09a2789ce336a9cc37bc2d3f1f32dc1ae944d",
+    "cases": 32,
+    "expected_child_exit": 1,
+    "root_cause_of_prior_abort_proven": false,
+    "native_diagnostic_rerun": {
+      "directory": "evidence/steering-live-asan-native-diagnostic-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^native-benchmark-contract$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 56.875,
+      "result_sha256": "be8a76d623535533aa551ddca856a7bc0eba09720a3e8c989c244c3f09a48203",
+      "log_sha256": "2bb11b939c9a27b7e064e0ffb0477e406b203b1a947c397031fdec1216cd0be3",
+      "temperature_log_sha256": "7084c6b79e764ce4098a59726dd9a13a8fe4853d2941c447d976821c8ab7b219"
+    },
+    "fixture_change": "Keep inherited sanitizer options and route diagnostics to an owned file when stderr is deliberately broken; assertions/exit expectations remain unchanged.",
+    "original_failed_fixture_directory": "build/tool-http-asan/native-bench-kAkFP2"
+  },
+  "unqualified_old_binary_check": {
+    "path": "evidence/steering-live-debug-core-test-r1",
+    "reason": "Invoked after failed target compilation: passed stale executables, excluded from new-source qualification."
+  },
+  "local_cpu_max_c": 80.875,
+  "gpu_witness": {
+    "path": "evidence/context-steering-availability-r12.json",
+    "sha256": "b8159779d3d60b6d938b105c76ae0580b1e8e125e11d312172c19c3d34e65316",
+    "at_utc": "2026-10-05T04:06:49.060745+00:00",
+    "kernel_kfd": [
+      29223,
+      29377
+    ],
+    "gpu_admission": false
+  },
+  "limits": [
+    "Dynamic HTTP/bench control plans remain open; existing CLI flags still set initial model-wide scales.",
+    "Actual original-weight live continuation, graphs, deferred-correction oracles, quality/fault/performance gates remain open.",
+    "Retained intermittent closed-stderr abort is not diagnosed by successful reruns; no claim that it was fixed.",
+    "No remote GPU build/run/hash/conversion, service mutation, foreign signal, lease/waiter/reservation, deployment, tuning or publication."
+  ],
+  "retained_other_directories": [
+    "evidence/steering-live-asan-build-r1",
+    "evidence/steering-live-asan-build-r2",
+    "evidence/steering-live-asan-build-r4",
+    "evidence/steering-live-asan-native-diagnostic-r1",
+    "evidence/steering-live-asan-test-r1",
+    "evidence/steering-live-asan-test-r3",
+    "evidence/steering-live-debug-build-r3",
+    "evidence/steering-live-debug-build-r4",
+    "evidence/steering-live-debug-build-r5",
+    "evidence/steering-live-debug-build-r6",
+    "evidence/steering-live-debug-build-r8",
+    "evidence/steering-live-debug-core-test-r1",
+    "evidence/steering-live-debug-test-r1",
+    "evidence/steering-live-debug-test-r2",
+    "evidence/steering-live-debug-test-r3",
+    "evidence/steering-live-off-build-r1",
+    "evidence/steering-live-off-build-r2",
+    "evidence/steering-live-off-test-r1",
+    "evidence/steering-live-progress-stress-files-r1",
+    "evidence/steering-live-public-headers-r1",
+    "evidence/steering-live-syntax-files-r1"
+  ]
+}

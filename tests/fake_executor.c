@@ -39,6 +39,8 @@ static fake_phase held_phase;
 static atomic_uint prefill_calls, decode_calls, text_calls, create_calls, close_calls, batch_calls, capture_calls, restore_calls, state_fault;
 static atomic_uint_fast64_t domain_counter=1;
 static atomic_uint state_padding;
+static atomic_uint steering_fault;
+void fake_steering_fault(unsigned value){atomic_store(&steering_fault,value);}
 static atomic_bool merge_tokenizer;
 void fake_tokenizer_merge(bool enabled){atomic_store(&merge_tokenizer,enabled);}
 void fake_state_padding(unsigned bytes){atomic_store(&state_padding,bytes);}
@@ -65,6 +67,7 @@ void fake_barrier_arm(void) { fake_barrier_arm_phase(FAKE_DECODE); }
 void fake_barrier_wait(void) { pthread_mutex_lock(&gate); while (!entered) pthread_cond_wait(&condition,&gate); pthread_mutex_unlock(&gate); }
 void fake_barrier_release(void) { pthread_mutex_lock(&gate); held=false; pthread_cond_broadcast(&condition); pthread_mutex_unlock(&gate); }
 void fake_calls_reset(void) {
+    atomic_store(&steering_fault,0);
     atomic_store(&capture_calls,0);atomic_store(&restore_calls,0);atomic_store(&state_fault,0);
     atomic_store(&prefill_calls,0); atomic_store(&decode_calls,0); atomic_store(&text_calls,0);
     atomic_store(&batch_calls,0); atomic_store(&create_calls,0); atomic_store(&close_calls,0);
@@ -576,6 +579,15 @@ lie_status lie_sequence_configure_steering(lie_sequence *s,const lie_steering_se
     if(!s->steering_policy)return LIE_UNSUPPORTED;
     lie_steering_update *u=NULL;lie_status rc=lie_steering_policy_prepare_change(s->steering_policy,settings,&u,e);
     if(rc==LIE_OK)rc=lie_steering_update_commit(&u,0,e);
+    lie_steering_update_discard(&u);return rc;
+}
+lie_status lie_sequence_change_steering(lie_sequence *s,const lie_steering_settings *settings,lie_error *e){
+    owner(s->model);if(!s->steering_policy)return LIE_UNSUPPORTED;
+    barrier(FAKE_STEERING_CHANGE);
+    lie_steering_update *u=NULL;lie_status rc=lie_steering_policy_prepare_change(s->steering_policy,settings,&u,e);
+    if(rc==LIE_OK&&atomic_load(&steering_fault)==1)rc=error(e,LIE_INVALID,"synthetic steering pure refusal");
+    if(rc==LIE_OK)rc=lie_steering_update_commit(&u,s->position,e);
+    if(rc==LIE_OK&&atomic_load(&steering_fault)==2){s->model->failed=true;rc=error(e,LIE_BACKEND_FAILED,"synthetic steering mutating failure");}
     lie_steering_update_discard(&u);return rc;
 }
 lie_status lie_sequence_steering_info(lie_sequence *s,lie_steering_policy_info *out,lie_error *e){

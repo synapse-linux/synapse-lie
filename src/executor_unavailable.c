@@ -76,5 +76,6 @@ lie_status lie_backend_open_steered(const char *p UNUSED,const lie_model_options
   lie_model **m UNUSED,lie_error *e){return unavailable(e);}
 lie_status lie_model_steering_info(lie_model *m UNUSED,lie_steering_model_info *s UNUSED,lie_error *e){return unavailable(e);}
 lie_status lie_sequence_configure_steering(lie_sequence *s UNUSED,const lie_steering_settings *o UNUSED,lie_error *e){return unavailable(e);}
+lie_status lie_sequence_change_steering(lie_sequence *s UNUSED,const lie_steering_settings *o UNUSED,lie_error *e){return unavailable(e);}
 lie_status lie_sequence_steering_info(lie_sequence *s UNUSED,lie_steering_policy_info *o UNUSED,lie_error *e){return unavailable(e);}
 lie_status lie_sequence_steering_cache_scope(lie_sequence *s UNUSED,const unsigned char in[32] UNUSED,unsigned char out[32] UNUSED,lie_error *e){return unavailable(e);}

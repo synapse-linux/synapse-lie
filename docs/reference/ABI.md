@@ -41,7 +41,12 @@ path before return, admitting on the existing owner. `lie_core_steering_snapshot
 copies a READY-only admission record under the core gate; failure preserves the
 tagged output. Existing unversioned core options/info layouts remain unchanged.
 Server and native core bench use the same factory, scopes and CLI parser.
-Live changes and GPU qualification remain open.
+Additive job steering ABI 1 admits one copied asynchronous change and exposes
+ticket completion and owner-confirmed policy snapshots. The owner-only direct
+live operation preserves the retained frontier and sampled correction while
+invalidating private graphs/controller state. Existing request/generation/state
+and core option/info layouts remain unchanged. Dynamic client controls and GPU
+qualification remain open.
 See [direct binding](../development/STEERING.md#direct-modelsession-binding).
 
 `lie/steering_activation.h` defines separate C17 activation ABI 1: bounded row
@@ -241,7 +246,7 @@ operations are thread-safe under the documented existing-pin lifetime rule.
 This host primitive does not activate provider steering, change request or
 executor ABIs, or alter state/KVC framing. Model-derived admission and session
 history and typed model-state are now bound in provider and shared-worker source;
-live scale changes and numerical GPU qualification remain required.
+dynamic client controls and numerical GPU qualification remain required.
 [Format, ownership and binding requirements](../development/STEERING.md).
 
 ## Additive generation configuration

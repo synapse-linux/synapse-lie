@@ -137,6 +137,27 @@ lie_core *lie_core_create_steered(const lie_core_options *,
  * Host vector bytes and provider-reported device vector bytes are separate
  * from model weights/KV and do not include allocation overhead/workspaces. */
 lie_status lie_core_steering_snapshot(lie_core *, lie_steering_model_info *, lie_error *);
+#define LIE_JOB_STEERING_ABI 1u
+typedef struct {
+    uint32_t abi_version, struct_bytes;
+    bool policy_ready, pending;
+    uint64_t submitted, completed, applied_position;
+    lie_status status; /* Latest completed change; pending is separate. */
+    lie_steering_settings requested;
+    lie_steering_policy_info policy; /* Last owner-confirmed retained frontier. */
+    unsigned char semantic_scope[32], combined_scope[32];
+    char error[256];
+} lie_job_steering_info;
+/* One pending copied change per job; no provider call, wait or added thread.
+ * Ticket output stays unchanged on refusal. Success means admission only:
+ * observe completed==ticket and status in the snapshot. The existing owner
+ * applies at a scheduling boundary; an already selected call can finish first.
+ * applied_position names the retained boundary, never a promised output index.
+ * Latest completion is retained until the next completion, including retirement.
+ * Caller must hold a live job pin; scales require a model-admitted bank. */
+lie_status lie_job_change_steering(lie_job *, const lie_steering_settings *,
+                                  uint64_t *ticket, lie_error *);
+lie_status lie_job_steering_snapshot(lie_job *, lie_job_steering_info *, lie_error *);
 void lie_core_stop(lie_core *);
 /* STOPPED and all consumer job references released are required. */
 void lie_core_destroy(lie_core *);

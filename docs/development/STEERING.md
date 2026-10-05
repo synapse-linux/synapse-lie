@@ -7,7 +7,8 @@ explicit state metadata. Owned HIP activation operators and target-provider
 hooks are qualified only by host contracts and syntax checks. Direct C model and
 session/model-state binding is present in provider and shared-worker source.
 Server/native core bench share initial model-wide controls and scoped RAM/SSD
-lookup. Live scale changes and GPU qualification remain open.
+lookup. The shared core supports asynchronous live job changes; dynamic client
+controls and GPU qualification remain open.
 Loading a bank or advancing policy metadata is not model inference and does
 not qualify steering quality or performance.
 
@@ -171,14 +172,17 @@ normalization. The binding must refresh that normalization, including quantized
 and half-precision cached views, before the following mixer. An edit on only the
 MoE block output is not the required per-HC-residual FFN edit.
 
-Per-session scale changes must run on the exclusive device owner, preserve past
-KV state, and invalidate incompatible captured graphs and pending speculative
-proposals/correction assumptions. Define and retain the effective scale history
+Per-session scale changes run on the exclusive device owner and preserve past
+KV state and retained boundary logits. The source binding invalidates captured
+graphs and MTP controller/proposal scratch at an idle verification boundary.
+It preserves an already sampled residual correction for those retained logits;
+discarding that committed draw and sampling again can bias the next token.
+No outstanding verification is forcibly discarded. Define and retain the effective scale history
 when capturing RAM/SSD state; a token-only prefix must not reuse state produced
 under different steering. No extra provider/HTTP thread is introduced.
 
-Remaining work in roadmap item 5 is qualification of the HIP binding and live
-scale changes. Initial admission/resource projection, scoped RAM/SSD text lookup
+Remaining work in roadmap item 5 is qualification of the HIP binding and dynamic
+HTTP/bench controls. Initial admission/resource projection, scoped RAM/SSD text lookup
 and server/native core bench controls have host qualification. GPU gates on
 `.161` must prove unchanged output with steering absent/zero, malformed input
 refusal before model mutation, prompt/decode edits, scale transitions, independent
@@ -231,7 +235,7 @@ state binding below uses owned C17 metadata admission instead of those APIs.
 Existing model opens without a bank retain their RAM/SSD path. These private
 provider hooks alone do not qualify HTTP/bench numerical steering on GPU.
 
-`steering-edits.json` records 25 exact replacements against independently fetched
+`steering-edits.json` records 29 exact replacements against independently fetched
 Gufo `f783fedb`; owned kernels retain MIT markers and no DS4 source is imported.
 Every affected source hash, owned primitive file and compile selection is
 required in a new provider receipt. Old libraries cannot be accepted as this
@@ -295,6 +299,36 @@ bytes. Reports validate request/admission agreement and reject matched
 comparisons whose bank identity or scales differ. Historical records without
 either steering object retain their unsteered meaning. These host checks do not
 establish actual output equivalence, neural quality or performance.
+
+## Live job changes in the shared core
+
+`lie_job_change_steering` copies one bounded pending request and returns an
+admission ticket immediately. The client holds a job reference; it never calls
+the provider or waits for GPU completion. The existing owner applies the change
+at a scheduling boundary after any already selected call and applicable cache
+work. `lie_job_steering_snapshot` copies the latest completion, applied retained
+position and last confirmed policy under the metadata gate, including after
+retirement. Admission is separate from successful application; pending capacity,
+invalid input, cancellation and provider failures have explicit outcomes.
+
+The additive direct model operation prepares the C17 policy, validates the
+independently retained frontier, invalidates private captured graphs and MTP
+controller/proposal scratch, then commits at the same position. Past tensors,
+target logits, predictor KV and already sampled residual corrections remain
+unchanged. A scale no-op does not invalidate graphs or reset the controller.
+Pure refusals preserve the job; a failure after provider mutation poisons the
+shared model, without retry. This source binding has syntax checks, not GPU proof.
+
+The core retains the original image scope separately and refreshes combined
+identity after the change and every completed forward. The first forward at a
+different scale adds a history epoch. Mixed history must not reuse a uniform
+token-only prefix or masquerade as its initial scale. The actual host tests cover
+AR/MTP, images, RAM/SSD capture, concurrent isolated policies, cancellation,
+one-slot saturation, copied inputs, no-ops and mutating failure. Fixed CLI flags
+still select initial model-wide scales. Dynamic HTTP/bench controls and actual
+GPU continuation, graph rebuilding, deferred-correction oracles, quality and
+performance remain open.
+[Host qualification](validation/steering-live-host-2026-10-05.json).
 
 ## Model-state cache binding
 

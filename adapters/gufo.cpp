@@ -478,6 +478,35 @@ extern "C" lie_status lie_sequence_configure_steering(lie_sequence *s,const lie_
         return LIE_OK;
     });
 }
+extern "C" lie_status lie_sequence_change_steering(lie_sequence *s,const lie_steering_settings *settings,lie_error *e) {
+    if(!s||!settings)return error(e,LIE_INVALID,"invalid live steering controls");
+    return guarded(s->runtime,e,[&]{
+        if(!s->steering)return error(e,LIE_UNSUPPORTED,"direction bank is not admitted");
+        if(s->stopped||s->cancelled.load())return error(e,LIE_CANCELLED,"sequence steering is stopped");
+        lie_steering_policy_info current{.abi_version=LIE_STEERING_POLICY_ABI,.struct_bytes=sizeof(current)};
+        auto rc=lie_steering_policy_snapshot(s->steering,&current,e);if(rc!=LIE_OK)return rc;
+        if(current.completed_positions!=s->session->Position())
+            return failed(s->runtime,e,"live steering retained frontier divergence");
+        if(current.outstanding_updates)return error(e,LIE_RESOURCE_LIMIT,"live steering requires an idle boundary");
+        SteeringStep plan;rc=lie_steering_policy_prepare_change(s->steering,settings,&plan.update,e);
+        if(rc!=LIE_OK)return rc;
+        const auto *next=lie_steering_update_settings(plan.update);
+        if(next->ffn==current.settings.ffn&&next->attention==current.settings.attention)return LIE_OK;
+#ifdef LIE_GUFO_STATE_ACCESS
+        std::string message;
+        if(!s->session->LieChangeSteering(next->ffn,next->attention,&message))
+            return failed(s->runtime,e,message);
+#else
+        return error(e,LIE_UNSUPPORTED,"live steering requires owned state access");
+#endif
+        /* Do not discard sampler.DeferSample: it is an actual residual draw
+         * for the retained boundary logits, which this operation preserves.
+         * Future verifier/proposal state is rebuilt under the new policy. */
+        rc=lie_steering_update_commit(&plan.update,current.completed_positions,e);
+        if(rc!=LIE_OK)return failed(s->runtime,e,e?e->message:"live steering commit failed");
+        return LIE_OK;
+    });
+}
 extern "C" lie_status lie_sequence_steering_info(lie_sequence *s,lie_steering_policy_info *out,lie_error *e) {
     if(!s||!out)return error(e,LIE_INVALID,"invalid sequence steering info");
     return guarded(s->runtime,e,[&]{

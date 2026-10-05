@@ -127,6 +127,26 @@
       "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
       "old": "                               std::uint32_t next_drafts) const {\n  if (session.owner_ != this) {",
       "new": "                               std::uint32_t next_drafts) const {\n  if (session.LieSteeringActive()) {\n    AssignError(error_msg, \"steered restore requires LIE steering-history state\");\n    return false;\n  }\n  if (session.owner_ != this) {"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.hpp",
+      "old": "  [[nodiscard]] bool LieSteeringActive() const noexcept;\n  void Reset();",
+      "new": "  [[nodiscard]] bool LieSteeringActive() const noexcept;\n  [[nodiscard]] bool LieChangeSteering(float ffn, float attention,\n                                      std::string* error_msg);\n  void Reset();"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.cpp",
+      "old": "bool Session::LieSteeringActive() const noexcept {\n  return session_->LieSteeringActive();\n}",
+      "new": "bool Session::LieSteeringActive() const noexcept {\n  return session_->LieSteeringActive();\n}\nbool Session::LieChangeSteering(float ffn, float attention,\n                                std::string* error_msg) {\n  if (!valid_) {\n    AssignError(error_msg, \"live steering requires an idle valid session\");\n    return false;\n  }\n  if (!model_->executor_->LieChangeSteering(*session_, ffn, attention,\n                                            error_msg)) return false;\n  draft_length_.Reset();\n  draft_token_ = 0;\n  verify_logits_.clear();\n  // Retained target logits/hidden rows and predictor KV are past completed\n  // work. Next catch-up regenerates proposals; an already sampled target\n  // correction lives in LIE's sampler and must not be redrawn.\n  return true;\n}"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
+      "old": "  [[nodiscard]] bool LieConfigureSteering(Session&, float ffn, float attention,\n                                         std::string* error_msg) const;",
+      "new": "  [[nodiscard]] bool LieConfigureSteering(Session&, float ffn, float attention,\n                                         std::string* error_msg) const;\n  [[nodiscard]] bool LieChangeSteering(Session&, float ffn, float attention,\n                                      std::string* error_msg) const;"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "bool Executor::LieSteer(const Session& session, float* values,",
+      "new": "bool Executor::LieChangeSteering(Session& session, float ffn, float attention,\n                                  std::string* error_msg) const {\n  if (session.owner_ != this || session.spec_tokens_ ||\n      !std::isfinite(ffn) || !std::isfinite(attention) ||\n      ffn < -100.0f || ffn > 100.0f || attention < -100.0f || attention > 100.0f ||\n      ((ffn != 0.0f || attention != 0.0f) && !lie_directions_)) {\n    AssignError(error_msg, \"invalid live steering scales or outstanding verification\");\n    return false;\n  }\n  if (session.lie_ffn_scale_ == ffn && session.lie_attention_scale_ == attention)\n    return true;\n  if (!Check(hipStreamSynchronize(stream_), \"live steering drain\", error_msg))\n    return false;\n  while (!session.graphs_.empty()) {\n    const auto it = session.graphs_.begin();\n    if (!Check(hipGraphExecDestroy(it->second), \"live steering graph\", error_msg))\n      return false;\n    session.graphs_.erase(it);\n  }\n  session.warmed_.clear();\n  session.lie_ffn_scale_ = ffn == 0.0f ? 0.0f : ffn;\n  session.lie_attention_scale_ = attention == 0.0f ? 0.0f : attention;\n  return true;\n}\nbool Executor::LieSteer(const Session& session, float* values,"
     }
   ]
 }

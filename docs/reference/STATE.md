@@ -81,8 +81,11 @@ positions in provider capture/restore source. The underlying model codec validat
 the unchanged model prefix, while policy/scales/combined scope are admitted
 before transfer. Matching initial prefix histories are required; mixed or switched-off
 histories cannot be reused as initially unsteered state. Inactive unused directions
-preserve legacy framing. Shared-worker scoped lookup and actual GPU continuation
-remain pending. Existing opens without a bank retain their RAM/SSD path.
+preserve legacy framing. Shared-worker scoped lookup and live-job capture have
+host qualification. The core refreshes scope after every completed changed-policy
+forward, preserving the separate image identity and refusing uniform-history
+reuse of mixed state. Actual GPU continuation remains pending. Existing opens
+without a bank retain their RAM/SSD path.
 See the [format and restore contract](../development/STEERING.md#state-metadata-and-staged-restore).
 
 Lookup, deduplication, supersession and protected prefixes all compare scope.

@@ -8,6 +8,39 @@ identified C17 sampling extractions. Assigned platform/weight-format work and
 undefined future features are excluded. Earlier platform and long-context
 matrices remain explicitly historical; raw receipts and failures are unchanged.
 
+## Live steering on the existing inference owner — 2026-10-05 UTC
+
+The shared C17 core now admits one copied scale change per job and returns an
+asynchronous ticket. The owner applies it at a scheduling boundary, preserving
+past retained tensors/logits, history and separate image identity. Snapshots
+retain completion through retirement. Scope refresh after each completed forward
+prevents mixed steering history from reusing a uniform prefix. Mutating failure
+poisons the shared model; pure refusal preserves the job. No inference thread or
+Python product/default-test dependency is added, and absent-bank dispatch keeps
+its ordinary path.
+
+The provider source invalidates private graphs and MTP controller/proposal
+scratch while preserving an already sampled residual correction for unchanged
+boundary logits. Nine ON/OFF/unavailable provider syntax checks pass; this is not
+GPU proof. Final host checks pass: 16 Debug, 16 ASan/UBSan/LeakSanitizer, three
+build-off and 32 public headers. They include concurrent isolated policies,
+AR/MTP/vision RAM/SSD capture, copied inputs, saturation, cancellation and failure.
+Local CPU peak is 80.875 C.
+
+One sanitizer native-bench run aborted in its deliberate broken-stderr case.
+The original failure remains; its cause is unresolved. The fixture now retains
+sanitizer diagnostics on file without disabling checks. A diagnostic native rerun,
+32 isolated fault repetitions and the final suites pass; these do not prove the
+previous abort fixed. Compiler/fixture failures and a stale-binary check excluded
+from qualification are retained in the [host receipt](development/validation/steering-live-host-2026-10-05.json).
+
+Dynamic HTTP/bench controls and original-weight live continuation, graph,
+deferred-correction, quality and cost gates remain open. The `.161` read-only
+witness at 04:06:49.060745 UTC still observes external PID29223/start2470351 and
+router PID29377/start2474081 in actual/kernel KFD inventories. No GPU admission,
+remote build/run/hash, service mutation, waiter or reservation starts. All six
+open roadmap tasks and the frozen GPU/task-evaluation limits remain unchanged.
+
 ## Shared core steering and initial server/bench controls — 2026-10-05 UTC
 
 The additive core constructor copies bank options/path before return and admits

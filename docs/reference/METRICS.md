@@ -166,8 +166,11 @@ Independent steering-policy snapshots report completed retained target positions
 revision, effective history epochs, at most two outstanding plans, policy bytes
 and staged bytes. The shared bank's vector bytes are separate. These are host
 policy/resource metadata, not executed-token counters, GPU timing or evidence
-that a numerical steering edit occurred. Per-job live-policy projection remains
-open; [initial core/provider/cache binding is present](../development/STEERING.md).
+that a numerical steering edit occurred. `lie_job_steering_snapshot` projects the
+latest owner-confirmed policy, submitted/completed tickets, pending status,
+application status and retained application position. The semantic image scope
+is separate from the combined scope. HTTP/bench live-policy projection remains
+open; [core/provider/cache binding is present](../development/STEERING.md).
 The direct C model query reports immutable bank geometry/host vector bytes and
 the private provider's owned device vector allocation separately from model
 weights; allocator overhead and workspace are not included. The sequence query
@@ -184,7 +187,7 @@ it does not restore source revision, capacity, allocation or executed-token
 counters. A restore uses the destination's capacity and advances its own local
 revision once. Typed policy/scope tails use ordinary retained RAM/SSD accounting;
 the source binding adds no tensor scratch copy or runtime thread. Shared-worker
-live-policy projection and GPU continuation remain pending. Host state
+HTTP/bench live-policy projection and GPU continuation remain pending. Host state
 roundtrips and checksum validation are not numerical or performance samples.
 
 The native core report requires positive prefill time and call count when new

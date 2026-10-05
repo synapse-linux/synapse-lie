@@ -44,6 +44,8 @@ struct lie_job {
   lie_job_info info;
   lie_sequence *sequence; /* worker only */
   unsigned char cache_scope[32];
+  unsigned char semantic_scope[32]; /* Image identity before steering composition. */
+  lie_job_steering_info steering; /* Copied requests/snapshots under job gate. */
   int32_t *prompt;
   size_t tokens, fed;
   size_t checkpoint, next_continued, last_capture;
@@ -157,6 +159,55 @@ static void job_drop(lie_job *j) {
 }
 void lie_job_snapshot(lie_job *j, lie_job_info *out) {
     pthread_mutex_lock(&j->gate); *out=j->info; pthread_mutex_unlock(&j->gate);
+}
+lie_status lie_job_steering_snapshot(lie_job *j,lie_job_steering_info *out,lie_error *e){
+    if(!j||!out||out->abi_version!=LIE_JOB_STEERING_ABI||out->struct_bytes!=sizeof(*out)){
+        if(e)snprintf(e->message,sizeof(e->message),"invalid job steering snapshot");
+        return LIE_INVALID;
+    }
+    pthread_mutex_lock(&j->gate);*out=j->steering;pthread_mutex_unlock(&j->gate);return LIE_OK;
+}
+lie_status lie_job_change_steering(lie_job *j,const lie_steering_settings *settings,uint64_t *ticket,lie_error *e){
+    if(!j||!ticket||!settings||settings->abi_version!=LIE_STEERING_POLICY_ABI||
+       settings->struct_bytes!=sizeof(*settings)||!isfinite(settings->ffn)||fabsf(settings->ffn)>100||
+       !isfinite(settings->attention)||fabsf(settings->attention)>100){
+        if(e)snprintf(e->message,sizeof(e->message),"invalid job steering scales");
+        return LIE_INVALID;
+    }
+    lie_core *w=j->owner;lie_status rc=LIE_OK;
+    pthread_mutex_lock(&j->gate);
+    if(!w->steering_path)rc=LIE_UNSUPPORTED;
+    else if(j->info.retired||j->info.finish!=LIE_FINISH_NONE||atomic_load(&j->cancel)||atomic_load(&w->stop))rc=LIE_CANCELLED;
+    else if(j->steering.pending||j->steering.submitted==UINT64_MAX)rc=LIE_RESOURCE_LIMIT;
+    if(rc==LIE_OK){
+        j->steering.requested=*settings;
+        if(j->steering.requested.ffn==0)j->steering.requested.ffn=0;
+        if(j->steering.requested.attention==0)j->steering.requested.attention=0;
+        j->steering.pending=true;*ticket=++j->steering.submitted;
+    }
+    pthread_mutex_unlock(&j->gate);
+    if(rc==LIE_OK)signal_fd(w->wake);
+    else if(e)snprintf(e->message,sizeof(e->message),"job steering change refused (%d)",rc);
+    return rc;
+}
+/* Existing inference owner only. Never compose a new policy with an already
+ * composed scope. Refresh after every retained call, even when the boundary
+ * settings repeat: the first call under a changed scale adds a history epoch. */
+static lie_status steering_refresh(lie_job *j,lie_error *e){
+    if(!j->owner->steering_path)return LIE_OK;
+    lie_steering_policy_info policy={.abi_version=LIE_STEERING_POLICY_ABI,.struct_bytes=sizeof(policy)};
+    unsigned char combined[32];lie_status rc=lie_sequence_steering_info(j->sequence,&policy,e);
+    if(rc==LIE_OK&&policy.completed_positions!=j->position){
+        rc=LIE_BACKEND_FAILED;if(e)snprintf(e->message,sizeof(e->message),"job and steering retained frontiers diverged");
+    }
+    if(rc==LIE_OK)rc=lie_sequence_steering_cache_scope(j->sequence,j->semantic_scope,combined,e);
+    if(rc==LIE_OK){
+        memcpy(j->cache_scope,combined,32);
+        pthread_mutex_lock(&j->gate);j->steering.policy_ready=true;j->steering.policy=policy;
+        memcpy(j->steering.semantic_scope,j->semantic_scope,32);memcpy(j->steering.combined_scope,combined,32);
+        pthread_mutex_unlock(&j->gate);
+    }
+    return rc;
 }
 void lie_job_retain(lie_job *j) {
   if (j)
@@ -318,6 +369,12 @@ static void finish_job(lie_core *w, size_t index, lie_job_finish finish,
   /* Detach under the cancellation gate. An external latch call cannot race
    * sequence destruction; no backend work runs while holding this gate. */
   pthread_mutex_lock(&j->gate);
+  if(w->steering_path)j->info.finish=finish; /* Refuse controls once retirement begins. */
+  if(j->steering.pending){
+    j->steering.pending=false;j->steering.completed=j->steering.submitted;
+    j->steering.status=finish==LIE_FINISH_BACKEND?LIE_BACKEND_FAILED:LIE_CANCELLED;
+    snprintf(j->steering.error,sizeof(j->steering.error),"job retired before steering change applied");
+  }
   lie_sequence *sequence = j->sequence;
   j->sequence = NULL;
   pthread_mutex_unlock(&j->gate);
@@ -377,7 +434,25 @@ static void poison(lie_core *w, const lie_error *error) {
     snprintf(w->info.error,sizeof(w->info.error),"%s",error->message);
     pthread_mutex_unlock(&w->gate); signal_fd(w->notice);
 }
+static lie_status steering_apply(lie_job *j,lie_error *e){
+    if(!j->owner->steering_path)return LIE_OK;
+    pthread_mutex_lock(&j->gate);bool pending=j->steering.pending;
+    lie_steering_settings settings=j->steering.requested;uint64_t ticket=j->steering.submitted;
+    pthread_mutex_unlock(&j->gate);if(!pending)return LIE_OK;
+    lie_status rc=lie_sequence_change_steering(j->sequence,&settings,e);
+    if(rc==LIE_OK&&steering_refresh(j,e)!=LIE_OK)rc=LIE_BACKEND_FAILED;
+    pthread_mutex_lock(&j->gate);
+    j->steering.pending=false;j->steering.completed=ticket;j->steering.status=rc;
+    if(rc==LIE_OK)j->steering.applied_position=j->position;
+    snprintf(j->steering.error,sizeof(j->steering.error),"%s",rc!=LIE_OK&&e?e->message:"");
+    pthread_mutex_unlock(&j->gate);
+    signal_fd(j->owner->notice);signal_fd(lie_flow_fd(j->flow,LIE_FLOW_OUTPUT_READY));
+    /* Pure refusal leaves this job usable. A mutating provider failure is
+     * fatal to the shared model and is propagated to the owner below. */
+    return rc==LIE_BACKEND_FAILED?rc:LIE_OK;
+}
 static lie_status cache_step(lie_core *w,lie_job *j,bool restore,lie_cache_reason reason,lie_error *error) {
+    if(!restore){lie_status checked=steering_refresh(j,error);if(checked!=LIE_OK)return checked;}
     size_t frontier=restore?j->tokens:j->position;
     int32_t *owned=NULL;const int32_t *tokens=j->prompt;
     if(!restore&&frontier>j->tokens){
@@ -433,6 +508,7 @@ static lie_status cache_step(lie_core *w,lie_job *j,bool restore,lie_cache_reaso
         if(m){lie_cache_metadata_clear(&j->restored_metadata);(void)lie_cache_metadata_copy(&j->restored_metadata,m);}
     }
     pthread_mutex_unlock(&j->gate);
+    if(restore&&rc==LIE_OK)rc=steering_refresh(j,error);
     pthread_mutex_lock(&w->gate);
     w->info.cache=w->cache.info;w->info.executor_phase=LIE_EXECUTOR_IDLE;
     j->executing=false;w->dispatch=NULL;
@@ -470,6 +546,7 @@ static bool ssd_collect(lie_core *w){
                 lie_cache_metadata_clear(&j->restored_metadata);(void)lie_cache_metadata_copy(&j->restored_metadata,&result.metadata);
                 if(j->fed>=j->checkpoint)j->capture_checked=true;}
             pthread_mutex_unlock(&j->gate);
+            if(rc==LIE_OK)rc=steering_refresh(j,&error);
             pthread_mutex_lock(&w->gate);w->dispatch=NULL;j->executing=false;w->info.executor_phase=LIE_EXECUTOR_IDLE;pthread_mutex_unlock(&w->gate);
             if(rc==LIE_OK){lie_prefix_cache_insert(&w->cache,result.state);
                 (void)lie_prefix_cache_metadata(&w->cache,result.state,&result.metadata);}
@@ -682,15 +759,16 @@ static bool step(lie_core *w, size_t index) {
       finish_job(w, index, LIE_FINISH_BACKEND, error.message);
       return true;
     }
-    rc = vision ? lie_vision_prompt_cache_scope(vision, j->cache_scope, &error)
+    rc = vision ? lie_vision_prompt_cache_scope(vision, j->semantic_scope, &error)
                 : LIE_OK;
+    memcpy(j->cache_scope,j->semantic_scope,32);
     if (rc == LIE_OK && vision)
       rc = lie_sequence_attach_vision(sequence, vision, &error);
     if (vision)
       (void)lie_vision_prompt_close(&vision, NULL);
     if (rc == LIE_OK && w->steering_path) {
       unsigned char combined[32];
-      rc = lie_sequence_steering_cache_scope(sequence, j->cache_scope, combined, &error);
+      rc = lie_sequence_steering_cache_scope(sequence, j->semantic_scope, combined, &error);
       if (rc == LIE_OK) memcpy(j->cache_scope, combined, sizeof(combined));
     }
     if (rc == LIE_OK)
@@ -754,6 +832,8 @@ static bool step(lie_core *w, size_t index) {
     j->info.prepared = true;
     checkpoint_targets(w, j);
     pthread_mutex_unlock(&j->gate);
+    rc=steering_refresh(j,&error);
+    if(rc!=LIE_OK){poison(w,&error);finish_job(w,index,LIE_FINISH_BACKEND,error.message);return true;}
     if (w->store || ((w->options.prefix_cache_bytes || w->store) &&
                      w->options.cache_policy.enabled &&
                      w->options.cache_policy.text_prefix &&
@@ -809,6 +889,9 @@ static bool step(lie_core *w, size_t index) {
       return false;        /* Other rows may still prefill/decode. */
     j->ssd_checked = true; /* Allocation/budget refusal before any mutation. */
   }
+  if(steering_apply(j,&error)!=LIE_OK){
+    poison(w,&error);finish_job(w,index,LIE_FINISH_BACKEND,error.message);return true;
+  }
   if (j->fed < j->tokens) {
     size_t add = j->tokens - j->fed;
     if (add > w->options.chunk)
@@ -838,6 +921,8 @@ static bool step(lie_core *w, size_t index) {
     } else {
       j->fed += add;
       j->position = (uint32_t)j->fed;
+      rc=steering_refresh(j,&error);
+      if(rc!=LIE_OK){poison(w,&error);finish_job(w,index,LIE_FINISH_BACKEND,error.message);return true;}
       bool cold =
           !j->capture_checked && j->checkpoint && j->fed == j->checkpoint;
       bool continued = j->next_continued && j->fed == j->next_continued;
@@ -976,6 +1061,10 @@ static bool decode_ready(lie_core *w) {
   }
   size_t bytes[LIE_CORE_JOBS] = {0}, original_bytes[LIE_CORE_JOBS] = {0};
   char original[LIE_CORE_JOBS][LIE_CORE_TOKEN_BYTES];
+  for(size_t i=0;w->steering_path&&i<n&&rc==LIE_OK;++i)if(rows[i].selected&&rows[i].outcome.status==LIE_OK){
+    lie_job *j=w->jobs[indices[i]];j->position=rows[i].outcome.result.position;
+    rc=steering_refresh(j,&error);
+  }
   /* Validate all rows before exposing any output from a shared call. */
   for (size_t i = 0; i < n && rc == LIE_OK; ++i)
     if (rows[i].selected && rows[i].outcome.status == LIE_OK &&
@@ -1362,6 +1451,8 @@ int lie_core_submit(lie_core *w, const lie_core_request *request,
   atomic_init(&j->semantic_active, false);
   atomic_init(&j->semantic_done, false);
   j->owner = w;
+  j->steering.abi_version=LIE_JOB_STEERING_ABI;
+  j->steering.struct_bytes=sizeof(j->steering);
   static atomic_uint_fast64_t output_serial = 1;
   snprintf(j->output_identity, sizeof(j->output_identity), "lie-%s-%llu",
            w->output_namespace,

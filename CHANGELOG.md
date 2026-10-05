@@ -59,8 +59,12 @@ stable release is declared. Detailed validation history is in
 - Experimental initial directional-steering controls shared by server and native
   core bench: `--dir-steering-file`, `--dir-steering-ffn`, `--dir-steering-attn`.
   Admission and bank resources stay in the C17 core; reports refuse matched
-  comparisons with different banks/scales. Host tests pass; live scale changes
-  and numerical GPU quality/performance qualification remain pending.
+  comparisons with different banks/scales. Host tests pass; dynamic client
+  controls and numerical GPU quality/performance qualification remain pending.
+- Asynchronous per-job steering changes in the shared C17 core, with bounded
+  admission, completion tickets and mixed-history RAM/SSD scopes. The provider
+  source invalidates graphs and MTP controller/proposal scratch while preserving
+  retained state and sampled corrections. Host tests pass; GPU gates remain open.
 - C17 history-aware steering prefix-state binding for RAM/SSD, including scoped
   text lookup and predictor/vision composition. Direction history is validated
   before model transfer; inactive unused directions keep legacy DS4 framing.

@@ -122,6 +122,87 @@ static void scoped_ram(const char *a,const char *b){
   assert(!lie_prefix_cache_match_text(&cache,"same suffix",11,2,&meta)&&!meta);
   lie_prefix_cache_clear(&cache);for(unsigned k=0;k<2;++k)lie_state_destroy(&states[k]);
 }
+static lie_job_steering_info job_policy(lie_job *j){
+  lie_job_steering_info s={.abi_version=LIE_JOB_STEERING_ABI,.struct_bytes=sizeof(s)};
+  assert(lie_job_steering_snapshot(j,&s,NULL)==LIE_OK);return s;
+}
+static lie_job_info drain_job(lie_job *j,bool success){
+  bool done=false;lie_job_info info={0};
+  for(unsigned k=0;k<5000&&!done;++k){
+    lie_flow_event e;lie_flow_status rc=lie_flow_next(lie_job_flow(j),&e);
+    if(rc==LIE_FLOW_WOULD_BLOCK){pause_short();continue;}assert(rc==LIE_FLOW_OK);
+    if(e.end!=LIE_FLOW_ACTIVE){assert((e.end==LIE_FLOW_COMPLETE)==success);done=true;}
+    else {assert(lie_flow_release(lie_job_flow(j),e.ticket)==LIE_FLOW_OK);lie_flow_request(lie_job_flow(j),e.tokens);}
+  }
+  assert(done);
+  for(unsigned k=0;k<5000;++k){lie_job_snapshot(j,&info);if(info.retired)return info;pause_short();}
+  assert(!"retirement deadline");return info;
+}
+/* Each case applies while the first numerical fixture call is held. The client
+ * never executes the provider; copied one-slot control completes at position4.
+ * Real RAM/SSD codecs must accept the resulting mixed history, not initial scope. */
+static void live_case(const char *bank,const char *store,bool mtp,bool vision,
+                      unsigned fault,bool cancel,bool noop){
+  lie_core_options o=options(store,mtp);o.cache_policy.capture_finish=!fault&&!cancel;
+  if(vision)o.vision_model_path=":vision-a:";
+  lie_steering_model_options so;lie_steering_model_options_init(&so);so.file=bank;
+  lie_core *c=lie_core_create_steered(&o,&so);assert(c);wait_state(c,LIE_READY);
+  lie_core_request r;lie_core_request_init(&r);r.kind=LIE_INPUT_TEXT;r.text="abcdefgh";r.text_bytes=8;r.max_tokens=4;
+  unsigned char *pixels=NULL;size_t bytes=0;lie_image_format format;lie_image_input image={0};
+  lie_chat_message message={LIE_CHAT_USER,"normal",6};
+  if(vision){assert(lie_image_data_url(image_url,strlen(image_url),&pixels,&bytes,&format,NULL)==LIE_OK);
+    image=(lie_image_input){pixels,bytes,format,0,3};r.kind=LIE_INPUT_MESSAGES;r.text=NULL;r.text_bytes=0;
+    r.images=&image;r.image_count=1;r.chat.messages=&message;r.chat.count=1;}
+  fake_barrier_arm_phase(FAKE_PREFILL);lie_job *j=NULL;assert(!lie_core_submit(c,&r,&j));free(pixels);fake_barrier_wait();
+  lie_job_steering_info initial=job_policy(j);assert(initial.policy_ready&&!initial.pending&&!initial.submitted&&initial.policy.completed_positions==0);
+  lie_steering_settings settings;lie_steering_settings_init(&settings,true);settings.ffn=noop?1:2;
+  settings.attention=noop?0:0.25f;uint64_t ticket=999,refused=888;
+  lie_steering_settings invalid=settings;invalid.ffn=NAN;
+  assert(lie_job_change_steering(j,&invalid,&refused,NULL)==LIE_INVALID&&refused==888);
+  assert(lie_job_change_steering(j,&settings,&ticket,NULL)==LIE_OK&&ticket==1);
+  assert(lie_job_change_steering(j,&settings,&refused,NULL)==LIE_RESOURCE_LIMIT&&refused==888);
+  lie_job_steering_info pending=job_policy(j);assert(pending.pending&&pending.submitted==ticket&&!pending.completed);
+  memset(&settings,0,sizeof(settings));fake_steering_fault(fault);
+  if(cancel)lie_job_cancel(j);
+  fake_barrier_release();lie_job_info result=drain_job(j,!cancel&&fault!=2);
+  lie_job_steering_info final=job_policy(j);
+  assert(!final.pending&&final.completed==ticket&&final.submitted==ticket);
+  lie_status expected=cancel?LIE_CANCELLED:fault==1?LIE_INVALID:fault==2?LIE_BACKEND_FAILED:LIE_OK;
+  assert(final.status==expected);
+  if(!cancel&&fault!=2){
+    assert(result.output_tokens==4&&final.policy.completed_positions==result.prompt_tokens+4);
+    assert(final.policy.settings.ffn==(noop||fault==1?1:2));
+    assert(final.policy.settings.attention==(noop||fault==1?0:0.25f));
+    assert(final.policy.history_epochs==(noop||fault==1?1u:2u));
+    assert(!memcmp(initial.semantic_scope,final.semantic_scope,32));
+    assert((memcmp(initial.combined_scope,final.combined_scope,32)==0)==(noop||fault==1));
+    if(!fault)assert(final.applied_position==4);
+    if(vision)assert(memcmp(final.semantic_scope,(unsigned char[32]){0},32));
+  }
+  assert(lie_job_change_steering(j,&so.defaults,&refused,NULL)==LIE_CANCELLED&&refused==888);
+  lie_job_steering_info tagged={0},before=tagged;
+  assert(lie_job_steering_snapshot(j,&tagged,NULL)==LIE_INVALID&&!memcmp(&tagged,&before,sizeof(tagged)));
+  lie_job_release(j);if(fault==2)wait_state(c,LIE_FAILED);stop(c);fake_steering_fault(0);
+  if(store)clean(store);
+}
+static void live_peers(const char *bank){
+  lie_core_options o=options(NULL,LIE_MTP!=0);o.prefix_cache_bytes=0;
+  lie_steering_model_options so;lie_steering_model_options_init(&so);so.file=bank;
+  lie_core *c=lie_core_create_steered(&o,&so);assert(c);wait_state(c,LIE_READY);
+  lie_core_request r;lie_core_request_init(&r);r.kind=LIE_INPUT_TEXT;r.text="abcdefgh";r.text_bytes=8;r.max_tokens=4;
+  lie_job *a=NULL,*b=NULL;fake_barrier_arm_phase(FAKE_PREFILL);
+  assert(!lie_core_submit(c,&r,&a));fake_barrier_wait();assert(!lie_core_submit(c,&r,&b));
+  lie_steering_settings settings;lie_steering_settings_init(&settings,true);settings.ffn=-2;
+  uint64_t ticket=0;assert(lie_job_change_steering(a,&settings,&ticket,NULL)==LIE_OK);
+  fake_barrier_release();assert(drain_job(a,true).output_tokens==4&&drain_job(b,true).output_tokens==4);
+  lie_job_steering_info sa=job_policy(a),sb=job_policy(b);
+  assert(sa.completed==ticket&&sa.status==LIE_OK&&sa.policy.settings.ffn==-2&&sa.policy.history_epochs==2);
+  assert(!sb.submitted&&!sb.pending&&sb.policy.settings.ffn==1&&sb.policy.history_epochs==1);
+  assert(sa.policy.completed_positions==12&&sb.policy.completed_positions==12);
+  assert(memcmp(sa.combined_scope,sb.combined_scope,32));
+  lie_core_info info;lie_core_snapshot(c,&info);assert(info.decode_batches&&info.decode_batch_rows>=2);
+  lie_job_release(a);lie_job_release(b);stop(c);
+}
 int main(int argc,char **argv){
   if(argc==6){
     bool bank=strcmp(argv[1],"none")!=0,mtp=!strcmp(argv[5],"mtp")||!strcmp(argv[5],"mtp-vision"),
@@ -164,6 +245,16 @@ int main(int argc,char **argv){
   assert(lie_core_steering_snapshot(c,&si,NULL)==LIE_OK&&si.admitted&&si.bank.layers==1&&si.bank.width==4&&si.bank.bytes==16);
   assert(si.defaults.ffn==1&&si.defaults.attention==0.25f&&!si.device_vector_bytes);
   assert(!run(c).cached_tokens&&run(c).cached_tokens==8);stop(c);
+  assert(fake_calls_snapshot().create==fake_calls_snapshot().close);
+  for(unsigned k=0;k<4;++k){if((k&1)&&!LIE_MTP)continue;if(k>=2&&!LIE_VISION)continue;
+    snprintf(store,sizeof(store),"%s/live-store-%u",base,k);
+    live_case(a,store,(k&1)!=0,k>=2,0,false,false);
+  }
+  live_case(a,NULL,false,false,0,false,true);
+  live_case(a,NULL,LIE_MTP!=0,false,0,true,false);
+  live_case(a,NULL,false,false,1,false,false);
+  live_case(a,NULL,LIE_MTP!=0,false,2,false,false);
+  live_peers(a);
   assert(fake_calls_snapshot().create==fake_calls_snapshot().close);
   lie_steering_model_options_init(&so);so.file=a;so.vector_budget_bytes=15;
   c=lie_core_create_steered(&o,&so);assert(c);wait_state(c,LIE_FAILED);stop(c);
