@@ -1,6 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 workstream coordination
 
+The new Q2 down output-reuse preparation has fresh explicit root non-use
+handover after release73a6cae4. Root keeps its GPU work on .161; no .157
+job/build/client/KFD/lease/waiter/reservation/restart/cleanup/interleaving is
+claimed. Host27+27 passes without GPU/model access;61 fixtures, four manifests
+and1025 provider files are frozen. Own checkpoint/admission must precede the
+bounded new component and original2048/tg128 model. No reservation is inherited.
+[Plan](../config/q2-down-output-reuse-plan.json),
+[host](../config/q2-down-output-reuse-host-results.json).
+
 Latest IQ2 wide-pair window releases at 2026-10-05T10:41:18.352210 UTC,
 SHA256 `73a6cae420e59868a5ac29cb842cc45316992665d275b301ea1021d78b702e0f`.
 Fresh admission at 10:30:32.925931 UTC followed root non-use handover and

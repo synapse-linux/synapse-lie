@@ -1,6 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+The [scaled Q2 down output-reuse candidate](Q2-DOWN-OUTPUT-REUSE.md) is prepared
+from the measured1509 parent, excluding the negative IQ2 wide-pair change.
+Only the BN48 dispatch selectsBM256; numerical template, token maps, original
+weights and logical640/stored768 arithmetic remain unchanged. Assembly changes
+one specialization and preserves156 bodies; VGPR96→169/LDS18560→30848, with
+zero private bytes. New fixture coverage is135 complete output pairs and42
+timings, followed by the original exact2048/tg128 model even after safe
+numerical/timing rejection. All111 launcher guards and local compilation pass;
+61 frozen fixtures/1025 provider files verify before the SSH boundary.
+No model speedup or GPU qualification is inferred from these checks.
+
 The [IQ2 wide-pair candidate](Q2-IQ2-WIDE-PAIR.md) completes from checkpoint
 41e5a1d. Its PP samples are 1494.649738 / 1494.661516 / 1492.591920;
 median 1494.649738 is 1.006890% below the saved 1509.852296 parent. Decode

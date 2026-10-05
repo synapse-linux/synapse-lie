@@ -1,0 +1,12 @@
+{
+  "schema": "synapse-lie.q2-down-output-reuse-staging.v1",
+  "capsule_sha256": "b1cefecf5afff200cc77163a62ecdad692ae1faef344ad3f50a8e298511261b3",
+  "fixture_files_verified": 61,
+  "provider_files_verified": 1025,
+  "network_boundary_reached": true,
+  "network_calls_executed": 0,
+  "gpu_run": false,
+  "remote_build": false,
+  "model_inference": false,
+  "goal_met": false
+}

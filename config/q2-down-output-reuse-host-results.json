@@ -1,0 +1,24 @@
+{
+  "schema": "synapse-lie.q2-down-output-reuse-host.v1",
+  "capsule_sha256": "ff703780f3ea3e054cfe3ccc620a37eb38bc7b60687adcb0f30e138252e84873",
+  "archive_sha256": "c06bf634278448f398e87652ed7a00c084b52a33528f5b8c88df7affed30cd00",
+  "fixture_files_verified": 61,
+  "source_files_verified": 1020,
+  "plan_sha256": "80edff0eff367d144d881d8b62caa9db61133ed9a2ac549d21c568667d291eae",
+  "test_counts": {
+    "debug": 27,
+    "asan_ubsan": 27
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts": 7,
+  "model_inference": false,
+  "gpu_run": false,
+  "goal_met": false
+}
