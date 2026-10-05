@@ -1,6 +1,33 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Progress — Q2 compatibility workstream
 
+## IQ2 halfstage measured: exact outputs, slower prefill — 2026-10-05 UTC
+
+The new component preserves81 complete outputs across ragged/packed widths
+and rotated large cases. All42 timings remain: median time regresses13.796%,
+13.640% and16.820% for64/128/512 active experts. The original fixed model is
+still tested, with three measured PP values1468.116021/1465.267121/1463.943842,
+median1465.267121. This is2.108708% below saved MoE parent1496.830907. All21
+parent replay files and nine within-arm replays are exact; the128 tokens match
+Q2/UD. Numerical rejection does not prevent either performance test.
+
+The candidate halves static packed add/FMA and permutation counts but doubles
+weight LDS width and increases registers. BN128 remains32768 LDS bytes and
+has no private scratch. More LDS traffic/lifetime cost is a plausible cause,
+not isolated by a new counter/trace measurement. The candidate and initial
+variant are retained without promotion. Compact staging is the next direction.
+The earlier retained composition and marginal selective tile result remain;
+fixed UD1685.777092 and whole-curve/independent quality gates remain open.
+
+All37 new host/component/model artifacts, all frozen fixtures and source
+inventories verify; six/three/four command exits are0. CPU/GPU maxima including
+the model build are82.25/74 C. Release at01:11:17.660053UTC verifies612 retired
+identities/480 groups, empty KFD, four original leases free and six model stat
+tuples unchanged. Canonical release SHAeb0d6785... and main/remote mirrors
+agree. No Q2 GPU job, reservation, waiter, restart or cleanup remains.
+[Complete samples, tradeoffs and graph](Q2-IQ2-HALFSTAGE.md),
+[release](../config/q2-iq2-halfstage-window-release.json).
+
 ## New IQ2 producer-half staging prepared — 2026-10-05 UTC
 
 One numerical provider file changes from the retained MoE-deferred composition;

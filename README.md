@@ -651,5 +651,8 @@ XOR activation layout keeps the expanded BN128 stage at32768 bytes. Local
 compilation preserves149 other kernel bodies and has zero private scratch;
 larger LDS/register requirements remain a runtime risk. The new fixture has
 a literal saved control, ragged/packed output coverage and rotating weights.
-GPU performance and original-model replay remain pending fresh admission;
-resource counts do not establish speedup. The fixed Q2/UD comparison remains.
+The new component preserves81 complete outputs but slows13.640–16.820%.
+Its new original exact2048/tg128 model also runs:1465.267121 PP /25.19208710 TG,
+-2.109% PP versus parent, with all21 parent replay files exact. No default
+promotion follows; source, all samples and graph are retained. The `.157`
+window is released. The fixed Q2/UD comparison and full-curve target remain.
