@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [IQ2 four-wave candidate](Q2-IQ2-FOUR-WAVE.md) now has a source/assembly
+audit,96-pair guarded fixture and matched component/counting launcher modes.
+Only nonpacked BN64 changes;161 other bodies/resources remain exact.
+Ownership matches across63 ragged shapes. VGPR104→193,LDS17536 unchanged,
+private scratch0; compiled resources are no runtime performance result.
+Six local preparation commands pass, including146 launcher guards. Fresh
+.157 host31+31 passes01:55:56UTC; six exits0/seven artifacts verify. The plan
+binds107 fixtures,nine manifests/1027 provider files; both staging capsules
+verify. GPU admission remains pending. The previous goal turn produced no
+SSM model gain; this turn prioritizes the401ms expert family against the
+roughly77ms remaining gap. Saved Q2/UD controls, Q4 and full curve are not rerun.
+
 The [SSM channel-predicate experiment](Q2-SSM-CHANNEL-BOUNDS.md) completes at
 01:36:01UTC:1584.785508 PP /25.15417889 TG versus retained1585.308983 /25.16079073,
 nominal-0.033020%/-0.026278% with overlapping ranges. No incremental model gain

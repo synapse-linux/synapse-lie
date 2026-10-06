@@ -1,0 +1,22 @@
+{
+  "schema": "synapse-lie.q2-iq2-four-wave-staging.v1",
+  "arms": [
+    {
+      "mode": "iq2-four-wave-check",
+      "capsule_sha256": "909c615e398a86574a4f6bcecb1a5213b9825b3b6e3e831a2897c1bcc3294461",
+      "provider_files": 1027,
+      "fixture_files": 107,
+      "capsule_path": "evidence/q2-iq2-four-wave-stage-component/source.tar.gz",
+      "ssh_executed": false
+    },
+    {
+      "mode": "q2-counting-iq2-four-wave",
+      "capsule_sha256": "58fbdc21366c10cc295e82b475746286a4631fab44dcf67d3e4097e8fc146bc9",
+      "provider_files": 1027,
+      "fixture_files": 107,
+      "capsule_path": "evidence/q2-iq2-four-wave-stage-model/source.tar.gz",
+      "ssh_executed": false
+    }
+  ],
+  "gpu_run": false
+}
