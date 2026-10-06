@@ -472,7 +472,7 @@ class Campaign:
                   '--home', str(home), '--volume', str(bundle)+':/bundle:ro',
                   '--volume', str(model)+':/model:ro', '--volume', root+':/work:rw',
                   '--additional-flags', flags, '--no-entry']
-        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-ssd-restart', 'modern-core-ssd-text-restart', 'modern-core-steering-restart', 'modern-core-reactive-probe', 'modern-core-vision', 'modern-http', 'modern-http-multi', 'modern-http-depth') and self.m.get('decode_mode') == 'mtp':
+        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-ssd-restart', 'modern-core-ssd-text-restart', 'modern-core-steering-restart', 'modern-core-steering-admission', 'modern-core-reactive-probe', 'modern-core-vision', 'modern-http', 'modern-http-multi', 'modern-http-depth') and self.m.get('decode_mode') == 'mtp':
             predictor = checked_path(self.m['predictor_plan']['destination'])
             create[create.index('--additional-flags'):create.index('--additional-flags')] = [
                 '--volume', str(predictor)+':/mtp:ro']
@@ -938,6 +938,8 @@ class Campaign:
             return self.modern_ssd_text_restart_gate()
         if profile == 'modern-core-steering-restart':
             return self.modern_steering_restart_gate()
+        if profile == 'modern-core-steering-admission':
+            return self.modern_steering_admission_gate()
         if profile == 'modern-core-vision':
             return self.modern_vision_bench()
         if profile in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-reactive-probe'):
@@ -1627,6 +1629,56 @@ class Campaign:
         finally:
             if (self.root/'steering-restart-result.json').exists():
                 self.r['steering_restart_partial'] = {'result_sha256': sha(self.root/'steering-restart-result.json')}
+            self.check_model_after(rows)
+    def modern_steering_admission_gate(self):
+        if self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox':
+            raise ValueError('Modern steering admission requires ROCm 10 Distrobox')
+        mode = self.m.get('decode_mode')
+        if mode not in ('ar', 'mtp'):
+            raise ValueError('Modern steering admission mode must be ar or mtp')
+        for name, key in (('steering-admission-gate.py', 'steering_admission_gate_sha256'),
+                          ('steering-restart-gate.py', 'steering_restart_gate_sha256')):
+            if sha(checked_path(self.root/name)) != self.m.get(key):
+                raise ValueError('Modern steering admission helper drift')
+        model, rows = self.verified_model()
+        predictor = None
+        if mode == 'mtp':
+            predictor, witness = self.verified_predictor()
+            rows.append(witness)
+        elif 'predictor_plan' in self.m:
+            raise ValueError('AR steering admission must not admit a predictor')
+        command = ['/usr/bin/python3', '-B', '/work/steering-admission-gate.py',
+                   '/bundle/runtime/bin/synapse-lie-bench',
+                   '/model/'+self.m['model_plan']['files'][0]['name'], mode]
+        if predictor:
+            command.append('/mtp/'+predictor.name)
+        self.r['bench_command'] = command
+        self.record()
+        cases = ['empty', 'truncated', 'oversized', 'nan-first', 'nan-last', 'snan-middle',
+                 'positive-infinity', 'negative-infinity', 'directory', 'symlink', 'fifo', 'missing']
+        try:
+            self.run_container(command, self.m['bundle'], 4200, model)
+            result = json.loads((self.root/'steering-admission-result.json').read_text())
+            processes = result.get('processes', [])
+            if (result.get('schema') != 'synapse-lie.point-steering-admission.v1' or
+                    result.get('state') != 'PASSED' or result.get('mode') != mode or
+                    [item.get('phase') for item in processes] != ['absent', 'zero', *cases, 'recovery'] or
+                    any(item.get('exit_code') != (1 if item.get('phase') in cases else 0)
+                        for item in processes) or
+                    [item.get('case') for item in result.get('refusals', [])] != cases or
+                    any(item.get('actual_native_exit_code') != 1 or item.get('core_ready') is not False or
+                        item.get('numerical_job') is not False for item in result.get('refusals', [])) or
+                    result.get('expected_refusals') != len(cases) or
+                    result.get('physical_input_ids_equal') is not True or
+                    result.get('output_ids_equal') is not True or
+                    result.get('fresh_core_after_refusals') is not True or result.get('output_tokens') != 32):
+                raise RuntimeError('Incomplete original-weight steering admission gate')
+            self.r['steering_admission_result'] = {'mode': mode,
+                'result_sha256': sha(self.root/'steering-admission-result.json'),
+                'successful_processes': 3, 'expected_refusals': len(cases)}
+        finally:
+            if (self.root/'steering-admission-result.json').exists():
+                self.r['steering_admission_partial'] = {'result_sha256': sha(self.root/'steering-admission-result.json')}
             self.check_model_after(rows)
     def finish(self):
         failures = []

@@ -194,6 +194,8 @@ class Tests(unittest.TestCase):
         self.assert_restart_mounts('modern-core-ssd-text-restart', 'ssd-text')
     def test_steering_restart_mounts_predictor_read_only_only_for_mtp(self):
         self.assert_restart_mounts('modern-core-steering-restart', 'steering')
+    def test_steering_admission_mounts_predictor_read_only_only_for_mtp(self):
+        self.assert_restart_mounts('modern-core-steering-admission', 'steering-admission')
     def assert_restart_mounts(self, profile, label):
         predictor = self.base/'predictor'; predictor.mkdir()
         model = self.base/'target'; model.mkdir()

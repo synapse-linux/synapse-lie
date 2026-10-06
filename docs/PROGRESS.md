@@ -1,6 +1,23 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Steering bank admission gate prepared — 2026-10-06 UTC
+
+Fifteen host refusal/equivalence checks and 61 campaign checks pass
+([receipt](development/validation/steering-admission-host-2026-10-06.json)).
+The optional `modern-core-steering-admission` profile requires three original-weight
+successes per mode: absent bank, admitted nonzero bank at zero scales, and a fresh
+core after twelve exact loader refusals. Successful physical inputs and all 32
+confirmed output IDs must match. Truncation, oversized/empty files, NaN/infinities,
+directory, symlink, FIFO and missing file must each retain native exit 1 before
+readiness or a numerical job. Host fixtures are not GPU qualification.
+
+The `20777005` runtime's 83 provider bindings remain unchanged. No product/default
+CTest Python dependency, ABI, cache format or inference thread is added. CPU peak
+is 46 C. Original-weight execution requires fresh `.161` admission; no standing
+lease or remote job is created. All six tasks remain open and Terminal Bench
+stays stopped/deferred until modifications and matching qualification finish.
+
 ## Scheduled steering/cache passes selected GPU cases — 2026-10-06 UTC
 
 The unchanged qualified `20777005` runtime passes separate original-weight AR/MTP

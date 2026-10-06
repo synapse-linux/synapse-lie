@@ -14,6 +14,8 @@ SSH = ['ssh', '-F', '/dev/null', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=8'
        'pop@192.168.5.161']
 SCP = ['scp', '-F', '/dev/null', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=8']
 FILES = {
+    'steering-admission': ('manifest.json', 'runner.py', 'steering-admission-gate.py',
+                           'steering-restart-gate.py', 'result.json', 'telemetry.jsonl'),
     'steering-restart': ('manifest.json', 'runner.py', 'steering-restart-gate.py',
                          'result.json', 'telemetry.jsonl'),
     'ssd-text-restart': ('manifest.json', 'runner.py', 'ssd-text-restart-gate.py',
@@ -38,6 +40,15 @@ FILES = {
     'preflight': ('manifest.json', 'runner.py', 'result.json', 'telemetry.jsonl'),
 }
 OPTIONAL = {
+    'steering-admission': ('steering-admission-result.json', 'admission-progress.json',
+                           'restart-started.marker', 'valid.f32', 'prompt.txt',
+                           'stdout.log', 'stderr.log', 'distrobox-create.log',
+                           'distrobox.stdout.log', 'distrobox.stderr.log') + tuple(
+        prefix + phase + suffix
+        for phase in ('absent', 'zero', 'empty', 'truncated', 'oversized', 'nan-first', 'nan-last',
+                      'snan-middle', 'positive-infinity', 'negative-infinity', 'directory',
+                      'symlink', 'fifo', 'missing', 'recovery')
+        for prefix, suffix in (('measurements-', '.jsonl'), ('bench-', '.log'))),
     'steering-restart': ('steering-restart-result.json', 'steering-progress.json', 'restart-started.marker',
                          'steering.f32', 'steering-plan.json', 'calibration.txt', 'prompt.txt', 'tokens.json',
                          'measurements-calibration.jsonl', 'measurements-fresh.jsonl', 'measurements-saved.jsonl',

@@ -74,11 +74,16 @@ def main():
         if hashlib.sha256(helper).hexdigest() != manifest.get('ssd_text_restart_gate_sha256'):
             parser.error('SSD text restart helper SHA-256 differs from manifest')
         files['ssd-text-restart-gate.py'] = helper
-    if manifest.get('bench_profile') == 'modern-core-steering-restart':
+    if manifest.get('bench_profile') in ('modern-core-steering-restart', 'modern-core-steering-admission'):
         helper = (ROOT/'tools/strix-point-steering-restart-gate.py').read_bytes()
         if hashlib.sha256(helper).hexdigest() != manifest.get('steering_restart_gate_sha256'):
             parser.error('Steering restart helper SHA-256 differs from manifest')
         files['steering-restart-gate.py'] = helper
+    if manifest.get('bench_profile') == 'modern-core-steering-admission':
+        helper = (ROOT/'tools/strix-point-steering-admission-gate.py').read_bytes()
+        if hashlib.sha256(helper).hexdigest() != manifest.get('steering_admission_gate_sha256'):
+            parser.error('Steering admission helper SHA-256 differs from manifest')
+        files['steering-admission-gate.py'] = helper
     for name, data in files.items(): (out/name).write_bytes(data)
     encoded = {name: base64.b64encode(data).decode() for name, data in files.items()}
     program = '''import base64,os,pathlib,sys

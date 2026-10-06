@@ -113,6 +113,11 @@ client/server restart or machine reservation is queued in the meantime.
    Eighteen host gate and 60 campaign checks pass. The sparse nonzero fixture
    qualifies this regression; learned-direction quality, independent graph/
    correction/fault, vision and matched cost remain open.
+   The separate `modern-core-steering-admission` profile is host-prepared
+   ([receipt](development/validation/steering-admission-host-2026-10-06.json)):
+   fifteen refusal/equivalence checks and 61 campaign checks pass. Real-model
+   absent/zero/fresh-core recovery equality and twelve expected loader refusals
+   still require fresh GPU qualification; host JSON/byte fixtures are not inference.
    DS4's `--dir-steering-file`, `--dir-steering-ffn` and
    `--dir-steering-attn` now select fixed initial model-wide scales through the
    same core used by server and bench.
