@@ -35,7 +35,9 @@
     ],
     "GDN_GPU_admission": false,
     "model_speedup_claim": false,
-    "old_component_rerun": false
+    "old_component_rerun": false,
+    "parallel_curve_plan": "config/q2-curve256-v3-plan.json",
+    "partial_chunk_coverage": "Two exact2048 dispatch guards remain; canonical continuation counts must not be changed to make them active"
   },
   "deprioritized": [
     "Compact AoS IQ2 table-LDS placement regresses12\u201320% operator time and1.627%model PP",
@@ -48,5 +50,7 @@
   "controls_rebuilt_or_rerun": false,
   "Q4_run": false,
   "full_curve_admitted": false,
-  "goal_met": false
+  "goal_met": false,
+  "current_assessment": "docs/Q2-REMAINING-WORK.md",
+  "source_audit": "config/q2-remaining-work-audit.json"
 }

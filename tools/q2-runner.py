@@ -276,7 +276,7 @@ def main():
             old=json.loads(old_receipt.read_text())
             if not old.get('finished_at') or any(c['exit_code'] for c in old['commands']):
                 raise RuntimeError('Matched MMQ source cohort is incomplete')
-            identity=verify_sources(previous/'source', ROOT/'source')
+            identity=verify_sources(previous/'source', ROOT/'source', curve_headroom=True)
             archive=previous/'build/hip/cmake/hip/qwen/libgufo_qwen38_flash_next_mmq.a'
             digest=hashlib.sha256(archive.read_bytes()).hexdigest()
             reuse=ROOT/'reuse';reuse.mkdir()

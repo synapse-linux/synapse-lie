@@ -3,7 +3,7 @@
 set(curve_core "${CMAKE_SOURCE_DIR}/curve-core")
 option(Q2_CURVE_RETAINED256 "Retained Q2/UD numerical providers on the common 256K curve core" OFF)
 if(Q2_CURVE_RETAINED256)
-  file(READ "${CMAKE_SOURCE_DIR}/config/q2-curve256-source.json" curve_manifest)
+  file(READ "${CMAKE_SOURCE_DIR}/config/q2-curve256-headroom-source.json" curve_manifest)
 else()
   file(READ "${CMAKE_SOURCE_DIR}/config/q2-curve-source.json" curve_manifest)
 endif()

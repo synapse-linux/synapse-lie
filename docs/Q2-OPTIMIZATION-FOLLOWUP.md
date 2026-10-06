@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The authoritative current queue and the exact2048 eligibility finding are in
+[Q2-REMAINING-WORK.md](Q2-REMAINING-WORK.md). The entries below retain the
+chronological history, including proposals subsequently tested and superseded.
+
 ## Priority correction after the down null-contract trial
 
 Retain1587.893545 PP versus fixedUD1685.777092: the required reduction is74.889015ms. The new down contract gives0.69–1.98% operator-time reductions but model1586.586480, with overlapping ranges and21 exact files. Preserve it; do not lead the queue with another cold-branch or instruction-count reduction. The user keeps fixed-point parity as the priority and independently requests a curve through256K now.

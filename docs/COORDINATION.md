@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Curve r2 closed; headroom host-qualified — 2026-10-06 UTC
+
+Admission14:06:34/2dad4459 binds1a94baad/d8041c76. Only Q2 initializes and fails the declared context limit; no model request runs, UD is not started. Its exact server PID/start/group is gracefully terminated after backendFAILED; the owning supervisor records the failure. Nine run artifacts collect before14:13:29.498735 UTC/SHA d866e817ee4ede438a13889d6728a47c9ca69a52a16dbe2c614b2da4adfcf2ae. All1550IDs/1242groups retired, KFD empty, original leases free/model stats unchanged; mirrors agree and Core receives closure. Fresh handover14:17:55 and host-r4's44+44/7collected artifacts bind the bounded host-capacity correction. Core confirms own non-use; no Q2 activity .158/.161 or cleanup. New GPU admission is pending.
+
 ## Curve r1 closed and retry host-qualified — 2026-10-06 UTC
 
 Admission13:56:42/01c98d6a binds4f3f7b69 and42039592. Q2 stops at server CLI validation before inference; UD never starts. All7 host+9 run artifacts collect before release13:59:35.614171 UTC/SHA30872b71a8ef89cad6e7f531522af0faf52f677af2a7afbbdf76c8eb0a5fe5ef. All1535IDs/1230groups are retired, KFD empty, original CoreCPU/four GPU leases free and seven model stat tuples unchanged. Mirrors agree; Core receives closure before diagnosis. The closure model_inference field indicates declared arm scope, not actual inference. Fresh handover14:02:56 and host-r3's44+44/7collected artifacts qualify the timeout correction. Retry requires fresh admission; no cleanup or `.158/.161` activity.

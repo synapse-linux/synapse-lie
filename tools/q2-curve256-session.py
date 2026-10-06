@@ -95,6 +95,10 @@ def main():
                     if info.get('ready') is True:
                         receipt['backend_ready'] = info
                         break
+                    if info.get('backend', {}).get('state') == 'FAILED':
+                        receipt['backend_failed'] = info['backend']
+                        save()
+                        raise RuntimeError(info['backend'].get('error', 'Model initialization failed'))
                 except (OSError, urllib.error.URLError):
                     pass
                 time.sleep(.2)

@@ -2,6 +2,26 @@
 
 # Retained Q2 and UD: requested curve through 256K
 
+Revision3 additionally admits the required4096-token headroom in the private
+host engine configuration for both models. Revision2 exposed the GGUF262144
+limit before model upload; no inference client started. Its nine artifacts
+collect before14:13:29 UTC release`d866e817`. Both failed attempts remain.
+
+The new edit permits **only AR requests for266240 with declared262144** and
+updates effective configuration before device upload, keeping indexer masks
+and session capacities consistent. Other contexts/models and MTP/vision retain
+their original guards. Original GGUF files, numerical kernels and RoPE
+parameters remain unchanged. This1.5625% capacity extrapolation is experimental
+and does not establish model quality beyond its declared limit. Core's separate
+YaRN support is not imported or silently enabled here.
+
+Host-r4 passes44 Debug +44 ASan/UBSan tests at14:19:30 UTC, including compiled
+C17/C++ capacity boundary checks, exact engine-only MMQ reuse checks, rejected
+numerical-source changes and actual no-model server startup. Seven artifacts
+collect. The [headroom source](../config/q2-curve256-headroom-source.json) and
+[revision3 plan](../config/q2-curve256-v3-plan.json) bind the retry. Initialization
+failure now aborts immediately with its backend error. GPU admission is pending.
+
 Revision 2 corrects the server request timeout to its accepted 1800000 ms
 maximum. Revision 1 compiled successfully but the server rejected 3600000 ms
 with exit 2 before opening a model; the session/transport returned 1 and no

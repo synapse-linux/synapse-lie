@@ -1,5 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [current optimization assessment](docs/Q2-REMAINING-WORK.md) retains the fixed1587.893545 versus1685.777092 target and identifies two exact2048 dispatch guards that may limit gains on canonical continuation requests. The [256K curve](docs/Q2-CURVE256.md) now has host-qualified timeout and bounded model-capacity headroom corrections; numerical kernels, RoPE and model files remain unchanged. GPU measurements are pending.
+
 The owner-requested [parallel Q2–UD curve through 256K](docs/Q2-CURVE256.md) is host-qualified on `.157` (44 Debug +44 ASan/UBSan checks). It uses the retained numerical provider, the qualified native `synapse-lie-bench`, and a common 266240-token private server capacity. Fixed-point parity remains the priority; GPU admission/results are pending.
 
 The [down null-contract trial](docs/Q2-DOWN-FIXED-CONTRACT.md) completes at 1586.586480 PP / 25.16050717 TG; 132 operator pairs and 21 parent model files are exact. Component time improves 0.69–1.98%, but no whole-model gain is observed. Retain 1587.893545 PP and preserve the marginal candidate. The owner also requests a parallel curve through 256K while fixed-point parity remains the optimization priority.

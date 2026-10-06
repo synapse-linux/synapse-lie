@@ -1521,6 +1521,56 @@ class RemoteGuardTests(unittest.TestCase):
                 log.seek(0)
                 self.assertNotIn(b'ERROR: AddressSanitizer', log.read())
 
+    def test_curve256_capacity_and_mmq_reuse_boundaries(self):
+        from q2_curve_headroom import ENGINE, extend_engine
+        from q2_reuse import verify_sources
+        import subprocess
+        with tempfile.TemporaryDirectory() as directory:
+            base = Path(directory)
+            original, candidate = base / 'old', base / 'new'
+            for root in (original, candidate):
+                (root / ENGINE).parent.mkdir(parents=True)
+                (root / 'mmq.hip').write_text('immutable numerical code')
+            source = ('namespace gufo::models::qwen38_flash_next {\n'
+                      '  const Config& c = m->weights_->config;\n}\n')
+            (original / ENGINE).write_text(source)
+            (candidate / ENGINE).write_text(extend_engine(source))
+            with self.assertRaises(RuntimeError):
+                verify_sources(original, candidate)
+            self.assertEqual(verify_sources(original, candidate, curve_headroom=True)['changed'], [ENGINE])
+            (candidate / ENGINE).write_text(extend_engine(source) + '\n// unadmitted edit\n')
+            with self.assertRaises(RuntimeError):
+                verify_sources(original, candidate, curve_headroom=True)
+            (candidate / ENGINE).write_text(extend_engine(source))
+            (candidate / 'mmq.hip').write_text('changed numerical code')
+            with self.assertRaises(RuntimeError):
+                verify_sources(original, candidate, curve_headroom=True)
+            if not (Path.cwd() / 'synapse-lie-server').is_file():
+                self.skipTest('Compiled capacity checks run in the .157 host gate')
+            code = base / 'capacity.c'
+            code.write_text('''#include "q2_curve_headroom.h"
+#include <assert.h>
+int main(void) {
+  assert(lie_q2_curve_capacity(262144, 266240, true) == 266240);
+  assert(lie_q2_curve_capacity(262144, 266240, false) == 262144);
+  const uint32_t requests[] = {0, 1, 9216, 133760, 262144, 266239, 266241, UINT32_MAX};
+  for (unsigned i=0; i<sizeof(requests)/sizeof(requests[0]); ++i)
+    assert(lie_q2_curve_capacity(262144, requests[i], true) == 262144);
+  const uint32_t declarations[] = {0, 131072, 262143, 262145, 1048576, UINT32_MAX};
+  for (unsigned i=0; i<sizeof(declarations)/sizeof(declarations[0]); ++i)
+    assert(lie_q2_curve_capacity(declarations[i], 266240, true) == declarations[i]);
+  return 0;
+}
+''')
+            for compiler, standard in [('cc', 'c17'), ('c++', 'c++20')]:
+                executable = base / ('capacity-' + standard)
+                args = [compiler, '-std=' + standard, '-Wall', '-Wextra', '-Werror',
+                        '-I', str(remote.ROOT / 'experiments'), str(code), '-o', str(executable)]
+                if Path.cwd().name == 'sanitize':
+                    args += ['-fsanitize=address,undefined', '-fno-omit-frame-pointer']
+                subprocess.run(args, check=True, capture_output=True, timeout=15)
+                subprocess.run([str(executable)], check=True, capture_output=True, timeout=5)
+
     def test_native_curve_admission_and_exact_cli(self):
         from q2_native_curve import check_backend, client_argv
         info = dict(schema='synapse-lie.llm.v1', ready=True,

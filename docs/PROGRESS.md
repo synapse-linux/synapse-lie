@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## 256K capacity headroom and full optimization assessment — 2026-10-06 UTC
+
+Curve r2 exposes the original GGUF262144 guard before upload/inference;9 artifacts collect before14:13:29 UTC/d866e817 release. An exact private AR-only262144→266240 effective capacity edit precedes DeviceModel upload in both providers, preserving numerical/MMQ files and RoPE; model files remain untouched. Host44+44 includes C17/C++ guard boundaries and exact engine-only archive reuse;7 artifacts collect. Fresh GPU admission remains required. The [complete current analysis](Q2-REMAINING-WORK.md) distinguishes already-completed negatives, substantial remaining dataflow work and two exact2048 guards that do not cover typical canonical continuation sizes. Fixed-point parity remains first priority.
+
 ## Curve startup correction qualified — 2026-10-06 UTC
 
 The first server rejects a3600000-ms timeout before model initialization, exit2; no curve client starts. Nine artifacts collect before13:59:35 UTC release30872b71. Correct to the existing1800000-ms limit; retain all workload, provider and client settings. Host-r3 now passes44+44 including actual no-model startup on private ports. The210-fixture retry plan is frozen; new GPU admission is pending. [Details](Q2-CURVE256.md).

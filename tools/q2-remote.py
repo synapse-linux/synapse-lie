@@ -914,7 +914,13 @@ def main():
     out.mkdir()
     capsule = out / 'source.tar.gz'
     with tarfile.open(capsule, 'w:gz') as archive:
-        for name in ( 'tools/q2-curve256-v2-phase.py',
+        for name in ( 'tools/q2-curve256-v3-phase.py',
+                     'tools/q2-curve256-v3-window.py',
+                     'tools/freeze-q2-curve256-v3-plan.py',
+                     'tools/prepare-q2-curve256-headroom.py',
+                     'tools/q2_curve_headroom.py',
+                     'experiments/q2_curve_headroom.h',
+                     'tools/q2-curve256-v2-phase.py',
                      'tools/freeze-q2-curve256-v2-plan.py',
                      'tools/q2-curve256-v2-window.py',
                      'tools/q2-curve256-phase.py',
@@ -1734,13 +1740,13 @@ def main():
             bench_source, _ = verify_native_curve(ROOT)
             archive.add(bench_source, arcname='native-bench-core')
         if args.mode == 'curve256-cpu':
-            curve = json.loads((ROOT/'config/q2-curve256-source.json').read_text())
+            curve = json.loads((ROOT/'config/q2-curve256-headroom-source.json').read_text())
             for name, expected in curve['core_files'].items():
                 if file_sha256(ROOT/curve['core_source']/name) != expected:
                     p.error('Curve256 core source changed')
             archive.add(ROOT/curve['core_source'], arcname='curve-core')
         if provider_mode in CURVE_MODES:
-            curve = json.loads((ROOT/('config/q2-curve256-source.json' if provider_mode in CURVE256_MODES else 'config/q2-curve-source.json')).read_text())
+            curve = json.loads((ROOT/('config/q2-curve256-headroom-source.json' if provider_mode in CURVE256_MODES else 'config/q2-curve-source.json')).read_text())
             key = provider_mode.split('-')[0]
             provider = curve
             if provider_mode == 'q2-curve-iq2':
