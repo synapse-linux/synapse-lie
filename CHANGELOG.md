@@ -41,8 +41,9 @@ stable release is declared. Detailed validation history is in
 ### Added
 
 - Default-ON immutable grammar programs no longer duplicate C tables into C++
-  rule/class containers. HOST state/mask and lifetime checks pass; matching GPU
-  qualification is pending. Existing public ABI, reactive workers and cache
+  rule/class containers. HOST state/mask and lifetime checks pass; matching HIP
+  ON/OFF builds pass 37 selected GPU OpenAI controls in both AR and MTP on Strix
+  Point. Existing public ABI, reactive workers and cache
   formats are retained; original OFF behavior remains available.
 
 - Shared C17 root schema admission, including reference-cycle detection and

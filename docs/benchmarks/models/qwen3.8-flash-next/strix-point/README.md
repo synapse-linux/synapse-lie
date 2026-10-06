@@ -399,7 +399,15 @@ done
 
 ### Original-weight HTTP AR and MTP gates
 
-The current matching `3c4cac56` build adds C17 root schema admission and passes
+The current matching `ad53e681` build removes duplicate C++ grammar rule/class
+payloads and passes the same **37 controls in AR and MTP**. The
+[source-bound receipt](../../../../development/validation/c17-grammar-storage-point-gpu-2026-10-06.json)
+and [portable raw evidence](data/rocm10-grammar-storage-openai-r29.tar.gz)
+retain coherent 96-file HIP ON/OFF providers, matching private model/frontends,
+telemetry and actual closure. This is functional qualification; no new
+throughput comparison or graph is claimed.
+
+The preceding matching `3c4cac56` build adds C17 root schema admission and passes
 these same **37 controls in AR and MTP**. The
 [source-bound receipt](../../../../development/validation/c17-schema-root-point-gpu-2026-10-06.json)
 and [portable raw archive](data/rocm10-schema-root-openai-r28.tar.gz)

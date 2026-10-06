@@ -265,9 +265,11 @@ client/server restart or machine reservation is queued in the meantime.
    rule/class payloads. Six guarded edits preserve OFF behavior; the new recipe
    is provider-identity gated. [HOST checks](development/validation/c17-grammar-storage-host-2026-10-06.json)
    pass 52 sanitizer and three Release controls, retaining all 29 complete
-   witnesses. Matching HIP builds and original-weight gates remain pending;
-   the qualified `3c4cac56` runtime excludes this later increment. Private
-   construction/value/error/prompt facades and model/controller remain transitional.
+   witnesses. Matching sealed `ad53e681` HIP ON/OFF providers and private
+   consumers pass unchanged AR37/MTP37 original-weight controls on `.161`
+   ([GPU receipt](development/validation/c17-grammar-storage-point-gpu-2026-10-06.json)).
+   Broader grammar branches/faults/quality/resources and matched cost stay open.
+   Private construction/value/error/prompt facades and model/controller remain transitional.
    Root-reference cycle/admission policy and root whitespace/body composition
    now also use C17, with [host checks](development/validation/c17-schema-root-host-2026-10-06.json).
    The matching sealed `3c4cac56` 96-file HIP build verifies complete ON/OFF

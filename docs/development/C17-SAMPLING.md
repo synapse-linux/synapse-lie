@@ -175,9 +175,13 @@ retires all traced predicates. Initial fixture type and required-whitespace
 failures retain their actual exits. The corrected fixture checks both empty and
 nonempty JSON whitespace; production code is unchanged by those corrections.
 
-This increment needs its own sealed HIP ON/OFF build and original-weight gates
-on `.161`; the earlier `3c4cac56`/r28 receipt excludes it. Broader faults,
-probabilities, quality, private resources and matched performance remain open.
+The matching sealed `ad53e681` HIP build verifies both complete 96-file
+ON/OFF providers, numerical archives and private model/frontend selections. It
+passes the unchanged 37 original-weight OpenAI controls in each AR/MTP mode on
+`.161` ([GPU receipt](validation/c17-grammar-storage-point-gpu-2026-10-06.json)).
+The HOST storage/lifetime probes retain their separate scope. These selected
+GPU paths do not establish whole grammar branch/fault/probability/quality/private
+resource coverage or a throughput gain; those gates remain open.
 
 ## Root schema admission
 
@@ -1249,11 +1253,13 @@ caller retires the builder. Invalid output arguments can refuse before mutation.
 Finalization publishes only after successful allocation and validation, then
 rejects further mutations. Paired allocator hooks retire partial storage.
 
-The selected provider compiler now calls this C builder for these operations;
+The selected provider compiler calls this C builder for these operations;
 its original construction and validation bodies execute only with
-`LIE_C17_SAMPLING=OFF`. The adapter translates typed inputs/errors and copies
-private templates needed by the still-transitional reasoning/tool composition.
-The base grammar creates its runtime program directly from the C tables.
+`LIE_C17_SAMPLING=OFF`. At the builder checkpoint the adapter also copied private
+templates for reasoning/tool composition. The newer
+[immutable storage slice](#immutable-grammar-table-ownership) removes those copies;
+the base and composed grammars create their programs directly from C tables.
+Typed construction/error views remain adapter glue.
 Schema dispatch, binary-double leaf translation
 and provider template/model/controller storage remain transitional. Structural
 transformations and finite-value/container algorithms now use C17. This is not a completed

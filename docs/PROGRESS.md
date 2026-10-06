@@ -1,6 +1,33 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Immutable C17 grammar storage passes selected GPU controls — 2026-10-06 UTC
+
+The matching sealed `ad53e681` source compiles complete 96-file HIP ON/OFF
+providers and all matching private model/frontend consumers. Both providers
+bind the six-edit storage recipe, and the reference links whole OFF archives.
+It passes the unchanged 37 original-weight OpenAI controls in each AR/MTP mode
+on `.161`; every server/child/controller/supervisor exits 0. The
+[GPU receipt](development/validation/c17-grammar-storage-point-gpu-2026-10-06.json)
+and [portable raw evidence](benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-grammar-storage-openai-r29.tar.gz)
+preserve these selected integrated controls separately from the frozen HOST52,
+29 complete language/state/mask witnesses and nine untimed handoff probes.
+There is no new direct or throughput comparison. Remaining typed construction/
+value/error/prompt facades and model/controller are transitional.
+
+AR/MTP CPU maxima are 61.625/66.75 C, GPU 63/68 C, and NVMe
+67.85/66.85 C. Whole-process thread maxima are 44/44;
+no inference thread is added. CPU98/NVMe85/lower guards and GPU observation
+remain intact. Fresh 11:37:22 UTC closure verifies all three exact
+supervisor/container-init identities retired, owned containers removed,
+original lease free then released, router 159528 active/only KFD and
+HTTP8000 unbound. Model/predictor stats are unchanged. Root has no remaining
+remote job/client/build/lease/waiter/reservation or live local handle;
+`.157/.158` remain unused. No tuning/install/deployment/push occurs. Broader
+branch/fault/probability/quality/private-resource and matched-cost gates
+stay open. All six owned tasks remain open; Terminal Bench stays stopped,
+collected and deferred last until functional changes and qualification finish.
+
 ## Duplicate C++ grammar tables removed; HOST checks pass — 2026-10-06 UTC
 
 Default-ON finalization/composition now publish the finished C program without

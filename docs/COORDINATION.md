@@ -1,5 +1,24 @@
 # DS4 / synapse-lie coordination
 
+## R29 immutable grammar storage build and selected controls closed — 2026-10-06
+
+Fresh peer own non-use and independent global preflights admit sealed `ad53e681`
+on `.161`. The device-free build verifies complete 96-file HIP ON/OFF providers,
+matching private model/frontend layouts and whole OFF reference linkage. AR/MTP
+each pass the unchanged 37 original-weight OpenAI controls. All three windows
+have server/child/controller/supervisor exits 0 and collected hash-bound files.
+[Receipt](development/validation/c17-grammar-storage-point-gpu-2026-10-06.json).
+
+Fresh 2026-10-06T11:37:22.320008+00:00 closure independently verifies exact
+supervisor/container-init retirement, owned containers removed, HTTP8000
+unbound, original lease device66307/inode105946405 free then released,
+and router 159528 restored/only KFD. No foreign client or hot
+guard is observed. Models remain stat-bound unchanged; no tuning, install,
+deployment or root `.157/.158` work occurs. Root has no standing job/build/
+client/lease/waiter/reservation/handle. This dated closure is not future
+admission. Broader gates and all six tasks remain open; Terminal Bench is
+stopped/collected/closed/deferred last, without restart or reservation.
+
 ## R27 request-state build and selected controls closed — 2026-10-06
 
 Fresh peer own non-use and separate global observations admit sealed `117cbae6`
