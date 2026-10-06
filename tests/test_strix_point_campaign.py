@@ -190,6 +190,24 @@ class Tests(unittest.TestCase):
         self.assertTrue(c.active)
         self.assertFalse(c.r['cleanup_failures'])
         self.assertIn('lease_released_at', c.r)
+    def test_ssd_text_restart_mounts_predictor_read_only_only_for_mtp(self):
+        predictor = self.base/'predictor'; predictor.mkdir()
+        model = self.base/'target'; model.mkdir()
+        for mode in ('ar', 'mtp'):
+            c = self.campaign('ssd-text-volume-'+mode)
+            c.m.update(action='bench', stack='rocm10-fedora43',
+                       bench_profile='modern-core-ssd-text-restart', decode_mode=mode,
+                       distrobox_name='lie-host-ssd-text-'+mode,
+                       predictor_plan={'destination':str(predictor)})
+            # Stop at the actual argv boundary before any container or GPU work.
+            with patch.object(c, 'sample'), patch.object(point, 'kfd_group', return_value=123), \
+                 patch.object(point.subprocess, 'run', side_effect=RuntimeError('host-only argv witness')) as run, \
+                 self.assertRaisesRegex(RuntimeError, 'host-only argv witness'):
+                c.execute_distrobox(['/fixture/bench'], self.base, model, 'sha256:fixture', 30)
+            argv = run.call_args.args[0]
+            volumes = [argv[i+1] for i,item in enumerate(argv) if item == '--volume']
+            self.assertIn(str(model)+':/model:ro', volumes)
+            self.assertEqual(volumes.count(str(predictor)+':/mtp:ro'), 1 if mode == 'mtp' else 0)
     def memory_campaign(self, name='memory-run'):
         root = self.base/name; root.mkdir()
         (root/'manifest.json').write_text('{}')
