@@ -7,6 +7,10 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Native C17 schema staging creates, copies and modifies JSON trees directly,
+  with explicit root transfer and bounded ownership. The default-ON adapter
+  keeps typed projections and original error classes; final qualification is pending.
+
 - A reusable C17 schema compiler context owns initialization, temporary builders,
   reference/predicate memos, derived schemas and counters. Published grammar and
   prompt lifetimes stay independent. The default-ON adapter uses this context;

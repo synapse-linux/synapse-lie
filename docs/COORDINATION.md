@@ -14,6 +14,8 @@ The later exact-decimal final-validator source increment is unverified; its
 fixtures are written but no build, test or remote window has been started.
 The subsequent C17 compiler-context/initialization increment has the same
 unverified status and sequencing. No remote capsule/window is prepared or queued.
+Native C17 schema construction/staging now also has source integration and
+written fixtures only; no configure/build/test or remote window is started.
 
 ## Native schema-number codec: HOST only — 2026-10-06
 

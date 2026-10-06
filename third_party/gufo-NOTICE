@@ -7,6 +7,12 @@ See THIRD_PARTY_NOTICES.md for provenance, versions and distribution boundaries;
 full imported notices are installed alongside it in third-party/.
 
 Adapted code includes:
+- The first-party native schema_arena binds previously owned schema/format/
+  numeric policies to C17 JSON trees and root collections. It replaces private
+  default-ON staging construction with native creation/clone/mutation/transfer;
+  typed views/errors remain private and original OFF construction stays guarded.
+  The algorithms retain the independently pinned Gufo provenance below; the
+  aggregate ownership/binding code imports no foreign engine/model/collection.
 - The first-party schema_compiler C17 context composes the existing builder,
   reference/leaf memos and derived-root store under one caller-serialized
   lifetime. Its bootstrap/publication order retains the recorded pinned Gufo

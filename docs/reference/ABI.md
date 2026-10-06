@@ -50,6 +50,17 @@ Existing engine/state/cache/event/metric layouts and versions are unchanged.
 This context and default-ON adapter integration are **unverified** until final
 qualification. See [C17 compilation context](../development/C17-SAMPLING.md#compilation-context-and-bootstrap).
 
+`lie/schema_arena.h` adds separate native schema-staging ABI 1. It owns copied/
+created JSON roots, exposes raw-node reader/writer callbacks and transfers exact
+roots explicitly. Mutations target arena-owned staging trees; failed operations
+require retiring the staging scope. Child allocators/view hooks and limits keep
+their JSON-value/store contracts. Taken roots retain those hooks independently;
+borrowed source/error spans expire with their trees. No model, HTTP or thread
+ownership enters the arena. Value/store refusal reasons remain typed C records;
+private exception/facade translation is outside the core. Existing layouts stay
+unchanged. Source integration is **unverified** pending the final phase. See
+[native schema staging](../development/C17-SAMPLING.md#native-schema-staging).
+
 Grammar-number ABI 1 adds `lie_number_compare`, `lie_number_multiple` and its
 allocator/work-budget variant without changing existing layouts or versions.
 Complete JSON decimal spans are compared exactly; divisibility requires a

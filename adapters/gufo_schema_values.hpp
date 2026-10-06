@@ -69,6 +69,9 @@ class SchemaValues {
   ValueChecks *checks_;
   static lie_schema_status put(void *p, lie_schema_node n, lie_schema_bytes key,
                                lie_schema_node value) noexcept {
+#if LIE_C17_SAMPLING
+    return SchemaArena::append_member(p, n, key, value);
+#else
     auto &arena = *static_cast<SchemaArena *>(p);
     return arena.invoke([&](auto &) {
       auto &target =
@@ -76,6 +79,7 @@ class SchemaValues {
       target.append_member(std::string(key.data, key.size),
                            schema_value(value));
     });
+#endif
   }
   static lie_schema_status accept(void *p, lie_schema_node schema,
                                   lie_schema_node value, bool *out) noexcept {

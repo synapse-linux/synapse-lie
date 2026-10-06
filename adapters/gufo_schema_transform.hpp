@@ -7,6 +7,7 @@
 #include "src/core/json_schema_lexeme.hpp"
 #if LIE_C17_SAMPLING
 #include "gufo_schema_store.hpp"
+#include "gufo_schema_arena.hpp"
 #else
 #include <deque>
 #endif
@@ -70,6 +71,9 @@ inline void schema_keys(const SchemaValue &n) {
   const auto d=schema_reader(); lie_schema_error e{};
   schema_check(lie_schema_keys(&d,&n,&e),e);
 }
+#if LIE_C17_SAMPLING
+using SchemaArena = NativeSchemaArena;
+#else
 class SchemaArena {
 #if LIE_C17_SAMPLING
   SchemaStore values_;
@@ -166,6 +170,7 @@ public:
     check(rc,e); return take(out);
   }
 };
+#endif
 inline SchemaValue schema_conjoin(const SchemaValue &root,const SchemaValue &l,const SchemaValue &r,unsigned depth) {
   SchemaArena a; return a.conjoin(root,l,r,depth);
 }

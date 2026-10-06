@@ -1,6 +1,27 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Native C17 schema construction replaces typed staging — 2026-10-06 UTC
+
+The reusable `lie_schema_arena` owns temporary native JSON roots and implements
+scalar/container creation, copied trees, member/array mutation and exact root
+transfer. Native readers expose ordered raw nodes and length-delimited strings/
+keys without C++ projections. Format expansion and combined `multipleOf` reuse
+the C17 policy/codec modules. Underlying refusal reasons remain available to C
+clients; the private adapter retains typed views and exception projection.
+Default-ON schema transformation and normalization staging use this binding;
+original OFF construction remains guarded. The source inventory now includes
+111 owned provider files. Existing model/HTTP/cache/event/metric layouts remain.
+
+**Unverified:** no configure, build, CTest, sanitizer or GPU run is started.
+Native and typed construction/transfer/refusal fixtures are written, including
+NUL spans, ordered/duplicate members, immutable sources, surviving taken roots,
+allocation refusals and cumulative admission bounds. Complete schema/body/
+normalization/format witnesses and matching `.161` original-weight AR/MTP,
+fault/resource/quality and cost gates remain for the final phase. Earlier receipts
+remain frozen and do not qualify these changes. All six tasks remain open;
+Terminal Bench stays last.
+
 ## Compilation bootstrap and temporary ownership move into C17 — 2026-10-06 UTC
 
 The model-neutral `lie_schema_compiler` owns the builder, reference/predicate

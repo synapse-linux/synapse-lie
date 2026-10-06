@@ -1,11 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 # C17 sampling and grammar runtime
 
-Current source adds exact final decimal validation and a C17 compilation
-context/bootstrap. Both are **unverified**: new test campaigns are deferred until
+Current source adds exact final decimal validation, a C17 compilation
+context/bootstrap and native schema staging. These are **unverified**: new test campaigns are deferred until
 remaining functional implementation is ready. The receipts below retain their
 stated frozen sources. See [compilation context](#compilation-context-and-bootstrap)
-and [decimal output validation](#final-decimal-output-validation).
+and [decimal output validation](#final-decimal-output-validation), plus
+[native schema staging](#native-schema-staging).
 
 The first model-executor extraction on `feature/c17-sampling` replaces dense
 token selection and random draws with `src/sampling.c`, shared through
@@ -1012,6 +1013,32 @@ record independent rational/LCM oracles, pristine/ON/OFF complete prefix/value/L
 comparisons, failures and temperatures. These are synthetic host checks;
 original-weight AR/MTP/tool/grammar continuation, resources and matched cost
 remain unqualified on `.161`.
+
+## Native schema staging
+
+**Implemented, unverified; tests deferred to the final phase.**
+`lie/schema_arena.h` creates/copies native JSON trees, modifies ordered members/
+arrays and transfers exact roots. The owned collection retains cumulative
+admission limits even after taking a root. Native reader/writer bindings use
+`lie_json_value` nodes directly with exact string/key spans; format expansion
+and combined `multipleOf` call the existing C17 policies and default codec.
+Child limits/allocator/view hooks remain explicit and outlive any transferred
+roots. Partial mutation is staging and requires retirement on failure.
+
+The default-ON adapter uses this arena for transformation and normalization.
+Typed facade views and original exception projection remain private; original
+OFF constructors remain guarded. Value/store failure reasons remain typed C
+diagnostics before projection. Existing model, worker, cache, event and metric
+layouts are unchanged; full native frontend and model/controller ownership
+remain open. The planned provider inventory is 111 files, not a qualified build.
+
+Written native/typed fixtures cover NUL/UTF8 spans, ordered/duplicate members,
+first-member replacement, immutable sources, root transfer across scope
+retirement, pure C conjunction/format/equality, allocator refusal and cumulative
+admission. No fixture is run yet. Final acceptance retains strict compilation,
+unsuppressed sanitizers, complete pristine/ON/OFF schema/format/body/normalization
+witnesses and matching `.161` original-weight AR/MTP, plus independent faults,
+quality, resources and cost. Earlier receipts keep their frozen source scope.
 
 ## Compilation context and bootstrap
 
