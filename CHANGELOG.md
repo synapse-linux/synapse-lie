@@ -40,6 +40,11 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 JSON ownership slots for lazy initialization, borrowed/root values,
+  copy/move assignment and root transfer. The default-ON provider uses the same
+  core API; complete HOST original/C17/OFF witnesses agree. Matching GPU
+  qualification remains pending.
+
 - Optional developer GPU qualification for bounded-integer schemas, with 66
   separate Chat/Responses JSON/SSE membership and refusal checks. HOST wire and
   supervision tests pass; matching original-weight AR/MTP gates now pass all

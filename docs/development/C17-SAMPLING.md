@@ -499,6 +499,23 @@ open. Terminal Bench stays deferred until modifications and qualification finish
 
 ## Owned typed JSON values
 
+The additive ownership-slot API in `lie/json_value.h` now also owns lazy
+initialization, root/borrowed admission, copy/move construction and assignment,
+moved scalar state, root transfer and lazy getters. The default-ON C++ facade
+delegates these operations to C17; it retains typed references, string projections
+and exception translation. Borrowed moves preserve node/key/view identity;
+owning moves transfer the exact root without allocating. Later move refusal may
+materialize a lazy slot while preserving its logical value. Internal nonfinite
+numbers retain the original policy: serialization refuses them.
+
+[Current HOST receipt](validation/c17-json-slot-host-2026-10-06.json) records
+27,395 C checks, 78 allocator and 37 view refusals with no remaining allocations;
+five Release, five ASan/UBSan/LSan, 58 provider and three build-contract checks pass.
+All 30 complete preceding witness groups and 267 files remain byte-identical.
+Private Value/Array/Object sizes are unchanged at 152/168/8 bytes on the local
+host. Matching new-source HIP and original-weight AR/MTP checks remain pending;
+these fixtures do not qualify model inference, GPU faults, quality or performance.
+
 `lie/json_value.h` exposes model-neutral ABI 1. C17 owns exact byte strings/keys,
 ordered object and array child tables, scalar getters, cloning, transactional
 replacement, parsing and serialization. Each root has an allocator/budget domain;

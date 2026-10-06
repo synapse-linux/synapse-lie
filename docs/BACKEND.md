@@ -317,7 +317,13 @@ client/server restart or machine reservation is queued in the meantime.
    runtime. The corrected build and both successful windows are collected and
    closed. General fractional-number constraints, numeric enum/const and
    `multipleOf` precision remain separate open qualifications.
-   Typed construction/initialization/callback-error facades and model/controller
+   JSON root/borrowed ownership, lazy construction, scalar moved state,
+   copy/move assignment and root transfer now also use C17. The
+   [HOST receipt](development/validation/c17-json-slot-host-2026-10-06.json)
+   records five Release, five sanitizer, 58 provider and three contract checks;
+   all 30 complete preceding groups/267 files are unchanged. Private facade
+   sizes remain unchanged. Matching new-source HIP/AR/MTP gates are pending.
+   Typed schema/grammar construction/initialization/callback-error facades and model/controller
    ownership remain transitional. This step does not close any of the six items.
    Compiler orchestration/typed facades/model ownership and broader branch,
    fault, quality, private-resource and matched-cost gates remain open.

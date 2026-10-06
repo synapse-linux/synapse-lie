@@ -1,6 +1,32 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## JSON ownership and lazy state move into C17 — 2026-10-06 UTC
+
+The model-neutral `lie_json_value_slot` API owns root/borrowed admission, lazy
+initialization, copy/move construction and assignment, scalar moved state, root
+transfer and getters. The default-ON Gufo facade delegates these policies to C17;
+typed references, synchronized string projections and exception translation
+remain private C++. The complete original OFF Value class is unchanged.
+
+[HOST receipt](development/validation/c17-json-slot-host-2026-10-06.json) and
+[portable complete evidence](development/validation/raw/c17-json-slot-host-2026-10-06.tar.gz)
+record five Release, five ASan/UBSan/LSan, 58 provider and three contract checks,
+all passing. The new C fixture has 27,395 checks, 78 allocator and 37 view
+refusals, with zero remaining allocations. All 30 complete preceding witness
+groups and 267 files are byte-identical; private Value/Array/Object sizes remain
+152/168/8 bytes. Source105 changes only the JSON header, C implementation and
+private facade. The initial CTest exit8 incorrectly expects nonfinite setter
+refusal; corrected tests preserve the original internal-value/dump policy. The
+failure, initial packaging drafts and read-discovery errors remain retained.
+
+Maximum local Strix Halo395 CPU temperature is 91.875 C with CPU98/NVMe85/lower
+guards and masked/observe-only GPU. No dependency, model forward, worker or
+reactive-policy change occurs. Matching new-source HIP ON/OFF builds and
+original-weight AR37+66/MTP37+66 on `.161` require fresh admission and remain
+pending. Root holds no remote job, lease, waiter or reservation and does not
+use `.157/.158`. All six owned tasks stay open; Terminal Bench remains last.
+
 ## Exact integer correction passes original-weight AR and MTP — 2026-10-06 UTC
 
 The sealed `050ae826` source rebuilds coherent 105-file HIP ON/OFF providers

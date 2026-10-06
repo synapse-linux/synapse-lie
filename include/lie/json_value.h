@@ -17,6 +17,15 @@ typedef enum {
   LIE_JSON_VALUE_STRING, LIE_JSON_VALUE_ARRAY, LIE_JSON_VALUE_OBJECT
 } lie_json_value_kind;
 typedef struct lie_json_value lie_json_value;
+/* Initialized ownership slot. Fields are observable but mutations must use the
+ * slot calls below. Never copy an owning slot with struct assignment/memcpy. */
+typedef struct {
+  lie_json_value *value;
+  bool owned;
+  lie_json_value_kind scalar_kind;
+  bool scalar_boolean;
+  double scalar_number;
+} lie_json_value_slot;
 typedef struct {
   uint32_t abi_version, struct_bytes;
   size_t max_owned_bytes, max_nodes, max_work;
@@ -103,6 +112,43 @@ lie_json_value_status lie_json_value_parse(const char *, size_t,
  * and byte escaping are locale-neutral. Output bound includes punctuation. */
 lie_json_value_status lie_json_value_dump(const lie_json_value *,
                                          const lie_json_value_sink *);
+/* Model-neutral lazy ownership/initialization within JSON value ABI1. A new
+ * slot starts as an owning allocation-free null. Borrowed slots require a live
+ * node and never release it. An owning move transfers the exact root and keeps
+ * the source kind/bool/number: moved strings/containers are empty, while moved
+ * scalars retain their value. Moving a borrowed slot copies into a new domain
+ * and clears only the source payload, preserving node/key/view identity.
+ * init is for fresh or released storage; bind/copy/move require a fresh null
+ * destination. Ownership of bind(true) is transferred by the caller exactly
+ * once; bind(false) borrows until the parent payload/root is retired.
+ * Allocating calls synchronously borrow the description; NULL uses defaults.
+ * Copy refusal preserves observable values. Move assignment may materialize
+ * lazy slots before a later refusal, without changing observable content.
+ * Diagnostic counters and borrowed pointer representations may therefore
+ * advance. description/view/allocator lifetimes follow the tree contract.
+ * Slots cannot overlap; assignment to itself is a no-op. disown requires a
+ * materialized owning root and transfers it without allocation, preserving
+ * moved scalar state. Its output cannot overlap the slot. No HTTP/model/device,
+ * threads, exception state or private string projections. Slots retain only their node/scalar state. */
+void lie_json_value_slot_init(lie_json_value_slot *);
+lie_json_value_status lie_json_value_slot_bind(lie_json_value_slot *, lie_json_value *, bool);
+void lie_json_value_slot_release(lie_json_value_slot *);
+lie_json_value_status lie_json_value_slot_ensure(lie_json_value_slot *, const lie_json_value_description *);
+lie_json_value_status lie_json_value_slot_set(lie_json_value_slot *, const lie_json_value_description *,
+  lie_json_value_kind, bool, double, const char *, size_t);
+lie_json_value_status lie_json_value_slot_copy(const lie_json_value_slot *,
+  const lie_json_value_description *, lie_json_value_slot *);
+lie_json_value_status lie_json_value_slot_move(lie_json_value_slot *,
+  const lie_json_value_description *, lie_json_value_slot *);
+lie_json_value_status lie_json_value_slot_assign(lie_json_value_slot *,
+  const lie_json_value_slot *, const lie_json_value_description *);
+lie_json_value_status lie_json_value_slot_move_assign(lie_json_value_slot *,
+  lie_json_value_slot *, const lie_json_value_description *);
+lie_json_value_status lie_json_value_slot_disown(lie_json_value_slot *, lie_json_value **);
+lie_json_value_kind lie_json_value_slot_type(const lie_json_value_slot *);
+bool lie_json_value_slot_boolean(const lie_json_value_slot *, bool);
+double lie_json_value_slot_number(const lie_json_value_slot *, double);
+size_t lie_json_value_slot_size_number(const lie_json_value_slot *, size_t);
 #ifdef __cplusplus
 }
 #endif

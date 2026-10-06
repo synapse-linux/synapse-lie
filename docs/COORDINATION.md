@@ -1,5 +1,20 @@
 # DS4 / synapse-lie coordination
 
+## R35 JSON ownership slice: HOST only — 2026-10-06
+
+Root advances the C17 extraction locally: JSON root/borrowed ownership, lazy
+initialization, copy/move and scalar moved state now use the shared C core.
+Five Release, five sanitizer, 58 provider and three contract checks pass;
+30 complete preceding groups/267 files are unchanged. Maximum local CPU is
+91.875 C under CPU98/NVMe85/lower guards; local GPU is masked and observed only.
+[HOST receipt](development/validation/c17-json-slot-host-2026-10-06.json).
+
+No original model forward, remote build/run, model hash/conversion, dependency
+installation or service mutation occurs. Root has no job/client/build/lease/
+waiter/reservation on `.161/.157/.158`. Matching `.161` HIP and AR/MTP gates
+need fresh coordinated admission; r34 closure below is historical only.
+All six tasks remain open; Terminal Bench stays stopped/collected/closed/deferred last.
+
 ## R34 matching build, AR and MTP collected and closed — 2026-10-06
 
 Fresh peer non-use and global admission precede each separate `.161` window.

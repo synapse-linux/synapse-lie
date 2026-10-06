@@ -259,10 +259,13 @@ lie_json_value_status lie_json_value_member(lie_json_value *n,const char *key,si
 lie_json_value_kind lie_json_value_type(const lie_json_value *n) { return n ? n->kind : LIE_JSON_VALUE_NULL; }
 bool lie_json_value_boolean(const lie_json_value *n,bool def) { return n && n->kind==LIE_JSON_VALUE_BOOL ? n->boolean : def; }
 double lie_json_value_number(const lie_json_value *n,double def) { return n && n->kind==LIE_JSON_VALUE_NUMBER ? n->number : def; }
+static size_t scalar_size(double number,size_t def) {
+  if (!isfinite(number) || number<0.0 || floor(number)!=number ||
+      number>=ldexp(1.0,sizeof(size_t)*CHAR_BIT)) return def;
+  return (size_t)number;
+}
 size_t lie_json_value_size_number(const lie_json_value *n,size_t def) {
-  if (!n || n->kind!=LIE_JSON_VALUE_NUMBER || !isfinite(n->number) || n->number<0.0 ||
-      floor(n->number)!=n->number || n->number>=ldexp(1.0,sizeof(size_t)*CHAR_BIT)) return def;
-  return (size_t)n->number;
+  return n && n->kind==LIE_JSON_VALUE_NUMBER ? scalar_size(n->number,def) : def;
 }
 const char *lie_json_value_string(const lie_json_value *n,size_t *bytes) {
   const bool valid=n && n->kind==LIE_JSON_VALUE_STRING;
@@ -272,6 +275,134 @@ const char *lie_json_value_string(const lie_json_value *n,size_t *bytes) {
 const char *lie_json_value_key(const lie_json_value *n,size_t *bytes) {
   if (bytes) *bytes=n ? n->key_bytes : 0;
   return n && n->key ? n->key : empty;
+}
+
+/* Ownership policy extracted from the private transitional Value facade.
+ * Exact source payload clearing remains in the existing C tree operations. */
+static bool slot_valid(const lie_json_value_slot *s) {
+  return s && (unsigned)s->scalar_kind<=LIE_JSON_VALUE_OBJECT && (s->owned || s->value);
+}
+static bool slot_fresh(const lie_json_value_slot *s) {
+  return slot_valid(s) && s->owned && !s->value && s->scalar_kind==LIE_JSON_VALUE_NULL;
+}
+static bool slot_overlap(const void *a,size_t an,const void *b,size_t bn) {
+  const uintptr_t x=(uintptr_t)a,y=(uintptr_t)b;
+  return x<=y ? y-x<an : x-y<bn;
+}
+static bool slot_pair(const lie_json_value_slot *a,const lie_json_value_slot *b) {
+  return slot_valid(a) && slot_valid(b) && !slot_overlap(a,sizeof(*a),b,sizeof(*b));
+}
+void lie_json_value_slot_init(lie_json_value_slot *s) {
+  if (!s) return;
+  memset(s,0,sizeof(*s));s->owned=true;
+}
+lie_json_value_status lie_json_value_slot_bind(lie_json_value_slot *s,lie_json_value *n,bool owned) {
+  if (!slot_fresh(s) || (!owned && !n) || (owned && n && !lie_json_value_is_root(n)))
+    return LIE_JSON_VALUE_INVALID;
+  s->value=n;s->owned=owned;return LIE_JSON_VALUE_OK;
+}
+void lie_json_value_slot_release(lie_json_value_slot *s) {
+  if (!s) return;
+  if (s->owned) lie_json_value_release(s->value);
+  lie_json_value_slot_init(s);
+}
+lie_json_value_status lie_json_value_slot_ensure(lie_json_value_slot *s,
+  const lie_json_value_description *d) {
+  if (!slot_valid(s)) return LIE_JSON_VALUE_INVALID;
+  if (s->value) return LIE_JSON_VALUE_OK;
+  lie_json_value *n=NULL;
+  lie_json_value_status rc=lie_json_value_create(d,&n);
+  if (rc!=LIE_JSON_VALUE_OK) return rc;
+  rc=lie_json_value_set(n,s->scalar_kind,s->scalar_boolean,s->scalar_number,NULL,0);
+  if (rc!=LIE_JSON_VALUE_OK) { lie_json_value_release(n);return rc; }
+  s->value=n;return LIE_JSON_VALUE_OK;
+}
+lie_json_value_status lie_json_value_slot_set(lie_json_value_slot *s,
+  const lie_json_value_description *d,lie_json_value_kind kind,
+  bool boolean,double number,const char *text,size_t bytes) {
+  lie_json_value_status rc=lie_json_value_slot_ensure(s,d);
+  return rc==LIE_JSON_VALUE_OK ? lie_json_value_set(s->value,kind,boolean,number,text,bytes) : rc;
+}
+static void slot_remember(lie_json_value_slot *s) {
+  if (!s->value) return;
+  s->scalar_kind=lie_json_value_type(s->value);
+  s->scalar_boolean=lie_json_value_boolean(s->value,false);
+  s->scalar_number=lie_json_value_number(s->value,0);
+}
+static void slot_scalars(lie_json_value_slot *to,const lie_json_value_slot *from) {
+  to->scalar_kind=from->scalar_kind;to->scalar_boolean=from->scalar_boolean;
+  to->scalar_number=from->scalar_number;
+}
+lie_json_value_status lie_json_value_slot_copy(const lie_json_value_slot *from,
+  const lie_json_value_description *d,lie_json_value_slot *out) {
+  if (!slot_pair(from,out) || !slot_fresh(out)) return LIE_JSON_VALUE_INVALID;
+  lie_json_value_slot copy;lie_json_value_slot_init(&copy);
+  lie_json_value_status rc=LIE_JSON_VALUE_OK;
+  if (from->value) rc=lie_json_value_clone(from->value,d,&copy.value);
+  else if (from->scalar_kind!=LIE_JSON_VALUE_NULL)
+    rc=lie_json_value_slot_set(&copy,d,from->scalar_kind,from->scalar_boolean,from->scalar_number,NULL,0);
+  if (rc!=LIE_JSON_VALUE_OK) { lie_json_value_slot_release(&copy);return rc; }
+  *out=copy;return LIE_JSON_VALUE_OK;
+}
+lie_json_value_status lie_json_value_slot_move(lie_json_value_slot *from,
+  const lie_json_value_description *d,lie_json_value_slot *out) {
+  if (!slot_pair(from,out) || !slot_fresh(out)) return LIE_JSON_VALUE_INVALID;
+  if (from->owned) {
+    slot_remember(from);out->value=from->value;from->value=NULL;
+    slot_scalars(out,from);return LIE_JSON_VALUE_OK;
+  }
+  return lie_json_value_move_clone(from->value,d,&out->value);
+}
+lie_json_value_status lie_json_value_slot_assign(lie_json_value_slot *to,
+  const lie_json_value_slot *from,const lie_json_value_description *d) {
+  if (!slot_valid(to) || !slot_valid(from)) return LIE_JSON_VALUE_INVALID;
+  if (to==from) return LIE_JSON_VALUE_OK;
+  if (!slot_pair(to,from)) return LIE_JSON_VALUE_INVALID;
+  if (!to->owned && (from->value || from->scalar_kind==LIE_JSON_VALUE_NULL))
+    return lie_json_value_assign(to->value,from->value);
+  lie_json_value_slot copy;lie_json_value_slot_init(&copy);
+  lie_json_value_status rc=lie_json_value_slot_copy(from,d,&copy);
+  if (rc!=LIE_JSON_VALUE_OK) return rc;
+  if (to->owned) {
+    lie_json_value *old=to->value;to->value=copy.value;copy.value=old;
+    slot_scalars(to,from);
+  } else rc=lie_json_value_assign(to->value,copy.value);
+  lie_json_value_slot_release(&copy);return rc;
+}
+lie_json_value_status lie_json_value_slot_move_assign(lie_json_value_slot *to,
+  lie_json_value_slot *from,const lie_json_value_description *d) {
+  if (!slot_valid(to) || !slot_valid(from)) return LIE_JSON_VALUE_INVALID;
+  if (to==from) return LIE_JSON_VALUE_OK;
+  if (!slot_pair(to,from)) return LIE_JSON_VALUE_INVALID;
+  if (to->owned && from->owned) {
+    if (to->value && to->value==from->value) return LIE_JSON_VALUE_INVALID;
+    slot_remember(from);lie_json_value_release(to->value);
+    to->value=from->value;from->value=NULL;slot_scalars(to,from);
+    return LIE_JSON_VALUE_OK;
+  }
+  lie_json_value_status rc=lie_json_value_slot_ensure(to,d);
+  if (rc==LIE_JSON_VALUE_OK) rc=lie_json_value_slot_ensure(from,d);
+  return rc==LIE_JSON_VALUE_OK ? lie_json_value_move_assign(to->value,from->value) : rc;
+}
+lie_json_value_status lie_json_value_slot_disown(lie_json_value_slot *s,lie_json_value **out) {
+  if (!slot_valid(s) || !s->owned || !s->value || !out ||
+      slot_overlap(s,sizeof(*s),out,sizeof(*out))) return LIE_JSON_VALUE_INVALID;
+  slot_remember(s);*out=s->value;s->value=NULL;return LIE_JSON_VALUE_OK;
+}
+lie_json_value_kind lie_json_value_slot_type(const lie_json_value_slot *s) {
+  return !s ? LIE_JSON_VALUE_NULL : s->value ? lie_json_value_type(s->value) : s->scalar_kind;
+}
+bool lie_json_value_slot_boolean(const lie_json_value_slot *s,bool def) {
+  return !s ? def : s->value ? lie_json_value_boolean(s->value,def) :
+    s->scalar_kind==LIE_JSON_VALUE_BOOL ? s->scalar_boolean : def;
+}
+double lie_json_value_slot_number(const lie_json_value_slot *s,double def) {
+  return !s ? def : s->value ? lie_json_value_number(s->value,def) :
+    s->scalar_kind==LIE_JSON_VALUE_NUMBER ? s->scalar_number : def;
+}
+size_t lie_json_value_slot_size_number(const lie_json_value_slot *s,size_t def) {
+  return !s ? def : s->value ? lie_json_value_size_number(s->value,def) :
+    s->scalar_kind==LIE_JSON_VALUE_NUMBER ? scalar_size(s->scalar_number,def) : def;
 }
 size_t lie_json_value_array_size(const lie_json_value *n) { return n ? n->array.count : 0; }
 size_t lie_json_value_object_size(const lie_json_value *n) { return n ? n->object.count : 0; }

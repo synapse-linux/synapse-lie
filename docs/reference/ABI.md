@@ -14,6 +14,17 @@ ownership independently of request ABI 8 and generation ABI 3.
 borrowed rows/masks/counts, caller-owned bounded workspace and explicit RNG.
 See [ownership and remaining delegated state](../development/C17-SAMPLING.md).
 
+JSON value ABI 1 adds initialized `lie_json_value_slot` operations for owning
+roots and borrowed nodes, including lazy initialization, copy/move, assignment,
+root transfer and scalar queries. An owning move preserves the source's scalar
+kind/value and transfers its exact root; a borrowed move preserves source identity
+and clears payload only after success. Slots require caller synchronization and
+cannot be copied with struct assignment. Later move refusal may materialize a
+lazy pointer without changing logical values. Existing tree descriptions,
+engine/state/cache/event/metric layouts are unchanged. HOST lifecycle/parity
+checks pass; matching new-source GPU qualification remains pending. See
+[owned JSON values](../development/C17-SAMPLING.md#owned-typed-json-values).
+
 `lie/schema_integer.h` adds standalone C17 ABI 1 calls for exact integral
 binary64 magnitude, exact integer comparison and signed grammar compilation.
 `lie_schema_integer_compare` borrows a complete JSON number span and compares

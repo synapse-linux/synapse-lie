@@ -43,6 +43,10 @@ against the same pinned ordered-value semantics. Two additional exact edits in
 `json-value-edits.json` preserve the complete original OFF Value class.
 `adapters/gufo_json_value.hpp` supplies private C++ references and synchronized
 string projections; `gufo_json_parse.hpp` only translates status/publication.
+The later model-neutral ownership-slot API moves the facade's root/borrowed,
+lazy-initialization, copy/move and moved-scalar policies into C17 against the same
+pinned semantics. Typed C++ projections and exception translation remain private;
+the original OFF Value class remains guarded and unchanged.
 The retained Gufo MIT notice/license apply.
 No extra dependency or sibling project code is introduced.
 No sibling DS4/CachyOS project sources, recipes,
