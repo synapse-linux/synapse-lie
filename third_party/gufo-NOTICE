@@ -7,6 +7,13 @@ See THIRD_PARTY_NOTICES.md for provenance, versions and distribution boundaries;
 full imported notices are installed alongside it in third-party/.
 
 Adapted code includes:
+- The first-party schema_compiler C17 context composes the existing builder,
+  reference/leaf memos and derived-root store under one caller-serialized
+  lifetime. Its bootstrap/publication order retains the recorded pinned Gufo
+  JsonConstraintCompiler semantics. schema-compiler-edits.json moves default-ON
+  construction/counters into that context; typed projections/errors remain
+  private and original OFF algorithms remain guarded. The aggregate lifecycle
+  implementation imports no other engine, collection or model source.
 - Signed integer-bound policy in src/schema_integer.c follows
   JsonConstraintCompiler::Integer at the independent immutable Gufo pin below.
   The first-party C17 implementation owns ordered lookup, rounding, exclusivity,

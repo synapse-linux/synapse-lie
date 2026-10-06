@@ -12,6 +12,8 @@ Bench stays stopped, collected, closed and deferred last. This sequencing applie
 to root-owned work and does not change another agent's tasks or leases.
 The later exact-decimal final-validator source increment is unverified; its
 fixtures are written but no build, test or remote window has been started.
+The subsequent C17 compiler-context/initialization increment has the same
+unverified status and sequencing. No remote capsule/window is prepared or queued.
 
 ## Native schema-number codec: HOST only — 2026-10-06
 

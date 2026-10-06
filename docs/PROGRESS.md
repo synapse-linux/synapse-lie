@@ -1,6 +1,25 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Compilation bootstrap and temporary ownership move into C17 — 2026-10-06 UTC
+
+The model-neutral `lie_schema_compiler` owns the builder, reference/predicate
+memos, derived-root store, primitive IDs and counters. C17 handles partial
+creation, ordered whitespace/JSON bootstrap, one-shot publication and retirement.
+Explicit phases reject reuse after failure/publication. Program and prompt keep
+independent ownership; their predicates and allocator hooks retain their required
+lifetimes. The private adapter projects callbacks, errors and borrowed fields.
+Original OFF algorithms remain guarded. Provider source inventories include
+the three added files; no HTTP or model-specific contract is introduced.
+
+**Unverified:** no configure, build, test or GPU run is started. Native lifecycle/
+allocation/phase/publication fixtures and typed callback/root/prompt controls
+are written for final qualification. New-source core/provider/sanitizer, complete
+ON/OFF parity, original-weight AR/MTP, fault and cost gates remain pending.
+Reactive/worker/cache/event/metric behavior is unchanged by the source design;
+preservation still needs final regression checks. All six tasks remain open,
+GPU tests stay on `.161` in the final phase and Terminal Bench stays last.
+
 ## Final decimal schema validation implemented; tests deferred — 2026-10-06 UTC
 
 The shared core uses exact output spans for fractional min/max/exclusive

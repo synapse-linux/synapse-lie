@@ -36,6 +36,20 @@ The initialized description still requires its borrowed schema reader.
 pass; matching GPU qualification of this later source remains pending in the
 owner-requested final phase after functional implementation.
 
+`lie/schema_compiler.h` adds separate model-neutral compiler-context ABI 1.
+It owns temporary builder, reference/predicate memos, derived-root store,
+primitive IDs and container/enum counters. Child hooks inherit the paired
+context allocator unless explicitly overridden. Caller serialization, opaque
+identity lifetime and each child's bounds/accounting remain required.
+Creation retires partial children without publishing the context. Initialization
+registers whitespace once and builds primitives; publication uses the existing
+schema-compile workflow. Explicit phases refuse reuse after failure/publication.
+Program and prompt remain independently owned; their allocator/predicate hooks
+must outlive them. Stable borrowed field views expire at context release.
+Existing engine/state/cache/event/metric layouts and versions are unchanged.
+This context and default-ON adapter integration are **unverified** until final
+qualification. See [C17 compilation context](../development/C17-SAMPLING.md#compilation-context-and-bootstrap).
+
 Grammar-number ABI 1 adds `lie_number_compare`, `lie_number_multiple` and its
 allocator/work-budget variant without changing existing layouts or versions.
 Complete JSON decimal spans are compared exactly; divisibility requires a

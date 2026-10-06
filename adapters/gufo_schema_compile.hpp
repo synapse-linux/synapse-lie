@@ -4,6 +4,7 @@
 #define LIE_GUFO_SCHEMA_COMPILE_HPP
 #include "gufo_schema_root.hpp"
 #include "gufo_grammar_builder.hpp"
+#include "gufo_schema_compiler.hpp"
 #include "lie/schema_compile.h"
 namespace lie_gufo {
 struct SchemaCompilation {
@@ -11,9 +12,9 @@ struct SchemaCompilation {
   std::shared_ptr<const lie_grammar_program> program;
   std::shared_ptr<const lie_schema_prompt> prompt;
 };
-template<class F>
-SchemaCompilation schema_compile(const SchemaValue &schema, bool object_only,
-    lie_grammar_builder *builder, uint32_t whitespace, const Lexemes &lexemes, F visit) {
+template<class F, class Publisher>
+SchemaCompilation schema_compile_with(const SchemaValue &schema, bool object_only,
+    const Lexemes &lexemes, F visit, Publisher publish) {
   struct State {
     F *visit;
     const Lexemes *lexemes;
@@ -44,8 +45,7 @@ SchemaCompilation schema_compile(const SchemaValue &schema, bool object_only,
   d.binding_context = &state; d.lexeme_count = State::count; d.bind = State::bind;
   lie_schema_compilation result{};
   lie_schema_compile_error error{};
-  const auto rc = lie_schema_compile(&d, &schema, schema.raw(), object_only,
-                                      builder, whitespace, &result, &error);
+  const auto rc = publish(d, &schema, schema.raw(), object_only, &result, &error);
   if (state.failure) std::rethrow_exception(state.failure);
   switch (rc) {
   case LIE_COMPILE_OK: break;
@@ -65,6 +65,26 @@ SchemaCompilation schema_compile(const SchemaValue &schema, bool object_only,
     prompt(result.prompt, lie_schema_prompt_release);
   return {result.root, std::shared_ptr<const lie_grammar_program>(std::move(program)),
           std::shared_ptr<const lie_schema_prompt>(std::move(prompt))};
+}
+template<class F>
+SchemaCompilation schema_compile(const SchemaValue &schema, bool object_only,
+    lie_grammar_builder *builder, uint32_t whitespace, const Lexemes &lexemes, F visit) {
+  return schema_compile_with(schema, object_only, lexemes, std::move(visit),
+    [builder, whitespace](const lie_schema_compile_description &d,
+        lie_schema_node node, const lie_json_value *native, bool object,
+        lie_schema_compilation *out, lie_schema_compile_error *error) {
+      return lie_schema_compile(&d, node, native, object, builder, whitespace, out, error);
+    });
+}
+template<class F>
+SchemaCompilation schema_compile(const SchemaValue &schema, bool object_only,
+    Compiler &compiler, const Lexemes &lexemes, F visit) {
+  return schema_compile_with(schema, object_only, lexemes, std::move(visit),
+    [&compiler](const lie_schema_compile_description &d,
+        lie_schema_node node, const lie_json_value *native, bool object,
+        lie_schema_compilation *out, lie_schema_compile_error *error) {
+      return compiler.publish(d, node, native, object, out, error);
+    });
 }
 } // namespace lie_gufo
 #endif

@@ -1,6 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 # C17 sampling and grammar runtime
 
+Current source adds exact final decimal validation and a C17 compilation
+context/bootstrap. Both are **unverified**: new test campaigns are deferred until
+remaining functional implementation is ready. The receipts below retain their
+stated frozen sources. See [compilation context](#compilation-context-and-bootstrap)
+and [decimal output validation](#final-decimal-output-validation).
+
 The first model-executor extraction on `feature/c17-sampling` replaces dense
 token selection and random draws with `src/sampling.c`, shared through
 `include/lie/sampling.h`. HTTP and the direct benchmark keep their existing
@@ -1006,6 +1012,34 @@ record independent rational/LCM oracles, pristine/ON/OFF complete prefix/value/L
 comparisons, failures and temperatures. These are synthetic host checks;
 original-weight AR/MTP/tool/grammar continuation, resources and matched cost
 remain unqualified on `.161`.
+
+## Compilation context and bootstrap
+
+**Implemented, unverified; tests deferred to the final phase.** The reusable
+`lie/schema_compiler.h` ABI owns per-compilation builder, reference memo,
+derived-root collection, predicate memo, primitive IDs and counters. C17 composes
+the existing components, cleans up partial creation and runs ordered whitespace/
+JSON initialization and one-shot publication. NEW/INITIALIZING/READY/PUBLISHING/
+PUBLISHED/FAILED phases make reinitialization/republication refusals explicit.
+Once initialization or publication starts, failure requires context retirement.
+
+Parent allocation hooks inherit into children unless a child declares its own
+paired hooks. Each child keeps its existing bounds/accounting; context bytes
+describe only the fixed owner body. Native memo keys and views remain borrowed
+with caller-controlled lifetime. Program and prompt own their published data
+independently; their allocator/predicate contexts must outlive both outputs.
+No model/device/HTTP/thread/RNG ownership enters this context.
+
+The default-ON adapter owns one C context and borrows its builder, primitive IDs,
+counters and predicate memo. Typed whitespace/root/exception projections stay
+private; redundant OFF-only generic maps remain guarded. Exact pinned source
+edits and matching core/HIP/HOST source inventories include all three new files.
+No source/archive/build or numerical parity has yet been qualified for this
+increment. Written native/typed fixtures cover partial allocation, callback/phase
+refusal, derived-root/memo ownership, publication failure and surviving program/
+prompt lifetimes. Final acceptance includes unsuppressed sanitizers, complete
+pristine/ON/OFF witnesses and matching `.161` original-weight AR/MTP, plus broader
+fault/resource/quality/cost gates. Model/controller ownership remains transitional.
 
 ## Final decimal output validation
 

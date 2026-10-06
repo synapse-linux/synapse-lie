@@ -12,9 +12,13 @@ namespace lie_gufo {
 #if LIE_C17_SAMPLING
 class ValueChecks {
   lie_lexeme_memo *memo_ = nullptr;
+  bool owns_ = true;
 public:
   ValueChecks() { lexeme_check(lie_lexeme_memo_create(nullptr, &memo_)); }
-  ~ValueChecks() { lie_lexeme_memo_release(memo_); }
+  explicit ValueChecks(lie_lexeme_memo *borrowed) : memo_(borrowed), owns_(false) {
+    if (!memo_) throw std::invalid_argument("JSON Schema: invalid borrowed predicate memo");
+  }
+  ~ValueChecks() { if (owns_) lie_lexeme_memo_release(memo_); }
   ValueChecks(const ValueChecks &) = delete;
   ValueChecks &operator=(const ValueChecks &) = delete;
   const lie_grammar_lexeme *find(const SchemaValue *key) const noexcept {

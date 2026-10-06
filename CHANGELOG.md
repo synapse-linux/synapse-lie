@@ -7,6 +7,11 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- A reusable C17 schema compiler context owns initialization, temporary builders,
+  reference/predicate memos, derived schemas and counters. Published grammar and
+  prompt lifetimes stay independent. The default-ON adapter uses this context;
+  final qualification is pending.
+
 - Shared C17 final schema validation preserves output digits for fractional
   bounds, numeric `enum`/`const` and exact `multipleOf`, including nested values.
   New comparison/divisibility APIs are reusable by other clients. This increment

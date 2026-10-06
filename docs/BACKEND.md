@@ -341,8 +341,13 @@ Bench client/server restart or machine reservation is queued in the meantime.
    code and independent fixtures are written, with all new tests deferred.
    Grammar/final-validator agreement, original-weight AR/MTP, fault and cost
    acceptance remain open alongside the other final gates.
-   Typed schema/grammar construction/initialization/callback-error facades and model/controller
-   ownership remain transitional. This step does not close any of the six items.
+   A later **unverified** `lie_schema_compiler` context now owns temporary
+   builder/memo/derived-root/predicate-memo lifetimes, primitive IDs, counters,
+   initialization and one-shot publication. The private adapter projects typed
+   callbacks/errors and borrowed state. Matching source inventories include
+   three new files; its native/typed fixtures are written with tests deferred.
+   Remaining typed schema/grammar construction/error projections and model/controller
+   ownership remain transitional. These increments do not close any of the six items.
    Compiler orchestration/typed facades/model ownership and broader branch,
    fault, quality, private-resource and matched-cost gates remain open.
    Root-reference cycle/admission policy and root whitespace/body composition
@@ -409,7 +414,7 @@ defines this thread's tasks; this table does not assign additional broad campaig
 | MTP | Verified bursts, reactive cancellation, predictor/controller checkpoints, RAM/SSD continuation and recorded AR/MTP GPU comparisons. | Independent predictor oracle, broader rejection/fault/quality and long-context coverage. |
 | Vision and joint MTP | Owned images, semantic cache/MRoPE, projector identity and joint RAM/SSD state; Halo image/cache and Point AR/MTP direct gates pass. | Broader image quality, mixed-history/fault cases and allocation-exact resource/performance qualification. |
 | Semantic events/functions | Shared C17 text/progress/tool/turn events and incremental arguments. The current `33d12a02` build passes 37 selected original-weight controls in each AR/MTP mode, including automatic output budgets and retained Responses lifecycle. | Full agent task evaluation, broader API cases and performance. |
-| C17 sampling and grammar | Owned selection, history, speculative probabilities, grammar storage/runtime, Unicode input, JSON values, schema publication and prompt ownership. Matching selected AR/MTP GPU controls pass for their recorded sources. Signed integer-bound compilation passes independent HOST parity and matching selected AR/MTP GPU controls. | Individual branches, faults, quality, private resources and matched cost; typed construction/bootstrap/errors and model/controller remain transitional. ICU remains the property/set/conversion dependency. |
+| C17 sampling and grammar | Owned selection, history, speculative probabilities, grammar storage/runtime, Unicode input, JSON values, schema publication and prompt ownership. Matching selected AR/MTP GPU controls pass for their recorded sources. Signed integer-bound compilation passes independent HOST parity and matching selected AR/MTP GPU controls. | Individual branches, faults, quality, private resources and matched cost; Later C17 context/bootstrap and exact final-decimal increments are implemented but unverified. Typed construction/error projections and model/controller remain transitional. ICU remains the property/set/conversion dependency. |
 | Extended context | Explicit native/YaRN2/YaRN4 contracts. The frozen `1bff953` C1 YaRN4 run completes physical PP1,048,448 and fixed TG128 at capacity 1,048,576. | Independent long-context recall and matched performance remain open. The older natural-EOS43 failure is retained separately. |
 
 MTP and vision remain model-neutral capabilities. The C17 core owns policy,
