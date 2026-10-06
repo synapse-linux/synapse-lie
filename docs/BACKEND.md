@@ -351,6 +351,10 @@ Bench client/server restart or machine reservation is queued in the meantime.
    C17 ownership. Default-ON transformations/normalization use this path, with
    private typed/error projections and guarded original OFF construction.
    Native/typed fixtures are written; 111-file source inventories are wired.
+   Native C17 string-leaf admission/construction now also replaces default-ON
+   typed length/pattern/format policy. Lazy unrestricted-program reuse and
+   original error ordering remain explicit. Its written native/typed fixtures
+   and later 114-file inventory are unverified, pending final qualification.
    Remaining typed grammar/error projections and model/controller
    ownership remain transitional. These increments do not close any of the six items.
    Remaining compiler bindings/typed facades/model ownership and broader branch,

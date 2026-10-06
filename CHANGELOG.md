@@ -7,6 +7,10 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- String schema admission and predicate construction use the shared C17 core,
+  including length bounds, pattern/format intersection and hostname narrowing.
+  Unrestricted predicates remain reusable; final qualification is pending.
+
 - Native C17 schema staging creates, copies and modifies JSON trees directly,
   with explicit root transfer and bounded ownership. The default-ON adapter
   keeps typed projections and original error classes; final qualification is pending.

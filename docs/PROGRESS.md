@@ -1,6 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Native C17 string-schema construction — 2026-10-06 UTC
+
+`lie_schema_string` admits ordered length/pattern/format fields, narrows hostname
+length, composes the C17 Unicode/regex compiler and publishes independently owned
+lexemes. A bounded allocation-free plan borrows pattern bytes and owns expanded
+format bytes. The adapter retains its lazy unrestricted-program reuse and typed
+error projection; original OFF construction remains guarded. This completes
+native string leaf construction, with full frontend/model-controller work still open.
+
+**Implemented, unverified:** native/typed fixtures are written for finite-language
+oracles, Unicode/NUL spans, pattern/format intersection, error order, independent
+lifetime, reuse, callback/allocation/work refusals. Planned provider inventories
+contain 114 files. No configure/build/test/GPU run is started. Final qualification
+must combine this source with all earlier unverified increments and complete
+ON/OFF witnesses, then matching `.161` original-weight AR/MTP, faults, quality and
+cost. Earlier receipts remain unchanged. All six tasks stay open; Terminal Bench
+stays last, without a machine reservation.
+
 ## Native C17 schema construction replaces typed staging — 2026-10-06 UTC
 
 The reusable `lie_schema_arena` owns temporary native JSON roots and implements

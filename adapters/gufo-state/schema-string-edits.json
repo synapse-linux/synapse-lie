@@ -1,0 +1,16 @@
+{
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "license": "MIT",
+  "edits": [
+    {
+      "path": "src/core/json_schema_lexeme.cpp",
+      "old": "#include \"gufo_grammar_string.hpp\"",
+      "new": "#include \"gufo_grammar_string.hpp\"\n#include \"gufo_schema_string.hpp\""
+    },
+    {
+      "path": "src/core/json_schema_lexeme.cpp",
+      "old": "class StringLexeme final : public JsonSchemaLexeme {\npublic:\n  explicit StringLexeme(const json::Value& schema) : JsonSchemaLexeme(nullptr) {\n    std::uint32_t minimum_{0}, maximum_{UINT32_MAX};\n    bool scalar_only_{false};\n    std::shared_ptr<const JsonSchemaRegex> regex_;\n    lie_string_policy c17_policy_{};\n    for (const auto* key : {\"minLength\", \"maxLength\"}) {\n      if (const auto* value = schema.find(key)) {\n        if (!value->is_number() || value->as_double() < 0 ||\n            value->as_double() > 1048576 ||\n            std::floor(value->as_double()) != value->as_double())\n          Invalid(\"string lengths must be nonnegative integers up to 1048576\");\n        (std::string_view(key) == \"minLength\" ? minimum_ : maximum_) =\n            value->as_size();\n      }\n    }\n    if (minimum_ > maximum_)\n      throw JsonSchemaEmpty(\"JSON Schema: minLength exceeds maxLength\");\n    std::vector<std::string> patterns;\n    for (const auto* key : {\"pattern\", \"format\"}) {\n      const auto* value = schema.find(key);\n      if (!value)\n        continue;\n      if (!value->is_string())\n        Invalid(std::string(key) + \" must be a string\");\n      auto expression = std::string_view(key) == \"format\"\n                            ? FormatPattern(value->str())\n                            : value->str();\n      if (std::string_view(key) == \"format\") {\n        if (value->str() == \"hostname\")\n          maximum_ = std::min(maximum_, 253U);\n      }\n      patterns.push_back(std::move(expression));\n    }\n    if (patterns.empty()) {\n      scalar_only_ = true;\n      static const auto unconstrained =\n          JsonSchemaRegex::Compile({}, UINT32_MAX);\n      regex_ = unconstrained;\n    } else {\n      regex_ = JsonSchemaRegex::Compile(patterns, maximum_);\n    }\n    lie_string_policy_init(&c17_policy_);\n    c17_policy_.minimum = minimum_; c17_policy_.maximum = maximum_;\n    c17_policy_.scalar_only = scalar_only_; c17_policy_.regex = regex_->C17Program();\n    // minLength/maxLength ordering was checked before format/hostname narrowing.\n    if (minimum_ > maximum_)\n      throw JsonSchemaEmpty(\"JSON Schema: string predicates and lengths have no matching value\");\n    lie_gufo::string_check(lie_string_policy_validate(&c17_policy_));\n    lie_gufo::lexeme_check(lie_lexeme_string_create(nullptr, &c17_policy_, &c17_));\n  }\n};",
+      "new": "class StringLexeme final : public JsonSchemaLexeme {\npublic:\n  explicit StringLexeme(const json::Value& schema)\n      : JsonSchemaLexeme(lie_gufo::schema_string(schema)) {}\n};"
+    }
+  ]
+}

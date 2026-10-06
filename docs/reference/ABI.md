@@ -50,6 +50,18 @@ Existing engine/state/cache/event/metric layouts and versions are unchanged.
 This context and default-ON adapter integration are **unverified** until final
 qualification. See [C17 compilation context](../development/C17-SAMPLING.md#compilation-context-and-bootstrap).
 
+`lie/schema_string.h` adds separate string-leaf construction ABI 1. Preparation
+publishes a bounded value-copyable plan with borrowed pattern bytes and owned
+format bytes. Compilation owns Unicode/regex staging and publishes a retained
+immutable lexeme; native stage errors preserve ordered length/format/parse/DFA
+failure classes. Optional caller-owned full-scalar programs enable explicit
+unrestricted reuse without a mutable C global cache. Paired allocator hooks
+inherit into child modules and outlive published dependencies; ICU allocations
+remain outside their accounting. Refusals preserve plans/output handles. This
+source is implemented but unverified; final tests remain pending. Existing
+worker/state/cache/HTTP/event layouts remain unchanged. See
+[native string construction](../development/C17-SAMPLING.md#native-string-schema-construction).
+
 `lie/schema_arena.h` adds separate native schema-staging ABI 1. It owns copied/
 created JSON roots, exposes raw-node reader/writer callbacks and transfers exact
 roots explicitly. Mutations target arena-owned staging trees; failed operations

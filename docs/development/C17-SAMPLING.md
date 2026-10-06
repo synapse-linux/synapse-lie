@@ -2,11 +2,13 @@
 # C17 sampling and grammar runtime
 
 Current source adds exact final decimal validation, a C17 compilation
-context/bootstrap and native schema staging. These are **unverified**: new test campaigns are deferred until
+context/bootstrap, native schema staging and string-leaf construction. These
+are **unverified**: new test campaigns are deferred until
 remaining functional implementation is ready. The receipts below retain their
 stated frozen sources. See [compilation context](#compilation-context-and-bootstrap)
 and [decimal output validation](#final-decimal-output-validation), plus
-[native schema staging](#native-schema-staging).
+[native schema staging](#native-schema-staging) and
+[string-schema construction](#native-string-schema-construction).
 
 The first model-executor extraction on `feature/c17-sampling` replaces dense
 token selection and random draws with `src/sampling.c`, shared through
@@ -1013,6 +1015,35 @@ record independent rational/LCM oracles, pristine/ON/OFF complete prefix/value/L
 comparisons, failures and temperatures. These are synthetic host checks;
 original-weight AR/MTP/tool/grammar continuation, resources and matched cost
 remain unqualified on `.161`.
+
+## Native string-schema construction
+
+**Implemented, unverified; tests deferred to the final phase.**
+`lie/schema_string.h` owns ordered min/maxLength admission, copied format expansion,
+hostname narrowing, pattern/format intersection and independently retained C17
+string predicates. Its bounded preparation plan borrows only immutable pattern
+bytes; expanded format bytes live inside the plan, so copying the plan retains
+them without a pointer fixup. Preparation preserves the plan on refusal.
+
+Compilation uses existing C17 Unicode parsing, expression/DFA construction,
+length validation and lexeme modules. Staging retires on every path; published
+lexemes retain the sealed DFA independently. Child allocator hooks inherit the
+paired transform hooks; those hooks outlive published dependencies. ICU remains
+the C property/conversion dependency with its own internal allocations. Initial
+length ordering is checked before pattern/format admission; hostname narrowing
+conflicts retain their later empty-language error. Detailed native stage errors
+allow original typed exception projection without moving policy back into C++.
+
+An optional caller-owned unrestricted program avoids recompilation for leaves
+with neither pattern nor format. It never bypasses a declared pattern, including
+an empty pattern, and is compiled at unlimited maximum. The default-ON private
+adapter retains lazy shared reuse after successful admission; C owns no global
+cache or thread. The pinned original OFF factory remains guarded. Source/recipe
+inventories contain 114 files, not a qualified provider build. Written native/
+typed fixtures and complete existing ON/OFF grammar/format witnesses await final
+strict compilation, unsuppressed sanitizers, matching `.161` original-weight
+AR/MTP, fault/resource/quality and cost gates. Full frontend/model ownership
+remain open; no performance gain is claimed.
 
 ## Native schema staging
 
