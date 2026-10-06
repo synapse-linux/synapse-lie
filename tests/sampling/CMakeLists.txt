@@ -44,7 +44,7 @@ foreach(arm IN ITEMS reference candidate fallback)
     list(APPEND sources "${pristine}/src/core/sampling.cpp")
   else()
     list(REMOVE_ITEM sources "${pristine}/src/core/json_constraint.cpp" "${pristine}/src/core/json_schema_lexeme.cpp" "${pristine}/src/core/json_schema_regex.cpp")
-    list(APPEND sources "${variant}/src/core/json_constraint.cpp" "${REPO}/src/grammar.c" "${REPO}/src/grammar_builder.c" "${REPO}/src/schema_transform.c" "${REPO}/src/schema_values.c" "${REPO}/src/grammar_cache.c" "${REPO}/src/ordered_cache.c" "${REPO}/src/grammar_composition.c" "${REPO}/src/binary64.c" "${REPO}/src/schema_memo.c" "${REPO}/src/schema_dispatch.c" "${REPO}/src/schema_visit.c" "${REPO}/src/schema_body.c" "${REPO}/src/schema_number.c" "${REPO}/src/schema_format.c" "${variant}/src/core/json_schema_lexeme.cpp" "${REPO}/src/grammar_number.c" "${variant}/src/core/json_schema_regex.cpp" "${REPO}/src/grammar_regex.c" "${REPO}/src/grammar_string.c" "${REPO}/src/grammar_vocabulary.c" "${REPO}/src/grammar_regex_compile.c" "${REPO}/src/grammar_regex_parse.c" "${REPO}/src/grammar_unicode.c" "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c" "${REPO}/src/sampling_distribution.c")
+    list(APPEND sources "${variant}/src/core/json_constraint.cpp" "${REPO}/src/grammar.c" "${REPO}/src/grammar_builder.c" "${REPO}/src/schema_transform.c" "${REPO}/src/schema_values.c" "${REPO}/src/grammar_cache.c" "${REPO}/src/ordered_cache.c" "${REPO}/src/grammar_composition.c" "${REPO}/src/binary64.c" "${REPO}/src/json_parse.c" "${REPO}/src/schema_memo.c" "${REPO}/src/schema_dispatch.c" "${REPO}/src/schema_visit.c" "${REPO}/src/schema_body.c" "${REPO}/src/schema_number.c" "${REPO}/src/schema_format.c" "${variant}/src/core/json_schema_lexeme.cpp" "${REPO}/src/grammar_number.c" "${variant}/src/core/json_schema_regex.cpp" "${REPO}/src/grammar_regex.c" "${REPO}/src/grammar_string.c" "${REPO}/src/grammar_vocabulary.c" "${REPO}/src/grammar_regex_compile.c" "${REPO}/src/grammar_regex_parse.c" "${REPO}/src/grammar_unicode.c" "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c" "${REPO}/src/sampling_distribution.c")
   endif()
   add_library(${arm} STATIC ${sources})
   if(NOT arm STREQUAL "reference")
@@ -104,6 +104,8 @@ foreach(arm IN ITEMS reference candidate fallback)
   target_link_libraries(${arm}-memo-probe PRIVATE ${arm})
   add_executable(${arm}-binary64-probe "${REPO}/tests/sampling/binary64.cpp")
   target_link_libraries(${arm}-binary64-probe PRIVATE ${arm})
+  add_executable(${arm}-json-parser-probe "${REPO}/tests/sampling/json_parser.cpp")
+  target_link_libraries(${arm}-json-parser-probe PRIVATE ${arm})
   add_executable(${arm}-composition-probe "${REPO}/tests/sampling/composition.cpp")
   target_link_libraries(${arm}-composition-probe PRIVATE ${arm})
   add_executable(${arm}-composition-cache-probe "${REPO}/tests/sampling/composition_cache.cpp")
@@ -376,6 +378,13 @@ add_test(NAME binary64-reference-parity COMMAND "${CMAKE_COMMAND}"
   "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/binary64-parity"
   -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
 set_tests_properties(binary64-reference-parity PROPERTIES TIMEOUT 300)
+add_test(NAME json-parser-reference-parity COMMAND "${CMAKE_COMMAND}"
+  "-DREFERENCE=$<TARGET_FILE:reference-json-parser-probe>"
+  "-DCANDIDATE=$<TARGET_FILE:candidate-json-parser-probe>"
+  "-DFALLBACK=$<TARGET_FILE:fallback-json-parser-probe>"
+  "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/json-parser-parity"
+  -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
+set_tests_properties(json-parser-reference-parity PROPERTIES TIMEOUT 180)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(BINARY64_MPFR REQUIRED IMPORTED_TARGET mpfr)
 add_executable(candidate-binary64-oracle "${REPO}/tests/sampling/binary64_oracle.cpp")

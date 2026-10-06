@@ -232,8 +232,12 @@ client/server restart or machine reservation is queued in the meantime.
    matching `20777005` 83-file inventory (71 first-party + 12 vendor/provenance
    files) now passes selected original-weight AR37/MTP37 controls on `.161`
    ([GPU receipt](development/validation/c17-binary64-point-gpu-2026-10-06.json)).
-   Typed JSON/key/value containers, lexer/predicate storage and model/controller
-   remain private. The earlier matching `a24875f` 66-file build passes selected original-weight
+   Complete JSON syntax, UTF-8/escape decoding and decoded duplicate-key detection
+   now also use C17, with [host checks](development/validation/c17-json-parser-host-2026-10-06.json).
+   Its newer 86-file inventory still needs a matching sealed HIP build and
+   original-weight AR/MTP qualification. Typed JSON/key/value containers,
+   predicate storage and model/controller remain private.
+   The earlier matching `a24875f` 66-file build passes selected original-weight
    AR37/MTP37 controls on `.161`
    ([GPU receipt](development/validation/c17-schema-policy-point-gpu-2026-10-06.json)).
    Individual numeric/format branches and independent probability/fault/private

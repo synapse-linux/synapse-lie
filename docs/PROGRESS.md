@@ -1,6 +1,33 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Complete JSON parser passes host checks — 2026-10-06 UTC
+
+Complete single-root syntax, iterative traversal, UTF-8/escape/surrogate decoding
+and decoded duplicate-key detection now use the shared C17 core. The private
+adapter constructs typed trees and translates exceptions. The public events
+contract defines borrowed spans, complete staging discard on refusal, allocator
+cleanup and bounded input/work/storage. It preserves the existing tools API,
+default-ON selection, original OFF parser and current worker/event/RNG contracts.
+
+The [source-bound host receipt](development/validation/c17-json-parser-host-2026-10-06.json)
+records 1,301 independent C checks, 368 allocator and 602 callback refusals,
+34,071 complete pristine/ON/OFF tree/bit/dump/error witnesses, and all 25 earlier
+unchanged witness groups. Eighteen focused Release checks, 18 sanitizer checks
+and 43 full host comparisons pass. All 56 public headers compile together in
+C17/C++17; the no-model server and bench link. Initial provider-fixture omission,
+fixture buffer overflow and public-name conflict retain their actual failures.
+
+The provider now binds 86 files: 74 first-party and 12 unchanged vendor/provenance
+files. All 1,019 pinned official Gufo files remain unchanged. This is host
+qualification only; the existing `20777005` GPU receipts do not qualify the new
+parser. Matching sealed HIP build and original-weight AR/MTP controls remain
+pending. Peak local CPU is 90.125 C with CPU98/NVMe85/lower guards; GPU is masked and
+observe-only. No new dependency, cache-format change, inference thread, speedup,
+remote GPU build/run or root `.157` activity is claimed. All six owned tasks
+remain open. Terminal Bench stays stopped and deferred until modifications and
+matching qualification finish; root creates no standing remote reservation.
+
 ## Bank refusal and zero-scale controls qualified — 2026-10-06 UTC
 
 On the unchanged `20777005` runtime, separate `.161` AR/MTP windows each pass

@@ -14,6 +14,11 @@ quality and performance gates remain open.
 Gufo still owns model/controller state and typed containers. Immutable
 reasoning/tool composition and JSON binary64 conversion now use the shared C17
 core, with [host validation](docs/development/validation/c17-binary64-host-2026-10-06.json).
+Complete JSON syntax, UTF-8/escape decoding and duplicate-key detection also now
+use the shared C17 core, with
+[host validation](docs/development/validation/c17-json-parser-host-2026-10-06.json).
+This newer parser still requires a matching GPU build and original-weight tests;
+its typed tree storage remains in the private adapter.
 ICU remains the Unicode set/property/conversion dependency.
 [Directional steering](docs/guides/USAGE.md#directional-steering) has shared-core
 and server/bench controls with host validation, including scheduled benchmark

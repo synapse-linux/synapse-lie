@@ -1,5 +1,15 @@
 # DS4 / synapse-lie coordination
 
+## Local JSON parser; eval remains deferred — 2026-10-06
+
+Root performs only local host builds/tests for the complete C17 JSON parser.
+Its [86-file host receipt](development/validation/c17-json-parser-host-2026-10-06.json)
+requires a matching sealed HIP build and original-weight controls under a new
+fresh `.161` admission. Root creates no remote job/client/build/lease/waiter or
+reservation on `.161` or `.157`. The r23 closure below remains a dated observation,
+not current admission. Terminal Bench stays stopped/collected/closed/deferred
+until functional modifications and matching qualification finish.
+
 ## R23 bank admission windows retired — 2026-10-06
 
 Fresh peer own non-use and separate 04:21:38 / 04:26:07 / 04:30:44 UTC global

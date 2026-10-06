@@ -114,17 +114,61 @@ invalid draws leave RNG unchanged. The caller owns workspace cleanup.
 `adapters/gufo_sampling.hpp` translates the provider's controls and containers.
 `adapters/gufo_history.hpp` and `adapters/gufo_distribution.hpp` supply storage
 and exception glue for the owned C17 components. Gufo still supplies vector
-deep copies, deferred draws, entropy acquisition and private immutable composition,
+deep copies, deferred draws, entropy acquisition,
 provider container storage, model/session and
 speculative-controller state, and selected GPU numerical
 kernels. Reporting logits still use the provider transform before the existing
 C probability normalizer. The sampler as a whole is not yet autonomous C.
 Existing eligible GPU argmax shortcuts remain delegated and preserved.
+Immutable reasoning/tool composition and complete JSON syntax/decoding now
+belong to the C17 core. Typed JSON trees, predicate and key/value containers
+remain private adapter storage.
 
 Reactive readiness, per-row credits, cancellation, native batching and MTP
 controller ownership are unchanged. There is still one device-owner worker. The C
 selection call is synchronous; it does not add an asynchronous GPU forward or
 establish a throughput improvement.
+
+## Complete JSON parser
+
+`lie/json_parse.h` exposes model-neutral ABI 1. `lie_json_parse_events` owns
+single-root syntax, iterative container traversal, finite number conversion,
+strict UTF-8, escapes, surrogate pairs and decoded duplicate-key detection.
+The existing `lie_json_parse` tools API keeps its name and contract. The parser
+emits ordered typed events; clients copy borrowed spans before their callbacks
+return. On any refusal, clients discard their entire staged result. No parser
+allocation survives the call, including allocator or callback refusal.
+
+Defaults admit 128 container levels, 64 MiB each of input and owned heap payload,
+and 268,435,456 lexical/key work units. Per-object hash tables retire at object
+close. Unescaped strings borrow validated input; escaped strings use reusable
+decoding storage. Decoded keys compare exact bytes, including NUL. Heap metrics
+charge requested C allocation sizes and overlapping growth; they exclude fixed
+stack storage, allocator overhead, private sink containers and device/process
+memory. Work and byte budgets are admission limits, not timing measurements.
+
+The private adapter only constructs Gufo's typed tree and translates exceptions.
+Three exact edits at the recorded Gufo pin select C17 under default-ON
+`LIE_C17_SAMPLING`, preserving the complete original parser under OFF. The parser
+adds no HTTP coupling, dependency, cache-format change, RNG operation or thread.
+This is an extraction of syntax and decoding; model/controller ownership and
+typed JSON/predicate containers remain private.
+
+The [host receipt](validation/c17-json-parser-host-2026-10-06.json) binds 1,301
+independent C checks, 368 allocator refusals and 602 callback refusals. The actual
+pristine/ON/OFF parser entry points agree on all 34,071 complete witnesses:
+ordered trees, string/key bytes, binary64 bits, canonical dumps and exact errors.
+All 25 earlier complete witness groups retain their hashes. The 18 focused
+Release checks, 18 sanitizer checks and 43 full host reference checks pass;
+all 56 public headers compile together in C17 and C++17. Initial fixture failures
+and the public-name conflict remain recorded with their actual exits.
+
+This newer 86-file provider inventory has host qualification only. The existing
+`20777005` GPU qualification covers the previous 83-file composition/codec
+runtime and does not qualify this parser. A matching sealed HIP build and
+original-weight AR/MTP controls remain required, as do broader fault, resource,
+quality and matched-cost gates. No inference speedup is claimed. Terminal Bench
+stays deferred until functional modifications and matching qualification finish.
 
 ## Ordered composition caches
 
@@ -147,8 +191,9 @@ The new contract reports entries, without claiming private bytes or total
 engine cost. No new inference worker, model/HTTP ownership or speedup is implied.
 
 The source-pinned recipe replaces four exact reasoning/tool cache blocks under
-default-ON `LIE_C17_SAMPLING`; OFF retains every original block. Grammar
-composition itself stays private and unchanged. Independent C ownership/fault
+default-ON `LIE_C17_SAMPLING`; OFF retains every original block. At this cache
+extraction's original host checkpoint, composition stayed private and unchanged.
+Independent C ownership/fault
 oracles and actual pristine/ON/OFF entry-point tests qualify host behavior;
 original-weight matching GPU and allocation-exact private resource/cost gates
 remain open.
@@ -589,7 +634,7 @@ zero allocator calls while selected public codec calls execute. It is QA-only:
 MPFR/GMP are required only by the optional `tests/sampling` developer project,
 not by ordinary core/server/bench/default CTest. The codec object still contains
 Ryu's unused allocating convenience entry point; its malloc import does not
-describe the tested public paths. Typed JSON storage/full lexer, immutable
+describe the tested public paths. Typed JSON storage, immutable
 predicates and model/controller remain private. The matching composition/codec
 build passes the selected original-weight AR/MTP controls above; individual
 branches/faults/resources/cost and SSD BPE gates remain pending. No inference
@@ -1042,7 +1087,8 @@ draw / residual / RNG witnesses for 1200 cases, another 1200 biased cases
 against the same-layout legacy variant, and twelve complete 248320-entry rows.
 These are synthetic operator/contract checks, **not original-weight inference**.
 
-The final native, headless and host-reference suites pass **43/43**, **18/18**
+At the original 2026-10-03 checkpoint, the native, headless and host-reference
+suites pass **43/43**, **18/18**
 and **14/14** tests with ASan/UBSan/LeakSanitizer. HIP compilation/linking and
 the metadata/symbol audit also pass; they perform no model execution. The
 [source-bound receipt](validation/c17-sampling-2026-10-03.json) records exact

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT -->
 # Provenance and dependency boundaries
 
 First-party runtime, tools, tests, ABI and adapter use MIT (`../LICENSE`). The
@@ -17,6 +18,15 @@ policies, vocabulary masks and grammar composition use shared C17 contracts; `gu
 code is imported by this extraction.
 The native Gufo conversation benchmark port has its own
 [pinned source and fixture provenance](gufo-bench-source.json).
+The complete C17 JSON parser in `src/json_parse.c` ports syntax, UTF-8/escape
+decoding and decoded duplicate-key semantics from independently fetched official
+Gufo `src/core/json.hpp` at `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`
+(source SHA-256 `abe26aa93f76be30d07aeef1a4aa5875ae6312689f499a5b53f8a6e7fae5368d`).
+Its iterative traversal, bounded workspace and per-object key tables are owned
+C17. Three exact edits in `adapters/gufo-state/json-parser-edits.json` preserve
+the original OFF parser; `adapters/gufo_json_parse.hpp` constructs private typed
+trees and translates exceptions. The retained Gufo MIT notice/license apply.
+No extra dependency or sibling project code is introduced.
 No sibling DS4/CachyOS project sources, recipes,
 configs or binaries were imported. Read-only inventory/qualification observations are
 historical evidence, not a copied backend. Model files remain external/read-only

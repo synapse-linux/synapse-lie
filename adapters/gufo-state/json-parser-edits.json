@@ -1,0 +1,22 @@
+{
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "purpose": "Default-ON shared C17 complete JSON syntax/decoding/duplicate-key control. Gufo typed tree construction stays in a private sink; full original OFF parser retained.",
+  "license": "MIT",
+  "edits": [
+    {
+      "path": "src/core/json.hpp",
+      "old": "namespace detail {\nstruct Parser {",
+      "new": "#if LIE_C17_SAMPLING\n} // namespace gufo::json\n#include \"gufo_json_parse.hpp\"\nnamespace gufo::json {\n#else\nnamespace detail {\nstruct Parser {"
+    },
+    {
+      "path": "src/core/json.hpp",
+      "old": "};\n}  // namespace detail\n",
+      "new": "};\n}  // namespace detail\n#endif\n"
+    },
+    {
+      "path": "src/core/json.hpp",
+      "old": "[[nodiscard]] inline Value parse(std::string_view text) {\n  detail::Parser p;\n  p.s = text;\n  Value value = p.parse_value();\n  p.skip_ws();\n  if (p.i != text.size())\n    p.fail(\"trailing input\");\n  return value;\n}",
+      "new": "[[nodiscard]] inline Value parse(std::string_view text) {\n#if LIE_C17_SAMPLING\n  return lie_gufo::parse_json(text);\n#else\n  detail::Parser p;\n  p.s = text;\n  Value value = p.parse_value();\n  p.skip_ws();\n  if (p.i != text.size())\n    p.fail(\"trailing input\");\n  return value;\n#endif\n}"
+    }
+  ]
+}
