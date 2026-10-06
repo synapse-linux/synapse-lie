@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## IQ2 DPP commit preparation — 2026-10-06 UTC
+
+Fresh global .15711:49:21 binds previous56ab4a49, retired identities/groups,
+empty KFD, original Core CPU/four GPU leases and model stat tuples unchanged.
+Core reports own fresh .157/.158/.161 non-use11:53UTC. Host36Debug/36ASan ends
+11:50:40UTC; all seven artifacts collected. Freeze167 fixtures/six manifests,
+1029 provider files for one new component plus one original2048/tg128 model.
+No saved control rebuild/rerun, Q4 or full curve. No GPU admission at freeze.
+
 ## Fixed IQ2 bounds window released — 2026-10-06 UTC
 
 Admission11:29:59.884588UTC/99dc5c07 binds checkpoint44ae768e, plan7c2491f2,

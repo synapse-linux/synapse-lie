@@ -4388,3 +4388,8 @@ The [new candidate](Q2-DOWN-HALF-STORAGE.md) starts from1511 and stores the fina
 ## Q2 half-output storage measured — 2026-10-05 UTC
 
 The new original2048/tg128 model measures1547.273268 PP /25.17198641 TG: nominal+2.394022% PP versus1511 parent,+7.176169% versus fixed1443 Q2.315 RN-even storage checks/99 expanded-half consumer checks pass; complete down/combine saves14.5983–18.6491% component time. Model output tokens and nine within-arm replays match; eight logits differ, max parentKL0.002693241666. Retain the faster experimental source and1511 parent; task quality and UD full-curve parity remain unqualified. All13 runtime exits0/37 artifacts verified; releasef2e1504f at12:25:17.460508UTC retires910 identities/722groups with KFD empty, four free original leases and seven unchanged model stat tuples. All mirrors exact; core notified. No Q4, old cohort/control or full curve rerun.
+
+The [IQ2 DPP commit experiment](Q2-IQ2-DPP-COMMIT.md)
+composes the retained fixed-bound parent with direct quad integer transport.
+Static assembly removes eight LDS-backed shuffles and four VGPR per lane;
+GPU/model qualification is pending and the fixed UD target remains open.

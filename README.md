@@ -1233,3 +1233,8 @@ The [IQ2 live-store composition](docs/Q2-IQ2-LIVE-COMPOSE.md) completes on .157 
 A new [scaled-Q2 down live-store candidate](docs/Q2-DOWN-LIVE-STAGE.md) extends unread-fragment store suppression to BN48/64 from the measured1511 IQ2 composition. Local assembly changes only two down bodies, preserves155 others and adds no VGPR/SGPR/LDS/private bytes.477 complete-output pairs, six rotated-weight distributions and one original2048/tg128 model are planned;115 launcher guards and local capsule checks pass. GPU safety/performance remain unproven. Saved Q2/UD/parent comparisons are reused, with no Q4 or curve work.
 
 The [scaled-Q2 down live-store experiment](docs/Q2-DOWN-LIVE-STAGE.md) completes on .157:477 guarded component pairs,21 parent files and nine replays are exact. New PP1506.753016/TG25.15614684 changes-0.287489%/+0.036978% against saved1511.097261/25.14684805; keep the1511 parent and retain the negative result. Component times are nearly unchanged across six distributions. All13 runtime exits0/37 artifacts verify, with27+27 host tests and115 launcher guards. The894-identity/709-group window releases at11:47:01.122226UTC; KFD is empty, four original leases free and seven model stat tuples unchanged. Complete samples/graphs are saved; no qualified comparator, Q4 or full curve is rerun. A separate read-only Q8 ISA review finds that payload loads already use128-bit instructions, so aligned-word reassembly has no demonstrated saving.
+
+The [IQ2 DPP commit experiment](docs/Q2-IQ2-DPP-COMMIT.md)
+composes the retained fixed-bound parent with direct quad integer transport.
+Static assembly removes eight LDS-backed shuffles and four VGPR per lane;
+GPU/model qualification is pending and the fixed UD target remains open.
