@@ -42,8 +42,9 @@ stable release is declared. Detailed validation history is in
 
 - Shared C17 complete JSON parser with ordered events, strict UTF-8/escape
   decoding, decoded duplicate-key detection and bounded allocation/work.
-  Original/default-ON/OFF host trees and errors agree; typed tree storage
-  remains private and matching GPU qualification is pending.
+  Original/default-ON/OFF host trees and errors agree. The matching build passes
+  37 original-weight OpenAI controls in each AR/MTP mode on Strix Point; typed
+  tree storage and broader fault/resource/quality/cost qualification remain open.
 
 - Shared C17 JSON Schema body policy for definitions, references, `anyOf` and
   `enum/const`, with preserved validation order and lifetime/refusal checks.

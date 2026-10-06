@@ -399,18 +399,19 @@ done
 
 ### Original-weight HTTP AR and MTP gates
 
-The newer `20777005` shared C17 reasoning/tool composition and binary64 JSON
-codec build passes the same 37 original-weight controls in both AR and MTP.
-The [source-bound receipt](../../../../development/validation/c17-binary64-point-gpu-2026-10-06.json)
-and [portable raw archive](data/rocm10-composition-codec-openai-r20.tar.gz)
-record matching 83-file source/provider bindings, all exits, model/predictor
+The matching `904774da` shared C17 reasoning/tool composition, binary64 JSON
+codec and complete JSON parser build passes the same 37 original-weight controls
+in both AR and MTP. The
+[source-bound receipt](../../../../development/validation/c17-json-parser-point-gpu-2026-10-06.json)
+and [portable raw archive](data/rocm10-json-parser-openai-r24.tar.gz)
+record matching 86-file source/provider bindings, all exits, model/predictor
 stats and complete process/lease retirement. These are selected functional
 controls; individual numeric/format branches, SSD BPE, independent probabilities,
 faults, quality, resources and matched performance remain open. No new benchmark
 curve is added by this functional gate.
 
 
-The later frozen r11 runtime (`abb69d5`) passes **34/34 checks in both AR and
+The earlier frozen r11 runtime (`abb69d5`) passes **34/34 checks in both AR and
 MTP**, including incremental function arguments/results/replay, allowed tools,
 2/8 choices, seeded replay, probabilities/bias, stops, constrained JSON and
 retained/background Responses lifecycle. These are functional wire/lifetime

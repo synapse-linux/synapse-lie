@@ -1,5 +1,26 @@
 # DS4 / synapse-lie coordination
 
+## R24 parser build and AR/MTP actually closed — 2026-10-06
+
+Fresh Point/DGX own non-use and separate 05:16:01 / 05:26:39 / 05:33:05 UTC global
+observations admit only the sealed `904774da` source. Build supervisor 108199 /
+start 13281372 compiles the exact 86-file provider/application without GPU devices
+and releases at 05:20:28 UTC. AR 112165 / start 13336239 and MTP 113588 / start
+13374588 each pass 37 unchanged original-weight controls and release at 05:30:26 /
+05:36:09 UTC. All actual child/supervisor/controller exits are 0. Six build files,
+17 compile artifacts and 17 files per inference mode are collected and verified.
+
+Fresh 2026-10-06T05:37:41.957419+00:00 closure verifies all exact supervisors
+retired and owned containers removed. Unrecorded AR/MTP init identities remain
+unknown. The original lease device 66307 / inode 105946405 is free briefly then
+released, router 114617 is active/only KFD, HTTP8000 is unbound, and no foreign
+client or hot guard is observed.
+[Receipt](development/validation/c17-json-parser-point-gpu-2026-10-06.json).
+CPU98/NVMe85/lower guards and GPU observation remain active. Observer/display/
+peer-status errors retain their actual scope and corrected observations; none
+restarts inference. Root has no standing remote job/client/build/lease/waiter/
+reservation or `.157` activity. Terminal Bench stays stopped/deferred.
+
 ## Local JSON parser; eval remains deferred — 2026-10-06
 
 Root performs only local host builds/tests for the complete C17 JSON parser.

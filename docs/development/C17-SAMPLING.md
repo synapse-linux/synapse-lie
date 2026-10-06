@@ -163,11 +163,15 @@ Release checks, 18 sanitizer checks and 43 full host reference checks pass;
 all 56 public headers compile together in C17 and C++17. Initial fixture failures
 and the public-name conflict remain recorded with their actual exits.
 
-This newer 86-file provider inventory has host qualification only. The existing
-`20777005` GPU qualification covers the previous 83-file composition/codec
-runtime and does not qualify this parser. A matching sealed HIP build and
-original-weight AR/MTP controls remain required, as do broader fault, resource,
-quality and matched-cost gates. No inference speedup is claimed. Terminal Bench
+The matching sealed `904774da` 86-file provider/application build passes
+37 unchanged original-weight OpenAI controls in each AR/MTP mode on `.161`
+([GPU receipt](validation/c17-json-parser-point-gpu-2026-10-06.json)). The host
+receipt retains its original host-only scope; `20777005` remains the earlier
+83-file composition/codec checkpoint. These newer controls qualify selected
+integrated paths; individual parser/numeric/format branches, independent
+probabilities, faults, private allocation-exact resources, quality and matched
+cost remain open. Both modes observe 44 whole-process threads, including runtime
+helpers. No new inference thread or speedup is claimed. Terminal Bench
 stays deferred until functional modifications and matching qualification finish.
 
 ## Ordered composition caches

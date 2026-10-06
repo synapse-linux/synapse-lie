@@ -1,6 +1,36 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Complete JSON parser passes matching GPU controls — 2026-10-06 UTC
+
+The sealed `904774da` source builds on `.161` in the pinned ROCm 10 image,
+with all 86 provider bindings exact: 74 first-party and 12 vendor/provenance.
+Separate original-lease windows pass the unchanged 37 OpenAI controls in each
+AR/MTP mode, including functions, strict JSON output, choices, probabilities,
+Responses lifecycle and automatic output budgets. All native/server/controller
+exits are 0 and target/predictor stats are unchanged. The
+[GPU receipt](development/validation/c17-json-parser-point-gpu-2026-10-06.json)
+and [portable raw evidence](benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-json-parser-openai-r24.tar.gz)
+bind the new parser recipe, build, actual processes and all collected results.
+The [host receipt](development/validation/c17-json-parser-host-2026-10-06.json)
+retains its original scope.
+
+AR/MTP CPU peaks are 64.5/66.25 C, GPU peaks 65/66 C and NVMe peaks 61.85/64.85 C.
+Both modes observe 44 whole-process threads, including runtime helpers; the C
+parser adds no thread. CPU98/NVMe85/lower guards and GPU observation remain active.
+Fresh 05:37:41 UTC closure verifies the three exact supervisors retired,
+containers removed, original lease free then released, router 114617 active/only
+KFD and HTTP8000 unbound. Unrecorded AR/MTP container-init identities remain
+explicitly unknown. The initial observer hash mismatch, local summary error and
+corrected stale peer status remain retained; no inference is replayed for them.
+
+Selected integrated paths qualify; typed JSON/key/value/predicate containers,
+model/controller ownership and broader branch/fault/probability/private-resource/
+quality/matched-cost gates remain open. All six owned tasks remain open. Root has
+no standing remote job/client/build/lease/waiter/reservation and keeps `.157`
+non-use. Terminal Bench stays stopped/deferred until functional modifications
+and matching qualification finish. No performance gain is claimed.
+
 ## Complete JSON parser passes host checks — 2026-10-06 UTC
 
 Complete single-root syntax, iterative traversal, UTF-8/escape/surrogate decoding

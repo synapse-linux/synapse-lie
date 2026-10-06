@@ -234,8 +234,10 @@ client/server restart or machine reservation is queued in the meantime.
    ([GPU receipt](development/validation/c17-binary64-point-gpu-2026-10-06.json)).
    Complete JSON syntax, UTF-8/escape decoding and decoded duplicate-key detection
    now also use C17, with [host checks](development/validation/c17-json-parser-host-2026-10-06.json).
-   Its newer 86-file inventory still needs a matching sealed HIP build and
-   original-weight AR/MTP qualification. Typed JSON/key/value containers,
+   Its matching sealed `904774da` 86-file inventory passes selected original-weight
+   AR37/MTP37 controls on `.161`
+   ([GPU receipt](development/validation/c17-json-parser-point-gpu-2026-10-06.json)).
+   Typed JSON/key/value containers,
    predicate storage and model/controller remain private.
    The earlier matching `a24875f` 66-file build passes selected original-weight
    AR37/MTP37 controls on `.161`
