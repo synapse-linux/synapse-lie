@@ -1,12 +1,96 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Block-uniform channel predicates in the SSM projection
 
-This source-only candidate derives from the retained original exact2048/tg128
-Q2 result, **1585.308983 prefill tokens/s /25.16079073 decode calls/s**.
-That result and fixed Q2 **1443.672867 /25.09595499** and UD
-**1685.777092 /24.34174251** are unchanged. The retained Q2 still needs
-6.337447% more prefill throughput to reach this UD point. There is no new GPU
-or model measurement and no full-context comparison in this preparation.
+The new candidate completes on .157 at2026-10-06T01:36:01UTC with
+**1584.785508 prefill tokens/s /25.15417889 decode calls/s**. Against retained
+**1585.308983 /25.16079073**, the nominal changes are-0.033020%/-0.026278%,
+with overlapping sample ranges. No incremental model speedup is demonstrated.
+Preserve the candidate and keep `ssm-fixed-bounds` as the performance base;
+its required prefill increase to fixed UD remains6.337447%. Full context and
+concurrency parity are still open.
+
+All30 complete component pairs and60 sampled FP64 checks pass. All21 saved
+files match both the retained1585 construction parent and older1580 reference;
+all nine within-arm replays are exact. The maximum FP64 relative RMS/scaled
+errors are1.067384e-5/1.108063e-5 against0.002. Inherited full-logit differences
+from fixed Q2/UD remain, with maximum matched-history KL0.001297699631 and
+0.008794906721. Exactness to the parent does not independently qualify task quality.
+
+## Complete new model samples
+
+Original exact2048/tg128,127 timed decode calls,capacity9216/chunk2048,
+greedy C1,MTP off,one warmup and three measured sessions remain unchanged.
+The15-second pauses are outside the timers. No qualified reference is rebuilt
+or rerun. The prefill input SHA256 remains
+`75343e606f5b815fe01f69ddc6ce50a997e2de96d8a20304a82a7f24f1180b35`.
+
+| Session | Prefill seconds | Prefill tokens/s | Decode seconds | Decode calls/s |
+| --- | ---: | ---: | ---: | ---: |
+| Warmup | 1.290333786 | 1587.186217 | 5.048643264 | 25.15527308 |
+| Measured 1 | 1.292725574 | 1584.249620 | 5.042520964 | 25.18581497 |
+| Measured 2 | 1.291799176 | 1585.385746 | 5.048862878 | 25.15417889 |
+| Measured 3 | 1.292288445 | 1584.785508 | 5.052440690 | 25.13636632 |
+| Median measured | 1.292288445 | 1584.785508 | 5.048862878 | 25.15417889 |
+
+| Saved reference | Prefill tokens/s | Decode calls/s | New PP change | New TG change |
+| --- | ---: | ---: | ---: | ---: |
+| Fixed Q2 | 1443.672867 | 25.09595499 | +9.774558% | +0.232005% |
+| Retained Q2 construction parent | 1585.308983 | 25.16079073 | -0.033020% | -0.026278% |
+| Fixed UD | 1685.777092 | 24.34174251 | -5.990803% | +3.337626% |
+
+New measured prefill spans1584.249620–1585.385746; saved-parent values span
+1584.079076–1586.342395. These are historical comparisons, not contemporary
+bookends. The experiment changes prefill only; its small observed decode
+difference does not establish a causal decode effect.
+
+![Complete model samples](figures/q2-ssm-channel-bounds-model-wrapped.png)
+[All20 new and saved samples, including the older1580 reference](figures/q2-ssm-channel-bounds-model-wrapped.csv),
+[model report](../config/q2-ssm-channel-bounds-model-results.json).
+
+## Complete component samples
+
+The existing fixture compares against the literal older1580 kernel, not the
+retained1585 construction parent. The complete2048-token projection/convolution
+median changes4946.393331→4836.396217us (-2.223784%). That comparison includes
+previously retained fixed-shape/bounds changes; it is not an isolated speedup
+from the new channel predicates. The full-model comparison above decides
+whether the new source improves on1585. No new resource/occupancy measurement
+is included. Three weight rotations total133693440bytes, beyond32MiB.
+
+| Session | Literal1580 control, microseconds | New candidate, microseconds |
+| --- | ---: | ---: |
+| Warmup 1 | 4884.87497965 | 4811.51676178 |
+| Warmup 2 | 4959.79309082 | 4800.09047190 |
+| Measured 1 | 4940.35339355 | 4837.95611064 |
+| Measured 2 | 4946.39333089 | 4819.20973460 |
+| Measured 3 | 4960.15294393 | 4887.31479645 |
+| Measured 4 | 4936.12702688 | 4836.39621735 |
+| Measured 5 | 5014.64462280 | 4806.86346690 |
+
+![Complete component samples](figures/q2-ssm-channel-bounds-component.png)
+[All14 timings](figures/q2-ssm-channel-bounds-component.csv),
+[component report](../config/q2-ssm-channel-bounds-component-results.json).
+
+Host31 Debug +31 ASan/UBSan, component and model produce13 zero-exit commands
+and37 verified artifacts. All105 frozen fixtures,13 manifests and1027 provider
+files verify. Both charts are visually reviewed. Model campaign peaks are
+83.375C CPU/73C GPU; no thermal stop occurs. Resident model43156012544bytes,
+session376777748bytes and deferred scratch7946240bytes remain unchanged.
+
+Release at01:36:46.129727UTC retires1258 recorded identities/1005 groups,
+with KFD empty, four original leases unchanged/free and seven model stat
+identities unchanged. Canonical/main/remote mirrors agree; Core is notified.
+No Q2 job/build/waiter/reservation, restart or .157 cleanup remains. Further
+GPU work requires a new admission. Full curve and Q4 are not run.
+
+[Final audit](../config/q2-ssm-channel-bounds-final-audit.json),
+[disposition](../config/q2-ssm-channel-bounds-disposition.json),
+[release](../config/q2-ssm-channel-bounds-window-release.json).
+
+## Retained preparation record
+
+The following records describe the state before device execution. Pending
+steps below are now completed by the results above.
 
 The unchanged SSM wrapper admits M16384, K2560,10240 convolution channels,
 four taps and BM256 blocks. The channel boundary is exactly40 blocks from

@@ -11,10 +11,13 @@ agent's DS4 project, model conversion or Antirez Qwen executor is imported.
 The MIT local patch replaces two SSM channel predicates by their block-uniform
 equivalent and asserts the exact divisibility of the channel boundary. The
 generator enumerates the output ownership proof; the static audit compares
-against saved parent assembly. This is local preparation only, without GPU
-or model performance qualification. No public ABI, state, scheduling or
-metrics contract changes.
+against saved parent assembly. GPU and original2048/tg128 measurements now
+complete on .157. Thirty component pairs,60 FP64 checks and21 retained-parent
+model files pass;1584.785508 PP /25.15417889 TG shows no incremental gain over
+1585.308983 /25.16079073. The source remains an experimental result; the parent
+stays the performance base. No public ABI, state, scheduling or metrics
+contract changes. Independent task quality and full-curve parity remain open.
 
 [Patch](../../experiments/q2-ssm-channel-bounds.patch),
 [source identities](../../config/q2-ssm-channel-bounds-source.json),
-[scope and pending measurements](../../docs/Q2-SSM-CHANNEL-BOUNDS.md).
+[scope and complete measurements](../../docs/Q2-SSM-CHANNEL-BOUNDS.md).

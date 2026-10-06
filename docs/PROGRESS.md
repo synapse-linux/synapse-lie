@@ -1,5 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [SSM channel-predicate experiment](Q2-SSM-CHANNEL-BOUNDS.md) completes at
+01:36:01UTC:1584.785508 PP /25.15417889 TG versus retained1585.308983 /25.16079073,
+nominal-0.033020%/-0.026278% with overlapping ranges. No incremental model gain
+is established; keep1585. All30 complete component pairs,60 sampled FP64 checks,
+both21-file model comparisons and nine internal replays pass. The component's
+4946.393331→4836.396217us (-2.223784%) uses the older1580 control and includes
+prior retained changes; it is not the latest patch's isolated improvement.
+
+Host31+31 and new component/model yield13 zero exits/37 verified artifacts.
+All105 fixtures/13 manifests/1027 provider files and complete sample exports
+verify; both charts are visually checked. Release01:36:46UTC SHA8ffd9efb retires
+1258 identities/1005 groups, KFD empty, four original leases free, seven model
+stat tuples unchanged and canonical/main/remote mirrors exact. Core receives
+closure; no Q2 job/build/waiter/reservation or cleanup remains. This turn adds
+actual measurements and rules out this predicate simplification as a way to
+close the remaining6.337447% PP requirement. Full curve/Q4 remain deferred.
+
 SSM channel-bounds runtime preparation now passes fresh .157 host31+31 at
 01:27:38UTC: six exits0/seven artifacts,105 bound fixtures and1027 provider
 files. New component/counting modes retain all historical source registries

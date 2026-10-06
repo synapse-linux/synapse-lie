@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [SSM channel-predicate experiment](docs/Q2-SSM-CHANNEL-BOUNDS.md) completes
+at1584.785508 PP /25.15417889 TG, nominal-0.033020%/-0.026278% versus retained
+1585.308983 /25.16079073 with overlapping ranges. Thirty component pairs,
+60 FP64 checks,21 parent model files and nine internal replays pass. Keep the
+1585 parent; the new source demonstrates no model speedup. All13 runtime
+commands exit0/37 artifacts verify, and .157 is released. Complete samples
+and graphs are saved; full-curve parity remains open. Earlier entries below
+retain their preparation-time state.
+
 The new [SSM channel-partition candidate](docs/Q2-SSM-CHANNEL-BOUNDS.md)
 exposes two equivalent block-uniform predicates on the retained1585 provider.
 Local static instructions fall3864→3825;161 other kernel bodies and resources

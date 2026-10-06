@@ -1,0 +1,100 @@
+{
+  "schema": "synapse-lie.q2-ssm-channel-bounds-final.v1",
+  "plan_sha256": "84e92f9853538665649a084860498e93c52191f994a284c5a692713ccf515999",
+  "model_result_sha256": "cc6d289de9a37f86ad79b1c4ccbf323e4eb42b53015e8ac9d9dafa596bab7956",
+  "component_result_sha256": "acfd7e1b13e139a1f66ae5b7a13d9411224d41547251787a73513d27f15decae",
+  "release_sha256": "8ffd9efb36cf38885a4e9a49a1daa4dafadfd15e8892e591e66c92675ed54f11",
+  "runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 37,
+  "new_artifacts_verified": 37,
+  "reused_host_artifacts": 0,
+  "host_reused": false,
+  "host_rerun": true,
+  "host_label": "q2-ssm-channel-bounds-host-r1",
+  "new_runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "host_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "frozen_fixtures_verified": 105,
+  "frozen_manifests_verified": 13,
+  "provider_files_verified": 1027,
+  "retired_identities": 1258,
+  "retired_groups": 1005,
+  "thermal_max_c": {
+    "q2-ssm-channel-bounds-host-r1": {
+      "amdgpu": 38.0,
+      "k10temp": 64.375
+    },
+    "q2-ssm-channel-bounds-component-r1": {
+      "amdgpu": 42.0,
+      "k10temp": 65.25
+    },
+    "q2-ssm-channel-bounds-model-r1": {
+      "amdgpu": 73.0,
+      "k10temp": 83.375
+    }
+  },
+  "resources": [],
+  "component_parent_exact": true,
+  "independent_operator_pass": true,
+  "parent_model_checks": {
+    "input_exact": true,
+    "output_tokens_exact": true,
+    "changed_files": [],
+    "max_matched_history_kl": 0.0
+  },
+  "retained_best_model_checks": {
+    "input_exact": true,
+    "output_tokens_exact": true,
+    "changed_files": [],
+    "max_matched_history_kl": 0.0
+  },
+  "retained_best_rerun": false,
+  "within_arm_exact": true,
+  "figures": {
+    "docs/figures/q2-ssm-channel-bounds-component.csv": "e996fe166d47a4290e3678e85bf244977f3335936df2af9105e3e9617c87bf80",
+    "docs/figures/q2-ssm-channel-bounds-component.svg": "b94bb03ef39bf14f3ad91bc2f2aa28049cef3fe6b3eebb0124320c620172432f",
+    "docs/figures/q2-ssm-channel-bounds-component.png": "ca677fa4158dd3dcea910c47528be891bbdb1e27c4169d4e9fa045b20c015834",
+    "docs/figures/q2-ssm-channel-bounds-model-wrapped.csv": "3ee87aeb56b3cdcfce1034e2dda261e2795bd70dbc491795ce73b7c0abde3fb6",
+    "docs/figures/q2-ssm-channel-bounds-model-wrapped.svg": "d722305b8f34db8d6fc93a7c3a03e3918c7d809e0a4756bb9e03a2168a1e714e",
+    "docs/figures/q2-ssm-channel-bounds-model-wrapped.png": "2a6904248c13848a8f7f6acc340369ea22c79896b389d378d2be3a27b2cc8a90"
+  },
+  "preserved_nonzero_exits": {},
+  "controls_rerun": false,
+  "independent_quality": false,
+  "full_curve": false,
+  "goal_met": false
+}

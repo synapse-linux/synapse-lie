@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+SSM channel-bounds releases .157 at2026-10-06T01:36:46.129727UTC,
+SHA2568ffd9efb36cf38885a4e9a49a1daa4dafadfd15e8892e591e66c92675ed54f11.
+Fresh closure01:29:38UTC precedes admission01:29:56UTC from7682a9c. New host,
+component and model are terminal and collected:13 exits0/37 verified artifacts.
+Release verifies1258 retired identities/1005 groups, KFD empty, four unchanged
+free leases and seven unchanged model stat tuples. Canonical/main/remote
+mirrors agree; Core receives closure. No Q2 job/build/client/lease/waiter/
+reservation, restart or cleanup remains. Further GPU work needs new admission.
+[Release](../config/q2-ssm-channel-bounds-window-release.json),
+[audit](../config/q2-ssm-channel-bounds-final-audit.json).
+
 SSM channel-bounds host31+31 completes on .157 at01:27:38UTC, is collected and
 bound to its new runner/source plan. Core confirms persistent non-use .157;
 fresh closure, registry, KFD and four-lease admission remain mandatory before
