@@ -1,5 +1,10 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+[Updated Q2 prefill and decode graph](docs/figures/q2-full-prefill128/pp-tg.png):
+the saved exact-2K/TG128 reference appears separately from the complete 4K–128K
+prefills and their original eight-token replies. The long-context TG128 curve
+is not measured by those replies. [Values and conditions](docs/Q2-FULL-PREFILL128.md).
+
 The [complete prefill through128K](docs/Q2-FULL-PREFILL128.md) now measures
 Q2 **1310.875 token/s** versus saved UD **1253.556**, using exactly130925 saved
 input tokens, zero cached tokens and64 prefill calls. All eight historical prefix

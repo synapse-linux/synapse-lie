@@ -1,6 +1,33 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Complete prefill through128K on the latest retained Q2
 
+The complete-prefix extraction below starts at 4K because the historical
+`prefix` phase starts there. The original summary omitted the already measured
+2K point; it belongs in the comparison with its original conditions visible.
+
+| Retained fixed reference | Physical input tokens | Context capacity | Prefill token/s | Prefill seconds | Decode token/s |
+|---|---:|---:|---:|---:|---:|
+| Initial Q2 | 2048 | 9216 | 1443.672867 | 1.418603928 | 25.09595499 |
+| Latest Q2, IQ2 fixed bounds | 2048 | 9216 | 1587.893545 | 1.289759006 | 25.12414406 |
+| UD | 2048 | 9216 | 1685.777092 | 1.214869991 | 24.34174251 |
+
+These are the unchanged saved exact-2048/tg128 observations, with 127 timed
+decode calls, original input and original aggregation. They were not rerun
+during the 133760-capacity full-prefix campaign. Do not connect this separate
+reference as if it were a newly measured point of that curve, or substitute
+the 2055-token preparation warmup for it.
+[Original reference](../config/q2-fixed-prefill-reference.json),
+[latest Q2 measurements](../config/q2-iq2-fixed-bounds-model-results.json).
+
+![Updated prefill and decode with separate fixed-2K reference](figures/q2-full-prefill128/pp-tg.png)
+
+[SVG](figures/q2-full-prefill128/pp-tg.svg),
+[full-prefix PP/TG CSV](figures/q2-full-prefill128/pp-tg.csv),
+[fixed-2K PP/TG CSV](figures/q2-full-prefill128/fixed-2k-pp-tg.csv).
+The two columns have different input, capacity and output-budget contracts;
+no line joins the fixed point to the long-prefix curve. All values come from
+existing measurements; generating this figure performs no GPU run.
+
 The owner explicitly requests the entire prefill on the latest optimized
 version, without invented token variations. Use the retained IQ2-fixed-bounds
 provider1028 files, server9993fdce and native C synapse-lie-bench87d856cf.

@@ -1,5 +1,27 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## PP/TG graph from existing measurements — 2026-10-06 UTC
+
+Export the original eight-token decode observations alongside the complete
+prefix prefill, retaining both historical Q2 controls and UD. All eight exact
+requests have eight completed output tokens and eight timed AR decode calls;
+Q2 measures 26.471407 token/s at 4K and 25.344213 at 128K. The low archived UD
+64K observation remains visible. The exact-2K/TG128 reference is in separate
+panels, with its original capacity, 127 timed calls and saved aggregation.
+Raw hashes, semantic requests, output budgets and count/time rates are checked.
+Export and layout correction exit 0; report and CSVs stay exact during redraw.
+No new inference, TG128 curve, numerical candidate or performance claim.
+[Graph and data](Q2-FULL-PREFILL128.md).
+
+## Restore the omitted 2K comparison — 2026-10-06 UTC
+
+The full-prefix table began at 4K because only historical `prefix` requests
+were selected. Add the already measured exact-2048 reference explicitly:
+initial Q2 1443.672867, latest Q2 1587.893545 and UD 1685.777092 token/s.
+Its capacity remains 9216, distinct from the 133760-capacity long-prefix
+campaign. No rerun, new aggregation, token substitution or warmup-as-result.
+[Complete comparison and conditions](Q2-FULL-PREFILL128.md).
+
 ## Complete saved-input prefill through128K — 2026-10-06 UTC
 
 Eight exact full-prefix observations are collected and audited. Current retained
