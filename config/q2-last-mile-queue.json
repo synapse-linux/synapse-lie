@@ -45,9 +45,14 @@
         105
       ]
     ],
-    "provider_implemented": false,
+    "provider_implemented": true,
     "GPU_admission": false,
-    "model_speedup_claim": false
+    "model_speedup_claim": false,
+    "model_plan": "config/q2-down-fixed-bounds-plan.json",
+    "host_checks": {
+      "debug": 37,
+      "asan_ubsan": 37
+    }
   },
   "deprioritized": [
     "Compact AoS IQ2 table-LDS placement regresses12\u201320% operator time and1.627%model PP",

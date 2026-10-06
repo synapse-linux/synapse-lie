@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Fixed Q2 down preparation — 2026-10-06 UTC
+
+Three private m2560/k640 half-output down kernels preserve the parent arithmetic, routing and memory layout. A guarded selector requires 16-byte output alignment; all other rows/alignment use the original implementation. Parent 164 device bodies and three private draft bodies match saved ISA. Host 37+37 checks pass on .157; 190 fixtures/six manifests/1029 provider files freeze for one new component and one original model. Preserve 1587.893545 PP until measured evidence. [Scope](Q2-DOWN-FIXED-BOUNDS.md).
+
 ## HC raw-Q8 model result — 2026-10-06 UTC
 
 The new original model measures 1583.808188 PP / 25.10789589 TG, −0.257282% PP versus the retained 1587.893545. Output tokens and nine internal replays match; eight logit files change, maximum matched-history KL 0.004175090750 versus the parent. Preserve the experiment without promotion. Host 37+37 and all ten commands pass; 33 artifacts collect before 12:38:34 UTC release 962b229f. Fixed Q2/UD/input/timers remain unchanged. [Complete samples, scratch contract and limits](Q2-HC-INJECT-RAW-Q8.md).

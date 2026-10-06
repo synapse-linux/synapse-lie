@@ -1,5 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [fixed Q2 down candidate](docs/Q2-DOWN-FIXED-BOUNDS.md) is prepared from retained 1587.893545 PP. Three guarded m2560/k640 kernels remove 23–36% static instructions; .157 host 37+37 checks pass. Numerical component and original-model results are pending.
+
 The [HC raw-Q8 model trial](docs/Q2-HC-INJECT-RAW-Q8.md) completes at 1583.808188 PP / 25.10789589 TG, −0.257282% PP versus the retained 1587.893545 parent. Token histories match; eight logit files change. Keep the parent. All new and saved samples, logits and the negative result are preserved; `.157` is released. The next local down-kernel draft removes 23–36% static instructions, with runtime benefit still untested.
 
 The [HC raw-Q8 injection trial](docs/Q2-HC-INJECT-RAW-Q8.md) now integrates the already measured component with a guarded 20 MiB borrow from existing expert scratch. Host 37+37 checks pass on `.157`; saved parent and component device bodies are unchanged. One new original-model measurement is prepared. Retain 1587.893545 PP against fixed UD 1685.777092; no speedup is claimed yet.

@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Fixed Q2 down preparation — 2026-10-06 UTC
+
+Fresh .157 checks at 12:49:00 UTC bind previous 962b229f with retired identities/groups, empty KFD, unchanged original leases and model stat tuples. Core confirms own .157/.158 non-use after its separate .161 closure. New host 37+37 ends 12:49:53 UTC; seven artifacts are collected. The frozen plan permits one component with 132 guarded pairs/five timed-buffer replays and one unchanged original2048/tg128 model. No GPU admission at preparation; no remote cleanup or control rerun.
+
 ## HC raw-Q8 model window released — 2026-10-06 UTC
 
 Admission 12:32:55 UTC / 83f66903 binds checkpoint be867224 and plan 93d5c661. The only model ends 12:37:41 UTC; all ten host/model exits pass and 33 artifacts collect. Release 12:38:34.376132 UTC / 962b229f retires 1484 identities and 1189 groups, with empty KFD, original CPU/four GPU leases free and seven model stat tuples unchanged. Canonical/main/remote mirrors agree and Core is informed before analysis. No Q2 job/client/build/lease/window/waiter/reservation remains on .157/.158/.161. No remote cleanup. The new down specialization is local compiler preparation only.
