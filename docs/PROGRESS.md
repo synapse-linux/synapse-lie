@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Original-capacity 128K curve prepared — 2026-10-06 UTC
+
+The owner requests the complete 0–128K curve now. The native C client, prose
+recipe, original133760 capacity and saved UD results remain fixed. Retained
+Q2 numerical sources are unchanged; its already-built server is reused.
+No new GPU compilation or UD measurement is required. Full physical counts,
+phase timings and request histories will be retained. [Plan and scope](Q2-CURVE128.md).
+
 ## Benchmark comparability correction — 2026-10-06 UTC
 
 The 256K campaign does not reproduce the historical capacity and UD baseline;

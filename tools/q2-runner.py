@@ -59,11 +59,14 @@ def main():
         raise SystemExit('Native curve requires an uninstrumented canonical mode')
     if mode == 'q2-curve-scale' and not native_curve:
         raise SystemExit('Scale model comparison requires the native C canonical benchmark')
+    curve128 = mode == 'q2-curve128'
+    if curve128 and (not native_curve or '--rebuild-mmq' in sys.argv[2:] or point_only or '--replay-from' in sys.argv[2:]):
+        raise SystemExit('Curve128 requires the native full curve and pinned binaries without builds')
     curve256 = mode in ('q2-curve256', 'ud-curve256')
     curve256_cpu = mode == 'curve256-cpu'
     if curve256 and (not native_curve or '--rebuild-mmq' in sys.argv[2:] or point_only):
         raise SystemExit('Curve256 requires the native full curve and pinned MMQ reuse')
-    curve_mode = curve256 or mode in ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed', 'q2-curve-scale', 'q2-curve-row', 'q2-point-norm')
+    curve_mode = curve128 or curve256 or mode in ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed', 'q2-curve-scale', 'q2-curve-row', 'q2-point-norm')
     curve_routes = mode == 'q2-curve-routes'
     curve_cache_first = mode == 'q2-curve-ple-cache-first'
     curve_mixed = mode == 'q2-curve-iq2-mixed'
@@ -74,7 +77,7 @@ def main():
     curve_scale = mode == 'q2-curve-scale'
     curve_iq2 = point_norm or curve_row or curve_scale or mode == 'q2-curve-iq2' or curve_cache_first or curve_routes or curve_mixed
     curve_profile = curve_mode and mode.endswith('-ple')
-    if curve_mode and not curve256 and '--rebuild-mmq' not in sys.argv[2:]:
+    if curve_mode and not (curve128 or curve256) and '--rebuild-mmq' not in sys.argv[2:]:
         raise SystemExit('Canonical curve requires a full MMQ rebuild')
     replay_label = sys.argv[sys.argv.index('--replay-from')+1] if '--replay-from' in sys.argv[2:] else None
     replay_modes = {'q2-norm-fixed-model-before-r1': 'q2-counting-iq2-mixed',
@@ -288,14 +291,18 @@ def main():
                                     receipt_sha256=pins['receipt_sha256'], original_build_unchanged=True)
             reuse_args=['-DQ2_MMQ_ARCHIVE='+str(copied)]
             save()
+        if curve128:
+            from q2_curve128 import verify_server
+            reused_curve_binary, result['curve_server_reuse'] = verify_server(ROOT)
+            save()
         if native_cpu:
             _, bench_manifest = verify_native_curve(ROOT, staged=True)
             result['native_bench_commit'] = bench_manifest['commit']
             save()
         if native_curve:
             bench_source, bench_manifest = verify_native_curve(ROOT, staged=True)
-            if curve256:
-                pins=json.loads((ROOT/'config/q2-curve256-binaries.json').read_text())['native_bench']
+            if curve256 or curve128:
+                pins=json.loads((ROOT/('config/q2-curve128-binaries.json' if curve128 else 'config/q2-curve256-binaries.json')).read_text())['native_bench']
                 previous=ROOT.parent/pins['label']
                 if hashlib.sha256((previous/'results/result.json').read_bytes()).hexdigest()!=pins['receipt_sha256']:
                     raise RuntimeError('Native benchmark qualification changed')
@@ -322,7 +329,7 @@ def main():
         profiles=[] if counter_mode else [('debug',False),('sanitize',True)] if cpu_mode else [('io' if io_mode else 'hip',False)]
         for name,sanitize in profiles:
             build = ROOT/'build'/name
-            if not replay_label:
+            if not replay_label and not curve128:
                 run(['cmake','-S',str(ROOT/'curve-core' if curve256_cpu else ROOT/'native-bench-core' if native_cpu else ROOT/'terminal-core' if terminal_cpu else ROOT),'-B',str(build),'-G','Ninja',
                      '-DCMAKE_BUILD_TYPE='+('Debug' if cpu_mode else 'RelWithDebInfo'),
                      '-DQ2_SANITIZERS='+('ON' if sanitize else 'OFF'),
@@ -359,7 +366,7 @@ def main():
                     result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()
                     if result['binary_sha256']!=result['binary_sha256_after']: raise RuntimeError('Binary changed')
             elif curve_mode:
-                binary=build/'cmake/curve/core/synapse-lie-server'
+                binary=reused_curve_binary if curve128 else build/'cmake/curve/core/synapse-lie-server'
                 result['binary_sha256']=hashlib.sha256(binary.read_bytes()).hexdigest()
                 run([str(binary),'--build-info'],env,30)
                 run([str(binary),'--help'],env,30)
@@ -368,7 +375,7 @@ def main():
                 save()
                 try:
                     run(['python3','-B',str(ROOT/('tools/q2-curve256-session.py' if curve256 else 'tools/q2-curve-session.py')),str(binary),model_paths[0],
-                         'q2' if mode.startswith('q2-') else 'ud']+(['--native-bench', str(bench_binary)] if native_curve else [])+(['--point-only'] if point_only else [])+(['--iq2-signs'] if mode=='q2-curve256' else ['--norm-ragged'] if point_norm else ['--scaled-row'] if curve_row else ['--iq2-scale'] if curve_scale else ['--iq2-mixed'] if curve_mixed else ['--profile-routes'] if curve_routes else ['--profile-ple'] if curve_profile else ['--ple-cache-first'] if curve_cache_first else ['--iq2-signs'] if curve_iq2 else []),
+                         'q2' if mode.startswith('q2-') else 'ud']+(['--native-bench', str(bench_binary)] if native_curve else [])+(['--point-only'] if point_only else [])+(['--retained-128'] if curve128 else ['--iq2-signs'] if mode=='q2-curve256' else ['--norm-ragged'] if point_norm else ['--scaled-row'] if curve_row else ['--iq2-scale'] if curve_scale else ['--iq2-mixed'] if curve_mixed else ['--profile-routes'] if curve_routes else ['--profile-ple'] if curve_profile else ['--ple-cache-first'] if curve_cache_first else ['--iq2-signs'] if curve_iq2 else []),
                         dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),18000 if curve256 else 3000)
                 finally:
                     result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()

@@ -19,6 +19,8 @@ The separate [attention-capacity draft](docs/Q2-ATTENTION-CAPACITY.md) has local
 compilation and host-test evidence only. Its synthetic GPU fixture has neither
 admission nor a run and is not scheduled. New performance work remains limited
 to new Q2 candidates under the frozen fixed comparison, using saved controls.
+The owner additionally requests a [corrected 0–128K curve](docs/Q2-CURVE128.md)
+at the original133760 capacity, reusing the saved UD reference and native client.
 
 The [down null-contract trial](docs/Q2-DOWN-FIXED-CONTRACT.md) completes at 1586.586480 PP / 25.16050717 TG; 132 operator pairs and 21 parent model files are exact. Component time improves 0.69–1.98%, but no whole-model gain is observed. Retain 1587.893545 PP and preserve the marginal candidate. The owner also requests a parallel curve through 256K while fixed-point parity remains the optimization priority.
 

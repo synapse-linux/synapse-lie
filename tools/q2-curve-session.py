@@ -35,8 +35,11 @@ def main():
         flags = flags[1:]
         if native_bench is None:
             raise ValueError('Focused point requires the native benchmark')
-    if flags not in ([], ['--profile-ple'], ['--iq2-signs'], ['--ple-cache-first'], ['--profile-routes'], ['--iq2-mixed'], ['--iq2-scale'], ['--scaled-row'], ['--norm-ragged']):
+    if flags not in ([], ['--profile-ple'], ['--iq2-signs'], ['--ple-cache-first'], ['--profile-routes'], ['--iq2-mixed'], ['--iq2-scale'], ['--scaled-row'], ['--norm-ragged'], ['--retained-128']):
         raise ValueError('Unknown diagnostic flags')
+    retained128 = flags == ['--retained-128']
+    if retained128 and (variant != 'q2' or native_bench is None or point_only):
+        raise ValueError('Retained128 requires the complete native Q2 curve')
     profile = flags == ['--profile-ple']
     iq2_signs = flags == ['--iq2-signs']
     cache_first = flags == ['--ple-cache-first']
@@ -53,19 +56,19 @@ def main():
         raise ValueError('IQ2 signs requires the Q2 model')
     if (scale or row_reuse) and native_bench is None:
         raise ValueError('Scale model comparison requires the native C canonical benchmark')
-    if native_bench is not None and not ((variant == 'ud' and not flags) or iq2_signs or scale or row_reuse or norm_ragged):
+    if native_bench is not None and not ((variant == 'ud' and not flags) or iq2_signs or scale or row_reuse or norm_ragged or retained128):
         raise ValueError('Native curve requires an uninstrumented ordered Q2, scale Q2 or UD provider')
     result = ROOT/'results'
     receipt = dict(state='STARTING', variant=variant, commands=[], started_ns=time.monotonic_ns(),
                    instrumentation='routing-counts' if routes else 'ple-forward' if profile else None,
                    point_only=point_only,
-                   provider_experiment='norm-ragged' if norm_ragged else 'scaled-row-reuse' if row_reuse else 'iq2-scale-reuse' if scale else 'iq2-mixed-ordered' if mixed else
+                   provider_experiment='iq2-fixed-bounds-retained128' if retained128 else 'norm-ragged' if norm_ragged else 'scaled-row-reuse' if row_reuse else 'iq2-scale-reuse' if scale else 'iq2-mixed-ordered' if mixed else
                                        'ple-cache-first-ordered' if cache_first else
                                        'iq2-signs-ordered' if iq2_signs else None)
     if native_bench is not None:
         receipt['client_driver'] = 'synapse-lie-bench-native-C'
         receipt['client_binary_sha256'] = hashlib.sha256(native_bench.read_bytes()).hexdigest()
-        native_variant = 'norm' if norm_ragged else 'row' if row_reuse else 'scale' if scale else 'ordered' if iq2_signs else 'ud'
+        native_variant = 'retained128' if retained128 else 'norm' if norm_ragged else 'row' if row_reuse else 'scale' if scale else 'ordered' if iq2_signs else 'ud'
     def save():
         (result/'curve-session.json').write_text(json.dumps(receipt, indent=2)+'\n')
     with socket.socket() as sock:
@@ -100,6 +103,8 @@ def main():
                 try:
                     with urllib.request.urlopen(f'http://127.0.0.1:{management}/actuator/llm', timeout=5) as response:
                         info = json.load(response)
+                    if retained128 and info.get('backend', {}).get('state') == 'FAILED':
+                        raise RuntimeError('Model initialization failed')
                     if info.get('ready') is True:
                         receipt['backend_ready'] = info
                         break

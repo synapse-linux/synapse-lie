@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Original-capacity curve preparation — 2026-10-06 UTC
+
+Core freshly confirms own .157/.158 non-use; its .161 AR/MTP work is separate.
+Fresh .157 handover16:47:43UTC verifies release3e59f417, original lease identities,
+retired processes/groups, empty KFD and unchanged model stat tuples. The requested
+new128K Q2 curve uses original133760 capacity and saved binaries, without GPU
+build or saved-control rerun. No .158/.161 use or remote cleanup. Fresh scoped
+GPU admission remains required. Final host-r2 passes38+38 and ends16:52:27UTC;
+all seven artifacts collect. Earlier host-r1 also passes and is retained for closure.
+
 ## Attention operator plan not scheduled — 2026-10-06 UTC
 
 The changed benchmark conditions invalidate the historical comparison. The
