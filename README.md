@@ -1,10 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-The next [compact-LDS SSM measurement](docs/Q2-SSM-COMPACT-LDS.md) is prepared:
-49152 to32768 shared bytes, unchanged K16 order and extra synchronization to
-measure. It uses the existing1027-file candidate, reuses byte-identical .157
-host30+30 and keeps saved1585, construction1580 and fixed Q2/UD comparisons.
-GPU results are pending; the retained performance base stays1585.308983 PP.
+The [compact-LDS SSM measurement](docs/Q2-SSM-COMPACT-LDS.md) completes at
+1555.078658 PP /25.13403225 TG, losing1.906904% PP against retained1585.
+All30 component pairs/60 FP64 checks and both21-file parent comparisons pass.
+Lower shared memory permits a theoretical1→2 blocks but increases component
+time10.364322%. Preserve the experiment and keep1585.308983/25.16079073.
+Seven new exits0/30 new artifacts verify; host30+30 and all controls are reused.
+Full samples/charts are saved and .157 is released without cleanup.
 
 The corrected [compressed expert cache](docs/Q2-COMPRESSED-CACHE.md) implements
 the original antirez/ds4 slot mechanism and completes its .157 measurement:

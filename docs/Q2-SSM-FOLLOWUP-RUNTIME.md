@@ -1,6 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Runtime wiring for the SSM follow-ups
 
+All four follow-ups now have component/model evidence. Compact LDS completes
+at1555.078658 PP, losing1.906904% against retained1585 despite exact outputs.
+Host30+30 is reused with102 byte-identical fixtures; seven new commands exit0
+and30 new artifacts verify. Its .157 window is released. Keep fixed-bounds
+1585.308983/25.16079073; no control or full curve is rerun.
+[Compact-LDS results](Q2-SSM-COMPACT-LDS.md).
+The pending statements below record earlier campaign states.
+
 Fixed bounds now completes at1585.308983 PP, nominal +0.155659% against
 saved fixed-M/K1582.845143. Both21-file parent comparisons are exact. The90
 unchanged fixtures again permit explicitly reusing qualified host27+27; only

@@ -1,0 +1,15 @@
+event,shape,rep,order,candidate,warmup,tokens,output_rows,inner,iterations,weight_bytes,us_per_iteration
+ssm_compact_lds_timing,ssm2048,0,0,False,True,2048,16384,2560,3,133693440,4870.56128184
+ssm_compact_lds_timing,ssm2048,0,1,True,True,2048,16384,2560,3,133693440,5501.99953715
+ssm_compact_lds_timing,ssm2048,1,0,True,True,2048,16384,2560,3,133693440,5392.0955658
+ssm_compact_lds_timing,ssm2048,1,1,False,True,2048,16384,2560,3,133693440,4932.86673228
+ssm_compact_lds_timing,ssm2048,2,0,False,False,2048,16384,2560,3,133693440,4946.8793869
+ssm_compact_lds_timing,ssm2048,2,1,True,False,2048,16384,2560,3,133693440,5439.67628479
+ssm_compact_lds_timing,ssm2048,3,0,True,False,2048,16384,2560,3,133693440,5352.58483887
+ssm_compact_lds_timing,ssm2048,3,1,False,False,2048,16384,2560,3,133693440,4924.40923055
+ssm_compact_lds_timing,ssm2048,4,0,False,False,2048,16384,2560,3,133693440,4928.83586884
+ssm_compact_lds_timing,ssm2048,4,1,True,False,2048,16384,2560,3,133693440,5440.83658854
+ssm_compact_lds_timing,ssm2048,5,0,True,False,2048,16384,2560,3,133693440,5352.41190592
+ssm_compact_lds_timing,ssm2048,5,1,False,False,2048,16384,2560,3,133693440,4940.66206614
+ssm_compact_lds_timing,ssm2048,6,0,False,False,2048,16384,2560,3,133693440,4921.10220591
+ssm_compact_lds_timing,ssm2048,6,1,True,False,2048,16384,2560,3,133693440,5465.43502808

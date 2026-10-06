@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Compact-LDS SSM releases .157 at2026-10-06T00:30:45.862213UTC, SHA256
+a47f405b1f4624e30efab76eba4d5ad1968498fccfe623dd7804ac60e8dc8abd.
+New component/model are terminal and collected: seven exits0/30 artifacts;
+earlier host30+30 is explicitly reused after102-fixture/archive verification.
+All1219 recorded identities/973 groups are retired, KFD empty, four original
+leases unchanged and free, seven model stat tuples unchanged. Canonical/main/
+remote mirrors agree and Core receives closure. No Q2 job/build/client/lease/
+waiter/reservation, restart or cleanup remains. Future GPU work requires fresh
+admission. [Release](../config/q2-ssm-compact-lds-window-release.json),
+[final audit](../config/q2-ssm-compact-lds-final-audit.json).
+
 Q2 compressed expert cache releases .157 at2026-10-06T00:15:46.954550UTC,
 SHAa94c8b81e150641423391f00620a68caa635575cf454245389fd39a866ec0df5.
 Primary host/component/model are terminal and collected:13 exits0/37

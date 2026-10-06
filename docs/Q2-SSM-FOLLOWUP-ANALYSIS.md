@@ -1,6 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 # SSM follow-up result analysis
 
+The analyzer has now processed all four actual GPU/model follow-ups. The final
+compact-LDS source is exact but slower; its additional retained1585 comparison
+is bound to that saved model's original archive and90-fixture plan, separately
+from the new102-fixture campaign. Complete raw results, samples, exports and
+closure are in[Q2-SSM-COMPACT-LDS.md](Q2-SSM-COMPACT-LDS.md).
+The following is the original preparation record; runtime is now applied and
+all four follow-up windows are released.
+
 `tools/analyze-q2-ssm-followup.py` prepares component and original2048/tg128
 model reports for the four sources in the [runtime patch](Q2-SSM-FOLLOWUP-RUNTIME.md).
 No new component or model result exists yet. The first row-group campaign,

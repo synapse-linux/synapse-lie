@@ -1,15 +1,27 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-After the completed compressed-cache experiment, the unmeasured
-[compact-LDS SSM source](Q2-SSM-COMPACT-LDS.md) is next. Its first campaign
-binds102 byte-identical fixtures/fifteen manifests/1027 provider files and
-reuses the actual host30+30 receipt. Two source capsules stage without SSH.
-The new analyzer also verifies saved1585 through its own original archive;
-three corrupt identity cases are rejected. The construction parent1580 and
-fixed Q2/UD remain unchanged. Fresh00:23:04UTC handover observes the original
-Core CPU processes/groups retired, CPU lease free, KFD empty and release
-a94c8b81 unchanged. Admission and actual component/model measurements remain
-separate next steps. No saved model control, full curve or Q4 is rerun.
+The [compact-LDS SSM campaign](Q2-SSM-COMPACT-LDS.md) completes on .157 at
+2026-10-06T00:30:02UTC:1555.078658 PP /25.13403225 TG, down1.906904% PP versus
+retained1585 and1.591421% versus construction1580. All30 component pairs,
+60 FP64 checks, both21-file parent comparisons and nine internal replays pass.
+Component time4928.835869→5439.676285us increases10.364322%, despite theoretical
+maximum blocks1→2 from49152→32768 LDS bytes. Preserve the regression and keep
+ssm-fixed-bounds1585.308983/25.16079073. Fixed UD still needs6.337447% more PP;
+full-curve parity remains open. No gain follows from static occupancy alone.
+
+The102 fixtures/fifteen manifests/1027 provider files verify. Host30+30 is
+reused byte-for-byte; only seven new runtime commands run, all exit0, with30
+new artifacts. Saved model controls are neither rebuilt nor rerun. Both charts
+are visually checked; overlapping draft labels were corrected with the first
+exports/audit preserved locally and samples unchanged. The wrapped1585
+reference verifies its own archive, with three corrupt identities rejected.
+Release00:30:45.862213UTC SHAa47f405b retires1219 identities/973 groups, KFD
+empty, four original leases free and seven model stat tuples unchanged.
+Mirrors agree and Core receives closure; no Q2 job/build/waiter/reservation,
+restart or cleanup remains. This goal turn adds measured negative evidence
+and rules out composing either compact-LDS or prior pingpong into1585 on
+occupancy arguments. Data movement/producer-consumer costs remain candidates;
+the existing1571 timing profile is not a fresh1585 hardware-counter profile.
 
 The corrected [compressed expert cache](Q2-COMPRESSED-CACHE.md) completes at
 2026-10-06T00:15:11UTC:1576.007692 PP /24.32799080 TG, a0.586718%/3.309912%
