@@ -42,7 +42,8 @@ stable release is declared. Detailed validation history is in
 
 - Optional developer GPU qualification for bounded-integer schemas, with 66
   separate Chat/Responses JSON/SSE membership and refusal checks. HOST wire and
-  supervision tests pass; original-weight execution remains pending.
+  supervision tests pass; matching original-weight AR/MTP gates now pass all
+  66 checks in each mode on Strix Point.
 
 - Shared C17 signed integer-bound compilation, preserving exact large integer
   magnitudes, exclusive endpoints and `-0`. Original/default-ON/OFF HOST grammar
@@ -385,7 +386,8 @@ stable release is declared. Detailed validation history is in
 - Shared-core integer output validation preserves all digits at large inclusive
   and exclusive bounds and rejects fractional values hidden by binary64 rounding.
   Integral decimal/exponent spelling and signed zero remain supported. HOST
-  regression and sanitizer checks pass; matching GPU qualification is pending.
+  regression and sanitizer checks pass; matching original-weight AR/MTP gates
+  pass 37 general controls and 66 integer checks in each mode on Strix Point.
 
 - Native HTTP benchmark deadlines now allow up to 24 hours. The long-context
   preset defaults to four hours, covering the recorded 1M prefill that exceeded

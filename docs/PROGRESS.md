@@ -1,6 +1,31 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Exact integer correction passes original-weight AR and MTP — 2026-10-06 UTC
+
+The sealed `050ae826` source rebuilds coherent 105-file HIP ON/OFF providers
+and private LIE/model/reference consumers on `.161`. Both original-weight modes
+pass **37 general OpenAI controls and 66 separate integer checks**, including
+60 exact JSON/SSE outputs and six expected HTTP400 refusals per mode.
+[GPU receipt](development/validation/output-schema-integer-point-gpu-2026-10-06.json)
+and [portable wire/build/telemetry evidence](development/validation/raw/output-schema-integer-point-gpu-2026-10-06.tar.gz)
+bind source, binaries, admissions, outputs and actual exits0. The earlier r33
+HTTP502 and its HOST reproducer remain preserved. A collector inventory mismatch
+exits1 after 25 successful transfers; corrected local validation passes without
+rebuilding, retransferring or repeating inference.
+
+Peak CPU temperatures are 74.875 C for the device-free build, 65.5 C for AR and
+68 C for MTP. Both inference windows observe 44 whole-process threads. Guards
+remain CPU98/NVMe85/lower exposed limits, with GPU observation only. Fresh
+16:59:57.826465 UTC closure verifies all three exact supervisor/init/container
+identities absent, HTTP8000 unbound, original lease free/released and router198758
+restored. Root has no remote job, lease, waiter or reservation and does not use
+`.157/.158`. All six owned roadmap items remain open; Terminal Bench stays last.
+General fractional-number bounds, numeric enum/const, `multipleOf`, broader
+quality/fault/resource/performance qualification and model/controller ownership
+remain open. README now presents setup, usage and model/platform benchmark links;
+the build examples select matching ON/OFF providers and target architecture.
+
 ## Exact final integer validation passes HOST regression — 2026-10-06 UTC
 
 The original r33 rejection is reproduced locally with CTest exit8, preserving

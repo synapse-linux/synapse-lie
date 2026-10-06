@@ -1,5 +1,25 @@
 # DS4 / synapse-lie coordination
 
+## R34 matching build, AR and MTP collected and closed — 2026-10-06
+
+Fresh peer non-use and global admission precede each separate `.161` window.
+Sealed source `050ae826` rebuilds coherent HIP ON/OFF105/private consumers;
+AR and MTP each pass 37 general and 66 integer original-weight controls.
+Server/child/controller/supervisor and final collections exit0. The initial
+compile collector's stale HOST inventory mismatch exits1 and is retained;
+matching local validation passes without a new transfer, build or GPU run.
+[Receipt](development/validation/output-schema-integer-point-gpu-2026-10-06.json).
+
+Fresh closure at 16:59:57.826465 UTC verifies build189498/start17289409,
+AR195870/start17354844 and MTP197557/start17429533 supervisors gone; respective
+init189572/start17289526, init196081/start17354936 and init197774/start17429669
+identities are also absent and all three containers removed. HTTP8000 is unbound;
+original device66307/inode105946405 is free/released; router198758 is restored,
+active and the only KFD client. Root has no job/client/build/lease/waiter/
+reservation on `.161/.157/.158`; no Terminal Bench restart is queued. This is
+a historical closure observation, not admission for another run. All six owned
+tasks remain open; Terminal Bench stays stopped/collected/closed/deferred last.
+
 ## R34 shared final-validation correction: HOST only — 2026-10-06
 
 A local regression reproduces r33's integer precision failure before correction.

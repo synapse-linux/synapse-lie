@@ -26,8 +26,8 @@ uses this comparison for integer classification and numeric bounds. It reuses th
 existing borrowed schema reader and caller-owned private builder; failures
 preserve results and failed builder mutations require retirement. Existing
 engine, sampling, grammar, state and HTTP layouts are unchanged. Original/ON/OFF
-HOST witnesses pass; the `9a4f45b1` compiler's selected GPU controls pass, while
-the later final-validation correction still needs matching GPU qualification. See
+HOST witnesses pass; the `050ae826` correction's matching HIP ON/OFF build and
+37 general plus 66 integer checks in each original-weight AR/MTP mode pass. See
 [signed integer bounds](../development/C17-SAMPLING.md#signed-integer-bounds).
 
 The `1bff953` Point build keeps these layouts and versions unchanged. Its

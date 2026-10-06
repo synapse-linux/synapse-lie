@@ -31,15 +31,16 @@ modifications and their qualification are finished. Continue items 3–7 first;
 the next source work is the remaining C17 extraction (item 7). No Terminal Bench
 client/server restart or machine reservation is queued in the meantime.
 
-1. **Completed: OpenAI GPU controls for the r11 runtime.**
-   The corrected `abb69d5` runtime passes the same 34 original-weight checks
-   in AR and explicit MTP, including tools and 21 additional controls. The new
-   MTP window has server/client/controller/supervisor exits 0, fifteen verified
-   artifacts and complete process/service/lease closure.
-   [AR and retained failures](development/validation/openai-controls-point-gpu-2026-10-04.json) ·
-   [MTP qualification](development/validation/openai-controls-mtp-point-gpu-2026-10-04.json).
-   This closes these wire/lifecycle checks for r11; later filters, fixed-EOS
-   measurements and steering require their own qualification.
+1. **Completed: selected original-weight OpenAI GPU controls.**
+   The latest qualified runtime `050ae826` passes **37 general OpenAI checks
+   and 66 additional bounded-integer checks in each AR/MTP mode** on `.161`.
+   Tools, JSON/SSE, output budgets and retained Responses lifecycle pass;
+   integer checks cover 60 exact outputs and six expected HTTP400 refusals per
+   mode. Matching HIP ON/OFF builds, collected wire evidence, actual exits0
+   and exact process/service/lease closure are verified.
+   [Current qualification](development/validation/output-schema-integer-point-gpu-2026-10-06.json).
+   Broader task quality, probabilities, fault coverage and performance remain
+   separate acceptance gates in the six open items below.
 2. **Deferred: run Terminal Bench after the functional modifications.** Use the pinned
    Terminal Bench Mini smoke task, then Core-19 with unchanged instructions and
    verifiers. Record task rewards, transcripts, truncation and infrastructure
@@ -308,9 +309,14 @@ client/server restart or machine reservation is queued in the meantime.
    an exclusive lower endpoint near `1e18`. The final shared C validator's
    rounded-double comparison now has a reproducing HOST regression and a C17
    correction: 9,855 exact numeric checks, four Release and seven sanitizer
-   tests pass. Fresh matching HIP builds and complete AR66/MTP66 qualification
-   remain pending. The failed AR window is collected and closed;
-   MTP was not started. Full bounded-integer acceptance remains open.
+   tests pass. The corrected `050ae826` runtime now has matching HIP ON/OFF
+   builds and passes all 66 integer checks plus the unchanged 37 general
+   controls in each AR/MTP mode on `.161`
+   ([current GPU receipt](development/validation/output-schema-integer-point-gpu-2026-10-06.json)).
+   The earlier failed AR window is preserved; MTP was not started for that failed
+   runtime. The corrected build and both successful windows are collected and
+   closed. General fractional-number constraints, numeric enum/const and
+   `multipleOf` precision remain separate open qualifications.
    Typed construction/initialization/callback-error facades and model/controller
    ownership remain transitional. This step does not close any of the six items.
    Compiler orchestration/typed facades/model ownership and broader branch,

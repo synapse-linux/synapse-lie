@@ -201,9 +201,14 @@ General fractional-number bounds, numeric enum/const equality and `multipleOf`
 retain their prior implementation and need separate precision qualification.
 [Correction HOST receipt](validation/output-schema-integer-host-2026-10-06.json)
 records 9,855 independent numeric checks, four Release and seven sanitizer tests,
-plus three provider contract checks. Matching new-source HIP builds and the
-complete original-weight AR66/MTP66 protocol remain pending. These HOST results
-are not original-weight inference, quality, resource or performance evidence.
+plus three provider contract checks. The new `050ae826` HIP ON/OFF providers
+and private consumers now pass 37 general controls and all 66 independent
+integer checks in each original-weight AR/MTP mode on `.161`
+([GPU receipt](validation/output-schema-integer-point-gpu-2026-10-06.json)).
+Each integer gate has 60 exact JSON/SSE output witnesses and six HTTP400
+refusals. Collected telemetry observes 44 whole-process threads in both modes;
+no inference thread was added. This qualifies selected bounded-integer paths;
+broader numerical branches, faults, quality, private resources and cost remain open.
 
 ## Schema compilation and prompt publication
 

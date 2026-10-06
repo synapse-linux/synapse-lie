@@ -1,0 +1,3280 @@
+{
+  "schema": "synapse-lie.output-schema-integer-point-original-qualification.v1",
+  "at_utc": "2026-10-06T17:03:59.345758+00:00",
+  "state": "PASSED_WITH_STATED_SCOPE",
+  "source_commit": "050ae82641f14565ddb201fafaf6905aeb28870c",
+  "target": "pop@192.168.5.161",
+  "gpu_target": "gfx1150",
+  "model": "Qwen3.8-Flash-Next UD-Q4_K_XL",
+  "upstream_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "Exact shared C17 integer membership and endpoint validation on original weights: 37 unchanged OpenAI checks plus 66 independent integer JSON/SSE checks in each AR/MTP mode. Rebuilt coherent ON/OFF105 providers and private consumers. Selected bounded integers only; no whole JSON Schema, model executor, independent probability/recall/quality/fault/performance qualification.",
+  "host_receipt": {
+    "path": "docs/development/validation/output-schema-integer-host-2026-10-06.json",
+    "bytes": 100327,
+    "sha256": "8f6e6c6402150e41184fb45e6ba767ed29a00c45be0804839679a7d82ce902f3"
+  },
+  "source_capsule": {
+    "path": "evidence/context-r34-source-seal.json",
+    "bytes": 1481,
+    "sha256": "5ac13a5676ee2f0a8a7303835dd72956414629c791cd9d2226342bbf8362f946"
+  },
+  "source_manifest": {
+    "path": "evidence/context-source-modern-r34/SOURCE-FILES.sha256",
+    "bytes": 349202,
+    "sha256": "c0f4df57d21c4eb59f31c51dbfc1bbdd94a36adbb8ed71cd2a9c00864c099132"
+  },
+  "bundle": {
+    "path": "evidence/context-r34-bundle-result.json",
+    "bytes": 1375,
+    "sha256": "49c2558c7137e1a73aaa36cd40c33729ae9600adf126b18fbcdd361c6e488ca3"
+  },
+  "provider_build_receipts": [
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/build/rocm10-point-modern-r34-provider/BUILD-RECEIPT.json",
+      "bytes": 138400,
+      "sha256": "f670dc600625f74c39c1cf0ee6d054e48fab09fd31e2010bf66a690bb0206e48"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/build/rocm10-point-modern-r34-reference-provider/BUILD-RECEIPT.json",
+      "bytes": 138452,
+      "sha256": "fb8fdb9f6e332904cb125845f6d50661d8cb221d587daf608c2e6137b43bd710"
+    }
+  ],
+  "compile_collection": {
+    "path": "evidence/context-r34-build-r1/compile-evidence/collection-validation-r2.json",
+    "bytes": 17478,
+    "sha256": "dc5c2461367718fc0ce89d5438a681bc40c1f4fc2354dc63317e587e18ba8252"
+  },
+  "compiler_linker_coherence": {
+    "path": "evidence/context-r34-build-r1/coherence-evidence/collection.json",
+    "bytes": 10703,
+    "sha256": "bb1845f5082bfc44a0dead4ff2452982a253bcf593f6ffced5c55ac735359d96"
+  },
+  "compiled_provider_files": {
+    "adapters/gufo_composition_cache.hpp": "77506a2ba4a009fef67456013d19e15535abeabc906e8b8d8607c3d637d905b8",
+    "adapters/gufo_distribution.hpp": "7b0370bf509a1a99370b48877fb7e3b8a4d060bf6c8fcdc037a090a72ef6169d",
+    "adapters/gufo_grammar.hpp": "16e73d18a411edaf20a8a548bc70b84589820212365eff46a8c7e29cb4ce5e4d",
+    "adapters/gufo_grammar_builder.hpp": "094c1474347afd5ac235bf89fe21d06cc990429e9393aa7f924ac799c6f42912",
+    "adapters/gufo_grammar_cache.hpp": "62d01ddae21a28175a0db91407204ebfff8bf9068a182d636c57fbf1186d304a",
+    "adapters/gufo_grammar_composition.hpp": "fb52f93d3883a2ddfcbb43c0980c8ac6b438eb67cf55f88cfe1104647fb8463d",
+    "adapters/gufo_grammar_lexeme.hpp": "e3c1459b3795e072643dde293a714d77641dd3b0be8bbe715d73070ac672748a",
+    "adapters/gufo_grammar_number.hpp": "f13f2a25ab3f4c7824953b39d60a0e596c3bc266143cb4b6fb48446fa1b53c34",
+    "adapters/gufo_grammar_regex.hpp": "45828984d95b4be1b7dd869793576b08c8f7e709ed3dc5931332c43f39ad434f",
+    "adapters/gufo_grammar_regex_compile.hpp": "c8c7190ba2be8997270a3701fad4c0b2804b23e7283497b212b6b233886ca249",
+    "adapters/gufo_grammar_regex_parse.hpp": "930b4e20b6f1294ec499639eb3c26997779af50924fd829e9685ec9bfae67b96",
+    "adapters/gufo_grammar_state.hpp": "b2cf0a703e10ef6a86c3a83f554c29b5d00be25cfb0e9f97b7cf0ec14be2d2a6",
+    "adapters/gufo_grammar_string.hpp": "81608a7cdd2a98d5fd960ebf12a2a9eb7875dfb77607ef7b8f570a877bbca5e2",
+    "adapters/gufo_grammar_vocabulary.hpp": "49b52fd81cdb6f1093aab3a04d0b677fb21aa93a6a7b642958ea4b8eeccd2fcc",
+    "adapters/gufo_history.hpp": "2ea84ec1d0ed3367da9105132e0e2cb532d5df5dd132f830834455a8d9fd2998",
+    "adapters/gufo_json_parse.hpp": "9b8c7c23226e6dc3aa8cb97a29b8168bfac8379e64f5db38cf454f8fdbb4f06b",
+    "adapters/gufo_json_value.hpp": "58713fd2fa4bc62996bb18f6435abb5084a1d4781d46050d02f81f2e9d66ad2d",
+    "adapters/gufo_sampling.hpp": "a80a797acabcf4b0647de55bdd95bba93f8f85d5ccb98f8d47f62c1f7a6dae2d",
+    "adapters/gufo_schema_body.hpp": "a13d281b7e63930765ab5159195f93939528fcd6fa7d3171768da6f63c5d7e44",
+    "adapters/gufo_schema_compile.hpp": "41e4e359a4a890d893ef26519fdbd2de1f530d1406b177ba00827f204bfb0534",
+    "adapters/gufo_schema_dispatch.hpp": "b6297c9abb7f8fa01a2b3279559fe31897f3d18e0e02bb1e45e0ca6704ab64c1",
+    "adapters/gufo_schema_format.hpp": "02c59fbd7382d063b4a75b48acb610e5a94514597717d3b994d1b4a6de97d8fe",
+    "adapters/gufo_schema_integer.hpp": "366a5df4a04be137d8756ef87924bb8a4be9372663d1eaf3829ca78f05171964",
+    "adapters/gufo_schema_memo.hpp": "a03bf6772145fd2b184d76772e59a0b2577814850cdb2e00e7b791efaab57a16",
+    "adapters/gufo_schema_number.hpp": "e1e7fe4159cd3f2bd960fcc857c7d4e22c5c1726cca2c30ce24ea331da3b657f",
+    "adapters/gufo_schema_root.hpp": "cd06dda456f0b68f516394efae78ea452628d315745f6f77baffab4c27a264d3",
+    "adapters/gufo_schema_store.hpp": "b13dae2b78bfbc1fc466a64ddc0d39f411803c20d6d181857a50f356c59bca3d",
+    "adapters/gufo_schema_transform.hpp": "d7793f0c7380ff707cfc28a1fd812d760c15a9ffc1dbee087d8bf52ba077c0e9",
+    "adapters/gufo_schema_values.hpp": "5dd936e1a2e6eb2acce535f0816b5e6f34bff40fba167686d240376d71f762b9",
+    "adapters/gufo_schema_visit.hpp": "36bc2c418253f8f8dbe56336fbd88efe9608cea022c9f11acd526125dccd20b1",
+    "include/lie/binary64.h": "c9946b47a45cea79d98c1241609bed292a30a68643f9db16bf8ffc470bd3b141",
+    "include/lie/grammar.h": "4bb7d530b6977868dedead7eeca18aca779ad2d8970f9bae70890c767ebd9b76",
+    "include/lie/grammar_builder.h": "4f6749ffbd46bbc52ce54f5b038939085b9be8303b36b1041d9fa1e8b02bf89a",
+    "include/lie/grammar_cache.h": "57b822369091ef4e06dfda530f112d5d22b29c804e5f77dd7610269aa9763ec0",
+    "include/lie/grammar_composition.h": "d19f27a126322e7e29532a2917120f3a9d771e2688f9081449f2806a17ecbe8a",
+    "include/lie/grammar_lexeme.h": "d27e9cbca26c43940605de077ef22b80b86b5836af85e0b6557ffa358dbf9171",
+    "include/lie/grammar_number.h": "576309604c14fb1e7ec75fa9423c5b54427302e5a5d1f22ea86c55cd5b448f6a",
+    "include/lie/grammar_regex.h": "3d0fad812ccf1885874a05c0f814af67cc92ae534c2f4d82061115bba5dd849e",
+    "include/lie/grammar_regex_compile.h": "e4f77df63c3f9cf4101778258aff38ee8f63f81718ba1d74d63b90897a80e838",
+    "include/lie/grammar_regex_parse.h": "973c6273c11a1ad28287f8e25a185d92df86036d3346e3aea41a5191256065e8",
+    "include/lie/grammar_string.h": "e122f37df0d485ee3acc31f7871ca4410eb2f399e097c4f73dd5ca6b75b06ac9",
+    "include/lie/grammar_unicode.h": "9c715179a3377435329f6851235ea72d87d150d6c6ca7728caec7bcd0dea8f86",
+    "include/lie/grammar_vocabulary.h": "30bfe3435e21af1ad40d4c295fa8c2a670e5893958a36f8a60d04dafabd1f619",
+    "include/lie/json_parse.h": "fd12f8804298b68767ada7b19b80ecf3c1b91a615e028ebd601f797cf716db5e",
+    "include/lie/json_store.h": "1bb73cf2a8f13e45bbfab2c09a8aaf8804a8d4173ce2925b41040091d548b576",
+    "include/lie/json_value.h": "0b9459507df4d7e21bd0f4f67f5ba5daa86aeae539909bda68b21e362b5ef684",
+    "include/lie/ordered_cache.h": "32a7929f0127f28f8e639d57f6bfe050122a7f619bd1a19dd7fadc47fdebdf89",
+    "include/lie/sampling.h": "8196861ddbd9ffc2696170561def1b3e53b94182953487b5819fc848dbd15d09",
+    "include/lie/sampling_distribution.h": "1e80e4a6d3404804f44d32588bde6fc2e5231e9d9e726da2697dbbbf9c9c9555",
+    "include/lie/sampling_history.h": "281311d757079302b9aef0f2833e26fdd59a6ac604d7ec079dd14a21988b1597",
+    "include/lie/schema_body.h": "6bb82ce97c9f7156fe48fcd16e86508b1fbf2a7c582cd933fc8f06101040397f",
+    "include/lie/schema_compile.h": "28ade0fa8da21a14651c036a10c8ca044a93fa1958e198f6b89cf90c4701efd2",
+    "include/lie/schema_dispatch.h": "55c3f27f4d80a96cb4c026360b649d992f8e507b05bfd8202d731d4c6d44ae9e",
+    "include/lie/schema_format.h": "6b64af2b97444d3b79372564f08509261935eef7b060bbc3a56f9fda9fe03fda",
+    "include/lie/schema_integer.h": "966b0721d5ed4c9da06827c920b7f578ef8d0eab02acd56f81e52d699627c666",
+    "include/lie/schema_memo.h": "ce967e1cca82de2526bea1ff711c7fb5af33b2ce3b6b070cfff85640f2f1bd82",
+    "include/lie/schema_number.h": "88153e42bc2abd4d6b5c1b815b6f70236a4f91e5669e41e4daa66dbf6f724f79",
+    "include/lie/schema_root.h": "692482e3902cbf9511a98e6826f6ef3b829e11e0093cf1ecde39c83dbc622698",
+    "include/lie/schema_transform.h": "87aa7b05940598790ed2fd2feb1e8328e81adac0b1f49691abf416a38aff4209",
+    "include/lie/schema_values.h": "41d0e84736c1593b225c0d73ee652290a73ecb53cd5e600075a3acf83ed60164",
+    "include/lie/schema_visit.h": "9e6ce89bda7c6743b3b9f7fe36d17639a3eaeeaeaf72e81c5f846d0ab3bf2db3",
+    "src/binary64.c": "91b272dc793a5e7e8fe7a23565334e000ba679b90c78e0bcc80388653dbb6a57",
+    "src/grammar.c": "1cbd0e696df67cf860372bb8a71b7c2f522ae3149d31a36891ab1b221970455e",
+    "src/grammar_builder.c": "6718814c6e2f318f41264cce0909b807f02816c46ceef0f8c2ae6854c14ac4f8",
+    "src/grammar_cache.c": "e7dfe04eae201d9a02c01e867ebf4ffd4b1d1e28f3a7b6a2a47281ef426e7349",
+    "src/grammar_composition.c": "0c753809cb46935c1e1f67736e4d8d915ef9213b00acb3e8b89c09d827005bc2",
+    "src/grammar_lexeme.c": "0e9a48925b066471b5923c09006c8a01d3e1d45fe55be3f1c075aadf8f484806",
+    "src/grammar_number.c": "f9475e1e17402271b1855343395e2e6d572e1b893a25f4a6d74204145d40e5ea",
+    "src/grammar_regex.c": "9c0b784af9e1224788700aa7903f3c896689125c88f7a80f37de485d747ab26c",
+    "src/grammar_regex_compile.c": "35fc72306f922f28e5be23dfcb8a890e4176c265f395c471e7ad80a6c97788fb",
+    "src/grammar_regex_parse.c": "bf44aa90b933250256ca58511d9d36d306763614b339f568b3994111c9f0e112",
+    "src/grammar_string.c": "d9f1000350ac35e900807977aeec8af69e808633481068fcbdbf0705ef8c10ef",
+    "src/grammar_unicode.c": "b2c97a0309e83ee9d7ca79c0fb4ce14e0f15c2e1ee400616602d37e9c1b71a23",
+    "src/grammar_vocabulary.c": "c06c8711ad7a1d5916a5b983b1e7d433a0a9c3e97748a870fed3308da1970e9b",
+    "src/json_parse.c": "65e3e1474e00856fb625d7c1bced7a01f974bc0dcd7d8496b0a0943a456e95b6",
+    "src/json_store.c": "f99cc84befe6adbc993b065b0a45fce2b9ec407a1e5b891f3a8f4760a6efea08",
+    "src/json_value.c": "9c6e01aa3eeec331fa6c1e8e9321b44f42b70277141a10243e9855f8138333f9",
+    "src/ordered_cache.c": "435a75278909ec58b8da565e810ff6c4687b311f43bdd78e44ef3c445cb6eccf",
+    "src/sampling.c": "f2faac79a00fb7b74217283ae3782041c46af9fcce4d64f796b5015f6e0b1439",
+    "src/sampling_distribution.c": "9e459e1c14dc20c44a132a57401e84120a70495c28b963b33667d57f9ec0592b",
+    "src/sampling_history.c": "e66e74c690d274804e17b3127ddb0bf5837c7f3403a76e2980b99e1a13578398",
+    "src/schema_body.c": "37576082f767878f85af38787c51903fe76ea3a89bf8f269765c8c3607146f24",
+    "src/schema_compile.c": "6030118ce992bfa6a8c57ced640f3dae5d873bcc79f8af1efe03119c1710d1a9",
+    "src/schema_dispatch.c": "5737821a1f215c663da03906c5701702cb6f59d5250ba5aae11127c0bc025bc7",
+    "src/schema_format.c": "53f36f462f750e6d07c03dbe8257ffa34983c732fc86418bde9adba6e8e8b7f6",
+    "src/schema_integer.c": "de87134b47385b16fa7e435b79dbbda0b21748fb39c6aa26816ab916b507bad0",
+    "src/schema_internal.h": "ff1e3a45b1b0de2081e47acb1889f80303f87199dbdfe53492c35750f604f27b",
+    "src/schema_memo.c": "d26aee14562b0542db03a822e9eef071b98f6351e64282e33ad580c003357dfd",
+    "src/schema_number.c": "c1d3236dae4eeb632544cb237077a8dbabe23e49d062e574bcb1a4822689aecd",
+    "src/schema_root.c": "b4244b7b75a30efbe29628ec5949412d3cdcca2eea62111026670067ec10382b",
+    "src/schema_transform.c": "527ae6ba4e07202fd832ce9588aea3ec562e3c726c69113b29e624fffeefd169",
+    "src/schema_values.c": "a2413e3cc39f844e5d62106d54e9ad85540aee89edaa41e7db8a2c29132c6609",
+    "src/schema_visit.c": "ef1bedc0d628f0e21f08bc8251bd26bf9f84306a0fb15c2cd6ea36913b132a72",
+    "third_party/ryu-source.json": "739d0c0b49d81aaa93dd38df38c95421f521b2a3ecaee76ae6f99b353ed2135e",
+    "third_party/ryu/LICENSE-Apache2": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "third_party/ryu/LICENSE-Boost": "c9bff75738922193e67fa726fa225535870d2aa1059f91452c411736284ad566",
+    "third_party/ryu/ryu/common.h": "0bbd71d26da6193e678d0776cf418f43f287c73d6fd6725353df0aadf70f2a19",
+    "third_party/ryu/ryu/d2s.c": "d24323c7eb77d63f1e52c415212b50060b776f0883525d907d04954fcd48cf64",
+    "third_party/ryu/ryu/d2s_full_table.h": "2618f6e5fae6c4443899b184efe3d08295dd267dc9f1a994c983c7caca59ebe6",
+    "third_party/ryu/ryu/d2s_intrinsics.h": "1d05702f2edacce428223d4b43dd3095c1bd1f3ad30128ce1761d84356dddc7d",
+    "third_party/ryu/ryu/d2s_small_table.h": "54fec51f1c5eed786a8ce6de881b81582dd71f0812dcd4324b37396617bb0fa9",
+    "third_party/ryu/ryu/digit_table.h": "8b782573abc0b8554d74163ae6c02f0beb5c30d1e63eaebdb0ddf2c98d817e01",
+    "third_party/ryu/ryu/ryu.h": "b7feab0ba1df5e9ef3d602f386592ad152491405e49b408fb21c0e0e9e6bfb16",
+    "third_party/ryu/ryu/ryu_parse.h": "da8ad9764b2701627cb75926b9d14b540fdfd7be693d671da9594eb16dabd27a",
+    "third_party/ryu/ryu/s2d.c": "9485e78f329ec1cf931b737333ef7bd85195864dfb9dd096413f0d336a7a46d3"
+  },
+  "official_Gufo_HTTP_frontend_built": false,
+  "reference_control_coherent_off": true,
+  "runs": [
+    {
+      "label": "context-r34-build-r1",
+      "mode": "build",
+      "source_commit": "050ae82641f14565ddb201fafaf6905aeb28870c",
+      "started_at": "2026-10-06T16:25:37.724706+00:00",
+      "ended_at": "2026-10-06T16:30:40.426664+00:00",
+      "supervisor_pid": 189498,
+      "supervisor_start_ticks": 17289409,
+      "container": "7f4b28f5a7f1ae732d1c4da5bd9e1680632a5e56b8f66134e2ae196ac7efa0c8",
+      "original_lease": {
+        "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+        "device": 66307,
+        "inode": 105946405,
+        "cooperative_lie_only": true
+      },
+      "lease_released_at": "2026-10-06T16:30:40.426645+00:00",
+      "router_restored": {
+        "MainPID": "195255",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "actual_exit_code": 0,
+      "child_exit_code": 0,
+      "controller_exit_code": 0,
+      "peak_c": {
+        "nvme": 47.85,
+        "amdgpu": 46.0,
+        "k10temp": 74.875
+      },
+      "telemetry_rows": 262,
+      "artifacts": [
+        {
+          "path": "evidence/context-r34-build-r1/manifest.json",
+          "bytes": 1336,
+          "sha256": "69ef413c2a92687db9c20b1dfbc3d46a248c24299fe30dcc0a34e2ca7d7d00c8"
+        },
+        {
+          "path": "evidence/context-r34-build-r1/result.json",
+          "bytes": 148570,
+          "sha256": "1087ea87a3bdcb4fd025a75071ab695d57a189da0f52755cb0a57bf29cb878d7"
+        },
+        {
+          "path": "evidence/context-r34-build-r1/runner.py",
+          "bytes": 112434,
+          "sha256": "d1dd434d41f046245afe060d69b299ad2bc5845ea36e8cec481e625733648d3a"
+        },
+        {
+          "path": "evidence/context-r34-build-r1/stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r34-build-r1/stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r34-build-r1/telemetry.jsonl",
+          "bytes": 352724,
+          "sha256": "42eb6aa8f32f329906d0755be912006edf578e09276290f1c3d877349cf57c03"
+        },
+        {
+          "path": "evidence/context-r34-build-r1/collection.json",
+          "bytes": 3072,
+          "sha256": "3ba6cab2395e808b45ab99dfa63974ba2f30536b899664066c33181f4a37cfa3"
+        },
+        {
+          "path": "evidence/context-r34-build-r1/controller-result.json",
+          "bytes": 541,
+          "sha256": "b89eb6e5f3530bd98974d17e4b1861bf89556443e43a7e22524eb11ad6cde2e8"
+        }
+      ],
+      "actual_window_retired": true,
+      "closure": {
+        "container_identity_source": "native supervisor result",
+        "container_init_pid": 189572,
+        "container_init_start_ticks": 17289526,
+        "label": "context-r34-build-r1",
+        "supervisor_identity_absent": true,
+        "container_init_identity_recorded": true,
+        "container_init_identity_absent": true,
+        "container_absent": true,
+        "container_inspect_exit": 1,
+        "container_inspect_stderr": "error: no such object: 7f4b28f5a7f1ae732d1c4da5bd9e1680632a5e56b8f66134e2ae196ac7efa0c8\n",
+        "label_listing_exit": 0,
+        "label_listing_empty": true
+      }
+    },
+    {
+      "label": "context-r34-integer-ar-r1",
+      "mode": "ar",
+      "source_commit": "050ae82641f14565ddb201fafaf6905aeb28870c",
+      "started_at": "2026-10-06T16:36:32.085964+00:00",
+      "ended_at": "2026-10-06T16:44:35.646979+00:00",
+      "supervisor_pid": 195870,
+      "supervisor_start_ticks": 17354844,
+      "container": "3c0604bc94c1fbc28085943db4c24433cc390f823c029572a466477762271deb",
+      "original_lease": {
+        "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+        "device": 66307,
+        "inode": 105946405,
+        "cooperative_lie_only": true
+      },
+      "lease_released_at": "2026-10-06T16:44:35.646963+00:00",
+      "router_restored": {
+        "MainPID": "197151",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "actual_exit_code": 0,
+      "child_exit_code": 0,
+      "controller_exit_code": 0,
+      "peak_c": {
+        "nvme": 61.85,
+        "amdgpu": 69.0,
+        "k10temp": 65.5
+      },
+      "telemetry_rows": 466,
+      "artifacts": [
+        {
+          "path": "evidence/context-r34-integer-ar-r1/distrobox-create.log",
+          "bytes": 269,
+          "sha256": "5faa2e646ab5b2dbdabf811563065ca05b926a44b0104e430b112ca51281d205"
+        },
+        {
+          "path": "evidence/context-r34-integer-ar-r1/distrobox.stderr.log",
+          "bytes": 1073,
+          "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+        },
+        {
+          "path": "evidence/context-r34-integer-ar-r1/distrobox.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r34-integer-ar-r1/http-controls-result.json",
+          "bytes": 2973,
+          "sha256": "31090cbb7c956cdb57478e5b3e4966912ce93440dc35304acf0326ae6b82cda4"
+        },
+        {
+          "path": "evidence/context-r34-integer-ar-r1/http-controls.py",
+          "bytes": 18408,
+          "sha256": "5a52223a674d850f4493794cc5cc190e807abd10b01adbe9faa29285fa0b54bd"
+        },
+        {
+          "path": "evidence/context-r34-integer-ar-r1/http-gate.py",
+          "bytes": 19320,
+          "sha256": "4aa144c9484dd2d9c1c421841291acd7b40b7d90275f7577288ac01fb9494605"
+        },
+        {
+          "path": "evidence/context-r34-integer-ar-r1/http-output-budget-result.json",
+          "bytes": 5475,
+          "sha256": "043d0b195d765c90d49a11ed8ed70ccc013632aa9dbd2f75699b94c75f87f0b0"
+        },
+        {
+          "path": "evidence/context-r34-integer-ar-r1/http-output-budget.py",
+          "bytes": 7386,
+          "sha256": "46fe16867cc37ab0ec684b02c4a1ae87dbf412b108bb6c5f1f5f5d3975156311"
+        },
+        {
+          "path": "evidence/context-r34-integer-ar-r1/http-result.json",
+          "bytes": 1826,
+          "sha256": "ba76d737e0d7e9834e93b7b48e209c25d58e66cd576a39c3d41a15fbbb9dc7cf"
+        },
+        {
+          "path": "evidence/context-r34-integer-ar-r1/http-schema-integer-result.json",
+          "bytes": 32270,
+          "sha256": "218f86ee7cefaa5a5ac7408b7fbeadabfdaf7aba84f612d1b47ee46ed2493911"
+        },
+        {
+          "path": "evidence/context-r34-integer-ar-r1/http-schema-integer.py",
+          "bytes": 10416,
+          "sha256": "3864bbda9e20b9579be79c8c5b4847632f5fa5995f8142115a91da100521df5e"
+        },
+        {
+          "path": "evidence/context-r34-integer-ar-r1/http-wire.jsonl",
+          "bytes": 1388467,
+          "sha256": "a63cdd5b0196102bcbccbc1f087107ab95b58fef71e81e67129da721750a0e6b"
+        },
+        {
+          "path": "evidence/context-r34-integer-ar-r1/manifest.json",
+          "bytes": 5052,
+          "sha256": "f5c04a0527179010f0d48113bde56ec529ed06b0488c233850311adfa91e06bf"
+        },
+        {
+          "path": "evidence/context-r34-integer-ar-r1/result.json",
+          "bytes": 98388,
+          "sha256": "d2758a3a4447a191476a03e76d762c41a4ca907001b7a712545763c415999466"
+        },
+        {
+          "path": "evidence/context-r34-integer-ar-r1/runner.py",
+          "bytes": 112434,
+          "sha256": "d1dd434d41f046245afe060d69b299ad2bc5845ea36e8cec481e625733648d3a"
+        },
+        {
+          "path": "evidence/context-r34-integer-ar-r1/server.log",
+          "bytes": 92,
+          "sha256": "9eedfcadbf77e76e82aa717de29b43362b30b2c3df8623d20717e989b786738a"
+        },
+        {
+          "path": "evidence/context-r34-integer-ar-r1/stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r34-integer-ar-r1/stdout.log",
+          "bytes": 66621,
+          "sha256": "dde60d25a9d75178befb595db5b3db66923fedb5834df9fbb1ff0ab61eabc4e8"
+        },
+        {
+          "path": "evidence/context-r34-integer-ar-r1/telemetry.jsonl",
+          "bytes": 876440,
+          "sha256": "bfefa478713ec6b63f8a43fe1818ee179a6ba4c639d53c19365d8abe827b7aad"
+        },
+        {
+          "path": "evidence/context-r34-integer-ar-r1/collection.json",
+          "bytes": 9352,
+          "sha256": "56f3f33bef2f4c466122c0ec7afa14cdd3084df52cad744eb024129564cf81d9"
+        },
+        {
+          "path": "evidence/context-r34-integer-ar-r1/controller-result.json",
+          "bytes": 921,
+          "sha256": "4643e20124a048a2ecd007db46500176bb4cd72ce4ddd2d4a08ccfdaf1531305"
+        }
+      ],
+      "checks": 37,
+      "passed": [
+        "models",
+        "chat_json",
+        "chat_sse",
+        "responses_json",
+        "responses_sse",
+        "chat_function_json",
+        "chat_function_sse",
+        "chat_tool_result",
+        "responses_function_json",
+        "responses_function_sse",
+        "responses_tool_replay",
+        "responses_tool_result",
+        "allowed_tools",
+        "chat_choices_json",
+        "chat_choices_sse",
+        "chat_seed_replay",
+        "chat_logprobs",
+        "chat_logprobs_sse",
+        "chat_bias_positive",
+        "chat_bias_negative",
+        "chat_stop_json",
+        "chat_stop_sse",
+        "chat_json_object",
+        "responses_json_object",
+        "chat_json_schema",
+        "responses_json_schema",
+        "chat_store_crud",
+        "responses_background_disconnect",
+        "responses_cursor_replay",
+        "responses_input_pagination",
+        "responses_cancel_after_output",
+        "responses_delete",
+        "responses_truncation",
+        "unsupported_fields",
+        "models_context_output_limits",
+        "chat_automatic_output",
+        "responses_automatic_output"
+      ],
+      "integer_checks": 66,
+      "integer_exact_values": 60,
+      "expected_HTTP400_refusals": 6,
+      "integer_witnesses": {
+        "chat_json_positive-inclusive": {
+          "text": "{\n  \"value\": 7\n}",
+          "value": 7,
+          "lexeme": "7",
+          "low": 7,
+          "high": 7,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 7,
+            "maximum": 7
+          }
+        },
+        "chat_sse_positive-inclusive": {
+          "text": "{\n  \"value\": 7\n}",
+          "value": 7,
+          "lexeme": "7",
+          "low": 7,
+          "high": 7,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 7,
+            "maximum": 7
+          }
+        },
+        "chat_json_negative-inclusive": {
+          "text": "{\n  \"value\":  \t-7\n}",
+          "value": -7,
+          "lexeme": "-7",
+          "low": -7,
+          "high": -7,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -7,
+            "maximum": -7
+          }
+        },
+        "chat_sse_negative-inclusive": {
+          "text": "{\n  \"value\":  \t-7\n}",
+          "value": -7,
+          "lexeme": "-7",
+          "low": -7,
+          "high": -7,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -7,
+            "maximum": -7
+          }
+        },
+        "chat_json_positive-exclusive": {
+          "text": "{\n  \"value\": 2\n}",
+          "value": 2,
+          "lexeme": "2",
+          "low": 2,
+          "high": 2,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1,
+            "exclusiveMaximum": 3
+          }
+        },
+        "chat_sse_positive-exclusive": {
+          "text": "{\n  \"value\": 2\n}",
+          "value": 2,
+          "lexeme": "2",
+          "low": 2,
+          "high": 2,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1,
+            "exclusiveMaximum": 3
+          }
+        },
+        "chat_json_negative-exclusive": {
+          "text": "{\n  \"value\":  \t-2\n}",
+          "value": -2,
+          "lexeme": "-2",
+          "low": -2,
+          "high": -2,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": -3,
+            "exclusiveMaximum": -1
+          }
+        },
+        "chat_sse_negative-exclusive": {
+          "text": "{\n  \"value\":  \t-2\n}",
+          "value": -2,
+          "lexeme": "-2",
+          "low": -2,
+          "high": -2,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": -3,
+            "exclusiveMaximum": -1
+          }
+        },
+        "chat_json_positive-fractional": {
+          "text": "{\n  \"value\": 1\n}",
+          "value": 1,
+          "lexeme": "1",
+          "low": 1,
+          "high": 1,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 0.5,
+            "maximum": 1.5
+          }
+        },
+        "chat_sse_positive-fractional": {
+          "text": "{\n  \"value\": 1\n}",
+          "value": 1,
+          "lexeme": "1",
+          "low": 1,
+          "high": 1,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 0.5,
+            "maximum": 1.5
+          }
+        },
+        "chat_json_negative-fractional": {
+          "text": "{\n  \"value\":  \t-1\n}",
+          "value": -1,
+          "lexeme": "-1",
+          "low": -1,
+          "high": -1,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.5,
+            "maximum": -0.5
+          }
+        },
+        "chat_sse_negative-fractional": {
+          "text": "{\n  \"value\":  \t-1\n}",
+          "value": -1,
+          "lexeme": "-1",
+          "low": -1,
+          "high": -1,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.5,
+            "maximum": -0.5
+          }
+        },
+        "chat_json_cross-zero": {
+          "text": "{\n  \"value\": 0\n}",
+          "value": 0,
+          "lexeme": "0",
+          "low": 0,
+          "high": 0,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -0.5,
+            "maximum": 0.5
+          }
+        },
+        "chat_sse_cross-zero": {
+          "text": "{\n  \"value\": 0\n}",
+          "value": 0,
+          "lexeme": "0",
+          "low": 0,
+          "high": 0,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -0.5,
+            "maximum": 0.5
+          }
+        },
+        "chat_json_positive-prefix": {
+          "text": "{\n  \"value\": 10\n}",
+          "value": 10,
+          "lexeme": "10",
+          "low": 9,
+          "high": 11,
+          "output_tokens": 11,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9,
+            "maximum": 11
+          }
+        },
+        "chat_sse_positive-prefix": {
+          "text": "{\n  \"value\": 10\n}",
+          "value": 10,
+          "lexeme": "10",
+          "low": 9,
+          "high": 11,
+          "output_tokens": 11,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9,
+            "maximum": 11
+          }
+        },
+        "chat_json_negative-prefix": {
+          "text": "{\n  \"value\":  \t-10\n}",
+          "value": -10,
+          "lexeme": "-10",
+          "low": -11,
+          "high": -9,
+          "output_tokens": 14,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -11,
+            "maximum": -9
+          }
+        },
+        "chat_sse_negative-prefix": {
+          "text": "{\n  \"value\":  \t-10\n}",
+          "value": -10,
+          "lexeme": "-10",
+          "low": -11,
+          "high": -9,
+          "output_tokens": 14,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -11,
+            "maximum": -9
+          }
+        },
+        "chat_json_beyond-int64": {
+          "text": "{\n  \"value\": 9223372036854775808\n}",
+          "value": 9223372036854775808,
+          "lexeme": "9223372036854775808",
+          "low": 9223372036854775808,
+          "high": 9223372036854775808,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9223372036854775808,
+            "maximum": 9223372036854775808
+          }
+        },
+        "chat_sse_beyond-int64": {
+          "text": "{\n  \"value\": 9223372036854775808\n}",
+          "value": 9223372036854775808,
+          "lexeme": "9223372036854775808",
+          "low": 9223372036854775808,
+          "high": 9223372036854775808,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9223372036854775808,
+            "maximum": 9223372036854775808
+          }
+        },
+        "chat_json_exact-binary64": {
+          "text": "{\n  \"value\": 1000000000000000128\n}",
+          "value": 1000000000000000128,
+          "lexeme": "1000000000000000128",
+          "low": 1000000000000000128,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1000000000000000128,
+            "maximum": 1000000000000000128
+          }
+        },
+        "chat_sse_exact-binary64": {
+          "text": "{\n  \"value\": 1000000000000000128\n}",
+          "value": 1000000000000000128,
+          "lexeme": "1000000000000000128",
+          "low": 1000000000000000128,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1000000000000000128,
+            "maximum": 1000000000000000128
+          }
+        },
+        "chat_json_large-magnitude": {
+          "text": "{\n  \"value\": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104\n}",
+          "value": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "lexeme": "10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104",
+          "low": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "high": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "output_tokens": 110,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1e+100,
+            "maximum": 1e+100
+          }
+        },
+        "chat_sse_large-magnitude": {
+          "text": "{\n  \"value\": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104\n}",
+          "value": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "lexeme": "10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104",
+          "low": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "high": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "output_tokens": 110,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1e+100,
+            "maximum": 1e+100
+          }
+        },
+        "chat_json_largest-magnitude": {
+          "text": "{\n  \"value\": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368\n}",
+          "value": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "lexeme": "179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368",
+          "low": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "high": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "output_tokens": 318,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308
+          }
+        },
+        "chat_sse_largest-magnitude": {
+          "text": "{\n  \"value\": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368\n}",
+          "value": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "lexeme": "179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368",
+          "low": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "high": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "output_tokens": 318,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308
+          }
+        },
+        "chat_json_large-positive-exclusive": {
+          "text": "{\n  \"value\": 1000000000000000007\n}",
+          "value": 1000000000000000007,
+          "lexeme": "1000000000000000007",
+          "low": 1000000000000000001,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1e+18,
+            "maximum": 1.0000000000000001e+18
+          }
+        },
+        "chat_sse_large-positive-exclusive": {
+          "text": "{\n  \"value\": 1000000000000000007\n}",
+          "value": 1000000000000000007,
+          "lexeme": "1000000000000000007",
+          "low": 1000000000000000001,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1e+18,
+            "maximum": 1.0000000000000001e+18
+          }
+        },
+        "chat_json_large-negative-exclusive": {
+          "text": "{\n  \"value\":  \t-1000000000000000001\n}",
+          "value": -1000000000000000001,
+          "lexeme": "-1000000000000000001",
+          "low": -1000000000000000128,
+          "high": -1000000000000000001,
+          "output_tokens": 31,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.0000000000000001e+18,
+            "exclusiveMaximum": -1e+18
+          }
+        },
+        "chat_sse_large-negative-exclusive": {
+          "text": "{\n  \"value\":  \t-1000000000000000001\n}",
+          "value": -1000000000000000001,
+          "lexeme": "-1000000000000000001",
+          "low": -1000000000000000128,
+          "high": -1000000000000000001,
+          "output_tokens": 31,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.0000000000000001e+18,
+            "exclusiveMaximum": -1e+18
+          }
+        },
+        "chat_refusal_empty-interval": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: schema has no finite value"
+          },
+          "bounds": {
+            "minimum": 2,
+            "maximum": 1
+          }
+        },
+        "chat_refusal_exclusive-zero-empty": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: schema has no finite value"
+          },
+          "bounds": {
+            "minimum": 0,
+            "exclusiveMaximum": 0
+          }
+        },
+        "chat_refusal_invalid-minimum": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: minimum must be finite"
+          },
+          "bounds": {
+            "minimum": "invalid",
+            "maximum": 1
+          }
+        },
+        "responses_json_positive-inclusive": {
+          "text": "{\n  \"value\": 7\n}",
+          "value": 7,
+          "lexeme": "7",
+          "low": 7,
+          "high": 7,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 7,
+            "maximum": 7
+          }
+        },
+        "responses_sse_positive-inclusive": {
+          "text": "{\n  \"value\": 7\n}",
+          "value": 7,
+          "lexeme": "7",
+          "low": 7,
+          "high": 7,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 7,
+            "maximum": 7
+          }
+        },
+        "responses_json_negative-inclusive": {
+          "text": "{\n  \"value\":  \t-7\n}",
+          "value": -7,
+          "lexeme": "-7",
+          "low": -7,
+          "high": -7,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -7,
+            "maximum": -7
+          }
+        },
+        "responses_sse_negative-inclusive": {
+          "text": "{\n  \"value\":  \t-7\n}",
+          "value": -7,
+          "lexeme": "-7",
+          "low": -7,
+          "high": -7,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -7,
+            "maximum": -7
+          }
+        },
+        "responses_json_positive-exclusive": {
+          "text": "{\n  \"value\": 2\n}",
+          "value": 2,
+          "lexeme": "2",
+          "low": 2,
+          "high": 2,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1,
+            "exclusiveMaximum": 3
+          }
+        },
+        "responses_sse_positive-exclusive": {
+          "text": "{\n  \"value\": 2\n}",
+          "value": 2,
+          "lexeme": "2",
+          "low": 2,
+          "high": 2,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1,
+            "exclusiveMaximum": 3
+          }
+        },
+        "responses_json_negative-exclusive": {
+          "text": "{\n  \"value\":  \t-2\n}",
+          "value": -2,
+          "lexeme": "-2",
+          "low": -2,
+          "high": -2,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": -3,
+            "exclusiveMaximum": -1
+          }
+        },
+        "responses_sse_negative-exclusive": {
+          "text": "{\n  \"value\":  \t-2\n}",
+          "value": -2,
+          "lexeme": "-2",
+          "low": -2,
+          "high": -2,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": -3,
+            "exclusiveMaximum": -1
+          }
+        },
+        "responses_json_positive-fractional": {
+          "text": "{\n  \"value\": 1\n}",
+          "value": 1,
+          "lexeme": "1",
+          "low": 1,
+          "high": 1,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 0.5,
+            "maximum": 1.5
+          }
+        },
+        "responses_sse_positive-fractional": {
+          "text": "{\n  \"value\": 1\n}",
+          "value": 1,
+          "lexeme": "1",
+          "low": 1,
+          "high": 1,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 0.5,
+            "maximum": 1.5
+          }
+        },
+        "responses_json_negative-fractional": {
+          "text": "{\n  \"value\":  \t-1\n}",
+          "value": -1,
+          "lexeme": "-1",
+          "low": -1,
+          "high": -1,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.5,
+            "maximum": -0.5
+          }
+        },
+        "responses_sse_negative-fractional": {
+          "text": "{\n  \"value\":  \t-1\n}",
+          "value": -1,
+          "lexeme": "-1",
+          "low": -1,
+          "high": -1,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.5,
+            "maximum": -0.5
+          }
+        },
+        "responses_json_cross-zero": {
+          "text": "{\n  \"value\": 0\n}",
+          "value": 0,
+          "lexeme": "0",
+          "low": 0,
+          "high": 0,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -0.5,
+            "maximum": 0.5
+          }
+        },
+        "responses_sse_cross-zero": {
+          "text": "{\n  \"value\": 0\n}",
+          "value": 0,
+          "lexeme": "0",
+          "low": 0,
+          "high": 0,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -0.5,
+            "maximum": 0.5
+          }
+        },
+        "responses_json_positive-prefix": {
+          "text": "{\n  \"value\": 10\n}",
+          "value": 10,
+          "lexeme": "10",
+          "low": 9,
+          "high": 11,
+          "output_tokens": 11,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9,
+            "maximum": 11
+          }
+        },
+        "responses_sse_positive-prefix": {
+          "text": "{\n  \"value\": 10\n}",
+          "value": 10,
+          "lexeme": "10",
+          "low": 9,
+          "high": 11,
+          "output_tokens": 11,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9,
+            "maximum": 11
+          }
+        },
+        "responses_json_negative-prefix": {
+          "text": "{\n  \"value\":  \t-10\n}",
+          "value": -10,
+          "lexeme": "-10",
+          "low": -11,
+          "high": -9,
+          "output_tokens": 14,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -11,
+            "maximum": -9
+          }
+        },
+        "responses_sse_negative-prefix": {
+          "text": "{\n  \"value\":  \t-10\n}",
+          "value": -10,
+          "lexeme": "-10",
+          "low": -11,
+          "high": -9,
+          "output_tokens": 14,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -11,
+            "maximum": -9
+          }
+        },
+        "responses_json_beyond-int64": {
+          "text": "{\n  \"value\": 9223372036854775808\n}",
+          "value": 9223372036854775808,
+          "lexeme": "9223372036854775808",
+          "low": 9223372036854775808,
+          "high": 9223372036854775808,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9223372036854775808,
+            "maximum": 9223372036854775808
+          }
+        },
+        "responses_sse_beyond-int64": {
+          "text": "{\n  \"value\": 9223372036854775808\n}",
+          "value": 9223372036854775808,
+          "lexeme": "9223372036854775808",
+          "low": 9223372036854775808,
+          "high": 9223372036854775808,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9223372036854775808,
+            "maximum": 9223372036854775808
+          }
+        },
+        "responses_json_exact-binary64": {
+          "text": "{\n  \"value\": 1000000000000000128\n}",
+          "value": 1000000000000000128,
+          "lexeme": "1000000000000000128",
+          "low": 1000000000000000128,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1000000000000000128,
+            "maximum": 1000000000000000128
+          }
+        },
+        "responses_sse_exact-binary64": {
+          "text": "{\n  \"value\": 1000000000000000128\n}",
+          "value": 1000000000000000128,
+          "lexeme": "1000000000000000128",
+          "low": 1000000000000000128,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1000000000000000128,
+            "maximum": 1000000000000000128
+          }
+        },
+        "responses_json_large-magnitude": {
+          "text": "{\n  \"value\": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104\n}",
+          "value": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "lexeme": "10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104",
+          "low": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "high": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "output_tokens": 110,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1e+100,
+            "maximum": 1e+100
+          }
+        },
+        "responses_sse_large-magnitude": {
+          "text": "{\n  \"value\": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104\n}",
+          "value": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "lexeme": "10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104",
+          "low": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "high": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "output_tokens": 110,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1e+100,
+            "maximum": 1e+100
+          }
+        },
+        "responses_json_largest-magnitude": {
+          "text": "{\n  \"value\": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368\n}",
+          "value": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "lexeme": "179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368",
+          "low": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "high": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "output_tokens": 318,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308
+          }
+        },
+        "responses_sse_largest-magnitude": {
+          "text": "{\n  \"value\": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368\n}",
+          "value": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "lexeme": "179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368",
+          "low": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "high": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "output_tokens": 318,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308
+          }
+        },
+        "responses_json_large-positive-exclusive": {
+          "text": "{\n  \"value\": 1000000000000000007\n}",
+          "value": 1000000000000000007,
+          "lexeme": "1000000000000000007",
+          "low": 1000000000000000001,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1e+18,
+            "maximum": 1.0000000000000001e+18
+          }
+        },
+        "responses_sse_large-positive-exclusive": {
+          "text": "{\n  \"value\": 1000000000000000007\n}",
+          "value": 1000000000000000007,
+          "lexeme": "1000000000000000007",
+          "low": 1000000000000000001,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1e+18,
+            "maximum": 1.0000000000000001e+18
+          }
+        },
+        "responses_json_large-negative-exclusive": {
+          "text": "{\n  \"value\":  \t-1000000000000000001\n}",
+          "value": -1000000000000000001,
+          "lexeme": "-1000000000000000001",
+          "low": -1000000000000000128,
+          "high": -1000000000000000001,
+          "output_tokens": 31,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.0000000000000001e+18,
+            "exclusiveMaximum": -1e+18
+          }
+        },
+        "responses_sse_large-negative-exclusive": {
+          "text": "{\n  \"value\":  \t-1000000000000000001\n}",
+          "value": -1000000000000000001,
+          "lexeme": "-1000000000000000001",
+          "low": -1000000000000000128,
+          "high": -1000000000000000001,
+          "output_tokens": 31,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.0000000000000001e+18,
+            "exclusiveMaximum": -1e+18
+          }
+        },
+        "responses_refusal_empty-interval": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: schema has no finite value"
+          },
+          "bounds": {
+            "minimum": 2,
+            "maximum": 1
+          }
+        },
+        "responses_refusal_exclusive-zero-empty": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: schema has no finite value"
+          },
+          "bounds": {
+            "minimum": 0,
+            "exclusiveMaximum": 0
+          }
+        },
+        "responses_refusal_invalid-minimum": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: minimum must be finite"
+          },
+          "bounds": {
+            "minimum": "invalid",
+            "maximum": 1
+          }
+        }
+      },
+      "server_exit_code": 0,
+      "model_stat_unchanged": true,
+      "server_argv": [
+        "/bundle/runtime/bin/synapse-lie-server",
+        "--model",
+        "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "--model-id",
+        "qwen3.8-flash-next",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "58785",
+        "--management-host",
+        "127.0.0.1",
+        "--management-port",
+        "55989",
+        "--context",
+        "16384",
+        "--prefill-chunk",
+        "2048",
+        "--max-active",
+        "8",
+        "--kv-cache-ram-mb",
+        "0",
+        "--request-timeout-ms",
+        "180000"
+      ],
+      "gtt_peak_bytes": 90559934464,
+      "observed_process_threads_max": 44,
+      "actual_window_retired": true,
+      "closure": {
+        "container_identity_source": "evidence/context-r34-ar-live-r2.json",
+        "container_init_pid": 196081,
+        "container_init_start_ticks": 17354936,
+        "label": "context-r34-integer-ar-r1",
+        "supervisor_identity_absent": true,
+        "container_init_identity_recorded": true,
+        "container_init_identity_absent": true,
+        "container_absent": true,
+        "container_inspect_exit": 1,
+        "container_inspect_stderr": "error: no such object: 3c0604bc94c1fbc28085943db4c24433cc390f823c029572a466477762271deb\n",
+        "label_listing_exit": 0,
+        "label_listing_empty": true
+      }
+    },
+    {
+      "label": "context-r34-integer-mtp-r1",
+      "mode": "mtp",
+      "source_commit": "050ae82641f14565ddb201fafaf6905aeb28870c",
+      "started_at": "2026-10-06T16:48:58.957297+00:00",
+      "ended_at": "2026-10-06T16:55:18.808039+00:00",
+      "supervisor_pid": 197557,
+      "supervisor_start_ticks": 17429533,
+      "container": "5931dfb455cbaf9811b03ab480f975d6ed3d5eafcb1205f4be88063f2ad7bc0a",
+      "original_lease": {
+        "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+        "device": 66307,
+        "inode": 105946405,
+        "cooperative_lie_only": true
+      },
+      "lease_released_at": "2026-10-06T16:55:18.808027+00:00",
+      "router_restored": {
+        "MainPID": "198758",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "actual_exit_code": 0,
+      "child_exit_code": 0,
+      "controller_exit_code": 0,
+      "peak_c": {
+        "nvme": 63.85,
+        "amdgpu": 71.0,
+        "k10temp": 68.0
+      },
+      "telemetry_rows": 366,
+      "artifacts": [
+        {
+          "path": "evidence/context-r34-integer-mtp-r1/distrobox-create.log",
+          "bytes": 272,
+          "sha256": "e5af7d7d2236a24091524001b8b0c51d2f1ab8a62ac06366dada7e51848b4e10"
+        },
+        {
+          "path": "evidence/context-r34-integer-mtp-r1/distrobox.stderr.log",
+          "bytes": 1073,
+          "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+        },
+        {
+          "path": "evidence/context-r34-integer-mtp-r1/distrobox.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r34-integer-mtp-r1/http-controls-result.json",
+          "bytes": 2977,
+          "sha256": "9842b40555504fd605f1040e904b6c43b927ad1962300b2c68cdab037bde99e6"
+        },
+        {
+          "path": "evidence/context-r34-integer-mtp-r1/http-controls.py",
+          "bytes": 18408,
+          "sha256": "5a52223a674d850f4493794cc5cc190e807abd10b01adbe9faa29285fa0b54bd"
+        },
+        {
+          "path": "evidence/context-r34-integer-mtp-r1/http-gate.py",
+          "bytes": 19320,
+          "sha256": "4aa144c9484dd2d9c1c421841291acd7b40b7d90275f7577288ac01fb9494605"
+        },
+        {
+          "path": "evidence/context-r34-integer-mtp-r1/http-output-budget-result.json",
+          "bytes": 5475,
+          "sha256": "043d0b195d765c90d49a11ed8ed70ccc013632aa9dbd2f75699b94c75f87f0b0"
+        },
+        {
+          "path": "evidence/context-r34-integer-mtp-r1/http-output-budget.py",
+          "bytes": 7386,
+          "sha256": "46fe16867cc37ab0ec684b02c4a1ae87dbf412b108bb6c5f1f5f5d3975156311"
+        },
+        {
+          "path": "evidence/context-r34-integer-mtp-r1/http-result.json",
+          "bytes": 1933,
+          "sha256": "44fca7677668acb7dd9fb99ccdd136455378e460e6cba32bac209f604f6f9ec6"
+        },
+        {
+          "path": "evidence/context-r34-integer-mtp-r1/http-schema-integer-result.json",
+          "bytes": 32270,
+          "sha256": "218f86ee7cefaa5a5ac7408b7fbeadabfdaf7aba84f612d1b47ee46ed2493911"
+        },
+        {
+          "path": "evidence/context-r34-integer-mtp-r1/http-schema-integer.py",
+          "bytes": 10416,
+          "sha256": "3864bbda9e20b9579be79c8c5b4847632f5fa5995f8142115a91da100521df5e"
+        },
+        {
+          "path": "evidence/context-r34-integer-mtp-r1/http-wire.jsonl",
+          "bytes": 1093350,
+          "sha256": "794883add5dbde14da513df66fa6561ada843c9ebeb0d2a5c9b4612520861847"
+        },
+        {
+          "path": "evidence/context-r34-integer-mtp-r1/manifest.json",
+          "bytes": 5710,
+          "sha256": "a1ee3e1cf4168ca0befebb211a6c29945708bf5cee1e18b231cab96ab1db9f91"
+        },
+        {
+          "path": "evidence/context-r34-integer-mtp-r1/result.json",
+          "bytes": 99900,
+          "sha256": "7ddb0201b380d4e2708faa2e630d2c60b9287676945c001a28c1fdf7819ef42e"
+        },
+        {
+          "path": "evidence/context-r34-integer-mtp-r1/runner.py",
+          "bytes": 112434,
+          "sha256": "d1dd434d41f046245afe060d69b299ad2bc5845ea36e8cec481e625733648d3a"
+        },
+        {
+          "path": "evidence/context-r34-integer-mtp-r1/server.log",
+          "bytes": 92,
+          "sha256": "15a6fe9204a07c129c71e334762cf1181cf21f709678f501782b987223a686f0"
+        },
+        {
+          "path": "evidence/context-r34-integer-mtp-r1/stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r34-integer-mtp-r1/stdout.log",
+          "bytes": 66634,
+          "sha256": "00bc07f4961978e8d78172201124763cb07794deb2f8555d67fc5c7f21239690"
+        },
+        {
+          "path": "evidence/context-r34-integer-mtp-r1/telemetry.jsonl",
+          "bytes": 681723,
+          "sha256": "a4dcf3b29017de973cbb054694d1c984735e79e94a89bf6290c47f47658b25aa"
+        },
+        {
+          "path": "evidence/context-r34-integer-mtp-r1/collection.json",
+          "bytes": 9378,
+          "sha256": "04f380ab92134a2b2e974d00fb54d7f8b84ffbadb1b7e5bc90cdfab8b6c5e58e"
+        },
+        {
+          "path": "evidence/context-r34-integer-mtp-r1/controller-result.json",
+          "bytes": 922,
+          "sha256": "b308781005582cfd89855f51fe93615f5df0bed26fabf76660b77fecf0da1241"
+        }
+      ],
+      "checks": 37,
+      "passed": [
+        "models",
+        "chat_json",
+        "chat_sse",
+        "responses_json",
+        "responses_sse",
+        "chat_function_json",
+        "chat_function_sse",
+        "chat_tool_result",
+        "responses_function_json",
+        "responses_function_sse",
+        "responses_tool_replay",
+        "responses_tool_result",
+        "allowed_tools",
+        "chat_choices_json",
+        "chat_choices_sse",
+        "chat_seed_replay",
+        "chat_logprobs",
+        "chat_logprobs_sse",
+        "chat_bias_positive",
+        "chat_bias_negative",
+        "chat_stop_json",
+        "chat_stop_sse",
+        "chat_json_object",
+        "responses_json_object",
+        "chat_json_schema",
+        "responses_json_schema",
+        "chat_store_crud",
+        "responses_background_disconnect",
+        "responses_cursor_replay",
+        "responses_input_pagination",
+        "responses_cancel_after_output",
+        "responses_delete",
+        "responses_truncation",
+        "unsupported_fields",
+        "models_context_output_limits",
+        "chat_automatic_output",
+        "responses_automatic_output"
+      ],
+      "integer_checks": 66,
+      "integer_exact_values": 60,
+      "expected_HTTP400_refusals": 6,
+      "integer_witnesses": {
+        "chat_json_positive-inclusive": {
+          "text": "{\n  \"value\": 7\n}",
+          "value": 7,
+          "lexeme": "7",
+          "low": 7,
+          "high": 7,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 7,
+            "maximum": 7
+          }
+        },
+        "chat_sse_positive-inclusive": {
+          "text": "{\n  \"value\": 7\n}",
+          "value": 7,
+          "lexeme": "7",
+          "low": 7,
+          "high": 7,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 7,
+            "maximum": 7
+          }
+        },
+        "chat_json_negative-inclusive": {
+          "text": "{\n  \"value\":  \t-7\n}",
+          "value": -7,
+          "lexeme": "-7",
+          "low": -7,
+          "high": -7,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -7,
+            "maximum": -7
+          }
+        },
+        "chat_sse_negative-inclusive": {
+          "text": "{\n  \"value\":  \t-7\n}",
+          "value": -7,
+          "lexeme": "-7",
+          "low": -7,
+          "high": -7,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -7,
+            "maximum": -7
+          }
+        },
+        "chat_json_positive-exclusive": {
+          "text": "{\n  \"value\": 2\n}",
+          "value": 2,
+          "lexeme": "2",
+          "low": 2,
+          "high": 2,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1,
+            "exclusiveMaximum": 3
+          }
+        },
+        "chat_sse_positive-exclusive": {
+          "text": "{\n  \"value\": 2\n}",
+          "value": 2,
+          "lexeme": "2",
+          "low": 2,
+          "high": 2,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1,
+            "exclusiveMaximum": 3
+          }
+        },
+        "chat_json_negative-exclusive": {
+          "text": "{\n  \"value\":  \t-2\n}",
+          "value": -2,
+          "lexeme": "-2",
+          "low": -2,
+          "high": -2,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": -3,
+            "exclusiveMaximum": -1
+          }
+        },
+        "chat_sse_negative-exclusive": {
+          "text": "{\n  \"value\":  \t-2\n}",
+          "value": -2,
+          "lexeme": "-2",
+          "low": -2,
+          "high": -2,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": -3,
+            "exclusiveMaximum": -1
+          }
+        },
+        "chat_json_positive-fractional": {
+          "text": "{\n  \"value\": 1\n}",
+          "value": 1,
+          "lexeme": "1",
+          "low": 1,
+          "high": 1,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 0.5,
+            "maximum": 1.5
+          }
+        },
+        "chat_sse_positive-fractional": {
+          "text": "{\n  \"value\": 1\n}",
+          "value": 1,
+          "lexeme": "1",
+          "low": 1,
+          "high": 1,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 0.5,
+            "maximum": 1.5
+          }
+        },
+        "chat_json_negative-fractional": {
+          "text": "{\n  \"value\":  \t-1\n}",
+          "value": -1,
+          "lexeme": "-1",
+          "low": -1,
+          "high": -1,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.5,
+            "maximum": -0.5
+          }
+        },
+        "chat_sse_negative-fractional": {
+          "text": "{\n  \"value\":  \t-1\n}",
+          "value": -1,
+          "lexeme": "-1",
+          "low": -1,
+          "high": -1,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.5,
+            "maximum": -0.5
+          }
+        },
+        "chat_json_cross-zero": {
+          "text": "{\n  \"value\": 0\n}",
+          "value": 0,
+          "lexeme": "0",
+          "low": 0,
+          "high": 0,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -0.5,
+            "maximum": 0.5
+          }
+        },
+        "chat_sse_cross-zero": {
+          "text": "{\n  \"value\": 0\n}",
+          "value": 0,
+          "lexeme": "0",
+          "low": 0,
+          "high": 0,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -0.5,
+            "maximum": 0.5
+          }
+        },
+        "chat_json_positive-prefix": {
+          "text": "{\n  \"value\": 10\n}",
+          "value": 10,
+          "lexeme": "10",
+          "low": 9,
+          "high": 11,
+          "output_tokens": 11,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9,
+            "maximum": 11
+          }
+        },
+        "chat_sse_positive-prefix": {
+          "text": "{\n  \"value\": 10\n}",
+          "value": 10,
+          "lexeme": "10",
+          "low": 9,
+          "high": 11,
+          "output_tokens": 11,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9,
+            "maximum": 11
+          }
+        },
+        "chat_json_negative-prefix": {
+          "text": "{\n  \"value\":  \t-10\n}",
+          "value": -10,
+          "lexeme": "-10",
+          "low": -11,
+          "high": -9,
+          "output_tokens": 14,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -11,
+            "maximum": -9
+          }
+        },
+        "chat_sse_negative-prefix": {
+          "text": "{\n  \"value\":  \t-10\n}",
+          "value": -10,
+          "lexeme": "-10",
+          "low": -11,
+          "high": -9,
+          "output_tokens": 14,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -11,
+            "maximum": -9
+          }
+        },
+        "chat_json_beyond-int64": {
+          "text": "{\n  \"value\": 9223372036854775808\n}",
+          "value": 9223372036854775808,
+          "lexeme": "9223372036854775808",
+          "low": 9223372036854775808,
+          "high": 9223372036854775808,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9223372036854775808,
+            "maximum": 9223372036854775808
+          }
+        },
+        "chat_sse_beyond-int64": {
+          "text": "{\n  \"value\": 9223372036854775808\n}",
+          "value": 9223372036854775808,
+          "lexeme": "9223372036854775808",
+          "low": 9223372036854775808,
+          "high": 9223372036854775808,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9223372036854775808,
+            "maximum": 9223372036854775808
+          }
+        },
+        "chat_json_exact-binary64": {
+          "text": "{\n  \"value\": 1000000000000000128\n}",
+          "value": 1000000000000000128,
+          "lexeme": "1000000000000000128",
+          "low": 1000000000000000128,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1000000000000000128,
+            "maximum": 1000000000000000128
+          }
+        },
+        "chat_sse_exact-binary64": {
+          "text": "{\n  \"value\": 1000000000000000128\n}",
+          "value": 1000000000000000128,
+          "lexeme": "1000000000000000128",
+          "low": 1000000000000000128,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1000000000000000128,
+            "maximum": 1000000000000000128
+          }
+        },
+        "chat_json_large-magnitude": {
+          "text": "{\n  \"value\": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104\n}",
+          "value": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "lexeme": "10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104",
+          "low": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "high": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "output_tokens": 110,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1e+100,
+            "maximum": 1e+100
+          }
+        },
+        "chat_sse_large-magnitude": {
+          "text": "{\n  \"value\": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104\n}",
+          "value": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "lexeme": "10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104",
+          "low": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "high": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "output_tokens": 110,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1e+100,
+            "maximum": 1e+100
+          }
+        },
+        "chat_json_largest-magnitude": {
+          "text": "{\n  \"value\": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368\n}",
+          "value": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "lexeme": "179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368",
+          "low": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "high": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "output_tokens": 318,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308
+          }
+        },
+        "chat_sse_largest-magnitude": {
+          "text": "{\n  \"value\": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368\n}",
+          "value": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "lexeme": "179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368",
+          "low": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "high": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "output_tokens": 318,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308
+          }
+        },
+        "chat_json_large-positive-exclusive": {
+          "text": "{\n  \"value\": 1000000000000000007\n}",
+          "value": 1000000000000000007,
+          "lexeme": "1000000000000000007",
+          "low": 1000000000000000001,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1e+18,
+            "maximum": 1.0000000000000001e+18
+          }
+        },
+        "chat_sse_large-positive-exclusive": {
+          "text": "{\n  \"value\": 1000000000000000007\n}",
+          "value": 1000000000000000007,
+          "lexeme": "1000000000000000007",
+          "low": 1000000000000000001,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1e+18,
+            "maximum": 1.0000000000000001e+18
+          }
+        },
+        "chat_json_large-negative-exclusive": {
+          "text": "{\n  \"value\":  \t-1000000000000000001\n}",
+          "value": -1000000000000000001,
+          "lexeme": "-1000000000000000001",
+          "low": -1000000000000000128,
+          "high": -1000000000000000001,
+          "output_tokens": 31,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.0000000000000001e+18,
+            "exclusiveMaximum": -1e+18
+          }
+        },
+        "chat_sse_large-negative-exclusive": {
+          "text": "{\n  \"value\":  \t-1000000000000000001\n}",
+          "value": -1000000000000000001,
+          "lexeme": "-1000000000000000001",
+          "low": -1000000000000000128,
+          "high": -1000000000000000001,
+          "output_tokens": 31,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.0000000000000001e+18,
+            "exclusiveMaximum": -1e+18
+          }
+        },
+        "chat_refusal_empty-interval": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: schema has no finite value"
+          },
+          "bounds": {
+            "minimum": 2,
+            "maximum": 1
+          }
+        },
+        "chat_refusal_exclusive-zero-empty": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: schema has no finite value"
+          },
+          "bounds": {
+            "minimum": 0,
+            "exclusiveMaximum": 0
+          }
+        },
+        "chat_refusal_invalid-minimum": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: minimum must be finite"
+          },
+          "bounds": {
+            "minimum": "invalid",
+            "maximum": 1
+          }
+        },
+        "responses_json_positive-inclusive": {
+          "text": "{\n  \"value\": 7\n}",
+          "value": 7,
+          "lexeme": "7",
+          "low": 7,
+          "high": 7,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 7,
+            "maximum": 7
+          }
+        },
+        "responses_sse_positive-inclusive": {
+          "text": "{\n  \"value\": 7\n}",
+          "value": 7,
+          "lexeme": "7",
+          "low": 7,
+          "high": 7,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 7,
+            "maximum": 7
+          }
+        },
+        "responses_json_negative-inclusive": {
+          "text": "{\n  \"value\":  \t-7\n}",
+          "value": -7,
+          "lexeme": "-7",
+          "low": -7,
+          "high": -7,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -7,
+            "maximum": -7
+          }
+        },
+        "responses_sse_negative-inclusive": {
+          "text": "{\n  \"value\":  \t-7\n}",
+          "value": -7,
+          "lexeme": "-7",
+          "low": -7,
+          "high": -7,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -7,
+            "maximum": -7
+          }
+        },
+        "responses_json_positive-exclusive": {
+          "text": "{\n  \"value\": 2\n}",
+          "value": 2,
+          "lexeme": "2",
+          "low": 2,
+          "high": 2,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1,
+            "exclusiveMaximum": 3
+          }
+        },
+        "responses_sse_positive-exclusive": {
+          "text": "{\n  \"value\": 2\n}",
+          "value": 2,
+          "lexeme": "2",
+          "low": 2,
+          "high": 2,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1,
+            "exclusiveMaximum": 3
+          }
+        },
+        "responses_json_negative-exclusive": {
+          "text": "{\n  \"value\":  \t-2\n}",
+          "value": -2,
+          "lexeme": "-2",
+          "low": -2,
+          "high": -2,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": -3,
+            "exclusiveMaximum": -1
+          }
+        },
+        "responses_sse_negative-exclusive": {
+          "text": "{\n  \"value\":  \t-2\n}",
+          "value": -2,
+          "lexeme": "-2",
+          "low": -2,
+          "high": -2,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": -3,
+            "exclusiveMaximum": -1
+          }
+        },
+        "responses_json_positive-fractional": {
+          "text": "{\n  \"value\": 1\n}",
+          "value": 1,
+          "lexeme": "1",
+          "low": 1,
+          "high": 1,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 0.5,
+            "maximum": 1.5
+          }
+        },
+        "responses_sse_positive-fractional": {
+          "text": "{\n  \"value\": 1\n}",
+          "value": 1,
+          "lexeme": "1",
+          "low": 1,
+          "high": 1,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 0.5,
+            "maximum": 1.5
+          }
+        },
+        "responses_json_negative-fractional": {
+          "text": "{\n  \"value\":  \t-1\n}",
+          "value": -1,
+          "lexeme": "-1",
+          "low": -1,
+          "high": -1,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.5,
+            "maximum": -0.5
+          }
+        },
+        "responses_sse_negative-fractional": {
+          "text": "{\n  \"value\":  \t-1\n}",
+          "value": -1,
+          "lexeme": "-1",
+          "low": -1,
+          "high": -1,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.5,
+            "maximum": -0.5
+          }
+        },
+        "responses_json_cross-zero": {
+          "text": "{\n  \"value\": 0\n}",
+          "value": 0,
+          "lexeme": "0",
+          "low": 0,
+          "high": 0,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -0.5,
+            "maximum": 0.5
+          }
+        },
+        "responses_sse_cross-zero": {
+          "text": "{\n  \"value\": 0\n}",
+          "value": 0,
+          "lexeme": "0",
+          "low": 0,
+          "high": 0,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -0.5,
+            "maximum": 0.5
+          }
+        },
+        "responses_json_positive-prefix": {
+          "text": "{\n  \"value\": 10\n}",
+          "value": 10,
+          "lexeme": "10",
+          "low": 9,
+          "high": 11,
+          "output_tokens": 11,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9,
+            "maximum": 11
+          }
+        },
+        "responses_sse_positive-prefix": {
+          "text": "{\n  \"value\": 10\n}",
+          "value": 10,
+          "lexeme": "10",
+          "low": 9,
+          "high": 11,
+          "output_tokens": 11,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9,
+            "maximum": 11
+          }
+        },
+        "responses_json_negative-prefix": {
+          "text": "{\n  \"value\":  \t-10\n}",
+          "value": -10,
+          "lexeme": "-10",
+          "low": -11,
+          "high": -9,
+          "output_tokens": 14,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -11,
+            "maximum": -9
+          }
+        },
+        "responses_sse_negative-prefix": {
+          "text": "{\n  \"value\":  \t-10\n}",
+          "value": -10,
+          "lexeme": "-10",
+          "low": -11,
+          "high": -9,
+          "output_tokens": 14,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -11,
+            "maximum": -9
+          }
+        },
+        "responses_json_beyond-int64": {
+          "text": "{\n  \"value\": 9223372036854775808\n}",
+          "value": 9223372036854775808,
+          "lexeme": "9223372036854775808",
+          "low": 9223372036854775808,
+          "high": 9223372036854775808,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9223372036854775808,
+            "maximum": 9223372036854775808
+          }
+        },
+        "responses_sse_beyond-int64": {
+          "text": "{\n  \"value\": 9223372036854775808\n}",
+          "value": 9223372036854775808,
+          "lexeme": "9223372036854775808",
+          "low": 9223372036854775808,
+          "high": 9223372036854775808,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9223372036854775808,
+            "maximum": 9223372036854775808
+          }
+        },
+        "responses_json_exact-binary64": {
+          "text": "{\n  \"value\": 1000000000000000128\n}",
+          "value": 1000000000000000128,
+          "lexeme": "1000000000000000128",
+          "low": 1000000000000000128,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1000000000000000128,
+            "maximum": 1000000000000000128
+          }
+        },
+        "responses_sse_exact-binary64": {
+          "text": "{\n  \"value\": 1000000000000000128\n}",
+          "value": 1000000000000000128,
+          "lexeme": "1000000000000000128",
+          "low": 1000000000000000128,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1000000000000000128,
+            "maximum": 1000000000000000128
+          }
+        },
+        "responses_json_large-magnitude": {
+          "text": "{\n  \"value\": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104\n}",
+          "value": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "lexeme": "10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104",
+          "low": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "high": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "output_tokens": 110,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1e+100,
+            "maximum": 1e+100
+          }
+        },
+        "responses_sse_large-magnitude": {
+          "text": "{\n  \"value\": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104\n}",
+          "value": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "lexeme": "10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104",
+          "low": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "high": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "output_tokens": 110,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1e+100,
+            "maximum": 1e+100
+          }
+        },
+        "responses_json_largest-magnitude": {
+          "text": "{\n  \"value\": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368\n}",
+          "value": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "lexeme": "179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368",
+          "low": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "high": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "output_tokens": 318,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308
+          }
+        },
+        "responses_sse_largest-magnitude": {
+          "text": "{\n  \"value\": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368\n}",
+          "value": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "lexeme": "179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368",
+          "low": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "high": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "output_tokens": 318,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308
+          }
+        },
+        "responses_json_large-positive-exclusive": {
+          "text": "{\n  \"value\": 1000000000000000007\n}",
+          "value": 1000000000000000007,
+          "lexeme": "1000000000000000007",
+          "low": 1000000000000000001,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1e+18,
+            "maximum": 1.0000000000000001e+18
+          }
+        },
+        "responses_sse_large-positive-exclusive": {
+          "text": "{\n  \"value\": 1000000000000000007\n}",
+          "value": 1000000000000000007,
+          "lexeme": "1000000000000000007",
+          "low": 1000000000000000001,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1e+18,
+            "maximum": 1.0000000000000001e+18
+          }
+        },
+        "responses_json_large-negative-exclusive": {
+          "text": "{\n  \"value\":  \t-1000000000000000001\n}",
+          "value": -1000000000000000001,
+          "lexeme": "-1000000000000000001",
+          "low": -1000000000000000128,
+          "high": -1000000000000000001,
+          "output_tokens": 31,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.0000000000000001e+18,
+            "exclusiveMaximum": -1e+18
+          }
+        },
+        "responses_sse_large-negative-exclusive": {
+          "text": "{\n  \"value\":  \t-1000000000000000001\n}",
+          "value": -1000000000000000001,
+          "lexeme": "-1000000000000000001",
+          "low": -1000000000000000128,
+          "high": -1000000000000000001,
+          "output_tokens": 31,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.0000000000000001e+18,
+            "exclusiveMaximum": -1e+18
+          }
+        },
+        "responses_refusal_empty-interval": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: schema has no finite value"
+          },
+          "bounds": {
+            "minimum": 2,
+            "maximum": 1
+          }
+        },
+        "responses_refusal_exclusive-zero-empty": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: schema has no finite value"
+          },
+          "bounds": {
+            "minimum": 0,
+            "exclusiveMaximum": 0
+          }
+        },
+        "responses_refusal_invalid-minimum": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: minimum must be finite"
+          },
+          "bounds": {
+            "minimum": "invalid",
+            "maximum": 1
+          }
+        }
+      },
+      "server_exit_code": 0,
+      "model_stat_unchanged": true,
+      "server_argv": [
+        "/bundle/runtime/bin/synapse-lie-server",
+        "--model",
+        "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "--model-id",
+        "qwen3.8-flash-next",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "60499",
+        "--management-host",
+        "127.0.0.1",
+        "--management-port",
+        "37931",
+        "--context",
+        "16384",
+        "--prefill-chunk",
+        "2048",
+        "--max-active",
+        "8",
+        "--kv-cache-ram-mb",
+        "0",
+        "--request-timeout-ms",
+        "180000",
+        "--model-mtp",
+        "/mtp/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+        "--mtp-draft-tokens",
+        "7"
+      ],
+      "gtt_peak_bytes": 94725414912,
+      "observed_process_threads_max": 44,
+      "actual_window_retired": true,
+      "closure": {
+        "container_identity_source": "evidence/context-r34-mtp-live-r2.json",
+        "container_init_pid": 197774,
+        "container_init_start_ticks": 17429669,
+        "label": "context-r34-integer-mtp-r1",
+        "supervisor_identity_absent": true,
+        "container_init_identity_recorded": true,
+        "container_init_identity_absent": true,
+        "container_absent": true,
+        "container_inspect_exit": 1,
+        "container_inspect_stderr": "error: no such object: 5931dfb455cbaf9811b03ab480f975d6ed3d5eafcb1205f4be88063f2ad7bc0a\n",
+        "label_listing_exit": 0,
+        "label_listing_empty": true
+      }
+    }
+  ],
+  "binaries": {
+    "runtime/bin/lie-hip-probe": "1324deeebf41b4c271746ec312e2f5762147c898e362222a366faaf6cd33214c",
+    "runtime/bin/synapse-lie-bench": "57e9978bc2e6983879ca4c300a9811080697a37d6d5ccd8bb8f3cccee64879a9",
+    "runtime/bin/synapse-lie-bench-gufo-reference": "7b53fa450dd3ce39cddbe0bec585d1755b554677d2e512e84abaaac25e2d649e",
+    "runtime/bin/synapse-lie-server": "322091fcc28b02b378f33d3bb553adcf6dedca5bbd57c633e873c263e524ecb3"
+  },
+  "coordination": [
+    {
+      "path": "evidence/context-r34-peer-nonuse-ar-r1.json",
+      "bytes": 1477,
+      "sha256": "9d00dac1b624b19b269027152aee84a386de98474d596893fa5ffe9f8829ec5d"
+    },
+    {
+      "path": "evidence/context-r34-peer-nonuse-mtp-r1.json",
+      "bytes": 1391,
+      "sha256": "5ad91a9ccc2a8fdafa20682d4ff4d62cb66caf2592cac278db10b1246a219572"
+    },
+    {
+      "path": "evidence/context-r34-peer-nonuse-r1.json",
+      "bytes": 1370,
+      "sha256": "00837bfe4eba9e6b4037779b8d087f000b7d3858f132d668c48f0d94da5b344a"
+    }
+  ],
+  "fresh_preflights": [
+    {
+      "path": "evidence/context-r34-fresh-161-r2.json",
+      "bytes": 6808,
+      "sha256": "23e48157b6583882f28f4e9a410cde5fb518f791fb564b38ad4b7721188eb186"
+    },
+    {
+      "path": "evidence/context-r34-before-ar-r1.json",
+      "bytes": 6808,
+      "sha256": "11a410d8e6e01fc737c1ae59d7c6396d11a7dcb1a4c575e7d01d4aeaeaa69df4"
+    },
+    {
+      "path": "evidence/context-r34-before-mtp-r1.json",
+      "bytes": 6808,
+      "sha256": "2c2154a53d7e4e85dbab7171c65b3073e047d9ef33d4686604b2815b74e5967c"
+    }
+  ],
+  "final_fresh_closure": {
+    "path": "evidence/context-r34-mtp-closure-r1.json",
+    "bytes": 10483,
+    "sha256": "34835b2897b42bc0d6bf76509e5e2fcbe85f02f05220c80a7257d2b6eb52af7e"
+  },
+  "retained_collection_failure": {
+    "path": "evidence/context-r34-build-r1/compile-evidence/collection.json",
+    "bytes": 17142,
+    "sha256": "af17974198bb2f62d3add45d1f7135fac2ee9e90e73e974340ff73a5e1b0d64b"
+  },
+  "collection_failure_scope": "Original collector exits1 after25 successful verified transfers because it compares the preceding HOST105 inventory. New local validation uses the matching current HOST105 inventory. No build/inference/transfer rerun.",
+  "retained_failures": [
+    {
+      "path": "evidence/context-r34-build-collection-validation-failure-r1.json",
+      "bytes": 817,
+      "sha256": "ba2cdfd0dfb6da1111a44e697ce732c0adb384a7b430c439236b7e51d229c01c"
+    },
+    {
+      "path": "evidence/context-r34-build-telemetry-read-failure-r1.json",
+      "bytes": 452,
+      "sha256": "e4a7ebe8269f76e6514b34094c5c2b9b549baae2bdf579c971d50d87d3a058f3"
+    },
+    {
+      "path": "evidence/context-r34-integer-witness-count-failure-r1.json",
+      "bytes": 394,
+      "sha256": "9bdb1a647b15591f1b67fda2685a21253f08eb3c31649df9f600e23a98535285"
+    },
+    {
+      "path": "evidence/context-r34-read-location-failure-r1.json",
+      "bytes": 329,
+      "sha256": "bc2a9d931134b5a28d32de5d1b1548699cd0513b8683b97e835e7ff97f03e9a7"
+    },
+    {
+      "path": "evidence/context-r34-read-location-failure-r2.json",
+      "bytes": 372,
+      "sha256": "eedd6e4c2309284070948d1901d0eaa77dd08eeb325bbb2b1038c08a1e02c00e"
+    },
+    {
+      "path": "evidence/context-r34-read-location-failure-r3.json",
+      "bytes": 288,
+      "sha256": "08914941efd074e9dfc341c850e20e0770d98c4b0df09c08f32483bbb22acc23"
+    },
+    {
+      "path": "evidence/context-r34-read-location-failure-r4.json",
+      "bytes": 627,
+      "sha256": "ec8c8363b1198179d911166f9d553bde60b92463b24038265fde9f303d98ebeb"
+    }
+  ],
+  "previous_failed_GPU_result": {
+    "path": "evidence/context-r33-integer-ar-r1/result.json",
+    "bytes": 96863,
+    "sha256": "1ef6f9cee21687e8f1a809d1aa6c42d207ab3e524ed0f4ef63f8e98539ca67f9"
+  },
+  "previous_failed_GPU_portable_HOST_archive": {
+    "path": "docs/development/validation/raw/output-schema-integer-host-2026-10-06.tar.gz",
+    "bytes": 953132,
+    "sha256": "48d60b7198cee3b373bb3e3ca3e4cf08a8f1b176de092272c4846b5358ce2b74"
+  },
+  "new_inference_threads": 0,
+  "existing_public_ABI_breaking_change": false,
+  "new_contract": "Additive lie_schema_integer_compare within schema_integer ABI1; raw borrowed JSON numeric span, constant stack and exact represented finite binary64 bounds.",
+  "thermal_policy": "CPU98/NVMe85/lower exposed guards; GPU observe-only. No fan/clock/power tuning.",
+  "KV_cache_payload_format_changed": false,
+  "root_157_158_non_use": true,
+  "Terminal_Bench": "STOPPED_COLLECTED_CLOSED_DEFERRED_LAST",
+  "all_six_owned_tasks_open": true,
+  "pending": [
+    "Terminal Bench Core-19 last after functional changes and qualification.",
+    "Independent 1M recall and native HTTP qualification.",
+    "Matched Gufo/Halogen context, concurrency, resources, threads and graphs.",
+    "Broader learned DS4 steering quality/faults/vision/cost.",
+    "Independent original-weight sampling probabilities/filter/tool transitions/cost.",
+    "Remaining C17 typed construction/bootstrap/callback errors/model-controller and broader numeric/branch/fault/resource/quality/cost qualification."
+  ],
+  "general_fractional_bounds_numeric_enum_const_multipleOf_qualified": false,
+  "portable_archive": {
+    "path": "docs/development/validation/raw/output-schema-integer-point-gpu-2026-10-06.tar.gz",
+    "bytes": 955560,
+    "sha256": "2e010a12a869b045adfb52c98d3466ad8616b4576b4250fddefd0ca497febe3d"
+  },
+  "portable_archive_inventory": [
+    {
+      "path": "LICENSE",
+      "bytes": 1081,
+      "sha256": "7ea461cf01583ff889f2c0705702f4e97bc1751fd96d5381895754638dc1263d"
+    },
+    {
+      "path": "docs/development/validation/output-schema-integer-host-2026-10-06.json",
+      "bytes": 100327,
+      "sha256": "8f6e6c6402150e41184fb45e6ba767ed29a00c45be0804839679a7d82ce902f3"
+    },
+    {
+      "path": "evidence/context-r34-ar-closure-r1.json",
+      "bytes": 8103,
+      "sha256": "15d9f9248e24e41d1e2a5db5784bfb6f0234fbf95a073914aa03d26e8ddb82dc"
+    },
+    {
+      "path": "evidence/context-r34-ar-closure-r1.py",
+      "bytes": 7586,
+      "sha256": "2b5cfa54634502efefa843d6c87f7695cba54e358b430dc2ad56776f80ebbe0f"
+    },
+    {
+      "path": "evidence/context-r34-ar-live-r1.json",
+      "bytes": 6268,
+      "sha256": "ea1bf0192aff921818d1bbd9be3ae870797c66f1e79854d074f2b5dc7bc680ca"
+    },
+    {
+      "path": "evidence/context-r34-ar-live-r1.py",
+      "bytes": 3153,
+      "sha256": "d38c6dcc3d3172298b9487aa244eee52c301e79e4f200e719ad1244cdc6ae216"
+    },
+    {
+      "path": "evidence/context-r34-ar-live-r2.json",
+      "bytes": 6274,
+      "sha256": "b9f1b078d264c17e0a01c97df85e6d7e7eeb554be43a17a23481e604cab77a6e"
+    },
+    {
+      "path": "evidence/context-r34-ar-live-r2.py",
+      "bytes": 3153,
+      "sha256": "5c9d7a7c4cb9c6af0d55b074b2ffbd4407f0b5f7de575e6cdfaa388d10165d65"
+    },
+    {
+      "path": "evidence/context-r34-ar-live-r3.json",
+      "bytes": 6502,
+      "sha256": "4e34584bdc1a5c0e6c3305bd897d1376812ff66c202a362bf4b17814ec895e84"
+    },
+    {
+      "path": "evidence/context-r34-ar-live-r3.py",
+      "bytes": 3383,
+      "sha256": "a8182395889d9e6adf0e11e994355846b16ede429d864738d66b4904378e867b"
+    },
+    {
+      "path": "evidence/context-r34-ar-live-r4.json",
+      "bytes": 6504,
+      "sha256": "d33a84048ca02d4cf99bd8163e13d24181bcf2bc727aa89e0ae35f716ed40650"
+    },
+    {
+      "path": "evidence/context-r34-ar-live-r4.py",
+      "bytes": 3383,
+      "sha256": "2997b673c6996772094efa61f6215b7847b1f52e58416cf8ea20638026c963cb"
+    },
+    {
+      "path": "evidence/context-r34-ar-live-r5.json",
+      "bytes": 6508,
+      "sha256": "9ecf624317fbb71df076b75c5635da1c152bd7cc92f78a2262237ab2f3a56748"
+    },
+    {
+      "path": "evidence/context-r34-ar-live-r5.py",
+      "bytes": 3383,
+      "sha256": "77051e6dcfe74bcee6149df3efc7306239de47988f7315bab67d9a246de49d19"
+    },
+    {
+      "path": "evidence/context-r34-ar-live-r6.json",
+      "bytes": 6528,
+      "sha256": "44d83beecff8b62aeea3b96742a83f79704002ca34db3ae2fcb98d9521791569"
+    },
+    {
+      "path": "evidence/context-r34-ar-live-r6.py",
+      "bytes": 3383,
+      "sha256": "4c6715f862573e9ec7ad225862926eddfdfd87f1ef0a49059ccc3447aa14aaae"
+    },
+    {
+      "path": "evidence/context-r34-before-ar-r1.json",
+      "bytes": 6808,
+      "sha256": "11a410d8e6e01fc737c1ae59d7c6396d11a7dcb1a4c575e7d01d4aeaeaa69df4"
+    },
+    {
+      "path": "evidence/context-r34-before-ar-r1.py",
+      "bytes": 4514,
+      "sha256": "d382157ec0c91d03f7a964b7c35704efab1ddd68921cb1a9d0459abcada34220"
+    },
+    {
+      "path": "evidence/context-r34-before-mtp-r1.json",
+      "bytes": 6808,
+      "sha256": "2c2154a53d7e4e85dbab7171c65b3073e047d9ef33d4686604b2815b74e5967c"
+    },
+    {
+      "path": "evidence/context-r34-before-mtp-r1.py",
+      "bytes": 4516,
+      "sha256": "cf0cdd9077de5822d08597b8515ba2fa3b7d2e6ad152776cbf24dc614cedc731"
+    },
+    {
+      "path": "evidence/context-r34-build-closure-r1.json",
+      "bytes": 7696,
+      "sha256": "e725dfaae08b4bc09bb26417630156b3f39e0e12a863c4be1919a2f32c7fc16c"
+    },
+    {
+      "path": "evidence/context-r34-build-closure-r1.py",
+      "bytes": 6247,
+      "sha256": "54411bc1ba5070fb784ab203487fef30cc7cab85c0501e142486d49f2b33eb67"
+    },
+    {
+      "path": "evidence/context-r34-build-collection-validation-failure-r1.json",
+      "bytes": 817,
+      "sha256": "ba2cdfd0dfb6da1111a44e697ce732c0adb384a7b430c439236b7e51d229c01c"
+    },
+    {
+      "path": "evidence/context-r34-build-live-r1.json",
+      "bytes": 11630,
+      "sha256": "94991001a67323850f07d2669c5f6acea2300ebf88906b7493a98fd354e13285"
+    },
+    {
+      "path": "evidence/context-r34-build-live-r1.py",
+      "bytes": 3781,
+      "sha256": "a004d34364c5eac32146fbbc2efe6dfa9a6371bf628112dabc8dddac918b3ce2"
+    },
+    {
+      "path": "evidence/context-r34-build-live-r2.json",
+      "bytes": 16521,
+      "sha256": "930dd9c2457eb31d1eb6c89f572b3118edadb9bf9a19c7a1567b265a0bf37891"
+    },
+    {
+      "path": "evidence/context-r34-build-live-r2.py",
+      "bytes": 3781,
+      "sha256": "2e1015e0b232a147fb3144262f2540f326b47c3f5ac04027800fd80d14e4c352"
+    },
+    {
+      "path": "evidence/context-r34-build-live-r3.json",
+      "bytes": 16549,
+      "sha256": "bd3b9bb7cbfcf923e4fa708f58ccc69775a8560576a527d7b793039eb5f059d0"
+    },
+    {
+      "path": "evidence/context-r34-build-live-r3.py",
+      "bytes": 3781,
+      "sha256": "ad517250c0236fdda26671fcdaed77cb84cf0fbb553577a227369e62770e49de"
+    },
+    {
+      "path": "evidence/context-r34-build-manifest.json",
+      "bytes": 1336,
+      "sha256": "69ef413c2a92687db9c20b1dfbc3d46a248c24299fe30dcc0a34e2ca7d7d00c8"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/coherence-evidence/build/rocm10-point-modern-r34-provider/build.ninja",
+      "bytes": 112542,
+      "sha256": "39d3b0412163f676815db3c4ab0e7611b0387d8aaf47d2de7ac06db6ce5a5811"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/coherence-evidence/build/rocm10-point-modern-r34-reference-provider/build.ninja",
+      "bytes": 114642,
+      "sha256": "2223d2dfa7bdd233eaf8619ee3d68c1e72d97feac15554da027de8707a32b9f3"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/coherence-evidence/build/rocm10-point-modern-r34-runtime/build.ninja",
+      "bytes": 218311,
+      "sha256": "6d38fdbcccecdbd83b551da77b8124e8ae93591251124a1a4a6ae796678c17e2"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/coherence-evidence/collection.json",
+      "bytes": 10703,
+      "sha256": "bb1845f5082bfc44a0dead4ff2452982a253bcf593f6ffced5c55ac735359d96"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/collection.json",
+      "bytes": 3072,
+      "sha256": "3ba6cab2395e808b45ab99dfa63974ba2f30536b899664066c33181f4a37cfa3"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/build/rocm10-point-modern-r34-provider/BUILD-RECEIPT.json",
+      "bytes": 138400,
+      "sha256": "f670dc600625f74c39c1cf0ee6d054e48fab09fd31e2010bf66a690bb0206e48"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/build/rocm10-point-modern-r34-reference-provider/BUILD-RECEIPT.json",
+      "bytes": 138452,
+      "sha256": "fb8fdb9f6e332904cb125845f6d50661d8cb221d587daf608c2e6137b43bd710"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/collection-validation-r2.json",
+      "bytes": 17478,
+      "sha256": "dc5c2461367718fc0ce89d5438a681bc40c1f4fc2354dc63317e587e18ba8252"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/collection.json",
+      "bytes": 17142,
+      "sha256": "af17974198bb2f62d3add45d1f7135fac2ee9e90e73e974340ff73a5e1b0d64b"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-compile/configure.command",
+      "bytes": 740,
+      "sha256": "7781e6709424c9ecf3e00fbc852249bd142cc824e4f852f0b4e8976544bcd93c"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-compile/configure.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-compile/configure.stderr",
+      "bytes": 1608,
+      "sha256": "61f5cc4443cebc1c481cec9ac45a158e2762658137e3a98596ece2b52ad3b845"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-compile/configure.stdout",
+      "bytes": 3849,
+      "sha256": "f1624563d674522cc72b2227474331b6640116504f431105cd1dd94a77958fda"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-compile/link.command",
+      "bytes": 175,
+      "sha256": "7932c1907347c8e28baae6765507e43612505b445440ba956ac0ac7cc071d34a"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-compile/link.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-compile/link.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-compile/link.stdout",
+      "bytes": 11520,
+      "sha256": "ff95df2c0cb7aa3cb03453cd8d3197e85623013ea2ca88d76db112b32e826441"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-compile/provider.command",
+      "bytes": 261,
+      "sha256": "24c7bc19cfd5717f93c673c99790bd50fa154fc646e48b1c1479e25815c9eeb6"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-compile/provider.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-compile/provider.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-compile/provider.stdout",
+      "bytes": 65,
+      "sha256": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-compile/reference-provider.command",
+      "bytes": 272,
+      "sha256": "fad1ef7b164b52e6cdaa38dd204cb636a6593486be3c28230bb1c5525a5cce57"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-compile/reference-provider.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-compile/reference-provider.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-compile/reference-provider.stdout",
+      "bytes": 65,
+      "sha256": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-compile/result.json",
+      "bytes": 1181,
+      "sha256": "114fa69f86df3686593ee6fa55505bfa74b9e0b175289f0c31636cfe1c02f15e"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-provider/build.log",
+      "bytes": 9064,
+      "sha256": "c2613a41b83e5721e696624de16b033d55aef76523091db2e147bb300ea4cc08"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-provider/configure.log",
+      "bytes": 3359,
+      "sha256": "423fd87bb0fb82e71f84442958b57190c10afe91d1ddf20bf0be286e8d7624ad"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-provider/result.json",
+      "bytes": 138400,
+      "sha256": "f670dc600625f74c39c1cf0ee6d054e48fab09fd31e2010bf66a690bb0206e48"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-reference-provider/build.log",
+      "bytes": 9294,
+      "sha256": "4873cb2d5167c961be768785912d0e664dbc1a74b374f9a49ae292747ee46fac"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-reference-provider/configure.log",
+      "bytes": 3369,
+      "sha256": "873f0ad280b571c42daecb6b1b1ee21ac412733fc22ace0d9adb7f1ec251a074"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/compile-evidence/evidence/rocm10-point-modern-r34-reference-provider/result.json",
+      "bytes": 138452,
+      "sha256": "fb8fdb9f6e332904cb125845f6d50661d8cb221d587daf608c2e6137b43bd710"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/controller-result.json",
+      "bytes": 541,
+      "sha256": "b89eb6e5f3530bd98974d17e4b1861bf89556443e43a7e22524eb11ad6cde2e8"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/manifest.json",
+      "bytes": 1336,
+      "sha256": "69ef413c2a92687db9c20b1dfbc3d46a248c24299fe30dcc0a34e2ca7d7d00c8"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/result.json",
+      "bytes": 148570,
+      "sha256": "1087ea87a3bdcb4fd025a75071ab695d57a189da0f52755cb0a57bf29cb878d7"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/runner.py",
+      "bytes": 112434,
+      "sha256": "d1dd434d41f046245afe060d69b299ad2bc5845ea36e8cec481e625733648d3a"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r34-build-r1/telemetry.jsonl",
+      "bytes": 352724,
+      "sha256": "42eb6aa8f32f329906d0755be912006edf578e09276290f1c3d877349cf57c03"
+    },
+    {
+      "path": "evidence/context-r34-build-telemetry-read-failure-r1.json",
+      "bytes": 452,
+      "sha256": "e4a7ebe8269f76e6514b34094c5c2b9b549baae2bdf579c971d50d87d3a058f3"
+    },
+    {
+      "path": "evidence/context-r34-build-thermal-summary-r1.json",
+      "bytes": 229,
+      "sha256": "492e07efd50abd3d7e2f728ef03b9417b31a5ff7e3b983dd9acefb1dcf4cc402"
+    },
+    {
+      "path": "evidence/context-r34-bundle-result.json",
+      "bytes": 1375,
+      "sha256": "49c2558c7137e1a73aaa36cd40c33729ae9600adf126b18fbcdd361c6e488ca3"
+    },
+    {
+      "path": "evidence/context-r34-fresh-161-r1.json",
+      "bytes": 6804,
+      "sha256": "1992bd2a3e1df6cb0294b73a72e5358629a9c6213c2bc95b4719bf6d81c82e69"
+    },
+    {
+      "path": "evidence/context-r34-fresh-161-r1.py",
+      "bytes": 4583,
+      "sha256": "fcdcf340a4e925a46abace3c76a29c0217223264eac96d7f57a5080d11ea6e62"
+    },
+    {
+      "path": "evidence/context-r34-fresh-161-r2.json",
+      "bytes": 6808,
+      "sha256": "23e48157b6583882f28f4e9a410cde5fb518f791fb564b38ad4b7721188eb186"
+    },
+    {
+      "path": "evidence/context-r34-fresh-161-r2.py",
+      "bytes": 4583,
+      "sha256": "c9e41a9dc5351e7547b9af562e4e45ae3ad0bfbd74a73ca3b0bf1fb1a5da80cf"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-draft.json",
+      "bytes": 4606,
+      "sha256": "64e2ec9c05e9eaa428e99e7e3fda749f67af6051e408b3b265a7b96a07de3f2e"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-r1.json",
+      "bytes": 5052,
+      "sha256": "f5c04a0527179010f0d48113bde56ec529ed06b0488c233850311adfa91e06bf"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-r1/collection.json",
+      "bytes": 9352,
+      "sha256": "56f3f33bef2f4c466122c0ec7afa14cdd3084df52cad744eb024129564cf81d9"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-r1/controller-result.json",
+      "bytes": 921,
+      "sha256": "4643e20124a048a2ecd007db46500176bb4cd72ce4ddd2d4a08ccfdaf1531305"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-r1/distrobox-create.log",
+      "bytes": 269,
+      "sha256": "5faa2e646ab5b2dbdabf811563065ca05b926a44b0104e430b112ca51281d205"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-r1/distrobox.stderr.log",
+      "bytes": 1073,
+      "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-r1/distrobox.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-r1/http-controls-result.json",
+      "bytes": 2973,
+      "sha256": "31090cbb7c956cdb57478e5b3e4966912ce93440dc35304acf0326ae6b82cda4"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-r1/http-controls.py",
+      "bytes": 18408,
+      "sha256": "5a52223a674d850f4493794cc5cc190e807abd10b01adbe9faa29285fa0b54bd"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-r1/http-gate.py",
+      "bytes": 19320,
+      "sha256": "4aa144c9484dd2d9c1c421841291acd7b40b7d90275f7577288ac01fb9494605"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-r1/http-output-budget-result.json",
+      "bytes": 5475,
+      "sha256": "043d0b195d765c90d49a11ed8ed70ccc013632aa9dbd2f75699b94c75f87f0b0"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-r1/http-output-budget.py",
+      "bytes": 7386,
+      "sha256": "46fe16867cc37ab0ec684b02c4a1ae87dbf412b108bb6c5f1f5f5d3975156311"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-r1/http-result.json",
+      "bytes": 1826,
+      "sha256": "ba76d737e0d7e9834e93b7b48e209c25d58e66cd576a39c3d41a15fbbb9dc7cf"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-r1/http-schema-integer-result.json",
+      "bytes": 32270,
+      "sha256": "218f86ee7cefaa5a5ac7408b7fbeadabfdaf7aba84f612d1b47ee46ed2493911"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-r1/http-schema-integer.py",
+      "bytes": 10416,
+      "sha256": "3864bbda9e20b9579be79c8c5b4847632f5fa5995f8142115a91da100521df5e"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-r1/http-wire.jsonl",
+      "bytes": 1388467,
+      "sha256": "a63cdd5b0196102bcbccbc1f087107ab95b58fef71e81e67129da721750a0e6b"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-r1/manifest.json",
+      "bytes": 5052,
+      "sha256": "f5c04a0527179010f0d48113bde56ec529ed06b0488c233850311adfa91e06bf"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-r1/result.json",
+      "bytes": 98388,
+      "sha256": "d2758a3a4447a191476a03e76d762c41a4ca907001b7a712545763c415999466"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-r1/runner.py",
+      "bytes": 112434,
+      "sha256": "d1dd434d41f046245afe060d69b299ad2bc5845ea36e8cec481e625733648d3a"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-r1/server.log",
+      "bytes": 92,
+      "sha256": "9eedfcadbf77e76e82aa717de29b43362b30b2c3df8623d20717e989b786738a"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-r1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-r1/stdout.log",
+      "bytes": 66621,
+      "sha256": "dde60d25a9d75178befb595db5b3db66923fedb5834df9fbb1ff0ab61eabc4e8"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-r1/telemetry.jsonl",
+      "bytes": 876440,
+      "sha256": "bfefa478713ec6b63f8a43fe1818ee179a6ba4c639d53c19365d8abe827b7aad"
+    },
+    {
+      "path": "evidence/context-r34-integer-ar-witness-proof-r1.json",
+      "bytes": 227,
+      "sha256": "4b28449abd6ec2191ad222e821034862afd1cb581c74798501023d28a5aa6cb1"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-draft.json",
+      "bytes": 5264,
+      "sha256": "055967535243e6d702873c536ecd608b5d0585d2e49fdfc1d7699ce414730dfc"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-r1.json",
+      "bytes": 5710,
+      "sha256": "a1ee3e1cf4168ca0befebb211a6c29945708bf5cee1e18b231cab96ab1db9f91"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-r1/collection.json",
+      "bytes": 9378,
+      "sha256": "04f380ab92134a2b2e974d00fb54d7f8b84ffbadb1b7e5bc90cdfab8b6c5e58e"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-r1/controller-result.json",
+      "bytes": 922,
+      "sha256": "b308781005582cfd89855f51fe93615f5df0bed26fabf76660b77fecf0da1241"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-r1/distrobox-create.log",
+      "bytes": 272,
+      "sha256": "e5af7d7d2236a24091524001b8b0c51d2f1ab8a62ac06366dada7e51848b4e10"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-r1/distrobox.stderr.log",
+      "bytes": 1073,
+      "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-r1/distrobox.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-r1/http-controls-result.json",
+      "bytes": 2977,
+      "sha256": "9842b40555504fd605f1040e904b6c43b927ad1962300b2c68cdab037bde99e6"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-r1/http-controls.py",
+      "bytes": 18408,
+      "sha256": "5a52223a674d850f4493794cc5cc190e807abd10b01adbe9faa29285fa0b54bd"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-r1/http-gate.py",
+      "bytes": 19320,
+      "sha256": "4aa144c9484dd2d9c1c421841291acd7b40b7d90275f7577288ac01fb9494605"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-r1/http-output-budget-result.json",
+      "bytes": 5475,
+      "sha256": "043d0b195d765c90d49a11ed8ed70ccc013632aa9dbd2f75699b94c75f87f0b0"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-r1/http-output-budget.py",
+      "bytes": 7386,
+      "sha256": "46fe16867cc37ab0ec684b02c4a1ae87dbf412b108bb6c5f1f5f5d3975156311"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-r1/http-result.json",
+      "bytes": 1933,
+      "sha256": "44fca7677668acb7dd9fb99ccdd136455378e460e6cba32bac209f604f6f9ec6"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-r1/http-schema-integer-result.json",
+      "bytes": 32270,
+      "sha256": "218f86ee7cefaa5a5ac7408b7fbeadabfdaf7aba84f612d1b47ee46ed2493911"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-r1/http-schema-integer.py",
+      "bytes": 10416,
+      "sha256": "3864bbda9e20b9579be79c8c5b4847632f5fa5995f8142115a91da100521df5e"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-r1/http-wire.jsonl",
+      "bytes": 1093350,
+      "sha256": "794883add5dbde14da513df66fa6561ada843c9ebeb0d2a5c9b4612520861847"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-r1/manifest.json",
+      "bytes": 5710,
+      "sha256": "a1ee3e1cf4168ca0befebb211a6c29945708bf5cee1e18b231cab96ab1db9f91"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-r1/result.json",
+      "bytes": 99900,
+      "sha256": "7ddb0201b380d4e2708faa2e630d2c60b9287676945c001a28c1fdf7819ef42e"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-r1/runner.py",
+      "bytes": 112434,
+      "sha256": "d1dd434d41f046245afe060d69b299ad2bc5845ea36e8cec481e625733648d3a"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-r1/server.log",
+      "bytes": 92,
+      "sha256": "15a6fe9204a07c129c71e334762cf1181cf21f709678f501782b987223a686f0"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-r1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-r1/stdout.log",
+      "bytes": 66634,
+      "sha256": "00bc07f4961978e8d78172201124763cb07794deb2f8555d67fc5c7f21239690"
+    },
+    {
+      "path": "evidence/context-r34-integer-mtp-r1/telemetry.jsonl",
+      "bytes": 681723,
+      "sha256": "a4dcf3b29017de973cbb054694d1c984735e79e94a89bf6290c47f47658b25aa"
+    },
+    {
+      "path": "evidence/context-r34-integer-witness-count-failure-r1.json",
+      "bytes": 394,
+      "sha256": "9bdb1a647b15591f1b67fda2685a21253f08eb3c31649df9f600e23a98535285"
+    },
+    {
+      "path": "evidence/context-r34-mtp-closure-r1.json",
+      "bytes": 10483,
+      "sha256": "34835b2897b42bc0d6bf76509e5e2fcbe85f02f05220c80a7257d2b6eb52af7e"
+    },
+    {
+      "path": "evidence/context-r34-mtp-closure-r1.py",
+      "bytes": 7760,
+      "sha256": "64445a38b9b4a6fe4fdd993c8b86c35a9d25aecf58579421748f2f3b76af6c24"
+    },
+    {
+      "path": "evidence/context-r34-mtp-live-r2.json",
+      "bytes": 5212,
+      "sha256": "8299979c62bbd4c1ba05878e2b7377ca16ee99b057f6418baf5691cf22b216b8"
+    },
+    {
+      "path": "evidence/context-r34-mtp-live-r2.py",
+      "bytes": 3156,
+      "sha256": "ceb4bab0cb32666df054b0e7e6c98b6da2cae6d27a34e3909015739781b089fb"
+    },
+    {
+      "path": "evidence/context-r34-mtp-live-r3.json",
+      "bytes": 6434,
+      "sha256": "09f62830188c7e8dc3c1293161da1eecfdba353797a5d301503714ac36aefd62"
+    },
+    {
+      "path": "evidence/context-r34-mtp-live-r3.py",
+      "bytes": 3385,
+      "sha256": "ac5f700a2f55306c648ff71d1f8b84caa2d0f88966d27925d38fd674c4324f3a"
+    },
+    {
+      "path": "evidence/context-r34-mtp-live-r4.json",
+      "bytes": 6496,
+      "sha256": "59e50e909398e51b077b45b1156f7284048463a4436b6f5b40b4331eaf025191"
+    },
+    {
+      "path": "evidence/context-r34-mtp-live-r4.py",
+      "bytes": 3385,
+      "sha256": "0f49f49917d9dbc8efd9fc10c7679ca643644ffb4912884bff0067bb59331327"
+    },
+    {
+      "path": "evidence/context-r34-output-budget-read-metadata-r1.json",
+      "bytes": 375,
+      "sha256": "0d5547726da0e7a980e62a11d5eef2ba9f77a2e059380e0f19d600706134d751"
+    },
+    {
+      "path": "evidence/context-r34-peer-nonuse-ar-r1.json",
+      "bytes": 1477,
+      "sha256": "9d00dac1b624b19b269027152aee84a386de98474d596893fa5ffe9f8829ec5d"
+    },
+    {
+      "path": "evidence/context-r34-peer-nonuse-mtp-r1.json",
+      "bytes": 1391,
+      "sha256": "5ad91a9ccc2a8fdafa20682d4ff4d62cb66caf2592cac278db10b1246a219572"
+    },
+    {
+      "path": "evidence/context-r34-peer-nonuse-r1.json",
+      "bytes": 1370,
+      "sha256": "00837bfe4eba9e6b4037779b8d087f000b7d3858f132d668c48f0d94da5b344a"
+    },
+    {
+      "path": "evidence/context-r34-read-location-failure-r1.json",
+      "bytes": 329,
+      "sha256": "bc2a9d931134b5a28d32de5d1b1548699cd0513b8683b97e835e7ff97f03e9a7"
+    },
+    {
+      "path": "evidence/context-r34-read-location-failure-r2.json",
+      "bytes": 372,
+      "sha256": "eedd6e4c2309284070948d1901d0eaa77dd08eeb325bbb2b1038c08a1e02c00e"
+    },
+    {
+      "path": "evidence/context-r34-read-location-failure-r3.json",
+      "bytes": 288,
+      "sha256": "08914941efd074e9dfc341c850e20e0770d98c4b0df09c08f32483bbb22acc23"
+    },
+    {
+      "path": "evidence/context-r34-read-location-failure-r4.json",
+      "bytes": 627,
+      "sha256": "ec8c8363b1198179d911166f9d553bde60b92463b24038265fde9f303d98ebeb"
+    },
+    {
+      "path": "evidence/context-r34-readme-cleanup-r1.json",
+      "bytes": 482,
+      "sha256": "2ec139f6fa69c5660634cf8bd3a6e2e2a3e0e89d12f8d6ad06b23ad95877aebc"
+    },
+    {
+      "path": "evidence/context-r34-source-seal.json",
+      "bytes": 1481,
+      "sha256": "5ac13a5676ee2f0a8a7303835dd72956414629c791cd9d2226342bbf8362f946"
+    },
+    {
+      "path": "evidence/context-r34-source-stage.json",
+      "bytes": 3227,
+      "sha256": "0342de998675d0bb1b9e89c35ccaf0bc846ae659d214bdd1e9704be16e554a41"
+    },
+    {
+      "path": "evidence/context-source-modern-r34/SOURCE-FILES.sha256",
+      "bytes": 349202,
+      "sha256": "c0f4df57d21c4eb59f31c51dbfc1bbdd94a36adbb8ed71cd2a9c00864c099132"
+    },
+    {
+      "path": "evidence/seal-output-schema-integer-point-r34.py",
+      "bytes": 13024,
+      "sha256": "5506ed7e619deeeb2ceb175792ba32b607d15726d83697c7ad2a17ef99b887c1"
+    },
+    {
+      "path": "third_party/README.md",
+      "bytes": 28791,
+      "sha256": "7acf1799756bc12a35fcf8f24338dd472a225e4a92020c980862fe9ff0b4cea3"
+    }
+  ],
+  "publication": false,
+  "goal_complete": false
+}

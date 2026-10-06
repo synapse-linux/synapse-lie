@@ -4,7 +4,8 @@
 [Documentation](../README.md) · [Run the server](USAGE.md)
 
 LIE currently targets Linux. The supported inference configuration on this
-branch is Qwen3.8 Flash Next, Unsloth UD-Q4_K_XL, on AMD Strix Halo (`gfx1151`).
+branch is Qwen3.8 Flash Next, Unsloth UD-Q4_K_XL, on AMD Strix Halo (`gfx1151`)
+and Strix Point (`gfx1150`). Recorded GPU results remain tied to their runtime.
 Weights are external; a successful CPU build does not provide CPU inference.
 
 ## Dependencies
@@ -40,10 +41,13 @@ build; the source fetcher refuses to replace an existing source directory.
 
 ```sh
 cmake -P cmake/provider/Fetch.cmake
-cmake -DLABEL=qwen-hip -P cmake/provider/Build.cmake
-cmake -DLABEL=qwen-reference-hip -DLIE_C17_SAMPLING=OFF -P cmake/provider/Build.cmake
+lie_target_arch=gfx1151 # Strix Halo; use gfx1150 for Strix Point.
+cmake -DLABEL=qwen-hip -DLIE_HIP_ARCHITECTURE="$lie_target_arch" -P cmake/provider/Build.cmake
+cmake -DLABEL=qwen-reference-hip -DLIE_C17_SAMPLING=OFF \
+  -DLIE_HIP_ARCHITECTURE="$lie_target_arch" -P cmake/provider/Build.cmake
 cmake -S . -B build/release -DCMAKE_BUILD_TYPE=Release \
   -DBUILD_TESTING=OFF -DLIE_GUFO_RUNTIME=ON -DLIE_GUFO_STATE_ACCESS=ON \
+  -DLIE_HIP_ARCHITECTURE="$lie_target_arch" \
   -DGUFO_SOURCE="$PWD/.deps/gufo-state-access-qwen-hip" \
   -DGUFO_BUILD="$PWD/build/qwen-hip" \
   -DGUFO_REFERENCE_BUILD="$PWD/build/qwen-reference-hip"
