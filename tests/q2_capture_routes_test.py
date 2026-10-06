@@ -12,11 +12,38 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'tools'))
 from q2_capture_routes import validate_counts
+from q2_process import members, owns_process, supervise
 
 BINARY = sys.argv.pop(1) if len(sys.argv) > 1 else None
 
 
 class CaptureTests(unittest.TestCase):
+    @unittest.skipUnless(BINARY, 'Host fixture path required')
+    def test_real_debugger_under_process_supervisor(self):
+        directory = Path(tempfile.mkdtemp(prefix='supervised-routing-', dir=Path.cwd()))
+        env = dict(os.environ, LIE_Q2_ROUTING_OUTPUT=str(directory),
+                   ASAN_OPTIONS='detect_leaks=0:halt_on_error=1')
+        row, observed = {}, []
+        def clients():
+            children = [r for r in members(row['pid'], row['start_ticks'], True)
+                        if r['group'] != row['pid']]
+            observed.extend(children)
+            for child in children:
+                self.assertFalse(owns_process(child['pid'], row['pid'], row['start_ticks']))
+            return [r['pid'] for r in children]
+        argv = ['gdb', '-nx', '-nh', '--batch', '-iex', 'set auto-load off',
+                '-ex', 'set pagination off', '-ex', 'set confirm off',
+                '-ex', 'set print thread-events off', '-ex', 'set disable-randomization off',
+                '-x', str(ROOT/'tools/q2_capture_routes.py'), '--args', BINARY, 'good']
+        with (directory/'stdout.txt').open('wb') as stream:
+            supervise(argv, cwd=directory, env=env, log=stream, row=row,
+                      timeout=30, clients=clients, interval=.01, allow_child_groups=True)
+        (directory/'command.json').write_text(json.dumps(row, indent=2))
+        self.assertTrue(observed, 'Did not exercise the real debugger child group')
+        self.assertTrue(row['owned_kfd_identities'])
+        self.assertEqual(members(row['pid'], row['start_ticks'], True), [])
+        self.assertEqual(json.loads((directory/'routing-capture.json').read_text())['captures'], 96)
+
     def test_shape_and_bounds(self):
         raw = (40).to_bytes(4, 'little', signed=True)*512
         self.assertEqual(validate_counts(raw, 512, 2048, 10), [40]*512)

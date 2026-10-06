@@ -168,7 +168,8 @@ def main():
             try:
                 supervise(argv,cwd=ROOT,env=env,log=log,row=row,timeout=limit,save=save,
                           clients=clients if not cpu_mode else lambda: (),
-                          observe=observation)
+                          observe=observation,
+                          allow_child_groups=routing_mode and argv[0] == 'gdb')
             finally:
                 row['finished_at']=now();save()
         row['finished_at'] = now(); save()

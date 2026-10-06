@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Routing r1 is retained as an orchestration failure: GDB launched an owned
+child in a separate process group, rejected by the original group-only check.
+Release02:23:11UTC/c90966bb confirms empty KFD and free unchanged leases.
+The diagnostic-only correction recognizes groups within its private session,
+pins identities with pidfd for shutdown and still rejects foreign sessions.
+New .157 host32+32 includes real GDB under the supervisor and all passes.
+No inference or speed improvement is established by these host checks.
+
 Saved1585 routing diagnosis is prepared with the original fixed2048 prompt,
 without rebuilding the qualified executable. Host32+32 and seven GDB child
 lifecycle cases per build pass on .157. Diagnostic times are ineligible for

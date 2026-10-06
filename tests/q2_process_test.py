@@ -101,6 +101,51 @@ class ProcessTests(unittest.TestCase):
         self.run_child('pass', clients=lambda: [2147483647])
         self.assert_retired()
 
+    def test_private_session_child_group_and_foreign_identity(self):
+        observed = []
+        def clients():
+            path = self.root/'child'
+            if not path.exists():
+                return []
+            pid = int(path.read_text())
+            row = identity(pid)
+            if row and row['state'] not in ('Z', 'X'):
+                observed.append(row)
+                self.assertFalse(owns_process(pid, self.row['pid'], self.row['start_ticks']))
+                self.assertTrue(owns_process(pid, self.row['pid'], self.row['start_ticks'], True))
+                self.assertFalse(owns_process(os.getpid(), self.row['pid'], self.row['start_ticks'], True))
+                return [pid]
+            return []
+        self.run_child('import subprocess,sys,pathlib; '
+            'p=subprocess.Popen([sys.executable,"-c","import time; time.sleep(.3)"],process_group=0); '
+            'pathlib.Path("child").write_text(str(p.pid));p.wait()',
+            clients=clients, allow_child_groups=True)
+        self.assertTrue(observed)
+        self.assertTrue(self.row['owned_kfd_identities'])
+        self.assertEqual(members(self.row['pid'], self.row['start_ticks'], True), [])
+
+    def test_debugger_scope_timeout_retires_separate_group(self):
+        with self.assertRaisesRegex(RuntimeError, 'timed out'):
+            self.run_child('import subprocess,sys; '
+                'p=subprocess.Popen([sys.executable,"-c",'
+                '"import signal,time;signal.signal(signal.SIGTERM,signal.SIG_IGN);time.sleep(10)"],'
+                'process_group=0);p.wait()', timeout=.3, allow_child_groups=True)
+        self.assertEqual(members(self.row['pid'], self.row['start_ticks'], True), [])
+
+    def test_debugger_scope_wrapper_exit_retires_separate_group(self):
+        with self.assertRaisesRegex(RuntimeError, 'live descendants'):
+            self.run_child('import subprocess,sys; '
+                'subprocess.Popen([sys.executable,"-c","import time;time.sleep(10)"],process_group=0)',
+                allow_child_groups=True)
+        self.assertEqual(members(self.row['pid'], self.row['start_ticks'], True), [])
+
+    def test_debugger_scope_rejects_foreign_client(self):
+        with self.assertRaisesRegex(RuntimeError, 'Foreign KFD client'):
+            self.run_child('import time;time.sleep(10)', clients=lambda: [os.getpid()],
+                           allow_child_groups=True)
+        self.assertEqual(self.row['foreign_kfd'], [os.getpid()])
+        self.assertEqual(members(self.row['pid'], self.row['start_ticks'], True), [])
+
 
 if __name__ == '__main__':
     unittest.main()

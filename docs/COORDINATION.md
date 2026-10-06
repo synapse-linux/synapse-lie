@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Routing r1 is retained as an orchestration failure: GDB launched an owned
+child in a separate process group, rejected by the original group-only check.
+Release02:23:11UTC/c90966bb confirms empty KFD and free unchanged leases.
+The diagnostic-only correction recognizes groups within its private session,
+pins identities with pidfd for shutdown and still rejects foreign sessions.
+New .157 host32+32 includes real GDB under the supervisor and all passes.
+No inference or speed improvement is established by these host checks.
+
 Current-routing host32+32 completes at2026-10-06T02:18:58UTC and is collected.
 Fresh Core closure02:18:11UTC confirms non-use, empty KFD and prior release
 cf9f3b99 unchanged. No GPU admission yet. The planned96 host reads use the
