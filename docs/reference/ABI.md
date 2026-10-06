@@ -10,7 +10,9 @@ providers return an explicit `supported=false` view, not inferred zero work.
 Existing executor, request, core-info, state and cache layouts are unchanged.
 The private numerical producer adds a borrowed observer and host-helper argument;
 its complete ON/OFF provider and consumer archives must rebuild together.
-Matching HIP compilation and GPU qualification remain deferred.
+The build receipt requires a typed boolean observer selection and exact owned
+source/header and recipe identities. Matching HIP compilation and GPU
+qualification remain in the final combined phase.
 See [dispatch measurement semantics](METRICS.md#prefill-attention-dispatch).
 
 Executor ABI 3 adds `rope_profile` to `lie_model_options` (20 bytes, offset 16).

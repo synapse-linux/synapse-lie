@@ -9,6 +9,33 @@ Finish source corrections first, retaining only required focused local checks;
 then qualify the integrated runtime, run the matched benchmarks and run Terminal
 Bench last. No new remote campaign or machine reservation is queued.
 
+## Build coherence and source readiness — 2026-10-06 UTC
+
+The observer's build identity now requires a JSON boolean. Native provider
+controls cover ON/OFF matching, missing/type-invalid identities, source/header
+changes, short/extra/missing inventories and recipe hash/missing/drift refusals.
+The initial control failed with CTest exit 8 because its synthetic receipt still
+omitted the new observer identity; that failure is preserved. Corrected source,
+receipt and HIP-target controls pass 3/3 in each Release/sanitizer configuration.
+These are CMake/manifest controls, not sanitized numerical execution.
+
+The Point build coordinator now selects complete canonical CMake ON/OFF provider
+recipes, with identical state/cache/observer options, before linking the runtime.
+Its command-routing fixture passes with every compiler/subprocess mocked; no HIP
+compilation or inference is claimed. Peak local CPU is 78.625 C. No remote build,
+GPU/model run, lease, window or reservation is prepared or started.
+[Receipt](development/validation/dispatch-build-coherence-host-2026-10-06.json)
+binds this correction and its source-only fixture scope.
+
+Source review maps every current functional requirement to integrated code:
+1M/RoPE/recall, native matched-workload/report/graph/dispatch methods, steering
+bank/live/planned/cache semantics, generation filters and the three owned C17
+sampler responsibilities. No additional model/controller/kernel replacement is
+added to item 7. The implementation phase is ready for final combined local
+qualification and a coherent `.161` build after fresh coordination, followed by
+original-weight functional/quality/fault gates, comparative benchmarks and
+Terminal Bench last. Source readiness does not close any of the six root items.
+
 ## Shared C17 prefill-dispatch observer — 2026-10-06 UTC
 
 The model-neutral inline observer stages actual matrix/scalar, dense/sparse

@@ -57,16 +57,23 @@ def main():
             raise RuntimeError(f'{name} failed with exit {proc.returncode}')
 
     try:
-        run('libraries', [sys.executable, '-B', 'tools/build-gufo.py', LIBRARY_LABEL,
-                          '--qwen-only', '--state-access', '--hip-arch', 'gfx1150'])
+        # Both arms use the same canonical recipe and complete private layouts.
+        # The historical Python helper builds only the old state-access slice.
+        run('libraries', ['cmake', '-DLABEL='+LIBRARY_LABEL,
+                          '-DLIE_HIP_ARCHITECTURE=gfx1150',
+                          '-DLIE_GUFO_STATE_ACCESS=ON', '-DLIE_DS4_RUNTIME_CACHE=ON',
+                          '-DLIE_C17_SAMPLING=ON', '-DLIE_ATTENTION_DISPATCH_STATS=ON',
+                          '-P', 'cmake/provider/Build.cmake'])
         reference_label = LIBRARY_LABEL + '-reference'
         run('reference-libraries', ['cmake', '-DLABEL='+reference_label,
                                   '-DLIE_HIP_ARCHITECTURE=gfx1150',
-                                  '-DLIE_C17_SAMPLING=OFF',
+                                  '-DLIE_GUFO_STATE_ACCESS=ON', '-DLIE_DS4_RUNTIME_CACHE=ON',
+                                  '-DLIE_C17_SAMPLING=OFF', '-DLIE_ATTENTION_DISPATCH_STATS=ON',
                                   '-P', 'cmake/provider/Build.cmake'])
         run('configure', ['cmake', '-S', '.', '-B', 'build/'+LINK_LABEL, '-G', 'Ninja',
                           '-DCMAKE_BUILD_TYPE=Release', '-DLIE_GUFO_RUNTIME=ON',
-                          '-DLIE_GUFO_STATE_ACCESS=ON', '-DLIE_HIP_ARCHITECTURE=gfx1150',
+                          '-DLIE_GUFO_STATE_ACCESS=ON', '-DLIE_DS4_RUNTIME_CACHE=ON',
+                          '-DLIE_ATTENTION_DISPATCH_STATS=ON', '-DLIE_HIP_ARCHITECTURE=gfx1150',
                           '-DLIE_BUILD_ID='+LINK_LABEL,
                           '-DGUFO_SOURCE='+str(ROOT/'.deps'/('gufo-state-access-'+LIBRARY_LABEL)),
                           '-DGUFO_BUILD='+str(ROOT/'build'/LIBRARY_LABEL),

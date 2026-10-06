@@ -63,7 +63,9 @@ mixing an OFF sampler with ON request-state layouts is rejected. Configure
 Prefill attention observation is default ON. To disable it, pass
 `-DLIE_ATTENTION_DISPATCH_STATS=OFF` to **both provider build commands and the
 application configure command**. Rebuild the complete private providers and
-clients; the verifier rejects mismatched options or older observer-free receipts.
+clients; the verifier rejects mismatched options, non-boolean identities or older
+observer-free receipts. The optional Point coordinator uses these same complete
+CMake provider recipes for both variants.
 The resulting programs
 are `build/release/synapse-lie-server`, `synapse-lie-bench`,
 `synapse-lie-bench-gufo-reference`, `synapse-lie-monitor` and `synapse-lie-kvc`.

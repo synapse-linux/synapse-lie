@@ -34,6 +34,16 @@ performance and full-suite campaigns wait for the integrated implementation.
 GPU qualification uses `.161` with fresh admission. No intermediate remote
 campaign, Terminal Bench restart or machine reservation is queued.
 
+The functional source audit now maps items 3–7 to integrated context/recall,
+benchmark/dispatch, steering, generation-profile and three C17 sampler paths.
+The build-coherence correction also covers typed observer identity and the
+canonical full-provider Point build route. Source is ready for one combined
+qualification phase; this is not HIP compilation or runtime acceptance. Run the
+final combined local checks, rebuild complete coherent private providers/clients
+on `.161` after fresh admission, then perform functional/quality/fault gates.
+Comparative performance follows those gates; Terminal Bench stays last.
+All six items remain open until their separate acceptance evidence is collected.
+
 An open qualification gate does not mean its implementation is absent:
 
 | Item | Source already integrated in this branch | Final qualification still open |

@@ -1,5 +1,17 @@
 # DS4 / synapse-lie coordination
 
+## Functional source ready for combined qualification — 2026-10-06
+
+The final source audit covers the six owned roadmap items, with build-receipt
+coherence corrected for the new observer and the Point coordinator using the
+complete canonical providers. Only focused local manifest/source/target controls
+and a compiler-mocked command fixture have run for this correction. Root has no
+remote job/build/client/lease/window/plan/waiter/reservation/handle and uses neither
+`.157` nor `.158`. No `.161` admission follows from an earlier closure or peer
+own non-use. Final combined local checks precede fresh `.161` global/lease
+admission for the coherent build and functional/quality/fault qualification.
+Benchmarks follow; Terminal Bench remains last. All six root items remain open.
+
 ## Local dispatch-observer increment — 2026-10-06
 
 The owner again requests completing functionality before test campaigns.
