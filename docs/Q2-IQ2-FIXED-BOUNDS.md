@@ -47,7 +47,7 @@ all exit0. Fresh .157 closure/lease/process/KFD/model-stat checks pass11:27:30UT
 against40974980. Core reports updated .157/.158 non-use11:28UTC. Host-r1
 finishes2026-10-06T11:28:28.582584UTC,36/36 Debug plus36/36 ASan/UBSan, all six
 commands0/seven artifacts collected. Freeze160 fixtures/six manifests/1028
-provider files. GPU admission/component/model results are pending.
+provider files. The component and model below now complete this preparation.
 
 The launcher also refuses collection of a receipt without actual finished_at
 or any command without an integer exit code. New regression cases cover live
@@ -58,3 +58,64 @@ benchmark timing, model behavior or accepted historical evidence.
 [Source](../config/q2-iq2-fixed-bounds-source.json),
 [static audit](../config/q2-iq2-fixed-bounds-static.json),
 [frozen plan](../config/q2-iq2-fixed-bounds-plan.json).
+
+## Completed unchanged model comparison
+
+One new Q2 model concludes2026-10-06T11:35:47.942119UTC. PP1587.893545 is
++0.163032% versus saved1585.308983; TG25.12414406 is nominally−0.145650%.
+All21 full parent files and9 within-arm checks are exact. Original scalar/decode
+numerical bodies stay identical, so the historical decode-rate difference is
+not attributed to a changed decode algorithm. Prefill sample ranges overlap;
+this small improvement is retained without claiming a robust causal speedup.
+
+| Session | Fixed Q2 PP / TG | Saved SSM PP / TG | New fixed IQ2 PP / TG | Fixed UD PP / TG |
+| --- | ---: | ---: | ---: | ---: |
+| Warmup | 1438.259006 / 25.08847266 | 1586.508538 / 25.13300114 | 1587.016332 / 25.10556241 | 1689.043527 / 24.34239962 |
+| Measured 1 | 1443.398207 / 25.10565683 | 1586.342395 / 25.17262901 | 1589.688108 / 25.12414406 | 1686.364042 / 24.34621613 |
+| Measured 2 | 1443.672867 / 25.08698337 | 1584.079076 / 25.16079073 | 1587.893545 / 25.11902171 | 1685.777092 / 24.34174251 |
+| Measured 3 | 1443.841794 / 25.09595499 | 1585.308983 / 25.15297051 | 1585.263379 / 25.14732426 | 1685.400011 / 24.15102104 |
+| Median measured | 1443.672867 / 25.09595499 | 1585.308983 / 25.16079073 | 1587.893545 / 25.12414406 | 1685.777092 / 24.34174251 |
+
+All113 complete component pairs are exact. All70 raw HIP durations are invalid
+zero and remain preserved; the synchronized complete-cycle wall timer supplies
+the independent operator measurements. No projection into model t/s is made.
+
+| Shape | Reference median µs | Candidate median µs | Candidate time change |
+| --- | ---: | ---: | ---: |
+| uniform-e160 | 3640.810000 | 3609.927000 | -0.848245% |
+| uniform-e512 | 5485.683667 | 5473.844000 | -0.215828% |
+| real-layer0 | 5227.058000 | 5215.261333 | -0.225685% |
+| real-layer3 | 4270.541667 | 4234.516333 | -0.843578% |
+| real-layer22 | 5519.543000 | 5491.830333 | -0.502083% |
+
+Static instructions fall26–29%, but measured component wall saves only0.2–0.85%
+with some overlapping ranges. Much removed code belongs to generic branches
+that are normally untaken; the F16 FMA and WMMA work remains. This result does
+not support pursuing static instruction counts as a throughput target.
+
+Retain the fixed-bounds candidate as the nominal prefill parent for the next
+private composition; keep the SSM provider/binary and its1585 comparison intact.
+The result is not adoption into the production backend or independent task
+quality. The new point still needs6.164365% PP, equivalent to74.889015ms, to
+match fixed UD. The stable saved SSM gap remains76.991736ms. Full-curve parity
+and independent quality stay unmet; full curve/Q4 are not rerun.
+
+Host36+36 and13 primary host/component/model commands pass,37 artifacts verify.
+Release2026-10-06T11:36:23.473824UTC/56ab4a49 checks1440 historical/current
+identities/1153 groups retired, empty KFD, original Core CPU/four GPU leases
+unchanged/free and seven original model stat tuples unchanged. Canonical/main/
+run/remote mirrors agree; Core receives release before local analysis. No
+job/window/lease/reservation/waiter/restart/cleanup remains on .157/.158/.161.
+
+Next investigate replacing IQ2's four-lane shuffles with exact DPP quad
+broadcasts. The current producer performs eight LDS-backed bpermute exchanges
+per stage. A direct register permutation could remove that dependency while
+retaining the same owners, sign bytes and floating arithmetic. This is only a
+next source hypothesis; it has no runtime qualification or speed claim.
+
+![All sixteen new and saved model samples](figures/q2-iq2-fixed-bounds-model.png)
+[Full model CSV](figures/q2-iq2-fixed-bounds-model.csv),
+[all seventy operator timing records](figures/q2-iq2-fixed-bounds-component.csv),
+[model result](../config/q2-iq2-fixed-bounds-model-results.json),
+[component result](../config/q2-iq2-fixed-bounds-component-results.json),
+[final audit](../config/q2-iq2-fixed-bounds-final-audit.json).

@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Fixed IQ2 bounds window released — 2026-10-06 UTC
+
+Admission11:29:59.884588UTC/99dc5c07 binds checkpoint44ae768e, plan7c2491f2,
+one component plus one original exact2048/tg128 model. Host36+36/component/model
+13 primary exits0, terminal model11:35:47UTC; all37 artifacts collected7+4+26.
+Release11:36:23.473824UTC/56ab4a49 retires1440 IDs/1153 groups, empty KFD, original
+Core CPU/four GPU leases unchanged/free and seven original model stat tuples
+unchanged. Canonical/main/run/remote mirrors agree and Core receives closure
+before local analysis. No Q2 job/build/client/lease/window/reservation/waiter/
+restart/cleanup remains .157/.158/.161. A new DPP source hypothesis is local-only
+and has no GPU plan/admission or reservation. Saved controls remain unchanged.
+
 ## Fixed IQ2 bounds preparation — 2026-10-06 UTC
 
 Fresh global .157 closure11:27:30UTC binds previous40974980, retired identities/

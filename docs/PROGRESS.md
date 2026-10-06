@@ -1,5 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Fixed IQ2 bounds original-model result — 2026-10-06 UTC
+
+One new unchanged exact2048/tg128 model concludes11:35:47UTC:1587.893545 PP/
+25.12414406 TG, nominal+0.163032% PP versus saved1585.308983, overlapping ranges.
+All113 whole operator pairs/21 parent files/9 repeat checks exact. Retain this
+small private prefill observation for composition without claiming stable gain;
+saved SSM/Q2/UD remain unchanged. New point needs6.164365% PP/74.889015ms to fixed
+UD1685.777092, whole-curve parity unmet.70 HIP events invalid zero; complete-cycle
+wall saves0.2–0.85%, far smaller than26–29% static instruction reduction.
+
+Host36+36/13 primary commands pass,37 artifacts collect before release
+11:36:23UTC/56ab4a49.1440 IDs/1153 groups retire,KFDempty,original Core CPU/four
+GPU leases/model stats unchanged/free;mirrors exact,Core informed before local
+analysis. No job/window/reservation/cleanup. Export all16 model/70 operator
+samples. Next source hypothesis is exact DPP quad broadcast in active IQ2 commit,
+with no new plan/admission/model yet. [Values and limits](Q2-IQ2-FIXED-BOUNDS.md).
+
 ## Fixed IQ2 gate/up bounds host-qualified — 2026-10-06 UTC
 
 Prepare one private m640/k2560 BN64/128 candidate from retained1585, preserving

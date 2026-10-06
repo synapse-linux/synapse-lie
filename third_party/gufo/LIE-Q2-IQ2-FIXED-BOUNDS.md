@@ -13,3 +13,5 @@ quality qualification.
 
 [Experiment and coverage](../../docs/Q2-IQ2-FIXED-BOUNDS.md),
 [source inventory and patch](../../config/q2-iq2-fixed-bounds-source.json).
+
+Completed .157 qualification has113 exact whole operator pairs and21 model files equal to the measured parent. Model PP1587.893545 is nominally+0.163032%; ranges overlap. Preserve this private composition source and its literal original arithmetic, with no claim of independent quality or production adoption.

@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [fixed IQ2 bounds model](docs/Q2-IQ2-FIXED-BOUNDS.md) completes at
+1587.893545 PP/25.12414406 TG: nominal+0.163032% PP versus saved1585.308983,
+with overlapping ranges. Retain the marginal private candidate;113 component
+pairs/21 parent model files are exact. The unchanged fixed UD1685.777092 target
+still needs6.164365% PP. Host36+36 and13 primary exits pass,37 artifacts collect
+before11:36:23UTC/56ab4a49 release. All16 samples/70 operator timings and graphs
+remain; no controls/full curve/Q4 rerun. Next target actual IQ2 lane exchanges.
+
 The [fixed IQ2 gate/up bounds candidate](docs/Q2-IQ2-FIXED-BOUNDS.md) is
 host-qualified36+36 on .157,160 fixture hashes/six manifests frozen. It removes
 26–29% static instructions in two private m640/k2560 kernels without increasing
