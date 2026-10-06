@@ -78,7 +78,11 @@ worker/state/cache/HTTP/event layouts remain unchanged. See
 `lie/schema_arena.h` adds separate native schema-staging ABI 1. It owns copied/
 created JSON roots, exposes raw-node reader/writer callbacks and transfers exact
 roots explicitly. Mutations target arena-owned staging trees; failed operations
-require retiring the staging scope. Child allocators/view hooks and limits keep
+require retiring the staging scope. Direct clone/put/append_member/append accept
+a NULL copied source as JSON null, matching the JSON-value contract. Targets,
+transferred roots and reader/writer schema-node handles must remain non-NULL;
+use an explicit null node through the schema binding. Layouts and ABI version
+remain unchanged. Child allocators/view hooks and limits keep
 their JSON-value/store contracts. Taken roots retain those hooks independently;
 borrowed source/error spans expire with their trees. No model, HTTP or thread
 ownership enters the arena. Value/store refusal reasons remain typed C records;

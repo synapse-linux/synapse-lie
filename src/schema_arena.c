@@ -73,7 +73,7 @@ static lie_schema_status adopt(lie_schema_arena *a, lie_json_value *root, lie_js
 lie_schema_status lie_schema_arena_clone(lie_schema_arena *a, const lie_json_value *value,
     lie_json_value **out) {
   reset(a);
-  if (!a || !value || !out) return LIE_SCHEMA_INVALID;
+  if (!a || !out) return LIE_SCHEMA_INVALID;
   lie_json_value *root = NULL;
   lie_schema_status rc = value_status(a, lie_json_value_clone(value, &a->description.values, &root));
   return rc ? rc : adopt(a, root, out);
@@ -103,7 +103,7 @@ lie_schema_status lie_schema_arena_make(lie_schema_arena *a, const lie_schema_va
 lie_schema_status lie_schema_arena_put(lie_schema_arena *a, lie_json_value *target,
     lie_schema_bytes key, const lie_json_value *value) {
   reset(a);
-  if (!a || !target || !value) return LIE_SCHEMA_INVALID;
+  if (!a || !target) return LIE_SCHEMA_INVALID;
   lie_json_value *member = NULL;
   lie_schema_status rc = value_status(a, lie_json_value_member(target, key.data, key.size, &member));
   return rc ? rc : value_status(a, lie_json_value_assign(member, value));
@@ -111,14 +111,14 @@ lie_schema_status lie_schema_arena_put(lie_schema_arena *a, lie_json_value *targ
 lie_schema_status lie_schema_arena_append_member(lie_schema_arena *a, lie_json_value *target,
     lie_schema_bytes key, const lie_json_value *value) {
   reset(a);
-  if (!a || !target || !value) return LIE_SCHEMA_INVALID;
+  if (!a || !target) return LIE_SCHEMA_INVALID;
   lie_json_value *member = NULL;
   return value_status(a, lie_json_value_append_member(target, key.data, key.size, value, &member));
 }
 lie_schema_status lie_schema_arena_append(lie_schema_arena *a, lie_json_value *target,
     const lie_json_value *value) {
   reset(a);
-  if (!a || !target || !value) return LIE_SCHEMA_INVALID;
+  if (!a || !target) return LIE_SCHEMA_INVALID;
   lie_json_value *member = NULL;
   return value_status(a, lie_json_value_append(target, value, &member));
 }
@@ -158,7 +158,7 @@ lie_schema_status lie_schema_json_child(void *p, lie_schema_node n, size_t i,
   *key = k; *out = child; return LIE_SCHEMA_OK;
 }
 static lie_schema_status clone(void *p, lie_schema_node n, lie_schema_node *out) {
-  if (!out) return LIE_SCHEMA_INVALID;
+  if (!n || !out) return LIE_SCHEMA_INVALID;
   lie_json_value *v = NULL; lie_schema_status rc = lie_schema_arena_clone(p, n, &v);
   if (!rc) *out = v;
   return rc;
@@ -170,9 +170,11 @@ static lie_schema_status make(void *p, const lie_schema_value *value, lie_schema
   return rc;
 }
 static lie_schema_status put(void *p, lie_schema_node n, lie_schema_bytes key, lie_schema_node value) {
+  if (!value) return LIE_SCHEMA_INVALID;
   return lie_schema_arena_put(p, (lie_json_value *)n, key, value);
 }
 static lie_schema_status append(void *p, lie_schema_node n, lie_schema_node value) {
+  if (!value) return LIE_SCHEMA_INVALID;
   return lie_schema_arena_append(p, (lie_json_value *)n, value);
 }
 static lie_schema_status format(void *p, lie_schema_bytes text, lie_schema_node *out) {

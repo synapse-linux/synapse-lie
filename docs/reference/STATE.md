@@ -227,6 +227,13 @@ separate from each root's existing domain budget. These temporary roots do not
 enter request snapshots or DS4 RAM/SSD checkpoints. See
 [derived value ownership](../development/C17-SAMPLING.md#derived-schema-value-ownership).
 
+Direct native arena copies accept a NULL JSON-value source as logical JSON null
+and publish an independently owned explicit root or child. Typed const lazy-null
+inputs are borrowed without materialization or ownership changes. Root transfer,
+mutation targets and raw schema-node reader/writer callbacks still require actual
+non-NULL nodes. The null-copy correction awaits final regression qualification;
+no persisted request, model or RAM/SSD checkpoint layout changes.
+
 The C17 compilation workflow publishes its native prompt and immutable program
 only after initial-state validation succeeds. They have independent ownership;
 both require release. Input and builder retirement preserves the published

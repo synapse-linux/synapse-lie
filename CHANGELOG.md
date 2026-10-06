@@ -7,6 +7,9 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Native schema staging preserves lazy JSON null inputs during copying and
+  normalization. The correction and regression fixtures await final qualification.
+
 - C17 owns bounded sampler history and probability buffers, including deep
   clones, exact moves, allocation limits and requested-byte accounting. The
   default sampler uses these buffers; private provider/client rebuilds and final

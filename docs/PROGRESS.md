@@ -1,6 +1,32 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Finish source corrections before further tests — 2026-10-06 UTC
+
+The remaining context/client limits, benchmark methods, steering/sampling paths
+and three sampler extractions have source integration at `a4bc6a8a`. An initial
+combined local qualification attempt found a missing schema/Unicode static link
+dependency and a strict indentation failure; both have source corrections.
+The subsequent selected C17 Release and unsuppressed ASan/UBSan/LSan runs pass
+13/13 each. The complete host provider run passes 66/67, with actual CTest exit 8:
+`schema-values-reference-parity` rejects lazy JSON null inputs while pristine and
+OFF witnesses agree. Logs, temperature observations and failures remain preserved
+under local `evidence/final-*`; this partial result is not final acceptance.
+
+The native schema arena now accepts a NULL copied source as JSON null for direct
+clone/member/array operations, matching the underlying JSON-value contract.
+Typed const inputs retain lazy, immutable ownership; schema-node readers/writers,
+mutation targets and root transfer still require actual nodes. Native/typed
+regressions are prepared for null copies, duplicate/NUL keys, scope retirement,
+allocation and admission refusal. This correction is **unverified**: no subsequent
+configure, build, test or model execution is started.
+
+Per the owner's sequencing, finish remaining source corrections before resuming
+the combined functional/CTest/sanitizer phase. Matching `.161` original-weight,
+fault, quality and performance gates follow with fresh coordination. Terminal
+Bench remains last. All six root items remain open. There is no root remote job,
+build, lease, window, waiter or reservation; earlier receipts remain immutable.
+
 ## Sampler history and probability buffers owned by C17 — 2026-10-06 UTC
 
 The shared `lie/sampling_storage.h` contract owns bounded token/penalty and

@@ -366,7 +366,8 @@ lie_schema_frontend_status lie_schema_frontend_compile(lie_schema_frontend *f,
   }
   *out = (lie_schema_frontend_output){compiled, f->lexemes}; f->lexemes = NULL;
   f->phase = LIE_FRONTEND_PUBLISHED;
-  if (error) *error = (lie_schema_frontend_error){0}; return LIE_FRONTEND_OK;
+  if (error) *error = (lie_schema_frontend_error){0};
+  return LIE_FRONTEND_OK;
 }
 void lie_schema_frontend_describe(const lie_schema_frontend *f, lie_schema_frontend_info *out) {
   if (!out) return;

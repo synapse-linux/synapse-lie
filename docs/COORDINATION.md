@@ -1,5 +1,24 @@
 # DS4 / synapse-lie coordination
 
+## Source correction before further qualification — 2026-10-06
+
+Source review maps root items 3–7 to the context/client limits, native benchmark
+methods, steering/sampling paths and three sampler extractions at `a4bc6a8a`.
+Initial local GPU-masked checks retain 13/13 selected C17 Release and 13/13
+unsuppressed sanitizer passes. The full host provider run is 66/67 with CTest
+exit 8: lazy JSON null normalization differs from matching pristine/OFF controls.
+The first strict build failure and sandbox LSan/ptrace refusal are also preserved;
+the latter passes unchanged with unsuppressed instrumentation outside ptrace.
+Local CPU peaks at 87.25 C under CPU 98 C/NVMe 85 C/lower guards.
+
+Root resumes source correction, keeping further configure/build/test campaigns
+deferred until implementation is ready. The native arena null-copy correction
+and written regressions are unverified. No remote job/client/build/window/lease/
+waiter/reservation or model run is prepared or held on `.157/.158/.161/TB`.
+Fresh `.161` GPU/quality/performance admission follows final local qualification;
+Terminal Bench remains last. All six root tasks and acceptance gates stay open.
+Earlier receipts keep their frozen source scope and are not overwritten.
+
 ## Owner defers new tests until functional implementation is ready — 2026-10-06
 
 Root continues functional source work without new intermediate CPU/GPU test

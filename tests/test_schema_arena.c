@@ -94,6 +94,118 @@ static void ownership(void) {
   assert(bytes == sizeof(string) && !memcmp(p, string, bytes));
   lie_json_value_release(out); assert(!m.live && !m.bytes);
 }
+static void lazy_null_sources(void) {
+  memory m = {0}; lie_schema_arena_description d;
+  lie_schema_arena *a = create(&m, &d);
+  lie_json_value *null = NULL;
+  assert(lie_schema_arena_clone(a, NULL, &null) == LIE_SCHEMA_OK);
+  assert(null && lie_json_value_is_root(null));
+  lie_schema_value described = {.kind = LIE_SCHEMA_BOOL, .boolean = true};
+  assert(lie_schema_json_describe(NULL, null, &described) == LIE_SCHEMA_OK);
+  assert(described.kind == LIE_SCHEMA_NULL);
+  described = (lie_schema_value){.kind = LIE_SCHEMA_BOOL, .boolean = true};
+  assert(lie_schema_json_describe(NULL, NULL, &described) == LIE_SCHEMA_INVALID);
+  assert(described.kind == LIE_SCHEMA_BOOL && described.boolean);
+
+  lie_json_value *object = make(a, LIE_SCHEMA_OBJECT, 0, NULL, 0);
+  lie_json_value *one = make(a, LIE_SCHEMA_NUMBER, 1, NULL, 0);
+  assert(lie_schema_arena_put(a, object, text("existing"), one) == LIE_SCHEMA_OK);
+  const lie_json_value *existing = lie_json_value_find(object, "existing", 8);
+  assert(existing && lie_json_value_number(existing, 0) == 1);
+  assert(lie_schema_arena_put(a, object, text("existing"), NULL) == LIE_SCHEMA_OK);
+  assert(lie_json_value_find(object, "existing", 8) == existing);
+  assert(lie_json_value_type(existing) == LIE_JSON_VALUE_NULL);
+  assert(lie_schema_arena_put(a, object, text("created"), NULL) == LIE_SCHEMA_OK);
+  const char key[] = {'k', '\0', 'x'};
+  const lie_schema_bytes name = {key, sizeof(key)};
+  assert(lie_schema_arena_append_member(a, object, name, NULL) == LIE_SCHEMA_OK);
+  assert(lie_schema_arena_append_member(a, object, name, NULL) == LIE_SCHEMA_OK);
+  assert(lie_json_value_object_size(object) == 4);
+  const lie_json_value *first = lie_json_value_at(object, true, 2);
+  const lie_json_value *second = lie_json_value_at(object, true, 3);
+  assert(first && second && first != second);
+  assert(lie_json_value_type(first) == LIE_JSON_VALUE_NULL);
+  assert(lie_json_value_type(second) == LIE_JSON_VALUE_NULL);
+  size_t bytes = 0; const char *stored_key = lie_json_value_key(second, &bytes);
+  assert(bytes == sizeof(key) && !memcmp(stored_key, key, bytes));
+  lie_json_value *array = make(a, LIE_SCHEMA_ARRAY, 0, NULL, 0);
+  assert(lie_schema_arena_append(a, array, NULL) == LIE_SCHEMA_OK);
+  const lie_json_value *element = lie_json_value_at(array, false, 0);
+  assert(element && lie_json_value_type(element) == LIE_JSON_VALUE_NULL);
+  assert(lie_schema_arena_put(a, object, text("array"), array) == LIE_SCHEMA_OK);
+
+  max_align_t sentinel; lie_json_value *untouched = (void *)&sentinel;
+  assert(lie_schema_arena_clone(NULL, NULL, &untouched) == LIE_SCHEMA_INVALID);
+  assert(untouched == (void *)&sentinel);
+  assert(lie_schema_arena_clone(a, NULL, NULL) == LIE_SCHEMA_INVALID);
+  assert(lie_schema_arena_put(a, NULL, text("x"), NULL) == LIE_SCHEMA_INVALID);
+  assert(lie_schema_arena_append_member(a, NULL, name, NULL) == LIE_SCHEMA_INVALID);
+  assert(lie_schema_arena_append(a, NULL, NULL) == LIE_SCHEMA_INVALID);
+  assert(lie_schema_arena_take(a, NULL, &untouched) == LIE_SCHEMA_INVALID);
+  assert(untouched == (void *)&sentinel);
+  const lie_schema_transform_description binding = lie_schema_arena_transform(a);
+  lie_schema_node output = &sentinel;
+  assert(binding.access.clone(a, NULL, &output) == LIE_SCHEMA_INVALID);
+  assert(output == &sentinel);
+  assert(binding.access.put(a, object, text("refused"), NULL) == LIE_SCHEMA_INVALID);
+  assert(lie_json_value_object_size(object) == 5 && !lie_json_value_find(object, "refused", 7));
+  assert(binding.access.append(a, array, NULL) == LIE_SCHEMA_INVALID);
+  assert(lie_json_value_array_size(array) == 1);
+  assert(binding.access.clone(a, null, &output) == LIE_SCHEMA_OK);
+  assert(output && lie_json_value_type(output) == LIE_JSON_VALUE_NULL);
+
+  lie_json_value *taken_null = NULL, *taken_object = NULL;
+  assert(lie_schema_arena_take(a, null, &taken_null) == LIE_SCHEMA_OK && taken_null == null);
+  assert(lie_schema_arena_take(a, object, &taken_object) == LIE_SCHEMA_OK && taken_object == object);
+  lie_schema_arena_release(a);
+  assert(m.live && lie_json_value_is_root(taken_null));
+  assert(lie_json_value_type(taken_null) == LIE_JSON_VALUE_NULL);
+  assert(lie_json_value_object_size(taken_object) == 5);
+  assert(lie_json_value_find(taken_object, "existing", 8) == existing);
+  const lie_json_value *retained_array = lie_json_value_find(taken_object, "array", 5);
+  assert(retained_array && lie_json_value_array_size(retained_array) == 1);
+  element = lie_json_value_at(retained_array, false, 0);
+  assert(element && lie_json_value_type(element) == LIE_JSON_VALUE_NULL);
+  lie_json_value_release(taken_null); lie_json_value_release(taken_object);
+  assert(!m.live && !m.bytes);
+}
+static void lazy_null_refusals(void) {
+  memory baseline = {0}; lie_schema_arena_description d;
+  lie_schema_arena *a = create(&baseline, &d);
+  lie_json_value *root = NULL;
+  assert(lie_schema_arena_clone(a, NULL, &root) == LIE_SCHEMA_OK);
+  const size_t calls = baseline.calls;
+  lie_schema_arena_release(a); assert(!baseline.live && !baseline.bytes);
+  max_align_t sentinel;
+  for (size_t fail = 1; fail <= calls; ++fail) {
+    memory m = {.fail = fail};
+    d.allocator = (lie_grammar_allocator){&m, allocate, release};
+    a = (void *)&sentinel;
+    const lie_schema_status rc = lie_schema_arena_create(&d, &a);
+    if (rc == LIE_SCHEMA_OK) {
+      root = (void *)&sentinel;
+      assert(lie_schema_arena_clone(a, NULL, &root) == LIE_SCHEMA_RESOURCE);
+      assert(root == (void *)&sentinel);
+      lie_schema_arena_release(a);
+    } else assert(rc == LIE_SCHEMA_RESOURCE && a == (void *)&sentinel);
+    assert(!m.live && !m.bytes);
+  }
+  memory m = {0}; lie_schema_arena_description_init(&d);
+  d.allocator = (lie_grammar_allocator){&m, allocate, release}; d.store.max_roots = 1;
+  assert(lie_schema_arena_create(&d, &a) == LIE_SCHEMA_OK);
+  assert(lie_schema_arena_clone(a, NULL, &root) == LIE_SCHEMA_OK);
+  lie_json_value *taken = NULL;
+  assert(lie_schema_arena_take(a, root, &taken) == LIE_SCHEMA_OK);
+  root = (void *)&sentinel;
+  assert(lie_schema_arena_clone(a, NULL, &root) == LIE_SCHEMA_CALLBACK);
+  assert(root == (void *)&sentinel && lie_json_value_type(taken) == LIE_JSON_VALUE_NULL);
+  lie_schema_arena_error error; lie_schema_arena_error_describe(a, &error);
+  assert(error.store_status == LIE_JSON_STORE_LIMIT);
+  lie_json_store_info info; lie_schema_arena_store_describe(a, &info);
+  assert(!info.live_roots && info.accepted_roots == 1);
+  lie_schema_arena_release(a); lie_json_value_release(taken);
+  assert(!m.live && !m.bytes);
+}
 static void native_transforms(void) {
   lie_json_value *left = parse("{\"type\":\"number\",\"multipleOf\":0.3,\"minimum\":0.3}");
   lie_json_value *right = parse("{\"type\":\"number\",\"multipleOf\":0.2,\"maximum\":1.2}");
@@ -161,7 +273,8 @@ static void allocation_and_admission(void) {
   assert(!m.live && !m.bytes); lie_json_value_release(source);
 }
 int main(void) {
-  ownership(); native_transforms(); allocation_and_admission();
+  ownership(); lazy_null_sources(); lazy_null_refusals();
+  native_transforms(); allocation_and_admission();
   puts("Native schema arena construction/ownership: HOST NOT-INFERENCE");
   return 0;
 }

@@ -35,6 +35,15 @@ Bench (item 2) runs last. Continue source work for items 3–7 first, starting w
 the remaining C17 extraction (item 7). No intermediate CPU/GPU campaign, Terminal
 Bench client/server restart or machine reservation is queued in the meantime.
 
+Source review at `a4bc6a8a` finds integration for context/client limits, benchmark
+methods, steering/sampling and the three sampler extractions. Initial combined
+local checks pass 13 selected C17 Release and 13 unsuppressed sanitizer controls;
+the complete host provider run is 66/67 (CTest exit 8), exposing lazy JSON null
+normalization regression. The native arena copy correction and added regressions
+are implemented but unverified. Finish source corrections before further tests;
+final local functional/CTest/sanitizer gates precede freshly admitted `.161`
+GPU/quality/performance. Terminal Bench remains last; no item is closed.
+
 1. **Completed: selected original-weight OpenAI GPU controls.**
    The latest qualified runtime `dbdac28d` passes **37 general OpenAI checks
    and 66 additional bounded-integer checks in each AR/MTP mode** on `.161`.

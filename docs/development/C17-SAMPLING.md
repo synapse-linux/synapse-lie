@@ -1153,19 +1153,27 @@ admission limits even after taking a root. Native reader/writer bindings use
 and combined `multipleOf` call the existing C17 policies and default codec.
 Child limits/allocator/view hooks remain explicit and outlive any transferred
 roots. Partial mutation is staging and requires retirement on failure.
+Direct clone/member/array copy operations accept a NULL JSON-value source as
+logical JSON null. Typed const lazy-null values remain borrowed and unmaterialized;
+copied roots/children are explicit owned nodes. Schema-node reader/writer handles,
+mutation targets and taken roots still require non-NULL nodes.
 
 The default-ON adapter uses this arena for transformation and normalization.
 Typed facade views and original exception projection remain private; original
 OFF constructors remain guarded. Value/store failure reasons remain typed C
 diagnostics before projection. Existing model, worker, cache, event and metric
 layouts are unchanged. The later complete native frontend is implemented but
-unverified; model/controller ownership remains open. The planned inventory for
-this staging increment is111 files, not a qualified build.
+unverified; model/controller ownership remains open. This staging increment's
+inventory is 111 files; the subsequent integrated provider inventory is 120.
 
 Written native/typed fixtures cover NUL/UTF8 spans, ordered/duplicate members,
 first-member replacement, immutable sources, root transfer across scope
 retirement, pure C conjunction/format/equality, allocator refusal and cumulative
-admission. No fixture is run yet. Final acceptance retains strict compilation,
+admission. Initial selected native/typed fixtures pass, but the complete host
+provider suite is 66/67 with CTest exit 8: lazy JSON null normalization differs
+from matching pristine/OFF controls. The native null-copy correction adds written
+copy/duplicate-key/retirement/refusal regressions and remains unverified; further
+tests are deferred until source corrections are finished. Final acceptance retains strict compilation,
 unsuppressed sanitizers, complete pristine/ON/OFF schema/format/body/normalization
 witnesses and matching `.161` original-weight AR/MTP, plus independent faults,
 quality, resources and cost. Earlier receipts keep their frozen source scope.

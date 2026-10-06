@@ -8,6 +8,39 @@
 #include <string>
 int main() {
   using gufo::json::Value;
+  const Value lazy_null;
+  assert(lazy_null.type() == Value::Type::kNull && !lazy_null.raw());
+  Value retained_null, retained_array, retained_object;
+  {
+    lie_gufo::SchemaArena arena;
+    const auto d = arena.description();
+    lie_schema_node copy = nullptr, object = nullptr, array = nullptr;
+    assert(d.access.clone(d.access.context, &lazy_null, &copy) == LIE_SCHEMA_OK);
+    assert(lie_gufo::schema_value(copy).raw());
+    assert(lie_gufo::schema_value(copy).dump() == "null");
+    const lie_schema_value object_shape{.kind = LIE_SCHEMA_OBJECT};
+    const lie_schema_value array_shape{.kind = LIE_SCHEMA_ARRAY};
+    assert(d.access.create(d.access.context, &object_shape, &object) == LIE_SCHEMA_OK);
+    assert(d.access.create(d.access.context, &array_shape, &array) == LIE_SCHEMA_OK);
+    const Value number(7);
+    assert(d.access.put(d.access.context, object, {"value", 5}, &number) == LIE_SCHEMA_OK);
+    assert(d.access.put(d.access.context, object, {"value", 5}, &lazy_null) == LIE_SCHEMA_OK);
+    assert(d.access.put(d.access.context, object, {"created", 7}, &lazy_null) == LIE_SCHEMA_OK);
+    assert(lie_gufo::SchemaArena::append_member(d.access.context, object,
+      {"duplicate", 9}, &lazy_null) == LIE_SCHEMA_OK);
+    assert(lie_gufo::SchemaArena::append_member(d.access.context, object,
+      {"duplicate", 9}, &lazy_null) == LIE_SCHEMA_OK);
+    assert(d.access.append(d.access.context, array, &lazy_null) == LIE_SCHEMA_OK);
+    assert(!lazy_null.raw() && lazy_null.dump() == "null");
+    retained_null = arena.take(copy);
+    retained_array = arena.take(array);
+    retained_object = arena.take(object);
+  }
+  assert(retained_null.raw() && retained_null.dump() == "null");
+  assert(retained_array.dump() == "[null]");
+  assert(retained_object.dump() ==
+    R"({"value":null,"created":null,"duplicate":null,"duplicate":null})");
+  assert(!lazy_null.raw() && lazy_null.dump() == "null");
   const auto original = gufo::json::parse(R"({"a":[1,2],"text":"A\u0000B"})");
   const auto before = original.dump();
   Value retained;

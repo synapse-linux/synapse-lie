@@ -30,6 +30,9 @@ void lie_schema_arena_description_init(lie_schema_arena_description *);
  * are validated by their existing modules when the corresponding operation runs.
  * The arena owns successful copied/created roots until take or release. Original
  * inputs are borrowed and immutable; create/clone/take publish only on success.
+ * Direct clone/put/append_member/append calls accept a NULL copied source as JSON
+ * null, matching the JSON-value contract. Mutation targets and taken roots must
+ * be actual non-NULL nodes; taking a NULL pointer is invalid.
  * Mutation targets belong to this arena's writable staging trees. Mutations may
  * remain after refusal: retire the whole failed staging operation.
  * No model, transport, thread, RNG or mutable global cache. Caller keeps all
@@ -53,6 +56,8 @@ lie_schema_status lie_schema_arena_take(lie_schema_arena *, const lie_json_value
 /* Native readers and writer binding use lie_json_value pointers as opaque
  * schema nodes. Ordered members/duplicates, exact string/key spans and stored
  * binary64 values retain JSON-value semantics. No typed C++ projection is made.
+ * Reader/writer callbacks require non-NULL schema-node handles, including nodes
+ * representing JSON null; the direct copied-source convention does not apply.
  * Reader output spans borrow their source tree. A NULL arena selects read-only
  * default binding; create/clone/mutation then refuse. */
 lie_schema_transform_description lie_schema_arena_transform(lie_schema_arena *);
