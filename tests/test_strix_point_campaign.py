@@ -191,12 +191,16 @@ class Tests(unittest.TestCase):
         self.assertFalse(c.r['cleanup_failures'])
         self.assertIn('lease_released_at', c.r)
     def test_ssd_text_restart_mounts_predictor_read_only_only_for_mtp(self):
+        self.assert_restart_mounts('modern-core-ssd-text-restart', 'ssd-text')
+    def test_steering_restart_mounts_predictor_read_only_only_for_mtp(self):
+        self.assert_restart_mounts('modern-core-steering-restart', 'steering')
+    def assert_restart_mounts(self, profile, label):
         predictor = self.base/'predictor'; predictor.mkdir()
         model = self.base/'target'; model.mkdir()
         for mode in ('ar', 'mtp'):
-            c = self.campaign('ssd-text-volume-'+mode)
+            c = self.campaign(label+'-volume-'+mode)
             c.m.update(action='bench', stack='rocm10-fedora43',
-                       bench_profile='modern-core-ssd-text-restart', decode_mode=mode,
+                       bench_profile=profile, decode_mode=mode,
                        distrobox_name='lie-host-ssd-text-'+mode,
                        predictor_plan={'destination':str(predictor)})
             # Stop at the actual argv boundary before any container or GPU work.

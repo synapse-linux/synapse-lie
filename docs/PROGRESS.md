@@ -1,6 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Scheduled SSD physical-index GPU gate prepared — 2026-10-06 UTC
+
+The optional `modern-core-steering-restart` gate has 18 host refusal/comparison
+checks and 60 campaign checks passing
+([receipt](development/validation/steering-restart-host-2026-10-06.json)). Six
+independent core processes compare scheduled cold output against an incompatible
+saved spelling and a compatible 128-token SSD prefix. Three nonzero/zero scale
+changes must apply at exact prefill/generation indices; MTP must accept a burst.
+A bounded GGUF metadata reader sizes an owned sparse direction fixture, without
+reading tensor payloads. This is no learned-vector quality or GPU qualification.
+The 83-file qualified runtime, ABI, format and product dependencies are unchanged;
+matching original-weight execution remains pending. CPU peaks 49.125 C.
+Terminal Bench remains stopped and deferred, with no standing GPU reservation.
+
 ## SSD text reconstruction passes selected original-weight cases — 2026-10-06 UTC
 
 On `.161`, distinct cold/hot core processes recover the exact saved physical

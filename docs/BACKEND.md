@@ -104,6 +104,11 @@ client/server restart or machine reservation is queued in the meantime.
    copied creation-time plans and report exact application/unreached steps.
    Host tests cover cache-boundary limits, full plan identity and charged retained
    choice lifetimes; original-weight GPU qualification remains open.
+   The dedicated scheduled SSD restart gate is prepared with 18 host gate and
+   60 campaign checks ([receipt](development/validation/steering-restart-host-2026-10-06.json)).
+   It requires exact cold/SSD physical indices, output IDs and final policy
+   histories, with a sparse nonzero fixture rather than learned DS4 directions.
+   Its matching original-weight execution remains pending.
    DS4's `--dir-steering-file`, `--dir-steering-ffn` and
    `--dir-steering-attn` now select fixed initial model-wide scales through the
    same core used by server and bench.

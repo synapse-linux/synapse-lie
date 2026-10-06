@@ -472,7 +472,7 @@ class Campaign:
                   '--home', str(home), '--volume', str(bundle)+':/bundle:ro',
                   '--volume', str(model)+':/model:ro', '--volume', root+':/work:rw',
                   '--additional-flags', flags, '--no-entry']
-        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-ssd-restart', 'modern-core-ssd-text-restart', 'modern-core-reactive-probe', 'modern-core-vision', 'modern-http', 'modern-http-multi', 'modern-http-depth') and self.m.get('decode_mode') == 'mtp':
+        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-ssd-restart', 'modern-core-ssd-text-restart', 'modern-core-steering-restart', 'modern-core-reactive-probe', 'modern-core-vision', 'modern-http', 'modern-http-multi', 'modern-http-depth') and self.m.get('decode_mode') == 'mtp':
             predictor = checked_path(self.m['predictor_plan']['destination'])
             create[create.index('--additional-flags'):create.index('--additional-flags')] = [
                 '--volume', str(predictor)+':/mtp:ro']
@@ -936,6 +936,8 @@ class Campaign:
             return self.modern_ssd_restart_gate()
         if profile == 'modern-core-ssd-text-restart':
             return self.modern_ssd_text_restart_gate()
+        if profile == 'modern-core-steering-restart':
+            return self.modern_steering_restart_gate()
         if profile == 'modern-core-vision':
             return self.modern_vision_bench()
         if profile in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-reactive-probe'):
@@ -1581,6 +1583,50 @@ class Campaign:
         finally:
             if (self.root/'ssd-text-restart-result.json').exists():
                 self.r['ssd_text_restart_partial'] = {'result_sha256': sha(self.root/'ssd-text-restart-result.json')}
+            self.check_model_after(rows)
+    def modern_steering_restart_gate(self):
+        if self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox':
+            raise ValueError('Modern steering restart requires ROCm 10 Distrobox')
+        mode = self.m.get('decode_mode')
+        if mode not in ('ar', 'mtp'):
+            raise ValueError('Modern steering restart mode must be ar or mtp')
+        helper = checked_path(self.root/'steering-restart-gate.py')
+        if sha(helper) != self.m.get('steering_restart_gate_sha256'):
+            raise ValueError('Modern steering restart helper drift')
+        model, rows = self.verified_model()
+        predictor = None
+        if mode == 'mtp':
+            predictor, witness = self.verified_predictor()
+            rows.append(witness)
+        elif 'predictor_plan' in self.m:
+            raise ValueError('AR steering restart must not admit a predictor')
+        (self.root/'kv').mkdir(mode=0o700, exist_ok=False)
+        command = ['/usr/bin/python3', '-B', '/work/steering-restart-gate.py',
+                   '/bundle/runtime/bin/synapse-lie-bench',
+                   '/model/'+self.m['model_plan']['files'][0]['name'], mode]
+        if predictor:
+            command.append('/mtp/'+predictor.name)
+        self.r['bench_command'] = command
+        self.record()
+        try:
+            self.run_container(command, self.m['bundle'], 4200, model)
+            result = json.loads((self.root/'steering-restart-result.json').read_text())
+            processes = result.get('processes', [])
+            if (result.get('schema') != 'synapse-lie.point-steering-restart.v1' or
+                    result.get('state') != 'PASSED' or result.get('mode') != mode or
+                    [item.get('phase') for item in processes] !=
+                    ['calibration', 'fresh', 'saved', 'reference', 'divergent', 'compatible'] or
+                    any(item.get('exit_code') != 0 for item in processes) or
+                    not result.get('scheduled_physical_ids_equal') or
+                    not result.get('scheduled_output_ids_equal') or not result.get('scheduled_policy_histories_equal') or
+                    result.get('divergent_cached_tokens') != 0 or result.get('compatible_cached_tokens') != 128):
+                raise RuntimeError('Incomplete original-weight steering restart gate')
+            self.r['steering_restart_result'] = {'mode': mode,
+                'result_sha256': sha(self.root/'steering-restart-result.json'),
+                'scheduled_positions': result['scheduled_positions']}
+        finally:
+            if (self.root/'steering-restart-result.json').exists():
+                self.r['steering_restart_partial'] = {'result_sha256': sha(self.root/'steering-restart-result.json')}
             self.check_model_after(rows)
     def finish(self):
         failures = []

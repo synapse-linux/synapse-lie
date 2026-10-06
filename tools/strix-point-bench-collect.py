@@ -14,6 +14,8 @@ SSH = ['ssh', '-F', '/dev/null', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=8'
        'pop@192.168.5.161']
 SCP = ['scp', '-F', '/dev/null', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=8']
 FILES = {
+    'steering-restart': ('manifest.json', 'runner.py', 'steering-restart-gate.py',
+                         'result.json', 'telemetry.jsonl'),
     'ssd-text-restart': ('manifest.json', 'runner.py', 'ssd-text-restart-gate.py',
                          'result.json', 'telemetry.jsonl'),
     'http': ('manifest.json', 'runner.py', 'http-gate.py', 'result.json', 'telemetry.jsonl'),
@@ -36,6 +38,13 @@ FILES = {
     'preflight': ('manifest.json', 'runner.py', 'result.json', 'telemetry.jsonl'),
 }
 OPTIONAL = {
+    'steering-restart': ('steering-restart-result.json', 'steering-progress.json', 'restart-started.marker',
+                         'steering.f32', 'steering-plan.json', 'calibration.txt', 'prompt.txt', 'tokens.json',
+                         'measurements-calibration.jsonl', 'measurements-fresh.jsonl', 'measurements-saved.jsonl',
+                         'measurements-reference.jsonl', 'measurements-divergent.jsonl', 'measurements-compatible.jsonl',
+                         'bench-calibration.log', 'bench-fresh.log', 'bench-saved.log', 'bench-reference.log',
+                         'bench-divergent.log', 'bench-compatible.log', 'stdout.log', 'stderr.log',
+                         'distrobox-create.log', 'distrobox.stdout.log', 'distrobox.stderr.log'),
     'ssd-text-restart': ('ssd-text-restart-result.json', 'ssd-text-progress.json', 'restart-started.marker',
                          'calibration.txt', 'prompt.txt', 'tokens.json',
                          'measurements-calibration.jsonl', 'measurements-fresh.jsonl',
