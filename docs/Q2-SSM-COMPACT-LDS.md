@@ -1,6 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Compact shared memory for the fused SSM projection
 
+The previously prepared source is now bound to its first GPU campaign after
+the compressed-cache result. Retained performance remains1585.308983 PP /
+25.16079073 TG; the literal construction parent1580 and fixed Q2/UD are also
+read from saved evidence. No performance reference is rebuilt or rerun.
+The current102 fixture files are byte-identical to the completed .157
+host30+30 capsule, so that qualification is reused. Fifteen manifests and a
+fresh window helper bind the new component/model runs. Two locally staged
+capsules verify1027 source files and every fixture with SSH intercepted.
+The additional1585 comparison verifies its own original90-fixture archive,
+not the newer campaign's fixture set; saved samples and binary stay exact.
+Three corrupted-reference identity cases are rejected. GPU results remain
+pending. [Plan](../config/q2-ssm-compact-lds-plan.json),
+[reused host](../config/q2-ssm-compact-lds-host-results.json),
+[staging](../config/q2-ssm-compact-lds-staging.json).
+
+The sections below preserve the original source preparation and its then-current
+ownership status. The follow-up launcher is now applied and qualified.
+
 This candidate changes only the fused SSM projection in the retained
 1580.226725 PP /25.10411864 TG provider. It has local source, integer-layout
 and compilation evidence, with no GPU numerical or timing result. The saved

@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+After the completed compressed-cache experiment, the unmeasured
+[compact-LDS SSM source](Q2-SSM-COMPACT-LDS.md) is next. Its first campaign
+binds102 byte-identical fixtures/fifteen manifests/1027 provider files and
+reuses the actual host30+30 receipt. Two source capsules stage without SSH.
+The new analyzer also verifies saved1585 through its own original archive;
+three corrupt identity cases are rejected. The construction parent1580 and
+fixed Q2/UD remain unchanged. Fresh00:23:04UTC handover observes the original
+Core CPU processes/groups retired, CPU lease free, KFD empty and release
+a94c8b81 unchanged. Admission and actual component/model measurements remain
+separate next steps. No saved model control, full curve or Q4 is rerun.
+
 The corrected [compressed expert cache](Q2-COMPRESSED-CACHE.md) completes at
 2026-10-06T00:15:11UTC:1576.007692 PP /24.32799080 TG, a0.586718%/3.309912%
 regression against saved1585.308983/25.16079073. Keep that resident base.
