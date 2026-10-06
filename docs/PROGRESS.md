@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Ordinary RMS model launcher qualified — 2026-10-06 UTC
+
+Register one rebuilt original-counting Q2 provider only. Fresh .157 Core closure,
+original CPU lease, KFD and registry checks pass at10:34:54UTC. Two CPU attempts
+retain [0,0,8] failures caused by launcher diagnostic expectations; corrected
+host-r3 passes36/36 Debug and36/36 ASan/UBSan at10:37:43UTC. All three CPU
+cohorts collect. Freeze146 fixture hashes/six manifests and1028 provider files;
+component qualification and Q2/UD/1585 parent are reused. No MoE, scalar/decode,
+allocation, callback, stream or public ABI/state/metrics change. GPU admission
+and this single model result remain pending; full-curve parity is unmet.
+[Model plan](../config/q2-hc-rms-owner-ordinary-plan.json),
+[host receipt](../config/q2-hc-rms-owner-ordinary-host-results.json).
+
 ## RMS owner component exact and measured — 2026-10-06 UTC
 
 All38 cases/120 whole output records pass exactly on .157, including post-timing residuals and absent outputs. Ordinary complete-cycle wall improves1.682111%; MoE median time changes+0.260699% with overlapping ranges. All28 HIP timings are invalid zero. Preserve all warm/measured samples and graphs without projecting model rates. Host36+36 and all nine host/component command exits0; seven host/four component artifacts collect before release10:17:30.469914UTC/27506424.1388 identities/1111 groups retire, KFD empty, original leases free/unchanged and seven model stat tuples unchanged. Mirrors agree, Core informed before local analysis, no live job/window/waiter/reservation or cleanup.
