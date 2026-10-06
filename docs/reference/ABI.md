@@ -50,6 +50,19 @@ Existing engine/state/cache/event/metric layouts and versions are unchanged.
 This context and default-ON adapter integration are **unverified** until final
 qualification. See [C17 compilation context](../development/C17-SAMPLING.md#compilation-context-and-bootstrap).
 
+`lie/schema_frontend.h` adds complete native compilation ABI 1. A one-shot C17
+context owns initialization, schema/leaf policy bindings, temporary/derived node
+lifetimes, predicate registration and bounded retained diagnostics. Published
+program and states borrow the independently owned sealed predicate table; retire
+them before the table. Prompt has independent ownership. Inputs/context may
+retire after successful publication; paired allocator hooks outlive output
+dependencies. Failure preserves output and diagnostic details remain valid until
+context release, even after input/staging retirement. Requested diagnostic detail
+heap defaults to2MiB; existing private child limits apply separately. Source and
+default-ON production integration are unverified, with final qualification pending.
+Existing model/worker/cache/state/HTTP/event layouts remain unchanged. See
+[native frontend](../development/C17-SAMPLING.md#native-production-schema-frontend).
+
 `lie/schema_string.h` adds separate string-leaf construction ABI 1. Preparation
 publishes a bounded value-copyable plan with borrowed pattern bytes and owned
 format bytes. Compilation owns Unicode/regex staging and publishes a retained

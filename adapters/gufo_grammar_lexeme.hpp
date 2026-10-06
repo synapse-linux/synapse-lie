@@ -110,7 +110,12 @@ public:
 };
 class LexemeTable {
   lie_lexeme_table *p_ = nullptr;
+  explicit LexemeTable(lie_lexeme_table *owned, int) noexcept : p_(owned) {}
 public:
+  static LexemeTable adopt(lie_lexeme_table *owned) {
+    if (!owned) lexeme_check(LIE_LEXEME_INVALID);
+    return LexemeTable(owned, 0);
+  }
   LexemeTable() { lexeme_check(lie_lexeme_table_create(nullptr, &p_)); }
   ~LexemeTable() { lie_lexeme_table_release(p_); }
   LexemeTable(const LexemeTable &other) {

@@ -7,6 +7,10 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Production schema and generic JSON compilation use a complete native C17
+  frontend, with independently owned program/prompt/predicate results and stable
+  error diagnostics. Private C++ projections remain; final qualification is pending.
+
 - String schema admission and predicate construction use the shared C17 core,
   including length bounds, pattern/format intersection and hostname narrowing.
   Unrestricted predicates remain reusable; final qualification is pending.

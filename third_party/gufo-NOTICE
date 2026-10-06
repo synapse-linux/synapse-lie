@@ -7,6 +7,13 @@ See THIRD_PARTY_NOTICES.md for provenance, versions and distribution boundaries;
 full imported notices are installed alongside it in third-party/.
 
 Adapted code includes:
+- Complete native schema_frontend orchestration follows the independently pinned
+  Gufo compiler/factory visitation, leaf registration and publication sequence.
+  First-party C17 code composes the previously attributed schema/grammar modules,
+  owns native temporary/derived roots, predicate tables and retained diagnostics.
+  schema-frontend-edits.json switches default-ON production Compile/Object to
+  native policy; private typed/error/shared-handle projection, original OFF and
+  helper probes remain. No peer engine/model/collection artifacts are imported.
 - String-leaf construction in src/schema_string.c follows StringLexeme's
   ordered lengths/pattern/format admission, hostname narrowing, unrestricted
   reuse and error sequence at the independently pinned Gufo source below.

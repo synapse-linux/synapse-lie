@@ -1,0 +1,33 @@
+{
+  "schema": "synapse-lie.gufo-state-edits.v1",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "license": "MIT",
+  "scope": "Production default-ON Compile/Object use the complete C17 frontend; typed shared-handle/error projection remains private. Original OFF and existing helper probes remain guarded/available.",
+  "edits": [
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "#include \"gufo_schema_integer.hpp\"",
+      "new": "#include \"gufo_schema_integer.hpp\"\n#include \"gufo_schema_frontend.hpp\""
+    },
+    {
+      "path": "src/core/json_constraint.hpp",
+      "old": "  JsonConstraint() = default;\n",
+      "new": "  JsonConstraint() = default;\n#if LIE_C17_SAMPLING\n  static std::shared_ptr<const JsonConstraint> CompileNative(\n      const json::Value&, bool strict, bool object_only);\n#endif\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "std::shared_ptr<const JsonConstraint> JsonConstraint::Compile(\n",
+      "new": "#if LIE_C17_SAMPLING\nstd::shared_ptr<const JsonConstraint> JsonConstraint::CompileNative(\n    const json::Value& schema, bool strict, bool object_only) {\n  lie_gufo::NativeSchemaFrontend compiled;\n  compiled.compile(schema, strict, object_only);\n  auto grammar = std::shared_ptr<JsonConstraint>(new JsonConstraint());\n  grammar->root_ = compiled.root();\n  grammar->c17_program_ = compiled.take_program();\n  grammar->prompt_ = compiled.take_prompt();\n  grammar->lexemes_ = compiled.take_lexemes();\n  return grammar;\n}\n#endif\n\nstd::shared_ptr<const JsonConstraint> JsonConstraint::Compile(\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "  auto grammar = JsonConstraintCompiler(schema, strict).Compile(false);\n  return cache.put(key, std::move(grammar));",
+      "new": "  auto grammar = CompileNative(schema, strict, false);\n  return cache.put(key, std::move(grammar));"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    return JsonConstraintCompiler(schema, false).Compile(true);",
+      "new": "#if LIE_C17_SAMPLING\n    return CompileNative(schema, false, true);\n#else\n    return JsonConstraintCompiler(schema, false).Compile(true);\n#endif"
+    }
+  ]
+}

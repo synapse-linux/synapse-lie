@@ -2,13 +2,15 @@
 # C17 sampling and grammar runtime
 
 Current source adds exact final decimal validation, a C17 compilation
-context/bootstrap, native schema staging and string-leaf construction. These
+context/bootstrap, native schema staging/string construction and the complete
+production schema frontend. These
 are **unverified**: new test campaigns are deferred until
 remaining functional implementation is ready. The receipts below retain their
 stated frozen sources. See [compilation context](#compilation-context-and-bootstrap)
 and [decimal output validation](#final-decimal-output-validation), plus
 [native schema staging](#native-schema-staging) and
-[string-schema construction](#native-string-schema-construction).
+[string-schema construction](#native-string-schema-construction) and
+[native frontend](#native-production-schema-frontend).
 
 The first model-executor extraction on `feature/c17-sampling` replaces dense
 token selection and random draws with `src/sampling.c`, shared through
@@ -1016,6 +1018,43 @@ comparisons, failures and temperatures. These are synthetic host checks;
 original-weight AR/MTP/tool/grammar continuation, resources and matched cost
 remain unqualified on `.161`.
 
+## Native production schema frontend
+
+**Implemented, unverified; tests deferred to the final phase.**
+`lie/schema_frontend.h` composes the native JSON arena, compiler lifecycle,
+reference/body/visit/container/enum policy, numeric/string leaves, predicate
+memo/table and root/publication modules. Native readers and writer bindings
+replace typed tree callbacks. The one-shot context initializes whitespace/JSON
+primitives, keeps stable derived node identities and registers ordered predicates.
+
+Successful output moves three owners: immutable program, prompt and sealed
+predicate table. The program/states borrow that table, so release them first;
+the output helper enforces this order. Inputs and compilation context may retire
+after success. Paired allocation domains outlive retained dependencies. Diagnostic
+details are copied before temporary trees retire, bounded by2MiB default requested
+heap, and borrow the frontend until release. Diagnostic admission/allocation
+failure becomes RESOURCE. Existing child/schema/depth/enum/character limits remain.
+Native numeric acceptance retains shortest-binary64 policy; string acceptance
+feeds full native JSON serialization into a fixed predicate state, preserving
+serialization-before-matcher refusal precedence without a typed string buffer.
+
+Unrestricted string programs reuse lazily within a compilation; a caller can
+provide an already owned full-scalar program for wider reuse. No mutable C global
+cache, worker or model/HTTP callback is introduced. Production default-ON
+`JsonConstraint::Compile` and `Object` use the native frontend. Private glue
+projects original error types and adopts shared program/prompt/predicate owners;
+the existing grammar cache remains outside compilation. Original OFF factories
+and retained helper probes remain available for complete final comparisons.
+
+The later provider inventory is117 files, not a qualified build. Written native/
+typed fixtures cover ordered object/array languages, integer/grid/string policy,
+references, enum filtering, strict/generic modes, cache identity, independent
+output/error lifetimes and allocation refusals. Final qualification retains strict
+core/provider compilation/coherence, unsuppressed sanitizers, all complete pristine/
+ON/OFF witnesses, matching `.161` original-weight AR/MTP and independent faults,
+quality/resources/cost. Remaining model/controller ownership stays open; earlier
+receipts do not qualify this source.
+
 ## Native string-schema construction
 
 **Implemented, unverified; tests deferred to the final phase.**
@@ -1042,8 +1081,8 @@ cache or thread. The pinned original OFF factory remains guarded. Source/recipe
 inventories contain 114 files, not a qualified provider build. Written native/
 typed fixtures and complete existing ON/OFF grammar/format witnesses await final
 strict compilation, unsuppressed sanitizers, matching `.161` original-weight
-AR/MTP, fault/resource/quality and cost gates. Full frontend/model ownership
-remain open; no performance gain is claimed.
+AR/MTP, fault/resource/quality and cost gates. The later complete frontend is
+implemented but unverified; model ownership remains open. No performance gain is claimed.
 
 ## Native schema staging
 
@@ -1060,8 +1099,9 @@ The default-ON adapter uses this arena for transformation and normalization.
 Typed facade views and original exception projection remain private; original
 OFF constructors remain guarded. Value/store failure reasons remain typed C
 diagnostics before projection. Existing model, worker, cache, event and metric
-layouts are unchanged; full native frontend and model/controller ownership
-remain open. The planned provider inventory is 111 files, not a qualified build.
+layouts are unchanged. The later complete native frontend is implemented but
+unverified; model/controller ownership remains open. The planned inventory for
+this staging increment is111 files, not a qualified build.
 
 Written native/typed fixtures cover NUL/UTF8 spans, ordered/duplicate members,
 first-member replacement, immutable sources, root transfer across scope

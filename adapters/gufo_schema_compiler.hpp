@@ -16,6 +16,7 @@ class Compiler {
       throw std::invalid_argument("JSON Schema: schema expansion exceeds its resource budget");
     throw std::logic_error("invalid schema root ownership operation");
   }
+public:
   static void check(lie_schema_compiler_status rc, const lie_schema_compiler_error &e) {
     switch (rc) {
     case LIE_COMPILER_OK: return;

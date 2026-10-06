@@ -18,6 +18,8 @@ Native C17 schema construction/staging now also has source integration and
 written fixtures only; no configure/build/test or remote window is started.
 Native C17 string-leaf construction is likewise implemented but unverified;
 its fixtures/source inventories are written with no new intermediate campaign.
+The complete native schema frontend now has source/production integration and
+written fixtures only; no configure/build/test/remote window is started.
 
 ## Native schema-number codec: HOST only — 2026-10-06
 

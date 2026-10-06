@@ -1,6 +1,27 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Production schema frontend implemented in C17 — 2026-10-06 UTC
+
+`lie_schema_frontend` connects native JSON readers, compiler state, body/visit/
+reference/container/enum policies, exact numeric/string leaves and publication.
+It registers and owns predicate tables, retains diagnostic details before staging
+retires and publishes independently owned program/prompt/table results. Programs
+borrow the sealed predicate table, whose owner must outlive all programs/states.
+The default-ON production `Compile`/`Object` paths use this frontend; private C++
+glue projects error classes and shared handles. Original OFF and retained helper
+probes remain available. Unrestricted string programs reuse within a compilation,
+with an optional caller-owned reusable program; no C global cache/thread is added.
+
+**Implemented, unverified:** source/recipe inventories contain 117 files. Native/
+typed fixtures are written for complete languages, retained helper comparisons,
+cache identity, references, enum filtering, output/error lifetime and allocation
+refusals. No configure/build/test/GPU campaign is started. Matching strict build,
+unsuppressed sanitizers, complete ON/OFF witnesses and `.161` original-weight
+AR/MTP, faults, quality/resources/cost remain final gates. Earlier receipts retain
+their frozen sources. Remaining model/controller ownership and broader acceptance
+keep all six tasks open; Terminal Bench stays last, without a reservation.
+
 ## Native C17 string-schema construction — 2026-10-06 UTC
 
 `lie_schema_string` admits ordered length/pattern/format fields, narrows hostname
