@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## IQ2 compact table reuse preparation — 2026-10-06 UTC
+
+Fresh global .15712:01:18 binds previousdf016d3a, retired identities/groups,
+empty KFD, original Core CPU/four GPU leases and model stat tuples unchanged.
+Core confirms own .157/.158/.161 non-use; separate work remains host-only.
+Host36Debug/36ASan ends12:02:59UTC; seven artifacts collected. Freeze174
+fixtures/six manifests/1029 provider files for one new component and one
+original2048/tg128 model. No GPU admission or saved control rebuild/rerun at
+preparation. No Q4/full curve or remote cleanup.
+
 ## IQ2 DPP commit window released — 2026-10-06 UTC
 
 Admission11:51:36/a6abdc5b binds checkpointd35fabde/plan310dd77b. One component
