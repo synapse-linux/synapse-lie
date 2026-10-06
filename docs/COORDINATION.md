@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Parallel 256K curve host gate — 2026-10-06 UTC
+
+Core confirms own `.157/.158` non-use; its `.161` work is separate. Fresh Q2 handover13:45:09 UTC revalidates release268296b2, original lease identities, retired groups, empty KFD and seven unchanged model stat tuples. New device-free host-r2 completes13:50:15 UTC with44+44 checks/six zero exits; all seven artifacts collect. The frozen curve plan permits two new native curves through256K, with no fixed-control rerun or numerical MMQ rebuild. Fresh admission is still required. No remote cleanup or `.158/.161` activity.
+
 ## Down null-contract released; parallel curve requested — 2026-10-06 UTC
 
 All37 artifacts collect by13:23:06 UTC before release13:23:10.728744 UTC/SHA268296b23c5803b332dd20ff1dc15383a8ee299332ae1ec4571e2448d22b107a. All13 primary exits0;1516 identities/1215 groups retired, KFD empty, original CPU/four GPU leases free and seven model stat tuples unchanged. Canonical/main/remote mirrors agree; Core informed before analysis. No own remote job/window/lease/waiter/reservation/restart/cleanup remains .157/.158/.161. Core freshly confirms .157/.158 non-use and separately admits .161 build r31; Q2 confirms non-use .161. The user requests a new256K curve concurrently with continued fixed-point analysis. That request permits preparation, but a fresh scoped admission is still required before GPU build/run.

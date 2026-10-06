@@ -199,8 +199,10 @@ SCALED_SELECTIVE_SOURCES = {'q2-counting-scaled-selective': 'scaled-selective'}
 REAUDIT_SOURCES = {'q2-counting-reaudit-exact': 'reaudit-q8-row',
                    'q2-counting-reaudit-norm': 'reaudit-q8-row-norm'}
 MIXED_TILE_MODES = ('iq2-mixed-reference-check', 'iq2-mixed-check')
-CURVE_MODES = ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed', 'q2-curve-scale', 'q2-curve-row', 'q2-point-norm')
-CURVE_VARIANTS = ('curve-q2', 'curve-ud', 'curve-ple-q2', 'curve-ple-ud', 'curve-iq2-q2', 'curve-ple-cache-first-q2', 'curve-routes-q2', 'curve-iq2-mixed-q2', 'curve-scale-q2', 'curve-row-q2', 'point-norm-q2')
+CURVE256_MODES = ('q2-curve256', 'ud-curve256')
+CURVE256_VARIANTS = ('curve256-q2', 'curve256-ud')
+CURVE_MODES = CURVE256_MODES + ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed', 'q2-curve-scale', 'q2-curve-row', 'q2-point-norm')
+CURVE_VARIANTS = CURVE256_VARIANTS + ('curve-q2', 'curve-ud', 'curve-ple-q2', 'curve-ple-ud', 'curve-iq2-q2', 'curve-ple-cache-first-q2', 'curve-routes-q2', 'curve-iq2-mixed-q2', 'curve-scale-q2', 'curve-row-q2', 'point-norm-q2')
 COUNTING_SOURCES = {DOWN_FIXED_CONTRACT_MODEL: DOWN_FIXED_CONTRACT_VARIANT, DOWN_FIXED_BOUNDS_MODEL: DOWN_FIXED_BOUNDS_VARIANT, HC_INJECT_RAW_Q8_MODE: HC_INJECT_RAW_Q8_VARIANT, IQ2_TABLE_LDS_MODEL: IQ2_TABLE_LDS_VARIANT, IQ2_DPP_COMMIT_MODEL: IQ2_DPP_COMMIT_VARIANT, IQ2_FIXED_BOUNDS_MODEL: IQ2_FIXED_BOUNDS_VARIANT, IQ2_HALF_SIGN_MODEL: IQ2_HALF_SIGN_VARIANT, HC_RMS_ORDINARY_MODE: HC_RMS_ORDINARY_VARIANT, 'q2-counting-legacy': 'library-norm-cycle',
                     'q2-counting-iq2': 'curve-iq2-q2',
                     'q2-counting-iq2-mixed': 'curve-iq2-mixed-q2',
@@ -292,7 +294,7 @@ def shared_down_source(parser, name=SHARED_DOWN_VARIANT):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument('mode', choices=[DOWN_FIXED_CONTRACT_MODE, DOWN_FIXED_BOUNDS_MODE, IQ2_TABLE_LDS_MODE, IQ2_DPP_COMMIT_MODE, IQ2_FIXED_BOUNDS_MODE, IQ2_HALF_SIGN_MODE, HC_OWNER_MODE, HC_REUSE_MODE, 'counter-calibration', *EXPERT_CACHE_MODES, *SHARED_DOWN_MODES, HALF_FIXED_WIDTH_MODE, HALF_CONSUMER_EIGHT_MODE, SSM_ROW_GROUP_MODE, *SSM_FOLLOWUP_MODES, DOWN_REGISTER_SCATTER_MODE, DOWN_HALF_VECTOR_MODE, DOWN_HALF_PAIR_MODE, DOWN_HALF_STORAGE_MODE, DOWN_LIVE_STAGE_MODE, DOWN_OUTPUT_REUSE_MODE, IQ2_WIDE_PAIR_MODE, IQ2_FOUR_WAVE_MODE, IQ2_LANE_COMMIT_MODE, IQ2_SHORT_TILES_MODE, IQ2_TAIL16_MODE, IQ2_REGISTER_STAGE_MODE, DOWN_REGISTER_PALETTE_MODE, IQ2_SLICE_COMMIT_MODE, Q8_MIRROR_MODE, IQ2_SIGN_MASK_MODE, IQ2_FUSED_GRID_MODE, SCALED_WAVE_PACK_MODE, SCALED_EXPERT_ORDER_MODE, COMPACT_EXPERT_CHAIN_MODE, PRODUCER_Q8_MODE, SHARED_Q8_PAIR_MODE, Q8_ALIGNED_PAIR_MODE, Q8_K16_PHASES_MODE, DOWN_RAW_PREFETCH_MODE, IQ2_RAW_PREFETCH_MODE, SSM_ROW128_MODE, Q8_HALFPAIR_MODE, IQ2_HALFBYTE_MODE, IQ2_HALFSTAGE_MODE, Q8_GROUPED_MODE, FIXED_PROFILE_MODE, CURRENT_PROFILE_MODE, CURRENT_ROUTING_MODE, HC_BK_MODE, 'shared-q8-oracle-replay', 'shared-q8-producer-check', *COUNTING_SOURCES, *MIXED_TILE_MODES, 'native-curve-cpu', 'cpu', 'ple-cache-first-cpu', 'ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access', 'ple-cpu', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'q2-ple', 'ud-ple', 'hip-build', 'operators', 'operators-reference', 'iq2-signs-check', 'iq2-wmma-signs-check', 'iq2-live-epilogue-check', 'scaled-row-check', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-norm-ragged-bench', 'hc-library-ragged-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench', 'terminal-cpu', 'q2-terminal-build', 'q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-decode-baseline', 'ud-decode-baseline', *ORIGINAL_BASELINE_MODES, *CURVE_MODES, 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
+    p.add_argument('mode', choices=['curve256-cpu', DOWN_FIXED_CONTRACT_MODE, DOWN_FIXED_BOUNDS_MODE, IQ2_TABLE_LDS_MODE, IQ2_DPP_COMMIT_MODE, IQ2_FIXED_BOUNDS_MODE, IQ2_HALF_SIGN_MODE, HC_OWNER_MODE, HC_REUSE_MODE, 'counter-calibration', *EXPERT_CACHE_MODES, *SHARED_DOWN_MODES, HALF_FIXED_WIDTH_MODE, HALF_CONSUMER_EIGHT_MODE, SSM_ROW_GROUP_MODE, *SSM_FOLLOWUP_MODES, DOWN_REGISTER_SCATTER_MODE, DOWN_HALF_VECTOR_MODE, DOWN_HALF_PAIR_MODE, DOWN_HALF_STORAGE_MODE, DOWN_LIVE_STAGE_MODE, DOWN_OUTPUT_REUSE_MODE, IQ2_WIDE_PAIR_MODE, IQ2_FOUR_WAVE_MODE, IQ2_LANE_COMMIT_MODE, IQ2_SHORT_TILES_MODE, IQ2_TAIL16_MODE, IQ2_REGISTER_STAGE_MODE, DOWN_REGISTER_PALETTE_MODE, IQ2_SLICE_COMMIT_MODE, Q8_MIRROR_MODE, IQ2_SIGN_MASK_MODE, IQ2_FUSED_GRID_MODE, SCALED_WAVE_PACK_MODE, SCALED_EXPERT_ORDER_MODE, COMPACT_EXPERT_CHAIN_MODE, PRODUCER_Q8_MODE, SHARED_Q8_PAIR_MODE, Q8_ALIGNED_PAIR_MODE, Q8_K16_PHASES_MODE, DOWN_RAW_PREFETCH_MODE, IQ2_RAW_PREFETCH_MODE, SSM_ROW128_MODE, Q8_HALFPAIR_MODE, IQ2_HALFBYTE_MODE, IQ2_HALFSTAGE_MODE, Q8_GROUPED_MODE, FIXED_PROFILE_MODE, CURRENT_PROFILE_MODE, CURRENT_ROUTING_MODE, HC_BK_MODE, 'shared-q8-oracle-replay', 'shared-q8-producer-check', *COUNTING_SOURCES, *MIXED_TILE_MODES, 'native-curve-cpu', 'cpu', 'ple-cache-first-cpu', 'ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access', 'ple-cpu', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'q2-ple', 'ud-ple', 'hip-build', 'operators', 'operators-reference', 'iq2-signs-check', 'iq2-wmma-signs-check', 'iq2-live-epilogue-check', 'scaled-row-check', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-norm-ragged-bench', 'hc-library-ragged-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench', 'terminal-cpu', 'q2-terminal-build', 'q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-decode-baseline', 'ud-decode-baseline', *ORIGINAL_BASELINE_MODES, *CURVE_MODES, 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
     p.add_argument('label')
     p.add_argument('--source-variant', choices=[DOWN_FIXED_CONTRACT_VARIANT, DOWN_FIXED_BOUNDS_VARIANT, HC_INJECT_RAW_Q8_VARIANT, IQ2_TABLE_LDS_VARIANT, IQ2_DPP_COMMIT_VARIANT, IQ2_FIXED_BOUNDS_VARIANT, IQ2_HALF_SIGN_VARIANT, HC_RMS_ORDINARY_VARIANT, HC_OWNER_VARIANT, HC_REUSE_VARIANT, 'expert-cache', 'compressed-cache', 'iq2-mixed', 'qualified', 'bounded-k', 'wide-barrier', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'scaled-tiles', 'narrow-vector', 'hc-down-phased', 'hc-down-phased-free', 'hc-row160-wide', 'hc-row160-loads', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-deferred-norm', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced', *COMBINED_VARIANTS, 'scaled-library', 'library-norm-cycle', 'library-norm-bound', 'hc-decode-reduce', 'hc-library-ragged', 'hc-norm-ragged', *CURVE_VARIANTS, *SIGN_VARIANTS, *WMMA_SIGN_VARIANTS, *EPILOGUE_VARIANTS, *ROW_VARIANTS, *NORM_SHAPE_VARIANTS, Q8_PRODUCER_VARIANT, *REAUDIT_SOURCES.values(), *HC_BK_VARIANTS, *DEFERRED_SOURCES.values(), *Q8_GROUPED_SOURCES.values(), *SCALED_SELECTIVE_SOURCES.values(), *IQ2_LIVE_COMPOSE_SOURCES.values(), *IQ2_RAW_SELECTIVE_SOURCES.values(), *IQ2_HALFSTAGE_SOURCES.values(), *IQ2_HALFBYTE_SOURCES.values(), *Q8_HALFPAIR_SOURCES.values(), *SSM_ROW128_SOURCES.values(), *IQ2_FUSED_GRID_SOURCES.values(), *IQ2_SLICE_COMMIT_SOURCES.values(), *IQ2_SHORT_TILES_SOURCES.values(), *IQ2_TAIL16_SOURCES.values(), *IQ2_REGISTER_STAGE_SOURCES.values(), *DOWN_REGISTER_PALETTE_SOURCES.values(), *HALF_FIXED_WIDTH_SOURCES.values(), *HALF_CONSUMER_EIGHT_SOURCES.values(), *SSM_ROW_GROUP_SOURCES.values(), *SSM_FOLLOWUP_VARIANTS, *SHARED_DOWN_MANIFESTS, *DOWN_REGISTER_SCATTER_SOURCES.values(), *DOWN_HALF_VECTOR_SOURCES.values(), *DOWN_HALF_PAIR_SOURCES.values(), *DOWN_HALF_STORAGE_SOURCES.values(), *DOWN_LIVE_STAGE_SOURCES.values(), *DOWN_OUTPUT_REUSE_SOURCES.values(), *IQ2_WIDE_PAIR_SOURCES.values(), *IQ2_FOUR_WAVE_SOURCES.values(), *IQ2_LANE_COMMIT_SOURCES.values(), *IQ2_SIGN_MASK_SOURCES.values(), *IQ2_RAW_PREFETCH_SOURCES.values(), *DOWN_RAW_PREFETCH_SOURCES.values(), *Q8_MIRROR_SOURCES.values(), *SCALED_WAVE_PACK_SOURCES.values(), *SCALED_EXPERT_ORDER_SOURCES.values(), *COMPACT_EXPERT_CHAIN_SOURCES.values(), *PRODUCER_Q8_SOURCES.values(), *SHARED_Q8_PAIR_SOURCES.values(), *Q8_ALIGNED_PAIR_SOURCES.values(), *Q8_K16_PHASES_SOURCES.values()],
                    default='qualified', help='Isolated source; hc also supports HC operators and microbenchmark')
@@ -421,6 +423,10 @@ def main():
             p.error('Ragged paired norm requires its isolated component mode and source')
         if args.rebuild_mmq:
             p.error('Ragged paired norm component builds its kernels directly')
+    if args.mode in CURVE256_MODES and (not args.native_curve or args.rebuild_mmq or args.point_only or args.replay_from):
+        p.error('Curve256 requires the native full curve and pinned MMQ reuse')
+    if args.mode == 'curve256-cpu' and (args.source_variant != 'qualified' or args.rebuild_mmq or args.native_curve or args.point_only or args.replay_from):
+        p.error('Curve256 host requires only its frozen CPU core')
     if args.mode == 'native-curve-cpu' and (args.source_variant != 'qualified' or args.rebuild_mmq):
         p.error('Native curve host conformance requires its fixed client and no GPU build')
     if args.native_curve and args.mode not in NATIVE_CURVE_MODES:
@@ -752,7 +758,7 @@ def main():
         if not args.rebuild_mmq and not args.replay_from:
             p.error('Historical counting requires a full MMQ rebuild')
     if provider_mode in CURVE_MODES or args.source_variant in CURVE_VARIANTS:
-        expected = {'q2-curve': 'curve-q2', 'ud-curve': 'curve-ud',
+        expected = {'q2-curve256': 'curve256-q2', 'ud-curve256': 'curve256-ud', 'q2-curve': 'curve-q2', 'ud-curve': 'curve-ud',
                     'q2-curve-ple': 'curve-ple-q2', 'ud-curve-ple': 'curve-ple-ud',
                     'q2-curve-iq2': 'curve-iq2-q2',
                     'q2-curve-scale': 'curve-scale-q2',
@@ -763,7 +769,7 @@ def main():
                     'q2-curve-routes': 'curve-routes-q2'}.get(provider_mode)
         if args.source_variant != expected:
             p.error('Canonical curve requires its matched Q2 or UD composition')
-        if not args.rebuild_mmq and not args.replay_from:
+        if provider_mode not in CURVE256_MODES and not args.rebuild_mmq and not args.replay_from:
             p.error('Canonical curve requires a full MMQ rebuild')
     if args.detach and args.mode not in ('q2-terminal-smoke', 'q2-terminal-full'):
         p.error('Persistent launch is limited to Terminal-Bench task runs')
@@ -908,7 +914,13 @@ def main():
     out.mkdir()
     capsule = out / 'source.tar.gz'
     with tarfile.open(capsule, 'w:gz') as archive:
-        for name in ( 'tools/prepare-q2-down-fixed-contract.py',
+        for name in ( 'tools/q2-curve256-phase.py',
+                     'tools/freeze-q2-curve256-plan.py',
+                     'tools/q2-curve256-window.py',
+                     'tools/prepare-q2-curve256.py',
+                     'tools/q2_curve256.py',
+                     'tools/q2-curve256-session.py',
+                     'tools/prepare-q2-down-fixed-contract.py',
                      'tools/analyze-q2-down-fixed-contract-static.py',
                      'experiments/q2-down-fixed-contract.patch',
                      'experiments/q2-down-fixed-contract-draft.inc',
@@ -1718,8 +1730,14 @@ def main():
         if args.native_curve or args.mode == 'native-curve-cpu':
             bench_source, _ = verify_native_curve(ROOT)
             archive.add(bench_source, arcname='native-bench-core')
+        if args.mode == 'curve256-cpu':
+            curve = json.loads((ROOT/'config/q2-curve256-source.json').read_text())
+            for name, expected in curve['core_files'].items():
+                if file_sha256(ROOT/curve['core_source']/name) != expected:
+                    p.error('Curve256 core source changed')
+            archive.add(ROOT/curve['core_source'], arcname='curve-core')
         if provider_mode in CURVE_MODES:
-            curve = __import__('json').loads((ROOT/'config/q2-curve-source.json').read_text())
+            curve = json.loads((ROOT/('config/q2-curve256-source.json' if provider_mode in CURVE256_MODES else 'config/q2-curve-source.json')).read_text())
             key = provider_mode.split('-')[0]
             provider = curve
             if provider_mode == 'q2-curve-iq2':

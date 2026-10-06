@@ -1445,6 +1445,36 @@ class RemoteGuardTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'inventory changed'):
                 verify_source(root)
 
+    def test_curve256_matching_native_scope_and_capacity(self):
+        from q2_curve256 import client_argv, check_backend
+        for mode, variant in [('q2-curve256', 'curve256-q2'), ('ud-curve256', 'curve256-ud')]:
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            self.refuse(argv, 'Curve256 requires')
+            for extra in (['--rebuild-mmq'], ['--point-only'], ['--replay-from', 'q2-norm-fixed-model-before-r1']):
+                self.refuse(argv + ['--native-curve'] + extra,
+                            'Binary replay requires' if extra[0] == '--replay-from' else 'Curve256 requires')
+            with patch.object(sys, 'argv', [str(path), *argv, '--native-curve']), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+        argv = client_argv(Path('/owned/synapse-lie-bench'), Path('/owned/out'), Path('/owned/graphs'), 'ordered')
+        options = dict(zip(argv[1::2], argv[2::2]))
+        self.assertEqual(options['--depths'], '0,4096,8192,12288,16384,32768,65536,131072,196608,262144')
+        self.assertEqual(options['--context-capacity'], '266240')
+        self.assertEqual(options['--repetitions'], '1')
+        self.assertEqual(options['--warmups'], '1')
+        info = dict(schema='synapse-lie.llm.v1', ready=True,
+            backend=dict(synthetic=False, mtp=False, vision=False, prefix_state=True,
+                         model='bench', context_tokens=266240, build_id='q2-canonical-curve-retained256',
+                         source_pin='f783fedb9bea2ec7de941f6da4e02f4a4596b29e'),
+            cache=dict(budget_bytes=16384*1024*1024), scheduler=dict(queued=0, active=0, max_active=1))
+        check_backend(info, 'ordered')
+        info['backend']['context_tokens'] = 133760
+        with self.assertRaises(ValueError):
+            check_backend(info, 'ordered')
+
     def test_native_curve_admission_and_exact_cli(self):
         from q2_native_curve import check_backend, client_argv
         info = dict(schema='synapse-lie.llm.v1', ready=True,

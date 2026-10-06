@@ -59,7 +59,11 @@ def main():
         raise SystemExit('Native curve requires an uninstrumented canonical mode')
     if mode == 'q2-curve-scale' and not native_curve:
         raise SystemExit('Scale model comparison requires the native C canonical benchmark')
-    curve_mode = mode in ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed', 'q2-curve-scale', 'q2-curve-row', 'q2-point-norm')
+    curve256 = mode in ('q2-curve256', 'ud-curve256')
+    curve256_cpu = mode == 'curve256-cpu'
+    if curve256 and (not native_curve or '--rebuild-mmq' in sys.argv[2:] or point_only):
+        raise SystemExit('Curve256 requires the native full curve and pinned MMQ reuse')
+    curve_mode = curve256 or mode in ('q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed', 'q2-curve-scale', 'q2-curve-row', 'q2-point-norm')
     curve_routes = mode == 'q2-curve-routes'
     curve_cache_first = mode == 'q2-curve-ple-cache-first'
     curve_mixed = mode == 'q2-curve-iq2-mixed'
@@ -70,7 +74,7 @@ def main():
     curve_scale = mode == 'q2-curve-scale'
     curve_iq2 = point_norm or curve_row or curve_scale or mode == 'q2-curve-iq2' or curve_cache_first or curve_routes or curve_mixed
     curve_profile = curve_mode and mode.endswith('-ple')
-    if curve_mode and '--rebuild-mmq' not in sys.argv[2:]:
+    if curve_mode and not curve256 and '--rebuild-mmq' not in sys.argv[2:]:
         raise SystemExit('Canonical curve requires a full MMQ rebuild')
     replay_label = sys.argv[sys.argv.index('--replay-from')+1] if '--replay-from' in sys.argv[2:] else None
     replay_modes = {'q2-norm-fixed-model-before-r1': 'q2-counting-iq2-mixed',
@@ -89,7 +93,7 @@ def main():
     terminal_build = mode in ('q2-terminal-build', 'q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full')
     terminal_cpu = mode == 'terminal-cpu'
     native_cpu = mode == 'native-curve-cpu'
-    cpu_mode = native_cpu or mode in ('ple-cache-first-cpu', 'terminal-cpu', 'cpu', 'ple-cpu', 'ple-io-cpu', 'ple-cache-cpu', 'ple-lookahead-cpu')
+    cpu_mode = curve256_cpu or native_cpu or mode in ('ple-cache-first-cpu', 'terminal-cpu', 'cpu', 'ple-cpu', 'ple-io-cpu', 'ple-cache-cpu', 'ple-lookahead-cpu')
     io_mode = mode in ('q2-ple-io', 'ud-ple-io')
     ple_mode = mode in ('q2-ple', 'ud-ple', 'q2-ple-cache64k', 'q2-ple-lookahead', 'q2-ple-first-access')
     ple_target = 'q2_ple_lookahead' if mode in ('q2-ple-lookahead', 'q2-ple-first-access') else 'q2_ple'
@@ -263,21 +267,53 @@ def main():
                                      reference_binary_sha256=receipt['binary_sha256_after'])
             reuse_args=['-DQ2_MMQ_ARCHIVE='+str(copied)]
             save()
+        if curve256:
+            pins=json.loads((ROOT/'config/q2-curve256-binaries.json').read_text())['providers'][mode]
+            previous=ROOT.parent/pins['label']
+            old_receipt=previous/'results/result.json'
+            if hashlib.sha256(old_receipt.read_bytes()).hexdigest()!=pins['receipt_sha256']:
+                raise RuntimeError('Matched MMQ qualification changed')
+            old=json.loads(old_receipt.read_text())
+            if not old.get('finished_at') or any(c['exit_code'] for c in old['commands']):
+                raise RuntimeError('Matched MMQ source cohort is incomplete')
+            identity=verify_sources(previous/'source', ROOT/'source')
+            archive=previous/'build/hip/cmake/hip/qwen/libgufo_qwen38_flash_next_mmq.a'
+            digest=hashlib.sha256(archive.read_bytes()).hexdigest()
+            reuse=ROOT/'reuse';reuse.mkdir()
+            copied=reuse/'libgufo_qwen38_flash_next_mmq.a'
+            shutil.copyfile(archive,copied)
+            if hashlib.sha256(copied.read_bytes()).hexdigest()!=digest:
+                raise RuntimeError('Matched MMQ copy differs')
+            result['mmq_reuse']=dict(identity, reference=str(previous), archive=str(archive), sha256=digest,
+                                    receipt_sha256=pins['receipt_sha256'], original_build_unchanged=True)
+            reuse_args=['-DQ2_MMQ_ARCHIVE='+str(copied)]
+            save()
         if native_cpu:
             _, bench_manifest = verify_native_curve(ROOT, staged=True)
             result['native_bench_commit'] = bench_manifest['commit']
             save()
         if native_curve:
             bench_source, bench_manifest = verify_native_curve(ROOT, staged=True)
-            bench_build = ROOT/'build/native-bench'
-            run(['cmake', '-S', str(bench_source), '-B', str(bench_build), '-G', 'Ninja',
-                 '-DCMAKE_BUILD_TYPE=Release', '-DBUILD_TESTING=OFF',
-                 '-DLIE_GUFO_RUNTIME=OFF', '-DLIE_LEGACY_PYTHON_TESTS=OFF',
-                 '-DLIE_BUILD_ID=q2-native-canonical-bench'], env)
-            run(['cmake', '--build', str(bench_build), '--parallel', '2',
-                 '--target', 'synapse-lie-bench'], env)
-            bench_binary = bench_build/'synapse-lie-bench'
-            result['native_bench_binary_sha256'] = hashlib.sha256(bench_binary.read_bytes()).hexdigest()
+            if curve256:
+                pins=json.loads((ROOT/'config/q2-curve256-binaries.json').read_text())['native_bench']
+                previous=ROOT.parent/pins['label']
+                if hashlib.sha256((previous/'results/result.json').read_bytes()).hexdigest()!=pins['receipt_sha256']:
+                    raise RuntimeError('Native benchmark qualification changed')
+                bench_binary=previous/'build/native-bench/synapse-lie-bench'
+                if hashlib.sha256(bench_binary.read_bytes()).hexdigest()!=pins['binary_sha256']:
+                    raise RuntimeError('Qualified native benchmark binary changed')
+                result['native_bench_binary_sha256']=pins['binary_sha256']
+                result['native_bench_reused']=True
+            else:
+                bench_build = ROOT/'build/native-bench'
+                run(['cmake', '-S', str(bench_source), '-B', str(bench_build), '-G', 'Ninja',
+                     '-DCMAKE_BUILD_TYPE=Release', '-DBUILD_TESTING=OFF',
+                     '-DLIE_GUFO_RUNTIME=OFF', '-DLIE_LEGACY_PYTHON_TESTS=OFF',
+                     '-DLIE_BUILD_ID=q2-native-canonical-bench'], env)
+                run(['cmake', '--build', str(bench_build), '--parallel', '2',
+                     '--target', 'synapse-lie-bench'], env)
+                bench_binary = bench_build/'synapse-lie-bench'
+                result['native_bench_binary_sha256'] = hashlib.sha256(bench_binary.read_bytes()).hexdigest()
             result['native_bench_commit'] = bench_manifest['commit']
             run([str(bench_binary), '--suite', 'http-curve', '--help'], env, 30)
             save()
@@ -287,11 +323,11 @@ def main():
         for name,sanitize in profiles:
             build = ROOT/'build'/name
             if not replay_label:
-                run(['cmake','-S',str(ROOT/'native-bench-core' if native_cpu else ROOT/'terminal-core' if terminal_cpu else ROOT),'-B',str(build),'-G','Ninja',
+                run(['cmake','-S',str(ROOT/'curve-core' if curve256_cpu else ROOT/'native-bench-core' if native_cpu else ROOT/'terminal-core' if terminal_cpu else ROOT),'-B',str(build),'-G','Ninja',
                      '-DCMAKE_BUILD_TYPE='+('Debug' if cpu_mode else 'RelWithDebInfo'),
                      '-DQ2_SANITIZERS='+('ON' if sanitize else 'OFF'),
                      '-DQ2_HIP='+('OFF' if cpu_mode or io_mode else 'ON'),
-                     '-DCMAKE_HIP_ARCHITECTURES=gfx1151']+(['-DLIE_SANITIZERS='+('ON' if sanitize else 'OFF')] if terminal_cpu or native_cpu else [])+(['-DLIE_LEGACY_PYTHON_TESTS=OFF', '-DLIE_GUFO_RUNTIME=OFF'] if native_cpu else [])+(['-DQ2_TERMINAL_SERVER=ON'] if terminal_build else [])+(['-DQ2_COUNTING_BASELINE=ON'] if counting_mode else [])+(['-DQ2_ORIGINAL_BASELINE=ON'] if original_mode else [])+(['-DQ2_CURVE_SERVER=ON'] if curve_mode else [])+(['-DQ2_CURVE_IQ2_SIGNS=ON'] if curve_iq2 else [])+(['-DQ2_POINT_NORM=ON'] if point_norm else [])+(['-DQ2_CURVE_SCALED_ROW=ON'] if curve_row else [])+(['-DQ2_CURVE_IQ2_SCALE=ON'] if curve_scale else [])+(['-DQ2_CURVE_IQ2_MIXED=ON'] if curve_mixed else [])+(['-DQ2_CURVE_PLE_CACHE_FIRST=ON'] if curve_cache_first else [])+(['-DQ2_CURVE_ROUTE_PROFILE=ON'] if curve_routes else [])+(['-DQ2_PLE_CACHE_FIRST_CHECKS=ON'] if mode == 'ple-cache-first-cpu' else [])+reuse_args,env)
+                     '-DCMAKE_HIP_ARCHITECTURES=gfx1151']+(['-DLIE_SANITIZERS='+('ON' if sanitize else 'OFF')] if terminal_cpu or native_cpu or curve256_cpu else [])+(['-DLIE_LEGACY_PYTHON_TESTS=OFF', '-DLIE_GUFO_RUNTIME=OFF'] if native_cpu or curve256_cpu else [])+(['-DQ2_CURVE_RETAINED256=ON', '-DQ2_CURVE_RETAINED256_Q2='+('ON' if mode=='q2-curve256' else 'OFF')] if curve256 else [])+(['-DQ2_TERMINAL_SERVER=ON'] if terminal_build else [])+(['-DQ2_COUNTING_BASELINE=ON'] if counting_mode else [])+(['-DQ2_ORIGINAL_BASELINE=ON'] if original_mode else [])+(['-DQ2_CURVE_SERVER=ON'] if curve_mode else [])+(['-DQ2_CURVE_IQ2_SIGNS=ON'] if curve_iq2 else [])+(['-DQ2_POINT_NORM=ON'] if point_norm else [])+(['-DQ2_CURVE_SCALED_ROW=ON'] if curve_row else [])+(['-DQ2_CURVE_IQ2_SCALE=ON'] if curve_scale else [])+(['-DQ2_CURVE_IQ2_MIXED=ON'] if curve_mixed else [])+(['-DQ2_CURVE_PLE_CACHE_FIRST=ON'] if curve_cache_first else [])+(['-DQ2_CURVE_ROUTE_PROFILE=ON'] if curve_routes else [])+(['-DQ2_PLE_CACHE_FIRST_CHECKS=ON'] if mode == 'ple-cache-first-cpu' else [])+reuse_args,env)
                 # Bound CPU build pressure after the recorded two-job thermal
                 # stop. This changes build concurrency, not runtime device policy.
                 build_args=['cmake','--build',str(build),'--parallel','1' if model_mode or terminal_build else '2']
@@ -327,13 +363,13 @@ def main():
                 result['binary_sha256']=hashlib.sha256(binary.read_bytes()).hexdigest()
                 run([str(binary),'--build-info'],env,30)
                 run([str(binary),'--help'],env,30)
-                result['resource_scope']='Pinned Gufo AR prose depth recipe over common C17 HTTP, context133760/chunk2048/C1, RAM prefix enabled, SSD/MTP/vision off; LIE completed executor-call timers'
+                result['resource_scope']=('Pinned Gufo AR prose depth recipe through262144 over common C17 HTTP, capacity266240/chunk2048/C1, RAM prefix enabled, SSD/MTP/vision off; completed executor-call timers' if curve256 else 'Pinned Gufo AR prose depth recipe over common C17 HTTP, context133760/chunk2048/C1, RAM prefix enabled, SSD/MTP/vision off; LIE completed executor-call timers')
                 result['model_access']=True
                 save()
                 try:
-                    run(['python3','-B',str(ROOT/'tools/q2-curve-session.py'),str(binary),model_paths[0],
-                         'q2' if mode.startswith('q2-') else 'ud']+(['--native-bench', str(bench_binary)] if native_curve else [])+(['--point-only'] if point_only else [])+(['--norm-ragged'] if point_norm else ['--scaled-row'] if curve_row else ['--iq2-scale'] if curve_scale else ['--iq2-mixed'] if curve_mixed else ['--profile-routes'] if curve_routes else ['--profile-ple'] if curve_profile else ['--ple-cache-first'] if curve_cache_first else ['--iq2-signs'] if curve_iq2 else []),
-                        dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),3000)
+                    run(['python3','-B',str(ROOT/('tools/q2-curve256-session.py' if curve256 else 'tools/q2-curve-session.py')),str(binary),model_paths[0],
+                         'q2' if mode.startswith('q2-') else 'ud']+(['--native-bench', str(bench_binary)] if native_curve else [])+(['--point-only'] if point_only else [])+(['--iq2-signs'] if mode=='q2-curve256' else ['--norm-ragged'] if point_norm else ['--scaled-row'] if curve_row else ['--iq2-scale'] if curve_scale else ['--iq2-mixed'] if curve_mixed else ['--profile-routes'] if curve_routes else ['--profile-ple'] if curve_profile else ['--ple-cache-first'] if curve_cache_first else ['--iq2-signs'] if curve_iq2 else []),
+                        dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),18000 if curve256 else 3000)
                 finally:
                     result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()
                     if result['binary_sha256_after']!=result['binary_sha256']:raise RuntimeError('Binary changed')

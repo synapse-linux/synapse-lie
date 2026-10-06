@@ -1,5 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The owner-requested [parallel Q2–UD curve through 256K](docs/Q2-CURVE256.md) is host-qualified on `.157` (44 Debug +44 ASan/UBSan checks). It uses the retained numerical provider, the qualified native `synapse-lie-bench`, and a common 266240-token private server capacity. Fixed-point parity remains the priority; GPU admission/results are pending.
+
 The [down null-contract trial](docs/Q2-DOWN-FIXED-CONTRACT.md) completes at 1586.586480 PP / 25.16050717 TG; 132 operator pairs and 21 parent model files are exact. Component time improves 0.69–1.98%, but no whole-model gain is observed. Retain 1587.893545 PP and preserve the marginal candidate. The owner also requests a parallel curve through 256K while fixed-point parity remains the optimization priority.
 
 The [down null-contract candidate](docs/Q2-DOWN-FIXED-CONTRACT.md) specializes the actual null arguments and aligned half-output route. All 164 parent bodies are unchanged; three private kernels reduce VGPR use. New .157 host 37+37 checks pass. One new component and one unchanged model comparison are prepared; retain 1587.893545 PP until measured evidence.

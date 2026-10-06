@@ -4,8 +4,8 @@ import hashlib
 import json
 from pathlib import Path
 
-MODES = ('q2-curve-iq2', 'q2-curve-scale', 'q2-curve-row', 'q2-point-norm', 'ud-curve')
-POINT_MODES = ('q2-curve-iq2', 'q2-point-norm', 'ud-curve')
+MODES = ('q2-curve256', 'ud-curve256', 'q2-curve-iq2', 'q2-curve-scale', 'q2-curve-row', 'q2-point-norm', 'ud-curve')
+POINT_MODES = ('q2-curve256', 'ud-curve256', 'q2-curve-iq2', 'q2-point-norm', 'ud-curve')
 DEPTHS = '0,4096,8192,12288,16384,32768,65536,131072'
 MANIFEST = 'config/q2-native-bench-source.json'
 

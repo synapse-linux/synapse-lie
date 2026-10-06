@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Parallel 256K curve prepared — 2026-10-06 UTC
+
+The owner explicitly requests the full context curve while preserving the fixed-point optimization priority. New `.157` qualification passes 44 Debug and44 ASan/UBSan tests; seven artifacts collect. The frozen plan binds207 fixtures/seven manifests for retained Q2 and original UD, native benchmark client/MMQ reuse, pp2048/tg128, ten depths through262144 and common capacity266240. Preserve the first host failure (incorrect test-message expectation) and its exit codes. GPU admission and curve results remain pending. [Recipe and boundaries](Q2-CURVE256.md).
+
 ## Down null-contract result and owner steering — 2026-10-06 UTC
 
 The model measures 1586.586480 PP /25.16050717 TG, nominal −0.082314% PP versus retained1587, overlapping ranges. All132 operator pairs/five post-timing buffers and21 parent model files are exact. Component improvements0.69–1.98% remain available for composition; no new headline gain. Host37+37 and13 primary commands pass;37 artifacts collect before release13:23:10 UTC/268296b2. The owner requests a complete curve through256K in parallel with deeper analysis, explicitly retaining the prior fixed-point optimization priority. A local GDN full-window draft compiles, but VGPR120→157 and instruction growth make it insufficient grounds for GPU priority. [Complete values](Q2-DOWN-FIXED-CONTRACT.md).
