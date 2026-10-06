@@ -7,6 +7,10 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Shared C17 ordered cache policy for reasoning and tool grammars, including
+  duplicate reuse, synchronization and bounded eviction. Typed provider keys
+  and immutable composition remain private; matching GPU gates are pending.
+
 - Shared C17 JSON Schema format expansion for the nine existing formats,
   including ordered IPv6 patterns and hostname bounds. Original/OFF patterns,
   prefix decisions and intersections agree in host checks; matching GPU

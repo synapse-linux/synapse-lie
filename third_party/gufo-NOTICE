@@ -7,6 +7,15 @@ See THIRD_PARTY_NOTICES.md for provenance, versions and distribution boundaries;
 full imported notices are installed alongside it in third-party/.
 
 Adapted code includes:
+- Ordered reasoning/tool composition cache policy in src/ordered_cache.c follows
+  JsonConstraint::WithReasoning/WithTools at independently fetched immutable pin
+  f783fedb9bea2ec7de941f6da4e02f4a4596b29e (MIT, gufo-LICENSE retained).
+  C17 owns ordering/search, duplicate-before-eviction insertion, synchronization
+  and smallest-key bounded eviction. Opaque typed key/value storage/comparisons
+  and immutable grammar composition remain private. Refusals are transactional
+  under the owned ABI. composition-cache-edits.json records five exact edits,
+  with four original OFF cache blocks retained. No DS4 or sibling source/code
+  artifact is imported; numerical forward and matching GPU gates remain separate.
 - Format selection/pattern construction in src/schema_format.c follows official
   FormatPattern/JsonSchemaLexeme::Format at independently fetched immutable pin
   f783fedb9bea2ec7de941f6da4e02f4a4596b29e (MIT, gufo-LICENSE retained).

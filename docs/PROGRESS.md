@@ -1,6 +1,30 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Reasoning/tool cache policy uses C17 — 2026-10-06 UTC
+
+Ordered lookup, duplicate reuse before eviction, synchronization and smallest-key
+eviction for reasoning/tool grammars now use the shared C17 core. The
+[host receipt](development/validation/c17-composition-cache-host-2026-10-06.json)
+records 15 Release/15 sanitizer/39 pristine-ON-OFF checks. All 22 previous
+complete witnesses retain their hashes. Actual entry-point comparisons cover
+200 reasoning cases, 240 tool cases, 16950 prefix decisions and 1600 concurrent
+reuse calls. Independent C tests cover 12029 ownership/policy oracles, 32
+refusals and 1600 concurrent put/get pairs; all handles retire. The provider
+binds 66 owned files, and all 53 public headers compile as C17/C++17.
+
+The first host configuration refused an exact include replacement aimed at a
+lexeme-only header; it was corrected to the actual unique body include. Two
+initial builds refused guessed target names before compilation; the qualified
+target names were read and corrected. Actual failures/logs remain preserved.
+CPU peaks at 94.5 C below CPU98/NVMe85/lower exposed guards; GPUs remain masked.
+Opaque typed key/value storage/comparisons and immutable grammar composition
+stay private. Binary64 codec/model/controller and private resource/cost gates
+remain open. Matching original-weight GPU qualification for this 66-file
+increment is pending; the older `6a48da3` runtime includes none of the later
+numeric, format or composition-cache ports. All six owned tasks remain open;
+Terminal Bench stays stopped and deferred until modifications and gates finish.
+
 ## Pinned format expansion uses C17 — 2026-10-06 UTC
 
 The nine existing JSON Schema format patterns, ordered IPv6 alternatives and

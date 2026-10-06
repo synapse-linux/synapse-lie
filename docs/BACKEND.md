@@ -203,7 +203,11 @@ client/server restart or machine reservation is queued in the meantime.
    [host checks](development/validation/c17-schema-number-host-2026-10-06.json).
    Format selection, bounded pattern construction and schema expansion now also
    use C17 ([host checks](development/validation/c17-schema-format-host-2026-10-06.json)).
-   The later 63-file increment still needs a matching GPU build and gates.
+   Reasoning/tool composition cache ordering, duplicate-before-eviction policy
+   and synchronization now also use C17
+   ([host checks](development/validation/c17-composition-cache-host-2026-10-06.json)).
+   Opaque key/value containers and immutable grammar composition remain private.
+   The later 66-file increment still needs a matching GPU build and gates.
    [Release/cache host checks](development/validation/release-cache-host-2026-10-05.json)
    pass 79/79/35 with 20 unchanged complete witnesses. The device-free r17 provider
    builds but its application fails a strict optimized C warning; the collected

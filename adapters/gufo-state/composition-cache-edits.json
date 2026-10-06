@@ -1,0 +1,32 @@
+{
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "purpose": "Move reasoning/tool ordered bounded cache policy and synchronization into C17; preserve duplicate-before-eviction and original OFF blocks. Typed key/value storage and comparisons remain private.",
+  "edits": [
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "#include \"gufo_schema_body.hpp\"\n#endif",
+      "new": "#include \"gufo_schema_body.hpp\"\n#include \"gufo_composition_cache.hpp\"\n#endif"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "  static std::mutex mutex;\n  static std::map<std::shared_ptr<const JsonConstraint>,\n                  std::shared_ptr<const JsonConstraint>>\n      cache;\n  {\n    const std::lock_guard lock(mutex);\n    if (const auto found = cache.find(answer); found != cache.end())\n      return found->second;\n  }\n",
+      "new": "#if LIE_C17_SAMPLING\n  static lie_gufo::CompositionCache<std::shared_ptr<const JsonConstraint>, JsonConstraint> cache;\n  if (auto found = cache.get(answer))\n    return found;\n#else\n  static std::mutex mutex;\n  static std::map<std::shared_ptr<const JsonConstraint>,\n                  std::shared_ptr<const JsonConstraint>>\n      cache;\n  {\n    const std::lock_guard lock(mutex);\n    if (const auto found = cache.find(answer); found != cache.end())\n      return found->second;\n  }\n#endif\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "  const std::lock_guard lock(mutex);\n  if (const auto found = cache.find(answer); found != cache.end())\n    return found->second;\n  if (cache.size() >= 16)\n    cache.erase(cache.begin());\n  return cache.emplace(std::move(answer), std::move(grammar)).first->second;\n",
+      "new": "#if LIE_C17_SAMPLING\n  return cache.put(answer, std::move(grammar));\n#else\n  const std::lock_guard lock(mutex);\n  if (const auto found = cache.find(answer); found != cache.end())\n    return found->second;\n  if (cache.size() >= 16)\n    cache.erase(cache.begin());\n  return cache.emplace(std::move(answer), std::move(grammar)).first->second;\n#endif\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "  using Key = std::tuple<std::shared_ptr<const JsonConstraint>,\n                         std::vector<Tool>, bool, bool>;\n  static std::mutex mutex;\n  static std::map<Key, std::shared_ptr<const JsonConstraint>> cache;\n  const Key key{answer, tools, required, parallel};\n  {\n    const std::lock_guard lock(mutex);\n    if (const auto found = cache.find(key); found != cache.end())\n      return found->second;\n  }\n",
+      "new": "#if LIE_C17_SAMPLING\n  using Key = std::tuple<std::shared_ptr<const JsonConstraint>,\n                         std::vector<Tool>, bool, bool>;\n  static lie_gufo::CompositionCache<Key, JsonConstraint> cache;\n  const Key key{answer, tools, required, parallel};\n  if (auto found = cache.get(key))\n    return found;\n#else\n  using Key = std::tuple<std::shared_ptr<const JsonConstraint>,\n                         std::vector<Tool>, bool, bool>;\n  static std::mutex mutex;\n  static std::map<Key, std::shared_ptr<const JsonConstraint>> cache;\n  const Key key{answer, tools, required, parallel};\n  {\n    const std::lock_guard lock(mutex);\n    if (const auto found = cache.find(key); found != cache.end())\n      return found->second;\n  }\n#endif\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "  const std::lock_guard lock(mutex);\n  if (const auto found = cache.find(key); found != cache.end())\n    return found->second;\n  if (cache.size() >= 16)\n    cache.erase(cache.begin());\n  return cache.emplace(key, std::move(grammar)).first->second;\n",
+      "new": "#if LIE_C17_SAMPLING\n  return cache.put(key, std::move(grammar));\n#else\n  const std::lock_guard lock(mutex);\n  if (const auto found = cache.find(key); found != cache.end())\n    return found->second;\n  if (cache.size() >= 16)\n    cache.erase(cache.begin());\n  return cache.emplace(key, std::move(grammar)).first->second;\n#endif\n"
+    }
+  ],
+  "license": "MIT"
+}

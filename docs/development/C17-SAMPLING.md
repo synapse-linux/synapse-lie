@@ -52,6 +52,13 @@ and schema expansion to C17. Its
 unchanged. Matching new GPU build/gates remain pending. The binary64 codec and
 private composition/model/controller remain transitional.
 
+The later 66-file increment moves the reasoning/tool composition cache policy
+to `lie/ordered_cache.h`. Its
+[host checks](validation/c17-composition-cache-host-2026-10-06.json) compare
+retained program identities, language/prefix decisions and concurrent reuse.
+Matching provider/application GPU gates remain pending. Immutable grammar
+composition, opaque typed key/value storage and binary64 codec remain private.
+
 ## Ownership and behavior
 
 The C library owns finite greedy argmax, token-ID tie ordering, repetition /
@@ -73,7 +80,7 @@ invalid draws leave RNG unchanged. The caller owns workspace cleanup.
 `adapters/gufo_sampling.hpp` translates the provider's controls and containers.
 `adapters/gufo_history.hpp` and `adapters/gufo_distribution.hpp` supply storage
 and exception glue for the owned C17 components. Gufo still supplies vector
-deep copies, deferred draws, entropy acquisition and private composition caching,
+deep copies, deferred draws, entropy acquisition and private immutable composition,
 provider container storage, model/session and
 speculative-controller state, and selected GPU numerical
 kernels. Reporting logits still use the provider transform before the existing
@@ -84,6 +91,33 @@ Reactive readiness, per-row credits, cancellation, native batching and MTP
 controller ownership are unchanged. There is still one device-owner worker. The C
 selection call is synchronous; it does not add an asynchronous GPU forward or
 establish a throughput improvement.
+
+## Ordered composition caches
+
+`lie/ordered_cache.h` exposes model-neutral ABI 1. The core owns ordered lookup,
+duplicate-before-eviction insertion, capacity and synchronization. With the
+default 16-entry capacity, a new insertion evicts the smallest existing key;
+a duplicate returns its existing program without retention or eviction.
+Compilation runs outside the cache lock. This differs from the separate
+compiled-schema byte-key cache, whose pinned eviction-before-duplicate policy
+is preserved by `lie/grammar_cache.h`.
+
+Keys/values are opaque retained handles. The private adapter copies the
+original shared-pointer/tuple/vector keys and preserves their original
+`std::less` ordering; its immutable program copies outlive cache eviction.
+The C core uses a fixed entry array, with caller-selected paired allocation,
+and retires evicted handles after unlock. Retain/copy/compare refusal leaves
+cache and output unchanged; failed hooks retire their partial work. Keys'
+private allocations and size/accounting limits remain the hooks' responsibility.
+The new contract reports entries, without claiming private bytes or total
+engine cost. No new inference worker, model/HTTP ownership or speedup is implied.
+
+The source-pinned recipe replaces four exact reasoning/tool cache blocks under
+default-ON `LIE_C17_SAMPLING`; OFF retains every original block. Grammar
+composition itself stays private and unchanged. Independent C ownership/fault
+oracles and actual pristine/ON/OFF entry-point tests qualify host behavior;
+original-weight matching GPU and allocation-exact private resource/cost gates
+remain open.
 
 ## Schema body control
 
