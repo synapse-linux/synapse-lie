@@ -1237,4 +1237,6 @@ The [scaled-Q2 down live-store experiment](docs/Q2-DOWN-LIVE-STAGE.md) completes
 The [IQ2 DPP commit experiment](docs/Q2-IQ2-DPP-COMMIT.md)
 composes the retained fixed-bound parent with direct quad integer transport.
 Static assembly removes eight LDS-backed shuffles and four VGPR per lane;
-GPU/model qualification is pending and the fixed UD target remains open.
+The completed model yields1582.042649 PP, below retained1587.893545;
+113 operator pairs/21 parent files remain exact. Keep fixed bounds and the
+unchanged1685.777092 UD target; complete evidence remains available.

@@ -4392,4 +4392,6 @@ The new original2048/tg128 model measures1547.273268 PP /25.17198641 TG: nominal
 The [IQ2 DPP commit experiment](Q2-IQ2-DPP-COMMIT.md)
 composes the retained fixed-bound parent with direct quad integer transport.
 Static assembly removes eight LDS-backed shuffles and four VGPR per lane;
-GPU/model qualification is pending and the fixed UD target remains open.
+The completed model yields1582.042649 PP, below retained1587.893545;
+113 operator pairs/21 parent files remain exact. Keep fixed bounds and the
+unchanged1685.777092 UD target; complete evidence remains available.

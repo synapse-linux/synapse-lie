@@ -27,4 +27,29 @@ owned processes/groups, release the window and inform Core before analysis.
 
 Primary instruction semantics: [LLVM DPP modifiers](https://llvm.org/docs/AMDGPUModifierSyntax.html)
 and [Clang AMDGPU builtin](https://clang.llvm.org/docs/AMDGPUBuiltinReference.html#builtin-amdgcn-update-dpp).
-GPU qualification and model performance are pending; no goal acceptance.
+GPU qualification and original-model result follow; the target remains unmet.
+
+The original-model trial completes with1582.042649 PP/25.16711939 TG:
+-0.368469% PP versus retained1587.893545. Its113 operator comparisons and
+71,680 independently expected integer transports are exact;21/21 full model
+files match both saved parents,9 repeat checks exact. All13 primary commands
+exit0;39 artifacts collected before release11:57:35UTC/df016d3a,1456 identities/
+1166 groups retired, original leases/model stats unchanged. Core informed
+before analysis. No remote job/window/reservation remains.
+
+The operator itself saves0.964/2.935/1.249/1.090/1.203% time for uniform160,
+uniform512 and captured0/3/22, but that does not imply original-model gain.
+All70 HIP timers are rawzero/invalid; synchronized complete-operator wall
+measurements are valid and retained. Keep the fixed-bound parent1587.893545;
+DPP remains a private exact alternative, not a default or goal acceptance.
+
+| Session | PP tokens/s | PP seconds | TG calls/s | TG seconds |
+| --- | ---: | ---: | ---: | ---: |
+| Warmup | 1580.951128 | 1.295422713 | 25.14914947 | 5.049872567 |
+| 1 | 1582.042649 | 1.294528944 | 25.16672732 | 5.046345453 |
+| 2 | 1580.706020 | 1.295623585 | 25.16711939 | 5.046266838 |
+| 3 | 1582.138007 | 1.294450921 | 25.17276565 | 5.045134959 |
+
+[All20 model samples](figures/q2-iq2-dpp-commit-model.csv),
+[graph](figures/q2-iq2-dpp-commit-model.png),
+[all70 component timings](figures/q2-iq2-dpp-commit-component.csv).

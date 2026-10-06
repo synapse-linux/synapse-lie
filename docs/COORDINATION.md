@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## IQ2 DPP commit window released — 2026-10-06 UTC
+
+Admission11:51:36/a6abdc5b binds checkpointd35fabde/plan310dd77b. One component
+and one original-model trial terminate;13 primary exits0 and39 artifacts
+collected7+6+26. Release11:57:35.425344UTC/df016d3a retires1456 IDs/1166 groups,
+empty KFD, original Core CPU/four GPU leases unchanged/free and seven model
+stat tuples unchanged. Canonical/main/run/remote mirrors agree; Core receives
+closure before analysis. No Q2 job/client/buildCPU/GPU/lease/window/reservation/
+waiter/handle/cleanup remains .157/.158/.161. Compact-table reuse remains only
+local preparation; no new model plan/admission.
+
 ## IQ2 DPP commit preparation — 2026-10-06 UTC
 
 Fresh global .15711:49:21 binds previous56ab4a49, retired identities/groups,
