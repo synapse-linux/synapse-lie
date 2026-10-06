@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Priority change and last HC-down attempt — 2026-10-06 UTC
+
+The owner requests pausing fixed-point Q2/UD parity after the current HC-down
+attempt, then prioritizing prefill/decode through128K and quick changes with
+larger contribution. Historical results and inputs remain unchanged.
+SSM resident now completes with72 exact pairs/144 passing oracle reports but
++71.082511% component time, so it is not promoted. Closure8410ceb7 and every
+artifact are retained. The new HC direct-weight component has local compilation
+and actual .157 host39+39 qualification; fresh GPU admission remains required.
+[Mechanism and measurement contract](Q2-HC-DOWN-DIRECT-WEIGHT.md).
+
 ## Resident SSM component prepared — 2026-10-06 UTC
 
 The new BM128/BK2 composition combines a 32KiB XOR transpose with phased

@@ -1,0 +1,17 @@
+{
+  "schema": "synapse-lie.q2-hc-down-direct-weight-static.v1",
+  "parent_manifest_sha256": "2e81463dbbe134190c300f2b008684d584f0d75f60f36f16eb25b765c2c4b45c",
+  "draft_sha256": "cd6f98fc66aab681866465797582f63cc2256c8bd9e9c93cad45816c92ba32bb",
+  "assembly_sha256": "dc8d330308c41d6ad5438a5a98dda33e274d1aeffa25ff943c1574e814e71509",
+  "original_device_bodies_exact": 164,
+  "added_kernel": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_124HcDownDirectWeightKernelILi64ELi32ELi16ELi16ELi256ELi1EEEvPKtS6_Pfiiiii",
+  "resources": {
+    "group_segment_fixed_size": 16896,
+    "private_segment_fixed_size": 0,
+    "next_free_vgpr": 86,
+    "next_free_sgpr": 16,
+    "wavefront_size32": 1
+  },
+  "GPU_run": false,
+  "model_rate_claim": false
+}

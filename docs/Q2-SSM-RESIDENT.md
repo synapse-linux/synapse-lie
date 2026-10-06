@@ -1,6 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 # SSM resident tile composition
 
+The completed .157 component is negative: completed-wall mean grows from
+5532.517200 to 9465.169333 microseconds, **+71.082511%**. All72 complete
+output pairs are exact and all144 independent formula checks pass; all three
+commands exit0. All14 raw HIP-event timings are invalid zeros, kept separate
+from completed-wall measurements. More theoretical resident blocks did not
+produce a speedup. No original-model run or production promotion follows.
+
+All four component and seven host artifacts were collected before release
+20:43:46.503068 UTC, SHA8410ceb7.1715 identities/1369 groups retired, KFD empty,
+original leases and model stat tuples unchanged; canonical/main/remote mirrors
+agree and Core was informed before analysis. The unexecuted model generator
+is retained as preparation only. [Complete results](../config/q2-ssm-resident-results.json).
+
+The following paragraphs preserve the experiment's preparation contract.
+
 The next new candidate combines a 128-row SSM tile, a compact XOR transpose
 and phased operand lifetimes. It derives from retained Q2 **1587.893545 PP /
 25.12414406 TG**, with unchanged fixed UD **1685.777092 PP / 24.34174251 TG**.

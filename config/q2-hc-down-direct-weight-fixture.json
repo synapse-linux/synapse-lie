@@ -1,0 +1,12 @@
+{
+  "schema": "synapse-lie.q2-hc-down-direct-weight-fixture.v1",
+  "bindings": {
+    "tests/q2_hc_down_direct_weight.hip": "a74511aaab972459dd45fc2e12fcee9aad4a425bc62c49ffb266479b08a29fc3",
+    "experiments/q2-hc-down-direct-weight.inc": "cd6f98fc66aab681866465797582f63cc2256c8bd9e9c93cad45816c92ba32bb",
+    "config/q2-hc-down-direct-weight-static.json": "2bf13b95c011656d9001e39ea0f3130d13d04dc1219ab40df52a2fe39bb11da6",
+    "config/q2-iq2-fixed-bounds-source.json": "2e81463dbbe134190c300f2b008684d584f0d75f60f36f16eb25b765c2c4b45c"
+  },
+  "compile_receipt": "evidence/q2-hc-down-direct-weight-fixture-preparation/compile-v2-command.json",
+  "compile_receipt_sha256": "ee282b5b6830c291ac1222410940f428b869391ffa96997ce20f082a68d97601",
+  "GPU_run": false
+}

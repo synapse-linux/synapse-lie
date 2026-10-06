@@ -1,5 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## SSM closure and last HC component preparation — 2026-10-06 UTC
+
+SSM collects four component/seven host artifacts before20:43:46.503068UTC
+release8410ceb712d72e9bbc531cb49e49800062be3f476574cfd47a0fb61729388fe0.
+1715 identities/1369 groups retire, KFD empty, original leases and model stat
+tuples unchanged; canonical/main/remote mirrors match and Core receives closure
+before analysis. No original-model SSM run follows its negative component.
+
+Core fresh own non-use20:58:37UTC precedes global preflight20:59:46.255927UTC.
+HC direct-weight host-r1 completes21:00:51.688499UTC,39 Debug/39 ASan checks,
+six zero exits and seven collected artifacts. A new component-only checkpoint
+and fresh admission gate the last fixed-point attempt. The owner then requests
+pausing parity work and optimizing prefill/decode through128K. No remote cleanup,
+saved model-control rerun, Q4 or .158/.161/TB use is authorized by this preparation.
+
 ## SSM resident host gate and frozen component — 2026-10-06 UTC
 
 Core own non-use20:38:55UTC precedes global preflight20:40:04.456014UTC,
