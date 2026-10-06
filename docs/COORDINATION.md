@@ -1,5 +1,23 @@
 # DS4 / synapse-lie coordination
 
+## Combined local HOST qualification collected — 2026-10-06
+
+Checkpoint `77bcdc1c` passes native functional 98/98 in Release and unsuppressed
+ASan/UBSan/LSan, complete provider 67/67 in each build, and core ICU-OFF 68/68.
+Strict C17/C++17 public headers and source/provenance/coherence controls pass.
+The verified HOST receipt binds all 120 provider files, 1,019 official upstream
+files, 30 full witness groups per build and the complete portable archive.
+These are local synthetic/algorithm controls, not original-weight inference.
+Peak CPU is 95.125 C under CPU 98 C/NVMe 85 C/lower guards; GPU stays masked.
+
+No root remote job/client/build/window/lease/waiter/reservation is prepared or held
+on `.157/.158/.161/TB`. Fresh peer/global admission and the original `.161`
+lease remain mandatory for matching complete HIP ON/OFF120/private-consumer
+builds and every subsequent original-weight/fault/quality/performance window.
+All six root items stay open; Terminal Bench remains deferred last. Earlier
+receipts and actual failures remain unchanged. Q2 receives fresh root own-non-use
+at 21:17 UTC, explicitly separate from global admission.
+
 ## Source correction before further qualification — 2026-10-06
 
 Source review maps root items 3–7 to the context/client limits, native benchmark

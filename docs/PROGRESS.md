@@ -1,6 +1,29 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Combined final HOST qualification passes — 2026-10-06 UTC
+
+For code checkpoint `77bcdc1c`, all 98 native functional controls pass in both
+Release and ASan/UBSan/LeakSanitizer, all 67 complete provider controls pass in
+both builds, and all 68 headless controls pass with ICU disabled. Public headers
+compile strictly as C17 and C++17. HTTP/core/reactive/cache/events/metrics and
+native benchmark controls use isolated synthetic executors, not model inference.
+
+[The HOST receipt](development/validation/c17-final-functional-host-2026-10-06.json)
+and [portable evidence](development/validation/raw/c17-final-functional-host-2026-10-06.tar.gz)
+bind 642 owned source files, the 120-file private provider inventory and 1,019
+independently pinned Gufo files. All 30 complete witness groups are byte-identical
+between Release and sanitizer builds; all 267 preceding captures remain unchanged.
+Independent archive verification covers 534 witness captures and 1,833 members.
+The earlier null parity failure, strict build/ptrace refusals and packaging
+count/coverage corrections remain preserved. No test is repeated for packaging.
+
+Peak local CPU is 95.125 C under CPU 98 C/NVMe 85 C/lower guards. GPU is masked
+and observed only; no model forward, remote build, lease or service change occurs.
+Matching coherent HIP ON/OFF120/private consumers and original-weight `.161`
+AR/MTP, branch/fault/quality/resources/cost gates remain pending fresh admission.
+All six owned tasks remain open; Terminal Bench stays last and unreserved.
+
 ## Finish source corrections before further tests — 2026-10-06 UTC
 
 The remaining context/client limits, benchmark methods, steering/sampling paths

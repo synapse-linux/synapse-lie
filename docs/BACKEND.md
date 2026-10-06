@@ -35,14 +35,16 @@ Bench (item 2) runs last. Continue source work for items 3–7 first, starting w
 the remaining C17 extraction (item 7). No intermediate CPU/GPU campaign, Terminal
 Bench client/server restart or machine reservation is queued in the meantime.
 
-Source review at `a4bc6a8a` finds integration for context/client limits, benchmark
-methods, steering/sampling and the three sampler extractions. Initial combined
-local checks pass 13 selected C17 Release and 13 unsuppressed sanitizer controls;
-the complete host provider run is 66/67 (CTest exit 8), exposing lazy JSON null
-normalization regression. The native arena copy correction and added regressions
-are implemented but unverified. Finish source corrections before further tests;
-final local functional/CTest/sanitizer gates precede freshly admitted `.161`
-GPU/quality/performance. Terminal Bench remains last; no item is closed.
+Source review finds integration for context/client limits, benchmark methods,
+steering/sampling and the three sampler extractions. The corrected checkpoint
+`77bcdc1c` passes native functional 98/98 and complete provider 67/67 in both
+Release and unsuppressed sanitizer builds, plus ICU-OFF core 68/68 and strict
+C17/C++17 public headers. All 30 complete witness groups agree across builds;
+the earlier lazy-null parity failure remains preserved. This
+[combined HOST receipt](development/validation/c17-final-functional-host-2026-10-06.json)
+qualifies the local code paths only. Matching coherent HIP ON/OFF120/private
+consumers and `.161` original-weight, fault, quality and performance gates still
+require fresh admission. Terminal Bench remains last; no item is closed.
 
 1. **Completed: selected original-weight OpenAI GPU controls.**
    The latest qualified runtime `dbdac28d` passes **37 general OpenAI checks
@@ -182,9 +184,9 @@ GPU/quality/performance. Terminal Bench remains last; no item is closed.
    sampler/distribution layouts change; matching complete provider and consumer
    builds are required. Production rows transfer without a C++ probability-vector
    copy; original OFF layouts remain guarded. This increment has 20 edits and
-   a 120-file inventory. It and the written ownership/refusal/MTP fixtures are
-   **unverified**, with all new tests
-   deferred to the final phase. See
+   a 120-file inventory. Combined Release/sanitizer HOST controls now pass the
+   ownership/refusal/MTP fixtures and complete original/ON/OFF witnesses.
+   Matching HIP, original-weight and resource/cost gates remain open. See
    [native sampler storage](development/C17-SAMPLING.md#native-sampler-buffer-ownership).
    Full model/controller/kernel replacement remains an architectural destination,
    outside these three identified extractions and the current root queue.
@@ -357,16 +359,16 @@ GPU/quality/performance. Terminal Bench remains last; no item is closed.
    267 files unchanged. Matching new-source HIP/AR/MTP qualification is pending
    in the final phase. The later shared final validator now uses exact output
    spans for fractional bounds, numeric enum/const and `multipleOf`, through
-   reusable C17 comparison/divisibility APIs. This later increment is **unverified**:
-   code and independent fixtures are written, with all new tests deferred.
+   reusable C17 comparison/divisibility APIs. This later increment passes the
+   combined Release/sanitizer HOST fixtures and complete provider witnesses.
    Grammar/final-validator agreement, original-weight AR/MTP, fault and cost
    acceptance remain open alongside the other final gates.
-   A later **unverified** `lie_schema_compiler` context now owns temporary
+   A later `lie_schema_compiler` context now owns temporary
    builder/memo/derived-root/predicate-memo lifetimes, primitive IDs, counters,
    initialization and one-shot publication. The private adapter projects typed
    callbacks/errors and borrowed state. Matching source inventories include
-   three new files; its native/typed fixtures are written with tests deferred.
-   A further **unverified** native `lie_schema_arena` now creates/copies/mutates
+   three new files; its native/typed HOST fixtures now pass.
+   A further native `lie_schema_arena` now creates/copies/mutates
    staging JSON trees, supplies direct C readers and transfers roots through
    C17 ownership. Default-ON transformations/normalization use this path, with
    private typed/error projections and guarded original OFF construction.
@@ -374,14 +376,14 @@ GPU/quality/performance. Terminal Bench remains last; no item is closed.
    Native C17 string-leaf admission/construction now also replaces default-ON
    typed length/pattern/format policy. Lazy unrestricted-program reuse and
    original error ordering remain explicit. Its written native/typed fixtures
-   and later 114-file inventory are unverified, pending final qualification.
+   and later 114-file inventory pass combined HOST qualification; GPU remains pending.
    The complete native C17 frontend now also binds all schema bodies/visitors/
    containers/enum leaves, owns predicate registration and diagnostic retirement,
    and publishes independent program/prompt/table results. Production default-ON
    `Compile`/`Object` paths use native trees instead of typed factories/callbacks;
    private error/shared-handle projection, original OFF and retained helper probes
-   remain. This further increment and its written fixtures/117-file inventory
-   are unverified; no new test campaign is started.
+   remain. This further increment's fixtures pass combined Release/sanitizer HOST
+   qualification in the integrated 120-file inventory; matching GPU remains pending.
    Remaining private typed grammar/error/shared-handle projections and model/controller
    ownership remain transitional. These increments do not close any of the six items.
    Remaining compiler bindings/typed facades/model ownership and broader branch,
@@ -450,7 +452,7 @@ defines this thread's tasks; this table does not assign additional broad campaig
 | MTP | Verified bursts, reactive cancellation, predictor/controller checkpoints, RAM/SSD continuation and recorded AR/MTP GPU comparisons. | Independent predictor oracle, broader rejection/fault/quality and long-context coverage. |
 | Vision and joint MTP | Owned images, semantic cache/MRoPE, projector identity and joint RAM/SSD state; Halo image/cache and Point AR/MTP direct gates pass. | Broader image quality, mixed-history/fault cases and allocation-exact resource/performance qualification. |
 | Semantic events/functions | Shared C17 text/progress/tool/turn events and incremental arguments. The current `33d12a02` build passes 37 selected original-weight controls in each AR/MTP mode, including automatic output budgets and retained Responses lifecycle. | Full agent task evaluation, broader API cases and performance. |
-| C17 sampling and grammar | Owned selection, history, speculative probabilities, grammar storage/runtime, Unicode input, JSON values, schema publication and prompt ownership. Matching selected AR/MTP GPU controls pass for their recorded sources. Signed integer-bound compilation passes independent HOST parity and matching selected AR/MTP GPU controls. | Individual branches, faults, quality, private resources and matched cost. Later context/bootstrap, native staging/string construction, complete production frontend and exact final-decimal increments are implemented but unverified. Private typed grammar/error/shared-handle projections and model/controller remain transitional. ICU remains the property/set/conversion dependency. |
+| C17 sampling and grammar | Owned selection, history, speculative probabilities, grammar storage/runtime, Unicode input, JSON values, schema publication and prompt ownership. Latest integrated native frontend, exact decimal validator and sampler buffers pass combined Release/sanitizer HOST qualification. Earlier selected AR/MTP GPU controls retain their recorded source scope. | Matching latest-source HIP/AR/MTP, individual branches, faults, quality, private resources and matched cost. Private typed grammar/error/shared-handle projections and model/controller remain transitional. ICU remains the property/set/conversion dependency. |
 | Extended context | Explicit native/YaRN2/YaRN4 contracts. The frozen `1bff953` C1 YaRN4 run completes physical PP1,048,448 and fixed TG128 at capacity 1,048,576. | Independent long-context recall and matched performance remain open. The older natural-EOS43 failure is retained separately. |
 
 MTP and vision remain model-neutral capabilities. The C17 core owns policy,

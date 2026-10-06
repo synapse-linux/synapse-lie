@@ -47,8 +47,8 @@ schema-compile workflow. Explicit phases refuse reuse after failure/publication.
 Program and prompt remain independently owned; their allocator/predicate hooks
 must outlive them. Stable borrowed field views expire at context release.
 Existing engine/state/cache/event/metric layouts and versions are unchanged.
-This context and default-ON adapter integration are **unverified** until final
-qualification. See [C17 compilation context](../development/C17-SAMPLING.md#compilation-context-and-bootstrap).
+This context and default-ON adapter integration pass combined HOST controls;
+matching GPU remains pending. See [C17 compilation context](../development/C17-SAMPLING.md#compilation-context-and-bootstrap).
 
 `lie/schema_frontend.h` adds complete native compilation ABI 1. A one-shot C17
 context owns initialization, schema/leaf policy bindings, temporary/derived node
@@ -59,7 +59,7 @@ retire after successful publication; paired allocator hooks outlive output
 dependencies. Failure preserves output and diagnostic details remain valid until
 context release, even after input/staging retirement. Requested diagnostic detail
 heap defaults to2MiB; existing private child limits apply separately. Source and
-default-ON production integration are unverified, with final qualification pending.
+default-ON production integration pass combined HOST controls; matching GPU is pending.
 Existing model/worker/cache/state/HTTP/event layouts remain unchanged. See
 [native frontend](../development/C17-SAMPLING.md#native-production-schema-frontend).
 
@@ -71,7 +71,7 @@ failure classes. Optional caller-owned full-scalar programs enable explicit
 unrestricted reuse without a mutable C global cache. Paired allocator hooks
 inherit into child modules and outlive published dependencies; ICU allocations
 remain outside their accounting. Refusals preserve plans/output handles. This
-source is implemented but unverified; final tests remain pending. Existing
+source passes combined HOST controls; matching GPU remains pending. Existing
 worker/state/cache/HTTP/event layouts remain unchanged. See
 [native string construction](../development/C17-SAMPLING.md#native-string-schema-construction).
 
@@ -87,7 +87,8 @@ their JSON-value/store contracts. Taken roots retain those hooks independently;
 borrowed source/error spans expire with their trees. No model, HTTP or thread
 ownership enters the arena. Value/store refusal reasons remain typed C records;
 private exception/facade translation is outside the core. Existing layouts stay
-unchanged. Source integration is **unverified** pending the final phase. See
+unchanged. Source integration and null-copy lifetime regressions pass combined
+HOST controls; matching GPU remains pending. See
 [native schema staging](../development/C17-SAMPLING.md#native-schema-staging).
 
 Grammar-number ABI 1 adds `lie_number_compare`, `lie_number_multiple` and its
@@ -98,8 +99,8 @@ disjoint from the result; invalid input, aliasing, resource, allocator and work
 refusals preserve it. The existing 4,096-byte/exponent and bounded decimal
 arithmetic limits apply. Comparison uses constant bounded stack storage and no
 heap; divisibility owns/retires a temporary workspace through paired hooks.
-These additions and their shared final-validator integration are **unverified**
-until the owner-requested final test phase. See
+These additions and their shared final-validator integration pass combined
+HOST controls; matching GPU remains pending. See
 [final decimal output validation](../development/C17-SAMPLING.md#final-decimal-output-validation).
 
 `lie/schema_integer.h` adds standalone C17 ABI 1 calls for exact integral

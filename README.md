@@ -8,7 +8,7 @@ The current numerical backend is an embedded Gufo adapter using C++ and HIP,
 with owned [C17 sampling, grammar and schema components](docs/development/C17-SAMPLING.md).
 Gufo still owns model execution and controller state. The current
 [backend roadmap](docs/BACKEND.md#current-roadmap--2026-10-06-utc) covers the
-remaining sampler extraction and qualification; full executor ownership is the
+sampler integration and qualification; full executor ownership is the
 architectural destination.
 
 **Development status:** text inference is tested with Qwen3.8 Flash Next

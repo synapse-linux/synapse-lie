@@ -1,12 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 # C17 sampling and grammar runtime
 
-Current source adds exact final decimal validation, a C17 compilation
-context/bootstrap, native schema staging/string construction and the complete
-production schema frontend, plus native history/probability buffer ownership. These
-are **unverified**: new test campaigns are deferred until
-remaining functional implementation is ready. The receipts below retain their
-stated frozen sources. See [compilation context](#compilation-context-and-bootstrap)
+Current source includes exact final decimal validation, a C17 compilation
+context/bootstrap, native schema staging/string construction, the complete
+production schema frontend and native history/probability buffer ownership.
+The [combined HOST qualification](validation/c17-final-functional-host-2026-10-06.json)
+for `77bcdc1c` passes 98 native functional and 67 provider controls in each
+Release/sanitizer build, 68 ICU-OFF core controls and strict C17/C++17 public
+headers. All 30 complete witness groups agree across builds. Matching HIP and
+original-weight `.161` branch/fault/quality/resource/cost gates remain pending.
+Earlier receipts retain their stated frozen sources.
+See [compilation context](#compilation-context-and-bootstrap)
 and [decimal output validation](#final-decimal-output-validation), plus
 [native schema staging](#native-schema-staging) and
 [string-schema construction](#native-string-schema-construction) and
@@ -55,17 +59,16 @@ core/numerical/provider/consumer rebuilds are required; mixing old libraries or
 different header selections is invalid. Public C engine/request/generation ABI,
 reactive flow, cache, HTTP and metrics contracts are unchanged.
 
-This increment, 20 exact edits and the 120-file inventory are **implemented, unverified**.
-Written native/private fixtures cover independent FIFO/count oracles, clone/move
+This increment, 20 exact edits and the 120-file inventory pass combined HOST
+qualification. Native/private fixtures cover independent FIFO/count oracles, clone/move
 lifetimes, callback rebinding, staging preservation, overlapping input, allocation
 refusal, budget overlap, pending draws and production MTP calls. Existing complete
-pristine/ON/OFF witnesses remain final gates. C++ allocation probes now measure
+pristine/ON/OFF witnesses agree in both Release and sanitizer builds. C++ allocation probes measure
 only private C++ allocations; native requested bytes have separate diagnostics
 and must be included in later resource/cost analysis. A zero C++ count is never
-a zero total-heap claim. No new configure/build/test/GPU run or speedup claim is
-made; earlier receipts exclude this source. Focused strict builds, unsuppressed
-sanitizers, complete witnesses, original-weight `.161` AR/MTP/fault/quality and
-matched resource/cost checks belong to the final phase.
+a zero total-heap claim. Strict builds, unsuppressed sanitizers and complete
+HOST witnesses pass. Matching original-weight `.161` AR/MTP/fault/quality and
+matched resource/cost checks remain pending; no speedup is claimed.
 
 Current root item 7 covers grammar/masking, history and compact speculative
 distributions only. Full model/controller/kernel replacement remains the
@@ -1079,7 +1082,7 @@ remain unqualified on `.161`.
 
 ## Native production schema frontend
 
-**Implemented, unverified; tests deferred to the final phase.**
+**HOST controls pass; matching original-weight GPU and cost gates remain pending.**
 `lie/schema_frontend.h` composes the native JSON arena, compiler lifecycle,
 reference/body/visit/container/enum policy, numeric/string leaves, predicate
 memo/table and root/publication modules. Native readers and writer bindings
@@ -1105,18 +1108,19 @@ projects original error types and adopts shared program/prompt/predicate owners;
 the existing grammar cache remains outside compilation. Original OFF factories
 and retained helper probes remain available for complete final comparisons.
 
-The later provider inventory is117 files, not a qualified build. Written native/
+This increment's provider inventory is 117 files; the latest integrated HOST
+inventory is 120. Native/
 typed fixtures cover ordered object/array languages, integer/grid/string policy,
 references, enum filtering, strict/generic modes, cache identity, independent
-output/error lifetimes and allocation refusals. Final qualification retains strict
-core/provider compilation/coherence, unsuppressed sanitizers, all complete pristine/
-ON/OFF witnesses, matching `.161` original-weight AR/MTP and independent faults,
+output/error lifetimes and allocation refusals. Strict HOST compilation/coherence,
+unsuppressed sanitizers and complete pristine/ON/OFF witnesses pass. Final
+qualification retains matching `.161` original-weight AR/MTP and independent faults,
 quality/resources/cost. Remaining model/controller ownership stays open; earlier
 receipts do not qualify this source.
 
 ## Native string-schema construction
 
-**Implemented, unverified; tests deferred to the final phase.**
+**HOST controls pass; matching original-weight GPU and cost gates remain pending.**
 `lie/schema_string.h` owns ordered min/maxLength admission, copied format expansion,
 hostname narrowing, pattern/format intersection and independently retained C17
 string predicates. Its bounded preparation plan borrows only immutable pattern
@@ -1137,15 +1141,15 @@ with neither pattern nor format. It never bypasses a declared pattern, including
 an empty pattern, and is compiled at unlimited maximum. The default-ON private
 adapter retains lazy shared reuse after successful admission; C owns no global
 cache or thread. The pinned original OFF factory remains guarded. Source/recipe
-inventories contain 114 files, not a qualified provider build. Written native/
-typed fixtures and complete existing ON/OFF grammar/format witnesses await final
-strict compilation, unsuppressed sanitizers, matching `.161` original-weight
-AR/MTP, fault/resource/quality and cost gates. The later complete frontend is
-implemented but unverified; model ownership remains open. No performance gain is claimed.
+inventories for this increment contain 114 files; the latest integrated HOST
+inventory is 120. Native/typed fixtures, strict HOST compilation, unsuppressed
+sanitizers and complete original/ON/OFF grammar/format witnesses pass. Matching
+`.161` original-weight AR/MTP, fault/resource/quality and cost gates remain open.
+Model ownership remains transitional. No performance gain is claimed.
 
 ## Native schema staging
 
-**Implemented, unverified; tests deferred to the final phase.**
+**HOST controls pass; matching original-weight GPU and cost gates remain pending.**
 `lie/schema_arena.h` creates/copies native JSON trees, modifies ordered members/
 arrays and transfers exact roots. The owned collection retains cumulative
 admission limits even after taking a root. Native reader/writer bindings use
@@ -1162,25 +1166,23 @@ The default-ON adapter uses this arena for transformation and normalization.
 Typed facade views and original exception projection remain private; original
 OFF constructors remain guarded. Value/store failure reasons remain typed C
 diagnostics before projection. Existing model, worker, cache, event and metric
-layouts are unchanged. The later complete native frontend is implemented but
-unverified; model/controller ownership remains open. This staging increment's
+layouts are unchanged. The later complete native frontend passes integrated
+HOST controls; model/controller ownership remains open. This staging increment's
 inventory is 111 files; the subsequent integrated provider inventory is 120.
 
 Written native/typed fixtures cover NUL/UTF8 spans, ordered/duplicate members,
 first-member replacement, immutable sources, root transfer across scope
 retirement, pure C conjunction/format/equality, allocator refusal and cumulative
-admission. Initial selected native/typed fixtures pass, but the complete host
-provider suite is 66/67 with CTest exit 8: lazy JSON null normalization differs
-from matching pristine/OFF controls. The native null-copy correction adds written
-copy/duplicate-key/retirement/refusal regressions and remains unverified; further
-tests are deferred until source corrections are finished. Final acceptance retains strict compilation,
-unsuppressed sanitizers, complete pristine/ON/OFF schema/format/body/normalization
-witnesses and matching `.161` original-weight AR/MTP, plus independent faults,
+admission. The initial provider 66/67 failure exposed lazy-null normalization
+drift; its complete failed outputs remain preserved. Corrected `77bcdc1c` passes
+67/67 in Release and sanitizer builds, including null-copy/duplicate-key/retirement/
+refusal regressions and complete pristine/ON/OFF normalization witnesses.
+Matching `.161` original-weight AR/MTP remains pending, plus independent faults,
 quality, resources and cost. Earlier receipts keep their frozen source scope.
 
 ## Compilation context and bootstrap
 
-**Implemented, unverified; tests deferred to the final phase.** The reusable
+**HOST controls pass; matching original-weight GPU and cost gates remain pending.** The reusable
 `lie/schema_compiler.h` ABI owns per-compilation builder, reference memo,
 derived-root collection, predicate memo, primitive IDs and counters. C17 composes
 the existing components, cleans up partial creation and runs ordered whitespace/
@@ -1199,16 +1201,16 @@ The default-ON adapter owns one C context and borrows its builder, primitive IDs
 counters and predicate memo. Typed whitespace/root/exception projections stay
 private; redundant OFF-only generic maps remain guarded. Exact pinned source
 edits and matching core/HIP/HOST source inventories include all three new files.
-No source/archive/build or numerical parity has yet been qualified for this
-increment. Written native/typed fixtures cover partial allocation, callback/phase
+Strict HOST builds, native/typed fixtures and complete provider witnesses pass.
+Fixtures cover partial allocation, callback/phase
 refusal, derived-root/memo ownership, publication failure and surviving program/
-prompt lifetimes. Final acceptance includes unsuppressed sanitizers, complete
-pristine/ON/OFF witnesses and matching `.161` original-weight AR/MTP, plus broader
+prompt lifetimes with unsuppressed sanitizers. Final acceptance retains matching
+`.161` original-weight AR/MTP, plus broader
 fault/resource/quality/cost gates. Model/controller ownership remains transitional.
 
 ## Final decimal output validation
 
-**Implemented, unverified; tests deferred to the final phase.** The shared
+**HOST controls pass; matching original-weight GPU and cost gates remain pending.** The shared
 core final validator keeps every output digit for fractional bounds, numeric
 enum/const equality (also inside objects/arrays) and exact `multipleOf`.
 `lie_number_compare` reuses the existing exact decimal parser/comparison with
@@ -1227,8 +1229,9 @@ ownership or establish every JSON Schema keyword.
 Independent fixtures are written for integer/rational oracles, hidden fractional
 digits, positive/negative exclusive limits, equivalent spellings, nested enum/
 const, underflow/overflow, invalid steps, allocation/work/resource refusal and
-aliasing. They have not run. Final qualification must run focused core/provider
-checks and sanitizers, then original-weight AR/MTP on `.161`, checking agreement
+aliasing. These fixtures and complete HOST provider witnesses pass with
+unsuppressed sanitizers. Final qualification retains original-weight AR/MTP on
+`.161`, checking agreement
 with numeric grammar acceptance and measuring cost. Previous receipts do not
 qualify this increment.
 

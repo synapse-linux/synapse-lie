@@ -231,7 +231,7 @@ Direct native arena copies accept a NULL JSON-value source as logical JSON null
 and publish an independently owned explicit root or child. Typed const lazy-null
 inputs are borrowed without materialization or ownership changes. Root transfer,
 mutation targets and raw schema-node reader/writer callbacks still require actual
-non-NULL nodes. The null-copy correction awaits final regression qualification;
+non-NULL nodes. The null-copy correction passes combined HOST regression controls;
 no persisted request, model or RAM/SSD checkpoint layout changes.
 
 The C17 compilation workflow publishes its native prompt and immutable program
