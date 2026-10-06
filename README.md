@@ -1,5 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [four-owner RMS fixture](docs/Q2-HC-RMS-OWNER-PREPARATION.md) is prepared:
+38 whole cases/120 output records/28 timings, including ordinary/MoE, absent
+outputs and misaligned experts. Host syntax/device compilation exit0 and all
+164 numerical bodies/resources match the private probe;1027 parent files
+remain unchanged. GPU numerical/performance qualification and remote wiring
+remain pending. There is no new model rate or admission.
+
 The [HC reuse component](docs/Q2-HC-INJECTION-REUSE-RESULTS.md) completes on `.157`:
 raw/raw-Q8/deferred complete-cycle wall changes+0.225%/−0.211%/+0.602% time.
 Preserve the marginal Q8 observation; no robust improvement or model rate is

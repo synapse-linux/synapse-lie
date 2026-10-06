@@ -1,4 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
+
+Current update2026-10-06: [HC reuse completes](Q2-HC-INJECTION-REUSE-RESULTS.md)
+with marginal raw-Q8−0.211% cycle time, raw/deferred+0.225%/+0.602%, safe
+injection differences and invalid zero HIP timings. No model rate changes.
+[Four-owner RMS now has a complete guarded fixture](Q2-HC-RMS-OWNER-PREPARATION.md):
+38 cases/120 outputs/28 timings; host/device compilation and164-body ISA
+identity pass. GPU behavior/performance and its remote wiring remain pending.
+The preparation entries below describe the earlier stage.
 # New candidates for the fixed Q2 target
 
 Retained Q2 remains **1585.308983 PP /25.16079073 TG** on the original

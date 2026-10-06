@@ -1,4 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
+
+Fixture update2026-10-06: the new private38-case ordinary/MoE fixture derives
+its retained kernels from this same independently fetched parent and reuses
+first-party guarded-buffer helpers from the HC injection fixture. All164
+numerical bodies/resources match the previous private probe;1027 parent files
+remain unchanged. Source helpers remain MIT; upstream provenance below applies
+to numerical bodies. This is static evidence without GPU, quality, performance,
+production-selector or public C17 contract acceptance.
+[Exact coverage](../../docs/Q2-HC-RMS-OWNER-PREPARATION.md).
 # HC final-scale ownership compiler probe
 
 The [private include](../../experiments/q2-hc-norm-owner-draft.inc) derives the

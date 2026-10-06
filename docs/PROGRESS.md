@@ -1,5 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Four-owner RMS whole fixture prepared — 2026-10-06 UTC
+
+After the released HC cycle, prepare38 ordinary/MoE cases,120 whole output
+records,38 immutable-input checks and28 complete-cycle timing samples. Include
+normal/tiny inputs, absent gamma/optional half, expert counts1/10/16, four-byte
+misalignment and gate stride3. Guards/written/finite/unused-payload checks are
+explicit; safe numerical rejection preserves full arrays and timings.
+
+Host syntax/device assembly compilation and static audit exit0. All164
+numerical bodies/resources equal the earlier owner compiler probe, with162
+production bodies and1027 retained provider files unchanged. The generator's
+first incorrect flag lookup exits1 and is preserved; its corrected retry only
+reuses exact partial preparation bytes. No behavioral/GPU test, CMake/remote
+variant, new window/lease/reservation, model rate or production adoption exists.
+Keep1585.308983 PP/25.16079073 TG versus UD1685.777092, gap76.991736ms.
+[Exact fixture coverage and remaining execution gates](Q2-HC-RMS-OWNER-PREPARATION.md).
+
 ## HC reuse component measured and released — 2026-10-06 UTC
 
 The owner's retry completes the bounded no-model HC window. Actual GPU
