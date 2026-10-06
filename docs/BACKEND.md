@@ -85,6 +85,12 @@ client/server restart or machine reservation is queued in the meantime.
    work, cache policy, output length, repetitions and server lifecycle. Retain
    PP, TG, TTFT, resources and correctly scaled graphs. Profile the prefill
    decline above 256K and separate batching from reactive responsiveness.
+   [Pinned-source dispatch analysis](development/validation/long-context-sparse-dispatch-source-2026-10-06.json)
+   identifies a 2,048-word sparse-WMMA limit: configured capacity above
+   262,144 tokens can select the per-token fallback even at shallower
+   visible depth. Capture actual dispatch before attributing timings to
+   reactive scheduling; this finding is not measured causality or a
+   constant-prefill guarantee.
 5. **Complete DS4 directional steering in LIE.** Load its per-layer `.f32`
    directions, validate geometry against the loaded model, and expose FFN and
    attention scales through model-neutral shared-core contracts used by HTTP
@@ -293,8 +299,12 @@ client/server restart or machine reservation is queued in the meantime.
    beyond int64 and exclusive endpoints. The new
    [HOST receipt](development/validation/c17-schema-integer-host-2026-10-06.json)
    records 58 sanitizer checks, one focused C check, four Release checks and
-   all 29 preceding complete witness groups unchanged. Matching new-source
-   HIP ON/OFF/private-consumer and `.161` original-weight controls remain pending.
+   all 29 preceding complete witness groups unchanged. The matching sealed
+   `9a4f45b1` 105-file HIP ON/OFF/private-consumer build now passes unchanged
+   selected AR37/MTP37 on `.161`
+   ([GPU receipt](development/validation/c17-schema-integer-point-gpu-2026-10-06.json)).
+   Individual bounded-integer GPU branches are not independently exercised
+   by these enum-based OpenAI schemas and remain open.
    Typed construction/initialization/callback-error facades and model/controller
    ownership remain transitional. This step does not close any of the six items.
    Compiler orchestration/typed facades/model ownership and broader branch,
@@ -363,7 +373,7 @@ defines this thread's tasks; this table does not assign additional broad campaig
 | MTP | Verified bursts, reactive cancellation, predictor/controller checkpoints, RAM/SSD continuation and recorded AR/MTP GPU comparisons. | Independent predictor oracle, broader rejection/fault/quality and long-context coverage. |
 | Vision and joint MTP | Owned images, semantic cache/MRoPE, projector identity and joint RAM/SSD state; Halo image/cache and Point AR/MTP direct gates pass. | Broader image quality, mixed-history/fault cases and allocation-exact resource/performance qualification. |
 | Semantic events/functions | Shared C17 text/progress/tool/turn events and incremental arguments. The current `33d12a02` build passes 37 selected original-weight controls in each AR/MTP mode, including automatic output budgets and retained Responses lifecycle. | Full agent task evaluation, broader API cases and performance. |
-| C17 sampling and grammar | Owned selection, history, speculative probabilities, grammar storage/runtime, Unicode input, JSON values, schema publication and prompt ownership. Matching selected AR/MTP GPU controls pass for their recorded sources. New signed integer-bound compilation passes independent HOST parity and awaits matching GPU controls. | Individual branches, faults, quality, private resources and matched cost; typed construction/bootstrap/errors and model/controller remain transitional. ICU remains the property/set/conversion dependency. |
+| C17 sampling and grammar | Owned selection, history, speculative probabilities, grammar storage/runtime, Unicode input, JSON values, schema publication and prompt ownership. Matching selected AR/MTP GPU controls pass for their recorded sources. Signed integer-bound compilation passes independent HOST parity and matching selected AR/MTP GPU controls. | Individual branches, faults, quality, private resources and matched cost; typed construction/bootstrap/errors and model/controller remain transitional. ICU remains the property/set/conversion dependency. |
 | Extended context | Explicit native/YaRN2/YaRN4 contracts. The frozen `1bff953` C1 YaRN4 run completes physical PP1,048,448 and fixed TG128 at capacity 1,048,576. | Independent long-context recall and matched performance remain open. The older natural-EOS43 failure is retained separately. |
 
 MTP and vision remain model-neutral capabilities. The C17 core owns policy,

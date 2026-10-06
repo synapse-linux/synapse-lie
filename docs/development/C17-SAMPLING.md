@@ -164,10 +164,15 @@ standalone integer grammar. Sanitizers run outside ptrace with options unset
 and no suppression. The maximum observed CPU is 94.625 C under CPU98/NVMe85
 and existing lower guards; GPU remains masked/observe-only.
 
-The earlier `33d12a02`/r31 GPU receipt excludes this new source. Matching coherent
-HIP ON/OFF providers and private consumers require a fresh `.161` qualification.
-Typed construction/bootstrap/errors and model/controller remain transitional;
-broader branch/fault/quality/resource and matched-cost gates remain open.
+The matching sealed `9a4f45b1` source builds coherent 105-file HIP ON/OFF
+providers and private LIE/model/reference consumers. Unchanged selected
+original-weight AR37/MTP37 controls pass on `.161` under separate admissions
+([GPU receipt](validation/c17-schema-integer-point-gpu-2026-10-06.json)).
+The official Gufo HTTP frontend is retained source only. These controls
+qualify the integrated API/lifecycle paths; their enum schemas do not
+independently exercise every new bounded-integer branch. Typed construction/
+initialization/errors and model/controller remain transitional. Broader
+branch/fault/quality/resource and matched-cost gates remain open.
 
 ## Schema compilation and prompt publication
 

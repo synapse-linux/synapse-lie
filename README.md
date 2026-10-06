@@ -21,7 +21,7 @@ The Gufo comparison executable uses a separately compiled complete OFF provider;
 its private model/controller types match its selected sampling option.
 ICU remains the Unicode set/property/conversion dependency.
 Signed [integer-bound compilation](docs/development/C17-SAMPLING.md#signed-integer-bounds)
-now uses C17 and passes HOST parity; matching GPU qualification is pending.
+now uses C17, passes HOST parity and matching selected AR/MTP GPU controls.
 [Directional steering](docs/guides/USAGE.md#directional-steering) has shared-core
 and server/bench controls with host validation, including scheduled benchmark
 changes, HTTP creation-time plans and live updates to individual stored choices.

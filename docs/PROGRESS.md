@@ -1,6 +1,35 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Signed integer-bound source passes matching GPU controls — 2026-10-06 UTC
+
+The sealed `9a4f45b1` source builds coherent 105-file HIP ON/OFF providers and
+private LIE/model/reference consumers on `.161`. Actual compiler blocks verify
+the model/frontend flags and the complete OFF archive linkage. Unchanged
+original-weight AR37/MTP37 pass under separate fresh admissions; all server,
+child, controller and supervisor exits are 0. The official Gufo HTTP frontend
+is retained source only. [GPU receipt](development/validation/c17-schema-integer-point-gpu-2026-10-06.json)
+binds the source, binaries, complete logs and retirement. Independent HOST58,
+focused C1, Release4 and 30 complete witnesses retain their separate scope.
+The existing enum-based GPU schemas do not independently exercise each new
+bounded-integer branch; broader branches, faults, quality, resources and cost
+remain open. No inference worker is added.
+
+AR CPU 62.875 C, GPU 65.0 C, NVMe 64.85 C / MTP CPU 66.375 C, GPU 68.0 C, NVMe 66.85 C. Whole-process thread maxima are 44/44.
+CPU98/NVMe85/lower guards and GPU observation remain intact. Fresh closure at
+2026-10-06T15:22:54.143956+00:00 verifies all three supervisor/container-init identities gone,
+containers removed, HTTP8000 unbound, original lease free then released and
+router 187232 restored/only KFD. Model stat identities stay unchanged.
+No remote job/client/build/lease/waiter/reservation or live local handle remains;
+`.157/.158` stay unused. No tuning, dependency installation or push occurs.
+
+Independent pinned-source analysis identifies the 2,048-word sparse-WMMA
+dispatch guard and 8,192-word pitch at configured 1M capacity. This is a
+source finding, not a measured cause of the frozen prefill decline or proof
+of a speedup. Actual dispatch/quality/resource profiling remains in item 4.
+All six owned tasks stay open; Terminal Bench remains stopped, collected,
+closed and deferred last until functional changes and qualification finish.
+
 ## Signed integer-bound compilation passes HOST controls — 2026-10-06 UTC
 
 The shared C17 integer compiler now owns ordered bounds, rounding, exact

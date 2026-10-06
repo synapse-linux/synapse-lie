@@ -42,7 +42,9 @@ stable release is declared. Detailed validation history is in
 
 - Shared C17 signed integer-bound compilation, preserving exact large integer
   magnitudes, exclusive endpoints and `-0`. Original/default-ON/OFF HOST grammar
-  witnesses agree; matching GPU qualification remains pending.
+  witnesses agree; matching HIP ON/OFF builds and selected original-weight
+  AR37/MTP37 controls pass on Strix Point. Individual branch and cost
+  qualification remain open.
 
 - Shared C17 schema compilation publication and immutable prompt ownership.
   Reasoning and tools share the exact prompt bytes; failed compilation publishes

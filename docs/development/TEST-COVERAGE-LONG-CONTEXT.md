@@ -8,11 +8,19 @@ records actual work, telemetry and retirement. The older natural-EOS43 failure
 remains evidence. Independent long-context recall quality and matched repeated
 Gufo/Halogen performance comparisons remain open.
 
+[Pinned-source analysis](validation/long-context-sparse-dispatch-source-2026-10-06.json)
+also identifies a sparse-attention dispatch confounder: a mask pitch
+above 2,048 words refuses the WMMA path. With the pinned ratio of four,
+this corresponds to configured capacity above 262,144 tokens; 1M uses
+8,192 words. The frozen 1M run did not record dispatch. New profiling must
+separate this fallback from reactive scheduling, physical work and YaRN.
+Removing the guard alone would exceed the current kernel workspaces.
+
 The [current Point results](../benchmarks/models/qwen3.8-flash-next/strix-point/README.md)
 include served concurrency and cold prefill through near 256K. The native
 benchmark client and graphs require no Python. Selected original-weight OpenAI
 controls pass 37 checks in each AR/MTP mode on the source-bound checkpoints;
-the newest [C17 publication receipt](validation/c17-schema-compile-point-gpu-2026-10-06.json)
+the newest [C17 signed integer receipt](validation/c17-schema-integer-point-gpu-2026-10-06.json)
 identifies its scope. Terminal Bench smoke passes 1/1; full Core-19 remains
 stopped and deferred until functional modifications and their qualification
 finish. See the [current roadmap](../BACKEND.md#current-roadmap--2026-10-06-utc).

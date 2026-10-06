@@ -1,5 +1,23 @@
 # DS4 / synapse-lie coordination
 
+## R32 signed integer bounds build and selected GPU controls closed — 2026-10-06
+
+Fresh peer own non-use and separate global preflights admit sealed `9a4f45b1`
+on `.161`. Device-free HIP ON/OFF/private-consumer build and original-weight
+AR37/MTP37 hold the original device66307/inode105946405 lease in separate
+windows. All actual exits are 0; complete collected files are SHA verified.
+[Receipt](development/validation/c17-schema-integer-point-gpu-2026-10-06.json).
+The official Gufo HTTP frontend is not built. These selected controls do not
+independently qualify all bounded-integer branches, faults, quality or cost.
+
+Fresh 2026-10-06T15:22:54.143956+00:00 closure verifies all three exact supervisor/container-init
+identities gone, containers removed, HTTP8000 unbound, original lease free then
+released and router 187232 restored/only KFD. Model stats remain unchanged.
+CPU98/NVMe85/lower guards and GPU observation stay active. Root has no remaining
+remote job/client/build/lease/waiter/reservation/handle and does not use `.157/.158`.
+This dated closure is not future admission. All six tasks remain open; Terminal
+Bench stays stopped/collected/closed/deferred last. No tuning or push occurs.
+
 ## C17 signed integer bounds: HOST only — 2026-10-06
 
 The 105-file source increment passes HOST58, one focused sanitizer C check and
