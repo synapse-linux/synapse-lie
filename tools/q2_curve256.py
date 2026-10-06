@@ -1,5 +1,17 @@
 # SPDX-License-Identifier: MIT
 """Explicit 256K native curve parameters, retaining the historical workload recipe."""
+def server_argv(binary, model, management, port=8000):
+    return [str(binary), '--host', '127.0.0.1', '--port', str(port),
+            '--management-host', '127.0.0.1', '--management-port', str(management),
+            '--model', str(model), '--model-id', 'bench', '--context', '266240',
+            '--prefill-chunk', '2048', '--max-active', '1', '--request-timeout-ms', '1800000',
+            '--kv-cache-ram-mb', '16384', '--kv-cache-policy', 'ds4',
+            '--kv-cache-min-tokens', '32', '--kv-cache-cold-max-tokens', '0',
+            '--kv-cache-continued-interval-tokens', '0', '--kv-cache-boundary-trim-tokens', '0',
+            '--kv-cache-boundary-align-tokens', '0', '--kv-cache-text-prefix', 'off',
+            '--kv-cache-capture-finish', 'on']
+
+
 def client_argv(binary, output, graphs, label, *, point_only=False):
     return [str(binary), '--suite', 'http-curve', '--url', 'http://127.0.0.1:8000/v1',
             '--model', 'bench', '--server-label', 'retained-q2-1587.893545' if label == 'ordered' else label, '--output', str(output),

@@ -1,0 +1,27 @@
+{
+  "schema": "synapse-lie.q2-curve256-startup-failure.v1",
+  "cohort": "q2-curve256-retained-r1",
+  "commands": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    1
+  ],
+  "server_exit": 2,
+  "curve_client_started": false,
+  "original_weight_inference": false,
+  "reason": "Server CLI rejects request-timeout-ms3600000 above1800000 before model initialization",
+  "correction": "Use1800000 server timeout; preserve3600s native client timeout and all workload/numerical settings",
+  "host_retry": "q2-curve256-host-r3",
+  "host_counts": [
+    44,
+    44
+  ],
+  "host_finished_at": "2026-10-06T14:04:40.651871+00:00",
+  "previous_gpu_release": "config/q2-curve256-window-release.json",
+  "release_sha256": "30872b71a8ef89cad6e7f531522af0faf52f677af2a7afbbdf76c8eb0a5fe5ef",
+  "actual_model_inference": false,
+  "receipt_scope_note": "The window helper model_inference flag records declared arm scope, not proof of inference. No benchmark client or model inference started in r1."
+}

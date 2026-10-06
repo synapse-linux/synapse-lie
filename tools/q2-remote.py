@@ -914,7 +914,10 @@ def main():
     out.mkdir()
     capsule = out / 'source.tar.gz'
     with tarfile.open(capsule, 'w:gz') as archive:
-        for name in ( 'tools/q2-curve256-phase.py',
+        for name in ( 'tools/q2-curve256-v2-phase.py',
+                     'tools/freeze-q2-curve256-v2-plan.py',
+                     'tools/q2-curve256-v2-window.py',
+                     'tools/q2-curve256-phase.py',
                      'tools/freeze-q2-curve256-plan.py',
                      'tools/q2-curve256-window.py',
                      'tools/prepare-q2-curve256.py',

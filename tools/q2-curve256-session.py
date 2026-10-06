@@ -11,7 +11,7 @@ import sys
 import time
 import urllib.error
 import urllib.request
-from q2_curve256 import client_argv, check_backend
+from q2_curve256 import client_argv, check_backend, server_argv as make_server_argv
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -73,15 +73,7 @@ def main():
         management = sock.getsockname()[1]
     with socket.socket() as sock:
         sock.bind(('127.0.0.1', 8000))
-    server_argv = [binary, '--host', '127.0.0.1', '--port', '8000',
-        '--management-host', '127.0.0.1', '--management-port', str(management),
-        '--model', model, '--model-id', 'bench', '--context', '266240',
-        '--prefill-chunk', '2048', '--max-active', '1', '--request-timeout-ms', '3600000',
-        '--kv-cache-ram-mb', '16384', '--kv-cache-policy', 'ds4',
-        '--kv-cache-min-tokens', '32', '--kv-cache-cold-max-tokens', '0',
-        '--kv-cache-continued-interval-tokens', '0', '--kv-cache-boundary-trim-tokens', '0',
-        '--kv-cache-boundary-align-tokens', '0', '--kv-cache-text-prefix', 'off',
-        '--kv-cache-capture-finish', 'on']
+    server_argv = make_server_argv(binary, model, management)
     receipt['server_argv'] = server_argv
     receipt['server_binary_sha256'] = hashlib.sha256(Path(binary).read_bytes()).hexdigest()
     save()

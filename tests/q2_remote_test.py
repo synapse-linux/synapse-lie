@@ -1475,6 +1475,52 @@ class RemoteGuardTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             check_backend(info, 'ordered')
 
+    def test_curve256_server_arguments_start_the_actual_host_binary(self):
+        from q2_curve256 import server_argv
+        import socket
+        import subprocess
+        import time
+        import urllib.error
+        import urllib.request
+        binary = Path.cwd() / 'synapse-lie-server'
+        if not binary.is_file():
+            self.skipTest('Actual server is exercised by the .157 CTest host gate')
+        with socket.socket() as api, socket.socket() as management:
+            api.bind(('127.0.0.1', 0))
+            management.bind(('127.0.0.1', 0))
+            api_port, management_port = api.getsockname()[1], management.getsockname()[1]
+        argv = server_argv(binary, '/not-opened.gguf', management_port, api_port)
+        model_index = argv.index('--model')
+        del argv[model_index:model_index + 2]
+        # Keep the actual context/cache/timeout options; omit model access only.
+        with tempfile.TemporaryFile() as log:
+            child = subprocess.Popen(argv, stdout=log, stderr=subprocess.STDOUT)
+            try:
+                deadline = time.monotonic() + 8
+                ready = False
+                while time.monotonic() < deadline and child.poll() is None:
+                    try:
+                        with urllib.request.urlopen(
+                            f'http://127.0.0.1:{management_port}/actuator/health/liveness', timeout=.5
+                        ) as response:
+                            ready = response.status == 200
+                        if ready:
+                            break
+                    except (OSError, urllib.error.URLError):
+                        time.sleep(.05)
+                log.seek(0)
+                self.assertTrue(ready, log.read().decode(errors='replace'))
+            finally:
+                if child.poll() is None:
+                    child.terminate()
+                    try:
+                        child.wait(timeout=3)
+                    except subprocess.TimeoutExpired:
+                        child.kill()
+                        child.wait(timeout=3)
+                log.seek(0)
+                self.assertNotIn(b'ERROR: AddressSanitizer', log.read())
+
     def test_native_curve_admission_and_exact_cli(self):
         from q2_native_curve import check_backend, client_argv
         info = dict(schema='synapse-lie.llm.v1', ready=True,

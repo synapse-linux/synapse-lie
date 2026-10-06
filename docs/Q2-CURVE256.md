@@ -2,6 +2,22 @@
 
 # Retained Q2 and UD: requested curve through 256K
 
+Revision 2 corrects the server request timeout to its accepted 1800000 ms
+maximum. Revision 1 compiled successfully but the server rejected 3600000 ms
+with exit 2 before opening a model; the session/transport returned 1 and no
+curve client started. All nine run artifacts were collected before release at
+13:59:35.614171 UTC / `30872b71`. Preserve the [failure](../config/q2-curve256-r1-failure.json).
+The generic closure field `model_inference` described the declared arm scope;
+it is not evidence of inference in this failed startup.
+
+The new host r3 passes 44 Debug +44 ASan/UBSan tests at14:04:40 UTC, including
+actual management-only server startup with the exact context/cache/timeout
+options on private ephemeral ports. Seven artifacts are collected. The native
+client accepts its existing3600-second timeout and remains unchanged. The
+[retry plan](../config/q2-curve256-v2-plan.json) freezes210 fixtures and seven
+manifests. Both numerical providers, core, data and measurement rules remain
+unchanged from the first attempt; fresh GPU admission is pending.
+
 The owner requests this parallel diagnostic while the fixed-point target remains
 **1685.777092 PP**, against retained **1587.893545 PP**. This curve does not
 replace that comparison or establish parity before results are collected.

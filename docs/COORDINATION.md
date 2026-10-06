@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Curve r1 closed and retry host-qualified — 2026-10-06 UTC
+
+Admission13:56:42/01c98d6a binds4f3f7b69 and42039592. Q2 stops at server CLI validation before inference; UD never starts. All7 host+9 run artifacts collect before release13:59:35.614171 UTC/SHA30872b71a8ef89cad6e7f531522af0faf52f677af2a7afbbdf76c8eb0a5fe5ef. All1535IDs/1230groups are retired, KFD empty, original CoreCPU/four GPU leases free and seven model stat tuples unchanged. Mirrors agree; Core receives closure before diagnosis. The closure model_inference field indicates declared arm scope, not actual inference. Fresh handover14:02:56 and host-r3's44+44/7collected artifacts qualify the timeout correction. Retry requires fresh admission; no cleanup or `.158/.161` activity.
+
 ## Parallel 256K curve host gate — 2026-10-06 UTC
 
 Core confirms own `.157/.158` non-use; its `.161` work is separate. Fresh Q2 handover13:45:09 UTC revalidates release268296b2, original lease identities, retired groups, empty KFD and seven unchanged model stat tuples. New device-free host-r2 completes13:50:15 UTC with44+44 checks/six zero exits; all seven artifacts collect. The frozen curve plan permits two new native curves through256K, with no fixed-control rerun or numerical MMQ rebuild. Fresh admission is still required. No remote cleanup or `.158/.161` activity.

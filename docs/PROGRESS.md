@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Curve startup correction qualified — 2026-10-06 UTC
+
+The first server rejects a3600000-ms timeout before model initialization, exit2; no curve client starts. Nine artifacts collect before13:59:35 UTC release30872b71. Correct to the existing1800000-ms limit; retain all workload, provider and client settings. Host-r3 now passes44+44 including actual no-model startup on private ports. The210-fixture retry plan is frozen; new GPU admission is pending. [Details](Q2-CURVE256.md).
+
 ## Parallel 256K curve prepared — 2026-10-06 UTC
 
 The owner explicitly requests the full context curve while preserving the fixed-point optimization priority. New `.157` qualification passes 44 Debug and44 ASan/UBSan tests; seven artifacts collect. The frozen plan binds207 fixtures/seven manifests for retained Q2 and original UD, native benchmark client/MMQ reuse, pp2048/tg128, ten depths through262144 and common capacity266240. Preserve the first host failure (incorrect test-message expectation) and its exit codes. GPU admission and curve results remain pending. [Recipe and boundaries](Q2-CURVE256.md).
