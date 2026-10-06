@@ -1,0 +1,36 @@
+{
+  "schema": "synapse-lie.q2-last-mile-queue.v1",
+  "current_model_reference": "config/q2-fixed-prefill-reference.json",
+  "stable_parent": "ssm-fixed-bounds",
+  "retained_experimental_parent": "iq2-fixed-bounds",
+  "retained_PP": 1587.893545,
+  "target_UD_PP": 1685.777092,
+  "required_PP_increase_percent": 6.164364563872593,
+  "required_prefill_ms_saved": 74.8890152008963,
+  "completed_new_model_trials": [
+    "iq2-half-sign-arithmetic",
+    "iq2-fixed-bounds",
+    "iq2-dpp-commit",
+    "iq2-table-lds"
+  ],
+  "next": {
+    "mechanism": "Isolate already component-tested raw-Q8 HC injection reuse on the retained parent; retain finite numerical differences and measure the original model once after scratch-lifetime qualification.",
+    "component_evidence": "config/q2-hc-inject-reuse-component-results.json",
+    "known_component_cycle_delta_percent": -0.211436,
+    "known_max_abs_difference": 4.76837158203125e-07,
+    "model_provider_implemented": false,
+    "borrow_lifetime_qualified": false,
+    "GPU_admission": false,
+    "component_rerun": false,
+    "model_speedup_claim": false
+  },
+  "deprioritized": [
+    "Compact AoS IQ2 table-LDS placement regresses12\u201320% operator time and1.627%model PP",
+    "Standalone table+DPP does not reduce BN128169VGPR; no GPU plan",
+    "Old negative SSM pingpong/compact LDS, Q8 mirrors and down live staging already measured; do not rerun"
+  ],
+  "controls_rebuilt_or_rerun": false,
+  "Q4_run": false,
+  "full_curve_admitted": false,
+  "goal_met": false
+}

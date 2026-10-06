@@ -4397,5 +4397,6 @@ The completed model yields1582.042649 PP, below retained1587.893545;
 unchanged1685.777092 UD target; complete evidence remains available.
 
 The [compact IQ2 table reuse experiment](Q2-IQ2-TABLE-LDS.md) stages3KiB once per
-workgroup. BN128 adds19VGPR; model timing is pending. Fixed1587/UD comparison
-and all saved controls remain unchanged.
+workgroup. BN128 adds19VGPR; model1562.063292 PP regresses1.626699%.
+All113 operator pairs and21 parent files are exact; keep fixed-bound1587.893545.
+The fixed UD target and all saved comparisons remain unchanged.

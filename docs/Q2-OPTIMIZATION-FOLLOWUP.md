@@ -1,6 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Focused optimization queue
 
+## Current fixed point after the 6 October compact-table trial
+
+Keep the nominal fixed-bound parent1587.893545 PP; saved stable1585.308983
+remains separately available. Fixed UD1685.777092 needs6.164365% more PP,
+or74.889015ms less prefill. Exact2048/tg128 input/timers/controls stay fixed.
+New DPP model1582.042649 and compact-table model1562.063292 do not replace
+that parent. Both retain113 exact operator pairs and21 exact parent files.
+The table+DPP compiler draft still needs169VGPR atBN128; no provider/model
+admission follows. Do not repeat qualified negative SSM/Q8/down cohorts.
+
+Next isolate the component-tested raw-Q8 HC injection reuse path only, after
+qualifying its proposed borrowed scratch lifetime. Its-0.211436% cycle time
+is marginal, and4.768371582e-7 finite differences must remain visible. No
+original-model trial exists for that candidate; preserving those differences
+allows one original-model performance/quality check once integration is safe.
+No old component/control rerun, Q4 or full curve. This candidate has no provider
+or GPU admission yet. [Bound queue](../config/q2-last-mile-queue.json).
+
 ## Current priority after the down model measurement
 
 Keep1585.308983 PP /25.16079073 TG. The completed down-register-palette

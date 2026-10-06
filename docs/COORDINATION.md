@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## IQ2 compact-table window released — 2026-10-06 UTC
+
+Admission12:04:16/5eaa5c84 binds checkpointf9bf1eb2/plane0b16a41. One component
+and one original-model trial terminate;13 primary exits0 and37 artifacts
+collected7+4+26. Release12:10:53.013118UTC/f2eb2ccb retires1472 IDs/1179 groups,
+empty KFD, original Core CPU/four GPU leases unchanged/free and seven model
+stat tuples unchanged. Canonical/main/run/remote mirrors agree; Core receives
+closure before analysis. No Q2 job/client/buildCPU/GPU/lease/window/reservation/
+waiter/handle/cleanup remains .157/.158/.161. Table+DPP remains local compiler
+probe only; no provider/selector/model plan/admission.
+
 ## IQ2 compact table reuse preparation — 2026-10-06 UTC
 
 Fresh global .15712:01:18 binds previousdf016d3a, retired identities/groups,
