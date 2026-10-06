@@ -306,8 +306,10 @@ client/server restart or machine reservation is queued in the meantime.
    A new independent 66-check bounded-integer protocol passes its first 26 AR
    checks, including binary64-maximum JSON/SSE output, then fails HTTP502 at
    an exclusive lower endpoint near `1e18`. The final shared C validator's
-   rounded-double comparison needs a HOST regression and correction before
-   fresh AR/MTP qualification. The failed AR window is collected and closed;
+   rounded-double comparison now has a reproducing HOST regression and a C17
+   correction: 9,855 exact numeric checks, four Release and seven sanitizer
+   tests pass. Fresh matching HIP builds and complete AR66/MTP66 qualification
+   remain pending. The failed AR window is collected and closed;
    MTP was not started. Full bounded-integer acceptance remains open.
    Typed construction/initialization/callback-error facades and model/controller
    ownership remain transitional. This step does not close any of the six items.

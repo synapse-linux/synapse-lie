@@ -1,6 +1,29 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Exact final integer validation passes HOST regression — 2026-10-06 UTC
+
+The original r33 rejection is reproduced locally with CTest exit8, preserving
+its complete log. The shared C17 core now compares mathematical integer output
+spans to exact represented binary64 bounds instead of rounded output doubles.
+Integral decimal/exponent forms and signed zero remain supported; fractions
+hidden by rounding or underflow are rejected for integer schemas. The comparator
+borrows input, uses constant stack/no heap and preserves results on refusal.
+General fractional-number bounds, numeric enum/const equality and `multipleOf`
+retain their prior implementation and broader precision gates remain open.
+
+[HOST receipt](development/validation/output-schema-integer-host-2026-10-06.json)
+records 9,855 independent numeric checks, four Release, seven ASan/UBSan/LSan
+and three provider contract tests, all passing. Sanitizers run outside ptrace,
+with options unset and no suppression. Maximum local CPU is 75.5 C; CPU98,
+NVMe85/lower guards and masked/observe-only GPU remain active. The initial
+expanded build mistakenly requests a nonregistered core-only target and exits1;
+its log and read-discovery failures remain retained. No dependency is added.
+Reactive scheduling, workers, engine/state/cache/event/metric layouts stay intact.
+Matching new-source HIP ON/OFF builds and complete AR66/MTP66 qualification
+are still pending. Root has no GPU job/lease/waiter/reservation or `.157/.158`
+activity. All six owned tasks remain open; Terminal Bench stays deferred last.
+
 ## Bounded-integer GPU gate exposes final-validation error — 2026-10-06 UTC
 
 The freshly admitted `.161` AR session reuses the qualified `9a4f45b1` runtime

@@ -187,6 +187,24 @@ unchanged r32 runtime; matching `.161` AR/MTP runs require fresh admission.
 These Python tools are optional developer supervision/oracles, not a server,
 native benchmark or default-test dependency.
 
+The separately admitted r33 AR gate passes 26 checks, then exposes a final-core
+HTTP502 at the exclusive `1e18` boundary; MTP is not started. The failed window
+is collected and closed. A HOST regression reproduces the rounded-double
+rejection of the valid integer `1000000000000000001` before the correction.
+The additive `lie_schema_integer_compare` now compares a complete mathematical
+integer span against the exact represented binary64 boundary. It normalizes
+decimal points/exponents without allocation and saturates exponent arithmetic;
+fractional/malformed input and aliasing preserve the result on refusal. The
+shared final validator uses it for integer type checks and min/max/exclusive
+bounds. Engine/state/cache/event/metric layouts and worker counts are unchanged.
+General fractional-number bounds, numeric enum/const equality and `multipleOf`
+retain their prior implementation and need separate precision qualification.
+[Correction HOST receipt](validation/output-schema-integer-host-2026-10-06.json)
+records 9,855 independent numeric checks, four Release and seven sanitizer tests,
+plus three provider contract checks. Matching new-source HIP builds and the
+complete original-weight AR66/MTP66 protocol remain pending. These HOST results
+are not original-weight inference, quality, resource or performance evidence.
+
 ## Schema compilation and prompt publication
 
 `lie/schema_compile.h` provides a synchronous, model-neutral C17 ABI 1 workflow:

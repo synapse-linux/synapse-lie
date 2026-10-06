@@ -14,6 +14,14 @@ extern "C" {
  * Writes no NUL and preserves output bytes/length on refusal. Output spans
  * must be disjoint. Insufficient capacity returns LIE_SCHEMA_RESOURCE. */
 lie_schema_status lie_schema_integer_magnitude(double, char *, size_t, size_t *);
+/* Compare the mathematical integer in a complete JSON number span with the
+ * exact represented finite binary64 boundary; result is -1, 0 or 1. Decimal
+ * points/exponents are allowed when the exact value is integral. Fractional or
+ * malformed spans, nonfinite boundaries and input/output aliasing refuse,
+ * preserving result. Borrowed input, no NUL required, no retained pointers.
+ * Linear input scan, constant stack and <=309 boundary digits; saturated
+ * exponent arithmetic never constructs an exponent-sized intermediate. */
+lie_schema_status lie_schema_integer_compare(const char *, size_t, double, int *);
 /* Borrowed reader and work budget follow schema_transform. C17 owns ordered
  * bound lookup, ceil/floor, exact magnitude, exclusivity, empty-interval checks
  * and ordered positive/negative/-0 grammar construction. The caller supplies

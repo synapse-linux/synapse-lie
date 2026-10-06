@@ -15,11 +15,19 @@ borrowed rows/masks/counts, caller-owned bounded workspace and explicit RNG.
 See [ownership and remaining delegated state](../development/C17-SAMPLING.md).
 
 `lie/schema_integer.h` adds standalone C17 ABI 1 calls for exact integral
-binary64 magnitude and signed integer-bound grammar compilation. It reuses the
+binary64 magnitude, exact integer comparison and signed grammar compilation.
+`lie_schema_integer_compare` borrows a complete JSON number span and compares
+its mathematical integer to a represented finite binary64 boundary, returning
+`-1`, `0` or `1`. Integral decimal/exponent forms are accepted; fractional or
+malformed spans, nonfinite boundaries and input/output aliasing refuse without
+changing the result. Work is linear in input length, with constant stack and
+no allocation or exponent-sized intermediate. The shared final output validator
+uses this comparison for integer classification and numeric bounds. It reuses the
 existing borrowed schema reader and caller-owned private builder; failures
 preserve results and failed builder mutations require retirement. Existing
 engine, sampling, grammar, state and HTTP layouts are unchanged. Original/ON/OFF
-HOST witnesses pass; matching GPU qualification is pending. See
+HOST witnesses pass; the `9a4f45b1` compiler's selected GPU controls pass, while
+the later final-validation correction still needs matching GPU qualification. See
 [signed integer bounds](../development/C17-SAMPLING.md#signed-integer-bounds).
 
 The `1bff953` Point build keeps these layouts and versions unchanged. Its

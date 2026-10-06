@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: MIT */
 #include "output_json.h"
+#include "lie/schema_integer.h"
 #include <math.h>
 #include <string.h>
 static bool equal(const oj_node *a, const oj_node *b) {
@@ -52,9 +53,12 @@ static bool accepts(const oj_node *root, const oj_node *s, const oj_node *v,
   }
   const char *const types[] = {"null",   "boolean", "number",
                                "string", "array",   "object"};
+  int integer_order = 0;
+  bool integer = v->type == OJ_NUMBER &&
+                 lie_schema_integer_compare(v->start, v->bytes, 0,
+                                            &integer_order) == LIE_SCHEMA_OK;
   if (oj_field(s, "type") && !oj_type_is(s, types[v->type]) &&
-      !(v->type == OJ_NUMBER && floor(v->number) == v->number &&
-        oj_type_is(s, "integer")))
+      !(integer && oj_type_is(s, "integer")))
     return false;
   const oj_node *choices = oj_field(s, "enum");
   if (choices) {
@@ -126,7 +130,13 @@ static bool accepts(const oj_node *root, const oj_node *s, const oj_node *v,
         continue;
       if (n->type != OJ_NUMBER)
         return false;
-      if ((i == 0 && v->number < n->number) ||
+      if (integer && i < 4) {
+        int order = 0;
+        if (lie_schema_integer_compare(v->start, v->bytes, n->number, &order) !=
+            LIE_SCHEMA_OK ||
+            (i == 0 && order < 0) || (i == 1 && order > 0) ||
+            (i == 2 && order <= 0) || (i == 3 && order >= 0)) return false;
+      } else if ((i == 0 && v->number < n->number) ||
           (i == 1 && v->number > n->number) ||
           (i == 2 && v->number <= n->number) ||
           (i == 3 && v->number >= n->number) ||

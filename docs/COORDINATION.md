@@ -1,5 +1,17 @@
 # DS4 / synapse-lie coordination
 
+## R34 shared final-validation correction: HOST only — 2026-10-06
+
+A local regression reproduces r33's integer precision failure before correction.
+The additive C17 comparator and shared-core validation correction now pass
+9,855 numeric checks, Release4, sanitizer7 and provider3. CPU98/NVMe85/lower
+guards remain active; local GPU is masked and observed only. No original model
+forward, remote build/run, heavyweight hash, conversion, dependency installation
+or service mutation occurs. Root holds no remote job/client/build/lease/waiter/
+reservation and does not use `.157/.158`. A later `.161` HIP build and AR66/MTP66
+require fresh coordinated admission; r33 closure below is historical only.
+All six tasks stay open; Terminal Bench remains stopped/collected/closed/deferred last.
+
 ## R33 integer AR failure collected and window closed — 2026-10-06
 
 Fresh peer non-use and global admission authorize a separate `.161` AR window

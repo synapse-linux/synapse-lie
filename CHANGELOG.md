@@ -382,6 +382,11 @@ stable release is declared. Detailed validation history is in
 
 ### Fixed
 
+- Shared-core integer output validation preserves all digits at large inclusive
+  and exclusive bounds and rejects fractional values hidden by binary64 rounding.
+  Integral decimal/exponent spelling and signed zero remain supported. HOST
+  regression and sanitizer checks pass; matching GPU qualification is pending.
+
 - Native HTTP benchmark deadlines now allow up to 24 hours. The long-context
   preset defaults to four hours, covering the recorded 1M prefill that exceeded
   the former two-hour client maximum. Ordinary workload defaults are unchanged.

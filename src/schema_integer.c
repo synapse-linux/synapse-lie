@@ -76,6 +76,103 @@ lie_schema_status lie_schema_integer_magnitude(double value, char *out,
   *bytes = n;
   return LIE_SCHEMA_OK;
 }
+typedef struct {
+  bool negative;
+  size_t start, integer_digits, first, significant, digits;
+} exact_integer;
+static bool decimal_digit(char c) { return c >= '0' && c <= '9'; }
+static size_t saturated_add(size_t a, size_t b) {
+  return a > SIZE_MAX - b ? SIZE_MAX : a + b;
+}
+static bool scan_digits(const char *text, size_t bytes, size_t *at,
+    size_t *total, size_t *first, size_t *last) {
+  size_t begin = *at;
+  while (*at < bytes && decimal_digit(text[*at])) {
+    if (text[*at] != '0') {
+      if (*first == SIZE_MAX) *first = *total;
+      *last = *total;
+    }
+    ++*at;
+    ++*total;
+  }
+  return *at != begin;
+}
+static bool integer_text(const char *text, size_t bytes, exact_integer *out) {
+  size_t at = 0, total = 0, first = SIZE_MAX, last = 0;
+  bool negative = bytes && text[0] == '-';
+  if (negative) ++at;
+  size_t start = at;
+  if (!scan_digits(text, bytes, &at, &total, &first, &last) ||
+      (at - start > 1 && text[start] == '0')) return false;
+  size_t whole = total, fraction = 0;
+  if (at < bytes && text[at] == '.') {
+    ++at;
+    if (!scan_digits(text, bytes, &at, &total, &first, &last)) return false;
+    fraction = total - whole;
+  }
+  size_t exponent = 0;
+  bool exponent_negative = false;
+  if (at < bytes && (text[at] == 'e' || text[at] == 'E')) {
+    ++at;
+    if (at < bytes && (text[at] == '+' || text[at] == '-'))
+      exponent_negative = text[at++] == '-';
+    size_t begin = at;
+    while (at < bytes && decimal_digit(text[at])) {
+      size_t d = (size_t)(text[at++] - '0');
+      exponent = exponent > (SIZE_MAX - d) / 10 ? SIZE_MAX : exponent * 10 + d;
+    }
+    if (at == begin) return false;
+  }
+  if (at != bytes) return false;
+  if (first == SIZE_MAX) {
+    *out = (exact_integer){false, start, whole, 0, 0, 1};
+    return true;
+  }
+  size_t trailing = total - last - 1, zeroes;
+  if (exponent_negative) {
+    if (trailing < fraction || exponent > trailing - fraction) return false;
+    zeroes = trailing - fraction - exponent;
+  } else if (trailing >= fraction) {
+    zeroes = saturated_add(exponent, trailing - fraction);
+  } else {
+    if (exponent < fraction - trailing) return false;
+    zeroes = exponent - (fraction - trailing);
+  }
+  size_t significant = last - first + 1;
+  *out = (exact_integer){negative, start, whole, first, significant,
+                        saturated_add(significant, zeroes)};
+  return true;
+}
+static char integer_digit(const exact_integer *value, const char *text, size_t i) {
+  if (i >= value->significant) return '0';
+  size_t ordinal = value->first + i;
+  return text[value->start + ordinal + (ordinal >= value->integer_digits)];
+}
+lie_schema_status lie_schema_integer_compare(const char *text, size_t bytes,
+    double boundary, int *out) {
+  if (!text || !bytes || !out || !isfinite(boundary) ||
+      overlap(text, bytes, out, sizeof(*out))) return LIE_SCHEMA_INVALID;
+  exact_integer value;
+  if (!integer_text(text, bytes, &value)) return LIE_SCHEMA_INVALID;
+  double whole = trunc(boundary);
+  bool negative = whole < 0;
+  int order;
+  if (value.negative != negative) order = value.negative ? -1 : 1;
+  else {
+    char digits[LIE_SCHEMA_INTEGER_TEXT_CAPACITY];
+    size_t n = 0;
+    TRY(magnitude(whole, digits, &n, NULL));
+    order = value.digits < n ? -1 : value.digits > n ? 1 : 0;
+    for (size_t i = 0; !order && i < n; ++i) {
+      char digit = integer_digit(&value, text, i);
+      if (digit != digits[i]) order = digit < digits[i] ? -1 : 1;
+    }
+    if (negative) order = -order;
+  }
+  if (!order && boundary != whole) order = boundary < 0 ? 1 : -1;
+  *out = order;
+  return LIE_SCHEMA_OK;
+}
 static lie_schema_status finite(lie_schema_context *c, lie_schema_node node,
     const char *key, double *out) {
   lie_schema_value v;
