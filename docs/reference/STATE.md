@@ -204,6 +204,12 @@ reference memo and provider composition templates remain transitional.
 Structural transformations and finite-value/container algorithms now use C17.
 Snapshot bridge planning, validation and payload copies now use C17.
 
+Finalized grammar programs copy their C tables before construction owners retire.
+Predicate/table and allocator contexts outlive programs and states; composition
+retains imported primitives before source retirement. Removal of private C++
+template copies changes no persisted/request/KV format. See
+[ownership](../development/C17-SAMPLING.md#immutable-grammar-table-ownership).
+
 ## MTP development boundary
 
 The [MTP binding](../development/MTP.md) captures DS4 predictor K/V, full raw

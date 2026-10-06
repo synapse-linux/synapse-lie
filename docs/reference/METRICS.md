@@ -127,6 +127,12 @@ implementation. The official Actuator reference and Micrometer timer source
 were retrieved; URLs, hashes and timestamps are in local evidence. Default
 management listener: `127.0.0.1:19880`.
 
+The HOST grammar handoff probe reports C++ calls and requested peak bytes only.
+It excludes C buffers, whole compilation cost and model/device performance; the
+private object size is host ABI specific. Existing runtime metrics/worker
+accounting are unchanged. See
+[ownership](../development/C17-SAMPLING.md#immutable-grammar-table-ownership).
+
 ## Registry
 
 Types: Counter (nonnegative increments), Gauge (explicit sampled value), Timer

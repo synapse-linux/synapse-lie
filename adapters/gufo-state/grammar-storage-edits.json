@@ -1,0 +1,38 @@
+{
+  "schema": "synapse-lie.gufo-state-edits.v1",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "license": "MIT",
+  "scope": "Drop default-ON private immutable rule/class template projections. C17 owns finished program tables; all original OFF algorithms/member storage remain guarded and unchanged.",
+  "edits": [
+    {
+      "path": "src/core/json_constraint.hpp",
+      "old": "  std::vector<Rule> rules_;\n  std::vector<std::bitset<256>> classes_;\n",
+      "new": "#if !LIE_C17_SAMPLING\n  std::vector<Rule> rules_;\n  std::vector<std::bitset<256>> classes_;\n#endif\n"
+    },
+    {
+      "path": "src/core/json_constraint.hpp",
+      "old": "  void BuildC17Program();\n",
+      "new": "#if !LIE_C17_SAMPLING\n  void BuildC17Program();\n#endif\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    grammar_->c17_program_ = lie_gufo::builder_finish(builder_.get(), grammar_->rules_, grammar_->classes_, grammar_->lexemes_, grammar_->root_);",
+      "new": "    grammar_->c17_program_ = lie_gufo::builder_finish(builder_.get(), grammar_->lexemes_, grammar_->root_);"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "  const lie_gufo::CompositionSource imports[] = {\n      {answer->c17_program_.get(), &answer->lexemes_}};\n  grammar->c17_program_ = lie_gufo::composition_finish(composition, imports,\n      grammar->rules_, grammar->classes_, grammar->lexemes_, grammar->root_,\n      grammar->stop_only_when_complete_);",
+      "new": "  const lie_gufo::CompositionSource imports[] = {\n      {answer->c17_program_.get(), &answer->lexemes_}};\n  grammar->c17_program_ = lie_gufo::composition_finish(composition, imports,\n      grammar->lexemes_, grammar->root_,\n      grammar->stop_only_when_complete_);"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "  lie_gufo::Composition composition(raw, lie_composition_release);\n  grammar->c17_program_ = lie_gufo::composition_finish(composition, imports,\n      grammar->rules_, grammar->classes_, grammar->lexemes_, grammar->root_,\n      grammar->stop_only_when_complete_);",
+      "new": "  lie_gufo::Composition composition(raw, lie_composition_release);\n  grammar->c17_program_ = lie_gufo::composition_finish(composition, imports,\n      grammar->lexemes_, grammar->root_,\n      grammar->stop_only_when_complete_);"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "void JsonConstraint::BuildC17Program() {\n#if LIE_C17_SAMPLING\n  c17_program_ = lie_gufo::grammar_program(rules_, classes_, lexemes_, root_);\n#endif\n}\n",
+      "new": "#if !LIE_C17_SAMPLING\nvoid JsonConstraint::BuildC17Program() {}\n#endif\n"
+    }
+  ]
+}

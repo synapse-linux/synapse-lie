@@ -39,24 +39,11 @@ inline uint32_t builder_new(lie_grammar_builder *b, const gufo::sampling::JsonCo
 inline void builder_set(lie_grammar_builder *b, uint32_t id, const gufo::sampling::JsonConstraint::Rule &rule) {
   const auto views = builder_views(rule); builder_check(lie_builder_set(b, id, views.data(), views.size()));
 }
-// Preserve private templates for the still-transitional reasoning/tool composition.
+// Bind the completed C tables directly; no private rule/class projection.
 inline std::shared_ptr<const lie_grammar_program> builder_finish(lie_grammar_builder *b,
-    std::vector<gufo::sampling::JsonConstraint::Rule> &rules,
-    std::vector<std::bitset<256>> &classes, const Lexemes &lexemes, uint32_t root) {
+    const Lexemes &lexemes, uint32_t root) {
   lie_grammar_description d;
   builder_check(lie_builder_finish(b, root, lexemes.size(), &d));
-  rules.resize(d.rule_count);
-  for (size_t i = 0; i < d.rule_count; ++i) {
-    const auto r = d.rules[i]; rules[i].resize(r.count);
-    for (size_t j = 0; j < r.count; ++j) {
-      const auto s = d.sequences[r.offset + j];
-      rules[i][j].assign(d.symbols + s.offset, d.symbols + s.offset + s.count);
-    }
-  }
-  classes.resize(d.class_count);
-  for (size_t i = 0; i < d.class_count; ++i)
-    for (unsigned byte = 0; byte < 256; ++byte)
-      classes[i].set(byte, (d.classes[i * 32 + byte / 8] >> (byte % 8)) & 1u);
 #if LIE_C17_SAMPLING
   d.predicates = lexemes.predicates();
 #else

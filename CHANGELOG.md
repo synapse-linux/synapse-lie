@@ -40,6 +40,11 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Default-ON immutable grammar programs no longer duplicate C tables into C++
+  rule/class containers. HOST state/mask and lifetime checks pass; matching GPU
+  qualification is pending. Existing public ABI, reactive workers and cache
+  formats are retained; original OFF behavior remains available.
+
 - Shared C17 root schema admission, including reference-cycle detection and
   ordered root construction. Bounded temporary identity storage retires before
   compilation callbacks. Original/OFF behavior is retained; the matching

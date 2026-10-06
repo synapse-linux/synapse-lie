@@ -383,6 +383,11 @@ receipts remain historical. `lie_backend_open` is the selected composition bindi
 source pin and ownership queries expose delegation; the explicit factory
 `lie_gufo_open` remains available and is not relabelled as an owned engine.
 
+The default-ON private grammar layout now contains program/table handles instead
+of duplicate C++ rule/class containers. Provider identity includes the exact
+storage recipe; matching providers and consumers must rebuild together. Public C
+structures/versions are unchanged. See [ownership](../development/C17-SAMPLING.md#immutable-grammar-table-ownership).
+
 ## MTP branch extension
 
 [MTP](../development/MTP.md) now has an additive, model-neutral C

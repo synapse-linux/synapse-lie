@@ -18,30 +18,13 @@ struct CompositionSource {
   const lie_grammar_program *program;
   const Lexemes *lexemes;
 };
-template<class Rules, class Classes>
 inline std::shared_ptr<const lie_grammar_program> composition_finish(
     const Composition &source, std::span<const CompositionSource> imports,
-    Rules &rules, Classes &classes, Lexemes &lexemes, uint32_t &root,
+    Lexemes &lexemes, uint32_t &root,
     bool &stop) {
   lie_composition_view view;
   composition_check(lie_composition_describe(source.get(), &view));
   const auto &d = view.grammar;
-  Rules staged_rules(d.rule_count);
-  for (size_t i = 0; i < d.rule_count; ++i) {
-    const auto range = d.rules[i];
-    auto &rule = staged_rules[i];
-    rule.reserve(range.count);
-    for (size_t j = 0; j < range.count; ++j) {
-      const auto seq = d.sequences[range.offset + j];
-      rule.emplace_back();
-      if (seq.count) rule.back().assign(d.symbols + seq.offset,
-                                       d.symbols + seq.offset + seq.count);
-    }
-  }
-  Classes staged_classes(d.class_count);
-  for (size_t i = 0; i < d.class_count; ++i)
-    for (unsigned b = 0; b < 256; ++b)
-      if (d.classes[i * 32 + b / 8] & (1u << (b % 8))) staged_classes[i].set(b);
   Lexemes staged_lexemes;
   staged_lexemes.reserve(d.lexeme_count);
   for (size_t i = 0; i < d.lexeme_count; ++i) {
@@ -53,7 +36,6 @@ inline std::shared_ptr<const lie_grammar_program> composition_finish(
       throw std::logic_error("C17 grammar composition lost a predicate owner");
     staged_lexemes.push_back((*owner)[origin.index]);
   }
-  rules = std::move(staged_rules); classes = std::move(staged_classes);
   lexemes = std::move(staged_lexemes); root = d.root;
   stop = view.stop_only_when_complete;
   auto bound = d;

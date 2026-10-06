@@ -134,6 +134,51 @@ controller ownership are unchanged. There is still one device-owner worker. The 
 selection call is synchronous; it does not add an asynchronous GPU forward or
 establish a throughput improvement.
 
+## Immutable grammar table ownership
+
+Default-ON schema finalization and reasoning/tool composition bind the finished
+C tables directly to an immutable `lie_grammar_program`. They no longer build
+private C++ rule/sequence vectors or terminal bitsets. The private grammar object
+retains its C program/table handles, root/stop values and prompt string. Temporary
+C++ construction/value/error facades and model/controller ownership remain
+transitional. The original OFF fields and algorithms remain behind six exact
+`grammar-storage-edits.json` guards; `grammar_storage_edits_sha256` is mandatory
+in the provider receipt. Changed private layouts require matching rebuilt
+providers and consumers. Public C layouts, persisted state and cache formats are
+unchanged; no worker, device call, dependency or RNG step is added.
+
+The C program copies builder/composition tables before those owners retire.
+Its predicate context borrows the retained destination C table; that table and
+its paired allocator contexts must outlive the program and every state. Imports
+retain primitives before source owners retire. A missing import owner preserves
+unpublished destination data. Later failure after predicate publication requires
+retiring the failed fresh grammar, as before.
+
+[HOST qualification](validation/c17-grammar-storage-host-2026-10-06.json) passes
+52 ASan/UBSan/LSan checks and three focused Release provider gates. All 29 earlier
+complete original/ON/OFF witness hashes are unchanged. Nine matched untimed
+heap probes use the same empty-object grammar and 0/64/4,096 extra rules. Each
+new handoff makes one C++ allocation (32 requested bytes for the shared pointer
+control); the previous C17 helper uses the counts below. C buffer allocations,
+whole construction cost and model performance are outside this probe.
+
+| Extra rules | Previous builder calls | Previous reasoning calls | Previous tool calls | New calls per handoff |
+|---:|---:|---:|---:|---:|
+| 0 | 9 | 40 | 20 | 1 |
+| 64 | 137 | 168 | 148 | 1 |
+| 4,096 | 8,201 | 8,232 | 8,212 | 1 |
+
+The private object is 120 bytes before and 72 bytes after on the tested host ABI.
+Six missing-owner refusals in both controls retain unpublished state; source
+owners can retire before accepted/rejected language checks, and final release
+retires all traced predicates. Initial fixture type and required-whitespace
+failures retain their actual exits. The corrected fixture checks both empty and
+nonempty JSON whitespace; production code is unchanged by those corrections.
+
+This increment needs its own sealed HIP ON/OFF build and original-weight gates
+on `.161`; the earlier `3c4cac56`/r28 receipt excludes it. Broader faults,
+probabilities, quality, private resources and matched performance remain open.
+
 ## Root schema admission
 
 `lie/schema_root.h` adds model-neutral ABI 1. C17 follows root `$ref` chains,

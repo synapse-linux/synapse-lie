@@ -436,3 +436,10 @@ add_executable(candidate-json-value-faults "${REPO}/tests/sampling/json_value_fa
 target_link_libraries(candidate-json-value-faults PRIVATE candidate)
 add_test(NAME candidate-json-value-projection-refusals COMMAND candidate-json-value-faults)
 set_tests_properties(candidate-json-value-projection-refusals PROPERTIES TIMEOUT 30)
+
+# Finished C tables must not be projected into duplicate C++ containers.
+add_executable(candidate-grammar-storage "${REPO}/tests/sampling/grammar_storage.cpp"
+  "${REPO}/tests/sampling/allocation_counter.cpp")
+target_link_libraries(candidate-grammar-storage PRIVATE candidate)
+add_test(NAME candidate-grammar-storage-ownership COMMAND candidate-grammar-storage)
+set_tests_properties(candidate-grammar-storage-ownership PROPERTIES TIMEOUT 60)

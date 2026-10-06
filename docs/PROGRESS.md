@@ -1,6 +1,44 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Duplicate C++ grammar tables removed; HOST checks pass — 2026-10-06 UTC
+
+Default-ON finalization/composition now publish the finished C program without
+copying rules, sequences or classes into private C++ vectors/bitsets. Six exact
+guards preserve original OFF storage and algorithms. Provider receipts bind the
+new recipe and reject missing, changed or drifted identities. The private layout
+changes, so providers and consumers must rebuild together; public C ABI, request/
+KV state, reactive scheduling, metrics, workers and dependencies do not change.
+Remaining typed construction/value/error/prompt facades and model/controller
+are transitional.
+
+The [HOST receipt](development/validation/c17-grammar-storage-host-2026-10-06.json)
+records 52/52 ASan/UBSan/LSan tests in one complete run, three focused Release
+provider checks and all 29 preceding complete original/ON/OFF witness hashes
+unchanged. Nine matched final-handoff probes compare exact prior C17 helper/
+library/header bindings with the corrected current fixture. At 4,096 extra
+rules, previous builder/reasoning/tool C++ calls are 8,201/8,232/8,212; every new
+handoff uses one 32-byte shared-pointer control allocation. Private object size
+is 120/72 bytes before/after on the tested host. These are untimed C++ heap
+observations, excluding C buffers, whole construction/model costs and GPU speed.
+Six owner refusals in each control preserve unpublished data; source owners retire
+before language checks and every traced predicate retires finally.
+
+The initial new fixture passes an allocator instead of its description (build
+exit 2), then incorrectly requires whitespace while its tool text omits it
+(two test exits 8). Failed sources/binaries/logs remain; the fixture now checks
+empty/nonempty JSON whitespace and production source is unchanged by correction.
+Sanitizers run outside ptrace with options unset and no suppression. Peak local
+CPU is 91.625 C under CPU98/NVMe85/lower guards; GPUs are masked. The no-model
+server and native bench link; these are not original-weight serving results.
+
+This source needs its own sealed HIP ON/OFF build and original-weight gates on
+`.161`; `3c4cac56`/r28 excludes it. Broader branches, faults, probabilities,
+quality, private resources and matched cost stay open. All six owned tasks stay
+open. Terminal Bench remains stopped/collected/closed/deferred until functional
+modifications and matching qualification finish. No remote run/build/lease/waiter/
+reservation/restart, push or deployment occurs in this HOST increment.
+
 ## Root schema admission passes host and selected GPU checks — 2026-10-06 UTC
 
 The default-ON compiler now uses shared C17 for root reference traversal,
