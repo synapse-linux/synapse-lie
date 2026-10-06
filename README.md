@@ -1,5 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [fixed down model trial](docs/Q2-DOWN-FIXED-BOUNDS.md) measures 1584.926383 PP /25.18297866 TG, −0.186862% PP versus retained 1587.893545. All132 operator pairs and21 parent model files are exact; keep the parent. All samples, prefill durations and graphs are preserved. `.157` is released. The next local draft removes unused down-output arguments and reduces registers; no runtime gain is claimed.
+
 The [fixed Q2 down candidate](docs/Q2-DOWN-FIXED-BOUNDS.md) is prepared from retained 1587.893545 PP. Three guarded m2560/k640 kernels remove 23–36% static instructions; .157 host 37+37 checks pass. Numerical component and original-model results are pending.
 
 The [HC raw-Q8 model trial](docs/Q2-HC-INJECT-RAW-Q8.md) completes at 1583.808188 PP / 25.10789589 TG, −0.257282% PP versus the retained 1587.893545 parent. Token histories match; eight logit files change. Keep the parent. All new and saved samples, logits and the negative result are preserved; `.157` is released. The next local down-kernel draft removes 23–36% static instructions, with runtime benefit still untested.

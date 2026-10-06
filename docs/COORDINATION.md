@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Fixed down window released — 2026-10-06 UTC
+
+Admission12:53:07 UTC /ae6bb5d7 binds checkpointd803a8e8 and plan55db2eb5. Component and model terminate with13 primary exits0;37 artifacts collect7+4+26. Release13:01:06.984319 UTC /497f5d32 retires1500 identities/1202 groups, KFD empty, original Core CPU/four GPU leases free and seven model stat tuples unchanged. Canonical/main/remote mirrors agree; Core is informed before analysis. No Q2 job/client/build/lease/window/waiter/reservation/restart/cleanup remains on .157/.158/.161. The null-argument down draft is local compiler work only, with no provider or runtime plan.
+
 ## Fixed Q2 down preparation — 2026-10-06 UTC
 
 Fresh .157 checks at 12:49:00 UTC bind previous 962b229f with retired identities/groups, empty KFD, unchanged original leases and model stat tuples. Core confirms own .157/.158 non-use after its separate .161 closure. New host 37+37 ends 12:49:53 UTC; seven artifacts are collected. The frozen plan permits one component with 132 guarded pairs/five timed-buffer replays and one unchanged original2048/tg128 model. No GPU admission at preparation; no remote cleanup or control rerun.

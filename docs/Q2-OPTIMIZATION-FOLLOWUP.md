@@ -1,6 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Focused optimization queue
 
+## Current action after both new model trials
+
+Keep1587.893545 PP /25.12414406 TG; UD1685.777092 still needs6.164365% PP.
+Raw-Q8 HC reuse1583.808188 and fixed down1584.926383 are preserved without
+replacing the parent. The fixed down has132 exact operator pairs and21 exact
+parent model files; all GPU windows are released. No old component/control,
+Q4 or full curve rerun.
+
+Next test the new down-only argument contract: the launch already passes null
+SwiGLU/F16-output arguments, but the kernel carries their unused paths. The
+local draft fixes those arguments and the active aligned-row test, yielding
+VGPR84/95/103 and469/764/880 static instructions. It has no provider or GPU
+qualification yet. Do not equate code-size reduction with executed work; use
+one new component and the same original model after fresh admission.
+
+
 ## Current fixed point after the 6 October compact-table trial
 
 Keep the nominal fixed-bound parent1587.893545 PP; saved stable1585.308983

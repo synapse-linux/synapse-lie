@@ -12,53 +12,33 @@
     "iq2-fixed-bounds",
     "iq2-dpp-commit",
     "iq2-table-lds",
-    "hc-inject-raw-q8"
+    "hc-inject-raw-q8",
+    "down-fixed-bounds"
   ],
   "next": {
-    "mechanism": "Specialize active half-output Q2 down at m2560/k640 and aligned output; preserve arithmetic and ragged token bounds, measure component and original model.",
-    "draft": "config/q2-down-fixed-bounds-draft-static.json",
+    "mechanism": "Specialize known null down-output arguments and proven active row/alignment checks, then qualify only the new candidate against the fixed model comparison.",
+    "draft": "config/q2-down-fixed-contract-draft-static.json",
     "instructions": [
-      [
-        1254,
-        971
-      ],
-      [
-        2641,
-        1729
-      ],
-      [
-        3350,
-        2152
-      ]
+      469,
+      764,
+      880
     ],
     "VGPR": [
-      [
-        85,
-        85
-      ],
-      [
-        96,
-        97
-      ],
-      [
-        104,
-        105
-      ]
+      84,
+      95,
+      103
     ],
-    "provider_implemented": true,
+    "provider_implemented": false,
     "GPU_admission": false,
     "model_speedup_claim": false,
-    "model_plan": "config/q2-down-fixed-bounds-plan.json",
-    "host_checks": {
-      "debug": 37,
-      "asan_ubsan": 37
-    }
+    "old_component_or_model_rerun": false
   },
   "deprioritized": [
     "Compact AoS IQ2 table-LDS placement regresses12\u201320% operator time and1.627%model PP",
     "Standalone table+DPP does not reduce BN128169VGPR; no GPU plan",
     "Old negative SSM pingpong/compact LDS, Q8 mirrors and down live staging already measured; do not rerun",
-    "Raw-Q8 HC injection reuse measures1583.808188 PP; preserve finite numerical differences and all evidence, no parent replacement"
+    "Raw-Q8 HC injection reuse measures1583.808188 PP; preserve finite numerical differences and all evidence, no parent replacement",
+    "Fixed down bounds alone measures1584.926383 PP with132 exact operator pairs/21 parent files; retained1587 unchanged"
   ],
   "controls_rebuilt_or_rerun": false,
   "Q4_run": false,

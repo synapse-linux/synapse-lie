@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Fixed down original-model result — 2026-10-06 UTC
+
+The model completes at1584.926383 PP /25.18297866 TG, nominal −0.186862% PP versus retained1587.893545. All132 component pairs/five post-timing buffers and21 model files match the parent; nine internal replays are exact. Captured routing cycles save0.33–0.61%, much less than the static instruction count; preserve the negative model result. Host37+37 and13 commands pass;37 artifacts collect before13:01:06 UTC release497f5d32. The next compiler-only draft specializes null down-output arguments:469/764/880 instructions,VGPR84/95/103, no provider or GPU admission yet. [Full values](Q2-DOWN-FIXED-BOUNDS.md).
+
 ## Fixed Q2 down preparation — 2026-10-06 UTC
 
 Three private m2560/k640 half-output down kernels preserve the parent arithmetic, routing and memory layout. A guarded selector requires 16-byte output alignment; all other rows/alignment use the original implementation. Parent 164 device bodies and three private draft bodies match saved ISA. Host 37+37 checks pass on .157; 190 fixtures/six manifests/1029 provider files freeze for one new component and one original model. Preserve 1587.893545 PP until measured evidence. [Scope](Q2-DOWN-FIXED-BOUNDS.md).
