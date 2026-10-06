@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Last HC-down collected and released — 2026-10-06 UTC
+
+Admission21:04:25.680442UTC/3d94229e binds checkpoint0ff129bf and planb8733d35.
+The sole component completes21:05:51.086228UTC with exits0,0,1; four artifacts
+collect before21:06:24.281014UTC release
+631f11176a2bac61a4228e9c40f3eb38a18a3e254208691c2a61e6f8fb2678de.
+1726 identities/1378 groups retire, KFD empty, original leases/model stats
+unchanged. Canonical/main/remote mirrors match; Core receives closure before
+analysis. No Q2 job/client/build/lease/window/waiter/reservation/live handle or
+cleanup remains remotely. The owner-requested fixed-point goal is paused.
+Future128K optimization requires separate scoped qualification and admission.
+
 ## SSM closure and last HC component preparation — 2026-10-06 UTC
 
 SSM collects four component/seven host artifacts before20:43:46.503068UTC

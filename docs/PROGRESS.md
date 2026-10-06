@@ -1,5 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Fixed-point parity paused; decode/prefill128K takes priority — 2026-10-06 UTC
+
+The owner-requested final HC-down trial is47.60% slower in its complete
+projection/SiLU/narrowing component, with160 exact output pairs. The same16
+independent peak-error failures occur in both arms; timing remains available.
+No model promotion follows. All artifacts collect and .157 releases631f1117
+before analysis. The goal tool now records fixed-point parity as paused.
+
+New work prioritizes quick, substantial contributions through128K. Offline
+inspection of saved1571 decode traces identifies261.537326ms of533.881388ms
+GPU time in dense Q8 GEMV (49.0%); this is historical attribution, not a current
+128K profile. A four-row workgroup draft will preserve each32-lane dot tree,
+original encoded weights and input quantization. Long-prefill attention
+selection remains a separate candidate; no measured new speedup is claimed.
+
 ## Priority change and last HC-down attempt — 2026-10-06 UTC
 
 The owner requests pausing fixed-point Q2/UD parity after the current HC-down

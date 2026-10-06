@@ -1,0 +1,21 @@
+{
+  "schema": "synapse-lie.q2-decode-q8-rows4-fixture.v1",
+  "bindings": {
+    "tests/q2_decode_q8_rows4.hip": "7ca04419084ee5bf2da17e76afe4ccc0831d7d3451acb1b160422b77233e41ef",
+    "experiments/q2-decode-q8-control.inc": "3f91d04b00bab5e62d4f9b5370e453b5c5f0152a560e65312ae79e3d2cae1fcb",
+    "experiments/q2-decode-q8-rows4.inc": "9cd4cd0faf25a779aee795e78033c0c202a656faa153252ac0cbfd91fae00670"
+  },
+  "compile_receipt": "evidence/q2-decode-q8-rows4-preparation/fixture-v2-command.json",
+  "compile_receipt_sha256": "465d1343b19a358b2de4069c9f19a52ece34ff14fd2a61ac4d8cfc8c492b0ff7",
+  "cases": 5,
+  "timing_cases": 4,
+  "pair_records": 303,
+  "oracle_records": 606,
+  "timing_records": 56,
+  "independent_formula": "FP64 dequantized encoded Q8_0 dot Q8_1, optional gated SiLU, limit 2e-5.",
+  "allocation": "hipMalloc matches retained DeviceModel::Uploader::Copy; exact logical bytes with64-byte guards.",
+  "quantizer_tested": false,
+  "actual_model_dispatch_tested": false,
+  "all_timed_outputs_checked_before_reuse": true,
+  "controls_rebuilt_or_rerun": false
+}

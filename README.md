@@ -1,8 +1,8 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-The owner now prioritizes prefill and decode through128K after the
-[last HC-down attempt](docs/Q2-HC-DOWN-DIRECT-WEIGHT.md), then pauses the
-fixed-point parity objective. Saved inputs, controls and benchmark boundaries
+The owner now prioritizes [prefill and decode through 128K](docs/Q2-DECODE-128K.md).
+The [last HC-down attempt](docs/Q2-HC-DOWN-DIRECT-WEIGHT.md) completed slower,
+and the fixed-point parity objective is paused. Saved inputs, controls and benchmark boundaries
 remain unchanged. The [SSM resident component](docs/Q2-SSM-RESIDENT.md) is
 numerically exact but71.08% slower; it is not promoted or run as a model.
 

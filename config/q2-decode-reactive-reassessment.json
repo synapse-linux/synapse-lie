@@ -1,0 +1,92 @@
+{
+  "schema": "synapse-lie.q2-decode-reactive-reassessment.v1",
+  "profile": "evidence/q2-current-best-profile-r1/results/profile-phases.json",
+  "profile_sha256": "df1d345cecb85bf9d2235c7c170f374e6cbe9e8c74948c4355185ba69fd24504",
+  "receipt_sha256": "3ebe2ca74f6d6e896cabea25941bae82b03d6a8fd21ec31d8bfd1f49a080497b",
+  "profile_binary_sha256": "05d3c316539eff6442bcb91bf5cc3dd18f25def42d39410f8cbd4b21d7044385",
+  "retained_executor_sha256": "21060c653310f5cb7fcfd214890b3cc699f9f8b8b6403365996cf888e134239b",
+  "phase": {
+    "dispatches": 23594,
+    "kernel_sum_ns": 533881388,
+    "gpu_busy_union_ns": 533881388,
+    "kernel_span_ns": 613861203,
+    "inter_kernel_gap_ns": 79979815,
+    "largest_inter_kernel_gaps_ns": [
+      3175423,
+      2224894,
+      2141898,
+      2107138,
+      2084299,
+      2080010,
+      2057718,
+      2052748,
+      2052390,
+      2052310
+    ]
+  },
+  "categories": {
+    "q8_dense_gemv": {
+      "ns": 261537326,
+      "calls": 3285
+    },
+    "hc_down_projection": {
+      "ns": 44609328,
+      "calls": 1455
+    },
+    "hc_up_projection": {
+      "ns": 43580026,
+      "calls": 1455
+    },
+    "routed_gate_up": {
+      "ns": 37626242,
+      "calls": 720
+    },
+    "routed_down": {
+      "ns": 35702009,
+      "calls": 720
+    },
+    "other_f16_gemv": {
+      "ns": 28380112,
+      "calls": 1260
+    },
+    "hc_mix_epilogues": {
+      "ns": 15100893,
+      "calls": 1455
+    },
+    "gdn_recurrence_and_epilogues": {
+      "ns": 18458623,
+      "calls": 2160
+    },
+    "other": {
+      "ns": 28916158,
+      "calls": 4934
+    },
+    "hc_combine": {
+      "ns": 13389086,
+      "calls": 1440
+    },
+    "explicit_activation_packing": {
+      "ns": 6581585,
+      "calls": 4710
+    }
+  },
+  "decode_calls": 15,
+  "gap_us_per_decode": 5331.987666666667,
+  "kernel_us_per_decode": 35592.092533333336,
+  "zero_gap_counterfactual_speedup_percent": 14.9808209834054,
+  "counterfactual_is_not_attainable_or_measured": true,
+  "scope": "Offline saved1571 diagnostic trace at2048 input/15 decode calls; neither retained1587 nor128K. Kernel gaps include graph nodes, token CPU work, transfers, profiling and genuine dependencies. They are not measured removable scheduler overhead.",
+  "already_present": [
+    "HIP graph replay for eligible decode shape",
+    "async n-gram StartRead before prefix graph; WaitRead at PLE suffix boundary",
+    "two alternating prequantized activation buffers",
+    "same-stream ordered scratch reuse"
+  ],
+  "hypotheses": [
+    "Separate PLE wait from sampling/graph/device-copy gaps before modifying sync",
+    "Independent requests may share weight reads with true batching, separate C1 latency and aggregate rate",
+    "Shared/routed expert overlap only with disjoint scratch and completion dependencies; bandwidth contention can erase overlap"
+  ],
+  "new_GPU_run": false,
+  "new_speedup": false
+}

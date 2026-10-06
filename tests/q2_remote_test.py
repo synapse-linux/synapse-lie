@@ -278,6 +278,22 @@ class RemoteGuardTests(unittest.TestCase):
                 remote.main()
             run.assert_not_called()
 
+    def test_decode_q8_rows4_is_component_only_with_retained_provider(self):
+        mode = remote.DECODE_Q8_ROWS4_MODE
+        variant = remote.IQ2_FIXED_BOUNDS_VARIANT
+        self.refuse([mode, 'q2-fixture'], 'Decode Q8 rows4 requires the retained')
+        component = [mode, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(component + [flag], 'Decode Q8 rows4 component accepts no model')
+        self.refuse(component + ['--replay-from', 'q2-norm-fixed-model-before-r1'],
+                    'Decode Q8 rows4 component accepts no model')
+        with patch.object(sys, 'argv', [str(path), *component]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
     def test_iq2_fixed_bounds_has_matching_modes(self):
         variant = remote.IQ2_FIXED_BOUNDS_VARIANT
         for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-ssm-fixed-bounds'):

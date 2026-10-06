@@ -1,6 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Last fixed-point HC-down attempt
 
+The last attempt completes with **47.598255% more component wall time**:
+781.895050 to1154.063450 microseconds. All160 full-output pairs are exact.
+Both arms pass64/80 independent reports with identical errors;16 peak-scaled
+failures remain against2e-5 (maximum2.4551631176e-5). All timings were retained
+despite exit1. The rejection is for measured slowness, not those shared numeric
+failures. No model trial or promotion follows. Raw HIP events are invalid zeros.
+
+All four component/seven host artifacts collect before release
+21:06:24.281014UTC, SHA631f1117;1726 identities/1378 groups retire, KFD empty,
+lease/model identities unchanged, mirrors exact and Core notified before
+analysis. The fixed-point parity goal is now **paused by explicit owner request**.
+The new priority is prefill/decode optimization through128K.
+[Complete result](../config/q2-hc-down-direct-weight-results.json).
+
+The following paragraphs preserve the preparation record.
+
 The owner requests that fixed-point Q2/UD parity be paused after this last
 attempt. Subsequent optimization prioritizes prefill and decode through128K,
 favoring implementation effort and meaningful complete-request contribution.
