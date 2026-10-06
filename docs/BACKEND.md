@@ -196,8 +196,8 @@ client/server restart or machine reservation is queued in the meantime.
    now also use C17, with [host witnesses](development/validation/c17-schema-body-host-2026-10-05.json).
    All 19 earlier complete witnesses remain unchanged. The matching memo/dispatch/
    Visit/body build now passes selected AR37/MTP37 GPU controls
-   ([receipt](development/validation/c17-schema-body-point-gpu-2026-10-05.json)). Private composition
-   caches and the binary64 codec need extraction within the same task. Numeric
+   ([receipt](development/validation/c17-schema-body-point-gpu-2026-10-05.json)). Immutable grammar
+   composition and the binary64 codec need extraction within the same task. Numeric
    schema preparation, scalar acceptance, LCM representability and literal
    publication now also use C17, with
    [host checks](development/validation/c17-schema-number-host-2026-10-06.json).
@@ -207,7 +207,11 @@ client/server restart or machine reservation is queued in the meantime.
    and synchronization now also use C17
    ([host checks](development/validation/c17-composition-cache-host-2026-10-06.json)).
    Opaque key/value containers and immutable grammar composition remain private.
-   The later 66-file increment still needs a matching GPU build and gates.
+   The later matching `a24875f` 66-file build now passes selected original-weight
+   AR37/MTP37 controls on `.161`
+   ([GPU receipt](development/validation/c17-schema-policy-point-gpu-2026-10-06.json)).
+   Individual numeric/format branches and independent probability/fault/private
+   resource/matched cost gates remain open; this is no new SSD BPE qualification.
    [Release/cache host checks](development/validation/release-cache-host-2026-10-05.json)
    pass 79/79/35 with 20 unchanged complete witnesses. The device-free r17 provider
    builds but its application fails a strict optimized C warning; the collected

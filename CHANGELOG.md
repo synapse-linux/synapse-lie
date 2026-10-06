@@ -7,19 +7,24 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- The matching 66-file C17 provider/application build passes 37 original-weight
+  OpenAI controls in both AR and MTP on Strix Point. These qualify selected
+  integrated paths; individual numeric/format branches, faults and cost remain open.
+
 - Shared C17 ordered cache policy for reasoning and tool grammars, including
   duplicate reuse, synchronization and bounded eviction. Typed provider keys
-  and immutable composition remain private; matching GPU gates are pending.
+  and immutable composition remain private. Matching selected AR/MTP controls
+  pass; individual branch, resource and cost gates remain pending.
 
 - Shared C17 JSON Schema format expansion for the nine existing formats,
   including ordered IPv6 patterns and hostname bounds. Original/OFF patterns,
-  prefix decisions and intersections agree in host checks; matching GPU
-  qualification remains pending.
+  prefix decisions and intersections agree in host checks. The matching build
+  passes selected AR/MTP controls; individual format GPU branches remain pending.
 
 - Shared C17 numeric schema control for ordered constraints, scalar acceptance,
   exact `multipleOf` representability and literal construction. Host checks
-  preserve original/OFF behavior; the binary64 codec remains private and
-  matching GPU qualification is pending.
+  preserve original/OFF behavior; the binary64 codec remains private. Matching
+  selected AR/MTP controls pass; independent numeric GPU gates remain pending.
 
 ### Added
 

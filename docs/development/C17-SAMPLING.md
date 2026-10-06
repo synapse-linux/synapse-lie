@@ -41,22 +41,30 @@ scalar acceptance, exact LCM representability and numeric literal construction
 to `lie/schema_number.h`. Its
 [host checks](validation/c17-schema-number-host-2026-10-06.json) pass 13 Release,
 13 sanitizer and 37 pristine/ON/OFF controls. All 20 earlier complete witnesses
-retain their hashes. This increment still needs a matching GPU build and gates;
-the existing `6a48da3` runtime does not include it. Binary64 serialization/parser
+retain their hashes. The later matching `a24875f` build below passes selected
+AR/MTP controls; individual numeric GPU gates remain open. `6a48da3` excludes it.
+Binary64 serialization/parser
 implementation and private composition/model/controller remain transitional.
 
 The later 63-file format increment also moves pinned format selection/patterns
 and schema expansion to C17. Its
 [host checks](validation/c17-schema-format-host-2026-10-06.json) pass 14 Release,
 14 sanitizer and 38 pristine/ON/OFF controls with all 21 prior complete hashes
-unchanged. Matching new GPU build/gates remain pending. The binary64 codec and
+unchanged. The later matching `a24875f` build below passes selected AR/MTP
+controls; individual format GPU branches remain pending. The binary64 codec and
 private composition/model/controller remain transitional.
 
 The later 66-file increment moves the reasoning/tool composition cache policy
 to `lie/ordered_cache.h`. Its
 [host checks](validation/c17-composition-cache-host-2026-10-06.json) compare
 retained program identities, language/prefix decisions and concurrent reuse.
-Matching provider/application GPU gates remain pending. Immutable grammar
+The matching `a24875f` sealed provider/application build now passes 37
+original-weight OpenAI controls in each AR/MTP mode on `.161`
+([GPU receipt](validation/c17-schema-policy-point-gpu-2026-10-06.json)). Selected
+integrated paths are qualified; individual numeric/format branches, new SSD BPE,
+independent probability/fault/private resource/matched cost remain open. Both
+modes observe a maximum of 44 whole-process threads, including runtime helpers;
+the source adds no inference worker or measured speedup. Immutable grammar
 composition, opaque typed key/value storage and binary64 codec remain private.
 
 ## Ownership and behavior

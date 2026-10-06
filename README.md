@@ -6,14 +6,11 @@ and a command-line benchmark tool. Its shared C17 core manages reactive
 scheduling, concurrent requests, cancellation, metrics and prompt caching.
 The current numerical backend is an embedded Gufo adapter using C++ and HIP,
 with owned [C17 sampling, grammar and schema components](docs/development/C17-SAMPLING.md).
-Dense sampling has recorded GPU checks. Checkpoint `6a48da3`, including C17
-schema memo, dispatch, Visit and body control, passes
-[37 OpenAI controls in both AR and MTP on Strix Point](docs/development/validation/c17-schema-body-point-gpu-2026-10-05.json).
-Broader numerical, fault, resource and performance gates remain open.
-Numeric schema preparation and representability checks also use the shared
-C17 core, together with the nine existing format expansions and reasoning/tool
-composition cache policy. These later
-increments have host checks and await matching GPU gates.
+Dense sampling has recorded GPU checks. Checkpoint `a24875f`, including the
+66-file C17 schema numeric/format and reasoning/tool cache inventory, passes
+[37 OpenAI controls in both AR and MTP on Strix Point](docs/development/validation/c17-schema-policy-point-gpu-2026-10-06.json).
+These cover selected integrated paths. Individual numeric/format branches,
+broader numerical, fault, resource and performance gates remain open.
 Gufo still owns model/controller state, selected numeric leaves and private
 container/composition templates; ICU remains the Unicode set/property/conversion dependency.
 [Directional steering](docs/guides/USAGE.md#directional-steering) has shared-core

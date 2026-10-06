@@ -1,6 +1,34 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Matching 66-file GPU build and AR/MTP controls pass — 2026-10-06 UTC
+
+The sealed `a24875f` provider/application includes the later C17 numeric,
+format and reasoning/tool cache modules. Its independently admitted device-free
+build and original-weight AR/MTP windows on `.161` pass, with 37 OpenAI controls
+per mode ([receipt](development/validation/c17-schema-policy-point-gpu-2026-10-06.json)).
+All 66 compiled owned files agree with the host inventory. Six build run files,
+17 compile files and 17 files per inference mode are collected; the portable
+archive contains 90 source/receipt/log members, without models or binaries.
+
+The build releases at 00:47:27 UTC, AR at 00:54:27 and MTP at 00:58:42.
+Fresh 00:59:10 closure verifies all three exact supervisor/container identities
+retired, HTTP8000 unbound, original lease device 66307/inode 105946405 free then
+released and router 84458 active/only KFD. The initial build-closure observer
+failed reading a retired PID; the initial AR observer assumed only ADMITTED
+instead of RUNNING_DISTROBOX. Both actual failures are retained and corrected
+read-only observations pass; neither job was restarted.
+
+AR peaks CPU 61.25 / GPU 65 / NVMe 62.85 C, MTP CPU 66.375 / GPU 70 / NVMe 63.85 C. Build CPU
+peaks 69.75 C. CPU 98 / NVMe 85/lower guards remain active; GPU is observed only.
+Both inference modes observe at most 44 whole-process threads, including runtime
+helpers; no inference worker is added. GTT peaks are recorded, without a matched
+resource or speed claim. Model/predictor stats remain unchanged. Selected
+integrated paths now have matching GPU evidence; individual numeric/format
+branches, SSD BPE, independent probability/fault/resource/cost/quality remain
+open. All six owned tasks remain open. Terminal Bench stays stopped/deferred;
+root retains `.157` non-use and no standing reservation after closure.
+
 ## Reasoning/tool cache policy uses C17 — 2026-10-06 UTC
 
 Ordered lookup, duplicate reuse before eviction, synchronization and smallest-key

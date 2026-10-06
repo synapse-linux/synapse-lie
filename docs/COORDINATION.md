@@ -1,5 +1,40 @@
 # DS4 / synapse-lie coordination
 
+## R19 matching build and AR/MTP actually closed — 2026-10-06
+
+Point and DGX supply fresh own `.161` non-use; root continues `.157` non-use.
+Fresh 00:43:21 UTC observation verifies the original lease device 66307 /
+inode 105946405 briefly free then released, only router 77726 on KFD, no foreign
+client/hot guard/HTTP8000 listener, and exclusive r19 destinations absent.
+The sealed `a24875f` source is staged in a separate persistent root.
+
+Build supervisor 78211 / start ticks 11643437 owns the original lease and compiles the
+matching 66-file provider/application without GPU devices, then exits 0 / releases
+at 00:47:27 UTC. Collection binds six run and 17 compile files; fresh 00:48:31
+closure verifies exact supervisor/container retirement and router 81574 restored.
+The first closure observer fails on an already absent PID; corrected identity
+handling is read-only and preserves the actual failed script/exit.
+
+AR supervisor 82089 / start ticks 11680463 and MTP supervisor 83449 / start ticks 11711065 follow
+separate fresh 00:50:12/00:55:15 preflights and nonblocking original-lease
+admissions. Each passes 37 original-weight OpenAI controls and releases at
+00:54:27/00:58:42 UTC, respectively. Each 17-file collection verifies actual
+supervisor/child retirement, unchanged model stats and router restoration.
+An initial AR monitor assumes ADMITTED instead of RUNNING_DISTROBOX; failure
+is retained, its corrected observation reports the same live owner/lease and
+no inferencing job is restarted.
+
+Fresh 00:59:10 UTC final closure verifies all three supervisor/container
+identities retired, HTTP8000 unbound, original lease briefly free/released,
+router 84458 active/only KFD and no foreign compute client or hot guard.
+[Receipt](development/validation/c17-schema-policy-point-gpu-2026-10-06.json).
+CPU 98 / NVMe 85/lower exposed guards remain active, with GPU temperature observed
+only. No dependency installation, tuning, foreign mutation or deployment occurs.
+Selected integrated paths qualify; individual numeric/format/SSD BPE/probability/
+fault/resource/quality/cost gates remain open. All actual tool handles are
+collected. Root has no `.157` activity or standing reservation. Terminal Bench
+remains stopped and deferred until functional changes and qualification finish.
+
 ## R18 build and AR/MTP actually closed — 2026-10-05
 
 Point supplies fresh own non-use through turn01a10e5b-2674; DGX confirms
