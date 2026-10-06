@@ -31,7 +31,93 @@ static void *allocate(void *context, size_t bytes) {
   void *p = malloc(bytes); if (p) ++a->alive; return p;
 }
 static void release(void *context, void *p) { allocation *a = context; assert(a->alive); --a->alive; free(p); }
+/* Pending final qualification: these oracles use only integer cross-products
+ * and remainder, independently of the decimal/JSON/provider implementation. */
+static void complete_scalar_oracles(void) {
+  for (int a = -173; a <= 173; ++a) {
+    char value[32]; cents(value, a);
+    for (int b = -41; b <= 41; ++b) {
+      char bound[32]; sprintf(bound, "%de-3", b);
+      int order = 99;
+      int difference = a * 10 - b;
+      assert(lie_number_compare(text(value), text(bound), &order) == LIE_NUMBER_OK);
+      assert(order == (difference > 0) - (difference < 0));
+    }
+    for (int b = 1; b <= 31; ++b) {
+      char step[32]; cents(step, b);
+      bool multiple = false;
+      assert(lie_number_multiple(text(value), text(step), &multiple) == LIE_NUMBER_OK);
+      assert(multiple == (a % b == 0));
+    }
+  }
+  struct { const char *a, *b; int order; } pairs[] = {
+    {"-0e4000", "0.0000", 0}, {"-3e-1", "-0.300", 0},
+    {"0.3000000000000000001", "0.3", 1},
+    {"-0.3000000000000000001", "-0.3", -1},
+    {"1000000000000000001", "1e18", 1},
+    {"1e-400", "0", 1}, {"-1e-400", "0", -1},
+    {"1e4096", "1e-4096", 1}
+  };
+  for (size_t i = 0; i < sizeof(pairs) / sizeof(*pairs); ++i) {
+    int order = 99;
+    assert(lie_number_compare(text(pairs[i].a), text(pairs[i].b), &order) == LIE_NUMBER_OK);
+    assert(order == pairs[i].order);
+  }
+  const char *invalid[] = {"", "01", "+1", "1.", ".1", "1e", "1e-", "1x", " 1", "1 "};
+  for (size_t i = 0; i < sizeof(invalid) / sizeof(*invalid); ++i) {
+    int order = 99; bool multiple = true;
+    assert(lie_number_compare(text(invalid[i]), text("0"), &order) == LIE_NUMBER_INVALID);
+    assert(order == 99);
+    assert(lie_number_compare(text("0"), text(invalid[i]), &order) == LIE_NUMBER_INVALID);
+    assert(order == 99);
+    assert(lie_number_multiple(text(invalid[i]), text("0.3"), &multiple) == LIE_NUMBER_INVALID);
+    assert(multiple);
+    assert(lie_number_multiple(text("0"), text(invalid[i]), &multiple) == LIE_NUMBER_INVALID);
+    assert(multiple);
+  }
+  int order = 99; bool multiple = true;
+  assert(lie_number_compare(text("1e4097"), text("0"), &order) == LIE_NUMBER_RESOURCE && order == 99);
+  assert(lie_number_multiple(text("1e4097"), text("0.1"), &multiple) == LIE_NUMBER_RESOURCE && multiple);
+  assert(lie_number_multiple(text("1e4096"), text("1e-4096"), &multiple) == LIE_NUMBER_RESOURCE && multiple);
+  char large[4097]; memset(large, '1', sizeof(large));
+  assert(lie_number_compare((lie_number_text){large, sizeof(large)}, text("0"), &order) == LIE_NUMBER_RESOURCE && order == 99);
+  assert(lie_number_multiple((lie_number_text){large, sizeof(large)}, text("1"), &multiple) == LIE_NUMBER_RESOURCE && multiple);
+  assert(lie_number_compare((lie_number_text){NULL, 1}, text("0"), &order) == LIE_NUMBER_INVALID && order == 99);
+  assert(lie_number_compare(text("0"), text("0"), NULL) == LIE_NUMBER_INVALID);
+  assert(lie_number_multiple(text("0"), text("1"), NULL) == LIE_NUMBER_INVALID);
+  const char *nonpositive[] = {"0", "-0", "-0.1"};
+  for (size_t i = 0; i < sizeof(nonpositive) / sizeof(*nonpositive); ++i) {
+    assert(lie_number_multiple(text("0"), text(nonpositive[i]), &multiple) == LIE_NUMBER_INVALID);
+    assert(multiple);
+  }
+  union { int order; bool multiple; char text[16]; } alias;
+  memset(&alias, 0, sizeof(alias)); memcpy(alias.text, "0.3", 3);
+  unsigned char before[sizeof(alias)]; memcpy(before, &alias, sizeof(alias));
+  assert(lie_number_compare((lie_number_text){alias.text, 3}, text("0.3"), &alias.order) == LIE_NUMBER_INVALID);
+  assert(!memcmp(before, &alias, sizeof(alias)));
+  assert(lie_number_multiple(text("0.9"), (lie_number_text){alias.text, 3}, &alias.multiple) == LIE_NUMBER_INVALID);
+  assert(!memcmp(before, &alias, sizeof(alias)));
+  const char span[] = {'3', 'e', '-', '1', 'X'};
+  assert(lie_number_compare((lie_number_text){span, 4}, text("0.3"), &order) == LIE_NUMBER_OK && !order);
+  const char nul[] = {'1', '\0', '0'};
+  order = 99;
+  assert(lie_number_compare((lie_number_text){nul, sizeof(nul)}, text("0"), &order) == LIE_NUMBER_INVALID && order == 99);
+  allocation a = {.fail = 1};
+  lie_grammar_allocator hooks = {&a, allocate, release};
+  assert(lie_number_multiple_with_allocator(text("0.9"), text("0.3"), &hooks, 0, &multiple) == LIE_NUMBER_RESOURCE);
+  assert(multiple && a.calls == 1 && !a.alive);
+  a.fail = 0;
+  assert(lie_number_multiple_with_allocator(text("144.4"), text("0.3"), &hooks, 1, &multiple) == LIE_NUMBER_WORK_LIMIT);
+  assert(multiple && !a.alive);
+  assert(lie_number_multiple_with_allocator(text("-0e4000"), text("0.3"), &hooks, 1, &multiple) == LIE_NUMBER_OK && multiple);
+  assert(!a.alive);
+  hooks.release = NULL;
+  size_t calls = a.calls;
+  assert(lie_number_multiple_with_allocator(text("0"), text("1"), &hooks, 0, &multiple) == LIE_NUMBER_INVALID);
+  assert(multiple && a.calls == calls && !a.alive);
+}
 int main(void) {
+  complete_scalar_oracles();
   size_t values = 0, intersections = 0;
   lie_number_description d; lie_number_description_init(&d);
   d.minimum = text("-12.5"); d.maximum = text("17.75"); d.multiple = text("0.15");

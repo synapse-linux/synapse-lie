@@ -1,6 +1,28 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Final decimal schema validation implemented; tests deferred — 2026-10-06 UTC
+
+The shared core uses exact output spans for fractional min/max/exclusive
+constraints, numeric enum/const equality (including nested objects/arrays) and
+`multipleOf`. It removes rounded output comparisons and the floating quotient
+tolerance. Additive model-neutral C17 comparison/divisibility APIs reuse the
+existing bounded decimal implementation. Comparison uses bounded stack storage;
+divisibility retires one caller-allocator workspace without constructing a policy.
+
+Schema numbers retain the transitional compiler's binary64 admission/shortest
+decimal domain. Integer intervals retain exact represented binary64 boundaries.
+Output digits are preserved; invalid/nonpositive divisors and resource/work
+refusals reject the final value. API refusal preserves its result. Reactive,
+worker, model, cache, event and metric contracts are unchanged.
+
+**Unverified:** no build, CTest, sanitizer or GPU run is started for this increment.
+Independent integer/rational, close-boundary, underflow/overflow, nested-value,
+allocator/work/resource and alias fixtures are written for the final phase.
+Earlier HOST/GPU receipts qualify their frozen sources only. Final acceptance
+must cover numeric grammar/final-validation agreement, original-weight AR/MTP,
+faults and cost; no complete schema or performance claim is made.
+
 ## Implement remaining functionality before final tests — 2026-10-06 UTC
 
 The owner defers new CPU and GPU test campaigns until the remaining functional

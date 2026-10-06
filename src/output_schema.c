@@ -1,15 +1,40 @@
 /* SPDX-License-Identifier: MIT */
 #include "output_json.h"
+#include "lie/binary64.h"
+#include "lie/grammar_number.h"
 #include "lie/schema_integer.h"
-#include <math.h>
 #include <string.h>
+/* The transitional compiler admits binary64 schema numbers and uses their
+ * shortest JSON spelling for decimal predicates/literals. Match that schema
+ * domain, but retain every original output digit in the final check. Integer
+ * interval bounds continue to use the exact represented binary64 boundary. */
+static bool number_spelling(const oj_node *schema, char *text,
+                            lie_number_text *span, double *number) {
+  double value;
+  size_t bytes = 0;
+  if (!schema || schema->type != OJ_NUMBER ||
+      lie_binary64_parse(schema->start, schema->bytes, NULL, &value) !=
+          LIE_BINARY64_OK ||
+      lie_binary64_format(value, text, LIE_BINARY64_TEXT_CAPACITY, &bytes) !=
+          LIE_BINARY64_OK)
+    return false;
+  *span = (lie_number_text){text, bytes};
+  if (number) *number = value;
+  return true;
+}
 static bool equal(const oj_node *a, const oj_node *b) {
   if (!a || !b || a->type != b->type)
     return false;
   if (a->type == OJ_STRING)
     return !strcmp(a->string, b->string);
-  if (a->type == OJ_NUMBER)
-    return a->number == b->number;
+  if (a->type == OJ_NUMBER) {
+    char text[LIE_BINARY64_TEXT_CAPACITY];
+    lie_number_text schema;
+    int order;
+    return number_spelling(a, text, &schema, NULL) &&
+           lie_number_compare(schema, (lie_number_text){b->start, b->bytes},
+                              &order) == LIE_NUMBER_OK && order == 0;
+  }
   if (a->type == OJ_BOOL)
     return a->boolean == b->boolean;
   if (a->type == OJ_OBJECT) {
@@ -128,22 +153,27 @@ static bool accepts(const oj_node *root, const oj_node *s, const oj_node *v,
       const oj_node *n = oj_field(s, keys[i]);
       if (!n)
         continue;
-      if (n->type != OJ_NUMBER)
+      char text[LIE_BINARY64_TEXT_CAPACITY];
+      lie_number_text boundary;
+      double number;
+      if (!number_spelling(n, text, &boundary, &number))
         return false;
-      if (integer && i < 4) {
+      if (i < 4) {
         int order = 0;
-        if (lie_schema_integer_compare(v->start, v->bytes, n->number, &order) !=
-            LIE_SCHEMA_OK ||
+        bool compared = integer
+            ? lie_schema_integer_compare(v->start, v->bytes, number, &order) ==
+                  LIE_SCHEMA_OK
+            : lie_number_compare((lie_number_text){v->start, v->bytes},
+                                 boundary, &order) == LIE_NUMBER_OK;
+        if (!compared ||
             (i == 0 && order < 0) || (i == 1 && order > 0) ||
             (i == 2 && order <= 0) || (i == 3 && order >= 0)) return false;
-      } else if ((i == 0 && v->number < n->number) ||
-          (i == 1 && v->number > n->number) ||
-          (i == 2 && v->number <= n->number) ||
-          (i == 3 && v->number >= n->number) ||
-          (i == 4 &&
-           (n->number <= 0 ||
-            fabs(v->number / n->number - round(v->number / n->number)) > 1e-9)))
-        return false;
+      } else {
+        bool multiple = false;
+        if (lie_number_multiple((lie_number_text){v->start, v->bytes},
+                                boundary, &multiple) != LIE_NUMBER_OK || !multiple)
+          return false;
+      }
     }
   }
   return true;

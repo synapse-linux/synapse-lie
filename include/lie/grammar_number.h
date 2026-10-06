@@ -50,6 +50,22 @@ lie_number_status lie_number_equal(lie_number_text, lie_number_text, bool *);
  * NULL selects malloc/free. Refusals preserve the result argument. */
 lie_number_status lie_number_equal_with_allocator(lie_number_text, lie_number_text,
   const lie_grammar_allocator *, bool *);
+/* Compare complete JSON decimal spans exactly, returning -1, 0 or 1. The
+ * same 4096-byte/exponent bounds apply. Borrowed spans may alias each other,
+ * but must be disjoint from the result. Constant bounded stack storage, no
+ * heap, floating point, mutable state or retained pointers. Refusal preserves
+ * the result. Equality treats signed zero and equivalent exponents alike. */
+lie_number_status lie_number_compare(lie_number_text, lie_number_text, int *);
+/* Exact divisibility by a strictly positive decimal step. Negative values
+ * and signed zero are allowed; zero is a multiple of every positive step.
+ * Reuses bounded decimal division with the declared paired workspace
+ * allocator and max_work (0 selects the default). No policy is constructed
+ * or retained. Invalid/nonpositive step, aliasing, allocation/work/resource
+ * refusal preserves the result and retires the temporary workspace. */
+lie_number_status lie_number_multiple_with_allocator(lie_number_text value,
+  lie_number_text step, const lie_grammar_allocator *, size_t max_work, bool *);
+lie_number_status lie_number_multiple(lie_number_text value,
+  lie_number_text step, bool *);
 #ifdef __cplusplus
 }
 #endif

@@ -131,6 +131,58 @@ static void large_bound_oracles(void) {
   accepts("{\"type\":\"integer\",\"minimum\":1.7976931348623157e308,"
           "\"maximum\":1.7976931348623157e308}", largest, true);
 }
+/* New fixtures are pending the owner-requested final test phase. */
+static void decimal_constraint_oracles(void) {
+  const char *keys[] = {"minimum", "maximum", "exclusiveMinimum", "exclusiveMaximum"};
+  for (unsigned negative = 0; negative < 2; ++negative)
+    for (unsigned key = 0; key < 4; ++key) {
+      char schema[96];
+      snprintf(schema, sizeof(schema), "{\"type\":\"number\",\"%s\":%s0.3}",
+               keys[key], negative ? "-" : "");
+      for (int delta = -9; delta <= 9; ++delta) {
+        char value[64];
+        int64_t units = INT64_C(300000000000000000) + delta;
+        snprintf(value, sizeof(value), "%s0.%018" PRId64, negative ? "-" : "", units);
+        int order = negative ? -sign(delta) : sign(delta);
+        bool expected = key == 0 ? order >= 0 : key == 1 ? order <= 0
+                          : key == 2 ? order > 0 : order < 0;
+        accepts(schema, value, expected);
+      }
+    }
+  accepts("{\"type\":\"number\",\"minimum\":0.3,\"maximum\":0.3}", "3e-1", true);
+  accepts("{\"type\":\"number\",\"minimum\":0.3,\"maximum\":0.3}", "0.300000000000000001", false);
+  accepts("{\"type\":\"number\",\"exclusiveMinimum\":0}", "1e-400", true);
+  accepts("{\"type\":\"number\",\"exclusiveMaximum\":0}", "-1e-400", true);
+  accepts("{\"const\":0.3}", "0.300000000000000001", false);
+  accepts("{\"const\":0.3}", "3e-1", true);
+  accepts("{\"enum\":[0.3,0.6]}", "0.599999999999999999", false);
+  accepts("{\"enum\":[0.3,0.6]}", "6e-1", true);
+  accepts("{\"const\":1e18}", "1000000000000000001", false);
+  accepts("{\"const\":1e18}", "1000000000000000000.0", true);
+  accepts("{\"const\":{\"a\":[0.3,1e18]}}", "{\"a\":[0.300000000000000001,1e18]}", false);
+  accepts("{\"const\":{\"a\":[0.3,1e18]}}", "{\"a\":[3e-1,1000000000000000000]}", true);
+  accepts("{\"const\":0}", "1e-400", false);
+  accepts("{\"const\":0}", "-0.0e4000", true);
+  accepts("{\"type\":\"number\",\"multipleOf\":0.3}", "0.9", true);
+  accepts("{\"type\":\"number\",\"multipleOf\":0.3}", "-9e-1", true);
+  accepts("{\"type\":\"number\",\"multipleOf\":0.3}", "0.900000000000000001", false);
+  accepts("{\"type\":\"number\",\"multipleOf\":0.3}", "0.899999999999999999", false);
+  accepts("{\"type\":\"number\",\"multipleOf\":0.1}", "1e-400", false);
+  accepts("{\"type\":\"number\",\"multipleOf\":3}", "1e308", false);
+  accepts("{\"type\":\"number\",\"multipleOf\":0.5}", "1e308", true);
+  accepts("{\"type\":\"integer\",\"multipleOf\":3}", "1000000000000000001", false);
+  accepts("{\"type\":\"integer\",\"multipleOf\":3}", "1000000000000000002", true);
+  accepts("{\"type\":\"number\",\"multipleOf\":0}", "0", false);
+  accepts("{\"type\":\"number\",\"multipleOf\":-0.3}", "0", false);
+  for (int numerator = -173; numerator <= 173; ++numerator)
+    for (int step = 1; step <= 19; ++step) {
+      char schema[96], value[48];
+      unsigned magnitude = (unsigned)(numerator < 0 ? -numerator : numerator);
+      snprintf(schema, sizeof(schema), "{\"type\":\"number\",\"multipleOf\":%d.%02d}", step / 100, step % 100);
+      snprintf(value, sizeof(value), "%s%u.%02u", numerator < 0 ? "-" : "", magnitude / 100, magnitude % 100);
+      accepts(schema, value, numerator % step == 0);
+    }
+}
 int main(void) {
   const char *positive = "{\"type\":\"integer\",\"exclusiveMinimum\":1e18,"
                          "\"maximum\":1.0000000000000001e18}";
@@ -158,7 +210,7 @@ int main(void) {
           "\"exclusiveMinimum\":1e18,\"maximum\":1.0000000000000001e18}},"
           "\"required\":[\"value\"],\"additionalProperties\":false}",
           "{\"value\":1000000000000000001}", true);
-  comparison_oracles(); large_bound_oracles();
+  comparison_oracles(); large_bound_oracles(); decimal_constraint_oracles();
   printf("Exact output-schema: %zu numeric checks; HOST NOT-INFERENCE\n", checks);
   return 0;
 }

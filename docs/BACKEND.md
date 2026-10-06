@@ -334,7 +334,13 @@ Bench client/server restart or machine reservation is queued in the meantime.
    each conversion hook is an independent optional override. The
    [HOST receipt](development/validation/c17-schema-codec-host-2026-10-06.json)
    records Release5/sanitizer5/provider58/contracts3 and all 30 preceding groups/
-   267 files unchanged. Matching new-source HIP/AR/MTP qualification is pending.
+   267 files unchanged. Matching new-source HIP/AR/MTP qualification is pending
+   in the final phase. The later shared final validator now uses exact output
+   spans for fractional bounds, numeric enum/const and `multipleOf`, through
+   reusable C17 comparison/divisibility APIs. This later increment is **unverified**:
+   code and independent fixtures are written, with all new tests deferred.
+   Grammar/final-validator agreement, original-weight AR/MTP, fault and cost
+   acceptance remain open alongside the other final gates.
    Typed schema/grammar construction/initialization/callback-error facades and model/controller
    ownership remain transitional. This step does not close any of the six items.
    Compiler orchestration/typed facades/model ownership and broader branch,

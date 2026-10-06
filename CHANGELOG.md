@@ -7,6 +7,11 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Shared C17 final schema validation preserves output digits for fractional
+  bounds, numeric `enum`/`const` and exact `multipleOf`, including nested values.
+  New comparison/divisibility APIs are reusable by other clients. This increment
+  awaits the final qualification phase.
+
 - C17 schema-number descriptions now use the shared binary64 codec directly
   by default. Serialization and parsing callbacks are independent optional
   overrides; native failures preserve outputs and record deterministic errors.

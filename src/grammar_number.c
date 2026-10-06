@@ -396,3 +396,48 @@ lie_number_status lie_number_equal_with_allocator(lie_number_text a, lie_number_
 lie_number_status lie_number_equal(lie_number_text a, lie_number_text b, bool *out) {
   return lie_number_equal_with_allocator(a, b, NULL, out);
 }
+static bool result_disjoint(lie_number_text text, const void *out, size_t bytes) {
+  uintptr_t t = (uintptr_t)text.data, o = (uintptr_t)out;
+  return text.data && text.bytes &&
+    text.bytes <= UINTPTR_MAX - t && bytes <= UINTPTR_MAX - o &&
+    !(t < o + bytes && o < t + text.bytes);
+}
+lie_number_status lie_number_compare(lie_number_text a, lie_number_text b, int *out) {
+  if (!out || !result_disjoint(a, out, sizeof(*out)) ||
+      !result_disjoint(b, out, sizeof(*out))) return LIE_NUMBER_INVALID;
+  decimal left, right;
+  TRY(parse(a, &left, false));
+  TRY(parse(b, &right, false));
+  *out = compare(&left, &right);
+  return LIE_NUMBER_OK;
+}
+lie_number_status lie_number_multiple_with_allocator(lie_number_text value,
+    lie_number_text step, const lie_grammar_allocator *hooks, size_t max_work,
+    bool *out) {
+  lie_grammar_allocator allocator;
+  if (!out || !result_disjoint(value, out, sizeof(*out)) ||
+      !result_disjoint(step, out, sizeof(*out)) || !allocator_get(hooks, &allocator))
+    return LIE_NUMBER_INVALID;
+  workspace *w = allocator.allocate(allocator.context, sizeof(*w));
+  if (!w) return LIE_NUMBER_RESOURCE;
+  w->work = max_work ? max_work : DEFAULT_WORK;
+  lie_number_status rc = parse(value, &w->x, false);
+  bool result = false;
+  if (rc == LIE_NUMBER_OK) rc = parse(step, &w->y, false);
+  if (rc == LIE_NUMBER_OK && (zero(&w->y) || w->y.negative))
+    rc = LIE_NUMBER_INVALID;
+  if (rc == LIE_NUMBER_OK) {
+    if (zero(&w->x)) result = true;
+    else {
+      rc = divide(w, &w->x, &w->y);
+      if (rc == LIE_NUMBER_OK) result = zero(&w->remainder);
+    }
+  }
+  allocator.release(allocator.context, w);
+  if (rc == LIE_NUMBER_OK) *out = result;
+  return rc;
+}
+lie_number_status lie_number_multiple(lie_number_text value,
+    lie_number_text step, bool *out) {
+  return lie_number_multiple_with_allocator(value, step, NULL, 0, out);
+}

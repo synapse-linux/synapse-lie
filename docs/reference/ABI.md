@@ -36,6 +36,18 @@ The initialized description still requires its borrowed schema reader.
 pass; matching GPU qualification of this later source remains pending in the
 owner-requested final phase after functional implementation.
 
+Grammar-number ABI 1 adds `lie_number_compare`, `lie_number_multiple` and its
+allocator/work-budget variant without changing existing layouts or versions.
+Complete JSON decimal spans are compared exactly; divisibility requires a
+positive step and admits negative values/signed zero. Inputs are borrowed and
+disjoint from the result; invalid input, aliasing, resource, allocator and work
+refusals preserve it. The existing 4,096-byte/exponent and bounded decimal
+arithmetic limits apply. Comparison uses constant bounded stack storage and no
+heap; divisibility owns/retires a temporary workspace through paired hooks.
+These additions and their shared final-validator integration are **unverified**
+until the owner-requested final test phase. See
+[final decimal output validation](../development/C17-SAMPLING.md#final-decimal-output-validation).
+
 `lie/schema_integer.h` adds standalone C17 ABI 1 calls for exact integral
 binary64 magnitude, exact integer comparison and signed grammar compilation.
 `lie_schema_integer_compare` borrows a complete JSON number span and compares

@@ -1007,6 +1007,32 @@ comparisons, failures and temperatures. These are synthetic host checks;
 original-weight AR/MTP/tool/grammar continuation, resources and matched cost
 remain unqualified on `.161`.
 
+## Final decimal output validation
+
+**Implemented, unverified; tests deferred to the final phase.** The shared
+core final validator keeps every output digit for fractional bounds, numeric
+enum/const equality (also inside objects/arrays) and exact `multipleOf`.
+`lie_number_compare` reuses the existing exact decimal parser/comparison with
+bounded stack storage and no allocation. `lie_number_multiple` and its
+allocator/work-budget variant reuse exact division, reject nonpositive steps,
+preserve refused results and retire a single workspace without a policy object.
+Complete span/exponent/arithmetic limits remain explicit.
+
+Schema numbers follow the transitional compiler's finite binary64 admission
+and shortest decimal spelling. Integer interval checks keep exact represented
+binary64 bounds; output rounding no longer decides fractional constraints or
+equality/divisibility. Existing layouts, reactive scheduling, workers, cache,
+events and metrics remain unchanged. This does not complete typed schema/model
+ownership or establish every JSON Schema keyword.
+
+Independent fixtures are written for integer/rational oracles, hidden fractional
+digits, positive/negative exclusive limits, equivalent spellings, nested enum/
+const, underflow/overflow, invalid steps, allocation/work/resource refusal and
+aliasing. They have not run. Final qualification must run focused core/provider
+checks and sanitizers, then original-weight AR/MTP on `.161`, checking agreement
+with numeric grammar acceptance and measuring cost. Previous receipts do not
+qualify this increment.
+
 ## Numeric schema leaf control
 
 `lie/schema_number.h` adds model-neutral ABI 1. Its C17 implementation reads
