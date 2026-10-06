@@ -399,7 +399,17 @@ done
 
 ### Original-weight HTTP AR and MTP gates
 
-The current matching `ad53e681` build removes duplicate C++ grammar rule/class
+The current matching `72e9e831` build adds C17 ownership of derived schema
+values and transformation staging. It passes the unchanged **37 controls in AR
+and MTP**. The
+[source-bound receipt](../../../../development/validation/c17-schema-store-point-gpu-2026-10-06.json)
+and [portable raw evidence](data/rocm10-schema-store-openai-r30.tar.gz)
+record coherent 99-file HIP ON/OFF providers, matching private consumers,
+telemetry and actual closure. These are selected functional controls, with no
+new throughput measurement or graph. HOST lifetime and complete grammar
+witnesses retain their separate scope.
+
+The preceding matching `ad53e681` build removes duplicate C++ grammar rule/class
 payloads and passes the same **37 controls in AR and MTP**. The
 [source-bound receipt](../../../../development/validation/c17-grammar-storage-point-gpu-2026-10-06.json)
 and [portable raw evidence](data/rocm10-grammar-storage-openai-r29.tar.gz)

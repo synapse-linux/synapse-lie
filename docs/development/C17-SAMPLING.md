@@ -168,11 +168,15 @@ Ownership controls include 1,025 native roots, 2,049 typed projection insertions
 The final C fixture performs 32,810 checks. Existing root/child/view identities
 and embedded-NUL bytes survive collection growth and retirement of other roots;
 no tree clone occurs at adoption/take. These HOST controls qualify neither
-GPU speed nor a complete C17 frontend/model executor. The older `ad53e681`/r29
-GPU receipt excludes this increment; matching HIP/original-weight checks remain
-pending. Existing reactive worker/thread counts and default dependencies remain
-unchanged. Terminal Bench is deferred until functional modifications and
-qualification finish.
+GPU speed nor a complete C17 frontend/model executor. The matching `72e9e831`
+build verifies coherent 99-file HIP ON/OFF providers and private model/frontend
+consumers. It passes the unchanged 37 selected original-weight OpenAI controls
+in each AR/MTP mode on `.161`
+([GPU receipt](validation/c17-schema-store-point-gpu-2026-10-06.json)).
+The older `ad53e681`/r29 receipt retains its separate identity. Broader compiler
+branches, faults, quality, private resource accounting and matched cost remain
+open. Existing reactive workers and default dependencies are unchanged;
+Terminal Bench is deferred until functional modifications and qualification finish.
 
 ## Immutable grammar table ownership
 

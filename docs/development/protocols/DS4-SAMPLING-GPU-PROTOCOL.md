@@ -59,6 +59,10 @@ header compilation do not qualify the newly exposed filters on original weights.
 CPU protocol checks are recorded in the
 [supervisor receipt](../validation/ds4-sampling-point-supervisor-2026-10-04.json);
 the [native client receipt](../validation/ds4-sampling-controls-2026-10-04.json)
-records parser, ABI, retained options and report compatibility. Actual GPU
-qualification remains pending until `.161` is available and a new source/binary
-identity is sealed and admitted.
+records parser, ABI, retained options and report compatibility. The integrated
+`1bff953` runtime completes two seeded PP1500/TG128 sessions for greedy AR and
+the declared profile in AR/MTP on `.161`
+([selected GPU evidence](../validation/c17-sampling-point-gpu-2026-10-05.json)).
+That proves selected fixed-output/replay and actual MTP draft/acceptance controls.
+Independent probability/filter/tool-transition and matched-cost gates above
+remain open; the recorded source does not qualify later binaries automatically.

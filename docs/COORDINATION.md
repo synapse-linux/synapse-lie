@@ -1,5 +1,26 @@
 # DS4 / synapse-lie coordination
 
+## R30 derived schema root build and selected controls closed — 2026-10-06
+
+Fresh peer own non-use and separate global preflights admit sealed `72e9e831`
+on `.161`. The device-free build verifies coherent 99-file HIP ON/OFF providers,
+matching private consumers and whole OFF reference linkage. Original-weight
+AR/MTP each pass 37 unchanged OpenAI controls. All three windows have actual
+server/child/controller/supervisor exits 0 and SHA-verified collected files.
+[Receipt](development/validation/c17-schema-store-point-gpu-2026-10-06.json). The initial wrong-kind log collection exits 1 and is retained;
+corrected collection exits 0, without a build/inference restart.
+
+Fresh 2026-10-06T12:41:26.066915+00:00 closure independently verifies exact supervisor/container-init
+retirement, owned containers removed, HTTP8000 unbound, original lease device
+66307/inode105946405 briefly free then released, and router
+168702 restored/only KFD. No foreign client or hot guard is
+observed. Models remain stat-bound unchanged. CPU98/NVMe85/lower guards and GPU
+observation remain active; no tuning, install, deployment or root `.157/.158`
+work occurs. Root has no standing remote job/client/build/lease/waiter/
+reservation or live local handle. This dated closure is not future admission.
+Peer work stays separately owned. All six tasks remain open; Terminal Bench
+stays stopped/collected/closed/deferred last, without restart or reservation.
+
 ## R29 immutable grammar storage build and selected controls closed — 2026-10-06
 
 Fresh peer own non-use and independent global preflights admit sealed `ad53e681`

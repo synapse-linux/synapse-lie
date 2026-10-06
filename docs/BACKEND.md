@@ -275,8 +275,11 @@ client/server restart or machine reservation is queued in the meantime.
    [HOST receipt](development/validation/c17-schema-store-host-2026-10-06.json)
    records 54 sanitizer checks, three corrected provenance gates and all 29
    complete preceding witnesses unchanged. Original OFF compiler storage remains
-   guarded. Matching HIP/original-weight qualification for this increment is
-   pending; compiler orchestration/typed facades/model ownership remain open.
+   guarded. Matching sealed `72e9e831` coherent 99-file HIP ON/OFF providers
+   and private consumers pass unchanged AR37/MTP37 original-weight controls
+   ([GPU receipt](development/validation/c17-schema-store-point-gpu-2026-10-06.json)).
+   Compiler orchestration/typed facades/model ownership and broader branch,
+   fault, quality, private-resource and matched-cost gates remain open.
    Root-reference cycle/admission policy and root whitespace/body composition
    now also use C17, with [host checks](development/validation/c17-schema-root-host-2026-10-06.json).
    The matching sealed `3c4cac56` 96-file HIP build verifies complete ON/OFF

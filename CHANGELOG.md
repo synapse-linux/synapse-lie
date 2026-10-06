@@ -43,8 +43,9 @@ stable release is declared. Detailed validation history is in
 - Shared C17 ownership and limits for derived schema values and transformation
   staging. Results transfer their exact roots without cloning and survive staging
   retirement. HOST lifetime and complete original/default-ON/OFF comparisons pass;
-  matching GPU qualification is pending. Existing C17 option preserves the
-  original OFF compiler path.
+  the matching HIP build passes 37 selected original-weight OpenAI controls in
+  both AR and MTP on Strix Point. Existing C17 option preserves the original
+  OFF compiler path; broader quality, resource and cost gates remain open.
 
 - Default-ON immutable grammar programs no longer duplicate C tables into C++
   rule/class containers. HOST state/mask and lifetime checks pass; matching HIP

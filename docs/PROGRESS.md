@@ -1,6 +1,35 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## C17 derived schema roots pass matching GPU controls — 2026-10-06 UTC
+
+The sealed `72e9e831` source compiles coherent 99-file HIP ON/OFF providers and
+matching private model/frontend consumers. Actual Ninja commands verify the
+whole OFF reference linkage. The new build passes the unchanged 37
+original-weight OpenAI controls in each AR/MTP mode on `.161`, with all
+server/child/controller/supervisor exits 0. The
+[GPU receipt](development/validation/c17-schema-store-point-gpu-2026-10-06.json) and [portable raw evidence](benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-schema-store-openai-r30.tar.gz) retain actual runs,
+source identities and closure. These selected controls complement the frozen
+HOST54 and 29 complete unchanged witness groups; they do not prove every
+compiler branch, quality, faults, private resources or performance. Remaining
+compiler orchestration, typed construction/errors/prompt and model/controller
+are transitional.
+
+AR/MTP CPU maxima are 60.75/65.875 C, GPU 66.0/66.0 C and NVMe 64.85/62.85 C. Whole-process thread maxima are 44/44; no inference worker is added.
+CPU98/NVMe85/lower guards and GPU observation remain intact. The initial
+build-log collector selected the wrong kind and exits 1; its metadata is
+retained and the corrected collection exits 0. No build or inference rerun
+results from that collection error.
+
+Fresh 2026-10-06T12:41:26.066915+00:00 closure verifies all three exact supervisor/container-init
+identities retired, owned containers removed, HTTP8000 unbound, original lease
+free then released and router 168702 active/only KFD.
+Model/predictor stats remain unchanged. Root has no remote job/client/build/
+lease/waiter/reservation or live local handle; `.157/.158` remain unused.
+No tuning, install, deployment or push occurs. All six owned tasks remain open;
+Terminal Bench stays stopped/collected/closed/deferred last until functional
+modifications and matching qualification finish.
+
 ## C17 derived schema root ownership passes HOST controls — 2026-10-06 UTC
 
 Per-compilation derived values and transformation/normalization staging now
