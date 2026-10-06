@@ -5,10 +5,56 @@ The priority remains the original fixed comparison: **1587.893545 PP versus
 UD1685.777092 PP**. Closing it requires **74.889015 ms**, or5.806435% less
 prefill time /6.164365% more throughput. Original exact2048 input,128 outputs,
 127 timed decode calls, capacity9216 and all saved controls remain fixed.
-The separately requested 256K curve did not establish whether improvements
-extend to long conversations: changing the common capacity changed sparse
-attention dispatch and invalidated the historical comparison. Its archived
-results do not replace this reference or the earlier native-curve UD values.
+The [complete saved-input prefill through 128K](Q2-FULL-PREFILL128.md) now
+provides eight observations on the latest retained Q2, with zero cached tokens
+and full 2048-token intermediate chunks. At 130925 tokens, Q2 measures
+1310.874605 token/s versus archived UD 1253.555692, nominally +4.573%.
+This does not replace the fixed comparison: the saved requests, capacities
+and measured phases are different. Historical controls, one sample per input,
+SSE transport and separate cooled 64K/128K sessions limit attribution.
+
+The earlier 256K campaign remains inadmissible for historical comparison:
+changing capacity changed sparse attention dispatch. Its results do not
+replace either the fixed reference or the saved native-curve UD values.
+
+## Next interventions, ranked after the complete prefill
+
+1. **Expert producer, packing and consumer ownership.** Target the active
+   IQ2 gate/up and Q2 down chain, whose saved profile totals 401.058 ms.
+   Start with a staged whole-640 producer/packing design that preserves the
+   full-row scale and rounding boundaries; then evaluate ordered down/consumer
+   work. The opportunity is removing real intermediate publication and reads,
+   while retaining expert-weight reuse. Removing the 17.096-ms packing pass
+   alone cannot close the 74.889-ms fixed-point gap. No new runtime gain is
+   established by this proposal.
+2. **Dense Q8 operand reuse, especially the fused SSM projection.** The saved
+   Q8/F16 region costs 293.227 ms, including 160.218 ms in that projection.
+   Increase useful output work per staged input without an expanded permanent
+   weight mirror. Register and LDS pressure must be checked before a model
+   trial. Aligned-pair loaders, mirrors and the previous pingpong variants have
+   already run; they are preserved negatives, not new candidates.
+3. **A complete HC buffer-pass removal.** The saved combine/norm/injection
+   region costs 186.168 ms. A new design must remove an active read/write pass
+   while preserving ten-expert reduction order, residual contributions and
+   last-reader ownership. The completed raw-Q8 injection and ordinary RMS
+   trials are not evidence of a retained model gain. Keep marginal candidates
+   available for a measured composition, without adding their percentages.
+
+These historical costs come from the retained 1571 diagnostic executable,
+not a fresh profile of the current 1587 provider; regions may overlap.
+They rank mechanisms, not predicted savings. The next numerical trial should
+use one new complete-chain fixture and the unchanged exact-2048 model
+comparison, reusing archived controls. Do not rerun the entire curve for each
+small edit or prioritize partial-token routes to close the full-chunk gap.
+
+Two separate objectives follow the fixed-point priority. For 256K, first
+qualify the [attention capacity draft](Q2-ATTENTION-CAPACITY.md) against the
+actual required capacity and visible span, without padding prompts or adding
+unrequested context headroom. It has compilation and host checks, but no GPU
+result. For decode, reactive scheduling has more trace headroom than prefill:
+79.980 ms between kernels across 15 decode calls versus 5.090 ms in prefill.
+Those gaps are not all removable CPU overhead and are not a speedup promise.
+No new GPU run is scheduled by this recap.
 
 ## Why the last attempts were too small
 

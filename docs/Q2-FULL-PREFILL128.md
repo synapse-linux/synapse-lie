@@ -44,3 +44,62 @@ there are no pauses between2048-token chunks. The98C limit is unchanged. Already
 completed short prefixes and archived controls are not rerun. This changes
 request scheduling/initial thermal state, not tokens, numerical kernels, model,
 server context, prefill chunk size or the completed-executor timer.
+
+## Completed full-prefill observations — 2026-10-06 UTC
+
+All eight historical prefix inputs now have completed current-Q2 observations.
+Both8K calibration attempts are retained. Every request has the exact saved
+model messages/settings and physical token count, zero cached tokens and the
+expected number of2048-token prefill calls. No token padding, truncation or
+substitution was introduced. The fixed2048 benchmark and its targets remain
+unchanged.
+
+| Requested depth | Physical tokens | Calls | Current Q2 token/s | Saved UD token/s | Q2 prefill seconds | UD prefill seconds | Q2 / UD |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 4K | 4088 | 2 | 1512.809054 | 1262.979592 | 2.702258 | 3.236790 | +19.781% |
+| 8K attempt1 | 8138 | 4 | 1511.203024 | 1480.640887 | 5.385114 | 5.496269 | +2.064% |
+| 8K attempt2 | 8177 | 4 | 1476.050829 | 1493.937128 | 5.539782 | 5.473457 | -1.197% |
+| 12K | 12242 | 6 | 1445.124766 | 1453.118328 | 8.471241 | 8.424641 | -0.550% |
+| 16K | 16317 | 8 | 1435.353775 | 1439.306934 | 11.367929 | 11.336706 | -0.275% |
+| 32K | 32711 | 16 | 1402.245716 | 1391.617248 | 23.327581 | 23.505745 | +0.764% |
+| 64K | 65440 | 32 | 1388.420346 | 1349.798341 | 47.132700 | 48.481316 | +2.861% |
+| 128K | 130925 | 64 | 1310.874605 | 1253.555692 | 99.876067 | 104.442907 | +4.573% |
+
+The128K observation covers63 full2048-token chunks plus1901 final tokens.
+It measures99.876067 seconds /1310.874605 token/s, against the saved UD full
+prefill104.442907 seconds /1253.555692 token/s, nominal+4.573%. The previously
+quoted1280.583007 UD value is the subsequent2046-token continuation. These are
+different recorded phases; neither replaces the frozen fixed-point target.
+
+[All current and both archived Q2 controls, exact times and percentages](figures/q2-full-prefill128/comparison.csv),
+[machine-readable audit](../config/q2-full-prefill128-results.json). Current Q2 is
+nominally above both archived Q2 controls at every listed full-prefix observation.
+At128K the changes are+18.728% versus the first old Q2 control and+10.089% versus
+the repeated old control. Old control drift remains visible rather than selecting
+a favorable control or averaging unrelated runs. Against archived UD, the current
+8K second attempt/12K/16K observations are lower by1.197%/0.550%/0.275%; whole-curve
+parity is not established.
+
+![Full-prefill rates and durations](figures/q2-full-prefill128/full-prefill.png)
+
+[SVG export](figures/q2-full-prefill128/full-prefill.svg). A single observation
+per exact prefix and archived controls do not isolate causality or establish
+statistical significance. SSE transport and the omission of continuation requests
+change scheduling/cache history;64K/128K use separate cooled sessions. The initial
+continuous session stopped thermally, so these results do not establish sustained
+operation above the configured limit. Independent model quality and the broader
+Q2/UD performance goal remain open.
+
+The64K recovery completes17:22:48UTC with four zero command exits. An initial
+128K startup fails before inference at the port8000 bind probe; its five artifacts
+and actual exit1 remain preserved. The unchanged runtime retry completes128K
+17:29:46UTC with four zero exits, CPU peak97.5C and GPU edge peak99C. All29 model
+artifacts from the three measured sessions plus5 pre-model failure artifacts
+are collected. Final release17:30:32.435742UTC /9fffc2e2 verifies1643 identities
+and1310 groups retired, empty KFD, original CPU/four GPU leases free and seven
+unchanged model stat tuples. No remote cleanup, new GPU build or control rerun.
+
+The [updated intervention order](Q2-REMAINING-WORK.md) prioritizes expert-chain
+ownership and dense Q8 operand reuse on the unchanged fixed reference, followed
+by an actual HC buffer-pass removal. Attention-capacity qualification for 256K
+and reactive decode remain separate hypotheses; this report schedules no run.

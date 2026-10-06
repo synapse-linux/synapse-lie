@@ -1,5 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Complete saved-input prefill through128K — 2026-10-06 UTC
+
+Eight exact full-prefix observations are collected and audited. Current retained
+Q2 measures1310.874605 PP at130925 tokens/64 calls, versus archived UD1253.555692,
+nominal+4.573%;64K is1388.420346 versus1349.798341. Both old Q2 controls and all8K
+attempts remain visible. Each prefix has zero cached tokens; all model messages,
+physical counts and server settings are exact. Original fixed-point targets remain
+unchanged. The initial thermal stop, pre-model port failure, separate cooled
+64K/128K sessions and archived-reference limitations are explicit. No sustained
+thermal, statistical parity, independent-quality or overall-goal claim follows.
+[Full table, times and graphs](Q2-FULL-PREFILL128.md).
+[Updated intervention order and measured limits](Q2-REMAINING-WORK.md):
+expert-chain ownership, dense Q8 operand reuse, then an actual HC buffer-pass
+removal. The fixed input and archived controls remain unchanged.
+
 The full-prefill replay reaches32K with exact saved counts and zero cached
 tokens, then stops during64K at CPU98.125C. Recovery is limited to the unfinished
 64K/128K prefixes, separated by cooling outside all measured calls. The original
@@ -14,13 +29,13 @@ The previously launched continuation curve was an assistant scope error; it
 terminates on correction with retained partial evidence and verified release.
 [Exact input replay and limits](Q2-FULL-PREFILL128.md).
 
-## Original-capacity 128K curve prepared — 2026-10-06 UTC
+## Superseded continuation-curve preparation — 2026-10-06 UTC
 
-The owner requests the complete 0–128K curve now. The native C client, prose
-recipe, original133760 capacity and saved UD results remain fixed. Retained
-Q2 numerical sources are unchanged; its already-built server is reused.
-No new GPU compilation or UD measurement is required. Full physical counts,
-phase timings and request histories will be retained. [Plan and scope](Q2-CURVE128.md).
+The assistant interpreted the request to show results through 128K as a new
+cached-continuation curve. The owner corrected that interpretation; the launch
+was stopped and its partial evidence preserved. The subsequent explicit
+full-prefill request is completed above. The native client and retained binary
+were reused, with no control rebuild. [Retired plan and scope](Q2-CURVE128.md).
 
 ## Benchmark comparability correction — 2026-10-06 UTC
 

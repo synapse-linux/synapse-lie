@@ -1,5 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Full-prefill128K collected and released — 2026-10-06 UTC
+
+The64K recovery completes17:22:48.588944UTC with4exits0/10artifacts. The first
+128K startup fails at bind8000 before any model request;5artifacts collect before
+17:25:45.149821UTC/354a0a54 release. Fresh17:27:02 handover verifies port8000
+bindable and original ownership/model identities. The same tested runtime is
+readmitted17:27:37.491708UTC/24b2ded5 for only128K under checkpoint3b268841.
+
+Final128K ends17:29:46.391649UTC with4exits0, exact130925 tokens,64prefill calls,
+zero cached tokens,10artifacts collected. Release17:30:32.435742UTC/SHA
+9fffc2e21fd0cf419efa196dce55d320f03732bf5aad73ea3f3450b69b685085 retires1643IDs/
+1310groups, KFD empty, original CoreCPU/fourGPU leases free, seven unchanged
+model stat tuples. Canonical/main/remote mirrors agree and Core is informed
+before local audit/plots. No Q2 job/client/build/CPU/GPU/lease/window/waiter/
+reservation/restart remains .157/.158/.161/TB. No remote cleanup or further
+GPU run is planned. Historical failures and all actual exits remain preserved.
+
 ## Full-prefill recovery preparation — 2026-10-06 UTC
 
 The initial full-prefill arm stops17:13:53UTC at CPU98.125C during64K. Six full

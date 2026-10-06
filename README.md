@@ -1,9 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-The requested [full-prefill test through128K](docs/Q2-FULL-PREFILL128.md) replays
-exact saved inputs on the latest retained Q2, measuring every2048-token chunk
-and the natural last remainder. The preceding continuation curve was stopped
-after the owner corrected its scope; partial-tail rates do not establish whole-prefill performance.
+The [complete prefill through128K](docs/Q2-FULL-PREFILL128.md) now measures
+Q2 **1310.875 token/s** versus saved UD **1253.556**, using exactly130925 saved
+input tokens, zero cached tokens and64 prefill calls. All eight historical prefix
+inputs are retained, including both8K attempts.64K/128K completed in separate
+cooled sessions after a preserved thermal interruption; these observations do
+not establish sustained thermals, statistical parity or independent quality.
+The earlier continuation-only launch was stopped after the owner corrected its scope.
 
 The retained [fixed comparison](docs/Q2-IQ2-FIXED-BOUNDS.md) measures Q2 prefill
 at **1587.893545 token/s**, versus the initial **1443.672867** and the unchanged
