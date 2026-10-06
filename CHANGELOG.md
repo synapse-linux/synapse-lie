@@ -43,15 +43,17 @@ stable release is declared. Detailed validation history is in
 - Shared C17 typed JSON ownership, including exact string/key bytes, ordered
   object/array storage, transactional copies/moves, parsing and serialization.
   Private C++ references and synchronized string projections preserve existing
-  callers. Original/default-ON/OFF host witnesses agree; matching HIP and
-  original-weight qualification remain pending. No dependency or runtime thread
-  is added; the original OFF implementation remains available.
+  callers. Original/default-ON/OFF host witnesses agree. The matching 89-file HIP
+  build passes 37 selected original-weight OpenAI controls in each AR/MTP mode
+  on Strix Point. Broader fault/resource/quality/cost gates remain open.
+  No dependency or runtime thread is added; the original OFF implementation
+  remains available.
 
 - Shared C17 complete JSON parser with ordered events, strict UTF-8/escape
   decoding, decoded duplicate-key detection and bounded allocation/work.
   Original/default-ON/OFF host trees and errors agree. The matching build passes
-  37 original-weight OpenAI controls in each AR/MTP mode on Strix Point; typed
-  tree storage and broader fault/resource/quality/cost qualification remain open.
+  37 original-weight OpenAI controls in each AR/MTP mode on Strix Point;
+  broader fault/resource/quality/cost qualification remains open.
 
 - Shared C17 JSON Schema body policy for definitions, references, `anyOf` and
   `enum/const`, with preserved validation order and lifetime/refusal checks.

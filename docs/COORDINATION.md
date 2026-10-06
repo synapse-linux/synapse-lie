@@ -1,16 +1,27 @@
 # DS4 / synapse-lie coordination
 
-## Typed JSON host qualification only — 2026-10-06
+## R25 typed JSON build and AR/MTP closed — 2026-10-06
 
-Root completes local C17 typed JSON ownership and private facade host/sanitizer
-checks. All owned tool handles are collected; fixture threads join before return.
-The [89-file host receipt](development/validation/c17-json-value-host-2026-10-06.json)
-requires a matching sealed HIP build and original-weight controls under a fresh
-`.161` admission. Root has no remote job/client/CPU/GPU/build/lease/waiter or
-reservation on `.161`, `.157` or `.158`, and keeps `.157` non-use. The r24 closure
-below remains a dated observation, not current admission. Peer Q2/DGX activities
-and releases are separately owned evidence. Terminal Bench stays stopped,
-collected and deferred until functional modifications and qualification finish.
+Fresh Point/DGX own non-use and separate 06:42:37 / 06:47:23 / 06:52:28 UTC global
+observations admit the sealed `5227bf4f` 89-file source only. Device-free build
+supervisor 115200 / start 13796040 exits 0 and releases at 06:46:18 UTC. AR
+119146 / start 13821118 and MTP 120559 / start 13851449 each pass 37 unchanged
+original-weight controls and release at 06:51:39 / 06:55:27 UTC. All actual
+child/server/supervisor/controller exits are 0. Six build files, 17 compile
+artifacts and 17 files per inference mode are collected and hash-verified.
+
+Fresh 2026-10-06T06:55:39.917734+00:00 closure verifies all three exact supervisors
+retired and owned containers removed. Unrecorded AR/MTP init identities remain
+unknown. Original lease device 66307 / inode 105946405 is briefly free then
+released, router 121639 is active/only KFD and HTTP8000 is unbound. No foreign
+compute client or hot guard is observed.
+[Receipt](development/validation/c17-json-value-point-gpu-2026-10-06.json).
+CPU98/NVMe85/lower guards and GPU observation remain active; no tuning,
+installation, deployment or `.157` activity occurs. Root has no standing job,
+client, CPU/GPU/build, lease, waiter, reservation or restart on `.161/.157/.158`.
+This closure is a dated observation, not future admission. Peer activities are
+separately owned. Terminal Bench stays stopped/collected/deferred until
+functional modifications and qualification finish.
 
 ## R24 parser build and AR/MTP actually closed — 2026-10-06
 

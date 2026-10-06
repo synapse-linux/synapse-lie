@@ -51,8 +51,23 @@ borrows text and writes caller storage synchronously; exact arithmetic and
 digits use bounded stack scratch. Immutable Ryu lookup tables do not enter
 model-prefix state, KV checkpoints or DS4 RAM/SSD framing. No locale/FENV/RNG,
 reactive frontier, worker or cache identity changes. Typed JSON containers and
-the full lexer remain private. [Host checks](../development/validation/c17-binary64-host-2026-10-06.json)
+complete JSON parsing now use the separate C17 contracts described below.
+[Host checks](../development/validation/c17-binary64-host-2026-10-06.json)
 do not qualify new original-weight continuation or SSD restore.
+
+Each C17 JSON value root owns a bounded allocator domain, exact string/key bytes
+and ordered child tables. Borrowed children remain stable across sibling growth;
+replacing a payload or releasing a root retires its spans/views. Copies stage
+before publication and moves retire sources only after success. Refusals retain
+content; diagnostic allocation/peak counters may advance. Destruction and
+serialization traverse iteratively. These trees are schema/message construction
+state; they are not model-prefix state, KV tensors or DS4 RAM/SSD payloads.
+Private C++ facade references and synchronized string projections borrow the
+same C tree. Predicate/model/controller storage remains transitional. The
+matching `5227bf4f` selected
+[AR/MTP controls](../development/validation/c17-json-value-point-gpu-2026-10-06.json)
+use prompt retention disabled and preserve existing state/cache identities;
+they add no SSD restore, mixed-history, GPU state-fault or matched-cost claim.
 
 Immutable reasoning/tool grammar composition now belongs to C17. Construction
 copies source tables/names and imports ordered lexeme origins by program
@@ -103,8 +118,9 @@ C17 schema transformations borrow immutable typed JSON views and publish only
 private staging results. Equality/pointer/pattern scratch retires on every path;
 the provider retires its deque/container staging at the exception boundary.
 Conjunction refusal leaves input trees and the published result unchanged.
-Typed JSON/predicate/storage remains transitional. These construction objects
-add no inference state, DS4
+Typed JSON payloads and child tables now belong to C17; predicate storage and
+private reference/string projections remain transitional. These construction
+objects add no inference state, DS4
 payload, RAM/SSD identity, RNG transition or reactive frontier.
 
 Finite-value normalization owns only private construction results and temporary

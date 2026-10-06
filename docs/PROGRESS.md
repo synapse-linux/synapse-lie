@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
-## Typed JSON ownership moves to shared C17 — 2026-10-06 UTC
+## Typed JSON ownership passes host and GPU checks — 2026-10-06 UTC
 
 `lie/json_value.h` now owns scalar/string/key bytes, ordered object/array child
 storage, clone/move/replacement, typed parsing and serialization. Refusals retain
@@ -24,13 +24,26 @@ guards, GPU masked and observe-only. Initial ptrace/socket/inventory/build/test
 selection failures retain actual exits; the empty exit0 selection is not a pass.
 
 The provider binds 89 files: 77 first-party and 12 vendor/provenance; 84 earlier
-bindings and all 1,019 official Gufo/11 Ryu files are unchanged. This is host-only:
-`904774da` GPU evidence excludes the new typed storage. Matching sealed HIP build
-and original-weight AR/MTP on `.161`, predicate/model/controller ownership and
-broader numerical/fault/private-resource/quality/matched-cost gates stay open.
-All six owned roadmap tasks remain open. Root has no remote job/client/build/
-lease/waiter/reservation and preserves `.157` non-use. Terminal Bench remains
-stopped/deferred until modifications and matching qualification finish.
+bindings and all 1,019 official Gufo/11 Ryu files are unchanged. The matching
+sealed `5227bf4f` HIP build passes on `.161`, followed by 37 selected
+original-weight OpenAI controls in each AR/MTP mode. All server/child/supervisor/
+controller exits are 0, and target/predictor stats remain unchanged. The
+[GPU receipt](development/validation/c17-json-value-point-gpu-2026-10-06.json)
+and [portable raw evidence](benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-json-value-openai-r25.tar.gz)
+bind the exact provider/application, collected results and retired processes.
+Host-only checks keep their original scope; these selected GPU controls do not
+qualify every typed-value branch or private projection cost.
+
+AR/MTP CPU peaks are 61/66.375 C, GPU peaks 66/67 C and NVMe peaks both 64.85 C.
+Both modes observe 44 whole-process threads, including runtime helpers; no new
+inference worker or performance gain is claimed. Fresh 06:55:39 UTC closure
+verifies all three exact supervisors retired, owned containers removed, the
+original lease free then released, router 121639 active/only KFD and HTTP8000
+unbound. Unrecorded AR/MTP init identities remain unknown. Predicate/model/
+controller ownership and broader numerical/fault/private-resource/quality/
+matched-cost gates stay open. All six owned tasks remain open. Root has no remote
+job/client/build/lease/waiter/reservation and preserves `.157` non-use. Terminal
+Bench remains stopped/deferred until modifications and qualification finish.
 
 ## Complete JSON parser passes matching GPU controls — 2026-10-06 UTC
 

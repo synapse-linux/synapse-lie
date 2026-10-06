@@ -37,6 +37,33 @@ created by these public calls. Bundled pinned Ryu retains its separate license.
 Existing engine/sampler/grammar/state/HTTP ABI and DS4 framing remain unchanged.
 See [host validation](../development/validation/c17-binary64-host-2026-10-06.json).
 
+`lie/json_parse.h` adds separate ordered-event parser ABI 1 through
+`lie_json_parse_events`; the existing `lie_json_parse` tools API is preserved.
+Callbacks copy borrowed spans before returning and discard all staging on any
+refusal. Parser allocations retire before return. Defaults bound input and
+owned heap at 64 MiB each, container levels at 128 and lexical/key work at
+268,435,456 units. Complete syntax, decoded duplicate-key checks and strict
+UTF-8/escape handling are C17; no upstream type enters this header.
+
+`lie/json_value.h` adds separate typed-value ABI 1. Opaque roots own allocator
+domains, scalar/string/key bytes and ordered array/object children. Borrowed
+children keep their identity across sibling growth; payload replacement or root
+release invalidates borrowed spans/views. Release accepts roots only. Copies
+stage before replacement; moves retire the source only after success. Refusal
+preserves content and output handles, while diagnostic counters may advance.
+Duplicate append retains order and lookup selects the first exact byte key;
+parsing rejects duplicate keys. Defaults are 64 MiB requested heap, 262,144 nodes,
+512 value levels and 268,435,456 copy/output work units. Allocator and optional
+aligned private-view hooks are paired, nonthrowing and outlive their roots.
+Immutable reads may run concurrently; mutations/release require caller
+synchronization. Serialization callbacks can receive partial staging, which
+must be discarded on failure. Private C++ reference/string/error projections
+remain adapter glue. Existing engine/request/generation/state layouts, DS4
+framing and reactive worker contracts are unchanged. See
+[ownership and limits](../development/C17-SAMPLING.md#owned-typed-json-values)
+and the matching selected
+[AR/MTP qualification](../development/validation/c17-json-value-point-gpu-2026-10-06.json).
+
 `lie/grammar_composition.h` adds independent composition ABI 1. The synchronous
 core constructs immutable reasoning/tool marker automata, quotes arbitrary name
 bytes, reuses argument-program identities and remaps ordered tables/predicate
@@ -128,7 +155,8 @@ typed views; writers copy spans into caller-owned private staging. Refusal
 preserves result arguments; retire staging on success or failure. Object keys
 are unique and ordered. Output/error storage is disjoint from views/context;
 error detail borrows the input tree. Equality is iterative; conjunction has a
-64-level reference budget. Typed JSON/storage stays in the adapter. No model,
+64-level reference budget. Typed JSON payloads and child storage now belong to
+the separate C17 value contract; private projections stay in the adapter. No model,
 worker, RNG, engine or DS4 layout changes. Matching
 provider/application rebuilds are required for changed private sources. See
 [schema ownership](../development/C17-SAMPLING.md#json-schema-conjunction-and-reference-resolution).

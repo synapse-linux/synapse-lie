@@ -164,10 +164,13 @@ independent C ownership/cleanup checks, every selected allocator/view/output
 refusal, 512-level copying/retirement, complete pristine/ON/OFF value witnesses,
 prior unchanged parser/sampler/grammar witnesses and private projection failure
 and parallel-reader checks. The 89-file provider inventory includes 77 first-party
-and 12 vendor/provenance bindings. This is host qualification only; the earlier
-`904774da` GPU receipt does not qualify this tree. Matching sealed HIP build,
-original-weight AR/MTP, broader numerical/fault/private-resource and matched cost
-remain open. Terminal Bench stays stopped/deferred until modifications and
+and 12 vendor/provenance bindings. The matching sealed `5227bf4f` HIP build now
+passes 37 selected original-weight OpenAI controls in each AR/MTP mode on `.161`
+([GPU receipt](validation/c17-json-value-point-gpu-2026-10-06.json)). Both modes
+observe 44 whole-process threads, including runtime helpers; this component adds
+no inference worker or measured speedup. Predicate/model/controller ownership,
+broader numerical/fault/private-resource/quality and matched cost remain open.
+Terminal Bench stays stopped/deferred until modifications and
 matching qualification finish.
 
 ## Complete JSON parser
@@ -189,7 +192,7 @@ stack storage, allocator overhead, private sink containers and device/process
 memory. Work and byte budgets are admission limits, not timing measurements.
 
 At `904774da`, the private adapter constructs Gufo's typed tree and translates
-exceptions. The later typed-value extraction below moves that staging to C17.
+exceptions. The typed-value extraction described above moves that staging to C17.
 Three exact edits at the recorded Gufo pin select C17 under default-ON
 `LIE_C17_SAMPLING`, preserving the complete original parser under OFF. The parser
 adds no HTTP coupling, dependency, cache-format change, RNG operation or thread.

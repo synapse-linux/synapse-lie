@@ -6,15 +6,15 @@ and a command-line benchmark tool. Its shared C17 core manages reactive
 scheduling, concurrent requests, cancellation, metrics and prompt caching.
 The current numerical backend is an embedded Gufo adapter using C++ and HIP,
 with owned [C17 sampling, grammar and schema components](docs/development/C17-SAMPLING.md).
-Checkpoint `904774da`, including the shared C17 reasoning/tool grammar,
-JSON binary64 codec and complete JSON parser, passes
-[37 OpenAI controls in both AR and MTP on Strix Point](docs/development/validation/c17-json-parser-point-gpu-2026-10-06.json).
+Checkpoint `5227bf4f`, including the shared C17 reasoning/tool grammar,
+JSON parser, binary64 codec and typed value storage, passes
+[37 OpenAI controls in both AR and MTP on Strix Point](docs/development/validation/c17-json-value-point-gpu-2026-10-06.json).
 These cover selected integrated paths. Broader numerical, fault, resource,
 quality and performance gates remain open.
 Gufo still owns model/controller state and predicate storage. Typed JSON values,
 keys and ordered child tables now belong to the shared C17 core, with
 [host validation](docs/development/validation/c17-json-value-host-2026-10-06.json).
-This newer 89-file increment still requires matching HIP/GPU qualification.
+The matching HIP build binds all 89 provider files.
 ICU remains the Unicode set/property/conversion dependency.
 [Directional steering](docs/guides/USAGE.md#directional-steering) has shared-core
 and server/bench controls with host validation, including scheduled benchmark
@@ -26,8 +26,9 @@ pass, as do selected
 Learned-direction quality and matched cost remain open.
 
 **Development status:** text inference is tested with Qwen3.8 Flash Next
-(Unsloth UD-Q4_K_XL) on AMD Strix Halo (`gfx1151`). The HTTP server supports
-native contexts up to 262,144 tokens and up to eight active sequences.
+(Unsloth UD-Q4_K_XL) on AMD Strix Halo (`gfx1151`) and Strix Point (`gfx1150`).
+The HTTP server supports native contexts up to 262,144 tokens and up to eight
+active sequences.
 Explicit [YaRN profiles](docs/guides/CONTEXT.md) extend the configured limit to
 1,048,576 tokens. Strix Point completes **1,048,448 physical prefill tokens and
 128 output tokens** with the native core bench's explicit fixed-token EOS policy.

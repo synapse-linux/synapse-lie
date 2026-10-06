@@ -242,9 +242,11 @@ client/server restart or machine reservation is queued in the meantime.
    parsing and serialization
    ([host receipt](development/validation/c17-json-value-host-2026-10-06.json)).
    Private C++ facades preserve the existing callers and synchronize lazy string
-   projections for immutable parallel reads. The 89-file provider inventory
-   requires a matching sealed HIP build and original-weight qualification;
-   `904774da` excludes this increment. Predicate storage, model/controller and
+   projections for immutable parallel reads. The matching sealed `5227bf4f`
+   89-file provider/application build passes selected original-weight AR37/MTP37
+   controls on `.161`
+   ([GPU receipt](development/validation/c17-json-value-point-gpu-2026-10-06.json)).
+   Predicate storage, model/controller and
    broader numerical/fault/resource/quality/matched-cost gates remain open.
    The earlier matching `a24875f` 66-file build passes selected original-weight
    AR37/MTP37 controls on `.161`
