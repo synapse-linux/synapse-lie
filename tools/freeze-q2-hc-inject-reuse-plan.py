@@ -67,6 +67,18 @@ def main():
                          if line.startswith('{')]
     require(len(supplemental_rows) == 1 and supplemental_rows[0]['exit_code'] == 0 and
             supplemental_rows[0]['owned_group_retired'], 'Supplemental CPU closure incomplete')
+    retired_cpu = []
+    for directory in sorted((ROOT / 'evidence').glob('q2-hc-inject-reuse-host-r*')):
+        if directory.name == args.host:
+            continue
+        historical, historical_transport = curve.artifact_integrity(directory)
+        require(historical['mode'] == historical_transport['mode'] == 'cpu' and
+                historical.get('finished_at') and not historical['model_access'] and
+                historical['state'] in ('FAILED', 'CPU_FIXTURES_PASS_NO_MODEL_INFERENCE'),
+                'Historical CPU cohort incomplete')
+        retired_cpu.append(dict(label=directory.name,
+                                result_sha256=sha(directory / 'results/result.json'),
+                                command_exits=[c['exit_code'] for c in historical['commands']]))
     manifests = {name: sha(ROOT / name) for name in (
         manifest_path, 'config/q2-ssm-fixed-bounds-source.json',
         'config/q2-ssm-fixed-bounds-model-results.json', 'config/q2-fixed-prefill-reference.json',
@@ -78,6 +90,7 @@ def main():
         components=[dict(label=args.component, mode='hc-inject-reuse-check', variant='hc-inject-reuse-draft')],
         host=args.host, host_result_sha256=sha(host_dir / 'results/result.json'),
         host_test_counts=dict(debug=35, asan_ubsan=35),
+        retired_cpu_cohorts=retired_cpu,
         source_variant_manifest=manifest_path, provider_file_count=1027,
         previous_release=previous_path, previous_release_sha256=PREVIOUS_SHA,
         window_helper='tools/q2-hc-inject-reuse-window.py',

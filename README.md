@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+`.157` reconnects06:06UTC. Fresh Core retirement/original CPU lease/registry/KFD
+checks pass; current HC host35/35 Debug and35/35 ASan/UBSan checks complete
+06:11:42UTC. Preserve the earlier launcher-whitelist failure and its full
+collection; the corrected component pair remains model-ineligible. The
+component-only plan now binds130 tested fixtures/1027 unchanged provider files
+and retirement of both prior CPU cohorts. GPU admission/run remains pending;
+fixed1585.308983 versus1685.777092 PP and the77ms gap remain unchanged.
+
 The [Q2 network blocked audit](docs/Q2-NETWORK-BLOCKED.md) revalidates SSH255
 before connection at05:32:30UTC across three consecutive goal turns. The next
 HC execution requires `.157` connectivity; no remote job/lease/window starts.

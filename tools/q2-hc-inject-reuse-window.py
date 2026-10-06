@@ -40,7 +40,7 @@ def retire(identities, groups):
         require(group not in groups, 'Owned group member remains')
 
 
-def cohort(label, expected_sha, identities, groups, host=False):
+def cohort(label, expected_sha, identities, groups, host=False, retired_cpu=False):
     path = ROOT / label / 'results/result.json'
     if expected_sha:
         require(sha(path) == expected_sha, 'Saved cohort receipt differs')
@@ -51,6 +51,10 @@ def cohort(label, expected_sha, identities, groups, host=False):
     if host:
         require(result['state'] == 'CPU_FIXTURES_PASS_NO_MODEL_INFERENCE' and
                 result['mode'] == 'cpu' and exits == [0] * 6, 'Host gate did not pass')
+    elif retired_cpu:
+        require(result['mode'] == 'cpu' and exits and
+                result['state'] in ('FAILED', 'CPU_FIXTURES_PASS_NO_MODEL_INFERENCE') and
+                all(type(code) is int for code in exits), 'Historical CPU closure incomplete')
     else:
         # A terminal device/build failure may release the window. It does not
         # authorize analysis/adoption or a subsequent original-model arm.
@@ -130,6 +134,9 @@ def main():
                 supplemental['receipt']['owned_group_retired'], 'Supplemental CPU closure incomplete')
         identities[command['pid']] = dict(pid=command['pid'], start_ticks=command['start_ticks'])
         groups.add(command['process_group'])
+        for historical in plan.get('retired_cpu_cohorts', []):
+            cohort(historical['label'], historical['result_sha256'], identities, groups,
+                   retired_cpu=True)
         cohorts = [cohort(plan['host'], plan['host_result_sha256'], identities, groups, host=True)]
         if args.mode == 'release':
             for arm in plan['components']:
@@ -153,6 +160,7 @@ def main():
             owner='synapse-lie-q2', source_checkpoint=args.checkpoint, plan_sha256=sha(args.plan),
             previous_release=str(previous_path), previous_release_sha256=PREVIOUS_SHA,
             previous_registry_event=rows[-1], cohorts=cohorts, qualified_host_labels=[plan['host']],
+            historical_cpu_cohorts=plan.get('retired_cpu_cohorts', []),
             retired_identities=list(identities.values()), retired_groups=sorted(groups),
             owned_group_members=[], kfd=kfd, leases=previous['leases'], core_cpu_lease=plan['core_cpu_lease'],
             core_closure_sha256=plan['core_closure_sha256'], supplemental_cpu=supplemental,

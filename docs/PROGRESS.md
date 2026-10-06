@@ -1,5 +1,23 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## HC host qualification after reconnection — 2026-10-06 UTC
+
+The owner's retry reaches `.157`06:06:12UTC. Fresh original Core identities,
+groups and CPU lease, empty KFD and previous release registry verify; Core
+freshly confirms own non-use. The first new host run fails one launcher guard
+(CTest8/transport1), preserves four verified artifacts and stops before ASan.
+Its newly allowed HC variant was missing from the final generic whitelist.
+Correct only that guard; r2 host35+35 passes and collects seven artifacts.
+
+Add explicit retirement of all prior HC CPU cohorts, including failed r1,
+before GPU admission/release. Two focused history tests forbid using a failed
+CPU run as a qualified host, changed receipts, unfinished work or model scope.
+Current r3 capsule passes35+35 on `.157`06:11:42UTC, six exits0/seven artifacts.
+The freezer binds130 actual tested fixtures, the unchanged1027-file parent,
+original/supplemental ownership and both collected historical CPU receipts.
+No GPU admission or new numerical/performance result yet. Retain1585.308983 PP
+/25.16079073 TG; fixed UD1685.777092 PP still needs76.991736ms.
+
 ## Q2 network blocker revalidated — 2026-10-06 UTC
 
 The previous turn progresses through checkpoint661a6e0e. A fresh Core handover

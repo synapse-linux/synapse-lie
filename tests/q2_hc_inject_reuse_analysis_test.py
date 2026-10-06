@@ -22,6 +22,10 @@ phase_spec = importlib.util.spec_from_file_location('phase',
     ROOT / 'tools/q2-hc-inject-reuse-phase.py')
 phase = importlib.util.module_from_spec(phase_spec)
 phase_spec.loader.exec_module(phase)
+window_spec = importlib.util.spec_from_file_location('window',
+    ROOT / 'tools/q2-hc-inject-reuse-window.py')
+window = importlib.util.module_from_spec(window_spec)
+window_spec.loader.exec_module(window)
 
 
 def samples(raw=0, bits=0):
@@ -183,6 +187,47 @@ class AdmissionRegressionTest(unittest.TestCase):
         self.plan.write_text(json.dumps(self.payload))
         with self.assertRaises(ValueError):
             phase.validate(self.plan, self.admission)
+
+class HistoricalCpuRegressionTest(unittest.TestCase):
+    def test_failed_CPU_receipt_retires_but_cannot_qualify_host(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            result = root / 'old/results/result.json'
+            result.parent.mkdir(parents=True)
+            result.write_text(json.dumps(dict(state='FAILED', mode='cpu', model_access=False,
+                finished_at='2026-10-06T06:07:40+00:00', pid=100,
+                commands=[dict(pid=101, start_ticks=102, exit_code=8)])))
+            with mock.patch.object(window, 'ROOT', root):
+                identities, groups = {}, set()
+                closure = window.cohort('old', phase.sha(result), identities, groups,
+                                        retired_cpu=True)
+                self.assertEqual(closure['command_exits'], [8])
+                self.assertEqual(identities, {100: dict(pid=100, start_ticks=None),
+                                            101: dict(pid=101, start_ticks=102)})
+                self.assertEqual(groups, {101})
+                with self.assertRaises(ValueError):
+                    window.cohort('old', phase.sha(result), {}, set(), host=True)
+
+    def test_changed_unfinished_or_model_history_is_refused(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            result = root / 'old/results/result.json'
+            result.parent.mkdir(parents=True)
+            for change in (dict(model_access=True), dict(finished_at=None),
+                           dict(mode='q2-bench'), dict(state='RUNNING')):
+                with self.subTest(change=change):
+                    row = dict(state='FAILED', mode='cpu', model_access=False,
+                        finished_at='2026-10-06T06:07:40+00:00', pid=100,
+                        commands=[dict(pid=101, start_ticks=102, exit_code=8)])
+                    row.update(change)
+                    result.write_text(json.dumps(row))
+                    with mock.patch.object(window, 'ROOT', root):
+                        with self.assertRaises(ValueError):
+                            window.cohort('old', phase.sha(result), {}, set(), retired_cpu=True)
+            with mock.patch.object(window, 'ROOT', root):
+                with self.assertRaises(ValueError):
+                    window.cohort('old', 'a' * 64, {}, set(), retired_cpu=True)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Reconnection06:06:12UTC: original Core CPU lease/identities/groups and empty
+KFD/previous release registry revalidate. Core fresh own non-use06:07/06:08UTC.
+New HC CPU r1 failure and r2/r3 checks terminate and collect independently;
+current r3 passes35+35 at06:11:42UTC. Frozen component-only plan binds both
+historical CPU receipts for retirement in addition to current host/Core and
+supplemental registry identity. Four GPU leases/model stats/thermal and fresh
+window admission still gate any GPU build/run. No current GPU reservation,
+window, waiter, cleanup or foreign process termination.
+
 Latest HC handover r4 terminates2026-10-06T05:32:30.892575UTC with SSH255/No
 route to host before connection. No remote job/build/model/window/lease/
 reservation/waiter or staging starts. Previous release e64145d6 is unchanged
