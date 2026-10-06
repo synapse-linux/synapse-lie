@@ -1,0 +1,211 @@
+{
+  "schema": "synapse-lie.q2-iq2-whole640-wave16-results.v1",
+  "label": "q2-iq2-whole640-wave16-component-r1",
+  "result_sha256": "882646b5841d8e2ed464f3b5b6b77fed62149bce53c71e766432468111da8b28",
+  "plan_sha256": "e85d58ab9f635e952bc0e76f59e8185fc341575179a1fbe7534fa38be60ab2ff",
+  "release_sha256": "d4c60136edd5a9bb83cc16e35ed9d65692043424c6589cf6a03ea73be6d733cf",
+  "commands": [
+    0,
+    0,
+    0
+  ],
+  "verified_artifacts": 380,
+  "edge_cases": 32,
+  "replay_records": 56,
+  "exact_output_pairs": 104,
+  "scalar_packing_values": 9381676,
+  "actual_timed_buffer_replays": 21,
+  "timing_records": 63,
+  "timing_cases": [
+    {
+      "live_rows": 4,
+      "experts": 64,
+      "arms": [
+        {
+          "arm": "retained_gate_up_then_pack",
+          "samples_us": [
+            503.956666667,
+            500.049666667,
+            505.386333333,
+            505.453,
+            497.886666667
+          ],
+          "warmups_us": [
+            511.673,
+            495.223333333
+          ],
+          "mean_us": 502.5464666668,
+          "min_us": 497.886666667,
+          "max_us": 505.453,
+          "time_change_percent": 0.0
+        },
+        {
+          "arm": "whole640_wave16_register",
+          "samples_us": [
+            1179.09166667,
+            1189.668,
+            1198.95133333,
+            1181.905,
+            1179.295
+          ],
+          "warmups_us": [
+            1197.06433333,
+            1164.822
+          ],
+          "mean_us": 1185.7821999999999,
+          "min_us": 1179.09166667,
+          "max_us": 1198.95133333,
+          "time_change_percent": 135.9547382483541
+        },
+        {
+          "arm": "whole640_wave16_lds",
+          "samples_us": [
+            530.182333333,
+            541.958666667,
+            538.332333333,
+            547.835333333,
+            538.372
+          ],
+          "warmups_us": [
+            535.902333333,
+            534.619
+          ],
+          "mean_us": 539.3361333332,
+          "min_us": 530.182333333,
+          "max_us": 547.835333333,
+          "time_change_percent": 7.320649752133757
+        }
+      ]
+    },
+    {
+      "live_rows": 8,
+      "experts": 64,
+      "arms": [
+        {
+          "arm": "retained_gate_up_then_pack",
+          "samples_us": [
+            769.959333333,
+            527.725666667,
+            522.596,
+            526.846,
+            517.169333333
+          ],
+          "warmups_us": [
+            525.689333333,
+            518.106333333
+          ],
+          "mean_us": 572.8592666666,
+          "min_us": 517.169333333,
+          "max_us": 769.959333333,
+          "time_change_percent": 0.0
+        },
+        {
+          "arm": "whole640_wave16_register",
+          "samples_us": [
+            1194.65466667,
+            1174.85833333,
+            1216.28733333,
+            1215.93066667,
+            1214.21733333
+          ],
+          "warmups_us": [
+            1221.75066667,
+            1191.738
+          ],
+          "mean_us": 1203.189666666,
+          "min_us": 1174.85833333,
+          "max_us": 1216.28733333,
+          "time_change_percent": 110.03233022086172
+        },
+        {
+          "arm": "whole640_wave16_lds",
+          "samples_us": [
+            537.785666667,
+            546.472333333,
+            544.875333333,
+            541.232333333,
+            546.172
+          ],
+          "warmups_us": [
+            544.672,
+            548.002
+          ],
+          "mean_us": 543.3075333332,
+          "min_us": 537.785666667,
+          "max_us": 546.472333333,
+          "time_change_percent": -5.1586375664930735
+        }
+      ]
+    },
+    {
+      "live_rows": 16,
+      "experts": 64,
+      "arms": [
+        {
+          "arm": "retained_gate_up_then_pack",
+          "samples_us": [
+            546.092,
+            535.815666667,
+            794.358666667,
+            540.129,
+            793.325666667
+          ],
+          "warmups_us": [
+            794.582,
+            536.142333333
+          ],
+          "mean_us": 641.9442000002,
+          "min_us": 535.815666667,
+          "max_us": 794.358666667,
+          "time_change_percent": 0.0
+        },
+        {
+          "arm": "whole640_wave16_register",
+          "samples_us": [
+            1225.17033333,
+            1202.21766667,
+            1218.167,
+            1208.01766667,
+            1205.781
+          ],
+          "warmups_us": [
+            1207.78733333,
+            1218.254
+          ],
+          "mean_us": 1211.8707333339999,
+          "min_us": 1202.21766667,
+          "max_us": 1225.17033333,
+          "time_change_percent": 88.7813198302317
+        },
+        {
+          "arm": "whole640_wave16_lds",
+          "samples_us": [
+            553.145,
+            564.221333333,
+            554.382,
+            843.480666667,
+            560.035
+          ],
+          "warmups_us": [
+            556.408333333,
+            568.574666667
+          ],
+          "mean_us": 615.0527999999999,
+          "min_us": 553.145,
+          "max_us": 843.480666667,
+          "time_change_percent": -4.189055684308962
+        }
+      ]
+    }
+  ],
+  "aggregation": "Arithmetic mean of five measured component samples; all raw samples retained.",
+  "retained_model_PP": 1587.893545,
+  "retained_model_TG": 25.12414406,
+  "fixed_UD_PP": 1685.777092,
+  "fixed_UD_TG": 24.34174251,
+  "disposition": "Component timings only; model integration and fixed-reference measurement remain separate.",
+  "limitations": "Synthetic selected tails, not mixed routing/down/model throughput or independent model quality.",
+  "model_inference": false,
+  "controls_rebuilt_or_rerun": false,
+  "goal_met": false
+}

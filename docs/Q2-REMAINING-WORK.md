@@ -21,12 +21,15 @@ replace either the fixed reference or the saved native-curve UD values.
 
 1. **Expert producer, packing and consumer ownership.** Target the active
    IQ2 gate/up and Q2 down chain, whose saved profile totals 401.058 ms.
-   Start with a staged whole-640 producer/packing design that preserves the
-   full-row scale and rounding boundaries; then evaluate ordered down/consumer
-   work. The opportunity is removing real intermediate publication and reads,
+   Four whole-640 drafts have now been [measured](Q2-IQ2-WHOLE640.md), with
+   exact tested outputs. The sixteen-wave LDS candidate has mixed component
+   timings and remains available for integrated evaluation. Next qualify its
+   mixed routing and selective packing together with the unchanged down
+   consumer, then measure one original model candidate. The opportunity is
+   removing real intermediate publication and reads,
    while retaining expert-weight reuse. Removing the 17.096-ms packing pass
    alone cannot close the 74.889-ms fixed-point gap. No new runtime gain is
-   established by this proposal.
+   established for the model by the component results.
 2. **Dense Q8 operand reuse, especially the fused SSM projection.** The saved
    Q8/F16 region costs 293.227 ms, including 160.218 ms in that projection.
    Increase useful output work per staged input without an expanded permanent

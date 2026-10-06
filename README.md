@@ -1,10 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-The [whole640 IQ2 producer/packing trial](docs/Q2-IQ2-WHOLE640.md) completes
-with 104 bit-exact output pairs. Its shared-memory draft takes 18.55–22.37%
-more component time and its register draft is slower still. Preserve the
-1587.893545 PP provider; the next local draft changes block ownership and
-sequential group count. No new model throughput is claimed.
+The [whole640 IQ2 producer/packing trials](docs/Q2-IQ2-WHOLE640.md) each pass
+104 bit-exact output comparisons. Sixteen waves reduce the first draft's cost,
+but LDS results remain mixed: +7.32% time at 4 expert rows, −5.16% at 8 and
+−4.19% at 16, with high observations retained in both arms. Keep that marginal
+candidate for integrated evaluation and preserve the 1587.893545 PP provider.
+No new model throughput is claimed.
 
 [Updated Q2 prefill and decode graph](docs/figures/q2-full-prefill128/pp-tg.png):
 the saved exact-2K/TG128 reference appears separately from the complete 4K–128K

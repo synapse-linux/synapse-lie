@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Sixteen-wave whole640 measured; model benefit unproven — 2026-10-06 UTC
+
+The new component completes [0,0,0], with 104 exact output pairs, 21 actual
+timed-buffer replays and 9,381,676 independently reconstructed packing values.
+LDS means are 539.336/543.308/615.053 microseconds for 4/8/16 rows versus
+502.546/572.859/641.944 for the parent: +7.32%/−5.16%/−4.19% time.
+High parent and candidate samples remain included; the nominal gains do not
+prove model benefit. Keep the marginal LDS candidate available, with its
+mixed routing/packing/down integration still to qualify. No saved model
+reference changes, model rerun or promotion. All 380+7 artifacts collect before
+verified 18:54:18 UTC release d4c60136; no remote workload remains.
+[All values and next integration boundary](Q2-IQ2-WHOLE640.md).
+
 ## Sixteen-wave whole640 component prepared — 2026-10-06 UTC
 
 The new block shape handles 128 gate/up columns per group, halving sequential

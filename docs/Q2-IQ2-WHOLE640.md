@@ -35,6 +35,24 @@ isolate their contributions. The next local draft uses sixteen waves and five
 128-column groups, retaining only 40 accumulator and 20 packing floats per
 thread. It needs its own device evidence and has no production selector.
 
+The sixteen-wave [device trial](../config/q2-iq2-whole640-wave16-results.json)
+also completes with 104 bit-exact output pairs, 21 actual timed-buffer replays,
+9,381,676 independently checked packing values/scales and three zero exits.
+All 63 timing records and 380 component artifacts are retained. Mean times:
+
+| Live rows per expert | Current chain | Register, 16 waves | LDS, 16 waves | LDS time change |
+|---:|---:|---:|---:|---:|
+| 4 | 502.546 | 1185.782 | 539.336 | +7.321% |
+| 8 | 572.859 | 1203.190 | 543.308 | −5.159% |
+| 16 | 641.944 | 1211.871 | 615.053 | −4.189% |
+
+The LDS outcome is mixed. Its nominal gains at 8/16 rows include high parent
+observations: 769.959 microseconds at 8 rows and 794.359/793.326 at 16 rows.
+The candidate also has an 843.481-microsecond observation at 16 rows. None is
+removed. The 4-row case is consistently slower. Keep this marginal candidate
+available, but do not claim a demonstrated model improvement or combine these
+component percentages with historical model gains.
+
 The sixteen-wave [compiler record](../config/q2-iq2-whole640-wave16-static.json)
 keeps all 164 parent bodies exact. Register/LDS drafts respectively use
 20,608/61,568 shared bytes, 136/0 private bytes per thread, and 1,861/686
@@ -44,6 +62,18 @@ The new fixture compiles; .157 host 38+38 checks pass and seven artifacts
 collect. Its [separate plan](../config/q2-iq2-whole640-wave16-plan.json) freezes
 254 files/four manifests and permits only the two new drafts against the
 parent chain, without rerunning the previous drafts or any model control.
+The new run finishes 18:52:53.499091 UTC; all artifacts collect before release
+18:54:18.937825 UTC/SHA
+`d4c60136edd5a9bb83cc16e35ed9d65692043424c6589cf6a03ea73be6d733cf`.
+
+The next model candidate must preserve the current mixed routing map's
+wide-128 and ordinary-tail-64 descriptors, partition eligible tails separately
+from existing counts, and write the same scaled slot buffer. Packing must
+cover only the ordinary rows so it cannot overwrite fused results or read
+unwritten F32 cells. Keep the Q2 down consumer and its half-output lifetime
+unchanged. Qualify that new mixed producer/packing/down chain before one
+original exact-2048/TG128 model measurement against the saved references.
+No executor integration, new provider, GPU plan or model admission exists yet.
 
 The retained expert path writes 640 F32 gate/up values per routed row, then
 reads that row to choose a dyadic scale and convert it to F16 for Q2 down.
