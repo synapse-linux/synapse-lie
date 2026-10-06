@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Fixed IQ2 bounds preparation — 2026-10-06 UTC
+
+Fresh global .157 closure11:27:30UTC binds previous40974980, retired identities/
+groups, empty KFD and original Core CPU/four GPU leases/model stat identities.
+Core reports fresh own .157/.158 non-use11:28UTC; its separate .161 AR work
+permits no interleaving/adoption. New no-model host-r1 concludes11:28:28UTC with
+36+36 checks/six exits0 and seven artifacts collected. Freeze160 fixtures/six
+manifests/1028 provider files for one new component plus one original model.
+No new GPU window/lease/reservation/waiter is admitted at this preparation stage.
+All saved comparisons and original timing remain unchanged; no remote cleanup.
+
 ## IQ2 sign arithmetic window released — 2026-10-06 UTC
 
 Admission11:14:26.631807UTC/4ac46b4d binds checkpoint0566d2f0 and one component+

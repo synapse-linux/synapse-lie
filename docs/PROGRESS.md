@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Fixed IQ2 gate/up bounds host-qualified — 2026-10-06 UTC
+
+Prepare one private m640/k2560 BN64/128 candidate from retained1585, preserving
+original signs, rounded arithmetic, maps and all162 original ISA bodies. Static
+instructions1351→1004/2361→1685, no VGPR/LDS increase or spills. New fixture113
+complete pairs/70 timings includes actual-shape short cases and untouched
+ragged fallbacks. .157 host36+36 passes11:28:28UTC, six exits0/seven artifacts
+collected; freeze160 fixtures/six manifests and1028 provider files. New terminal
+collection regression guard also passes. GPU admission/model remain pending;
+fixed controls/benchmark/full-curve priority unchanged.
+[Coverage and static limits](Q2-IQ2-FIXED-BOUNDS.md).
+
 ## IQ2 sign arithmetic measured and released — 2026-10-06 UTC
 
 One new fixed exact2048/tg128 model measures1582.080007 PP/25.15197322 TG,

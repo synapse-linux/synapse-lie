@@ -1,5 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [fixed IQ2 gate/up bounds candidate](docs/Q2-IQ2-FIXED-BOUNDS.md) is
+host-qualified36+36 on .157,160 fixture hashes/six manifests frozen. It removes
+26–29% static instructions in two private m640/k2560 kernels without increasing
+VGPR/LDS; all162 original bodies stay exact. GPU qualification/model measurement
+are pending; retain1585.308983 PP versus fixed UD1685.777092.
+
 The [IQ2 sign-arithmetic model trial](docs/Q2-IQ2-HALF-SIGN-ARITHMETIC.md)
 completes on .157 at1582.080007 PP/25.15197322 TG,−0.203681% PP versus saved1585.
 All32768 sign/code pairs,101 component outputs and21 parent model files are

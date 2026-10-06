@@ -46,6 +46,31 @@ class RemoteGuardTests(unittest.TestCase):
                 run.assert_not_called()
         self.assertEqual(remote.COUNTING_SOURCES[remote.IQ2_HALF_SIGN_MODEL], variant)
 
+    def test_iq2_fixed_bounds_has_only_two_matching_modes(self):
+        variant = remote.IQ2_FIXED_BOUNDS_VARIANT
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-ssm-fixed-bounds'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 fixed bounds requires its component or matched counting provider')
+        self.refuse([remote.IQ2_FIXED_BOUNDS_MODE, 'q2-fixture'], 'IQ2 fixed bounds requires')
+        self.refuse([remote.IQ2_FIXED_BOUNDS_MODEL, 'q2-fixture'], 'Historical counting requires its matched provider')
+        component = [remote.IQ2_FIXED_BOUNDS_MODE, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(component + [flag], 'IQ2 fixed bounds component accepts no model')
+        model = [remote.IQ2_FIXED_BOUNDS_MODEL, 'q2-fixture', '--source-variant', variant]
+        self.refuse(model, 'Historical counting requires a full MMQ rebuild')
+        self.refuse(model + ['--rebuild-mmq', '--detach'], 'Persistent launch is limited')
+        for extra in (['--native-curve'], ['--point-only'], ['--replay-from', 'q2-norm-fixed-model-before-r1']):
+            self.refuse(model + ['--rebuild-mmq'] + extra, 'IQ2 fixed bounds accepts no curve')
+        for argv in (component, model + ['--rebuild-mmq']):
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+        self.assertEqual(remote.COUNTING_SOURCES[remote.IQ2_FIXED_BOUNDS_MODEL], variant)
+
     def test_hc_injection_reuse_is_component_only(self):
         variant = remote.HC_REUSE_VARIANT
         for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
@@ -1638,7 +1663,7 @@ class RemoteGuardTests(unittest.TestCase):
     def test_collection_bounds_and_paths(self):
         def archive(mode, size=1, name='results/output.f32', kind=tarfile.REGTYPE):
             receipt = tarfile.TarInfo('results/result.json')
-            data = json.dumps({'mode': mode}).encode()
+            data = json.dumps({'mode': mode, 'finished_at': '2026-10-06T11:20:12Z', 'commands': [{'exit_code': 0}]}).encode()
             receipt.size = len(data)
             member = tarfile.TarInfo(name)
             member.size, member.type = size, kind
@@ -1669,6 +1694,24 @@ class RemoteGuardTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'Unsafe collection'):
                 remote.collection_receipt(value)
             value.extractfile.assert_not_called()
+
+    def test_collection_refuses_live_receipts_and_unfinished_commands(self):
+        for receipt in ({'mode': 'cpu'},
+                        {'mode': 'cpu', 'finished_at': '2026-10-06T11:20:12Z', 'commands': [{'pid': 123}]},
+                        {'mode': 'cpu', 'finished_at': '2026-10-06T11:20:12Z', 'commands': [{'exit_code': None}]}):
+            data = json.dumps(receipt).encode()
+            member = tarfile.TarInfo('results/result.json'); member.size = len(data)
+            archive = Mock(); archive.getmembers.return_value = [member]
+            archive.extractfile.return_value = io.BytesIO(data)
+            with self.assertRaisesRegex(ValueError, 'Refusing incomplete collection'):
+                remote.collection_receipt(archive)
+        # A terminal safe numerical failure still preserves its actual evidence.
+        data = json.dumps({'mode': 'iq2-fixed-bounds-check', 'finished_at': '2026-10-06T11:20:12Z',
+                           'commands': [{'exit_code': 1}]}).encode()
+        member = tarfile.TarInfo('results/result.json'); member.size = len(data)
+        archive = Mock(); archive.getmembers.return_value = [member]
+        archive.extractfile.return_value = io.BytesIO(data)
+        self.assertEqual(remote.collection_receipt(archive)['commands'][0]['exit_code'], 1)
 
     def test_streamed_artifact_digest(self):
         with tempfile.TemporaryDirectory() as directory:
