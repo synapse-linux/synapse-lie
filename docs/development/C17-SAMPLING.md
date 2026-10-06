@@ -169,9 +169,13 @@ construction/template projections/request-state vectors remain private glue.
 The normal product and default CTest remain Python-free with no new dependency.
 The [host receipt](validation/c17-lexeme-host-2026-10-06.json) binds independent
 ownership, allocator/capacity refusal and joined-reader checks, complete
-pristine/ON/OFF witnesses and the 92-file provider inventory. A matching sealed
-HIP build and original-weight AR/MTP controls on `.161` are still required;
-the older 89-file `5227bf4f` GPU receipt excludes these changes. Model/controller,
+pristine/ON/OFF witnesses and the 92-file provider inventory. The matching sealed
+`688b74c5` HIP build now passes 37 selected original-weight OpenAI controls in
+each AR/MTP mode on `.161`
+([GPU receipt](validation/c17-lexeme-point-gpu-2026-10-06.json)). This qualifies
+the selected integrated paths; the host receipt keeps its original scope.
+Both modes observe 44 whole-process threads, including runtime helpers, with
+one device-owner worker and no added inference thread. Model/controller,
 broader branches/faults/probabilities/quality/resources and matched cost remain
 open. Terminal Bench stays deferred until modifications and qualification finish.
 

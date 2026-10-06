@@ -43,7 +43,9 @@ stable release is declared. Detailed validation history is in
 - Shared C17 immutable primitive ownership, ordered predicate tables and a
   construction-only schema identity memo. Runtime grammar dispatch calls the
   C numeric/string/DFA algorithms directly. Host original/default-ON/OFF
-  witnesses agree; matching GPU and cost qualification remain pending.
+  witnesses agree; the matching 92-file HIP build passes 37 selected
+  original-weight OpenAI controls in each AR/MTP mode on Strix Point.
+  Broader branch, fault, quality, resource and cost qualification remains open.
   Existing reactive scheduling, cache format and original OFF paths remain.
 
 - Shared C17 typed JSON ownership, including exact string/key bytes, ordered

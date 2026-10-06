@@ -250,9 +250,11 @@ client/server restart or machine reservation is queued in the meantime.
    identity memo and hot dispatch now also use C17
    ([host receipt](development/validation/c17-lexeme-host-2026-10-06.json)).
    Six guarded edits preserve original OFF classes/vector/map; the inventory
-   now binds 92 files (80 first-party and 12 vendor/provenance). The prior
-   `5227bf4f` GPU receipt excludes this increment, which needs matching sealed
-   HIP and original-weight qualification. Private facades, schema/regex
+   now binds 92 files (80 first-party and 12 vendor/provenance). The matching
+   sealed `688b74c5` HIP build passes selected original-weight AR37/MTP37
+   controls on `.161`
+   ([GPU receipt](development/validation/c17-lexeme-point-gpu-2026-10-06.json)).
+   Private facades, schema/regex
    construction, template projections, request-state vectors and model/controller
    remain transitional. Broader numerical/fault/resource/quality/matched-cost
    gates remain open.

@@ -6,17 +6,16 @@ and a command-line benchmark tool. Its shared C17 core manages reactive
 scheduling, concurrent requests, cancellation, metrics and prompt caching.
 The current numerical backend is an embedded Gufo adapter using C++ and HIP,
 with owned [C17 sampling, grammar and schema components](docs/development/C17-SAMPLING.md).
-Checkpoint `5227bf4f`, including the shared C17 reasoning/tool grammar,
-JSON parser, binary64 codec and typed value storage, passes
-[37 OpenAI controls in both AR and MTP on Strix Point](docs/development/validation/c17-json-value-point-gpu-2026-10-06.json).
+Checkpoint `688b74c5`, including the shared C17 reasoning/tool grammar,
+JSON parser, binary64 codec, typed value storage and primitive predicates, passes
+[37 OpenAI controls in both AR and MTP on Strix Point](docs/development/validation/c17-lexeme-point-gpu-2026-10-06.json).
 These cover selected integrated paths. Broader numerical, fault, resource,
 quality and performance gates remain open.
 Gufo still owns model/controller state. Typed JSON values and immutable
 number/string/whitespace predicates, ordered tables and their construction memo
-now belong to the shared C17 core. The newer
+now belong to the shared C17 core. The
 [predicate ownership host checks](docs/development/validation/c17-lexeme-host-2026-10-06.json)
-require a matching GPU verification; the previous 89-file HIP receipt excludes
-this 92-file increment.
+and matching 92-file HIP build qualify this increment's selected paths.
 ICU remains the Unicode set/property/conversion dependency.
 [Directional steering](docs/guides/USAGE.md#directional-steering) has shared-core
 and server/bench controls with host validation, including scheduled benchmark

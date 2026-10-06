@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
-## Primitive ownership passes host checks — 2026-10-06 UTC
+## Primitive ownership passes host and selected GPU checks — 2026-10-06 UTC
 
 `lie/grammar_lexeme.h` now owns immutable whitespace/number/string predicates,
 ordered retained tables, construction-only schema identity memo and C-only hot
@@ -29,9 +29,22 @@ Initial host build exit 2 is retained: the compiler's predicate-map field needed
 the same guarded C memo type as its normalized-value bridge. Corrected builds
 pass. No sanitizer suppression or foreign process action occurs.
 
-A new matching sealed HIP build and original-weight AR/MTP controls on `.161`
-remain pending. The preceding `5227bf4f` 89-file GPU evidence excludes this
-increment. Broader branches, faults, independent probabilities, private resource,
+The matching sealed `688b74c5` HIP build on `.161` binds all 92 provider files,
+followed by 37 selected original-weight OpenAI controls in each AR/MTP mode.
+All server/child/supervisor/controller exits are 0 and model/predictor stats
+remain unchanged. The
+[GPU receipt](development/validation/c17-lexeme-point-gpu-2026-10-06.json) and
+[portable raw evidence](benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-lexeme-openai-r26.tar.gz)
+bind this increment separately from the preceding `5227bf4f` evidence. The host
+receipt retains its original host-only scope.
+
+AR/MTP CPU peaks are 60.25/64.875 C, GPU peaks 63/64 C and NVMe peaks
+61.85/64.85 C. Both modes observe 44 whole-process threads, including runtime
+helpers; there is still one device-owner worker. Fresh 08:10:48 UTC closure
+verifies all three exact supervisor and container-init identities retired,
+owned containers removed, the original lease free then released, router 128711
+active/only KFD and HTTP8000 unbound. All handles are collected with exit 0.
+Broader branches, faults, independent probabilities, private resource,
 quality and matched-cost gates stay open; all six owned roadmap tasks remain
 open. Root has no remote job/client/build/lease/waiter/reservation and keeps
 `.157` non-use. Terminal Bench stays stopped/collected/closed/deferred until

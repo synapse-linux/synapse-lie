@@ -399,12 +399,12 @@ done
 
 ### Original-weight HTTP AR and MTP gates
 
-The matching `5227bf4f` shared C17 reasoning/tool composition, binary64 JSON
-codec, complete JSON parser and typed value-storage build passes the same
+The matching `688b74c5` shared C17 reasoning/tool composition, binary64 JSON
+codec, complete JSON parser, typed value-storage and primitive-ownership build passes the same
 37 original-weight controls in both AR and MTP. The
-[source-bound receipt](../../../../development/validation/c17-json-value-point-gpu-2026-10-06.json)
-and [portable raw archive](data/rocm10-json-value-openai-r25.tar.gz)
-record matching 89-file source/provider bindings, all exits, model/predictor
+[source-bound receipt](../../../../development/validation/c17-lexeme-point-gpu-2026-10-06.json)
+and [portable raw archive](data/rocm10-lexeme-openai-r26.tar.gz)
+record matching 92-file source/provider bindings, all exits, model/predictor
 stats and complete process/lease retirement. These are selected functional
 controls; individual numeric/format branches, SSD BPE, independent probabilities,
 faults, quality, resources and matched performance remain open. No new benchmark

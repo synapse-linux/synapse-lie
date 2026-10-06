@@ -1,17 +1,27 @@
 # DS4 / synapse-lie coordination
 
-## Local predicate ownership; eval remains deferred — 2026-10-06
+## R26 primitive ownership build and AR/MTP closed — 2026-10-06
 
-Root changes only its `feature/context-million-openai` worktree. Immutable
-primitive/table/memo ownership and dispatch now use shared C17, with GPU-masked
-local host checks under CPU98/NVMe85/lower guards. No remote job, client, CPU/GPU
-build/run, lease, waiter or reservation is created on `.161/.157/.158`.
-The [92-file host receipt](development/validation/c17-lexeme-host-2026-10-06.json)
-requires a new sealed HIP build and original-weight controls under fresh peer
-and global `.161` admission. R25 closure below is historical, not admission for
-this source. Point/DGX/Q2 and DS4 work remains separately owned. Terminal Bench
-stays stopped/collected/closed/deferred until modifications and qualification
-finish; no restart, migration or standing reservation.
+Fresh Point/DGX own non-use and separate 07:50:15 / 07:57:40 / 08:05:49 UTC
+global observations admit the sealed `688b74c5` 92-file source. Device-free HIP
+build, then original-weight AR/MTP each complete with server/child/supervisor/
+controller exits 0; each inference mode passes the unchanged 37 controls.
+Six build files, 17 compile artifacts and 17 files per inference mode are
+collected and hash-verified. The final MTP lease releases at 08:09:31 UTC.
+
+Fresh 2026-10-06T08:10:48.230228+00:00 closure verifies all three exact supervisor
+and container-init identities retired, owned containers removed, original lease
+device 66307 / inode 105946405 briefly free then released, router 128711 active
+as the only KFD client and HTTP8000 unbound. AR/MTP init identities were captured
+by actual live observers; unrecorded identities in older receipts stay unknown.
+No foreign compute client or hot guard is observed.
+[Receipt](development/validation/c17-lexeme-point-gpu-2026-10-06.json).
+CPU98/NVMe85/lower guards and GPU observation remain active. No tuning,
+installation, deployment or `.157` activity occurs. Root has no standing remote
+job/client/CPU/GPU/build/lease/waiter/reservation or admitted restart on
+`.161/.157/.158`. This dated closure is not future admission. Point/DGX/Q2 and
+DS4 work remains separately owned. Terminal Bench stays stopped/collected/closed/
+deferred until modifications and qualification finish; no restart or migration.
 
 ## R25 typed JSON build and AR/MTP closed — 2026-10-06
 

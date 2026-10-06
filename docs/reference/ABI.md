@@ -84,7 +84,9 @@ wins. Memo reads require quiescent mutations. Mutation/release require caller
 serialization and retiring all borrowers. Paired aligned allocators outlive
 references and support caller concurrency. No worker, RNG, model or persisted
 cache enters these calls. Existing engine/state/HTTP layouts and DS4 framing
-remain unchanged. See [ownership and limits](../development/C17-SAMPLING.md#owned-primitive-predicates).
+remain unchanged. See [ownership and limits](../development/C17-SAMPLING.md#owned-primitive-predicates)
+and the matching selected
+[AR/MTP qualification](../development/validation/c17-lexeme-point-gpu-2026-10-06.json).
 
 `lie/grammar_composition.h` adds independent composition ABI 1. The synchronous
 core constructs immutable reasoning/tool marker automata, quotes arbitrary name
