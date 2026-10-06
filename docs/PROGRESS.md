@@ -1,5 +1,27 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Benchmark comparability correction — 2026-10-06 UTC
+
+The 256K campaign does not reproduce the historical capacity and UD baseline;
+it cannot establish historical improvement, regression or parity. The experiment
+design incorrectly interpreted 256K as cached prefix plus continuation/output,
+raising capacity to 266240 and changing sparse attention dispatch even at
+earlier depths. This was an implementation decision, not a requested change to
+the comparison. Completing the requests did not satisfy the comparative test.
+
+The [preservation audit](../config/q2-comparison-recovery-audit.json) verifies
+the retained provider and fixed benchmark evidence against saved identities.
+Initial Q2 1443.672867, retained Q2 1587.893545 and UD 1685.777092 PP remain the
+recorded fixed-point observations. No claim of long-context gain follows from
+them. The [comparability decision](../config/q2-curve256-comparability.json)
+preserves all raw measurements and the historical UD references.
+
+The prepared 128-row attention fixture has no GPU admission or run and is not
+scheduled. New Q2 performance trials must preserve the original physical input,
+timer and settings and reuse saved controls. Any later native 256K frontier
+must account for cached, new and output tokens within model capacity; matching
+the original 0–128K curve requires its original capacity and recipe.
+
 ## Sparse attention capacity correction prepared — 2026-10-06 UTC
 
 The new paired private providers distinguish visible context from mask pitch, extend the scan to nine words per thread and size shared union storage to2080 while keeping the2052 compact-list limit. Static comparison preserves162/164 device bodies and unchanged VGPR/no spills in the two changed bodies, with112 additional shared bytes. Production assembly, fixture host/device compilation and launcher checks pass. The new header/fixture format passes;101 inherited shared-check diagnostics remain. Fresh .157 handover15:55:53UTC revalidates release3e59f417, original leases/process retirement, empty KFD and unchanged model stats. Host38+38 completes15:56:48UTC, all six command exits0/seven artifacts collect. Plan a3d8148a binds226 fixtures/six manifests. No GPU admission or model result yet. [Scope and evidence](Q2-ATTENTION-CAPACITY.md).

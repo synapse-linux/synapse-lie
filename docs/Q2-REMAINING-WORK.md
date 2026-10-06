@@ -5,8 +5,10 @@ The priority remains the original fixed comparison: **1587.893545 PP versus
 UD1685.777092 PP**. Closing it requires **74.889015 ms**, or5.806435% less
 prefill time /6.164365% more throughput. Original exact2048 input,128 outputs,
 127 timed decode calls, capacity9216 and all saved controls remain fixed.
-The separately requested256K curve tests whether improvements extend to actual
-long conversations; its result does not replace this reference.
+The separately requested 256K curve did not establish whether improvements
+extend to long conversations: changing the common capacity changed sparse
+attention dispatch and invalidated the historical comparison. Its archived
+results do not replace this reference or the earlier native-curve UD values.
 
 ## Why the last attempts were too small
 

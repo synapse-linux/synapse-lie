@@ -1,28 +1,48 @@
 <!-- SPDX-License-Identifier: MIT -->
-# Q2 and UD through 256K: completed capacity experiment
+# Q2 and UD through 256K: archived non-comparable experiment
 
-Both native `synapse-lie-bench` curves completed on `.157`: ten depths per model, 20 accepted measurements and 48 total requests. The measured prefill rates are below both historical Q2 controls. **This does not isolate the effect of the Q2 optimizations:** the larger server capacity disables the sparse WMMA attention route in both new arms. The fixed exact2048 reference remains **1587.893545 Q2 versus1685.777092 UD token/s**; it was not rebuilt or rerun.
+**The requested comparable curve remains incomplete.** The experiment design
+incorrectly implemented the extension as a 256K cached prefix plus new input
+and output, raising capacity to 266240 for every point. This changed sparse
+attention dispatch and did not reproduce the historical UD baseline. The
+measurements document that different configuration; they cannot establish
+historical optimization gains, regressions or parity.
+[Comparability decision](../config/q2-curve256-comparability.json).
 
-[PNG graph](figures/q2-curve256/curve.png) · [SVG](figures/q2-curve256/curve.svg) · [all accepted values](figures/q2-curve256/points.csv) · [every request and phase](figures/q2-curve256/all-requests.csv) · [historical comparison CSV](figures/q2-curve256/comparison.csv) · [audited report](../config/q2-curve256-results.json)
+Both native `synapse-lie-bench` runs completed on `.157`: ten depths per model,
+20 measurements passing the client's request/count checks and 48 total requests.
+The `accepted` field in the archived data refers to those checks, not benchmark
+comparability. The fixed exact2048 comparison remains **1587.893545 Q2 versus
+1685.777092 UD token/s**; neither saved control was rebuilt or rerun.
 
-![Complete context comparison](figures/q2-curve256/curve.png)
+[Archived PNG](figures/q2-curve256/curve.png) · [archived SVG](figures/q2-curve256/curve.svg) · [all recorded values](figures/q2-curve256/points.csv) · [every request and phase](figures/q2-curve256/all-requests.csv) · [archived comparison CSV](figures/q2-curve256/comparison.csv) · [original measurement report](../config/q2-curve256-results.json)
 
-## Measured continuation rates
+The original report, CSV and graphs remain unchanged to preserve the evidence.
+Their comparison percentages do not qualify historical improvement or parity.
+
+## Archived continuation rates
 
 Rates are physical tokens per second. Each depth has one warmup and one accepted measurement, with 128 generated tokens and 128 completed decode calls. There is no new median or replacement of the fixed benchmark. Both new arms have the same accepted physical counts at every depth.
 
-| Requested prefix | Cached tokens | New tokens | Q2 PP | UD PP | Q2 TG | UD TG | Saved Q2 PP before | Saved Q2 PP after |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 0 | 0 | 2040 | 803.402 | 1534.756 | 25.975 | 25.455 | 849.444 | 1255.841 |
-| 4K | 4096 | 2042 | 700.178 | 1025.498 | 25.840 | 25.785 | 891.415 | 1133.235 |
-| 8K | 8185 | 2047 | 753.185 | 1015.350 | 26.055 | 25.606 | 956.672 | 1074.834 |
-| 12K | 12250 | 2046 | 743.393 | 1002.978 | 26.301 | 25.687 | 991.545 | 1309.958 |
-| 16K | 16325 | 2046 | 756.909 | 985.395 | 26.034 | 24.873 | 1024.693 | 1254.007 |
-| 32K | 32719 | 2028 | 750.620 | 944.087 | 25.774 | 25.549 | 1069.473 | 1270.145 |
-| 64K | 65448 | 2057 | 737.484 | 832.811 | 25.942 | 25.060 | 1034.701 | 1185.810 |
-| 128K | 130933 | 2046 | 695.423 | 819.081 | 24.857 | 24.514 | 1096.610 | 1125.468 |
-| 192K | 196196 | 2044 | 679.147 | 776.280 | 24.136 | 23.876 | — | — |
-| 256K | 261629 | 2053 | 665.593 | 729.470 | 24.367 | 23.469 | — | — |
+| Requested prefix | Cached tokens | New tokens | Q2 PP | UD PP | Q2 TG | UD TG | Saved Q2 PP before | Saved Q2 PP after | Saved UD PP |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 0 | 0 | 2040 | 803.402 | 1534.756 | 25.975 | 25.455 | 849.444 | 1255.841 | 1280.846 |
+| 4K | 4096 | 2042 | 700.178 | 1025.498 | 25.840 | 25.785 | 891.415 | 1133.235 | 1218.583 |
+| 8K | 8185 | 2047 | 753.185 | 1015.350 | 26.055 | 25.606 | 956.672 | 1074.834 | 1419.231 |
+| 12K | 12250 | 2046 | 743.393 | 1002.978 | 26.301 | 25.687 | 991.545 | 1309.958 | 1415.082 |
+| 16K | 16325 | 2046 | 756.909 | 985.395 | 26.034 | 24.873 | 1024.693 | 1254.007 | 1383.731 |
+| 32K | 32719 | 2028 | 750.620 | 944.087 | 25.774 | 25.549 | 1069.473 | 1270.145 | 1383.813 |
+| 64K | 65448 | 2057 | 737.484 | 832.811 | 25.942 | 25.060 | 1034.701 | 1185.810 | 1160.746 |
+| 128K | 130933 | 2046 | 695.423 | 819.081 | 24.857 | 24.514 | 1096.610 | 1125.468 | 1280.583 |
+| 192K | 196196 | 2044 | 679.147 | 776.280 | 24.136 | 23.876 | — | — | — |
+| 256K | 261629 | 2053 | 665.593 | 729.470 | 24.367 | 23.469 | — | — | — |
+
+The three saved columns come from the same earlier
+[native row campaign](Q2-NATIVE-ROW-CURVE.md), at capacity 133760. They are shown
+to expose the baseline mismatch, not to claim matched comparison conditions.
+Its UD depth-zero observation was itself below the preceding unchanged UD
+observation of 1533.293; both remain recorded. No lower observation replaces
+the target. At 128K the saved UD value is 1280.583, not the new 819.081.
 
 At128K Q2 prefill is15.097% below UD; at256K it is8.757% below. Q2 decode is respectively1.399% and3.825% above UD in these observations. Historical Q2 curves stop at128K; no old192K/256K values are invented. The old controls used capacity133760, different sparse attention dispatch and separate cache history. Their substantial before/after variation is retained. These single measurements establish neither a stable gain nor a causal regression from the numerical patches.
 

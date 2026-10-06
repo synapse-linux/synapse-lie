@@ -1,10 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-The [sparse-attention capacity correction](docs/Q2-ATTENTION-CAPACITY.md) separates allocated mask pitch from visible context and covers the 256K benchmark headroom safely. Only two sparse device bodies change; 162 remain exact. The new boundary/FP64/timing fixture is prepared; .157 host38+38 checks pass and seven artifacts are collected. GPU qualification is pending. Fixed Q2/UD1587.893545/1685.777092 remains unchanged.
+The retained [fixed comparison](docs/Q2-IQ2-FIXED-BOUNDS.md) measures Q2 prefill
+at **1587.893545 token/s**, versus the initial **1443.672867** and the unchanged
+UD target of **1685.777092**. The original physical input, direct-executor timer,
+capacity 9216 and saved controls remain authoritative. These observations do
+not establish whole-curve parity or independent model quality.
 
-The [256K curve](docs/Q2-CURVE256.md) is complete:20 accepted Q2/UD points and48 requests, with [graphs and full CSV](docs/figures/q2-curve256/points.csv). Q2 prefill measures695.423/665.593 token/s at128K/256K versus UD819.081/729.470. Historical Q2 rates are higher, but capacity266240 forces both new arms off sparse WMMA attention, so this comparison cannot isolate optimization gains. All37 host/model artifacts are collected and `.157` is released. The [current assessment](docs/Q2-REMAINING-WORK.md) retains the fixed1587.893545 versus1685.777092 priority; partial-chunk dispatch changes cannot improve that already eligible2048 point.
+The latest [256K campaign](docs/Q2-CURVE256.md) is **not admissible for
+historical improvement or parity**. Its design incorrectly treated 256K as a
+cached prefix plus continuation and output, raising capacity to 266240 at every
+point and changing sparse attention dispatch. Completing 20 measurements and
+48 requests did not complete the requested comparable curve. All raw evidence
+is preserved; its lower UD rates do not replace the historical references.
+The [preservation audit](config/q2-comparison-recovery-audit.json) verifies the
+retained source, original harness, inputs, results and graphs.
 
-The owner-requested [parallel Q2–UD curve through 256K](docs/Q2-CURVE256.md) is host-qualified on `.157` (44 Debug +44 ASan/UBSan checks). It uses the retained numerical provider, the qualified native `synapse-lie-bench`, and a common 266240-token private server capacity. Fixed-point parity remains the priority; GPU admission/results are pending.
+The separate [attention-capacity draft](docs/Q2-ATTENTION-CAPACITY.md) has local
+compilation and host-test evidence only. Its synthetic GPU fixture has neither
+admission nor a run and is not scheduled. New performance work remains limited
+to new Q2 candidates under the frozen fixed comparison, using saved controls.
 
 The [down null-contract trial](docs/Q2-DOWN-FIXED-CONTRACT.md) completes at 1586.586480 PP / 25.16050717 TG; 132 operator pairs and 21 parent model files are exact. Component time improves 0.69–1.98%, but no whole-model gain is observed. Retain 1587.893545 PP and preserve the marginal candidate. The owner also requests a parallel curve through 256K while fixed-point parity remains the optimization priority.
 

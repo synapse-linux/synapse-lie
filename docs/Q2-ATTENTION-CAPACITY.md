@@ -1,6 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Sparse attention at the 256K capacity boundary
 
+**GPU execution is not scheduled.** The capacity experiment changed the
+comparison conditions. Host 38+38 and local compilation remain evidence only
+for their stated scopes; no GPU admission or component run occurred. The
+128-row operator fixture is a different workload from the frozen model
+benchmark. This private draft requires separate justification and qualification
+before execution; it has not replaced the retained performance provider.
+
 The completed [256K curve](Q2-CURVE256.md) exposes a dispatch problem shared
 by Q2 and UD: the allocated mask pitch reaches 2080 words at capacity 266240,
 and the original WMMA launcher rejects pitches above 2048. Short visible

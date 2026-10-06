@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Attention operator plan not scheduled — 2026-10-06 UTC
+
+The changed benchmark conditions invalidate the historical comparison. The
+attention operator plan remains a prepared record only, with no GPU admission
+or component staging. Host-r1 is terminal and its seven artifacts are collected.
+This workstream has no job, client, build, lease, reservation or waiter on
+`.157`, `.158` or `.161`. Core was informed; the last GPU release remains
+`3e59f417`. The subsequent preservation audit and documentation correction are
+local file checks, with no remote execution or new performance measurement.
+
 ## Attention capacity host preparation — 2026-10-06 UTC
 
 Core confirms .157/.158 non-use after its independent .161 r33 closure. Fresh Q2 handover15:55:53UTC verifies release3e59f417, original lease identities,1575 retired identities/1260 groups, empty KFD and seven unchanged model stat tuples. q2-attention-capacity-host-r1 concludes15:56:48UTC with38+38 checks, six zero exits and seven artifacts collected; no CPU child remains live. A subsequent single attention operator window needs fresh admission; no Q2 model/curve/Q4/.158/.161 use or cleanup is planned.
