@@ -1,11 +1,28 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-The corrected [compressed expert cache](Q2-COMPRESSED-CACHE.md) now implements the original
-antirez/ds4 slot mechanism: original IQ2/Q2 bytes, protected selected hits, LRU
-eviction and GPU completion before reuse. Its32GiB budget replaces expert
-allocations. Source1030files,162 original kernels exact,ten new zero-scratch
-specializations; .157 host30+30 passes. GPU component/model remain pending.
-The FP16 mirror result below is a separate rejected experiment.
+The corrected [compressed expert cache](Q2-COMPRESSED-CACHE.md) completes at
+2026-10-06T00:15:11UTC:1576.007692 PP /24.32799080 TG, a0.586718%/3.309912%
+regression against saved1585.308983/25.16079073. Keep that resident base.
+Original antirez/ds4 supplies the mechanism reference: compressed slots,
+protected selected hits, LRU and completion before reuse. All117 byte checks,
+216 component pairs,21 parent model files and nine internal replays pass.
+The model observes302037 hits/16124 loads, zero evictions or failed loads.
+Warmup171.307127 PP is exported; subsequent PP samples1576.007692,
+1574.086828 and1576.132112 retain the original benchmark/timers. No control
+is rerun. The32GiB quota replaces original expert allocation and saves
+1.852607GiB of known allocations after dynamic IDs and persistent upload
+buffers; this is not process-peak memory. GPU overflowing-cache behavior,
+serving concurrency and independent task quality remain unqualified.
+
+Source1030 files/102 fixtures/nine manifests and both charts verify. Final
+host30+30 plus component/model give13 exits0/37 artifacts; preliminary host
+adds six exits0/seven artifacts. Release00:15:46.954550UTC SHAa94c8b81 retires
+1210 identities/966 groups, KFD empty, four original leases free and seven
+model stat tuples unchanged. Mirrors agree and Core receives closure; no Q2
+job/build/waiter/reservation/restart/cleanup remains. Preserve this memory
+experiment, without promotion or a throughput claim. Full-curve parity stays
+open; fixed UD still needs6.337447% PP from the retained resident candidate.
+The earlier FP16 mirror result below is separate and uses the wrong reference.
 
 The owner clarifies the cache reference as **antirez/ds4**, not its Gufo port.
 The initial FP16 expert-mirror experiment completes but loses5.565692% PP

@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2 compressed expert cache releases .157 at2026-10-06T00:15:46.954550UTC,
+SHAa94c8b81e150641423391f00620a68caa635575cf454245389fd39a866ec0df5.
+Primary host/component/model are terminal and collected:13 exits0/37
+artifacts; preliminary host adds six exits0/seven artifacts. All1210 recorded
+identities/966 groups are retired, KFD empty, four unchanged leases free and
+seven model stat tuples unchanged. Canonical/main/remote mirrors agree;
+Core receives closure. No Q2 job/build/client/lease/waiter/reservation,
+restart or cleanup remains. Any further GPU work requires fresh admission.
+[Release](../config/q2-compressed-cache-window-release.json),
+[final audit](../config/q2-compressed-cache-final-audit.json).
+
 Q2 FP16 mirror window releases .157 at2026-10-05T23:48:42.989734UTC,
 SHA14c2b9bb927888df9167a81e9afc91fa46176ed7b02524587cefd24e322e4ce4.
 Host/component/model terminal and collected:13 exits0/37 artifacts.

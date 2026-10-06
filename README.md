@@ -1,11 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-The corrected [compressed expert cache](docs/Q2-COMPRESSED-CACHE.md) now implements the original
-antirez/ds4 slot mechanism: original IQ2/Q2 bytes, protected selected hits, LRU
-eviction and GPU completion before reuse. Its32GiB budget replaces expert
-allocations. Source1030files,162 original kernels exact,ten new zero-scratch
-specializations; .157 host30+30 passes. GPU component/model remain pending.
-The FP16 mirror result below is a separate rejected experiment.
+The corrected [compressed expert cache](docs/Q2-COMPRESSED-CACHE.md) implements
+the original antirez/ds4 slot mechanism and completes its .157 measurement:
+1576.007692 PP /24.32799080 TG, or -0.586718%/-3.309912% against retained
+1585.308983/25.16079073. All21 parent files remain exact. Its32GiB budget
+replaces expert allocations; known allocation savings are1.852607GiB after
+dynamic IDs and persistent upload buffers, before CPU metadata/runtime costs.
+The first2048-token warmup is171.307127 PP and remains visible in all exports.
+Host30+30 and component checks pass;13 primary exits0/37 artifacts verify.
+The preliminary host adds seven preserved artifacts. Keep the resident1585
+performance base and retain the compressed experiment for capacity work.
+.157 is released without cleanup. The FP16 mirror below is separate.
 
 The owner clarifies the cache reference as **antirez/ds4**, not its Gufo port.
 The initial FP16 expert-mirror experiment completes but loses5.565692% PP
