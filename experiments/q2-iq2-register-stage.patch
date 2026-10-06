@@ -1,0 +1,145 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -4277,7 +4277,7 @@
+ }
+ 
+ template<WeightType kType, int BM, int BN, int BK, bool kPair = false,
+-         bool kPacked = false, bool kScaled = false>
++         bool kPacked = false, bool kScaled = false, bool kRegisterIQ2 = false>
+ __launch_bounds__(256) __global__ void RoutedF16GEMMKernel(
+     const void* __restrict__ w,
+     const std::conditional_t<kType == WeightType::kQ2_K && !kScaled, float,
+@@ -4302,6 +4302,7 @@
+   constexpr bool kResidual = kQ2 && !kScaled;
+   static_assert(!kScaled || (kQ2 && !kPacked && !kPair));
+   constexpr bool kIQ2 = kType == WeightType::kIQ2_XXS;
++  static_assert(!kRegisterIQ2 || (kIQ2 && kPair && !kPacked && BN == 128));
+   constexpr bool kSigned = kQ8 || kIQ2;
+   constexpr bool kKQuant = kType == WeightType::kQ4_K || kQ5K;
+   // 16-byte code chunks per row and stage: Q4_K's nibble pair and Q5_1's
+@@ -4313,9 +4314,9 @@
+   // lane) covers all bank groups; the activation plane is
+   // [kb][16-element quarter][token][16 B] so a fragment read is 256
+   // contiguous bytes; the epilogue reuses it all.
+-  constexpr int kCodeBytes = BM * kChunks * 16;
++  constexpr int kCodeBytes = kRegisterIQ2 ? 0 : BM * kChunks * 16;
+   constexpr int kHighBytes = (kQ5 || kQ5K) ? BK * BM * 4 : 0;
+-  constexpr int kScaleBytes = (kQ2 ? 4 : 1) * BK * BM * 4;
++  constexpr int kScaleBytes = kRegisterIQ2 ? 0 : (kQ2 ? 4 : 1) * BK * BM * 4;
+   // One slot of padding per activation quarter plane: the eight chunks of
+   // a token then land on eight bank groups when they are written.
+   constexpr int kActStride = BN + 1;
+@@ -4357,18 +4358,19 @@
+   // Weight fetch: unit u of a thread is (row = tid / 2 + 128 u, chunk c =
+   // tid % 2). Q4_K: the two 16-byte halves of one 32-byte nibble group (two
+   // K blocks, low and high nibbles); Q5_1: one 24-byte K block each.
+-  const int f_c = tid & 1;
++  const int f_c = kRegisterIQ2 ? half_id : (tid & 1);
++  const int f_row = kRegisterIQ2 ? wave_id * 16 + sub_lane : (tid >> 1);
+   const std::uint8_t* f_ptr[kWaveRowTiles];
+   bool f_live[kWaveRowTiles];
+   uint4 f_header[kWaveRowTiles];
+ #pragma unroll
+   for (int u = 0; u < kWaveRowTiles; ++u) {
+     const int r =
+-        r_block + (kPair ? (tid >> 1) % kRows : (tid >> 1) + (u * 128));
++        r_block + (kPair ? f_row % kRows : f_row + (u * 128));
+     f_live[u] = r < m_i;
+     const std::uint8_t* weights = w_expert;
+     if constexpr (kPair) {
+-      if ((tid >> 1) >= kRows) {
++      if (f_row >= kRows) {
+         weights = static_cast<const std::uint8_t*>(w_up) +
+                   static_cast<std::size_t>(expert) * m * row_bytes;
+       }
+@@ -4383,6 +4385,8 @@
+   uint4 f_codes[kWaveRowTiles];
+   uint2 f_iq2_group[kWaveRowTiles];
+   __half f_iq2_d[kWaveRowTiles];
++  std::uint32_t iq2_stage_codes[kWaveRowTiles][8];
++  std::uint32_t iq2_stage_scale[kWaveRowTiles];
+   // Paired gate/up tiles reuse the full quantized block over four stages.
+   // Keep its remaining codes in registers alongside the cached header.
+   uint4 code_cache[kWaveRowTiles][4];
+@@ -4565,7 +4569,28 @@
+     for (int u = 0; u < kWaveRowTiles; ++u) {
+       const int row = (tid >> 1) + (u * 128);
+       std::uint32_t scale_bias = 0;
+-      if constexpr (kIQ2) {
++      if constexpr (kRegisterIQ2) {
++        // SPDX-License-Identifier: MIT
++        // The two half-waves own the two K32 groups of the same16 rows.
++        // Decode once into registers; the matrix reader stays in this wave.
++        const uint2 group = f_iq2_group[u];
++        const __half d = f_iq2_d[u];
++#pragma unroll
++        for (int part = 0; part < 4; ++part) {
++          const unsigned code = (group.x >> (8 * part)) & 255U;
++          const unsigned sign = (group.y >> (7 * part)) & 127U;
++          const uint2 magnitude =
++              reinterpret_cast<const uint2*>(kIq2HalfHighGrid)[code];
++          const uint2 mask = reinterpret_cast<const uint2*>(ksigns64)[sign];
++          iq2_stage_codes[u][2 * part] = magnitude.x ^ (mask.x & 0x80808080U);
++          iq2_stage_codes[u][2 * part + 1] = magnitude.y ^ (mask.y & 0x80808080U);
++        }
++        const float scale =
++            __half2float(d) * float(2 * (group.y >> 28) + 1) * 0.125F;
++        const std::uint32_t dm =
++            __builtin_bit_cast(std::uint16_t, __float2half_rn(scale));
++        iq2_stage_scale[u] = f_live[u] ? dm : 0U;
++      } else if constexpr (kIQ2) {
+         const uint2 group = f_iq2_group[u];
+         const __half d = f_iq2_d[u];
+         // SPDX-License-Identifier: MIT
+@@ -4651,7 +4676,7 @@
+         scale_bias = __builtin_bit_cast(std::uint32_t,
+                                         __floats2half2_rn(scale, -offset));
+       }
+-      if constexpr (!kQ2)
++      if constexpr (!kQ2 && !kRegisterIQ2)
+         s_scale[(f_c * BM) + row] = scale_bias;
+     }
+ #pragma unroll
+@@ -4678,6 +4703,11 @@
+ 
+   const __half2 magic = __floats2half2_rn(kSigned ? -1152.0F : -1024.0F,
+                                           kSigned ? -1152.0F : -1024.0F);
++  const auto register_word = [half_id](std::uint32_t own, int kb) {
++    const auto peer = __builtin_amdgcn_permlanex16(
++        own, own, 0x76543210U, 0xFEDCBA98U, false, false);
++    return half_id == kb ? own : peer;
++  };
+   const auto compute_stage = [&]() {
+     uint4 raw[kWaveRowTiles][BK];
+     if constexpr (!kSigned && !kQ2) {
+@@ -4699,11 +4729,17 @@
+         const int row = (wave_id * 16) + (u * 128) + sub_lane;
+         const __half2 sb =
+             kQ2 ? __float2half2_rn(0.0F)
+-                : __builtin_bit_cast(__half2, s_scale[(kb * BM) + row]);
++                : __builtin_bit_cast(__half2, kRegisterIQ2
++                      ? register_word(iq2_stage_scale[u], kb)
++                      : s_scale[(kb * BM) + row]);
+         const __half2 scale2 = __low2half2(sb);
+         const __half2 bias2 = __high2half2(sb);
+         std::uint32_t nib[8];
+-        if constexpr (kSigned || kQ2) {
++        if constexpr (kRegisterIQ2) {
++#pragma unroll
++          for (int i = 0; i < 8; ++i)
++            nib[i] = register_word(iq2_stage_codes[u][i], kb);
++        } else if constexpr (kSigned || kQ2) {
+           // Q8_0: the block's 32 signed bytes are chunks 2 kb and 2 kb + 1;
+           // flipping the sign bit carries q + 128, which the 1152 magic
+           // takes back out.
+@@ -5443,7 +5479,8 @@
+                      std::size_t k, hipStream_t stream) {
+   const dim3 grid(static_cast<unsigned>((m + 63) / 64), n_tiles);
+   hipLaunchKernelGGL(
+-      (RoutedF16GEMMKernel<WeightType::kIQ2_XXS, 128, BN, 2, true, kPacked>),
++      (RoutedF16GEMMKernel<WeightType::kIQ2_XXS, 128, BN, 2, true, kPacked,
++                           false, BN == 128 && !kPacked>),
+       grid, dim3(kThreads), 0, stream, gate, x, tiles, bounds, rows_token,
+       rows_slot, nullptr, out, nullptr, m, k, up);
+ }

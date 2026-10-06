@@ -1,10 +1,19 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-IQ2 tail16 is prepared from retained1585 with a bounded C17 width-relative
-map; thirteen numerical sources unchanged. New host33+33 on .157 and fixture
-syntax/static inventory checks pass. Component96-output/56-timing and original
-fixed2048/tg128 model runs await fresh GPU admission. Controls stay saved.
-[Candidate and fixed plan](docs/Q2-IQ2-TAIL16.md).
+The IQ2 tail16 trial completes at **1561.419263 PP / 25.16419202 TG**,
+1.506944% below retained1585 in prefill. All 96 component pairs, 21 parent
+model files and nine internal replays are exact; the 192 recorded maps match
+the captured routes. Keep1585.308983 / 25.16079073. Host33+33 passes and all
+37 artifacts verify. Complete samples and graphs are saved; .157 is released
+at02:57:24UTC (b7da267d), without cleanup. The fixed UD gap remains6.337447%.
+[Results and unchanged comparison](docs/Q2-IQ2-TAIL16.md).
+
+The next [IQ2 register-stage prototype](docs/Q2-IQ2-REGISTER-STAGE.md)
+removes a wave-private weight stage while preserving the mixed128/64 map,
+launch count and accumulation order. Compiled BN128 LDS falls25728→16512
+bytes and VGPR150→142, with no scratch spills;161 other kernels match the
+saved parent. This is static preparation only, with no new GPU result or
+reservation. Retained performance remains1585.308983 /25.16079073.
 
 Current fixed-input routing diagnosis completes on .157 with96 exact count
 arrays, unchanged full prefill logits/first16 tokens, and no GPU build.9016 of

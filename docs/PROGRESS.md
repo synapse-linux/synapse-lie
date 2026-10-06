@@ -1,10 +1,33 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-IQ2 tail16 is prepared from retained1585 with a bounded C17 width-relative
-map; thirteen numerical sources unchanged. New host33+33 on .157 and fixture
-syntax/static inventory checks pass. Component96-output/56-timing and original
-fixed2048/tg128 model runs await fresh GPU admission. Controls stay saved.
-[Candidate and fixed plan](Q2-IQ2-TAIL16.md).
+The [IQ2 tail16 trial](Q2-IQ2-TAIL16.md) completes on .157 at
+2026-10-06T02:56:33UTC:1561.419263 PP /25.16419202 TG, nominal
+-1.506944%/+0.013518% versus saved1585.308983 /25.16079073. Every new measured
+PP sample is below the saved parent range. All 96 component pairs, 21 parent
+model files and nine internal replays are exact. All192 observed maps match
+the captured parent geometry; the component's real layers0/3/22 increase
+time7.955%/3.624%/9.292%. This experiment is complete; keep1585.
+
+Host33+33 and the new component/model yield13 zero runtime exits and37
+verified artifacts. The116 fixtures,12 manifests,1029 provider files and
+72 exported samples bind; both charts are visually checked. Two earlier
+local wiring-script failures remain classified and preserved. Release
+02:57:24UTC SHAb7da267d retires1312 identities/1049 groups with empty KFD,
+four original leases free and seven model stat tuples unchanged. Canonical,
+main and remote mirrors agree; Core receives closure. No Q2 job, build,
+waiter, reservation, restart or cleanup remains. Fixed-point PP still needs
+6.337447%; full curve/Q4 and independent task qualification remain open.
+
+Local follow-up now prepares the isolated [IQ2 register stage](Q2-IQ2-REGISTER-STAGE.md)
+from saved1585. Symbolic ownership confirms that all weight-stage consumers
+stay within their producer wave, allowing a register exchange to replace the
+code/scale LDS stage. The1028-file v2 preserves161 other compiled bodies;
+BN128 LDS25728→16512, VGPR150→142, private scratch0, WMMA32 and barriers18
+unchanged. The earlier1027-file shared-template candidate changed nine other
+Q2 bodies; its audit exit1 and complete source are retained. Five preparation
+commands pass and that one classified scope audit fails. No new runtime
+fixture/launcher/host/GPU/model test is claimed. The next priorities are this
+new kernel, equivalent Q2-down ownership and HC injection input reuse.
 
 Current fixed-input routing diagnosis completes on .157 with96 exact count
 arrays, unchanged full prefill logits/first16 tokens, and no GPU build.9016 of

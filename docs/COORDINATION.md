@@ -1,11 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
 Tail16 host33+33 completes .157 at2026-10-06T02:41:48UTC and is collected.
-Core explicitly reconfirms persistent non-use .157; read-only closure02:41:01
-confirms empty KFD and current release5f4d8c13. New116-fixture/12-manifest
-plan and1029-file source require fresh admission before GPU component/model.
-No GPU job/build/lease/reservation or cleanup is active at preparation.
-[Plan](../config/q2-iq2-tail16-plan.json).
+IQ2 tail16 releases .157 at2026-10-06T02:57:24.367920UTC,
+SHA256b7da267d9739b263a8ed46a5592246d143e3ea1ab127c99bcbfaae1c1e23a46f.
+Fresh Core closure02:47:37UTC precedes admission02:47:56UTC fromc3beda38.
+Host33+33, component and original2048/tg128 model are terminal and collected
+before release:13 zero runtime exits/37 verified artifacts. Closure verifies
+1312 retired identities/1049 groups, empty KFD, four unchanged free original
+leases and seven unchanged model stat tuples. Canonical/main/remote mirrors
+agree; Core receives closure. No Q2 job/build/client/waiter/reservation,
+restart, remote cleanup or future GPU admission remains. New work needs a
+fresh coordinated window. [Results](Q2-IQ2-TAIL16.md).
 
 Current-routing-v2 releases .157 at2026-10-06T02:29:27.961448UTC,
 SHA2565f4d8c1374b0b462c353afa708e27cbc0176083536920047b376b2df52574f3c.
