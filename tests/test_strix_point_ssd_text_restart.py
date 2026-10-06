@@ -14,9 +14,11 @@ spec.loader.exec_module(gate)
 
 
 class Tests(unittest.TestCase):
-    def rows(self, mode, phase):
+    def rows(self, mode, phase, suffix_question=False):
         disk = phase in ('cold', 'hot')
         ids = [42] * gate.PREFIX_TOKENS if disk else [42] if phase == 'calibration' else [43] * 256
+        if suffix_question:
+            ids += [71, 72, 73]
         output = gate.OUTPUT_TOKENS if disk else 1
         cached = gate.PREFIX_TOKENS if phase == 'hot' else 0
         rows = [
@@ -27,6 +29,7 @@ class Tests(unittest.TestCase):
              'generation': {'temperature': 0}, 'checkpoint_policy': 'ds4', 'cache_text_prefix': True,
              'cache_capture_finish': False, 'cache_continued_tokens': 0,
              'cache_trim_tokens': 0, 'cache_align_tokens': 1,
+             'cache_cold_max_tokens': gate.PREFIX_TOKENS if suffix_question else 30000,
              'prefill_chunk': 256, 'context_capacity': 4096,
              'users': 1, 'warmups': 0, 'repetitions': 1},
             {'event': 'core_ready', 'load_to_ready_ns': 1},
@@ -128,6 +131,22 @@ class Tests(unittest.TestCase):
             rows[0][key] = value
             with self.assertRaisesRegex(RuntimeError, 'identity'):
                 gate.parse_phase(rows, 'ar', 'hot')
+
+    def test_natural_suffix_keeps_the_saved_frontier_and_real_mtp_acceptance(self):
+        phases = {phase: gate.parse_phase(self.rows('mtp', phase, True), 'mtp', phase, True)
+                  for phase in gate.PHASES}
+        result = gate.compare_phases(phases, True)
+        self.assertEqual(result['fresh_bpe_tokens'], 259)
+        self.assertEqual(result['saved_physical_tokens'], gate.PREFIX_TOKENS)
+        self.assertEqual(result['physical_suffix_tokens'], 3)
+        self.assertEqual(result['hot_prefill_tokens'], 3)
+        phases['fresh']['input']['physical_ids'][-1] += 1
+        with self.assertRaisesRegex(RuntimeError, 'Natural suffix'):
+            gate.compare_phases(phases, True)
+        rows = self.rows('mtp', 'hot', True)
+        rows[3]['mtp_accepted_tokens'] = 0
+        with self.assertRaisesRegex(RuntimeError, 'accept a draft'):
+            gate.parse_phase(rows, 'mtp', 'hot', True)
 
 
 if __name__ == '__main__':

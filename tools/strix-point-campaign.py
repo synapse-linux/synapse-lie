@@ -1550,6 +1550,11 @@ class Campaign:
                    '/model/'+self.m['model_plan']['files'][0]['name'], mode]
         if predictor:
             command.append('/mtp/'+predictor.name)
+        fixture = self.m.get('ssd_text_fixture', 'plain')
+        if fixture not in ('plain', 'question-suffix'):
+            raise ValueError('Unknown SSD text restart fixture')
+        if fixture == 'question-suffix':
+            command.append('--suffix-question')
         self.r['bench_command'] = command
         self.record()
         try:
@@ -1557,10 +1562,15 @@ class Campaign:
             result = json.loads((self.root/'ssd-text-restart-result.json').read_text())
             if (result.get('schema') != 'synapse-lie.point-ssd-text-restart.v1' or
                     result.get('state') != 'PASSED' or result.get('mode') != mode or
+                    result.get('fixture') != fixture or
+                    type(result.get('physical_suffix_tokens')) is not int or
+                    (fixture == 'question-suffix' and result['physical_suffix_tokens'] <= 0) or
+                    (fixture == 'plain' and result['physical_suffix_tokens'] != 0) or
                     any(result.get(phase+'_exit_code') != 0 for phase in ('calibration', 'fresh', 'cold', 'hot')) or
                     not 0 < result.get('fresh_bpe_tokens', 0) < 2048 or
                     result.get('saved_physical_tokens') != 2048 or
-                    result.get('hot_ssd_cached_tokens') != 2048 or result.get('hot_prefill_tokens') != 0 or
+                    result.get('hot_ssd_cached_tokens') != 2048 or
+                    result.get('hot_prefill_tokens') != result.get('physical_suffix_tokens', 0) or
                     not result.get('saved_history_longer_than_fresh_bpe') or
                     not result.get('physical_ids_equal') or not result.get('output_ids_equal')):
                 raise RuntimeError('Incomplete original-weight SSD text restart gate')

@@ -18,6 +18,7 @@ ROOT = Path('/work')
 PREFIX_TOKENS = 2048
 OUTPUT_TOKENS = 32
 PHASES = ('calibration', 'fresh', 'cold', 'hot')
+QUESTION_SUFFIX = '\n\nWhat is 2 + 2? Reply with only the digit.\n'
 
 
 def now():
@@ -28,7 +29,7 @@ def digest_ids(ids):
     return hashlib.sha256(b''.join(struct.pack('<i', item) for item in ids)).hexdigest()
 
 
-def parse_phase(rows, mode, phase):
+def parse_phase(rows, mode, phase, suffix_question=False):
     """Refuse incomplete or internally inconsistent original-weight witnesses."""
     if mode not in ('ar', 'mtp') or phase not in PHASES:
         raise RuntimeError('Unknown mode or phase')
@@ -54,6 +55,7 @@ def parse_phase(rows, mode, phase):
             identity.get('checkpoint_policy') != 'ds4' or identity.get('cache_text_prefix') is not True or
             identity.get('cache_capture_finish') is not False or identity.get('cache_continued_tokens') != 0 or
             identity.get('cache_trim_tokens') != 0 or identity.get('cache_align_tokens') != 1 or
+            (suffix_question and identity.get('cache_cold_max_tokens') != PREFIX_TOKENS) or
             identity.get('prefill_chunk') != 256 or identity.get('context_capacity') != 4096 or
             identity.get('users') != 1 or identity.get('warmups') != 0 or
             identity.get('repetitions') != 1):
@@ -73,7 +75,7 @@ def parse_phase(rows, mode, phase):
     if (job.get('cached_tokens') != cached or job.get('ssd_cached_tokens') != cached or
             job.get('prefill_tokens') != len(ids) - cached):
         raise RuntimeError('Incorrect restored or physically executed token count')
-    if disk and len(ids) != PREFIX_TOKENS:
+    if disk and (len(ids) <= PREFIX_TOKENS if suffix_question else len(ids) != PREFIX_TOKENS):
         raise RuntimeError('Persisted token history was not reconstructed')
     if sample.get('ssd_hits') != (1 if phase == 'hot' else 0):
         raise RuntimeError('Incorrect SSD hit witness')
@@ -93,18 +95,23 @@ def parse_phase(rows, mode, phase):
     return found
 
 
-def compare_phases(phases):
+def compare_phases(phases, suffix_question=False):
     calibration, fresh, cold, hot = (phases[key] for key in PHASES)
     seed = calibration['input']['physical_ids']
-    if len(seed) != 1:
+    if not seed or (len(seed) <= 1 if suffix_question else len(seed) != 1):
         raise RuntimeError('Calibration character is not one physical token')
-    expected = seed * PREFIX_TOKENS
+    suffix = seed[1:] if suffix_question else []
+    expected = [seed[0]] * PREFIX_TOKENS + suffix
     if not 0 < len(fresh['input']['physical_ids']) < PREFIX_TOKENS:
         raise RuntimeError('Fresh BPE did not shorten the separated token history')
     if cold['input']['physical_ids'] != expected or hot['input']['physical_ids'] != expected:
         raise RuntimeError('Cross-process saved token history differs')
     if cold['job']['output_ids'] != hot['job']['output_ids']:
         raise RuntimeError('Cross-process confirmed output IDs differ')
+    if suffix_question:
+        if (fresh['input']['physical_ids'][-len(suffix):] != suffix or
+                len(fresh['input']['physical_ids']) <= len(suffix)):
+            raise RuntimeError('Natural suffix tokenization differs across the text boundary')
     return {'calibration_token_id': seed[0],
             'fresh_bpe_tokens': len(fresh['input']['physical_ids']),
             'saved_physical_tokens': PREFIX_TOKENS,
@@ -113,16 +120,22 @@ def compare_phases(phases):
             'saved_history_longer_than_fresh_bpe': True,
             'physical_ids_equal': True, 'output_ids_equal': True,
             'hot_ssd_cached_tokens': hot['job']['ssd_cached_tokens'],
-            'hot_prefill_tokens': hot['job']['prefill_tokens']}
+            'hot_prefill_tokens': hot['job']['prefill_tokens'],
+            'physical_suffix_tokens': len(suffix)}
 
 
 def main():
-    if (len(sys.argv) not in (4, 5) or sys.argv[3] not in ('ar', 'mtp') or
-            (len(sys.argv) == 5) != (sys.argv[3] == 'mtp')):
-        raise SystemExit('Usage: ssd-text-restart-gate.py BENCH MODEL ar|mtp [PREDICTOR]')
-    binary, model, mode = sys.argv[1:4]
+    args = sys.argv[1:]
+    suffix_question = bool(args and args[-1] == '--suffix-question')
+    if suffix_question:
+        args.pop()
+    if (len(args) not in (3, 4) or args[2] not in ('ar', 'mtp') or
+            (len(args) == 4) != (args[2] == 'mtp')):
+        raise SystemExit('Usage: ssd-text-restart-gate.py BENCH MODEL ar|mtp [PREDICTOR] [--suffix-question]')
+    binary, model, mode = args[:3]
     result = {'schema': 'synapse-lie.point-ssd-text-restart.v1', 'state': 'RUNNING',
               'mode': mode, 'started_at': now(), 'processes': [],
+              'fixture': 'question-suffix' if suffix_question else 'plain',
               'scope': 'Shared reactive core; original-weight text/BPE SSD restart regression; '
                        'not HTTP, scheduled steering, quality or matched performance'}
     observations = {}
@@ -131,9 +144,9 @@ def main():
         if not kv.is_dir() or list(kv.iterdir()):
             raise RuntimeError('Fresh private SSD directory required')
         with (ROOT / 'calibration.txt').open('x') as output:
-            output.write('a')
+            output.write('a' + (QUESTION_SUFFIX if suffix_question else ''))
         with (ROOT / 'prompt.txt').open('x') as output:
-            output.write('a' * PREFIX_TOKENS)
+            output.write('a' * PREFIX_TOKENS + (QUESTION_SUFFIX if suffix_question else ''))
         base = [binary, '--suite', 'core', '--model', model, '--kv-cache-ram-mb', '0',
                 '--context', '4096', '--chunk', '256', '--users', '1', '--ignore-eos',
                 '--warmups', '0', '--repetitions', '1', '--timeout-ms', '600000',
@@ -141,17 +154,19 @@ def main():
                 '--kv-cache-boundary-trim-tokens', '0', '--kv-cache-boundary-align-tokens', '1',
                 '--kv-cache-continued-interval-tokens', '0', '--kv-cache-capture-finish', 'off']
         if mode == 'mtp':
-            base += ['--model-mtp', sys.argv[4], '--mtp-draft-tokens', '7']
+            base += ['--model-mtp', args[3], '--mtp-draft-tokens', '7']
+        if suffix_question:
+            base += ['--kv-cache-cold-max-tokens', str(PREFIX_TOKENS)]
         for phase in PHASES:
             disk = phase in ('cold', 'hot')
             input_name = 'calibration.txt' if phase == 'calibration' else 'prompt.txt'
             inputs = ['--prompt-file', '/work/' + input_name]
             if phase == 'cold':
                 seed = observations['calibration']['input']['physical_ids']
-                if len(seed) != 1:
+                if not seed or (len(seed) <= 1 if suffix_question else len(seed) != 1):
                     raise RuntimeError('Calibration character is not one physical token')
                 with (ROOT / 'tokens.json').open('x') as output:
-                    json.dump(seed * PREFIX_TOKENS, output)
+                    json.dump([seed[0]] * PREFIX_TOKENS + (seed[1:] if suffix_question else []), output)
                     output.write('\n')
                 inputs = ['--tokens-file', '/work/tokens.json']
             command = base + inputs + ['--tg', str(OUTPUT_TOKENS if disk else 1),
@@ -173,14 +188,15 @@ def main():
                 raise RuntimeError(f'{phase} inference process exited {child.returncode}')
             raw = (ROOT / f'measurements-{phase}.jsonl').read_bytes()
             result[phase + '_measurements_sha256'] = hashlib.sha256(raw).hexdigest()
-            observations[phase] = parse_phase([json.loads(line) for line in raw.splitlines()], mode, phase)
-            if phase == 'calibration' and len(observations[phase]['input']['physical_ids']) != 1:
+            observations[phase] = parse_phase([json.loads(line) for line in raw.splitlines()], mode, phase, suffix_question)
+            calibration_count = len(observations[phase]['input']['physical_ids'])
+            if phase == 'calibration' and (calibration_count <= 1 if suffix_question else calibration_count != 1):
                 raise RuntimeError('Calibration character is not one physical token')
             if phase == 'fresh' and not 0 < len(observations[phase]['input']['physical_ids']) < PREFIX_TOKENS:
                 raise RuntimeError('Fresh BPE did not shorten the separated token history')
             if phase in ('calibration', 'fresh') and list(kv.iterdir()):
                 raise RuntimeError('Calibration contaminated the private SSD directory')
-        result.update(compare_phases(observations), state='PASSED')
+        result.update(compare_phases(observations, suffix_question), state='PASSED')
         result['kv_file_bytes'] = {p.name: p.stat().st_size for p in kv.iterdir() if p.is_file()}
         result['cold_mtp_accepted'] = observations['cold']['job']['mtp_accepted_tokens']
         result['hot_mtp_accepted'] = observations['hot']['job']['mtp_accepted_tokens']
