@@ -21,6 +21,31 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_iq2_half_sign_arithmetic_has_only_two_matching_modes(self):
+        variant = remote.IQ2_HALF_SIGN_VARIANT
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-ssm-fixed-bounds'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 sign arithmetic requires its component or matched counting provider')
+        self.refuse([remote.IQ2_HALF_SIGN_MODE, 'q2-fixture'], 'IQ2 sign arithmetic requires')
+        self.refuse([remote.IQ2_HALF_SIGN_MODEL, 'q2-fixture'], 'Historical counting requires its matched provider')
+        component = [remote.IQ2_HALF_SIGN_MODE, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(component + [flag], 'IQ2 sign arithmetic component accepts no model')
+        model = [remote.IQ2_HALF_SIGN_MODEL, 'q2-fixture', '--source-variant', variant]
+        self.refuse(model, 'Historical counting requires a full MMQ rebuild')
+        self.refuse(model + ['--rebuild-mmq', '--detach'], 'Persistent launch is limited')
+        for extra in (['--native-curve'], ['--point-only'], ['--replay-from', 'q2-norm-fixed-model-before-r1']):
+            self.refuse(model + ['--rebuild-mmq'] + extra, 'IQ2 sign arithmetic accepts no curve')
+        for argv in (component, model + ['--rebuild-mmq']):
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+        self.assertEqual(remote.COUNTING_SOURCES[remote.IQ2_HALF_SIGN_MODEL], variant)
+
     def test_hc_injection_reuse_is_component_only(self):
         variant = remote.HC_REUSE_VARIANT
         for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',

@@ -1,5 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [IQ2 half-byte sign candidate](docs/Q2-IQ2-HALF-SIGN-ARITHMETIC.md) is
+prepared and host-qualified on .157:36+36 checks pass,153 fixture hashes and
+1028 provider files freeze. All162 original ISA bodies stay exact; two private
+bodies remove four sign loads but add11 static instructions with unchanged
+VGPR/LDS and no spills. No new GPU/model rate yet; retain1585.308983 PP against
+fixed UD1685.777092 and the unchanged exact2048/tg128 comparison.
+
 The [ordinary RMS model retry](docs/Q2-HC-RMS-OWNER-MODEL-RESULTS.md) completes
 on .157:1584.244040 PP/25.16964571 TG,−0.067176% PP versus the saved parent,
 with overlapping sample ranges and21/21 complete model files exact. Keep the

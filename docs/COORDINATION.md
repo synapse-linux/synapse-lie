@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## IQ2 half-byte sign arithmetic preparation — 2026-10-06 UTC
+
+Core reports11:09UTC no own CPU/GPU/client/build/lease/reservation/waiter on
+.157/.158/.161. Fresh global check11:11:23UTC binds previous6b3c8f27 release,
+1408 identities/1127 groups retired, empty KFD, all original Core CPU/four GPU
+leases unchanged/free and seven original model stat tuples unchanged.
+New no-model .157 host-r1 passes36+36 at11:12:21UTC and all seven artifacts
+collect. Plan freezes153 tested fixtures/six manifests/1028 provider files.
+One new IQ2 component then one fixed exact2048/tg128 model is prepared but not
+admitted. All saved comparisons remain unchanged. No GPU job/window/lease or
+reservation starts at this stage; no remote cleanup or foreign mutation.
+
 ## Ordinary RMS model window — 2026-10-06 UTC
 
 Fresh Core own non-use and the original Core closure/CPU lease revalidate

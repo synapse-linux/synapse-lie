@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## IQ2 half-byte sign arithmetic host-qualified — 2026-10-06 UTC
+
+Prepare one private unpacked m640/k2560 BN64/128 gate/up candidate, no table,
+buffer, callback, stream or public contract change. All128 sign tags match the
+original table; all162 production ISA bodies/resources remain exact, two new
+bodies remove four loads/add11 instructions, no spills or VGPR/LDS increase.
+Fixture host/device retries compile after correcting the global table name;
+failures remain. .157 host-r1 passes36+36 at11:12:21UTC, six exits0/seven artifacts
+collect. Freeze153 fixtures/six manifests and1028 provider files. GPU component
+and original model are pending fresh admission. Best1585.308983 PP versus fixed
+UD1685.777092 remains, no controls/full curve/Q4 rerun.
+[Coverage and retained comparison](Q2-IQ2-HALF-SIGN-ARITHMETIC.md).
+
 ## Ordinary RMS original-model retry complete — 2026-10-06 UTC
 
 One new Q2 exact2048/tg128 arm measures1584.244040 PP/25.16964571 TG versus
