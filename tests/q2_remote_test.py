@@ -21,6 +21,23 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_attention_capacity_is_component_only(self):
+        mode, variant = remote.ATTENTION_CAPACITY_MODE, remote.ATTENTION_CAPACITY_VARIANT
+        self.refuse([mode, 'q2-fixture'], 'Attention capacity requires')
+        for wrong in ('cpu', 'operators', 'q2-bench', 'q2-curve'):
+            self.refuse([wrong, 'q2-fixture', '--source-variant', variant],
+                        'Attention capacity requires')
+        argv = [mode, 'q2-fixture', '--source-variant', variant]
+        for extra in (['--rebuild-mmq'], ['--detach'], ['--native-curve'],
+                      ['--point-only'], ['--replay-from', 'q2-norm-fixed-model-before-r1']):
+            self.refuse(argv + extra, 'Attention capacity component accepts no model')
+        with patch.object(sys, 'argv', [str(path), *argv]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
     def test_iq2_half_sign_arithmetic_has_only_two_matching_modes(self):
         variant = remote.IQ2_HALF_SIGN_VARIANT
         for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-ssm-fixed-bounds'):

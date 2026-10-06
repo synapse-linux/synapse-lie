@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Sparse attention capacity correction prepared — 2026-10-06 UTC
+
+The new paired private providers distinguish visible context from mask pitch, extend the scan to nine words per thread and size shared union storage to2080 while keeping the2052 compact-list limit. Static comparison preserves162/164 device bodies and unchanged VGPR/no spills in the two changed bodies, with112 additional shared bytes. Production assembly, fixture host/device compilation and launcher checks pass. The new header/fixture format passes;101 inherited shared-check diagnostics remain. Fresh .157 handover15:55:53UTC revalidates release3e59f417, original leases/process retirement, empty KFD and unchanged model stats. Host38+38 completes15:56:48UTC, all six command exits0/seven artifacts collect. Plan a3d8148a binds226 fixtures/six manifests. No GPU admission or model result yet. [Scope and evidence](Q2-ATTENTION-CAPACITY.md).
+
 ## 256K curves completed; capacity changes attention dispatch — 2026-10-06 UTC
 
 Both native curves complete:20 accepted measurements,48 requests,12 zero model-command exits and30 model artifacts plus7 host artifacts. Q2 PP at128K/256K is695.423/665.593 versus UD819.081/729.470; TG is24.8567/24.3669 versus24.5138/23.4692. Historical prefill rates are higher, but the266240 capacity makes sparse-mask pitch2080 exceed WMMA's2048-word limit in both new arms. The old/new comparison therefore does not isolate numerical optimizations. This source finding is explicit in the [complete values, timings and graphs](Q2-CURVE256.md). No stable speedup or quality verdict follows.
