@@ -31,8 +31,11 @@ combined runtime, run the comparative benchmarks, then run Terminal Bench
 (item 2) last. Do not alternate component changes with full test campaigns.
 Required focused local checks accompany source corrections; new GPU, quality,
 performance and full-suite campaigns wait for the integrated implementation.
-GPU qualification uses `.161` with fresh admission. No intermediate remote
-campaign, Terminal Bench restart or machine reservation is queued.
+GPU qualification uses `.161` with fresh admission. The owner's latest request
+defers further GPU/test campaigns until all remaining functional implementation
+is finished. The prepared r37 MTP manifest has not been admitted or launched;
+peer non-use replies grant no future admission. No intermediate remote campaign,
+Terminal Bench restart or machine reservation is queued.
 
 The functional source audit now maps items 3–7 to integrated context/recall,
 benchmark/dispatch, steering, generation-profile and three C17 sampler paths.
@@ -40,8 +43,11 @@ The build-coherence correction also covers typed observer identity and the
 canonical full-provider Point build route. Source integration, compilation and
 runtime acceptance are separate. Final
 combined local checks and current coherent `.161` private producer/consumer HIP
-compilation pass. Perform original-weight functional/quality/fault gates after
-fresh admission.
+compilation pass. Current source hashes match all 650 files in the final HOST
+receipt. No missing source implementation is identified in the owned functional
+scope; the acceptance checks in the table below remain open. Further
+original-weight functional/quality/fault gates are deferred by the current
+sequence and will require fresh admission.
 Comparative performance follows those gates; Terminal Bench stays last.
 All six items remain open until their separate acceptance evidence is collected.
 
@@ -75,13 +81,19 @@ last. No further intermediate campaign is queued, and compilation alone closes
 none of the six items.
 
 1. **Completed: selected original-weight OpenAI GPU controls.**
-   The latest qualified runtime `dbdac28d` passes **37 general OpenAI checks
+   The earlier paired runtime `dbdac28d` passes **37 general OpenAI checks
    and 66 additional bounded-integer checks in each AR/MTP mode** on `.161`.
    Tools, JSON/SSE, output budgets and retained Responses lifecycle pass;
    integer checks cover 60 exact outputs and six expected HTTP400 refusals per
    mode. Matching HIP ON/OFF builds, collected wire evidence, actual exits0
    and exact process/service/lease closure are verified.
    [Current qualification](development/validation/c17-json-slot-point-gpu-2026-10-06.json).
+   The coherent current runtime `d63b9b7b` / code `88d4c4e5` additionally passes
+   AR37+66, with collected wire, independent exact-rational integer checks and
+   strict process/service/lease closure
+   ([AR receipt](development/validation/integrated-point-ar-2026-10-06.json)).
+   Current-source MTP is prepared only and deferred; the earlier paired result
+   does not qualify that mode on the later binary.
    Broader task quality, probabilities, fault coverage and performance remain
    separate acceptance gates in the six open items below.
 2. **Deferred: run Terminal Bench after the functional modifications.** Use the pinned
@@ -112,7 +124,7 @@ none of the six items.
    [Full-run startup](development/validation/terminal-full-point-start-2026-10-05.json) ·
    [Operator stop and closure](development/validation/terminal-full-stopped-point-2026-10-05.json).
    [Current GPU receipt](development/validation/c17-finite-cache-point-gpu-2026-10-05.json).
-3. **Close full 1M context acceptance.** The newly declared `1bff953` `.161`
+3. **1M source integrated; qualify recall and long-context HTTP.** The declared `1bff953` `.161`
    run completes all **1,048,448 physical prefill tokens and 128 output tokens**
    with explicit YaRN4 and `--ignore-eos`. The
    [capacity/function receipt](development/validation/physical1m-fixed-point-gpu-2026-10-05.json)
@@ -129,7 +141,7 @@ none of the six items.
    asks for previously unanswered keys. Actual counts, copied corpus and quality
    misses are retained separately from infrastructure failures. Client source
    and local fixtures do not qualify original-weight long-context recall.
-4. **Finish the requested Gufo/Halogen benchmark methods.** Compare full cold
+4. **Benchmark methods integrated; run matched Gufo/Halogen comparisons.** Compare full cold
    prefill and decode through 1M, and multi-user C1/2/4/6/8, with matched physical
    work, cache policy, output length, repetitions and server lifecycle. Retain
    PP, TG, TTFT, resources and correctly scaled graphs. Profile the prefill
@@ -145,7 +157,7 @@ none of the six items.
    timings to
    reactive scheduling; this finding is not measured causality or a
    constant-prefill guarantee.
-5. **Complete DS4 directional steering in LIE.** Load its per-layer `.f32`
+5. **Steering integrated; qualify learned directions and runtime behavior.** Load its per-layer `.f32`
    directions, validate geometry against the loaded model, and expose FFN and
    attention scales through model-neutral shared-core contracts used by HTTP
    and bench. The [owned C17 implementation](development/STEERING.md) now covers
@@ -193,7 +205,7 @@ none of the six items.
    with steering on. DS4 documents Qwen's 48-by-2560 bank and its HC branches;
    that implementation is Metal-only, so it is not evidence for LIE HIP.
    [Upstream steering contract](https://github.com/antirez/ds4/blob/main/dir-steering/README.md).
-6. **Complete DS4 generation-temperature and sampling-profile coverage.**
+6. **Generation profiles integrated; qualify independent sampling behavior.**
    Temperature already exists in LIE. Qualify the greedy temperature-0 baseline
    and the declared temperature-1 profile with top-p 1, top-k 0 and min-p 0.05. The
    top-k/min-p controls are now exposed in the shared contract, both HTTP APIs
@@ -211,7 +223,7 @@ none of the six items.
    cost remain pending.
    [Sampling defaults](https://github.com/antirez/ds4/blob/main/docs/SERVER.md) ·
    [MTP sampling semantics](https://github.com/antirez/ds4/blob/main/docs/SPECULATIVE_DECODING.md).
-7. **Extract the identified remaining sampling responsibilities into C17.**
+7. **C17 sampler extractions integrated; qualify the combined runtime.**
    Move provider-owned grammar/masking, sampler history and compact speculative
    distributions behind LIE contracts, one component at a time. Require bounded
    lifetimes, numerical oracles and GPU comparisons before replacing each

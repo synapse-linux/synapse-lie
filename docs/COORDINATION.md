@@ -1,5 +1,23 @@
 # DS4 / synapse-lie coordination
 
+## Further campaigns deferred; completed AR released — 2026-10-06
+
+The owner's latest request puts all remaining functional implementation before
+new test campaigns. Prepared r37 MTP is not admitted or launched. Root informs
+Q2/Point/DGX of this sequencing and holds no job/client/build/lease/window/waiter/
+reservation on `.161/.157/.158/TB`; fresh peer replies are not a reservation.
+Only required focused local checks accompany subsequent source corrections.
+
+The completed r37 AR37+66 run is collected and verified; its
+[receipt](development/validation/integrated-point-ar-2026-10-06.json) preserves
+the wire, actual exits and local observer/packaging failures. Original lease
+66307/105946405 releases at 23:30:59.442254 UTC. Strict closure at 23:32:40.343154
+verifies supervisor224982/start19793505 and init225192/start19793598 absent,
+container removed, HTTP8000 unbound and router226235 restored as the only KFD
+client. Offline wire review and archiving repeat no inference or test.
+All six root acceptance items stay open. Final integrated qualification precedes
+matched benchmarks; Terminal Bench stays last. This closure admits no new run.
+
 ## Current integrated HIP build released — 2026-10-06
 
 Fresh Q2/Point/DGX own non-use and separate global preflight precede the `.161`

@@ -3,11 +3,26 @@
 
 ## Current sequence: implementation, qualification, benchmarks, eval
 
-The owner confirms implementation before further campaigns. Source integration
-and acceptance are separate in the [current roadmap](BACKEND.md#current-roadmap--2026-10-06-utc).
-Finish source corrections first, retaining only required focused local checks;
-then qualify the integrated runtime, run the matched benchmarks and run Terminal
-Bench last. No new remote campaign or machine reservation is queued.
+The owner again requests completing all remaining functional implementation
+before further campaigns. Keep only required focused local checks during source
+changes; qualify the integrated runtime afterward, then run matched benchmarks
+and Terminal Bench last. The [current roadmap](BACKEND.md#current-roadmap--2026-10-06-utc)
+separates integrated source from open acceptance gates. The owned functional
+source is integrated; its 650 files still match the final HOST checkpoint.
+Open validation items are not missing implementations. The prepared r37 MTP
+manifest is not admitted or launched. No new remote campaign, lease or machine
+reservation is queued; existing coordination does not schedule a future run.
+
+The already finished r37 AR run passes 37 OpenAI and 66 bounded-integer checks
+on the coherent current runtime. All 19 collected artifacts verify; independent
+exact-rational review of its saved wire verifies 60 integer outputs, six HTTP400
+refusals and 30 JSON/SSE replay pairs without inference. CPU/GPU peaks are
+65.25/69 C. Lease release at 23:30:59 UTC and strict closure at 23:32:40 verify
+owned processes/container retired, HTTP8000 unbound and the router restored.
+The [AR receipt](development/validation/integrated-point-ar-2026-10-06.json)
+preserves actual exits and the local observer/packaging failures. Saving these
+records repeats no test. Current MTP and broader numerical, fault, quality,
+long-context and performance gates remain open; none of the six items closes.
 
 ## Current integrated HIP build collected and closed — 2026-10-06 UTC
 
