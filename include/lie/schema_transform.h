@@ -35,8 +35,9 @@ typedef struct {
   lie_schema_status (*create)(void *, const lie_schema_value *, lie_schema_node *);
   lie_schema_status (*put)(void *, lie_schema_node, lie_schema_bytes, lie_schema_node);
   lie_schema_status (*append)(void *, lie_schema_node, lie_schema_node);
-  /* Transitional leaf policy: format expansion and binary-double multipleOf
-   * translation. They do not own traversal, branch distribution or merging. */
+  /* Declared format/numeric leaves, separate from tree traversal/merging.
+   * The current numeric adapter routes policy through schema_number C17;
+   * binary64 conversion and format expansion remain private hooks. */
   lie_schema_status (*format)(void *, lie_schema_bytes, lie_schema_node *);
   lie_schema_status (*multiple)(void *, lie_schema_node, lie_schema_node, lie_schema_node *);
 } lie_schema_access;

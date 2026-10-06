@@ -43,6 +43,10 @@ lie_number_status lie_number_accept(const lie_number_policy *, lie_number_text, 
 lie_number_status lie_number_intersect(lie_number_text, lie_number_text,
   const lie_grammar_allocator *, size_t max_work, char *, size_t, size_t *);
 lie_number_status lie_number_equal(lie_number_text, lie_number_text, bool *);
+/* Same exact comparison with a caller-owned paired workspace allocator.
+ * NULL selects malloc/free. Refusals preserve the result argument. */
+lie_number_status lie_number_equal_with_allocator(lie_number_text, lie_number_text,
+  const lie_grammar_allocator *, bool *);
 #ifdef __cplusplus
 }
 #endif

@@ -43,7 +43,7 @@ foreach(arm IN ITEMS reference candidate fallback)
     list(APPEND sources "${pristine}/src/core/sampling.cpp")
   else()
     list(REMOVE_ITEM sources "${pristine}/src/core/json_constraint.cpp" "${pristine}/src/core/json_schema_lexeme.cpp" "${pristine}/src/core/json_schema_regex.cpp")
-    list(APPEND sources "${variant}/src/core/json_constraint.cpp" "${REPO}/src/grammar.c" "${REPO}/src/grammar_builder.c" "${REPO}/src/schema_transform.c" "${REPO}/src/schema_values.c" "${REPO}/src/grammar_cache.c" "${REPO}/src/schema_memo.c" "${REPO}/src/schema_dispatch.c" "${REPO}/src/schema_visit.c" "${REPO}/src/schema_body.c" "${variant}/src/core/json_schema_lexeme.cpp" "${REPO}/src/grammar_number.c" "${variant}/src/core/json_schema_regex.cpp" "${REPO}/src/grammar_regex.c" "${REPO}/src/grammar_string.c" "${REPO}/src/grammar_vocabulary.c" "${REPO}/src/grammar_regex_compile.c" "${REPO}/src/grammar_regex_parse.c" "${REPO}/src/grammar_unicode.c" "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c" "${REPO}/src/sampling_distribution.c")
+    list(APPEND sources "${variant}/src/core/json_constraint.cpp" "${REPO}/src/grammar.c" "${REPO}/src/grammar_builder.c" "${REPO}/src/schema_transform.c" "${REPO}/src/schema_values.c" "${REPO}/src/grammar_cache.c" "${REPO}/src/schema_memo.c" "${REPO}/src/schema_dispatch.c" "${REPO}/src/schema_visit.c" "${REPO}/src/schema_body.c" "${REPO}/src/schema_number.c" "${variant}/src/core/json_schema_lexeme.cpp" "${REPO}/src/grammar_number.c" "${variant}/src/core/json_schema_regex.cpp" "${REPO}/src/grammar_regex.c" "${REPO}/src/grammar_string.c" "${REPO}/src/grammar_vocabulary.c" "${REPO}/src/grammar_regex_compile.c" "${REPO}/src/grammar_regex_parse.c" "${REPO}/src/grammar_unicode.c" "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c" "${REPO}/src/sampling_distribution.c")
   endif()
   add_library(${arm} STATIC ${sources})
   if(NOT arm STREQUAL "reference")
@@ -138,6 +138,8 @@ foreach(arm IN ITEMS reference candidate fallback)
   target_link_libraries(${arm}-parser-probe PRIVATE ${arm})
   add_executable(${arm}-number-probe "${REPO}/tests/sampling/number.cpp")
   target_link_libraries(${arm}-number-probe PRIVATE ${arm})
+  add_executable(${arm}-number-control-probe "${REPO}/tests/sampling/number_control.cpp")
+  target_link_libraries(${arm}-number-control-probe PRIVATE ${arm})
   add_executable(${arm}-grammar-probe "${REPO}/tests/sampling/grammar.cpp")
   target_link_libraries(${arm}-grammar-probe PRIVATE ${arm})
   add_executable(${arm}-distribution "${REPO}/tests/sampling/distribution.cpp")
@@ -169,6 +171,12 @@ foreach(arm IN ITEMS reference candidate fallback)
     set_tests_properties(${arm}-allocation-retirement PROPERTIES TIMEOUT 90)
   endif()
 endforeach()
+add_executable(candidate-number-allocation
+  "${REPO}/tests/sampling/number_allocation.cpp"
+  "${REPO}/tests/sampling/allocation_counter.cpp")
+target_link_libraries(candidate-number-allocation PRIVATE candidate)
+add_test(NAME numeric-bridge-allocation-retirement COMMAND candidate-number-allocation)
+set_tests_properties(numeric-bridge-allocation-retirement PROPERTIES TIMEOUT 30)
 add_test(NAME schema-transform-reference-parity COMMAND "${CMAKE_COMMAND}"
   "-DREFERENCE=$<TARGET_FILE:reference-schema-probe>"
   "-DCANDIDATE=$<TARGET_FILE:candidate-schema-probe>"
@@ -272,6 +280,13 @@ add_test(NAME number-grammar-reference-parity COMMAND "${CMAKE_COMMAND}"
   "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/number-parity"
   -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
 set_tests_properties(number-grammar-reference-parity PROPERTIES TIMEOUT 120)
+add_test(NAME schema-number-control-reference-parity COMMAND "${CMAKE_COMMAND}"
+  "-DREFERENCE=$<TARGET_FILE:reference-number-control-probe>"
+  "-DCANDIDATE=$<TARGET_FILE:candidate-number-control-probe>"
+  "-DFALLBACK=$<TARGET_FILE:fallback-number-control-probe>"
+  "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/number-control-parity"
+  -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
+set_tests_properties(schema-number-control-reference-parity PROPERTIES TIMEOUT 120)
 
 add_test(NAME unicode-grammar-reference-parity COMMAND "${CMAKE_COMMAND}"
   "-DREFERENCE=$<TARGET_FILE:reference-unicode-probe>"

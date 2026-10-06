@@ -366,11 +366,17 @@ lie_number_status lie_number_intersect(lie_number_text a, lie_number_text b,
   }
   allocator.release(allocator.context, w); return rc;
 }
-lie_number_status lie_number_equal(lie_number_text a, lie_number_text b, bool *out) {
-  if (!out) return LIE_NUMBER_INVALID;
-  workspace *w = malloc(sizeof(*w)); if (!w) return LIE_NUMBER_RESOURCE;
+lie_number_status lie_number_equal_with_allocator(lie_number_text a, lie_number_text b,
+  const lie_grammar_allocator *hooks, bool *out) {
+  lie_grammar_allocator allocator;
+  if (!out || !allocator_get(hooks, &allocator)) return LIE_NUMBER_INVALID;
+  workspace *w = allocator.allocate(allocator.context, sizeof(*w));
+  if (!w) return LIE_NUMBER_RESOURCE;
   lie_number_status rc = parse(a, &w->x, false);
   if (rc == LIE_NUMBER_OK) rc = parse(b, &w->y, false);
   if (rc == LIE_NUMBER_OK) *out = compare(&w->x, &w->y) == 0;
-  free(w); return rc;
+  allocator.release(allocator.context, w); return rc;
+}
+lie_number_status lie_number_equal(lie_number_text a, lie_number_text b, bool *out) {
+  return lie_number_equal_with_allocator(a, b, NULL, out);
 }

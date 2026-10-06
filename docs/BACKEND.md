@@ -195,7 +195,11 @@ client/server restart or machine reservation is queued in the meantime.
    All 19 earlier complete witnesses remain unchanged. The matching memo/dispatch/
    Visit/body build now passes selected AR37/MTP37 GPU controls
    ([receipt](development/validation/c17-schema-body-point-gpu-2026-10-05.json)). Private composition
-   caches and binary-double leaf policies need extraction within the same task.
+   caches and the binary64 codec need extraction within the same task. Numeric
+   schema preparation, scalar acceptance, LCM representability and literal
+   publication now also use C17, with
+   [host checks](development/validation/c17-schema-number-host-2026-10-06.json).
+   That later 60-file increment still needs a matching GPU build and gates.
    [Release/cache host checks](development/validation/release-cache-host-2026-10-05.json)
    pass 79/79/35 with 20 unchanged complete witnesses. The device-free r17 provider
    builds but its application fails a strict optimized C warning; the collected

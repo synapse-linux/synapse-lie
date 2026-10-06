@@ -7,6 +7,16 @@ See THIRD_PARTY_NOTICES.md for provenance, versions and distribution boundaries;
 full imported notices are installed alongside it in third-party/.
 
 Adapted code includes:
+- Numeric schema leaf control in src/schema_number.c follows official
+  NumberLexeme preparation/AcceptValue and IntersectMultipleOf at independently
+  fetched immutable pin f783fedb9bea2ec7de941f6da4e02f4a4596b29e (MIT,
+  gufo-LICENSE retained). C17 owns ordered lookup, finite/positive validation,
+  exact-decimal preparation, scalar acceptance, LCM representability and
+  literal publication. The private adapter retains only borrowed JSON views,
+  binary64 codec and typed exceptions. Four grammar-number-edits.json edits
+  keep pinned default-ON and exact original OFF bodies. The existing exact
+  comparison gains a paired workspace allocator; its legacy API is unchanged.
+  No DS4 or sibling source/artifact is imported.
 - Full schema body control in src/schema_body.c follows official
   JsonConstraintCompiler::VisitBody at independently fetched immutable pin
   f783fedb9bea2ec7de941f6da4e02f4a4596b29e (MIT, gufo-LICENSE retained).
@@ -63,7 +73,8 @@ Adapted code includes:
   schema-transform-edits.json records default-ON/OFF integration. C17 owns
   structural equality, local pointer resolution, keyword validation and schema
   conjunction/distribution/merging. Provider storage/error translation and
-  format/binary-double multipleOf leaf policies remain transitional. No sibling
+  format and binary64 codec remain transitional; numeric leaf control now uses
+  the separate C17 module above. No sibling
   source/artifact, DS4 checkout modification or model payload is imported.
 - llama.cpp / ggml: Copyright (c) 2023-2026 The ggml authors (MIT).
 - DS4: Copyright (c) 2026 The ds4.c authors (MIT).

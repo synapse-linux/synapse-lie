@@ -7,6 +7,11 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Shared C17 numeric schema control for ordered constraints, scalar acceptance,
+  exact `multipleOf` representability and literal construction. Host checks
+  preserve original/OFF behavior; the binary64 codec remains private and
+  matching GPU qualification is pending.
+
 ### Added
 
 - Shared C17 JSON Schema body policy for definitions, references, `anyOf` and

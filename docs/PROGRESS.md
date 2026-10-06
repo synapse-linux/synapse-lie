@@ -1,6 +1,27 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Numeric schema leaf control uses C17 — 2026-10-06 UTC
+
+Ordered numeric constraint preparation, scalar acceptance, exact LCM
+representability and numeric literal publication now use the shared C17 core.
+The [host receipt](development/validation/c17-schema-number-host-2026-10-06.json)
+records 13 Release/13 sanitizer checks and 37 pristine/ON/OFF checks, including
+578 new complete numeric cases. All 20 earlier complete witness hashes remain
+unchanged. The bridge keeps the existing binary64 codec and typed exceptions;
+an untimed selected-path probe verifies zero added C++ heap allocations.
+The provider binds 60 files; all 51 public headers compile as C17/C++17.
+
+Initial strict Release warning and stale provider inventory-count failures are
+retained and corrected without disabling gates. Host fixtures use CPU98/NVMe85
+or lower exposed guards with GPUs masked; CPU peaks at 94.875 C with no guard
+breach. These are not model inference or
+performance evidence. The matching original-weight runtime remains `6a48da3`;
+the new numeric increment still needs its own sealed build/GPU gates. Binary64
+codec, format/composition/model/controller ownership and broader qualification
+remain open. All six owned roadmap items stay open, and Terminal Bench remains
+deferred until functional modifications and qualification finish.
+
 ## Matching C17 schema GPU controls pass — 2026-10-05 UTC
 
 Source `6a48da3` now has a successful device-free gfx1150 provider/application

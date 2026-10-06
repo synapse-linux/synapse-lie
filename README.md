@@ -10,6 +10,8 @@ Dense sampling has recorded GPU checks. Checkpoint `6a48da3`, including C17
 schema memo, dispatch, Visit and body control, passes
 [37 OpenAI controls in both AR and MTP on Strix Point](docs/development/validation/c17-schema-body-point-gpu-2026-10-05.json).
 Broader numerical, fault, resource and performance gates remain open.
+Numeric schema preparation and representability checks also use the shared
+C17 core; that later increment has host checks and awaits matching GPU gates.
 Gufo still owns model/controller state, selected numeric leaves and private
 container/composition templates; ICU remains the Unicode set/property/conversion dependency.
 [Directional steering](docs/guides/USAGE.md#directional-steering) has shared-core

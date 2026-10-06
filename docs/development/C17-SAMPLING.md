@@ -36,6 +36,15 @@ controls in each AR/MTP mode on `.161`
 selected tool/grammar/output paths; individual branches, faults, independent
 probabilities, allocation-exact resources and matched cost remain open.
 
+The later 60-file numeric leaf increment moves schema constraint preparation,
+scalar acceptance, exact LCM representability and numeric literal construction
+to `lie/schema_number.h`. Its
+[host checks](validation/c17-schema-number-host-2026-10-06.json) pass 13 Release,
+13 sanitizer and 37 pristine/ON/OFF controls. All 20 earlier complete witnesses
+retain their hashes. This increment still needs a matching GPU build and gates;
+the existing `6a48da3` runtime does not include it. Binary64 serialization/parser
+implementation and private composition/model/controller remain transitional.
+
 ## Ownership and behavior
 
 The C library owns finite greedy argmax, token-ID tie ordering, repetition /
@@ -423,9 +432,10 @@ the live prefix. These fixed capacities do not constitute measured GPU cost.
 Resource/work refusal preserves output ownership and matches. The header declares
 explicit decimal/exponent/digit/work limits; bounded workspace cost remains a GPU
 acceptance gate. No HTTP/model/device operation, RNG or inference thread belongs
-to this component. JSON library numeric conversion/representability and exception
-translation remain in `gufo_grammar_number.hpp`. JSON Schema compilation and
-provider container storage still need extraction within the same task. The
+to this component. Numeric leaf control and representability now use the
+separate module below. JSON library binary64 conversion and typed exceptions
+remain private; provider container/model/controller storage still needs
+extraction within the same task. The
 Unicode registry/input context below now uses public ICU C APIs.
 
 The four exact `grammar-number-edits.json` edits select C17 by the existing
@@ -440,6 +450,38 @@ record independent rational/LCM oracles, pristine/ON/OFF complete prefix/value/L
 comparisons, failures and temperatures. These are synthetic host checks;
 original-weight AR/MTP/tool/grammar continuation, resources and matched cost
 remain unqualified on `.161`.
+
+## Numeric schema leaf control
+
+`lie/schema_number.h` adds model-neutral ABI 1. Its C17 implementation reads
+`minimum`, `maximum`, `exclusiveMinimum`, `exclusiveMaximum` and `multipleOf`
+in pinned order, validates finite/positive values, prepares copied exact-decimal
+policies, selects scalar acceptance and checks that the combined LCM survives
+binary64 conversion exactly. Numeric finite-value literals publish rule IDs
+through the C17 builder. Non-numeric acceptance remains a successful false;
+refusals preserve output arguments and retire temporary arithmetic workspaces.
+The added `lie_number_equal_with_allocator` keeps the original comparison API
+and lets these calls share the declared paired allocator.
+
+The private adapter now supplies borrowed views, the existing locale-neutral
+binary64 codec and typed exception translation. It holds only an exception
+pointer and no staging container. A separate untimed probe records zero C++
+heap allocations for selected bridge construction/acceptance/small-LCM/literal
+paths. C arithmetic workspaces are separate; this is not allocation-exact
+whole-engine qualification or a performance measurement. The codec's
+implementation, format expansion and composition/model/controller remain to
+be extracted. No worker/event/RNG, DS4 RAM/SSD layout or inference thread changes.
+
+The [host receipt](validation/c17-schema-number-host-2026-10-06.json) records
+65 independent control/literal oracles, 22 callback refusals, nine selected
+allocation refusals, four typed C++ callback exceptions and 578 complete
+pristine/ON/OFF numeric cases. The 20 earlier complete witness hashes remain
+unchanged. All 51 public headers compile as C17/C++17, and the provider binds
+60 owned files. Release and ASan/UBSan/LSan tests retain assertions; strict
+optimized C warnings remain errors. Initial failed Release/provider checks
+are preserved with their actual exit codes. A matching new GPU build and
+original-weight gates remain pending. Terminal Bench stays deferred until
+functional modifications and matching qualification finish.
 
 ## String and Unicode-DFA runtime
 

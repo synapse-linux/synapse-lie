@@ -4,6 +4,7 @@
 #define LIE_GUFO_SCHEMA_VALUES_HPP
 #include "gufo_grammar_builder.hpp"
 #include "gufo_schema_transform.hpp"
+#include "gufo_schema_number.hpp"
 #include "lie/schema_values.h"
 #include <map>
 #include <optional>
@@ -74,9 +75,8 @@ class SchemaValues {
                                   uint32_t *out) noexcept {
     auto &v = *static_cast<SchemaValues *>(p);
     return v.arena_.invoke([&](auto &) {
-      const auto text = schema_value(value).dump();
-      builder_check(lie_builder_literal(
-          b, reinterpret_cast<const uint8_t *>(text.data()), text.size(), out));
+      SchemaNumber number;
+      *out = number.literal(schema_value(value), b);
     });
   }
 
