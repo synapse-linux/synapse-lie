@@ -1,0 +1,401 @@
+{
+  "schema": "synapse-lie.q2-ssm-channel-bounds-static.v1",
+  "source_manifest_sha256": "3940bd5b14ab176e3487a57bfa4eeeb5780669966f6babda86d9033e935754eb",
+  "provider_files": 1027,
+  "parent_static_metadata_sha256": "c3a17d65a611d4672d10221f668264ad9321a1b9612f79a56191423a004b99a0",
+  "parent_assembly_path": "evidence/q2-ssm-fixed-bounds-preparation/candidate.s",
+  "parent_assembly_sha256": "c6640317900c09dd8d3c72249c8bc2f4672fb361d8372834e2698d8a46e9ebfb",
+  "candidate_assembly_path": "evidence/q2-ssm-channel-bounds-preparation/candidate.s",
+  "candidate_assembly_sha256": "b02ec97ab3d2be94af9dbb6b8d1d415c6479fc0c572e49f0e3f1f6a6ac360595",
+  "parent_recompiled": false,
+  "compiler_arguments_match_except_paths": true,
+  "source_patch_reconstruction_exact": true,
+  "launch_wrapper_exact": true,
+  "other_kernels_instruction_operand_resource_exact": 161,
+  "symbolic_partition": {
+    "float4_owners": 4096,
+    "scalar_rows": 16384,
+    "convolved_blocks": 40,
+    "projection_only_blocks": 24,
+    "channel_boundary": 10240,
+    "block_rows": 256,
+    "token_guards_unchanged": true,
+    "arithmetic_unchanged_in_source": true
+  },
+  "parent_kernel": {
+    "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb1ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+    "resources": {
+      "group_segment_fixed_size": 49152,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 241,
+      "next_free_sgpr": 17,
+      "wavefront_size32": 1
+    },
+    "instructions": 3864,
+    "mnemonics": {
+      "buffer_gl0_inv": 2,
+      "ds_load_b128": 232,
+      "ds_store_2addr_b32": 64,
+      "ds_store_b128": 12,
+      "global_load_b128": 144,
+      "global_load_d16_b16": 2,
+      "global_load_u16": 2,
+      "global_store_b128": 64,
+      "s_add_i32": 1,
+      "s_and_b32": 24,
+      "s_and_saveexec_b32": 101,
+      "s_ashr_i32": 1,
+      "s_barrier": 2,
+      "s_branch": 10,
+      "s_cbranch_execnz": 56,
+      "s_cbranch_execz": 70,
+      "s_cbranch_vccnz": 2,
+      "s_clause": 37,
+      "s_cmpk_gt_u32": 1,
+      "s_cselect_b32": 1,
+      "s_delay_alu": 655,
+      "s_endpgm": 1,
+      "s_load_b128": 1,
+      "s_load_b256": 1,
+      "s_lshl_b32": 2,
+      "s_mov_b32": 16,
+      "s_nop": 1,
+      "s_or_b32": 132,
+      "s_or_not1_b32": 1,
+      "s_sendmsg": 1,
+      "s_waitcnt": 272,
+      "s_xor_b32": 4,
+      "v_add_co_ci_u32_e64": 122,
+      "v_add_co_u32": 122,
+      "v_add_f32_e32": 89,
+      "v_add_nc_u32_e32": 27,
+      "v_and_b32_e32": 3,
+      "v_and_or_b32": 1,
+      "v_bfe_u32": 3,
+      "v_cmp_gt_i32_e32": 1,
+      "v_cmp_gt_u32_e32": 4,
+      "v_cmp_gt_u32_e64": 6,
+      "v_cmp_le_u64_e64": 8,
+      "v_cmp_lt_u32_e32": 4,
+      "v_cmp_lt_u32_e64": 8,
+      "v_cmp_ne_u64_e64": 1,
+      "v_cmpx_gt_u64_e64": 8,
+      "v_dual_add_f32": 14,
+      "v_dual_cndmask_b32": 1,
+      "v_dual_fmac_f32": 41,
+      "v_dual_mov_b32": 35,
+      "v_dual_mul_f32": 113,
+      "v_exp_f32_e32": 128,
+      "v_fmac_f32_e32": 272,
+      "v_lshl_add_u32": 6,
+      "v_lshl_or_b32": 24,
+      "v_lshlrev_b32_e32": 12,
+      "v_lshlrev_b64": 104,
+      "v_lshrrev_b32_e32": 3,
+      "v_mad_i64_i32": 3,
+      "v_mad_u32_u24": 3,
+      "v_mad_u64_u32": 16,
+      "v_mov_b16_e64": 2,
+      "v_mov_b32_e32": 202,
+      "v_mul_f32_e32": 208,
+      "v_mul_hi_u32_u24_e32": 1,
+      "v_mul_u32_u24_e32": 4,
+      "v_or_b32_e32": 39,
+      "v_perm_b32": 32,
+      "v_pk_add_f16": 32,
+      "v_pk_fma_f16": 32,
+      "v_rcp_f32_e32": 128,
+      "v_sub_nc_u32_e32": 1,
+      "v_wmma_f32_16x16x16_f16": 64,
+      "v_xor_b32_e32": 22
+    },
+    "body_sha256": "dc47e03643d16b1b2d16e16a9ad871f2a4b3ce22873376f736eea1e13448a772",
+    "compiler_comments": {
+      "NumVgprs": 220,
+      "TotalNumSgprs": 19,
+      "NumVGPRsForWavesPerEU": 241,
+      "Occupancy": 4
+    }
+  },
+  "candidate_kernel": {
+    "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb1ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+    "resources": {
+      "group_segment_fixed_size": 49152,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 241,
+      "next_free_sgpr": 17,
+      "wavefront_size32": 1
+    },
+    "instructions": 3825,
+    "mnemonics": {
+      "buffer_gl0_inv": 2,
+      "ds_load_b128": 232,
+      "ds_store_2addr_b32": 64,
+      "ds_store_b128": 12,
+      "global_load_b128": 144,
+      "global_load_d16_b16": 2,
+      "global_load_u16": 2,
+      "global_store_b128": 64,
+      "s_add_i32": 1,
+      "s_and_b32": 16,
+      "s_and_not1_b32": 22,
+      "s_and_saveexec_b32": 81,
+      "s_ashr_i32": 1,
+      "s_barrier": 2,
+      "s_branch": 10,
+      "s_cbranch_execnz": 40,
+      "s_cbranch_execz": 58,
+      "s_cbranch_vccnz": 14,
+      "s_cbranch_vccz": 16,
+      "s_clause": 37,
+      "s_cmpk_gt_u32": 1,
+      "s_cmpk_lt_u32": 1,
+      "s_cselect_b32": 2,
+      "s_delay_alu": 661,
+      "s_endpgm": 1,
+      "s_load_b128": 1,
+      "s_load_b256": 1,
+      "s_lshl_b32": 2,
+      "s_mov_b32": 16,
+      "s_nop": 1,
+      "s_or_b32": 108,
+      "s_or_not1_b32": 1,
+      "s_sendmsg": 1,
+      "s_waitcnt": 266,
+      "s_xor_b32": 8,
+      "v_add_co_ci_u32_e64": 122,
+      "v_add_co_u32": 122,
+      "v_add_f32_e32": 82,
+      "v_add_nc_u32_e32": 26,
+      "v_and_b32_e32": 4,
+      "v_and_or_b32": 1,
+      "v_bfe_u32": 3,
+      "v_cmp_gt_i32_e32": 1,
+      "v_cmp_gt_u32_e64": 2,
+      "v_cmp_le_u64_e32": 4,
+      "v_cmp_le_u64_e64": 4,
+      "v_cmp_lt_u32_e32": 8,
+      "v_cmp_ne_u32_e32": 6,
+      "v_cmp_ne_u64_e64": 1,
+      "v_cmpx_gt_u64_e64": 8,
+      "v_cndmask_b32_e64": 1,
+      "v_dual_add_f32": 19,
+      "v_dual_cndmask_b32": 1,
+      "v_dual_fmac_f32": 62,
+      "v_dual_mov_b32": 35,
+      "v_dual_mul_f32": 97,
+      "v_exp_f32_e32": 128,
+      "v_fmac_f32_e32": 262,
+      "v_lshl_add_u32": 6,
+      "v_lshl_or_b32": 24,
+      "v_lshlrev_b32_e32": 12,
+      "v_lshlrev_b64": 104,
+      "v_lshrrev_b32_e32": 3,
+      "v_mad_i64_i32": 3,
+      "v_mad_u32_u24": 3,
+      "v_mad_u64_u32": 16,
+      "v_mov_b16_e64": 2,
+      "v_mov_b32_e32": 205,
+      "v_mul_f32_e32": 202,
+      "v_mul_hi_u32_u24_e32": 1,
+      "v_mul_u32_u24_e32": 4,
+      "v_or_b32_e32": 39,
+      "v_perm_b32": 32,
+      "v_pk_add_f16": 32,
+      "v_pk_fma_f16": 32,
+      "v_rcp_f32_e32": 128,
+      "v_sub_nc_u32_e32": 1,
+      "v_wmma_f32_16x16x16_f16": 64,
+      "v_xor_b32_e32": 22
+    },
+    "body_sha256": "7b16c89bc20f2937b6a428e2109b3b2e4026355e623e4dbf54f94f7659b39e05",
+    "compiler_comments": {
+      "NumVgprs": 220,
+      "TotalNumSgprs": 19,
+      "NumVGPRsForWavesPerEU": 241,
+      "Occupancy": 4
+    }
+  },
+  "instruction_counts": [
+    3864,
+    3825
+  ],
+  "instruction_count_change_percent": -1.0093167701863304,
+  "changed_mnemonics": {
+    "s_and_b32": [
+      24,
+      16
+    ],
+    "s_and_not1_b32": [
+      0,
+      22
+    ],
+    "s_and_saveexec_b32": [
+      101,
+      81
+    ],
+    "s_cbranch_execnz": [
+      56,
+      40
+    ],
+    "s_cbranch_execz": [
+      70,
+      58
+    ],
+    "s_cbranch_vccnz": [
+      2,
+      14
+    ],
+    "s_cbranch_vccz": [
+      0,
+      16
+    ],
+    "s_cmpk_lt_u32": [
+      0,
+      1
+    ],
+    "s_cselect_b32": [
+      1,
+      2
+    ],
+    "s_delay_alu": [
+      655,
+      661
+    ],
+    "s_or_b32": [
+      132,
+      108
+    ],
+    "s_waitcnt": [
+      272,
+      266
+    ],
+    "s_xor_b32": [
+      4,
+      8
+    ],
+    "v_add_f32_e32": [
+      89,
+      82
+    ],
+    "v_add_nc_u32_e32": [
+      27,
+      26
+    ],
+    "v_and_b32_e32": [
+      3,
+      4
+    ],
+    "v_cmp_gt_u32_e32": [
+      4,
+      0
+    ],
+    "v_cmp_gt_u32_e64": [
+      6,
+      2
+    ],
+    "v_cmp_le_u64_e32": [
+      0,
+      4
+    ],
+    "v_cmp_le_u64_e64": [
+      8,
+      4
+    ],
+    "v_cmp_lt_u32_e32": [
+      4,
+      8
+    ],
+    "v_cmp_lt_u32_e64": [
+      8,
+      0
+    ],
+    "v_cmp_ne_u32_e32": [
+      0,
+      6
+    ],
+    "v_cndmask_b32_e64": [
+      0,
+      1
+    ],
+    "v_dual_add_f32": [
+      14,
+      19
+    ],
+    "v_dual_fmac_f32": [
+      41,
+      62
+    ],
+    "v_dual_mul_f32": [
+      113,
+      97
+    ],
+    "v_fmac_f32_e32": [
+      272,
+      262
+    ],
+    "v_mov_b32_e32": [
+      202,
+      205
+    ],
+    "v_mul_f32_e32": [
+      208,
+      202
+    ]
+  },
+  "unchanged_mnemonic_counts": {
+    "v_wmma_f32_16x16x16_f16": 64,
+    "s_barrier": 2,
+    "global_load_b128": 144,
+    "global_store_b128": 64,
+    "ds_load_b128": 232,
+    "ds_store_b128": 12
+  },
+  "commands": {
+    "generation": {
+      "argv": [
+        "python3",
+        "tools/prepare-q2-ssm-channel-bounds.py"
+      ],
+      "started_at": "2026-10-06T01:20:58.817165+00:00",
+      "finished_at": "2026-10-06T01:20:59.061187+00:00",
+      "exit_code": 0
+    },
+    "assembly": {
+      "argv": [
+        "python3",
+        "evidence/q2-ssm-channel-bounds-preparation/compile-local.py",
+        "assembly"
+      ],
+      "started_at": "2026-10-06T01:20:59.081780+00:00",
+      "finished_at": "2026-10-06T01:21:10.221637+00:00",
+      "exit_code": 0
+    },
+    "fixture-host": {
+      "argv": [
+        "python3",
+        "evidence/q2-ssm-channel-bounds-preparation/compile-local.py",
+        "fixture-host"
+      ],
+      "started_at": "2026-10-06T01:22:04.280579+00:00",
+      "finished_at": "2026-10-06T01:22:06.441479+00:00",
+      "exit_code": 0
+    },
+    "fixture-device": {
+      "argv": [
+        "python3",
+        "evidence/q2-ssm-channel-bounds-preparation/compile-local.py",
+        "fixture-device"
+      ],
+      "started_at": "2026-10-06T01:22:04.280546+00:00",
+      "finished_at": "2026-10-06T01:22:06.428513+00:00",
+      "exit_code": 0
+    }
+  },
+  "limits": "Static counts include compiler scheduling and paired instructions. Changes in packed F32 arithmetic are visible in the mnemonic delta: source expressions and equivalent predicates do not establish compiled numerical equivalence. The syntax-checked existing fixture contains the older1580 control, not a new device comparison with retained1585. No device or model execution, throughput, active occupancy or independent quality is established.",
+  "gpu_run": false,
+  "model_inference": false,
+  "numerical_acceptance": false,
+  "performance_gain": false,
+  "goal_met": false
+}

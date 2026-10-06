@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -6258,17 +6258,20 @@
+                         WN == 1);
+           static_assert(!kHcMix && kRowGroup == 1);
+           constexpr std::uint32_t channels = 10240;
++          // No BM256 block straddles the fixed channel boundary.
++          static_assert(channels % BM == 0);
++          const bool convolved_block = r_block < channels;
+           if (tok < batch) {
+ #pragma unroll
+             for (int v = 0; v < 4; ++v) {
+               const unsigned row = r0 + row_l + v * 4;
+               // Every float4 row fits the SSM M16384 grid.
+               const float4 current = src[v];
+-              if (row >= channels || tok_l < 3 || tok_l >= kOutputTokens - 3 ||
++              if (!convolved_block || tok_l < 3 || tok_l >= kOutputTokens - 3 ||
+                   tok + 3 >= batch) {
+                 *reinterpret_cast<float4*>(y + tok * m + row) = current;
+               }
+-              if (row < channels && tok_l >= 3) {
++              if (convolved_block && tok_l >= 3) {
+                 const float4 x0 = *reinterpret_cast<const float4*>(
+                     tile_scratch + (tok_l - 3) * kOutputStride + row_l + v * 4);
+                 const float4 x1 = *reinterpret_cast<const float4*>(

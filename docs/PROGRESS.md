@@ -1,5 +1,19 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+A new [SSM channel-bound candidate](Q2-SSM-CHANNEL-BOUNDS.md) derives directly
+from retained1585. Local generation proves the channel partition across4096
+float4 owners/16384 rows. Equivalent block-uniform predicates reduce static
+instructions3864→3825 (-1.009317%);161 other bodies are exact, with unchanged
+VGPR/SGPR/LDS/private storage. Production assembly, fixture host/device syntax
+and patch reconstruction pass; all five preparation commands exit0. Compiler
+F32 packing changes remain visible, so this is no numerical or runtime gain.
+The existing syntax-checked fixture uses saved1580; next work must bind the new
+source into the runner and preserve explicit control identities before a fresh
+.157 admission. No remote operation, GPU lease/job/reservation or cleanup is
+started; release7a3722f3 remains current. Q2 stays1585.308983 /25.16079073,
+6.337447% PP short of fixedUD. Original antirez/ds4 cache identification and
+its measured1576.007692 /24.32799080 regression are reconfirmed without a rerun.
+
 Counter calibration r2 completes01:03:35UTC: SQ_WAVES_sum512 on every dispatch
 alone and co-collected with GRBM_COUNT (20 total); FETCH_SIZE131079.8125KiB
 first and131072.125KiB nine times for262144KiB expected. All50 complete output/

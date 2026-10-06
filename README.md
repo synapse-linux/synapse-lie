@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The new [SSM channel-partition candidate](docs/Q2-SSM-CHANNEL-BOUNDS.md)
+exposes two equivalent block-uniform predicates on the retained1585 provider.
+Local static instructions fall3864→3825;161 other kernel bodies and resources
+remain exact. No GPU/model result exists for this candidate, and .157 remains
+released. Best measured Q2 stays1585.308983 /25.16079073. The
+[compressed expert cache](docs/Q2-COMPRESSED-CACHE.md) already uses original
+antirez/ds4's bounded compressed-slot design; it needs no225GiB expansion.
+
 The [GPU counter calibration](docs/Q2-COUNTER-CALIBRATION.md) now completes:
 SQ_WAVES_sum reports the exact512 waves on all20 observations, alone and with
 GRBM_COUNT. FETCH_SIZE reports about128MiB for256MiB of verified reads and is
