@@ -1,5 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Q8 decode grouping measured; reactive limits documented — 2026-10-06 UTC
+
+The new four-row component passes303 exact pairs and606 FP64 checks. Large
+plain projections change by+0.641%/+0.093% time; shared down is nominally1.120%
+faster with overlapping ranges, and gated is5.981% slower. No general adoption
+or model rerun follows. All56 zero HIP event durations are invalid and retained;
+completed monotonic wall times supply the comparison. HOST39+39 passes; four
+component artifacts collect before .157 release f08fa953 at21:28:17 UTC.
+[Results and decode/reactive analysis](Q2-DECODE-128K.md).
+
+The executor already overlaps asynchronous PLE reads with prefix graph work.
+Saved diagnostic gaps are5.332ms per token, not established removable overhead.
+No new reactive C1 gain is claimed. Fixed parity remains paused. Long-prefill
+work next probes reuse of one key across two exact query reductions; the old
+rejected paired-lane selector experiment remains distinct.
+
 ## Fixed-point parity paused; decode/prefill128K takes priority — 2026-10-06 UTC
 
 The owner-requested final HC-down trial is47.60% slower in its complete

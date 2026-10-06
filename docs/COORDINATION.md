@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q8 decode rows4 component closure — 2026-10-06 UTC: checkpoint958a079e,
+plan327d416d, HOST Debug39/39+ASan39/39 and global preflight pass. Core own-non-use
+is refreshed21:25. Admission f68733b6 at21:27:12.278947 permits only the new
+component. Three commands exit0; four artifacts collect before verified release
+21:28:17.275015 /f08fa953e51e0d9e8be414861152ca1f5654b45cbc09eed0d329dadda90c9f84.
+All1744 identities and1393 groups retire, KFD is empty, CPU/four original GPU
+leases and seven model stat tuples remain unchanged. Main/remote canonical,
+active and ready mirrors match. Core is notified before numerical/performance
+analysis. No Q2 job/client/build/window/waiter/reservation or restart remains.
+No remote cleanup, saved control rebuild, model, Q4 or full curve was executed.
+
 ## Last HC-down collected and released — 2026-10-06 UTC
 
 Admission21:04:25.680442UTC/3d94229e binds checkpoint0ff129bf and planb8733d35.

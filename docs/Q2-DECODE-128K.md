@@ -49,6 +49,34 @@ The archive list was corrected and the host suite repeated. The official
 format checker reports inherited formatting failures in unchanged files;
 its exit and diagnostics are preserved without rewriting the retained source.
 
+### Completed component — 2026-10-06 UTC
+
+All 303 full-output pairs are exact and all 606 independent FP64 checks pass.
+Every timed destination is checked before reuse. The completed monotonic wall
+times below are means of the five saved samples; raw ranges remain in the
+[result](../config/q2-decode-q8-rows4-results.json). All 56 HIP event durations
+are zero and therefore invalid; they are not substituted for wall time.
+
+| Shape | Original µs | Four rows µs | Time change |
+|---|---:|---:|---:|
+| M16384/K2560 plain | 200.730900 | 202.016800 | +0.641% |
+| M2560/K6144 plain | 77.590400 | 77.662300 | +0.093% |
+| M2560/K640 plain | 11.149083 | 11.024193 | −1.120% |
+| M1280/K2560 gated | 34.977750 | 37.069700 | +5.981% |
+
+There is no general improvement to promote. Keep the small shared-down
+observation available, with overlapping ranges; do not run the entire model
+or curve for this marginal result. The large plain projection reads 44.56 MB
+in about 201 µs, approximately 222 GB/s of logical weight traffic. This is a
+bandwidth clue from a synthetic component, not measured memory-controller
+utilization. Extra stream overlap cannot remove those required bytes.
+
+Current host Debug39/39 and ASan/UBSan39/39 pass. The component ends with three
+zero exits and four artifacts collected before release21:28:17.275015 UTC /
+f08fa953. Main/remote mirrors match, 1744 process identities and1393 groups
+are retired, KFD is empty and original leases/model stat tuples are unchanged.
+Core is notified before analysis. No model result or performance default changes.
+
 ## Reactive contribution to decode
 
 The retained executor already overlaps asynchronous n-gram reads with the
@@ -98,6 +126,11 @@ exact scores, so that rejected experiment must not be presented as a new
 optimization. A distinct cooperative layout requires a focused score-plus-mark
 comparison at real depths before any full-prefix trial. Repeated dense
 projections remain relevant across all complete chunks.
+
+The next [exact query-pair component](Q2-SELECT-QUERY-PAIR.md) tests key reuse
+at the actual last complete32K/128K chunks and original128K tail. It retains
+the complete score-plus-top-k consumer and benchmarks the register tradeoff;
+static compilation alone is not a performance result.
 
 Keep model trials on the original saved requests and 2048 chunking; expand
 measurement only after a useful component result. Any changed output budget

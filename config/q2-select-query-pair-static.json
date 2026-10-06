@@ -1,0 +1,107 @@
+{
+  "schema": "synapse-lie.q2-select-query-pair-static.v1",
+  "parent_manifest_sha256": "2e81463dbbe134190c300f2b008684d584f0d75f60f36f16eb25b765c2c4b45c",
+  "variants": {
+    "q2-select-query-pair": {
+      "assembly": "evidence/q2-select-query-pair-preparation/candidate.s",
+      "assembly_sha256": "226cd50f42d98e684ff62f854eb67185da45509510871be94cc6d31cf637ce0f",
+      "command_sha256": "a7806f71e61312728d7c495914f97e41e0f9f478807eaa72a63846893de46c80",
+      "include": "experiments/q2-select-query-pair.inc",
+      "include_sha256": "19070eaef4099a714bee1c8c2070d5e6d1dd720c6c32e5e082df729d89efacec",
+      "resources": {
+        "group_segment_fixed_size": 0,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 184,
+        "next_free_sgpr": 80,
+        "wavefront_size32": 1
+      },
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm26SelectScoreQueryPairKernelEPKfPK6__halfPfjPKjjjjj",
+      "original_device_bodies_exact": 164
+    },
+    "q2-select-query-pair-packed": {
+      "assembly": "evidence/q2-select-query-pair-packed-preparation/candidate.s",
+      "assembly_sha256": "bfea98486d17d848cf94210e60e8d4232b9281dde37e1e3148198908ba0975f6",
+      "command_sha256": "3278e52501e676a07e2f04c0be4745095a3e936e3fd14f71e1ba6ee5046a1a91",
+      "include": "experiments/q2-select-query-pair-packed.inc",
+      "include_sha256": "78bb34ad422596f354b72d529dd420f206789cd5bcb3654d6d578a7954fdbba3",
+      "resources": {
+        "group_segment_fixed_size": 0,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 188,
+        "next_free_sgpr": 80,
+        "wavefront_size32": 1
+      },
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm32SelectScoreQueryPairPackedKernelEPKfPK6__halfPfjPKjjjjj",
+      "original_device_bodies_exact": 164
+    },
+    "q2-select-query-pair-packed-loop": {
+      "assembly": "evidence/q2-select-query-pair-packed-loop-preparation/candidate.s",
+      "assembly_sha256": "697c636eb6f6a9dc8cc6c63611803b1016f4ffc5fb6de7a37583e7fdaa21d34b",
+      "command_sha256": "4b6d752b0a0afa5ff9381b7088757673650cc72cb68cf826dd097c4aba3f559c",
+      "include": "experiments/q2-select-query-pair-packed-loop.inc",
+      "include_sha256": "ef315251921069bd66d05521cddfae98718b2e9f99e6c83f6af621c43ceec13d",
+      "resources": {
+        "group_segment_fixed_size": 0,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 185,
+        "next_free_sgpr": 17,
+        "wavefront_size32": 1
+      },
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm36SelectScoreQueryPairPackedLoopKernelEPKfPK6__halfPfjPKjjjjj",
+      "original_device_bodies_exact": 164
+    },
+    "q2-select-query-pair-bitpack": {
+      "assembly": "evidence/q2-select-query-pair-bitpack-preparation/candidate.s",
+      "assembly_sha256": "1978089e8391b64e424afa2f77260eb6f16e11222c68c77fae8f390c33ef6fce",
+      "command_sha256": "8a562018c0ac031de84de9f92cbc74acb0ae693e0dde5dfce29585b1184a5654",
+      "include": "experiments/q2-select-query-pair-bitpack.inc",
+      "include_sha256": "817ad83731a08ce61dbf2a1b68a066aa49ac36bd9a329f079bd4c8c21d8c8183",
+      "resources": {
+        "group_segment_fixed_size": 0,
+        "private_segment_fixed_size": 3604,
+        "next_free_vgpr": 192,
+        "next_free_sgpr": 22,
+        "wavefront_size32": 1
+      },
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm33SelectScoreQueryPairBitpackKernelEPKfPK6__halfPfjPKjjjjj",
+      "original_device_bodies_exact": 164
+    },
+    "q2-select-query-pair-interleave": {
+      "assembly": "evidence/q2-select-query-pair-interleave-preparation/candidate.s",
+      "assembly_sha256": "598df7e2682245010c656720e1cc1bf95779ab9b9cc8be9b1be62c58b04df64a",
+      "command_sha256": "f583494ae3da59859d0b10d3b7435ee4554d1fffc036858e437778a9ac622b5c",
+      "include": "experiments/q2-select-query-pair-interleave.inc",
+      "include_sha256": "d48f52a5e7654fb52e61ef35ab52ada769bd5450befd60ba3a1e6b18ca9ea1f5",
+      "resources": {
+        "group_segment_fixed_size": 0,
+        "private_segment_fixed_size": 32,
+        "next_free_vgpr": 173,
+        "next_free_sgpr": 106,
+        "wavefront_size32": 1
+      },
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm36SelectScoreQueryPairInterleaveKernelEPKfPK6__halfPfjPKjjjjj",
+      "original_device_bodies_exact": 164
+    },
+    "q2-select-query-pair-interleave8": {
+      "assembly": "evidence/q2-select-query-pair-interleave8-preparation/candidate.s",
+      "assembly_sha256": "0f8c6c9bab0a28b20b8ff71710f80e20594faad44cdd50681ee599375293531f",
+      "command_sha256": "85ffa2a427fb11d96c67612a1099a144da01907cc12b012047f73cb15a3079a1",
+      "include": "experiments/q2-select-query-pair-interleave8.inc",
+      "include_sha256": "8b7bc5aa9ade211eee49165bd96160f2e3c258e70ca59d78e20f0003a942189f",
+      "resources": {
+        "group_segment_fixed_size": 0,
+        "private_segment_fixed_size": 32,
+        "next_free_vgpr": 173,
+        "next_free_sgpr": 106,
+        "wavefront_size32": 1
+      },
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm37SelectScoreQueryPairInterleave8KernelEPKfPK6__halfPfjPKjjjjj",
+      "original_device_bodies_exact": 164
+    }
+  },
+  "selected": "q2-select-query-pair",
+  "numerical_arithmetic_preserved_by_source": true,
+  "topk_unchanged": true,
+  "GPU_run": false,
+  "selection_reason": "No scratch spills. High VGPR use is retained as a measured tradeoff, not a predicted speedup."
+}
