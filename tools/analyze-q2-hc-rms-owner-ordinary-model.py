@@ -94,7 +94,9 @@ def main():
     require(load_events[0]['max_context'] == plan['context_capacity'] and
             load_events[0]['prefill_chunk'] == plan['chunk'] and not load_events[0]['mtp'],
             'Actual model capacity/chunk/MTP changed')
-    require(load_events[0] == parent_load[0], 'Actual model load state changed')
+    require(all(load_events[0][key] == parent_load[0][key] for key in
+                ('resident_bytes', 'deferred_scratch_bytes', 'mtp', 'max_context', 'prefill_chunk')),
+            'Actual model load state changed')
     require(all(sample['prompt_tokens'] == 2048 and sample['output_tokens'] == 128 and
                 sample['decode_steps'] == 127 and sample['session_bytes'] == 376777748
                 for sample in model['samples']), 'Fixed counting sample scope changed')

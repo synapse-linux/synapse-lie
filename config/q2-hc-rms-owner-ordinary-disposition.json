@@ -1,0 +1,25 @@
+{
+  "schema": "synapse-lie.q2-hc-rms-owner-ordinary-disposition.v1",
+  "source_variant": "hc-rms-owner-ordinary",
+  "model_results_sha256": "35d525802d95a7f4ab221eb83daf5ad9b8d3a2ae5aa9f8256101895655be5608",
+  "release_sha256": "6b3c8f27beb98a94162aee19d70a682aa4068fe216c12c193e88e155a3268851",
+  "full_parent_replay_exact": true,
+  "saved_output_file_count": 21,
+  "within_arm": {
+    "checks": 9,
+    "exact": 9
+  },
+  "prefill_change_percent": -0.06717573743791894,
+  "decode_change_percent": 0.03519356802028639,
+  "prefill_measured_ranges_overlap": true,
+  "robust_speedup_established": false,
+  "robust_regression_established": false,
+  "retain_private_candidate": true,
+  "production_adopted": false,
+  "performance_default": "ssm-fixed-bounds",
+  "controls_rebuilt_or_rerun": false,
+  "component_rerun": false,
+  "goal_met": false,
+  "full_curve_admitted": false,
+  "independent_quality": false
+}

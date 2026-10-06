@@ -1,4 +1,8 @@
 <!-- SPDX-License-Identifier: MIT -->
+
+Subsequent [ordinary-only original-model retry](Q2-HC-RMS-OWNER-MODEL-RESULTS.md)
+completes:1584.244040 PP,−0.067176% versus the saved parent, all21 files exact.
+The component gain below does not establish a full-model speedup; keep1585.308983.
 # Four-owner HC RMS: whole-output qualification
 
 On .157, the ordinary F32/half combine's complete-cycle wall time falls

@@ -1,12 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-Current update2026-10-06: [HC reuse completes](Q2-HC-INJECTION-REUSE-RESULTS.md)
-with marginal raw-Q8−0.211% cycle time, raw/deferred+0.225%/+0.602%, safe
-injection differences and invalid zero HIP timings. No model rate changes.
-[Four-owner RMS now has a complete guarded fixture](Q2-HC-RMS-OWNER-PREPARATION.md):
-38 cases/120 outputs/28 timings; host/device compilation and164-body ISA
-identity pass. GPU behavior/performance and its remote wiring remain pending.
-The preparation entries below describe the earlier stage.
+Current update2026-10-06: [ordinary RMS model retry](Q2-HC-RMS-OWNER-MODEL-RESULTS.md)
+measures1584.244040 PP/25.16964571 TG with all21 parent files exact and no
+measured improvement over1585.308983. Preserve its small negative observation;
+the qualified120-output RMS component is complete and is reused. HC injection
+reuse remains marginal, with no model run. Both GPU windows are released.
+Next unmeasured priority is whole640 IQ2 producer/packing ownership. Current
+packing already holds20 values per lane after one load. No new kernel, model
+rate or GPU admission is established for that direction. The preparation
+entries below describe the earlier candidate selection stage.
+
 # New candidates for the fixed Q2 target
 
 Retained Q2 remains **1585.308983 PP /25.16079073 TG** on the original

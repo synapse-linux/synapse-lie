@@ -14,10 +14,14 @@ and resources remain identical; the added body matches the qualified fixture.
 The MoE owner body is omitted, and original MoE/small-row/decode dispatch remains.
 
 There is no new persistent allocation, stream, callback or executor lifetime
-change. Public C17 ABI/state/metrics contracts are unchanged. No CPU model
-forward, original-model run, independent quality/promotion or production adoption
-is established by this preparation.
+change. Public C17 ABI/state/metrics contracts are unchanged. No CPU model forward is introduced. The subsequent one-model retry preserves
+all21 parent output files exactly, but its prefill median changes−0.067176%
+with overlapping ranges. Keep the earlier performance best; independent quality,
+production adoption and full-curve parity remain open. The source/static
+preparation records retain their original state and identities.
 
 [Source and complete inventory](../../config/q2-hc-rms-owner-ordinary-source.json),
 [ISA identity](../../config/q2-hc-rms-owner-ordinary-static.json),
 [actual component result and remaining model gates](../../docs/Q2-HC-RMS-OWNER-RESULTS.md).
+
+[Original-model results and full samples](../../docs/Q2-HC-RMS-OWNER-MODEL-RESULTS.md).

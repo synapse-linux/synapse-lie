@@ -18,7 +18,7 @@ def main():
     arms['fixed_ud'] = report['references']['fixed_ud']
     labels = {'fixed_q2': 'Fixed Q2', 'best_parent': 'Saved Q2\nSSM bounds',
               'hc_rms_owner_ordinary': 'New Q2\nordinary RMS', 'fixed_ud': 'Fixed UD'}
-    output = ROOT / 'docs/figures/q2-hc-rms-owner-ordinary-model-wrapped'
+    output = ROOT / 'docs/figures/q2-hc-rms-owner-ordinary-model'
     if any(output.with_suffix(suffix).exists() for suffix in ('.csv', '.svg', '.png')):
         raise ValueError('Refusing to overwrite model exports')
     rows = [dict(candidate=key, historical=key in ('fixed_q2', 'best_parent', 'fixed_ud'), source=Path(arm['path']).name,

@@ -1,5 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Ordinary RMS original-model retry complete — 2026-10-06 UTC
+
+One new Q2 exact2048/tg128 arm measures1584.244040 PP/25.16964571 TG versus
+saved1585.308983/25.16079073 parent:−0.067176% PP/+0.035194% TG, overlapping
+prefill ranges. All21 full model files equal the parent and nine repeat checks
+are exact. Retain the private marginal experiment; keep SSM bounds as the
+performance best. Fixed Q2/UD and component are reused, benchmark unchanged.
+Host36+36 and all ten qualified host/model exits0;26 model/seven host artifacts
+collect before release10:44:44.338440UTC/6b3c8f27. Two actual CPU [0,0,8]
+launcher failures remain collected.1408 identities/1127 groups absent,KFDempty,
+original Core CPU+four GPU leases free/unchanged,seven model stats unchanged.
+Core informed before local analysis; no remote job/window/reservation/cleanup.
+Export all16 new/saved samples as CSV/SVG/PNG. Full-curve parity remains open;
+next unmeasured priority is whole640 IQ2 producer/packing, with no new admission.
+[Complete values and disposition](Q2-HC-RMS-OWNER-MODEL-RESULTS.md).
+
 ## Ordinary RMS model launcher qualified — 2026-10-06 UTC
 
 Register one rebuilt original-counting Q2 provider only. Fresh .157 Core closure,

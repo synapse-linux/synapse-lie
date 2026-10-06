@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [ordinary RMS model retry](docs/Q2-HC-RMS-OWNER-MODEL-RESULTS.md) completes
+on .157:1584.244040 PP/25.16964571 TG,−0.067176% PP versus the saved parent,
+with overlapping sample ranges and21/21 complete model files exact. Keep the
+previous1585.308983 PP best; fixed Q2/UD and component are reused. Host36+36 and
+model commands pass, all results collect before10:44:44UTC/6b3c8f27 release.
+All16 new/saved samples and graphs remain; full-curve parity is unmet. Earlier
+preparation and pending entries below describe historical stages.
+
 The [RMS owner component](docs/Q2-HC-RMS-OWNER-RESULTS.md) completes on .157:120/120 whole outputs exact; ordinary cycle time−1.682111%, MoE+0.260699% with overlapping ranges. All28 HIP times are invalid zero; complete-cycle wall samples/graphs remain. Host36+36 and all nine host/component command exits pass. Seven host/four component artifacts collect before10:17:30UTC/27506424 release,1388 identities/1111 groups retired, original leases/KFD/model stats revalidated; Core informed. A new ordinary-only provider is prepared with163 exact numerical bodies,1028 files and unchanged MoE/decode/persistent memory. Model execution remains pending; keep1585.308983 PP/25.16079073 TG versus fixed UD1685.777092.
 
 The RMS-owner runtime is now component-only and host-qualified on .157:36/36 Debug and36/36 ASan/UBSan pass,140 fixtures/eight manifests frozen against the unchanged1027-file parent. GPU admission/38-case qualification remain pending; no new model rate. [Plan](config/q2-hc-norm-owner-plan.json).

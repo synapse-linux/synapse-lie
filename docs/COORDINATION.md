@@ -1,5 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Ordinary RMS model window — 2026-10-06 UTC
+
+Fresh Core own non-use and the original Core closure/CPU lease revalidate
+10:34:54UTC. The corrected host passes36+36 at10:37:43UTC; two previous CPU
+failures and all three capsules collect. Freeze146 fixture hashes/six manifests
+and1028 provider files. Admission10:39:08.355659UTC/8e74c3d2 from27506424 binds
+checkpoint6e52db83, original Core CPU+four GPU leases,1403 IDs/1123 groups absent,
+empty KFD and seven unchanged model stats. Only one new original-Q2 ordinary
+RMS exact2048/tg128 model-r1 is admitted; saved controls/component are reused.
+
+The model concludes10:43:59.332986UTC with four exits0; all26 artifacts collect.
+Release10:44:44.338440UTC/6b3c8f27 retires1408 IDs/1127 groups, empty KFD and
+original leases/model stats unchanged. Canonical/main/run/remote mirrors agree;
+Core is informed before local numerical/performance analysis. No owned remote
+job, build, client, lease, window, waiter, reservation, restart or cleanup remains
+on .157/.158/.161. This release admits no next Q2 run.
+
+Earlier dated coordination entries below describe historical stages.
+
 Latest Q2 .157 release2026-10-06T10:17:30.469914UTC, SHA27506424d933e66e9db292653d130a713dac5d8c03d8f9cb05d169e1e10c3d92. RMS host36+36/component[0,0,0] terminate and all seven host/four component artifacts collect before release.1388 identities/1111 groups retired,KFD empty,four original GPU leases/Core CPU lease unchanged/free,seven model stat tuples unchanged; canonical/main/remote mirrors exact. Core receives closure before local analysis. No own .157/.158/.161 job/build/client/lease/window/waiter/reservation/restart or remote cleanup remains. New ordinary-only source preparation is local and has no admission/model plan. Any model run needs fresh separate scoped admission from27506424. [Release](../config/q2-hc-norm-owner-window-release.json), [results](Q2-HC-RMS-OWNER-RESULTS.md).
 
 RMS-owner CPU host36+36 finishes10:13:05.879520UTC and collects all seven artifacts. Fresh root .157 non-use and original Core lease/identities/groups,KFD and dcb9d12a registry revalidate10:06:19UTC. Frozen component-only plan binds140 current host-tested files/eight manifests and the unchanged1027-file provider. No new GPU admission, job, lease, window, waiter or reservation exists yet. [Plan](../config/q2-hc-norm-owner-plan.json).
