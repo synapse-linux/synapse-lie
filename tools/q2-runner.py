@@ -11,6 +11,7 @@ import shutil
 import sys
 
 from q2_process import supervise
+from q2_counter_calibration import execute as counter_calibration
 from q2_thermal import sample as thermal_sample, enforce as thermal_enforce
 from q2_reuse import verify_sources
 from q2_binary_replay import verify_replay, libraries
@@ -32,6 +33,9 @@ def now():
 
 def main():
     mode = sys.argv[1]
+    counter_mode = mode == 'counter-calibration'
+    if counter_mode and len(sys.argv) != 2:
+        raise SystemExit('Counter calibration accepts no model or build variants')
     saved_profile = {
         'q2-fixed-moe-profile': ('q2-hc-moe-deferred-model-r1',
             'q2-counting-hc-moe-deferred', 'q2-fixed-moe-profile-binary.json'),
@@ -91,7 +95,7 @@ def main():
     mixed_mode = mode in ('iq2-mixed-reference-check', 'iq2-mixed-check')
     hc_mode = mixed_mode or mode in ('compressed-cache-check', 'expert-cache-check', 'q8-mirror-check', 'scaled-wave-pack-check', 'scaled-expert-order-check', 'compact-expert-chain-check', 'producer-q8-check', 'shared-q8-pair-check', 'q8-aligned-pair-check', 'q8-k16-phases-check', 'down-raw-prefetch-check', 'iq2-fused-grid-check', 'half-fixed-width-check', 'half-consumer-eight-check', 'shared-down-fixed-check', 'shared-down-n64-check', 'ssm-row-group-check', 'ssm-fixed-shape-check', 'ssm-fixed-bounds-check', 'ssm-compact-lds-check', 'ssm-pingpong-check', 'down-register-scatter-check', 'down-half-vector-check', 'down-half-pair-check', 'down-half-storage-check', 'down-live-stage-check', 'down-output-reuse-check', 'iq2-wide-pair-check', 'iq2-lane-commit-check', 'iq2-short-tiles-check', 'iq2-slice-commit-check', 'iq2-sign-mask-check', 'iq2-raw-prefetch-check', 'ssm-row128-check', 'q8-halfpair-check', 'iq2-halfbyte-check', 'iq2-halfstage-check', 'q8-grouped-check', 'hc-bk256-bench', 'shared-q8-oracle-replay', 'shared-q8-producer-check', 'scaled-row-check', 'iq2-live-epilogue-check', 'iq2-wmma-signs-check', 'iq2-signs-check', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-norm-ragged-bench', 'hc-library-ragged-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench')
     hc_target = 'q2_compressed_cache' if mode == 'compressed-cache-check' else 'q2_expert_cache' if mode == 'expert-cache-check' else 'q2_shared_down_mirror' if mode in ('shared-down-fixed-check', 'shared-down-n64-check') else 'q2_ssm_compact_lds' if mode in ('ssm-compact-lds-check', 'ssm-pingpong-check') else 'q2_ssm_row_group' if mode in ('ssm-fixed-shape-check', 'ssm-fixed-bounds-check') else 'q2_ssm_row_group' if mode == 'ssm-row-group-check' else 'q2_down_register_scatter' if mode == 'down-register-scatter-check' else 'q2_producer_q8' if mode == 'producer-q8-check' else 'q2_compact_expert_chain' if mode == 'compact-expert-chain-check' else 'q2_scaled_expert_order' if mode == 'scaled-expert-order-check' else 'q2_scaled_wave_pack' if mode == 'scaled-wave-pack-check' else 'q2_shared_q8_pair' if mode == 'shared-q8-pair-check' else 'q2_q8_aligned_pair' if mode == 'q8-aligned-pair-check' else 'q2_half_fixed_width' if mode == 'half-fixed-width-check' else 'q2_half_consumer_eight' if mode == 'half-consumer-eight-check' else 'q2_down_half_vector' if mode == 'down-half-vector-check' else 'q2_down_half_pair' if mode == 'down-half-pair-check' else 'q2_down_half_storage' if mode == 'down-half-storage-check' else 'q2_down_live_stage' if mode == 'down-live-stage-check' else 'q2_down_output_reuse' if mode == 'down-output-reuse-check' else 'q2_iq2_wide_pair' if mode == 'iq2-wide-pair-check' else 'q2_iq2_lane_commit' if mode == 'iq2-lane-commit-check' else 'q2_iq2_short_tiles_check' if mode == 'iq2-short-tiles-check' else 'q2_iq2_slice_commit' if mode == 'iq2-slice-commit-check' else 'q2_q8_mirror' if mode == 'q8-mirror-check' else 'q2_iq2_sign_mask' if mode == 'iq2-sign-mask-check' else 'q2_iq2_fused_grid' if mode == 'iq2-fused-grid-check' else 'q2_q8_k16_phases' if mode == 'q8-k16-phases-check' else 'q2_down_raw_prefetch' if mode == 'down-raw-prefetch-check' else 'q2_iq2_raw_prefetch' if mode == 'iq2-raw-prefetch-check' else 'q2_ssm_row128' if mode == 'ssm-row128-check' else 'q2_q8_halfpair' if mode == 'q8-halfpair-check' else 'q2_iq2_halfbyte' if mode == 'iq2-halfbyte-check' else 'q2_iq2_halfstage' if mode == 'iq2-halfstage-check' else 'q2_q8_grouped' if mode == 'q8-grouped-check' else 'q2_hc_bk256' if mode == 'hc-bk256-bench' else 'q2_shared_q8_oracle_replay' if mode == 'shared-q8-oracle-replay' else 'q2_shared_q8_producer' if mode == 'shared-q8-producer-check' else 'q2_scaled_row_reuse' if mode == 'scaled-row-check' else 'q2_iq2_mixed_tiles' if mixed_mode else 'q2_iq2_live_epilogue' if mode == 'iq2-live-epilogue-check' else 'q2_iq2_wmma_signs' if mode == 'iq2-wmma-signs-check' else 'q2_iq2_signs' if mode == 'iq2-signs-check' else 'q2_hc_library_ragged' if mode == 'hc-library-ragged-bench' else 'q2_hc_decode_reduce' if mode == 'hc-decode-reduce-bench' else 'q2_hc_library_norm' if mode in ('hc-library-norm-bench', 'hc-norm-ragged-bench') else 'q2_narrow_vector' if mode == 'narrow-vector-check' else 'q2_scaled_tiles' if mode == 'scaled-tiles-check' else 'q2_scaled' if mode == 'scaled-input-check' else 'q2_shared_fork' if mode == 'shared-fork-check' else 'q2_hc_deferred_norm' if mode == 'hc-deferred-bench' else 'q2_hc_sequence' if mode == 'hc-sequence-bench' else 'q2_hc_up_chains' if mode == 'hc-up-chain-bench' else 'q2_hc_input' if mode == 'hc-input-bench' else 'q2_hc_norm_half' if mode.startswith('hc-norm-') else 'q2_hc_moe_fused' if mode.startswith('hc-moe-') else 'q2_hc_up_fused' if mode == 'hc-up-operators' else 'q2_packed_bench' if mode in ('packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench') else 'q2_packed' if mode == 'packed-operators' else 'q2_iq2_pair' if mode == 'iq2-pair-operators' else 'q2_routed' if mode == 'routed-operators' else 'q2_hc_pp' if mode.startswith('hc-pp-') or mode == 'hc-library-bench' else 'q2_hc'
-    if not cpu_mode and mode not in ('hip-build', 'operators', 'operators-reference') and not model_mode and not hc_mode and not terminal_build:
+    if not cpu_mode and not counter_mode and mode not in ('hip-build', 'operators', 'operators-reference') and not model_mode and not hc_mode and not terminal_build:
         raise SystemExit('Unsupported mode')
     result = {'state': 'RUNNING', 'mode': mode, 'started_at': now(),
               'pid': os.getpid(), 'commands': [], 'locks': [], 'model_access': False}
@@ -273,7 +277,9 @@ def main():
             result['native_bench_commit'] = bench_manifest['commit']
             run([str(bench_binary), '--suite', 'http-curve', '--help'], env, 30)
             save()
-        profiles=[('debug',False),('sanitize',True)] if cpu_mode else [('io' if io_mode else 'hip',False)]
+        if counter_mode:
+            counter_calibration(ROOT, result, run, env, save)
+        profiles=[] if counter_mode else [('debug',False),('sanitize',True)] if cpu_mode else [('io' if io_mode else 'hip',False)]
         for name,sanitize in profiles:
             build = ROOT/'build'/name
             if not replay_label:
@@ -396,6 +402,7 @@ def main():
                 if replay_label and result['runtime_libraries'] != replay['libraries']:
                     raise RuntimeError('Replay libraries changed during model run')
         result['state'] = 'CPU_FIXTURES_PASS_NO_MODEL_INFERENCE' if cpu_mode else 'HIP_BUILD_PASS_NOT_MODEL_QUALIFIED' if mode=='hip-build' else 'SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED'
+        if counter_mode: result['state']='SYNTHETIC_COUNTER_COLLECTION_COMPLETE_NOT_MODEL_INFERENCE'
         if terminal_build: result['state']='TERMINAL_SERVER_BUILT_NO_MODEL_EXECUTION'
         if model_mode: result['state']='MODEL_SMOKE_PASS' if mode=='q2-smoke' else 'MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT'
         if original_mode: result['state']='ORIGINAL_C17_BASELINE_COMPLETE_NOT_QUALITY_VERDICT'

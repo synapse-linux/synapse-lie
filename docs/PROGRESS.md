@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [counter calibration](Q2-COUNTER-CALIBRATION.md) is implemented as an
+isolated fixture under the existing leased supervisor. Fresh .157 host31+31
+passes at00:54:41UTC; six exits0/seven artifacts verify and105 fixture files
+are frozen. Expected512 wave32 waves,256MiB read payload, complete output/
+guard checks and per-dispatch5% read-count tolerance are fixed before GPU use.
+Only this small fixture will be built; model/reference binaries are untouched.
+The preceding goal turn yielded verified profiler capability limits; this
+turn advances the real calibration rather than repeating that status.
+
 The [retained counter audit](Q2-RETAINED-COUNTERS.md) reads installed .157
 profiler definitions, package metadata and ELF dependencies without initializing
 GPU runtimes. Five collection commands exit0;64 explicit gfx1151 definitions

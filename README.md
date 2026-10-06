@@ -1,5 +1,10 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [small counter calibration](docs/Q2-COUNTER-CALIBRATION.md) now has a
+standalone wave32/256MiB-read fixture and a bounded three-pass profiler route.
+Fresh .157 host31+31 tests pass and105 fixture identities are frozen.
+GPU calibration is pending; no model or throughput comparison is rerun.
+
 The [retained Q2 counter audit](docs/Q2-RETAINED-COUNTERS.md) identifies64
 installed gfx1151 metrics and verifies missing newer stall counters. Official
 GL2C/SQ fixes require a small calibration before their counts guide optimization;
