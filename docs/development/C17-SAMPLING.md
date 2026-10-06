@@ -43,16 +43,16 @@ to `lie/schema_number.h`. Its
 13 sanitizer and 37 pristine/ON/OFF controls. All 20 earlier complete witnesses
 retain their hashes. The later matching `a24875f` build below passes selected
 AR/MTP controls; individual numeric GPU gates remain open. `6a48da3` excludes it.
-Binary64 serialization/parser
-implementation and private composition/model/controller remain transitional.
+Binary64 conversion and immutable composition are extracted in the later
+host-qualified increments below; typed storage/model/controller remain private.
 
 The later 63-file format increment also moves pinned format selection/patterns
 and schema expansion to C17. Its
 [host checks](validation/c17-schema-format-host-2026-10-06.json) pass 14 Release,
 14 sanitizer and 38 pristine/ON/OFF controls with all 21 prior complete hashes
 unchanged. The later matching `a24875f` build below passes selected AR/MTP
-controls; individual format GPU branches remain pending. The binary64 codec and
-private composition/model/controller remain transitional.
+controls; individual format GPU branches remain pending. Later increments
+below extract composition and the codec; typed storage/model/controller remain private.
 
 The later 66-file increment moves the reasoning/tool composition cache policy
 to `lie/ordered_cache.h`. Its
@@ -66,7 +66,7 @@ independent probability/fault/private resource/matched cost remain open. Both
 modes observe a maximum of 44 whole-process threads, including runtime helpers;
 the source adds no inference worker or measured speedup. Immutable grammar
 composition is now extracted in the later host-qualified increment below.
-Opaque typed key/value storage and binary64 codec remain private.
+Opaque typed key/value storage remains private; binary64 conversion is extracted below.
 
 The later 69-file increment moves the full immutable reasoning/tool algorithm to
 `lie/grammar_composition.h`: marker transitions, ordered alternatives, name
@@ -76,8 +76,17 @@ ordered states and token masks against pristine/OFF algorithms. All 23 earlier
 witness hashes are unchanged; independent paired-allocation failure and core
 byte accounting checks pass. Typed predicate storage/templates remain private.
 This newer source needs matching GPU qualification; the previous `a24875f`
-receipt does not extend to it. Binary64 codec/model/controller ownership and
+receipt does not extend to it. Typed storage/model/controller ownership and
 broader qualification remain open.
+
+The later 83-file increment moves JSON binary64 conversion to `lie/binary64.h`.
+Its [host receipt](validation/c17-binary64-host-2026-10-06.json) records 17 focused
+Release, 17 sanitizer and 42 complete pristine/ON/OFF controls. All 24 previous
+complete witness hashes are unchanged. Three exact recipe edits keep both
+original OFF conversion bodies; the ON JSON and numeric schema paths call the
+same C codec. The inventory includes 71 first-party files and 12 vendor/provenance
+files. A fresh matching provider/application and original-weight GPU run is
+still required; `a24875f` does not cover this increment.
 
 ## Ownership and behavior
 
@@ -494,7 +503,7 @@ Resource/work refusal preserves output ownership and matches. The header declare
 explicit decimal/exponent/digit/work limits; bounded workspace cost remains a GPU
 acceptance gate. No HTTP/model/device operation, RNG or inference thread belongs
 to this component. Numeric leaf control and representability now use the
-separate module below. JSON library binary64 conversion and typed exceptions
+separate modules below, including the shared binary64 codec. Typed exceptions
 remain private; provider container/model/controller storage still needs
 extraction within the same task. The
 Unicode registry/input context below now uses public ICU C APIs.
@@ -524,14 +533,14 @@ refusals preserve output arguments and retire temporary arithmetic workspaces.
 The added `lie_number_equal_with_allocator` keeps the original comparison API
 and lets these calls share the declared paired allocator.
 
-The private adapter now supplies borrowed views, the existing locale-neutral
+The private adapter supplies borrowed views, callbacks to the shared C17
 binary64 codec and typed exception translation. It holds only an exception
 pointer and no staging container. A separate untimed probe records zero C++
 heap allocations for selected bridge construction/acceptance/small-LCM/literal
 paths. C arithmetic workspaces are separate; this is not allocation-exact
-whole-engine qualification or a performance measurement. The codec's
-implementation and composition/model/controller remain to
-be extracted. No worker/event/RNG, DS4 RAM/SSD layout or inference thread changes.
+whole-engine qualification or a performance measurement. The later C17
+codec and composition increments are host-qualified; typed storage/model/controller
+remain private. No worker/event/RNG, DS4 RAM/SSD layout or inference thread changes.
 
 The [host receipt](validation/c17-schema-number-host-2026-10-06.json) records
 65 independent control/literal oracles, 22 callback refusals, nine selected
@@ -543,6 +552,42 @@ optimized C warnings remain errors. Initial failed Release/provider checks
 are preserved with their actual exit codes. A matching new GPU build and
 original-weight gates remain pending. Terminal Bench stays deferred until
 functional modifications and matching qualification finish.
+
+## JSON binary64 codec
+
+`lie/binary64.h` exposes separate ABI 1 with no model, HTTP, C++ container or
+allocator type. Formatting writes no NUL and matches the pinned provider's
+shortest default spelling, including fixed/scientific selection, exact closest
+integer spelling, signed exponents and negative zero. Parsing validates the
+entire JSON number span, with optional JSON whitespace, and rounds to nearest
+with ties to even. Nonfinite overflow and nonzero underflow to zero refuse.
+Refusal preserves bytes/length/value; output must be disjoint from inputs.
+
+The bundled [Ryu provenance](../../third_party/ryu-source.json) fixes eleven
+unchanged C/header/license files to `4c0618b0e44f7ef027ebae05d2cc7812048f7c8f`.
+BSL-1.0 is selected and both upstream license alternatives are retained. The
+short parser receives at most 17 significant digits; the independently written
+exact fallback uses bounded base-2 integer workspaces, 800 significant decimal
+digits and a sticky tail. Binary64 rounding midpoints have at most 768 significant
+decimal digits, so later nonzero input still resolves exact ties. No locale or
+floating-environment change, mutable cache or heap allocation occurs in the
+public formatter/parser. Defaults admit at most UINT32_MAX text bytes and
+64 million counted work units; these are refusal limits, not timings.
+
+The [host receipt](validation/c17-binary64-host-2026-10-06.json) binds independent
+bit/rounding and refusal fixtures, all four floating rounding modes, all 55 C17/
+C++17 public headers, 106,273 actual pristine/ON/OFF JSON cases and all 24 earlier
+unchanged witness hashes. The independent QA probe combines installed MPFR
+decimal comparisons with shortest-spelling/bit roundtrips: 1,013,356 checks in
+total, including exact subnormal midpoint tails. It observes
+zero allocator calls while selected public codec calls execute. It is QA-only:
+MPFR/GMP are required only by the optional `tests/sampling` developer project,
+not by ordinary core/server/bench/default CTest. The codec object still contains
+Ryu's unused allocating convenience entry point; its malloc import does not
+describe the tested public paths. Typed JSON storage/full lexer, immutable
+predicates and model/controller remain private. Matching original-weight
+composition/codec, individual branches/faults/resources/cost and SSD BPE gates
+are still pending; no inference speedup is claimed.
 
 ## Pinned string format expansion
 
@@ -570,7 +615,7 @@ Strict optimized C and all 52 C17/C++17 public headers pass. Provider inventory
 is 63 files with recipe hash/missing/drift rejection. Initial synthetic-recipe
 fixture failures are retained. Matching original-weight GPU qualification,
 private staging allocation-exact resources and matched cost remain pending.
-Binary64 codec and private composition/model/controller extraction continue.
+Later host-qualified increments extract the codec/composition; typed storage/model/controller remain private.
 Terminal Bench remains deferred until functional changes and qualification finish.
 
 ## String and Unicode-DFA runtime

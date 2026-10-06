@@ -7,6 +7,12 @@ See THIRD_PARTY_NOTICES.md for provenance, versions and distribution boundaries;
 full imported notices are installed alongside it in third-party/.
 
 Adapted code includes:
+- Binary64 number formatting/parsing now uses the shared first-party C17
+  lie/binary64.h contract, with separately pinned Ryu C material as described
+  in ryu-NOTICE. binary64-edits.json keeps both exact original OFF conversions
+  in Gufo JSON values. Borrowed JSON trees, lexer/storage and exceptions remain
+  private; binary64 conversion belongs to C17. No GCC/libstdc++ implementation,
+  DS4 code, sibling artifacts or model payloads are imported.
 - Immutable reasoning/tool grammar composition in src/grammar_composition.c
   follows JsonConstraint::WithReasoning/WithTools and JSON name escaping at
   independently fetched immutable Gufo f783fedb9bea2ec7de941f6da4e02f4a4596b29e

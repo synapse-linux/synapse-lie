@@ -177,7 +177,8 @@ client/server restart or machine reservation is queued in the meantime.
    Structural JSON equality, local-reference resolution, supported-key validation
    and schema conjunction/distribution/merging now use shared C17
    ([host witnesses](development/validation/c17-schema-transform-host-2026-10-05.json)).
-   Provider container views/staging and the binary64 codec remain private.
+   Provider container views/staging remain private; binary64 conversion now
+   uses the later shared C17 codec below.
    Format and numeric leaf policies now use the later C17 modules below.
    Finite-value filtering/canonicalization,
    JSON quoting and object/array construction now use C17 with bounded shared
@@ -196,8 +197,7 @@ client/server restart or machine reservation is queued in the meantime.
    now also use C17, with [host witnesses](development/validation/c17-schema-body-host-2026-10-05.json).
    All 19 earlier complete witnesses remain unchanged. The matching memo/dispatch/
    Visit/body build now passes selected AR37/MTP37 GPU controls
-   ([receipt](development/validation/c17-schema-body-point-gpu-2026-10-05.json)). The binary64 codec
-   still needs extraction within the same task. Numeric
+   ([receipt](development/validation/c17-schema-body-point-gpu-2026-10-05.json)). Numeric
    schema preparation, scalar acceptance, LCM representability and literal
    publication now also use C17, with
    [host checks](development/validation/c17-schema-number-host-2026-10-06.json).
@@ -208,9 +208,13 @@ client/server restart or machine reservation is queued in the meantime.
    ([host checks](development/validation/c17-composition-cache-host-2026-10-06.json)).
    Immutable reasoning/tool grammar composition now also uses C17
    ([host checks](development/validation/c17-composition-host-2026-10-06.json)), with
-   complete states/masks and allocation/refusal oracles. Its newer 69-file inventory
-   requires matching provider/application and original-weight gates. Opaque
-   key/value containers, typed predicate storage and binary64 codec remain private.
+   complete states/masks and allocation/refusal oracles. JSON binary64 number
+   formatting/parsing now also uses C17 with bundled pinned Ryu and independent
+   bit/rounding/refusal oracles
+   ([host checks](development/validation/c17-binary64-host-2026-10-06.json)). This
+   newer 83-file inventory (71 first-party + 12 vendor/provenance files) requires
+   matching provider/application and original-weight gates. Typed JSON/key/value
+   containers, lexer/predicate storage and model/controller remain private.
    The later matching `a24875f` 66-file build now passes selected original-weight
    AR37/MTP37 controls on `.161`
    ([GPU receipt](development/validation/c17-schema-policy-point-gpu-2026-10-06.json)).

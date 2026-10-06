@@ -1,0 +1,22 @@
+{
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "purpose": "Default-ON C17 binary64 spelling/parsing in all provider JSON number conversion; typed JSON storage and full lexer remain private. Both exact original OFF conversion bodies retained.",
+  "license": "MIT",
+  "edits": [
+    {
+      "path": "src/core/json.hpp",
+      "old": "#include <vector>\n",
+      "new": "#include <vector>\n#if LIE_C17_SAMPLING\n#include \"lie/binary64.h\"\n#endif\n"
+    },
+    {
+      "path": "src/core/json.hpp",
+      "old": "        const auto [end, error] =\n            std::to_chars(buffer, buffer + sizeof(buffer), num_);\n        if (error != std::errc{}) {\n          throw std::runtime_error(\"JSON number serialization failed\");\n        }\n        os.write(buffer, end - buffer);\n",
+      "new": "#if LIE_C17_SAMPLING\n        size_t length = 0;\n        if (lie_binary64_format(num_, buffer, sizeof(buffer), &length) != LIE_BINARY64_OK)\n          throw std::runtime_error(\"JSON number serialization failed\");\n        os.write(buffer, static_cast<std::streamsize>(length));\n#else\n        const auto [end, error] =\n            std::to_chars(buffer, buffer + sizeof(buffer), num_);\n        if (error != std::errc{}) {\n          throw std::runtime_error(\"JSON number serialization failed\");\n        }\n        os.write(buffer, end - buffer);\n#endif\n"
+    },
+    {
+      "path": "src/core/json.hpp",
+      "old": "    const auto [end, error] =\n        std::from_chars(tok.data(), tok.data() + tok.size(), value);\n    if (error != std::errc{} || end != tok.data() + tok.size() ||\n        !std::isfinite(value)) {\n      fail(\"bad number\");\n    }\n",
+      "new": "#if LIE_C17_SAMPLING\n    if (lie_binary64_parse(tok.data(), tok.size(), nullptr, &value) != LIE_BINARY64_OK)\n      fail(\"bad number\");\n#else\n    const auto [end, error] =\n        std::from_chars(tok.data(), tok.data() + tok.size(), value);\n    if (error != std::errc{} || end != tok.data() + tok.size() ||\n        !std::isfinite(value)) {\n      fail(\"bad number\");\n    }\n#endif\n"
+    }
+  ]
+}

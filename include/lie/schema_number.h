@@ -14,7 +14,7 @@ typedef struct {
   lie_schema_transform_description transform;
   size_t number_work;
   void *conversion_context;
-  /* Transitional binary64 codec only: locale-neutral JSON spelling/parsing,
+  /* Binary64 codec hook only: locale-neutral JSON spelling/parsing,
    * no lookup, validation, interval/grid or representability policy. Serialize
    * writes at most capacity bytes, without a NUL; parse consumes the full span.
    * Neither callback retains a view. Refusals must not throw across the C ABI. */
@@ -25,7 +25,7 @@ void lie_schema_number_description_init(lie_schema_number_description *);
 /* Synchronous borrowed-reader contract follows schema_transform. C17 owns
  * ordered keyword lookup, finite/positive checks, exact-decimal preparation,
  * scalar type selection, LCM representability and literal publication. The
- * conversion hooks keep the existing binary64 spelling for this increment.
+ * conversion hooks select the owned binary64 codec in the current adapter.
  * number_work=0 selects grammar_number's default. Its paired allocator owns
  * policies/workspaces and must outlive a created policy. No shared mutable
  * cache, model, HTTP, RNG or thread ownership. Refusals preserve outputs; a

@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
-// Borrowed JSON views, binary64 codec and typed exceptions only.
+// Borrowed JSON views and typed exception translation; binary64 codec is C17.
 #ifndef LIE_GUFO_SCHEMA_NUMBER_HPP
 #define LIE_GUFO_SCHEMA_NUMBER_HPP
 #include "lie/schema_number.h"
+#include "lie/binary64.h"
 #include "gufo_schema_transform.hpp"
-#include <charconv>
 #include <cstring>
 namespace lie_gufo {
 class SchemaNumber {
@@ -13,16 +13,15 @@ class SchemaNumber {
       size_t capacity, size_t *bytes) noexcept {
     auto &self = *static_cast<SchemaNumber *>(p);
     return self.invoke([&](auto &) {
-      const auto result = std::to_chars(text, text + capacity, value);
-      if (result.ec != std::errc{})
+      if (lie_binary64_format(value, text, capacity, bytes) != LIE_BINARY64_OK)
         throw std::runtime_error("JSON number serialization failed");
-      *bytes = static_cast<size_t>(result.ptr - text);
     });
   }
   static lie_schema_status parse(void *p, lie_schema_bytes text, double *out) noexcept {
     auto &self = *static_cast<SchemaNumber *>(p);
     return self.invoke([&](auto &) {
-      *out = gufo::json::parse(std::string_view(text.data, text.size)).as_double();
+      if (lie_binary64_parse(text.data, text.size, nullptr, out) != LIE_BINARY64_OK)
+        throw std::runtime_error("JSON parse error: bad number");
     });
   }
 public:

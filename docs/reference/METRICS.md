@@ -14,6 +14,14 @@ and confirmed per-job token counts remain progress, not completion or a finished
 throughput sample. Sampled GTT/temperatures are observational resources, not
 allocation-exact or device-fault qualification.
 
+C17 binary64 text/work bounds are admission limits, with no new HTTP timing,
+counter or inference worker. Codec scratch is bounded stack storage; allocator
+hooks in the [host oracle](../development/validation/c17-binary64-host-2026-10-06.json)
+observe zero heap calls only during the selected public formatter/parser calls.
+The complete QA process, provider containers, ICU, MPFR/GMP, model/device and
+allocator-exact resources are outside that scope. No throughput or matched
+original-weight cost improvement is inferred from host parity.
+
 C17 immutable grammar composition reports construction `work`, `owned_bytes`
 and `peak_owned_bytes` through its local view, without adding HTTP counters,
 timers or inference workers. Byte accounting includes the C object, requested
@@ -87,7 +95,7 @@ whole-provider allocation cost and GPU continuation remain separate gates.
 Grammar construction adds bounded C rule/class/table and
 productivity/cycle scratch allocations. Its 64-million-unit default work budget
 is admission accounting, not elapsed time or throughput. The provider retains
-typed provider templates/predicates, leaf translation and binary64 codec. The independent
+typed provider templates/predicates and leaf translation. The independent
 fixture peak counts requested owned payload only, excluding helper headers,
 provider/ICU/process/GPU allocations. No new HTTP metric or inference worker
 is introduced; original-weight allocation-exact cost remains unqualified.

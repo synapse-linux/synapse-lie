@@ -20,6 +20,17 @@ public ABI. [Original-weight AR/MTP controls](../development/validation/c17-samp
 qualify that frozen integrated build within the stated wire/profile scope;
 they do not qualify an unfinished finite-value ABI or a complete owned executor.
 
+`lie/binary64.h` adds separate ABI 1. The synchronous, model-neutral C codec
+formats finite IEEE754 binary64 into caller storage without a NUL and parses
+full strict JSON number spans with nearest-even rounding. Signed zero survives;
+overflow/nonzero underflow, invalid syntax, aliasing, insufficient capacity and
+tagged text/work budgets refuse without publishing outputs. Defaults cap text
+at UINT32_MAX bytes and work at 64 million units. No pointers are retained,
+heap allocator is called, locale/FENV is changed or model/device/worker is
+created by these public calls. Bundled pinned Ryu retains its separate license.
+Existing engine/sampler/grammar/state/HTTP ABI and DS4 framing remain unchanged.
+See [host validation](../development/validation/c17-binary64-host-2026-10-06.json).
+
 `lie/grammar_composition.h` adds independent composition ABI 1. The synchronous
 core constructs immutable reasoning/tool marker automata, quotes arbitrary name
 bytes, reuses argument-program identities and remaps ordered tables/predicate
@@ -101,8 +112,8 @@ output argument can refuse before mutation. The default construction budget is
 64 million counted units, distinct from runtime state work. This adds no engine,
 request/generation, worker/event or persisted-state layout. The current 45-file
 inventory and extended runtime recipe require matching sealed provider/application
-builds. Typed provider templates/predicates and the binary64 codec remain
-transitional. See [construction ownership](../development/C17-SAMPLING.md#grammar-construction-and-validation).
+builds. Typed provider templates/predicates remain transitional. See
+[construction ownership](../development/C17-SAMPLING.md#grammar-construction-and-validation).
 
 `lie/schema_transform.h` adds separate schema-transformation ABI 1. Tagged
 limits and paired allocators bound synchronous structural equality, local JSON
@@ -111,8 +122,8 @@ typed views; writers copy spans into caller-owned private staging. Refusal
 preserves result arguments; retire staging on success or failure. Object keys
 are unique and ordered. Output/error storage is disjoint from views/context;
 error detail borrows the input tree. Equality is iterative; conjunction has a
-64-level reference budget. Typed JSON/storage and the binary64 codec stay
-in the adapter. No model, worker, RNG, engine or DS4 layout changes. Matching
+64-level reference budget. Typed JSON/storage stays in the adapter. No model,
+worker, RNG, engine or DS4 layout changes. Matching
 provider/application rebuilds are required for changed private sources. See
 [schema ownership](../development/C17-SAMPLING.md#json-schema-conjunction-and-reference-resolution).
 

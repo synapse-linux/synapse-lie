@@ -1,6 +1,45 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## JSON binary64 conversion uses the shared C17 core — 2026-10-06 UTC
+
+The model-neutral `lie/binary64.h` ABI now supplies shortest JSON number spelling
+and full-span nearest-even parsing to the schema adapter and provider JSON
+conversion. Pinned bundled Ryu supplies the C shortest formatter and short
+parser; first-party C code owns spelling, strict JSON syntax and exact long
+decimal conversion. The latter keeps 800 significant digits and a sticky tail,
+so later nonzero digits still affect midpoint decisions. Caller text/work bounds
+and refusal preserve outputs. No locale, floating environment, heap allocation,
+mutable cache or inference thread is introduced by these public codec calls.
+
+The [source-bound host receipt](development/validation/c17-binary64-host-2026-10-06.json)
+records 17 focused Release, 17 ASan/UBSan/LSan and
+42 pristine/default-ON/OFF host checks. The 106,273 complete
+JSON witnesses agree; all 24 earlier witness hashes remain unchanged.
+Independent C fixtures cover 77 bit/rounding oracles and 122 refusals,
+including normal/subnormal midpoints and a nonzero digit beyond 17,000 zeros.
+The MPFR decimal and independent shortest/bit QA probe reports
+1,013,356 combined checks; allocator hooks observe
+zero heap calls during the selected public C calls only. All 55 public
+headers compile as C17/C++17. Provider binding grows to 83 files: 71 first-party
+files and 12 vendor/provenance files. Ryu's eleven unchanged files retain their
+upstream licenses, with BSL-1.0 selected; they are not first-party MIT source.
+Default products and default CTest remain Python/MPFR-free.
+
+The initial fixture build exits 1 on a strict indentation warning; it is fixed
+without relaxing warnings, and the actual failure is retained. An initial
+official-source DNS failure also retains curl exit 6. Final sanitizer checks
+run outside ptrace with overrides unset and no disabled checks. CPU peaks
+92.625 C under the CPU98/NVMe85/lower exposed guards. No GPU run,
+remote build, lease or reservation is added. The latest matching original-weight
+source remains `a24875f` (66 files); it does not qualify this composition/codec
+increment. Typed containers/lexer/predicate storage and model/controller
+ownership, matching provider/application and original-weight gates, individual
+branches/faults/resources/cost and SSD BPE remain open. All six owned tasks stay
+open; Terminal Bench remains stopped and deferred until modifications and their
+qualification finish.
+
+
 ## Immutable reasoning/tool composition uses C17 — 2026-10-06 UTC
 
 The shared `lie/grammar_composition.h` contract now owns marker automata,

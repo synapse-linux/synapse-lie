@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// Private codec/exceptions; numeric leaf control and arithmetic live in C17.
+// Private exceptions; numeric leaf control, binary64 codec and arithmetic are C17.
 #ifndef LIE_GUFO_GRAMMAR_NUMBER_HPP
 #define LIE_GUFO_GRAMMAR_NUMBER_HPP
 #include "lie/grammar_number.h"

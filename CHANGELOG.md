@@ -7,6 +7,11 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Shared C17 JSON binary64 formatting and parsing, preserving number spelling,
+  negative zero and nearest-even rounding. Bundled pinned Ryu adds no system
+  dependency; MPFR is used only by optional developer tests. Matching
+  original-weight GPU qualification remains pending.
+
 - Shared C17 immutable reasoning/tool grammar composition, including marker
   transitions, argument imports, JSON name quoting and parallel-call stop policy.
   Original/default-ON/OFF complete states and masks agree in host checks; matching

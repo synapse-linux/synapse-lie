@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT */
 /* Numeric leaf control adapted from the independently pinned MIT Gufo
- * json_schema_lexeme.cpp. Binary64 conversion is a declared private codec;
+ * json_schema_lexeme.cpp. Binary64 conversion uses a declared C17 codec hook;
  * ordered schema/finite/grid/LCM publication policy belongs to this C17 core. */
 #include "lie/schema_number.h"
 #include "schema_internal.h"

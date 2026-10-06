@@ -1,0 +1,26 @@
+Ryu
+Copyright 2018-2019 Ulf Adams and contributors.
+
+Official source: https://github.com/ulfjack/ryu
+Immutable pin: 4c0618b0e44f7ef027ebae05d2cc7812048f7c8f
+Per-file hashes and scope: ryu-source.json
+
+The eleven bundled source/header/license files are unchanged upstream material.
+LIE selects the upstream Boost Software License 1.0 alternative; the original
+Apache 2.0 alternative, dual notices and both full license texts are retained.
+These files are not first-party MIT code and are not a system dependency.
+
+src/binary64.c includes the pinned C shortest formatter and short parser with
+private symbol prefixes. First-party MIT code independently supplies default
+fixed/scientific spelling policy, closest integer spelling, JSON number syntax,
+bounded full-span parsing and exact long-decimal nearest-even conversion.
+The fast parser sees at most 17 significant digits; longer inputs use the exact
+fallback, retaining 800 significant digits plus a sticky tail. Binary64 rounding
+midpoints have at most 768 significant decimal digits. Input digits beyond the
+retained prefix still influence exact midpoint decisions; they are not dropped.
+
+MPFR/GMP are independent, installed QA oracles for tests/sampling only. They are
+not linked into the ordinary server, bench, core or default CTest products.
+No upstream model code, weights, sibling workspace source or DS4 artifact is
+imported. This source increment requires host qualification separately from original-
+weight GPU continuation, allocation-exact resource cost and matched performance.

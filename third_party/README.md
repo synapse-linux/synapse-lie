@@ -6,14 +6,14 @@ Gufo, with its [MIT notice](gufo-NOTICE) and [license](gufo-LICENSE) retained.
 The request-history C17 component implements the same pinned Gufo semantics
 against independently fetched source. `history-sampling-edits.json` records exact
 integration; `gufo_history.hpp` only adapts vector storage and exceptions. Provider
-receipts bind all twelve owned sampler/grammar source/header/glue files and the
+receipts bind the selected owned sampler/grammar source/header/glue files and the
 dense, history, compact-distribution and byte-runtime recipes. The latter ports official ordered
 probabilities, residual correction and host MTP proposal/verification arithmetic
 from the same pin; vector/error glue remains transitional. Gufo notices remain applicable; no DS4 cache code is copied.
 The C17 byte runtime in `src/grammar.c` ports rule expansion, byte transitions,
 completion and canonical-state ordering from official `json_constraint.cpp` at
-the same pin. Predicate/compiler and vocabulary trie/cache implementations remain
-transitional; `gufo_grammar.hpp` adapts tables/state/predicates/errors. No sibling
+the same pin. Typed predicate/container storage remains transitional; construction, schema
+policies, vocabulary masks and grammar composition use shared C17 contracts; `gufo_grammar.hpp` adapts tables/state/predicates/errors. No sibling
 code is imported by this extraction.
 The native Gufo conversation benchmark port has its own
 [pinned source and fixture provenance](gufo-bench-source.json).
@@ -39,11 +39,12 @@ no DS4 source, artifact, model or qualified evidence is modified or imported.
 | llhttp | 9.3.1 | MIT; HTTP/1 parser |
 | json-c | 0.19 | MIT; JSON serialization/parsing |
 | libcurl | 8.21.0 | curl license; native HTTP benchmark clients, monitor and upstream image helpers |
+| Ryu | 4c0618b0e44f7ef027ebae05d2cc7812048f7c8f | Bundled C binary64 conversion; BSL-1.0 selected, upstream dual notices/licenses retained in [ryu-NOTICE](ryu-NOTICE) |
 | Gufo | f783fedb9bea2ec7de941f6da4e02f4a4596b29e | MIT + upstream component notices; opt-in HIP-linked transitional Model/Session adapter; bounded original-weight smoke passed, numerical qualification open |
 | ROCm / HIP | 7.2.53211 compiler/runtime observed locally | AMD/upstream component licenses; hipBLAS, hipBLASLt, rocBLAS, hipCUB/rocPRIM; already installed |
 | ICU / OpenSSL / PNG / JPEG | selected installed development libraries, CMake/ELF receipts authoritative | their respective upstream licenses; tokenizer/crypto and coupled upstream helpers |
 
-libuv is bundled as described below. The other libraries are system dependencies.
+libuv and Ryu are bundled. The other production libraries are system dependencies.
 Build receipts record compiler/pkg-config versions. A distributable package will
 need its normal dependency-license audit; this increment installs/publishes none.
 CMake verifies the provider sources and archives. HTTP benchmark clients and
@@ -66,7 +67,8 @@ binds independent source composition and adapter header checks; original-weight
 qualification of the newly exposed filters remains pending.
 The optional `tests/sampling` cost/allocation project compares the pristine
 official sampler with generated LIE ON/OFF variants, without HIP or model
-forward. Its first-party C++20 QA probes link ICU and libm; allocation hooks
+forward. Its first-party C++20 QA probes link ICU and libm; the binary64 oracle
+also uses installed MPFR/GMP, without adding a production dependency. Allocation hooks
 belong only to separate untimed probes. Runtime dependency scope is unchanged.
 The new first-party C17 SSD codec/identity/store also uses installed OpenSSL
 Crypto SHA-256. No upstream snapshot codec or disk-cache code was imported;
@@ -104,7 +106,8 @@ adapter currently uses upstream headers/API; it does not copy/rewrite kernels.
 The [backend evolution contract](../docs/BACKEND.md) now permits an explicit
 embedded adapter for bootstrap, then requirement-driven refactoring toward an
 owned backend. Numerical ports need per-component provenance, retained notices
-and tests; none is implemented yet. Keep the pristine reference separate from
+and tests; current C support components do not complete model-forward
+ownership. Keep the pristine reference separate from
 instrumented/forked experiments and ports. First-party ownership of orchestration
 does not relicense numerical code or make embedded Model/Session a reimplementation.
 
