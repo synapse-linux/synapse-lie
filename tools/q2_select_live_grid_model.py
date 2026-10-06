@@ -55,7 +55,7 @@ def reuse_mmq(root):
     shutil.copyfile(archive, copied)
     if sha(copied) != sha(archive):
         raise ValueError('MMQ copy differs')
-    return copied, dict(reference=str(previous), sha256=sha(copied), changed=sorted(changed),
+    return copied, dict(reference=str(previous), archive=str(archive), sha256=sha(copied), changed=sorted(changed),
                         files_verified=len(actual), source_manifest_sha256=sha(root/MANIFEST),
                         controls_rebuilt_or_rerun=False)
 

@@ -435,5 +435,12 @@
         ]
       ]
     }
-  ]
+  ],
+  "copy_boundary_large_gaps": {
+    "count": 13,
+    "total_ns": 26864404,
+    "minimum_ns": 2006901,
+    "maximum_ns": 2224894,
+    "causal_attribution": false
+  }
 }

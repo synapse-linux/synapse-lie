@@ -127,6 +127,20 @@ Moving sampling to the GPU would require qualification of sampler semantics,
 logprob reporting and state, and would not itself be a reactive scheduling win.
 No present evidence supports promising a C1 percentage at128K from these gaps.
 
+The native server's C scheduler already selects ready rows in `inference.c`
+and calls `lie_sequences_decode`; the adapter reaches `Session::DecodeBatch`
+and `Executor::ForwardBatch` for multiple active requests. This is a real model
+batch path, not merely HTTP callbacks, but this track's C1 runs do not measure
+its scaling. Plain greedy sampling already uses a linear scan in
+`SamplerState::SampleGreedy`; the generic sorted-distribution path is not an
+unnecessary sort to remove from this greedy benchmark.
+
+Prioritize a current critical-path measurement separating PLE wait, sampling,
+copy and graph service before changing decode synchronization. The historical
+profile's dense Q8 traffic remains the largest kernel target, but the measured
+four-row experiment does not improve it. Batching can amortize weight reads
+across independent requests; its benefit must be reported separately from C1.
+
 ## Prefill priority
 
 At the saved 128K point, the complete input is 130925 physical tokens: 63 full

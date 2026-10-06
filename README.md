@@ -2,10 +2,10 @@
 
 The owner now prioritizes [prefill and decode through 128K](docs/Q2-DECODE-128K.md).
 The [bounded prefill selector grid](docs/Q2-SELECT-LIVE-GRID.md) passes62 exact
-score/mask pairs and62 independent checks, with promising but variable component
-timings. Its private model integration preserves all164 device bodies; a native
-full-prefill trial retains the original request sequence through32K. No model
-gain or additional reactive decode gain is claimed yet.
+score/mask pairs and62 independent checks, but the original native full-prefill
+trial shows no retained model gain: roughly−0.6% to+1.1% through16K and−10.7%
+at32K with different observed GPU clocks. All nine replies match. The previous
+provider remains the reference; no additional reactive decode gain is claimed.
 The [last HC-down attempt](docs/Q2-HC-DOWN-DIRECT-WEIGHT.md) completed slower,
 and the fixed-point parity objective is paused. Saved inputs, controls and benchmark boundaries
 remain unchanged. The [SSM resident component](docs/Q2-SSM-RESIDENT.md) is

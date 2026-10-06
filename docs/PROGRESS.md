@@ -1,5 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Live-grid model completed without a retained gain — 2026-10-06 UTC
+
+Original native full-prefix history through32K completes, all nine streamed
+replies/usage exact. PP changes−0.377%,−0.581%,+0.143%,+1.125%,−0.149%,−10.731%
+for4K, both8K attempts,12K,16K,32K. The32K point is1251.774 versus1402.246 tok/s;
+sampled GPU clocks differ. No causal attribution or corrected rate is invented.
+Do not promote or expand this candidate to128K. [Full table](Q2-SELECT-LIVE-GRID.md).
+
+All six commands exit0; launcher exit1 is a missing `archive` field in its
+postflight receipt. Preserve the failure. Read-only supplemental hashes verify
+12 collected artifacts plus unchanged archives/binaries/model stats; no model
+rerun. Release1d62a3a5 at22:15:00 precedes analysis. The receipt fix/regression
+passes fresh .157 Debug39/ASan39; seven host artifacts collect and all its
+processes/groups retire22:20:25. No GPU window remains. Decode/reactive notes
+now distinguish existing real model batching, PLE overlap and CPU token work.
+
 ## Bounded selector grid reaches private model qualification — 2026-10-06 UTC
 
 The component passes62 exact score/mask pairs and62 independent checks.

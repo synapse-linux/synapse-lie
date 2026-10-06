@@ -21,6 +21,45 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_live_grid_reuse_receipt_supports_existing_postflight(self):
+        import q2_select_live_grid_model as grid
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)/'candidate'
+            prior = Path(temporary)/'retained'
+            (root/'config').mkdir(parents=True)
+            (prior/'results').mkdir(parents=True)
+            files = {}
+            for name in ('executor.cpp', 'kernels.hpp', 'kernels.hip.cpp'):
+                relative = 'src/models/qwen38_flash_next/kernels/rocm/'+name
+                target = prior/'source'/relative
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(b'retained source')
+                files[relative] = grid.sha(target)
+            binary = prior/'build/hip/cmake/hip/q2_model'
+            binary.parent.mkdir(parents=True)
+            binary.write_bytes(b'qualified binary')
+            archive = binary.parent/'qwen/libgufo_qwen38_flash_next_mmq.a'
+            archive.parent.mkdir()
+            archive.write_bytes(b'qualified archive')
+            receipt = prior/'results/result.json'
+            receipt.write_text(json.dumps(dict(finished_at='closed', commands=[dict(exit_code=0)],
+                                               binary_sha256_after=grid.sha(binary))))
+            (root/'config/q2-curve128-binaries.json').write_text(json.dumps(dict(
+                numerical_qualification=dict(label='retained',receipt_sha256=grid.sha(receipt)))))
+            (root/'config/parent.json').write_text(json.dumps(dict(variants={
+                'iq2-fixed-bounds': dict(files=files)})))
+            (root/grid.MANIFEST).write_bytes(b'bound candidate manifest')
+            provider = dict(parent_manifest='config/parent.json', files={n:'changed' for n in files})
+            with patch.object(grid,'verify_provider',return_value=provider):
+                copy, reuse = grid.reuse_mmq(root)
+            # The existing runner postflight reads both paths and hashes them.
+            # This catches a completed model being marked failed by a missing
+            # receipt field without running or rebuilding the model itself.
+            self.assertEqual(Path(reuse['archive']), archive)
+            for target in (Path(reuse['archive']), copy):
+                self.assertEqual(grid.sha(target), reuse['sha256'])
+            self.assertEqual(archive.read_bytes(), b'qualified archive')
+
     def test_live_grid_replays_original_prefix_history_through32k(self):
         from q2_select_live_grid_model import inputs, client_argv
         from q2_full_prefill128 import inputs as original_inputs

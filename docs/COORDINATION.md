@@ -1,5 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Live-grid model closure — 2026-10-06 UTC: admission5f733e89 at22:10:33.221435,
+checkpoint560b2e36/plan55bf5bcb. Six model commands0; launcher exits1 in its
+postflight because the new MMQ receipt lacks `archive`. Original receipts are
+preserved. Collection downloads all12 artifacts; separate read-only postflight
+22:14:45 binds every artifact and unchanged original/copied archives, binaries
+and model stats. No inference repeats to repair the receipt. Release
+22:15:00.076488UTC /1d62a3a5f1535ae9fa317923b41c096507e25a0da0af49da27d933cca3a2e559
+retires1782 identities/1423 groups, empty KFD and original CPU/four GPU leases
+free; all seven model stat tuples unchanged. Mirrors match; Core notified
+before analysis. No remaining job/client/build/window/waiter/reservation/handle.
+
+Only a host regression gate follows the receipt fix: preflight22:18:08 confirms
+1d62a3a5; host-r2 ends22:19:02 with39 Debug/39 ASan checks/six zero exits and
+seven artifacts collected. Additional seven identities/six groups are absent
+at22:20:25, with the same free original leases/models and empty KFD. This host
+check does not admit another GPU window. No .158/.161/TB activity or cleanup.
+
 Selector live-grid closure — 2026-10-06 UTC: checkpoint7609a4a3, plan5011e904,
 HOST39+39 pass, admissionff730f0b at21:54:37.789176. Component0/0/0 completes
 21:55:18.346225; four artifacts collect before21:56:42.312392 release

@@ -74,5 +74,51 @@ MMQ archive after binding its complete source and qualification. It replays
 the original first nine full-prefill requests through32K, preserving the
 preparation sequence and both8K attempts. Capacity133760, chunks2048, original
 final tails, C1, zero prefix hits and eight-token replies are unchanged.
-Only the new candidate is built/run. HOST39+39 passes on .157; frozen plan
-55bf5bcb still requires a committed checkpoint and fresh GPU admission.
+Only the new candidate is built/run. HOST39+39 passes on .157; plan55bf5bcb
+is admitted under checkpoint560b2e36 at22:10:33.221435UTC /5f733e89.
+
+## Completed model: no retained improvement
+
+All nine original requests complete; streamed token pieces, replies, usage and
+finish reasons match the saved retained provider. Every full prefix has zero
+cached tokens and its original2048 chunks and final tail. One observation per
+prefix is compared with the saved observation, without a new median or rerunning
+controls. Both original8K calibration attempts remain visible.
+
+| Depth / attempt | Retained PP tok/s | Candidate PP tok/s | PP change | Retained TG tok/s | Candidate TG tok/s |
+|---|---:|---:|---:|---:|---:|
+| 4K / 0 | 1512.809 | 1507.102 | −0.377% | 26.471 | 26.413 |
+| 8K / 0 | 1511.203 | 1502.426 | −0.581% | 26.390 | 26.436 |
+| 8K / 1 | 1476.051 | 1478.160 | +0.143% | 26.268 | 26.230 |
+| 12K / 0 | 1445.125 | 1461.379 | +1.125% | 26.329 | 26.321 |
+| 16K / 0 | 1435.354 | 1433.211 | −0.149% | 26.334 | 26.404 |
+| 32K / 0 | 1402.246 | 1251.774 | −10.731% | 26.234 | 25.951 |
+
+[Full precision and original timings](../config/q2-select-live-grid-model-results.json).
+TG here covers the original eight decode calls, not TG128. No decode dispatch
+or reactive scheduling changed. The component improvement does not establish
+a whole-model benefit; retain the previous provider and do not expand this
+candidate to64K/128K while its32K result remains unresolved. Preserve the
+candidate and the small12K observation, without promoting it.
+
+The [sampled telemetry](../config/q2-select-live-grid-model-thermal.json) also
+differs: the approximate32K interval observes GPU clocks1997–2629MHz versus
+2541–2682MHz in the saved run. CPU temperatures are lower in the candidate.
+The intervals use a session/wall anchor with one-second padding and two-second
+sampling. This does not isolate the cause of the32K regression, establish
+throttling, or justify correcting/normalizing the measured rates. A future
+diagnostic would reuse this candidate binary and preserve the workload.
+
+The six model commands exit0. The launcher exits1 afterward because its new
+MMQ receipt omitted the `archive` path required by existing postflight code.
+The original failure/result is preserved. A separate read-only
+[supplemental verification](../config/q2-select-live-grid-model-supplemental.json)
+binds all12 collected artifacts and confirms the original/copied MMQ archive,
+server/client binaries and model stat identity. The model is not rerun to
+repair bookkeeping. Collection precedes22:15:00.076488UTC release1d62a3a5;
+1782 process identities/1423 groups are retired, KFD empty and leases unchanged.
+
+The receipt is corrected for future launches. A regression test exercises the
+existing postflight's archive-path/hash contract with private files. Fresh
+.157 HOST39+39 passes, seven artifacts collect, and its seven additional
+process identities/six groups are confirmed retired at22:20:25.329174UTC.
