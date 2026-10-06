@@ -1,5 +1,30 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## HC reuse component measured and released — 2026-10-06 UTC
+
+The owner's retry completes the bounded no-model HC window. Actual GPU
+configure/build/run exits[0,0,1] are a safe exactness rejection:140/200 output
+records exact,60 injection differences; all guards/written/finite checks safe.
+All124 artifacts and differing full arrays collect before release. Maximum
+absolute error4.768e−7/relativeL2 1.012e−7, with original raw-injection ISA
+starting its product chain y,x while the private draft uses x,y. No full-model
+harmlessness, tolerance change or quality acceptance is inferred.
+
+Two warm/five measured alternating complete cycles retain all42 samples.
+Raw/raw-Q8/deferred wall time changes+0.224988%/−0.211436%/+0.602352%; preserve
+the marginal Q8 result without a robust speedup or model t/s claim. All HIP
+elapsed samples are zero/invalid. Current host35+35 and130 frozen fixtures pass.
+The plotting KeyError is preserved; corrected plotting reuses only the exact
+already emitted CSV and exports every sample. No GPU rerun follows that fix.
+
+Release06:15:12.481241UTC/dcb9d12a retires1377 identities/1102 groups, empty
+KFD, four unchanged free GPU leases/Core CPU lease and seven unchanged model
+stat tuples. Mirrors agree and Core receives release before analysis. No
+job/build/window/lease/waiter/reservation/restart/cleanup remains. Keep model
+1585.308983 PP/25.16079073 TG, fixed UD1685.777092 and76.991736ms remaining
+PP gap. Next qualify four-owner RMS; borrowed injection scratch stays unadopted.
+[Complete values, numerical findings, graph and scope](Q2-HC-INJECTION-REUSE-RESULTS.md).
+
 ## HC host qualification after reconnection — 2026-10-06 UTC
 
 The owner's retry reaches `.157`06:06:12UTC. Fresh original Core identities,

@@ -1,4 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
+
+Qualification update 2026-10-06: the private draft completes42 component cases
+on `.157`; all guards are safe,140/200 outputs exact and60 injection outputs
+differ by at most4.768e−7 absolute. Original retained ISA orders the first two
+products y,x, whereas the explicit draft uses x,y. Complete-cycle wall medians
+show+0.225%/−0.211%/+0.602% time for raw/raw-Q8/deferred; all HIP timings are
+invalid zero. This is component evidence, not production adoption, full-model
+harmlessness or borrowed-scratch qualification. All1027 retained parent files
+remain unchanged. [Full results](../../docs/Q2-HC-INJECTION-REUSE-RESULTS.md).
 # HC injection input-reuse compiler probes
 
 The [v3 draft](../../config/q2-hc-inject-reuse-draft-v3.json) adds a LIE-owned

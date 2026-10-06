@@ -1,12 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-`.157` reconnects06:06UTC. Fresh Core retirement/original CPU lease/registry/KFD
-checks pass; current HC host35/35 Debug and35/35 ASan/UBSan checks complete
-06:11:42UTC. Preserve the earlier launcher-whitelist failure and its full
-collection; the corrected component pair remains model-ineligible. The
-component-only plan now binds130 tested fixtures/1027 unchanged provider files
-and retirement of both prior CPU cohorts. GPU admission/run remains pending;
-fixed1585.308983 versus1685.777092 PP and the77ms gap remain unchanged.
+The [HC reuse component](docs/Q2-HC-INJECTION-REUSE-RESULTS.md) completes on `.157`:
+raw/raw-Q8/deferred complete-cycle wall changes+0.225%/−0.211%/+0.602% time.
+Preserve the marginal Q8 observation; no robust improvement or model rate is
+established. All200 output records are safe;140 exact,60 injection differences
+with maximum absolute error4.768e−7. Original ISA product order differs from
+the private draft. Actual exits[0,0,1] retain all timings and124 collected
+artifacts; all42 HIP durations are invalid zero. Host35+35 passes. Release
+06:15:12UTC/dcb9d12a retires1377 identities/1102 groups, empty KFD and unchanged
+free original leases/model stats; Core is informed. Keep1585.308983 PP
+/25.16079073 TG against fixed UD1685.777092 PP; the76.991736ms gap remains.
+Next qualify four-owner RMS. Earlier pending/blocker entries below are historical.
 
 The [Q2 network blocked audit](docs/Q2-NETWORK-BLOCKED.md) revalidates SSH255
 before connection at05:32:30UTC across three consecutive goal turns. The next

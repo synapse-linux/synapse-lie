@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Latest Q2 `.157` release **2026-10-06T06:15:12.481241UTC**, SHA
+`dcb9d12ad196f37fe25b3c8a392735823f028bca953059f2148f0068b708e63e`.
+HC host35+35/component-only work terminates and collects124 component artifacts
+before release. GPU command exits[0,0,1] retain a safe numerical rejection and
+all timings. All1377 historical/current identities and1102 groups retire,
+KFD is empty, original four GPU leases/Core CPU lease are unchanged/free and
+seven model stat tuples unchanged. Canonical/main/remote mirrors agree; Core
+receives closure before analysis. No owned job/build/lease/window/waiter/
+reservation/restart or remote cleanup remains. The component plan has no model
+arm; further GPU work needs a fresh scoped admission from dcb9d12a.
+[Results and exact scope](Q2-HC-INJECTION-REUSE-RESULTS.md),
+[release](../config/q2-hc-inject-reuse-window-release.json).
+
 Reconnection06:06:12UTC: original Core CPU lease/identities/groups and empty
 KFD/previous release registry revalidate. Core fresh own non-use06:07/06:08UTC.
 New HC CPU r1 failure and r2/r3 checks terminate and collect independently;
