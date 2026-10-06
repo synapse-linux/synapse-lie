@@ -1,6 +1,35 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## SSD text reconstruction passes selected original-weight cases — 2026-10-06 UTC
+
+On `.161`, distinct cold/hot core processes recover the exact saved physical
+history from identical visible text: 2,048 tokens in AR and 2,064 in MTP,
+versus 256/272 tokens from fresh BPE. Both hot requests have zero prefill and
+32 output IDs identical to their cold counterparts. MTP drafts 28 and accepts
+21 in each process. The [receipt](development/validation/ssd-text-restart-point-gpu-2026-10-06.json)
+binds the unchanged qualified `20777005` runtime, all raw exits and the
+[portable report](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#ssd-text-reconstruction-across-processes).
+
+AR passes with exit 0. Two earlier MTP attempts retain their missing-predictor
+mount failure and refusal of a plain repeated-character case with no accepted
+draft. All four processes in the final MTP case exit 0, but its wrapper exits 1:
+the test expected the early 2,048-token checkpoint instead of the full 2,064-token
+prompt already captured before decode. Corrected strict offline validation
+passes; raw failures remain unchanged and no GPU replay occurs. Twelve parser
+and 59 campaign host tests pass. Product dependencies, runtime/ABI/format and
+inference thread count are unchanged.
+
+All four windows are retired and collected. Fresh 03:26:37 UTC closure verifies
+the original lease free then released, HTTP8000 unbound and router 97498 active
+as the only KFD owner. Selected AR/MTP CPU peaks are 63.875/65.125 C; the earlier
+rejected MTP case peaks at 70.75 C. Whole-process thread maxima are 44, including
+runtime helpers. CPU98/NVMe85/lower guards remain active. Root has no standing
+job, client, build, lease, waiter or reservation and retains `.157` non-use.
+Scheduled physical-index steering, broader quality/fault/probability and matched
+cost gates remain open. All six owned tasks remain open; Terminal Bench stays
+stopped and deferred until modifications and matching qualification finish.
+
 ## Matching composition/codec GPU controls pass — 2026-10-06 UTC
 
 The sealed `20777005` source builds on `.161` in the pinned ROCm 10 image,

@@ -220,11 +220,18 @@ client/server restart or machine reservation is queued in the meantime.
    AR37/MTP37 controls on `.161`
    ([GPU receipt](development/validation/c17-schema-policy-point-gpu-2026-10-06.json)).
    Individual numeric/format branches and independent probability/fault/private
-   resource/matched cost gates remain open; this is no new SSD BPE qualification.
-   The dedicated SSD text restart gate is now prepared with ten host rejection
-   checks ([receipt](development/validation/ssd-text-restart-host-2026-10-06.json)).
-   It separates calibration, fresh BPE, cold saved physical history and a new
-   process restoring that history from text; original-weight qualification is pending.
+   resource/matched cost gates remain open.
+   The dedicated SSD text restart gate now qualifies selected original-weight
+   AR/MTP cases on the unchanged `20777005` runtime
+   ([receipt](development/validation/ssd-text-restart-point-gpu-2026-10-06.json)).
+   New processes restore 2,048/2,064 exact physical tokens from text, with zero
+   prefill and matching 32-token outputs; MTP accepts 21 drafts in each process.
+   Twelve parser and 59 campaign host tests pass. The raw MTP wrapper exit 1
+   remains retained: corrected offline validation requires the full persisted
+   prompt instead of the early checkpoint. Original-weight scheduled physical-index
+   steering remains open. The earlier ten-test
+   [host receipt](development/validation/ssd-text-restart-host-2026-10-06.json)
+   retains its original host-only scope.
    [Release/cache host checks](development/validation/release-cache-host-2026-10-05.json)
    pass 79/79/35 with 20 unchanged complete witnesses. The device-free r17 provider
    builds but its application fails a strict optimized C warning; the collected

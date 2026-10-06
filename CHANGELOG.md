@@ -316,6 +316,10 @@ stable release is declared. Detailed validation history is in
 - SSD text-prefix restoration when a saved spelling uses more tokens than a
   fresh tokenization. Rebuild the saved history before checking its physical
   frontier, while preserving scheduled steering boundaries and cache scopes.
+  Selected original-weight AR/MTP restart cases now restore the exact complete
+  prompt with zero prefill and matching outputs
+  ([qualification](docs/development/validation/ssd-text-restart-point-gpu-2026-10-06.json));
+  original-weight scheduled-index steering remains a separate gate.
 
 - Optimized C17 schema-body compilation with strict warnings. Release test
   executables now retain their assertion checks; production flags are unchanged.

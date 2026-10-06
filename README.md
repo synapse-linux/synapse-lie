@@ -76,6 +76,8 @@ the functional modifications are finished.
 - Shared RAM KV cache, enabled by default with a 4 GiB retention budget.
   Optional KV checkpoint persistence uses `--kv-disk-dir` and explicit budgets.
   Text-prefix reuse preserves saved token boundaries in both RAM and SSD.
+  [SSD text-restart checks](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#ssd-text-reconstruction-across-processes)
+  cover original-weight AR/MTP histories longer than fresh tokenization.
 - `synapse-lie-bench` for prefill, generation, context-depth and concurrency
   measurements, including separate prefill/decode durations, with CSV, JSON,
   SVG and PNG exports, reproducible shared-core sampling controls and optional

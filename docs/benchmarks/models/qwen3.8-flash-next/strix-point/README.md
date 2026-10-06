@@ -557,6 +557,42 @@ done
 This qualifies normal cross-process persistence on `.161`. Abrupt process
 failure, host reboot and SSD eviction remain separate tests.
 
+### SSD text reconstruction across processes
+
+This functional check uses the unchanged qualified `20777005` runtime. Four
+independent core processes calibrate a token, measure fresh BPE, persist a
+longer physical history, then restore it from identical visible text. RAM
+retention is zero; SSD quota/staging are 4 GiB/512 MiB. Context is 4,096, chunk
+256, C1, greedy sampling, EOS ignored, one repetition and no warmup.
+
+| Mode | Fresh BPE tokens | Saved physical tokens | Hot SSD tokens | Hot prefill tokens | Matching output IDs | MTP drafted/accepted, cold and hot |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| AR | 256 | 2,048 | 2,048 | 0 | 32 | 0 / 0 |
+| MTP | 272 | 2,064 | 2,064 | 0 | 32 | 28 / 21 |
+
+MTP adds a separately tokenized 16-token question after the repeated-character
+prefix. The core captures the full prompt before decode as well as the early
+2,048-token checkpoint; finish capture is disabled. All four native processes
+exit 0 in each selected case. AR's wrapper exits 0. MTP's original wrapper exits
+1 because its expectation omitted the full-prompt checkpoint; corrected strict
+offline validation passes without replay. The
+[receipt](../../../../development/validation/ssd-text-restart-point-gpu-2026-10-06.json)
+preserves that exit and the earlier mount/zero-accepted-draft refusals.
+This qualifies exact reconstruction, not matched performance, scheduled steering
+or general output quality.
+
+The [raw archive](data/rocm10-ssd-text-restart-r21.tar.gz) contains JSONL, telemetry,
+actual exits and both original/corrected QA sources, with no model or KV payload.
+To inspect the records without starting inference:
+
+```sh
+sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+mkdir -p run/point-ssd-text-r21
+tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-ssd-text-restart-r21.tar.gz \
+  -C run/point-ssd-text-r21
+cat run/point-ssd-text-r21/context-r21-mtp-r3-offline-validation-r1.json
+```
+
 ### Direct reactive core and Q8 vision gates
 
 The sealed `gfx1150` r4 and r5 builds use the same pinned ROCm 10 image,

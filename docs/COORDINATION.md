@@ -1,5 +1,26 @@
 # DS4 / synapse-lie coordination
 
+## R21 SSD text-restart windows retired — 2026-10-06
+
+Separate fresh admissions and the original lease device 66307 / inode 105946405
+cover four `.161` windows on the unchanged qualified r20 bundle (`20777005`).
+Actual supervisor exits are AR 0, MTP 1/1/1. The earlier MTP attempts retain a
+missing predictor mount and a zero-accepted-draft test refusal. All four core
+processes in the final MTP case exit 0; corrected offline validation qualifies
+the full saved prompt while preserving its raw wrapper exit 1. No GPU replay,
+new remote build, tuning, installation or deployment occurs.
+
+All run artifacts and actual tool handles are collected. Fresh
+2026-10-06T03:26:37.886440+00:00 closure verifies all four exact supervisor/container
+identities retired, original lease free then released, HTTP8000 unbound and
+router 97498 active/only KFD, with no foreign client or hot guard.
+[Receipt](development/validation/ssd-text-restart-point-gpu-2026-10-06.json).
+CPU98/NVMe85/lower guards remain active; GPU temperature is observed only.
+Root has no job/client/build/lease/waiter/reservation and retains `.157` non-use.
+Scheduled physical-index steering and broader quality/fault/cost gates remain
+open. Terminal Bench remains stopped and deferred until functional modifications
+and qualification finish.
+
 ## R20 matching composition/codec build and AR/MTP closed — 2026-10-06
 
 Fresh Point/DGX own non-use and 02:10:06 UTC global observation admit only the
