@@ -113,12 +113,14 @@ client/server restart or machine reservation is queued in the meantime.
    Eighteen host gate and 60 campaign checks pass. The sparse nonzero fixture
    qualifies this regression; learned-direction quality, independent graph/
    correction/fault, vision and matched cost remain open.
-   The separate `modern-core-steering-admission` profile is host-prepared
-   ([receipt](development/validation/steering-admission-draft-host-2026-10-06.json)):
-   sixteen refusal/equivalence checks and 61 campaign checks pass. MTP requires
-   actual drafting, with zero acceptance valid and no accepted-burst claim. Real-model
-   absent/zero/fresh-core recovery equality and twelve expected loader refusals
-   still require fresh GPU qualification; host JSON/byte fixtures are not inference.
+   Separate `modern-core-steering-admission` windows now qualify original-model
+   malformed-bank refusals and absent/zero/fresh-core recovery equality in AR/MTP
+   ([receipt](development/validation/steering-admission-point-gpu-2026-10-06.json)).
+   All 272 input/32 output IDs match. Each mode retains three native successes
+   with exit 0 and twelve expected loader refusals with exit 1. MTP drafts six
+   and accepts zero; this is no accepted-burst qualification. The original QA
+   rejection is preserved. Sixteen host/61 campaign checks pass; broader quality,
+   independent graph/correction/GPU faults, vision and cost remain open.
    DS4's `--dir-steering-file`, `--dir-steering-ffn` and
    `--dir-steering-attn` now select fixed initial model-wide scales through the
    same core used by server and bench.

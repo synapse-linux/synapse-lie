@@ -1,5 +1,24 @@
 # DS4 / synapse-lie coordination
 
+## R23 bank admission windows retired — 2026-10-06
+
+Fresh peer own non-use and separate 04:21:38 / 04:26:07 / 04:30:44 UTC global
+observations admit AR r1, MTP r1 and corrected MTP r2 on unchanged bundle r20
+(`20777005`). Actual supervisor/child exits are 0, 1, 0. MTP r1 completes its
+native process with exit 0 but QA rejects zero accepted drafts; raw failure is
+collected unchanged. Successful AR/MTP windows each retain three native exits 0
+and twelve expected admission refusal exits 1. They use QA `05cf8874` / `6ea348af`
+and collect 46 files each; the rejected MTP window collects 18.
+
+Fresh 2026-10-06T04:33:39.072280+00:00 closure verifies all exact supervisor
+identities retired, their owned containers removed, HTTP8000 unbound, the original
+lease device 66307 / inode 105946405 free then released, and router 107144 active
+as the only KFD client. Unrecorded init identities are explicitly unknown.
+[Receipt](development/validation/steering-admission-point-gpu-2026-10-06.json).
+CPU98/NVMe85/lower guards and GPU observation remain active. No GPU rebuild,
+tuning/install/deployment/heavy model hash or `.157` activity occurs. Root has no
+job/client/build/lease/waiter/reservation. Terminal Bench stays stopped/deferred.
+
 ## R22 scheduled steering AR/MTP actually closed — 2026-10-06
 
 Fresh Point/DGX own non-use and separate 03:45:35 / 03:54:25 UTC global preflights

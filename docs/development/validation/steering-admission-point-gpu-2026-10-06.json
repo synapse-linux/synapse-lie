@@ -1,0 +1,1804 @@
+{
+  "schema": "synapse-lie.steering-admission-point-gpu.v1",
+  "state": "SELECTED_STEERING_ADMISSION_CASES_QUALIFIED_WITH_RETAINED_QA_FAILURE",
+  "at_utc": "2026-10-06T04:33:53.997714+00:00",
+  "runtime_source_commit": "2077700583a7a129d17b36dbf7aa2ffbbdd7c994",
+  "qa_source_commit": "6ea348af322a6a228087ddf208ef19d9a1b694ca",
+  "scope": "Original-model loader refusal before readiness and numerical work; original-weight absent/zero/fresh-core recovery equivalence in separate AR/MTP windows. Not learned-vector quality, same-core reconfiguration, arbitrary GPU faults, independent graph/correction oracles, vision or matched performance.",
+  "bank": {
+    "architecture": "qwen4exp",
+    "layers": 48,
+    "width": 2560,
+    "bytes": 491520,
+    "sha256": "0a443471964795be46cca4f39501a12633c5b769c312148dec56eb99b72fffd9",
+    "nonzero_values": 48
+  },
+  "windows": {
+    "ar": {
+      "label": "context-r23-steering-ar-r1",
+      "qa_source_commit": "05cf887470b4e31fa825c3e667af53eb9d5e2564",
+      "supervisor_pid": 102349,
+      "supervisor_start_ticks": 12946410,
+      "supervisor_exit_code": 0,
+      "child_exit_code": 0,
+      "started_at": "2026-10-06T04:21:47.736739+00:00",
+      "ended_at": "2026-10-06T04:23:32.959278+00:00",
+      "lease_released_at": "2026-10-06T04:23:32.959261+00:00",
+      "native_exits": [
+        {
+          "phase": "absent",
+          "actual_exit_code": 0
+        },
+        {
+          "phase": "zero",
+          "actual_exit_code": 0
+        },
+        {
+          "phase": "empty",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "truncated",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "oversized",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "nan-first",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "nan-last",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "snan-middle",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "positive-infinity",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "negative-infinity",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "directory",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "symlink",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "fifo",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "missing",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "recovery",
+          "actual_exit_code": 0
+        }
+      ],
+      "peaks_C": {
+        "k10temp": 56.625,
+        "amdgpu": 58.0,
+        "nvme": 69.85
+      },
+      "whole_process_threads_max": 44,
+      "positive_jobs": {
+        "absent": {
+          "event": "job",
+          "rep": 0,
+          "warmup": 0,
+          "user": 0,
+          "prompt_tokens": 272,
+          "output_tokens": 32,
+          "output_bytes": 327,
+          "prefill_tokens": 272,
+          "prefill_ns": 1017595605,
+          "decode_ns": 3015592631,
+          "cached_tokens": 0,
+          "cache_capture_ns": 0,
+          "cache_restore_ns": 0,
+          "ssd_cached_tokens": 0,
+          "ssd_read_ns": 0,
+          "max_decode_output_tokens": 1,
+          "mtp_drafted_tokens": 0,
+          "mtp_accepted_tokens": 0,
+          "prefill_calls": 2,
+          "decode_calls": 32,
+          "total_ns": 4052958764,
+          "first_token_ns": 1136772577,
+          "finish": "length",
+          "output_ids": [
+            248045,
+            846,
+            271,
+            248068,
+            271,
+            248069,
+            271,
+            19,
+            248044,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045
+          ]
+        },
+        "zero": {
+          "event": "job",
+          "rep": 0,
+          "warmup": 0,
+          "user": 0,
+          "prompt_tokens": 272,
+          "output_tokens": 32,
+          "output_bytes": 327,
+          "prefill_tokens": 272,
+          "prefill_ns": 1016392879,
+          "decode_ns": 3011258886,
+          "cached_tokens": 0,
+          "cache_capture_ns": 0,
+          "cache_restore_ns": 0,
+          "ssd_cached_tokens": 0,
+          "ssd_read_ns": 0,
+          "max_decode_output_tokens": 1,
+          "mtp_drafted_tokens": 0,
+          "mtp_accepted_tokens": 0,
+          "prefill_calls": 2,
+          "decode_calls": 32,
+          "total_ns": 4046345013,
+          "first_token_ns": 1135151159,
+          "finish": "length",
+          "output_ids": [
+            248045,
+            846,
+            271,
+            248068,
+            271,
+            248069,
+            271,
+            19,
+            248044,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045
+          ]
+        },
+        "recovery": {
+          "event": "job",
+          "rep": 0,
+          "warmup": 0,
+          "user": 0,
+          "prompt_tokens": 272,
+          "output_tokens": 32,
+          "output_bytes": 327,
+          "prefill_tokens": 272,
+          "prefill_ns": 1016579028,
+          "decode_ns": 3015559866,
+          "cached_tokens": 0,
+          "cache_capture_ns": 0,
+          "cache_restore_ns": 0,
+          "ssd_cached_tokens": 0,
+          "ssd_read_ns": 0,
+          "max_decode_output_tokens": 1,
+          "mtp_drafted_tokens": 0,
+          "mtp_accepted_tokens": 0,
+          "prefill_calls": 2,
+          "decode_calls": 32,
+          "total_ns": 4051833644,
+          "first_token_ns": 1135903126,
+          "finish": "length",
+          "output_ids": [
+            248045,
+            846,
+            271,
+            248068,
+            271,
+            248069,
+            271,
+            19,
+            248044,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045
+          ]
+        }
+      },
+      "refusals": [
+        {
+          "case": "empty",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: steering file does not match model geometry",
+          "core_ready": false,
+          "numerical_job": false
+        },
+        {
+          "case": "truncated",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: steering file does not match model geometry",
+          "core_ready": false,
+          "numerical_job": false
+        },
+        {
+          "case": "oversized",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: steering file does not match model geometry",
+          "core_ready": false,
+          "numerical_job": false
+        },
+        {
+          "case": "nan-first",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: nonfinite steering direction",
+          "core_ready": false,
+          "numerical_job": false
+        },
+        {
+          "case": "nan-last",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: nonfinite steering direction",
+          "core_ready": false,
+          "numerical_job": false
+        },
+        {
+          "case": "snan-middle",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: nonfinite steering direction",
+          "core_ready": false,
+          "numerical_job": false
+        },
+        {
+          "case": "positive-infinity",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: nonfinite steering direction",
+          "core_ready": false,
+          "numerical_job": false
+        },
+        {
+          "case": "negative-infinity",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: nonfinite steering direction",
+          "core_ready": false,
+          "numerical_job": false
+        },
+        {
+          "case": "directory",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: steering file does not match model geometry",
+          "core_ready": false,
+          "numerical_job": false
+        },
+        {
+          "case": "symlink",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: cannot open steering bank",
+          "core_ready": false,
+          "numerical_job": false
+        },
+        {
+          "case": "fifo",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: steering file does not match model geometry",
+          "core_ready": false,
+          "numerical_job": false
+        },
+        {
+          "case": "missing",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: cannot open steering bank",
+          "core_ready": false,
+          "numerical_job": false
+        }
+      ],
+      "comparison": {
+        "physical_input_ids_equal": true,
+        "output_ids_equal": true,
+        "prompt_tokens": 272,
+        "output_tokens": 32,
+        "expected_refusals": 12,
+        "fresh_core_after_refusals": true
+      },
+      "remote_files_collected": 46,
+      "model_stat_unchanged": true
+    },
+    "mtp": {
+      "label": "context-r23-steering-mtp-r2",
+      "qa_source_commit": "6ea348af322a6a228087ddf208ef19d9a1b694ca",
+      "supervisor_pid": 106013,
+      "supervisor_start_ticks": 13000321,
+      "supervisor_exit_code": 0,
+      "child_exit_code": 0,
+      "started_at": "2026-10-06T04:30:46.847628+00:00",
+      "ended_at": "2026-10-06T04:32:38.244236+00:00",
+      "lease_released_at": "2026-10-06T04:32:38.244221+00:00",
+      "native_exits": [
+        {
+          "phase": "absent",
+          "actual_exit_code": 0
+        },
+        {
+          "phase": "zero",
+          "actual_exit_code": 0
+        },
+        {
+          "phase": "empty",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "truncated",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "oversized",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "nan-first",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "nan-last",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "snan-middle",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "positive-infinity",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "negative-infinity",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "directory",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "symlink",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "fifo",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "missing",
+          "actual_exit_code": 1
+        },
+        {
+          "phase": "recovery",
+          "actual_exit_code": 0
+        }
+      ],
+      "peaks_C": {
+        "k10temp": 57.875,
+        "amdgpu": 62.0,
+        "nvme": 70.85
+      },
+      "whole_process_threads_max": 44,
+      "positive_jobs": {
+        "absent": {
+          "event": "job",
+          "rep": 0,
+          "warmup": 0,
+          "user": 0,
+          "prompt_tokens": 272,
+          "output_tokens": 32,
+          "output_bytes": 327,
+          "prefill_tokens": 272,
+          "prefill_ns": 1119436836,
+          "decode_ns": 3302155737,
+          "cached_tokens": 0,
+          "cache_capture_ns": 0,
+          "cache_restore_ns": 0,
+          "ssd_cached_tokens": 0,
+          "ssd_read_ns": 0,
+          "max_decode_output_tokens": 8,
+          "mtp_drafted_tokens": 6,
+          "mtp_accepted_tokens": 0,
+          "prefill_calls": 2,
+          "decode_calls": 32,
+          "total_ns": 4456908993,
+          "first_token_ns": 1330551083,
+          "finish": "length",
+          "output_ids": [
+            248045,
+            846,
+            271,
+            248068,
+            271,
+            248069,
+            271,
+            19,
+            248044,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045
+          ]
+        },
+        "zero": {
+          "event": "job",
+          "rep": 0,
+          "warmup": 0,
+          "user": 0,
+          "prompt_tokens": 272,
+          "output_tokens": 32,
+          "output_bytes": 327,
+          "prefill_tokens": 272,
+          "prefill_ns": 1063067724,
+          "decode_ns": 3389572122,
+          "cached_tokens": 0,
+          "cache_capture_ns": 0,
+          "cache_restore_ns": 0,
+          "ssd_cached_tokens": 0,
+          "ssd_read_ns": 0,
+          "max_decode_output_tokens": 8,
+          "mtp_drafted_tokens": 6,
+          "mtp_accepted_tokens": 0,
+          "prefill_calls": 2,
+          "decode_calls": 32,
+          "total_ns": 4477061641,
+          "first_token_ns": 1249661280,
+          "finish": "length",
+          "output_ids": [
+            248045,
+            846,
+            271,
+            248068,
+            271,
+            248069,
+            271,
+            19,
+            248044,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045
+          ]
+        },
+        "recovery": {
+          "event": "job",
+          "rep": 0,
+          "warmup": 0,
+          "user": 0,
+          "prompt_tokens": 272,
+          "output_tokens": 32,
+          "output_bytes": 327,
+          "prefill_tokens": 272,
+          "prefill_ns": 1065254745,
+          "decode_ns": 3280738495,
+          "cached_tokens": 0,
+          "cache_capture_ns": 0,
+          "cache_restore_ns": 0,
+          "ssd_cached_tokens": 0,
+          "ssd_read_ns": 0,
+          "max_decode_output_tokens": 8,
+          "mtp_drafted_tokens": 6,
+          "mtp_accepted_tokens": 0,
+          "prefill_calls": 2,
+          "decode_calls": 32,
+          "total_ns": 4371532024,
+          "first_token_ns": 1248761376,
+          "finish": "length",
+          "output_ids": [
+            248045,
+            846,
+            271,
+            248068,
+            271,
+            248069,
+            271,
+            19,
+            248044,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045
+          ]
+        }
+      },
+      "refusals": [
+        {
+          "case": "empty",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: steering file does not match model geometry",
+          "core_ready": false,
+          "numerical_job": false
+        },
+        {
+          "case": "truncated",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: steering file does not match model geometry",
+          "core_ready": false,
+          "numerical_job": false
+        },
+        {
+          "case": "oversized",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: steering file does not match model geometry",
+          "core_ready": false,
+          "numerical_job": false
+        },
+        {
+          "case": "nan-first",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: nonfinite steering direction",
+          "core_ready": false,
+          "numerical_job": false
+        },
+        {
+          "case": "nan-last",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: nonfinite steering direction",
+          "core_ready": false,
+          "numerical_job": false
+        },
+        {
+          "case": "snan-middle",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: nonfinite steering direction",
+          "core_ready": false,
+          "numerical_job": false
+        },
+        {
+          "case": "positive-infinity",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: nonfinite steering direction",
+          "core_ready": false,
+          "numerical_job": false
+        },
+        {
+          "case": "negative-infinity",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: nonfinite steering direction",
+          "core_ready": false,
+          "numerical_job": false
+        },
+        {
+          "case": "directory",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: steering file does not match model geometry",
+          "core_ready": false,
+          "numerical_job": false
+        },
+        {
+          "case": "symlink",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: cannot open steering bank",
+          "core_ready": false,
+          "numerical_job": false
+        },
+        {
+          "case": "fifo",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: steering file does not match model geometry",
+          "core_ready": false,
+          "numerical_job": false
+        },
+        {
+          "case": "missing",
+          "actual_native_exit_code": 1,
+          "diagnostic": "core readiness failed: cannot open steering bank",
+          "core_ready": false,
+          "numerical_job": false
+        }
+      ],
+      "comparison": {
+        "physical_input_ids_equal": true,
+        "output_ids_equal": true,
+        "prompt_tokens": 272,
+        "output_tokens": 32,
+        "expected_refusals": 12,
+        "fresh_core_after_refusals": true
+      },
+      "remote_files_collected": 46,
+      "model_stat_unchanged": true
+    }
+  },
+  "within_and_across_mode_physical_inputs_and_32_outputs_equal": true,
+  "fresh_final_closure": {
+    "at_utc": "2026-10-06T04:33:39.072280+00:00",
+    "state": "FRESH_SELECTED_WINDOWS_CLOSED_NO_STANDING_RESERVATION",
+    "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+    "runner_sha256": "6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322",
+    "service": {
+      "MainPID": "107144",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "router_start_ticks": 13011469,
+    "original_lease": {
+      "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+      "device": 66307,
+      "inode": 105946405,
+      "free_briefly": true,
+      "released": true
+    },
+    "observation": {
+      "at": "2026-10-06T04:33:38.953533+00:00",
+      "kfd": [
+        {
+          "pid": 107144,
+          "start_ticks": 13011469,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "dri": [
+        {
+          "pid": 107144,
+          "start_ticks": 13011469,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "denied_fd": 400,
+      "temperatures": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "value_c": 34.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp2_input",
+          "value_c": 47.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp3_input",
+          "value_c": 34.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp1_input",
+          "value_c": 32.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp2_input",
+          "value_c": 33.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp3_input",
+          "value_c": 32.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon5/temp1_input",
+          "value_c": 39.0,
+          "limit_c": 98,
+          "guarded": false
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "value_c": 40.625,
+          "limit_c": 98,
+          "guarded": true
+        }
+      ],
+      "memory": {
+        "MemTotal": 132542648320,
+        "MemAvailable": 122412797952,
+        "SwapTotal": 21474828288,
+        "SwapFree": 20430675968
+      },
+      "kernel_kfd": [
+        107144
+      ],
+      "gpu": {
+        "gpu_busy_percent": 0,
+        "mem_info_gtt_total": 120259084288,
+        "mem_info_gtt_used": 18636800,
+        "mem_info_vram_total": 2147483648,
+        "mem_info_vram_used": 151187456
+      }
+    },
+    "foreign_compute_clients": [],
+    "guarded_hot": [],
+    "http8000_listeners": [],
+    "pinned_image": {
+      "exit_code": 0,
+      "id": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+      "stderr": ""
+    },
+    "free_disk_bytes": 578337386496,
+    "bundle_present": true,
+    "GPU_build_run_or_service_mutation": false,
+    "standing_lease_waiter_reservation": false,
+    "owned_window_closures": [
+      {
+        "label": "context-r23-steering-ar-r1",
+        "supervisor_identity_absent": true,
+        "container_init_identity_recorded": false,
+        "container_init_identity_absent": null,
+        "container_absent": true,
+        "container_inspect_exit": 1,
+        "container_inspect_stderr": "error: no such object: c6b490bceb3222460857dbf732031c2b96d3f5a12725a6efe1fb3845ea79badc\n",
+        "label_listing_exit": 0,
+        "label_listing_empty": true
+      },
+      {
+        "label": "context-r23-steering-mtp-r1",
+        "supervisor_identity_absent": true,
+        "container_init_identity_recorded": false,
+        "container_init_identity_absent": null,
+        "container_absent": true,
+        "container_inspect_exit": 1,
+        "container_inspect_stderr": "error: no such object: 62d13a18f96db6688cf34e630dddb4dbaec21622df58964a352584cb36426d3b\n",
+        "label_listing_exit": 0,
+        "label_listing_empty": true
+      },
+      {
+        "label": "context-r23-steering-mtp-r2",
+        "supervisor_identity_absent": true,
+        "container_init_identity_recorded": false,
+        "container_init_identity_absent": null,
+        "container_absent": true,
+        "container_inspect_exit": 1,
+        "container_inspect_stderr": "error: no such object: 726a4cf1dcd563c3888eeeda54887853ea5e0fe752924c74320cb47ddad96be2\n",
+        "label_listing_exit": 0,
+        "label_listing_empty": true
+      }
+    ]
+  },
+  "host_gate_tests": 16,
+  "campaign_tests": 61,
+  "retained_first_MTP_failure": {
+    "label": "context-r23-steering-mtp-r1",
+    "actual_native_exit_code": 0,
+    "actual_QA_supervisor_child_exit_codes": [
+      1,
+      1,
+      1
+    ],
+    "drafted": 6,
+    "accepted": 0,
+    "error": "RuntimeError('MTP baseline did not exercise real draft acceptance')",
+    "remote_files_collected": 18,
+    "scope": "Superfluous positive acceptance predicate refused valid zero-acceptance equivalence; original raw evidence unchanged."
+  },
+  "MTP_scope": "Positive real drafting and exact confirmed output parity; zero acceptance valid. No accepted-burst qualification.",
+  "compiled_provider_files_unchanged": 83,
+  "runtime_ABI_format_dependency_or_inference_threads_changed": false,
+  "GPU_rebuild_conversion_or_heavy_model_hash": false,
+  "root_157_activity": false,
+  "all_six_owned_tasks_open": true,
+  "Terminal_Bench": "Stopped/closed/deferred until modifications and matching qualification finish; no reservation.",
+  "bindings": [
+    {
+      "path": "docs/development/validation/steering-admission-draft-host-2026-10-06.json",
+      "bytes": 4856,
+      "sha256": "192071fb4be2410462b3f6f3a5c0c02ec2826799e73a10f92922c68840fbc35f"
+    },
+    {
+      "path": "docs/development/validation/steering-admission-host-2026-10-06.json",
+      "bytes": 4071,
+      "sha256": "deede997d13e9479ca2da864068f71af2bfa8d543424fc5da791a294200f621f"
+    },
+    {
+      "path": "evidence/context-r23-ar-closure-r1.json",
+      "bytes": 7697,
+      "sha256": "3225f088d92d9a411b90dc2e28709e325398937a3e06972bd704a6f4c761268f"
+    },
+    {
+      "path": "evidence/context-r23-ar-closure-r1.py",
+      "bytes": 6241,
+      "sha256": "20fee63a935d1ce8adb8fcc7a221e2b49f433f69ec8d8b9b8ced91f60d3b8651"
+    },
+    {
+      "path": "evidence/context-r23-before-ar-r1.json",
+      "bytes": 6842,
+      "sha256": "8afd24f4069af68799e67c1ccabec7b954db0ba859a3bde88271e34e06aa3a4d"
+    },
+    {
+      "path": "evidence/context-r23-before-ar-r1.py",
+      "bytes": 4686,
+      "sha256": "515aa879af2b60559d6180ceb98480d22401a8f767ab7bfc41820a1ba624ad7e"
+    },
+    {
+      "path": "evidence/context-r23-before-mtp-r1.json",
+      "bytes": 6840,
+      "sha256": "946c1c0284d99031691632c0fc2527ec4151bbd1369ee32cba53bd1953100d94"
+    },
+    {
+      "path": "evidence/context-r23-before-mtp-r1.py",
+      "bytes": 4688,
+      "sha256": "2684c6bc37369f9285788f70df6407fceded20718c6aa0b7f68098486d7dc3eb"
+    },
+    {
+      "path": "evidence/context-r23-before-mtp-r2.json",
+      "bytes": 6844,
+      "sha256": "a68f757731ebb371687bd88e7520d889dc6bc2f2e495f447cac256534e175391"
+    },
+    {
+      "path": "evidence/context-r23-before-mtp-r2.py",
+      "bytes": 4688,
+      "sha256": "2f851077853a049f87f9912574d6e34a41b71b3d3575080e083cc315a3fa318b"
+    },
+    {
+      "path": "evidence/context-r23-final-161-r1.json",
+      "bytes": 8684,
+      "sha256": "1dc8c8930fb37823d61ffce24dcbdeb089d0b20066577b4c42a7bb4c4ec9a76d"
+    },
+    {
+      "path": "evidence/context-r23-final-161-r1.py",
+      "bytes": 6389,
+      "sha256": "79506eaff32e19b49108e16e50414f46d08b65bc7df0e58aba18d0869b7b4640"
+    },
+    {
+      "path": "evidence/context-r23-final-161-r2.json",
+      "bytes": 9577,
+      "sha256": "b07ed30fb7af6847ffdded2937aa4a765182def77085e7b1ddfd1e14eb2eea0e"
+    },
+    {
+      "path": "evidence/context-r23-final-161-r2.py",
+      "bytes": 6419,
+      "sha256": "0baef4268b25980190dc968f807b4ca40bd29361cc788300e4d772886f70308d"
+    },
+    {
+      "path": "evidence/context-r23-local-preparation-diagnostic-r1.json",
+      "bytes": 363,
+      "sha256": "e0107161c74a7b757d178dbfdea5b4cbe90c4da3bac5d5af3848ba5ba5cb0552"
+    },
+    {
+      "path": "evidence/context-r23-peer-nonuse-mtp-r1.json",
+      "bytes": 1122,
+      "sha256": "ad8c380ea97fd5ce374446a83b14b6722f1318f01a55bf61912f68005083f559"
+    },
+    {
+      "path": "evidence/context-r23-peer-nonuse-mtp-r2.json",
+      "bytes": 1066,
+      "sha256": "2cb13b3ca0c19746b1cb13d0b836211e759aa9cc8e137ff585729328489a8506"
+    },
+    {
+      "path": "evidence/context-r23-peer-nonuse-r1.json",
+      "bytes": 1182,
+      "sha256": "cd1b8a8df73b8d4f176e9fdd5654d7416cd979ab34e2d9ed90e3cd97a866f9bd"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/admission-progress.json",
+      "bytes": 279,
+      "sha256": "1a617839a03c0efb5c9ef502ff6f638d5812a3ce5d2e0419c3e8477c16c1f409"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/bench-absent.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/bench-directory.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/bench-empty.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/bench-fifo.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/bench-missing.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/bench-nan-first.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/bench-nan-last.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/bench-negative-infinity.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/bench-oversized.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/bench-positive-infinity.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/bench-recovery.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/bench-snan-middle.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/bench-symlink.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/bench-truncated.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/bench-zero.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/collection.json",
+      "bytes": 27527,
+      "sha256": "1b687091aa8af5cd0e904a8782e8ddd22382c4469b6dd3191e10bd1fd461e027"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/controller-result.json",
+      "bytes": 749,
+      "sha256": "cb3b8a46d2aa2f04bd2d0e51dbe721ff94ca8b49e79c5afb256c27bf1c3ae0d6"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/controller-stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/controller-stdout.log",
+      "bytes": 92993,
+      "sha256": "e5960fec9fef83d6e0c6500f2871db94cade239f006f23d93e90aff1baa9b9d5"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/distrobox-create.log",
+      "bytes": 272,
+      "sha256": "187791c96c2be37603ac489046ac92e753582bbc65ee83525fe2f902baac0203"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/distrobox.stderr.log",
+      "bytes": 1073,
+      "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/distrobox.stdout.log",
+      "bytes": 16311,
+      "sha256": "ded2840cf0b8c9647e01186e0126128401091becf80fd76406ca3ca15c040f7b"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/manifest.json",
+      "bytes": 4676,
+      "sha256": "153280ffe418840b234716630c4b8c4368de00f533697fb2fcc140e2e8358d69"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/measurements-absent.jsonl",
+      "bytes": 4717,
+      "sha256": "d8bbe01b419a0fad161cb33dfc6c391263126ff072f41b06fad76aaeab19ac1b"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/measurements-directory.jsonl",
+      "bytes": 1554,
+      "sha256": "3c03a14aa863545fe0d045ec7b865ac4d5890276d57ffb85164179761d21b81a"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/measurements-empty.jsonl",
+      "bytes": 1554,
+      "sha256": "3c03a14aa863545fe0d045ec7b865ac4d5890276d57ffb85164179761d21b81a"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/measurements-fifo.jsonl",
+      "bytes": 1554,
+      "sha256": "3c03a14aa863545fe0d045ec7b865ac4d5890276d57ffb85164179761d21b81a"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/measurements-missing.jsonl",
+      "bytes": 1536,
+      "sha256": "a5b36002be18729da0101a03c6ce4c9f109e7a970a8ad716874f0ab0e0130c4d"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/measurements-nan-first.jsonl",
+      "bytes": 1539,
+      "sha256": "4cb7ea90e63b6d4aa94d2a0f91c63c3d7581ca7ab6846514421bd1675fb5cea7"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/measurements-nan-last.jsonl",
+      "bytes": 1539,
+      "sha256": "4cb7ea90e63b6d4aa94d2a0f91c63c3d7581ca7ab6846514421bd1675fb5cea7"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/measurements-negative-infinity.jsonl",
+      "bytes": 1539,
+      "sha256": "4cb7ea90e63b6d4aa94d2a0f91c63c3d7581ca7ab6846514421bd1675fb5cea7"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/measurements-oversized.jsonl",
+      "bytes": 1554,
+      "sha256": "3c03a14aa863545fe0d045ec7b865ac4d5890276d57ffb85164179761d21b81a"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/measurements-positive-infinity.jsonl",
+      "bytes": 1539,
+      "sha256": "4cb7ea90e63b6d4aa94d2a0f91c63c3d7581ca7ab6846514421bd1675fb5cea7"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/measurements-recovery.jsonl",
+      "bytes": 4853,
+      "sha256": "f69019dae77defdf881bf7ad17ff349dc34ddf95efce422c65a0a5591393ec27"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/measurements-snan-middle.jsonl",
+      "bytes": 1539,
+      "sha256": "4cb7ea90e63b6d4aa94d2a0f91c63c3d7581ca7ab6846514421bd1675fb5cea7"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/measurements-symlink.jsonl",
+      "bytes": 1536,
+      "sha256": "a5b36002be18729da0101a03c6ce4c9f109e7a970a8ad716874f0ab0e0130c4d"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/measurements-truncated.jsonl",
+      "bytes": 1554,
+      "sha256": "3c03a14aa863545fe0d045ec7b865ac4d5890276d57ffb85164179761d21b81a"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/measurements-zero.jsonl",
+      "bytes": 4853,
+      "sha256": "1afa99df6533c852fd3b51d0b66ca4707b384f2deff3d8070219eabc3a83cd53"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/plan.json",
+      "bytes": 731,
+      "sha256": "d07b5b2548c55ed92846907c0e4ffd76c9bd58746a96aeca2d40284a39baf13c"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/prompt.txt",
+      "bytes": 2092,
+      "sha256": "bf5cf7bf085b304cdaa4ef33efbcca4ffe91f0bf5948694fb8b89aa205654a6a"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/restart-started.marker",
+      "bytes": 33,
+      "sha256": "4dd3c8a2047183fcd164f112f439d85bf9ac93eb5da9220dc3d77f9deb0efdc1"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/result.json",
+      "bytes": 97015,
+      "sha256": "5fe7e2bf3fcc2170ab6bff6e64bcfc8aee125bdb245f929042b050da66663666"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/runner.py",
+      "bytes": 110414,
+      "sha256": "0aa8d03a000a723c08afcc18d3b1f822a61b46853958e196f15739ccc2addada"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/stdout.log",
+      "bytes": 66634,
+      "sha256": "c6f5c78d53aacf9341c4ffc1fabc001143da0995137ba1f8b52f112c94f04c03"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/steering-admission-gate.py",
+      "bytes": 13055,
+      "sha256": "67b577d97cfdd56e18746662b8cab794b6a163492d775f97645b5e815576e17d"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/steering-admission-result.json",
+      "bytes": 22853,
+      "sha256": "c80c5f455db65eb379b70b22401afc010db0505f77b4a5e699a71159ec71df8d"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/steering-restart-gate.py",
+      "bytes": 16382,
+      "sha256": "27a66bf7a5c1296b2f9d6b4b87bd228d062f4baceae66befd0b2aaf0251d461c"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/telemetry.jsonl",
+      "bytes": 171611,
+      "sha256": "266860c5720588a10c142e7aba76fbe3a71d655b92ab1d45618308c4862a3f77"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1/valid.f32",
+      "bytes": 491520,
+      "sha256": "0a443471964795be46cca4f39501a12633c5b769c312148dec56eb99b72fffd9"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1-live-1.json",
+      "bytes": 4708,
+      "sha256": "f549248548adbcc6a1e8c648c2510ec5df811874bf54f786abda2362ab6949ee"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1-live-2.json",
+      "bytes": 4704,
+      "sha256": "8c0cc42d68035e4eb94f851931adac6b290f87867fc97106f8461da2276ca4df"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1-live-3.json",
+      "bytes": 6512,
+      "sha256": "d7024427196e364ecb2256877beef6618a2be683898682e7e9dffa212b5bd74d"
+    },
+    {
+      "path": "evidence/context-r23-steering-ar-r1-manifest.json",
+      "bytes": 4676,
+      "sha256": "153280ffe418840b234716630c4b8c4368de00f533697fb2fcc140e2e8358d69"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/admission-progress.json",
+      "bytes": 103,
+      "sha256": "7b65fb4dc9ac1b6c6e34277e1c83ce4b5d67f93ccf49379310b6ee8a7882231b"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/bench-absent.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/collection.json",
+      "bytes": 9729,
+      "sha256": "0ca17c92df3ff23e6da9b05009d57c4ef17c1a67eb1ff94685cd0bf0fd9564b1"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/controller-result.json",
+      "bytes": 750,
+      "sha256": "e668ba2df882e0d9aafa80f75c9df77c1ae38982447bf61acb9d521362a81398"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/controller-stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/controller-stdout.log",
+      "bytes": 94186,
+      "sha256": "5ce8b4c450ad917a4cef9bc16a5d8e523dc8a470ae482d512ed187deb1bf5fd7"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/distrobox-create.log",
+      "bytes": 275,
+      "sha256": "d93c7da615838e587b69418436aa0e0320fa2cdddfdaf123c3c31812484c3cd0"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/distrobox.stderr.log",
+      "bytes": 1073,
+      "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/distrobox.stdout.log",
+      "bytes": 2977,
+      "sha256": "f8234ac93e553b0f1d9b53b0dd5e2dd36ddf1ab7e1a03dbc747a4a9fb1b5dfce"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/manifest.json",
+      "bytes": 5271,
+      "sha256": "1438d7180e1db6eb24a987f809f89a36367e690c6a250141375ed96d4c783130"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/measurements-absent.jsonl",
+      "bytes": 4764,
+      "sha256": "2de9ff7238c176a26c5444c006bd36b03f273ca9b9650bcab83d692d923de23b"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/plan.json",
+      "bytes": 732,
+      "sha256": "c06611a970d496d6a7809c47081c6354ed7e7d0af5b19b6fbc555de8368cca19"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/prompt.txt",
+      "bytes": 2092,
+      "sha256": "bf5cf7bf085b304cdaa4ef33efbcca4ffe91f0bf5948694fb8b89aa205654a6a"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/restart-started.marker",
+      "bytes": 33,
+      "sha256": "6502bcb13b92d8414ac982ce3aa1d8cf8110f6a2aa0fa7de0f1026cec8312f7f"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/result.json",
+      "bytes": 98392,
+      "sha256": "8d0bc4a2240297e67ec4e10e1923a009c1920d065dbd01925d7da2550e6e1840"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/runner.py",
+      "bytes": 110414,
+      "sha256": "0aa8d03a000a723c08afcc18d3b1f822a61b46853958e196f15739ccc2addada"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/stdout.log",
+      "bytes": 66647,
+      "sha256": "ce91cff912c06d80e19c6862a238313cb432fe4676c11de6661570e74bdfe38a"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/steering-admission-gate.py",
+      "bytes": 13055,
+      "sha256": "67b577d97cfdd56e18746662b8cab794b6a163492d775f97645b5e815576e17d"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/steering-admission-result.json",
+      "bytes": 3679,
+      "sha256": "f5a8b4559ff7777b0815bfe8b718f374a5d7ec4efc7b02c13ec043349e096504"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/steering-restart-gate.py",
+      "bytes": 16382,
+      "sha256": "27a66bf7a5c1296b2f9d6b4b87bd228d062f4baceae66befd0b2aaf0251d461c"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/telemetry.jsonl",
+      "bytes": 107986,
+      "sha256": "1de36582a534daec51081a5954c64e7cd748c43adc714e327aca4c3b3000e46f"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1/valid.f32",
+      "bytes": 491520,
+      "sha256": "0a443471964795be46cca4f39501a12633c5b769c312148dec56eb99b72fffd9"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1-live-1.json",
+      "bytes": 4708,
+      "sha256": "8c425909ca4655676223796d5b96578efb924ecb309d480589b9a9d4b655defb"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1-live-2.json",
+      "bytes": 6002,
+      "sha256": "39bfea6fd259e365aa6a03b7670c463b329ac43d73f94c675b996bb938d62af4"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1-live-3.json",
+      "bytes": 13332,
+      "sha256": "a368f8aa8c4a59487b5be2f55d78fa69bf8ef0332c9a724f3ed555e9e6a26cb8"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r1-manifest.json",
+      "bytes": 5271,
+      "sha256": "1438d7180e1db6eb24a987f809f89a36367e690c6a250141375ed96d4c783130"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/admission-progress.json",
+      "bytes": 279,
+      "sha256": "6a9deb37f703c2047b8f5d080092e4ef7a84c313f0ceef0fc6ef23c1fffc4c29"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/bench-absent.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/bench-directory.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/bench-empty.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/bench-fifo.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/bench-missing.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/bench-nan-first.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/bench-nan-last.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/bench-negative-infinity.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/bench-oversized.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/bench-positive-infinity.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/bench-recovery.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/bench-snan-middle.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/bench-symlink.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/bench-truncated.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/bench-zero.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/collection.json",
+      "bytes": 27611,
+      "sha256": "b4c75ed645f35e9cf89d32f9f88b42deb8979f7aa90fee61272b1a5c87a62918"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/controller-result.json",
+      "bytes": 750,
+      "sha256": "324e332926cd3aa25511a8e870732060aabfc8cc7e3bdb17c2b111cb237defcb"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/controller-stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/controller-stdout.log",
+      "bytes": 94296,
+      "sha256": "3676ab8399c801a1c0dafe10747a1fe52ac20ae26ce5f2de1e429e1282d667d6"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/distrobox-create.log",
+      "bytes": 275,
+      "sha256": "90ce5fdb351ed4a471317980ae8e0082a9d43907536f521ae2a08436333e478d"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/distrobox.stderr.log",
+      "bytes": 1073,
+      "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/distrobox.stdout.log",
+      "bytes": 17662,
+      "sha256": "7c42e8b73b6d483946ce7db9c45e64e51a6b5e175852f5d969eb5a259587939e"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/manifest.json",
+      "bytes": 5271,
+      "sha256": "0a65c6be08aa4a694840783228937f78aa6a392a1ef1a03c52876fbd033401a1"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/measurements-absent.jsonl",
+      "bytes": 4764,
+      "sha256": "a73bafae544f30628b01dc8bf9a0407a2a61517c2b5dccf7fd42d00b9d4f816f"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/measurements-directory.jsonl",
+      "bytes": 1601,
+      "sha256": "13bca8366e2c3000b394929f2d9952d2cc4e17440c5a6dceb3363d1a998b7d89"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/measurements-empty.jsonl",
+      "bytes": 1601,
+      "sha256": "13bca8366e2c3000b394929f2d9952d2cc4e17440c5a6dceb3363d1a998b7d89"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/measurements-fifo.jsonl",
+      "bytes": 1601,
+      "sha256": "13bca8366e2c3000b394929f2d9952d2cc4e17440c5a6dceb3363d1a998b7d89"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/measurements-missing.jsonl",
+      "bytes": 1583,
+      "sha256": "ea9ff47681295cf8703cfcac3aac4f34c3493d9d20e3e333239684dcaa0bdc1f"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/measurements-nan-first.jsonl",
+      "bytes": 1586,
+      "sha256": "4da75da47580ec2b7947722ad01b50a7ca02342c9a69ce19c709e4b95090b223"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/measurements-nan-last.jsonl",
+      "bytes": 1586,
+      "sha256": "4da75da47580ec2b7947722ad01b50a7ca02342c9a69ce19c709e4b95090b223"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/measurements-negative-infinity.jsonl",
+      "bytes": 1586,
+      "sha256": "4da75da47580ec2b7947722ad01b50a7ca02342c9a69ce19c709e4b95090b223"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/measurements-oversized.jsonl",
+      "bytes": 1601,
+      "sha256": "13bca8366e2c3000b394929f2d9952d2cc4e17440c5a6dceb3363d1a998b7d89"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/measurements-positive-infinity.jsonl",
+      "bytes": 1586,
+      "sha256": "4da75da47580ec2b7947722ad01b50a7ca02342c9a69ce19c709e4b95090b223"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/measurements-recovery.jsonl",
+      "bytes": 4900,
+      "sha256": "bc825210403a7ae5d8900cb738d23445738be37333e1a513203aa412aeaf1c36"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/measurements-snan-middle.jsonl",
+      "bytes": 1586,
+      "sha256": "4da75da47580ec2b7947722ad01b50a7ca02342c9a69ce19c709e4b95090b223"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/measurements-symlink.jsonl",
+      "bytes": 1583,
+      "sha256": "ea9ff47681295cf8703cfcac3aac4f34c3493d9d20e3e333239684dcaa0bdc1f"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/measurements-truncated.jsonl",
+      "bytes": 1601,
+      "sha256": "13bca8366e2c3000b394929f2d9952d2cc4e17440c5a6dceb3363d1a998b7d89"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/measurements-zero.jsonl",
+      "bytes": 4899,
+      "sha256": "98f092ae4227b028b651cd357de9cc68f9aa09921571846b5f0d42bbaf0c13fd"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/plan.json",
+      "bytes": 732,
+      "sha256": "92a3560f12010700ba4fa18c39358d56c675e8ae6aa2ad0637e21b886e99c96f"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/prompt.txt",
+      "bytes": 2092,
+      "sha256": "bf5cf7bf085b304cdaa4ef33efbcca4ffe91f0bf5948694fb8b89aa205654a6a"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/restart-started.marker",
+      "bytes": 33,
+      "sha256": "f5f6e3807d537b3587a73c587d52bd1e6d571cd819777ede4eef1dff23fec82b"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/result.json",
+      "bytes": 98522,
+      "sha256": "d3f690ac1903197d63d35c4c4a5fdbb14a0869d362de767f93a6d8386b728e8c"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/runner.py",
+      "bytes": 110414,
+      "sha256": "0aa8d03a000a723c08afcc18d3b1f822a61b46853958e196f15739ccc2addada"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/stdout.log",
+      "bytes": 66647,
+      "sha256": "55cee55dc1525cd4cb912d4704455612b16890daa5080e143a8a6a8369eaad43"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/steering-admission-gate.py",
+      "bytes": 13205,
+      "sha256": "526d0013ee82c3058570b547c7b5640887049dae431cd49c4aa619fb05d77280"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/steering-admission-result.json",
+      "bytes": 24684,
+      "sha256": "2fd7a79126e2553b55eab276d4dee0611133a85a4c70f46a8f0a0ea1cca3ae6c"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/steering-restart-gate.py",
+      "bytes": 16382,
+      "sha256": "27a66bf7a5c1296b2f9d6b4b87bd228d062f4baceae66befd0b2aaf0251d461c"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/telemetry.jsonl",
+      "bytes": 186080,
+      "sha256": "2718df50b1fed11f3ca5d6bdf739ac8a31b97403a272db6d0829928b286dc66b"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2/valid.f32",
+      "bytes": 491520,
+      "sha256": "0a443471964795be46cca4f39501a12633c5b769c312148dec56eb99b72fffd9"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2-live-1.json",
+      "bytes": 4710,
+      "sha256": "8e453be3592bb7101a2309142f6b59757cccf64bccc298921e6ee32304395011"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2-live-2.json",
+      "bytes": 5294,
+      "sha256": "380594faa6aec606ef5946643a8edfa780da1439fb5839a14df2a96f49331718"
+    },
+    {
+      "path": "evidence/context-r23-steering-mtp-r2-manifest.json",
+      "bytes": 5271,
+      "sha256": "0a65c6be08aa4a694840783228937f78aa6a392a1ef1a03c52876fbd033401a1"
+    },
+    {
+      "path": "evidence/observe-context-r23-steering-r2.py",
+      "bytes": 2726,
+      "sha256": "02d4fbab33db3a3b65aad3f9e3025ac3f1b8409b33c720726c4597feb76ea628"
+    },
+    {
+      "path": "evidence/observe-context-r23-steering.py",
+      "bytes": 2726,
+      "sha256": "945c4e06e2149426c23a2515b0c6440abd998821475f0b510eb87bc34ca7c1b6"
+    },
+    {
+      "path": "evidence/package-steering-point-r23.py",
+      "bytes": 12661,
+      "sha256": "c83f18377aa09861b0a2f910bd2b0316f97cb410b5221c927a75fdb814b5bb89"
+    },
+    {
+      "path": "evidence/steering-admission-campaign-host-r1/command.log",
+      "bytes": 8515,
+      "sha256": "05bb05d2b20e92e8435ac5779012e2aeb9118ee9834cb82013b1ab800858d768"
+    },
+    {
+      "path": "evidence/steering-admission-campaign-host-r1/plan.json",
+      "bytes": 951,
+      "sha256": "fd901346129aa7659b79d96ee1172bd1963b394ea1ad33c35a9d07e53d7b140d"
+    },
+    {
+      "path": "evidence/steering-admission-campaign-host-r1/result.json",
+      "bytes": 449,
+      "sha256": "d339f8f0c2f0b77a9bdb9c4d98fa7e1055a0a1b954d6978f9a2c1840038548ed"
+    },
+    {
+      "path": "evidence/steering-admission-campaign-host-r1/temperatures.jsonl",
+      "bytes": 1829,
+      "sha256": "ac4a2b00f595381b1d02adad4aad3b44a2e4e83d5604f6dd1239c2bb23d80f34"
+    },
+    {
+      "path": "evidence/steering-admission-host-r1/command.log",
+      "bytes": 2181,
+      "sha256": "ed68d398d65301f509fbd857ee072ef3929392ee1368601395cbdbce9a806c96"
+    },
+    {
+      "path": "evidence/steering-admission-host-r1/plan.json",
+      "bytes": 961,
+      "sha256": "0b69c6fb8b41ec3a2840dc2b502d07c3989bfa2e2ecd26848141f573318b3edf"
+    },
+    {
+      "path": "evidence/steering-admission-host-r1/result.json",
+      "bytes": 457,
+      "sha256": "492ed501687ce237c51feefd4385cca83499049462d53cb80da75fdfe4a404ab"
+    },
+    {
+      "path": "evidence/steering-admission-host-r1/temperatures.jsonl",
+      "bytes": 1830,
+      "sha256": "bd091fd7a3919839fd7bbf268d999c669cdd0e2da047aa5cb7a6046e4cc52a0e"
+    },
+    {
+      "path": "evidence/steering-admission-host-r2/command.log",
+      "bytes": 2367,
+      "sha256": "658979088595956cd886e6f4833ab0e1c501965d1d782153b2887b49f02a436e"
+    },
+    {
+      "path": "evidence/steering-admission-host-r2/plan.json",
+      "bytes": 961,
+      "sha256": "0b69c6fb8b41ec3a2840dc2b502d07c3989bfa2e2ecd26848141f573318b3edf"
+    },
+    {
+      "path": "evidence/steering-admission-host-r2/result.json",
+      "bytes": 457,
+      "sha256": "39e0883495c6fc88929c71e52e32170bf871e93860781dd8407d7639aba22ca9"
+    },
+    {
+      "path": "evidence/steering-admission-host-r2/temperatures.jsonl",
+      "bytes": 1827,
+      "sha256": "c508e122ba369ebf0c736b8964c9fc6a6d2129f50ace0ff5e22abbb6e6728df0"
+    },
+    {
+      "path": "tests/test_strix_point_campaign.py",
+      "bytes": 86950,
+      "sha256": "30cdcdfb407cd29a61a66e70a997566cc68e2f03798e287f858df8555e89b371"
+    },
+    {
+      "path": "tests/test_strix_point_steering_admission.py",
+      "bytes": 12607,
+      "sha256": "05f35f04ad7c968eca7ff02ef4f57965e1529e7d4fe09a2a0dc240ad22be5566"
+    },
+    {
+      "path": "tools/strix-point-bench-collect.py",
+      "bytes": 10060,
+      "sha256": "6d357843ec38ba23a50abb0d03640f94b32238987293cad805b2d6b1603a4cfe"
+    },
+    {
+      "path": "tools/strix-point-campaign.py",
+      "bytes": 110414,
+      "sha256": "0aa8d03a000a723c08afcc18d3b1f822a61b46853958e196f15739ccc2addada"
+    },
+    {
+      "path": "tools/strix-point-launch.py",
+      "bytes": 7178,
+      "sha256": "333cd3db7d2e39b588e2636fe58d1de47ccd3e01526bf2e3bb009749abe431dc"
+    },
+    {
+      "path": "tools/strix-point-steering-admission-gate.py",
+      "bytes": 13205,
+      "sha256": "526d0013ee82c3058570b547c7b5640887049dae431cd49c4aa619fb05d77280"
+    },
+    {
+      "path": "tools/strix-point-steering-restart-gate.py",
+      "bytes": 16382,
+      "sha256": "27a66bf7a5c1296b2f9d6b4b87bd228d062f4baceae66befd0b2aaf0251d461c"
+    }
+  ],
+  "portable_archive": {
+    "path": "docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-steering-admission-r23.tar.gz",
+    "bytes": 355829,
+    "sha256": "ddae8121688c80cb634616c31ec32cf9723c7c783456354aeaca4330aaf368dc",
+    "members": 176
+  }
+}

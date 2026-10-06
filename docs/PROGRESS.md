@@ -1,6 +1,31 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Bank refusal and zero-scale controls qualified — 2026-10-06 UTC
+
+On the unchanged `20777005` runtime, separate `.161` AR/MTP windows each pass
+three original-weight successes and twelve exact admission refusals. Absent
+bank, admitted sparse nonzero bank at zero scales, and fresh core after refusals
+retain identical 272 physical inputs and 32 outputs, also equal across modes
+([receipt](development/validation/steering-admission-point-gpu-2026-10-06.json)).
+Malformed geometry/nonfinite/nonregular/missing files retain actual native exit
+1 before readiness or a numerical job. MTP drafts six and accepts zero in each
+positive case; this qualifies drafting/output parity, with no accepted-burst
+claim. The original MTP QA exit 1 remains preserved and collected.
+
+AR/MTP CPU peaks are 56.625/57.875 C, NVMe 69.85/70.85 C, whole-process threads
+44/44, including runtime helpers. Sixteen host and 61 campaign checks pass.
+The portable archive retains 176 members, without model/KV payloads. All three
+windows are collected/retired; fresh 04:33:39 UTC closure verifies original lease
+free/released, HTTP8000 unbound and router 107144 active/only KFD. Unrecorded
+container-init identities remain explicit; exact supervisor retirement and owned
+container removal are verified. CPU98/NVMe85/lower guards remain active.
+
+No runtime/ABI/format/dependency/thread change, GPU rebuild/conversion/heavy hash
+or `.157` activity occurs. Learned-bank quality, independent graph/correction/GPU
+fault oracles, vision and matched cost remain open. All six owned tasks remain
+open; Terminal Bench stays stopped/deferred, with no standing reservation.
+
 ## MTP admission oracle corrected; raw failure retained — 2026-10-06 UTC
 
 The first original-model AR admission window passes all three successes and

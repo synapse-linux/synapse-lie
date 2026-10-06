@@ -154,7 +154,8 @@ directory:
 ```sh
 cmake -S . -B build/point-report -G Ninja -DBUILD_TESTING=OFF
 cmake --build build/point-report --target synapse-lie-bench -j2
-sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+(cd docs/benchmarks/models/qwen3.8-flash-next/strix-point/data &&
+ sed 's@  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/@  @' archives.sha256 | sha256sum -c -)
 mkdir -p run/point-rocm10-fresh128/lie run/point-rocm10-fresh128/gufo
 tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-fresh128-lie.tar.gz \
   -C run/point-rocm10-fresh128/lie measurements.jsonl
@@ -203,7 +204,8 @@ LIE and 82.375/86/70.85 C for Gufo. Reproduce the report offline with the
 native C17 reporter:
 
 ```sh
-sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+(cd docs/benchmarks/models/qwen3.8-flash-next/strix-point/data &&
+ sed 's@  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/@  @' archives.sha256 | sha256sum -c -)
 mkdir -p run/point-rocm10-fresh256/lie run/point-rocm10-fresh256/gufo
 tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-fresh256-lie.tar.gz \
   -C run/point-rocm10-fresh256/lie measurements.jsonl
@@ -328,7 +330,8 @@ Reproduce an 8K comparison and its prefill/decode CSV and graphs offline from
 the repository root, without model weights or GPU access:
 
 ```sh
-sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+(cd docs/benchmarks/models/qwen3.8-flash-next/strix-point/data &&
+ sed 's@  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/@  @' archives.sha256 | sha256sum -c -)
 mkdir -p run/point-modern-mtp-replay-r3
 tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-mtp-r3.tar.gz \
   -C run/point-modern-mtp-replay-r3
@@ -380,7 +383,8 @@ PID 101236 in KFD, no LIE container and the private lease free.
 Replay the two comparisons with the native C17 reporter:
 
 ```sh
-sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+(cd docs/benchmarks/models/qwen3.8-flash-next/strix-point/data &&
+ sed 's@  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/@  @' archives.sha256 | sha256sum -c -)
 mkdir -p run/point-modern-cache-replay-r3
 tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-mtp-cache-r3.tar.gz \
   -C run/point-modern-cache-replay-r3
@@ -501,7 +505,8 @@ the restored router PID 103651 in KFD, no LIE container and the private lease
 free. Recheck the archive from the repository root:
 
 ```sh
-sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+(cd docs/benchmarks/models/qwen3.8-flash-next/strix-point/data &&
+ sed 's@  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/@  @' archives.sha256 | sha256sum -c -)
 mkdir -p run/point-modern-http-replay-r3
 tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-http-r3.tar.gz \
   -C run/point-modern-http-replay-r3
@@ -544,7 +549,8 @@ the authorized router and release the private lease; final postflight sees
 only router PID 106168 in KFD and no LIE container.
 
 ```sh
-sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+(cd docs/benchmarks/models/qwen3.8-flash-next/strix-point/data &&
+ sed 's@  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/@  @' archives.sha256 | sha256sum -c -)
 mkdir -p run/point-modern-ssd-restart-r3
 tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-ssd-restart-r3.tar.gz \
   -C run/point-modern-ssd-restart-r3
@@ -586,7 +592,8 @@ actual exits and both original/corrected QA sources, with no model or KV payload
 To inspect the records without starting inference:
 
 ```sh
-sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+(cd docs/benchmarks/models/qwen3.8-flash-next/strix-point/data &&
+ sed 's@  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/@  @' archives.sha256 | sha256sum -c -)
 mkdir -p run/point-ssd-text-r21
 tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-ssd-text-restart-r21.tar.gz \
   -C run/point-ssd-text-r21
@@ -624,11 +631,51 @@ learned-direction quality, independent graph/correction/fault, vision, later
 mixed-history lookup and matched cost remain open.
 
 ```sh
-sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+(cd docs/benchmarks/models/qwen3.8-flash-next/strix-point/data &&
+ sed 's@  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/@  @' archives.sha256 | sha256sum -c -)
 mkdir -p run/point-steering-r22
 tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-steering-physical-index-r22.tar.gz \
   -C run/point-steering-r22
 cat run/point-steering-r22/context-r22-cross-mode-r1.json
+```
+
+### Steering bank admission and zero-scale controls
+
+The `modern-core-steering-admission` profile checks model admission and confirmed
+output equality. It uses context 4,096, chunk 256, C1, greedy sampling, EOS
+ignored, no warmup, one repetition and no RAM/SSD retention. The owned sparse
+48-by-2560 direction bank has 48 nonzero values; both active scales are zero.
+
+| Both AR and MTP | Native exits | Physical prompt tokens | Matching output IDs |
+| --- | --- | ---: | ---: |
+| Bank absent | 0 | 272 | 32 |
+| Nonzero bank admitted, scales zero | 0 | 272 | 32 |
+| Fresh core after twelve bank refusals | 0 | 272 | 32 |
+
+Each mode refuses empty/truncated/oversized banks, quiet/signaling NaN and
+infinities, directories, symlinks, FIFOs and missing files. All twelve refusals
+retain actual exit 1, the exact diagnostic and no readiness/numerical job.
+Successful inputs/outputs match within and across modes. MTP drafts six and
+accepts zero per positive request; this qualifies drafting and confirmed-output
+parity, without an accepted-burst claim. The first MTP QA attempt incorrectly
+required positive acceptance; its native exit 0 and wrapper exit 1 are preserved.
+
+CPU peaks AR/MTP are 56.625/57.875 C, NVMe 69.85/70.85 C; whole-process thread
+maxima are 44/44, including runtime helpers. All windows are collected/retired
+and the original lease released. These are functional checks; learned-direction
+quality, independent graph/correction/GPU faults, vision and matched cost remain
+open. The [receipt](../../../../development/validation/steering-admission-point-gpu-2026-10-06.json)
+and [176-member raw archive](data/rocm10-steering-admission-r23.tar.gz) bind the
+unchanged runtime, exact token witnesses, actual failures and telemetry, without
+model or KV payloads. Archive inspection needs no model execution:
+
+```sh
+(cd docs/benchmarks/models/qwen3.8-flash-next/strix-point/data &&
+ sed 's@  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/@  @' archives.sha256 | sha256sum -c -)
+mkdir -p run/point-steering-r23
+tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-steering-admission-r23.tar.gz \
+  -C run/point-steering-r23
+cat run/point-steering-r23/evidence/context-r23-steering-mtp-r2/steering-admission-result.json
 ```
 
 ### Direct reactive core and Q8 vision gates
@@ -694,7 +741,8 @@ physical tokens, build receipts and telemetry. Verify and unpack them from
 the repository root:
 
 ```sh
-sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+(cd docs/benchmarks/models/qwen3.8-flash-next/strix-point/data &&
+ sed 's@  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/@  @' archives.sha256 | sha256sum -c -)
 mkdir -p run/point-modern-functional-r4-r5
 tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-functional-r4-r5.tar.gz \
   -C run/point-modern-functional-r4-r5

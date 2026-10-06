@@ -17,3 +17,4 @@ d0f85ee28eb2e85d94ddae9eb99859c3c7cb8acae0be1ca1023b87ec725361b7  rocm10-schema-
 28bb90941f0fec97083d6da1d4f02b381a44a3c9adedd62132b21227d89aac12  rocm10-composition-codec-openai-r20.tar.gz
 cb47b1d5ff48c08b9b0dfcd85adf88c4b6d10eaa0a8a7855d5a5e0d7e7428b2e  rocm10-ssd-text-restart-r21.tar.gz
 1be7d90c6e33078a00c22007553c49afd6e1b5fd7363ad955999cdc39ad0c13b  rocm10-steering-physical-index-r22.tar.gz
+ddae8121688c80cb634616c31ec32cf9723c7c783456354aeaca4330aaf368dc  rocm10-steering-admission-r23.tar.gz

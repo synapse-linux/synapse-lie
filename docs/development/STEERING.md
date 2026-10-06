@@ -8,6 +8,9 @@ present in provider and shared-worker source. Selected original-weight AR/MTP
 GPU cases qualify exact scheduled physical indices and compatible SSD reuse
 ([receipt](validation/steering-physical-index-point-gpu-2026-10-06.json));
 independent numerical/graph/correction/fault oracles remain open.
+Separate GPU windows also qualify selected original-model malformed-bank refusal
+and absent/zero-scale/fresh-core output parity in AR/MTP
+([receipt](validation/steering-admission-point-gpu-2026-10-06.json)).
 Server/native core bench share initial model-wide controls and scoped RAM/SSD
 lookup. The shared core supports asynchronous live job changes, native benchmark
 schedules, HTTP creation-time plans and individual stored-choice controls.

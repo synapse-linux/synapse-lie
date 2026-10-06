@@ -313,6 +313,11 @@ stable release is declared. Detailed validation history is in
 
 ### Fixed
 
+- Optional steering qualification now accepts valid zero-acceptance MTP runs
+  while requiring actual drafting and exact confirmed output parity. Strix Point
+  passes selected malformed-bank and absent/zero/fresh-core recovery controls;
+  the initial QA failure is retained, with no runtime or dependency change.
+
 - SSD text-prefix restoration when a saved spelling uses more tokens than a
   fresh tokenization. Rebuild the saved history before checking its physical
   frontier, while preserving scheduled steering boundaries and cache scopes.
