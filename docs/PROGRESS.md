@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Whole640 producer/packing preparation — 2026-10-06 UTC
+
+Prepare register and LDS variants that own all 640 values of an IQ2 expert
+tail and write original scaled F16/inverse directly. All 1028 retained provider
+files and 164 original device bodies remain exact. The register draft spills
+1380 bytes/thread; the LDS draft uses 52352 shared bytes with no spills.
+Compiler-only checks pass after fixing the fixture's generated codebook include.
+The new component retains finite disagreements, times both candidates and
+checks actual timed buffers. .157 host 38+38 passes with seven artifacts
+collected; the plan freezes 246 files/four manifests. No GPU admission,
+model selector or measured improvement yet.
+[Scope, provenance and pending GPU comparison](Q2-IQ2-WHOLE640.md).
+
 ## PP/TG graph from existing measurements — 2026-10-06 UTC
 
 Export the original eight-token decode observations alongside the complete

@@ -1,0 +1,65 @@
+{
+  "schema": "synapse-lie.q2-iq2-whole640-static.v1",
+  "source_manifest": "config/q2-iq2-fixed-bounds-source.json",
+  "source_manifest_sha256": "2e81463dbbe134190c300f2b008684d584f0d75f60f36f16eb25b765c2c4b45c",
+  "retained_provider_files": 1028,
+  "parent_assembly": "evidence/q2-iq2-fixed-bounds-preparation/candidate.s",
+  "parent_assembly_sha256": "10f77ab9fd463dea4da04fb3c613a69fd3a56686782119780f16eacee3a9d331",
+  "parent_recompiled": false,
+  "variants": {
+    "register": {
+      "draft": "experiments/q2-iq2-whole640-draft.inc",
+      "draft_sha256": "eb8dce45fd67f91f364c9b73f67907127bc9f91708be2c4e2cf6a164cf73ebe2",
+      "assembly": "evidence/q2-iq2-whole640-preparation-v5/candidate.s",
+      "assembly_sha256": "5fcdb4d6f255efd854003bfe6e59f69f93d2be3c56b925f493500de597d4e69c",
+      "command": "evidence/q2-iq2-whole640-preparation-v5/assembly-command.json",
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm28RoutedIq2Whole640DraftKernelEPKvS4_PK6__halfPKiS9_S9_S9_PS5_Pf",
+      "resources": {
+        "group_segment_fixed_size": 11392,
+        "private_segment_fixed_size": 1380,
+        "next_free_vgpr": 256,
+        "next_free_sgpr": 18,
+        "wavefront_size32": 1
+      },
+      "compiler_comments": {
+        "NumVgprs": 256,
+        "TotalNumSgprs": 20,
+        "NumVGPRsForWavesPerEU": 256,
+        "Occupancy": 5
+      },
+      "instructions": 3913,
+      "scratch_instructions": 228,
+      "original_kernels_exact": 164
+    },
+    "lds": {
+      "draft": "experiments/q2-iq2-whole640-lds-draft.inc",
+      "draft_sha256": "7496279fca2f5578bc696973ba0ba7f9a423150eb3ae17a85893869f44837bfc",
+      "assembly": "evidence/q2-iq2-whole640-preparation-v6/candidate.s",
+      "assembly_sha256": "e836847e2e852a6f4cce51364fa40524d5839bbca83c3bc632d2948571e13f1e",
+      "command": "evidence/q2-iq2-whole640-preparation-v6/assembly-command.json",
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm31RoutedIq2Whole640LdsDraftKernelEPKvS4_PK6__halfPKiS9_S9_S9_PS5_Pf",
+      "resources": {
+        "group_segment_fixed_size": 52352,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 241,
+        "next_free_sgpr": 18,
+        "wavefront_size32": 1
+      },
+      "compiler_comments": {
+        "NumVgprs": 98,
+        "TotalNumSgprs": 20,
+        "NumVGPRsForWavesPerEU": 241,
+        "Occupancy": 4
+      },
+      "instructions": 931,
+      "scratch_instructions": 0,
+      "original_kernels_exact": 164
+    }
+  },
+  "prompt_changed": false,
+  "production_selector": false,
+  "gpu_run": false,
+  "performance_measurement": false,
+  "numerical_acceptance": false,
+  "goal_met": false
+}

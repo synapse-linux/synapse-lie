@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Whole640 component preparation — 2026-10-06 UTC
+
+Fresh .157 global handover at 18:28:34 UTC verifies final full-prefill release
+9fffc2e2, retired identities/groups, empty KFD, original Core CPU/four GPU
+leases and unchanged model stat tuples. Core confirms own .157 non-use while
+its separately admitted r35 work uses .161; Q2 confirms own .161 non-use.
+Prepare one new whole640 component, with host checks first. No model or curve
+arm, saved model control rerun, remote cleanup or .158/.161/TB activity.
+This preparation is not a GPU admission or reservation.
+Host-r1 finishes 18:29:43 UTC with 38+38 checks/six zero exits and all seven
+artifacts collected. Plan 3ac31b7b freezes 246 fixtures/four manifests; a new
+GPU admission is still required.
+
 ## Full-prefill128K collected and released — 2026-10-06 UTC
 
 The64K recovery completes17:22:48.588944UTC with4exits0/10artifacts. The first

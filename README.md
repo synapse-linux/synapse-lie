@@ -1,5 +1,10 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The new [whole640 IQ2 producer/packing experiment](docs/Q2-IQ2-WHOLE640.md)
+removes an F32 intermediate in two isolated drafts. Both compile; the shared
+memory version has no spills. GPU comparison is pending and the retained
+1587.893545 PP result remains unchanged.
+
 [Updated Q2 prefill and decode graph](docs/figures/q2-full-prefill128/pp-tg.png):
 the saved exact-2K/TG128 reference appears separately from the complete 4K–128K
 prefills and their original eight-token replies. The long-context TG128 curve
