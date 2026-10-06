@@ -1,5 +1,23 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Counter calibration r2 completes01:03:35UTC: SQ_WAVES_sum512 on every dispatch
+alone and co-collected with GRBM_COUNT (20 total); FETCH_SIZE131079.8125KiB
+first and131072.125KiB nine times for262144KiB expected. All50 complete output/
+guard checks pass. CSV/JSON records agree exactly. This excludes FETCH_SIZE
+from bandwidth diagnosis and permits only the two tested wave groups; other
+metrics remain unqualified. The first compiler attempt failed exit1 on an
+unsupported flag and is preserved. A corrected launcher passes fresh31+31;
+primary12 commands exit0/26 artifacts/105 fixture identities verify.
+
+The initial analyzer also preserved an exit1 after conflating HIP
+multiProcessorCount20 with profiler cu_count40. Corrected analysis retains
+both observed fields and all original expected waves/traffic/tolerances;
+no GPU rerun was needed. Release01:04:20UTC SHA7a3722f3 retires1242 identities/
+992 groups, KFD empty, four original leases free, seven model stats unchanged,
+mirrors exact and Core notified. No process/build/waiter/reservation/cleanup
+remains. Q2 stays1585.308983/25.16079073; full-curve parity remains open.
+[Report and all samples](Q2-COUNTER-CALIBRATION.md).
+
 The [counter calibration](Q2-COUNTER-CALIBRATION.md) is implemented as an
 isolated fixture under the existing leased supervisor. Fresh .157 host31+31
 passes at00:54:41UTC; six exits0/seven artifacts verify and105 fixture files

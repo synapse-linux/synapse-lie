@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Counter calibration r2 releases .157 at2026-10-06T01:04:20.298495UTC,
+SHA2567a3722f3ee8aa1b318131a33087f6d504974880e8dca5c9a5e9ed54d8b77f7a5.
+Fresh handover revalidation01:02:47UTC precedes admission01:03:12UTC from
+checkpoint22ebaf7. Host31+31 and standalone calibration complete and collect:
+12 primary commands exit0/26 artifacts; no model is loaded. Release verifies
+1242 retired identities/992 groups, empty KFD, four unchanged free leases and
+seven unchanged model stat tuples. Canonical/main/remote mirrors agree; Core
+receives closure. No Q2 job/build/client/lease/waiter/reservation, restart or
+cleanup remains. Future profiling needs new admission. The initial compiler
+failure was separately collected/released at00:59:26UTC, SHAd39fb71c.
+[Release](../config/q2-counter-calibration-v2-window-release.json),
+[calibration](Q2-COUNTER-CALIBRATION.md).
+
 After compact-LDS releasea47f405b, the retained-counter audit performs only
 read-only .157 file collection and ELF metadata inspection. No GPU runtime,
 profiler session, remote build, lease, waiter or reservation is started.

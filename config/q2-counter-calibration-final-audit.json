@@ -1,0 +1,45 @@
+{
+  "schema": "synapse-lie.q2-counter-calibration-final-audit.v1",
+  "report_sha256": "4b30fab597c6ce404a9868031e20bec853ce6f8ba2009845d41fbff712c8d79d",
+  "csv_sha256": "d982d64ee9d3228b88802235c7c8f848fd667e072c8274ad3019d427bff0e1d6",
+  "primary_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "primary_artifacts": 26,
+  "earlier_preserved_artifacts": 9,
+  "complete_checks": 50,
+  "counter_records": 40,
+  "counter_group_verdicts": [
+    true,
+    true,
+    false
+  ],
+  "first_compile_exit": 1,
+  "first_analyzer_exit": 1,
+  "corrected_analysis_exit": 0,
+  "retained": {
+    "report": "config/q2-ssm-fixed-bounds-model-results.json",
+    "sha256": "f11b8e3e7663ce78de183032a924358e8429ea953a66cc0dd86849359852acdd",
+    "binary_sha256": "db356a95046fd6951ba279627868f4a7bdeb49efdcc17225a6aafea3d85b4787",
+    "prefill_tok_s": 1585.308983,
+    "decode_steps_s": 25.16079073
+  },
+  "release_sha256": "7a3722f3ee8aa1b318131a33087f6d504974880e8dca5c9a5e9ed54d8b77f7a5",
+  "retired_identities": 1242,
+  "retired_groups": 992,
+  "gpu_reserved": false,
+  "model_inference": false,
+  "throughput_change_claimed": false,
+  "goal_met": false
+}

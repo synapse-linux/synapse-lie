@@ -1,6 +1,48 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Synthetic GPU counter calibration
 
+Revision2 completes on .157 at2026-10-06T01:03:35UTC. Wave counts pass both
+controls, while FETCH_SIZE fails the predeclared traffic check by about50%.
+All50 complete output/guard checks pass, and every counter record agrees
+between the independent CSV and JSON exports. This verifies a measurement
+limitation before it can be misread as low model bandwidth.
+
+| Measured control | Expected | Observed across ten dispatches | Verdict |
+| --- | ---: | ---: | --- |
+| SQ_WAVES_sum alone |512 waves |512 every time | Pass |
+| SQ_WAVES_sum with GRBM_COUNT |512 waves |512 every time | Pass |
+| GRBM_COUNT alongside waves |Finite positive |12211–21902 cycles | Positivity check passes; no clock-accuracy claim |
+| FETCH_SIZE for256MiB read |262144KiB ±5% |131079.8125 first;131072.125 on the other nine | Fail |
+
+Keep FETCH_SIZE ineligible for bandwidth diagnosis. The approximately half
+count is consistent with the official GL2C instance-count defect from the
+[installation audit](Q2-RETAINED-COUNTERS.md), but this run does not itself
+expose the underlying GL2C instances or prove which binary change caused it.
+Do not multiply counts by two as an assumed correction. The wave controls
+qualify their two tested groups only; other SQ counters and derived occupancy
+still need relevant checks before a quantitative claim.
+
+The primary r2 host/GPU campaign has12 commands, all exit0, and26 verified
+artifacts. All105 fixture identities bind to both source capsules. The
+calibration binary hash remains
+`a348fc5bdad96535b574fd33cb38e20277e8ff87c09945439658ccd5695f30cb`.
+GPU-run temperature peaks are40.75C CPU and36C GPU. Release01:04:20.298495UTC,
+SHA7a3722f3ee8aa1b318131a33087f6d504974880e8dca5c9a5e9ed54d8b77f7a5,
+verifies1242 retired identities/992 groups, empty KFD, four unchanged free
+leases and seven unchanged model stat tuples. All mirrors agree; Core receives
+closure. No Q2 job, lease, reservation or cleanup remains.
+
+The fixture's saved `compute_units` label actually records HIP
+`multiProcessorCount`, which is20 here; the profiler's `cu_count` is40.
+The first analysis incorrectly equated those fields and stopped. Its source
+and exit1 are preserved in the preparation evidence; corrected analysis keeps
+both identities separate, changes no wave expectation or tolerance, and uses
+the same saved GPU outputs. No kernel or benchmark is rerun for this correction.
+
+[Bound report](../config/q2-counter-calibration-results.json),
+[all40 counter records](figures/q2-counter-calibration.csv).
+The preparation and failed initial compiler attempt below remain historical.
+
 This campaign checks profiler measurements on .157 before diagnosing the saved
 Q2 model. It does not load models, change numerical inference or add PP/TG
 samples. The retained result remains1585.308983/25.16079073; fixedQ2 and UD
@@ -55,6 +97,7 @@ selects `oclc_wavefrontsize64_off.bc`. The GPU fixture is byte-identical.
 A fresh host31+31 completes at01:01:40UTC, six exits0/seven artifacts, binding
 the corrected launcher and admission path. The
 [second plan](../config/q2-counter-calibration-v2-plan.json) preserves all
-original geometry, data, counter groups and acceptance limits. GPU compilation
-and calibration are pending a fresh window afterd39fb71c. No performance gain
-is claimed, no saved reference is rebuilt/rerun and no cleanup occurs on .157.
+original geometry, data, counter groups and acceptance limits. Admission at
+01:03:12.670107UTC follows fresh observation01:02:47UTC and checkpoint22ebaf7;
+the completed measurements are above. No performance gain is claimed, no saved
+reference is rebuilt/rerun and no cleanup occurs on .157.

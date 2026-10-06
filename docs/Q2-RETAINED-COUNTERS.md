@@ -1,6 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Retained Q2 hardware-counter preparation
 
+The subsequent [GPU calibration](Q2-COUNTER-CALIBRATION.md) is complete.
+It verifies the tested wave groups and rejects FETCH_SIZE after a roughly50%
+read-count shortfall. This file preserves the preceding installation audit;
+its then-proposed probe below is superseded by that measured result.
+
 The retained model result remains **1585.308983 PP /25.16079073 TG**, from
 `ssm-fixed-bounds` on the unchanged exact2048/tg128 benchmark. This audit reads
 installed profiler files on .157 and official ROCm issue/PR evidence. It adds

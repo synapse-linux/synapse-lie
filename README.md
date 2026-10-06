@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [GPU counter calibration](docs/Q2-COUNTER-CALIBRATION.md) now completes:
+SQ_WAVES_sum reports the exact512 waves on all20 observations, alone and with
+GRBM_COUNT. FETCH_SIZE reports about128MiB for256MiB of verified reads and is
+excluded from bandwidth diagnosis. All50 output/guard checks pass; CSV/JSON
+agree,12 primary commands exit0 and26 artifacts verify. The failed first
+compiler attempt is retained. .157 is released; the unchanged model result
+remains1585.308983 PP /25.16079073 TG. Pending entries below are historical.
+
 The [small counter calibration](docs/Q2-COUNTER-CALIBRATION.md) now has a
 standalone wave32/256MiB-read fixture and a bounded three-pass profiler route.
 Fresh .157 host31+31 tests pass and105 fixture identities are frozen.
