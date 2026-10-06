@@ -9,7 +9,7 @@ def digest(value):
         separators=(',', ':')).encode()).hexdigest()
 
 
-def inputs(root):
+def inputs(root, depth=None):
     manifest = json.loads((root/'config/q2-full-prefill128-inputs.json').read_text())
     corpus = root/manifest['requests']
     if hashlib.sha256(corpus.read_bytes()).hexdigest() != manifest['requests_sha256']:
@@ -22,19 +22,36 @@ def inputs(root):
                 digest(case['body']['messages']) != binding['messages_sha256'] or
                 case['expected_prompt_tokens'] != binding['expected_prompt_tokens']):
             raise ValueError('Saved full-prefill input identity differs')
+    if depth is not None:
+        if depth not in (65536,131072):
+            raise ValueError('Only saved unfinished long prefill depths are selectable')
+        selected = [(c,b) for c,b in zip(cases,manifest['cases']) if b['phase'] != 'prefix' or b['depth'] == depth]
+        cases = [c for c,b in selected]
+        manifest['cases'] = [b for c,b in selected]
+        if len(cases) != 4:
+            raise ValueError('Expected original preparation plus one complete prefix')
     return corpus, manifest, cases
 
 
-def client_argv(root, binary, output):
-    corpus, _, _ = inputs(root)
+def client_argv(root, binary, output, depth=None):
+    corpus, _, cases = inputs(root, depth)
+    if depth is not None:
+        corpus = output.with_suffix('.requests.jsonl')
+        payload = ''.join(json.dumps(c,ensure_ascii=False,separators=(',',':'))+'\n' for c in cases)
+        if corpus.exists():
+            if corpus.read_text() != payload:
+                raise ValueError('Existing selected input file differs')
+        else:
+            with corpus.open('x') as stream:
+                stream.write(payload)
     return [str(binary), '--suite', 'http', '--url', 'http://127.0.0.1:8000/v1',
         '--model', 'bench', '--output', str(output), '--server-label', 'retained-full-prefill128',
         '--server-kv-cache', 'on', '--requests', str(corpus), '--context-capacity', '133760',
         '--rope-scaling', 'native', '--warmups', '0', '--repetitions', '1', '--timeout', '1800']
 
 
-def validate_result(root, path):
-    _, manifest, cases = inputs(root)
+def validate_result(root, path, depth=None):
+    _, manifest, cases = inputs(root, depth)
     events = [json.loads(line) for line in path.read_text().splitlines()]
     samples = [e for e in events if e['event'] == 'sample']
     if (events[-1]['event'] != 'complete' or events[-1]['exit_code'] != 0 or

@@ -1,5 +1,10 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The full-prefill replay reaches32K with exact saved counts and zero cached
+tokens, then stops during64K at CPU98.125C. Recovery is limited to the unfinished
+64K/128K prefixes, separated by cooling outside all measured calls. The original
+corpus, chunks, executor timer, binaries and98C stop remain unchanged.
+
 ## Full-prefill scope correction — 2026-10-06 UTC
 
 The latest owner instruction explicitly requests the latest optimized Q2 on

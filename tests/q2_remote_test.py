@@ -21,6 +21,22 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_full_prefill_recovery_preserves_original_messages(self):
+        from q2_full_prefill128 import inputs
+        root = path.parents[1]
+        _, all_manifest, all_cases = inputs(root)
+        for depth in (65536,131072):
+            _, manifest, selected = inputs(root, depth)
+            self.assertEqual(len(selected),4)
+            self.assertEqual([b['depth'] for b in manifest['cases'] if b['phase']=='prefix'],[depth])
+            for case in selected:
+                self.assertEqual(case, next(c for c in all_cases if c['id']==case['id']))
+        with self.assertRaises(ValueError):inputs(root,4096)
+        self.refuse(['cpu','q2-fixture','--prefill-only-depth','65536'], 'Saved prefill depth requires')
+        args=['q2-prefill128','q2-fixture','--source-variant','prefill128-q2','--native-curve','--prefill-only-depth','131072']
+        with patch.object(sys,'argv',[str(path),*args]), patch.object(Path,'mkdir',side_effect=RuntimeError('staging reached')):
+            with self.assertRaisesRegex(RuntimeError,'staging reached'):remote.main()
+
     def test_full_prefill128_requires_matched_saved_binary_replay(self):
         argv = ['q2-prefill128', 'q2-fixture', '--source-variant', 'prefill128-q2']
         self.refuse(argv, 'Curve128 requires')

@@ -35,9 +35,14 @@ def main():
         flags = flags[1:]
         if native_bench is None:
             raise ValueError('Focused point requires the native benchmark')
+    prefill_depth = None
+    if flags[:1] == ['--prefill-only-depth']:
+        prefill_depth, flags = int(flags[1]), flags[2:]
     if flags not in ([], ['--profile-ple'], ['--iq2-signs'], ['--ple-cache-first'], ['--profile-routes'], ['--iq2-mixed'], ['--iq2-scale'], ['--scaled-row'], ['--norm-ragged'], ['--retained-128'], ['--retained-prefill']):
         raise ValueError('Unknown diagnostic flags')
     full_prefill = flags == ['--retained-prefill']
+    if prefill_depth is not None and (not full_prefill or prefill_depth not in (65536,131072)):
+        raise ValueError('Only saved unfinished full-prefill depths may be selected')
     retained128 = full_prefill or flags == ['--retained-128']
     if retained128 and (variant != 'q2' or native_bench is None or point_only):
         raise ValueError('Retained128 requires the complete native Q2 curve')
@@ -124,7 +129,7 @@ def main():
                                    result/'native-curve-graphs', native_variant, point_only=point_only)
             if full_prefill:
                 from q2_full_prefill128 import client_argv as full_argv
-                argv = full_argv(ROOT, native_bench, result/'full-prefill.jsonl')
+                argv = full_argv(ROOT, native_bench, result/'full-prefill.jsonl', depth=prefill_depth)
                 receipt['workload'] = 'Exact saved full-prefix requests; no continuation measurements'
             command = dict(argv=argv, started_ns=time.monotonic_ns())
             receipt['commands'].append(command)
@@ -139,7 +144,7 @@ def main():
                     raise RuntimeError('Canonical curve client failed; raw evidence retained')
             if full_prefill:
                 from q2_full_prefill128 import validate_result
-                receipt['full_prefill_validation'] = validate_result(ROOT, result/'full-prefill.jsonl')
+                receipt['full_prefill_validation'] = validate_result(ROOT, result/'full-prefill.jsonl', depth=prefill_depth)
             if native_bench is not None:
                 with urllib.request.urlopen(f'http://127.0.0.1:{management}/actuator/llm', timeout=5) as response:
                     payload = response.read(1048577)

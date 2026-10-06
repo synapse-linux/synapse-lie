@@ -310,7 +310,10 @@ def main():
                    help='Recompile all MMQ sources for bench2k, decode-baseline or original-baseline; no prior archive reuse')
     p.add_argument('--existing-collection', action='store_true',
                    help='Validate/extract an already downloaded collection; no SSH or overwriting results')
+    p.add_argument('--prefill-only-depth', type=int, choices=(65536,131072))
     args = p.parse_args()
+    if args.prefill_only_depth is not None and (args.mode != 'q2-prefill128' or not args.native_curve):
+        p.error('Saved prefill depth requires the matched native full-prefill mode')
     if args.mode == HC_REUSE_MODE or args.source_variant == HC_REUSE_VARIANT:
         if args.mode != HC_REUSE_MODE or args.source_variant != HC_REUSE_VARIANT:
             p.error('HC injection reuse requires its component-only draft provider')
@@ -934,6 +937,9 @@ def main():
                      'tools/q2-attention-capacity-phase.py',
                      'experiments/q2-attention-capacity-q2.patch',
                      'experiments/q2-attention-capacity-ud.patch',
+                     'tools/q2-full-prefill128-recovery-window.py',
+                     'tools/q2-full-prefill128-recovery-phase.py',
+                     'tools/freeze-q2-full-prefill128-recovery-plan.py',
                      'tools/q2_full_prefill128.py',
                      'tools/q2-full-prefill128-window.py',
                      'tools/q2-full-prefill128-phase.py',
@@ -1885,7 +1891,7 @@ def main():
         '  if path.is_absolute() or ".." in path.parts or not (item.isdir() or item.isfile()): raise ValueError("unsafe member")',
         '  if item.size>' + repr(source_data_limits(args.mode)) + '.get(item.name,16000000): raise ValueError("oversized source file")',
         '  archive.extract(item,root,filter="data")',
-        'os.execv(sys.executable,[sys.executable,str(root/"tools/q2-runner.py"),' + repr(args.mode) + (',' + repr('--rebuild-mmq') if args.rebuild_mmq else '') + (',' + repr('--native-curve') if args.native_curve else '') + (',' + repr('--point-only') if args.point_only else '') + (',' + repr('--replay-from') + ',' + repr(args.replay_from) if args.replay_from else '') + '])',
+        'os.execv(sys.executable,[sys.executable,str(root/"tools/q2-runner.py"),' + repr(args.mode) + (',' + repr('--rebuild-mmq') if args.rebuild_mmq else '') + (',' + repr('--native-curve') if args.native_curve else '') + (',' + repr('--prefill-only-depth') + ',' + repr(str(args.prefill_only_depth)) if args.prefill_only_depth else '') + (',' + repr('--point-only') if args.point_only else '') + (',' + repr('--replay-from') + ',' + repr(args.replay_from) if args.replay_from else '') + '])',
     ])
     if args.detach:
         lines = script.splitlines()
@@ -1899,7 +1905,7 @@ def main():
         script = '\n'.join(lines)
     argv = ['ssh', '-F', '/dev/null', '-o', 'BatchMode=yes', HOST,
             'python3 -c ' + shlex.quote(script)]
-    result = {'mode': args.mode, 'source_variant': args.source_variant, 'source_path': source, 'rebuild_mmq': args.rebuild_mmq, 'native_curve': args.native_curve, 'point_only': args.point_only, 'label': args.label, 'remote': dest,
+    result = {'mode': args.mode, 'source_variant': args.source_variant, 'source_path': source, 'rebuild_mmq': args.rebuild_mmq, 'native_curve': args.native_curve, 'point_only': args.point_only, 'prefill_only_depth': args.prefill_only_depth, 'label': args.label, 'remote': dest,
               'capsule_sha256': hashlib.sha256(capsule.read_bytes()).hexdigest(),
               'detached': args.detach, 'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
     with capsule.open('rb') as inp, (out/'remote.log').open('wb') as log:

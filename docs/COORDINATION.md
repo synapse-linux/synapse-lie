@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Full-prefill recovery preparation — 2026-10-06 UTC
+
+The initial full-prefill arm stops17:13:53UTC at CPU98.125C during64K. Six full
+prefixes through32K remain complete. Nine artifacts collect before release
+17:15:45.334797UTC/46c4bae9:1617identities/1292groups retired, KFD empty, original
+CPU/fourGPU leases free, seven model stat tuples unchanged; mirrors agree and
+Core informed. Fresh handover17:19:35UTC revalidates closure. Prepare only the
+unfinished64K/128K requests, in separate model sessions admitted below60C, with
+no change to input tokens, kernels or98C stop. No .158/.161/TB use or cleanup.
+
 ## Full-prefill replay preparation — 2026-10-06 UTC
 
 The earlier continuation run stops on owner correction: client/supervisor1,
