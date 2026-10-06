@@ -9,6 +9,27 @@ Finish source corrections first, retaining only required focused local checks;
 then qualify the integrated runtime, run the matched benchmarks and run Terminal
 Bench last. No new remote campaign or machine reservation is queued.
 
+## Integrated final HOST checkpoint — 2026-10-06 UTC
+
+The current functional source is integrated at `88d4c4e5`. Final local checks
+pass 101/101 native controls and 67/67 complete provider controls in both Release
+and unsuppressed ASan/UBSan/LSan, plus 69/69 headless ICU-OFF controls. All 68
+public headers compile strictly as C17 and C++17. The 30 full witness groups
+agree across builds; all 267 preceding captures remain unchanged.
+
+The [current HOST receipt](development/validation/integrated-final-host-2026-10-06.json)
+and [portable evidence](development/validation/raw/integrated-final-host-2026-10-06.tar.gz)
+bind 650 source files, 120 sampler-provider files, two observer files and 1,019
+pinned Gufo files. Independent archive verification covers 534 witness captures
+and 1,823 members. Four earlier link attempts retain their actual exit 1;
+explicit dispatch dependencies fix all five standalone fixture consumers and
+the transitional runtime. Corrected builds and final checks exit 0.
+
+Peak local CPU is 94.625 C under CPU98/NVMe85/lower guards; GPU is masked.
+Collection repeats no tests and starts no remote operation. All six items remain
+open for GPU/quality/fault/performance acceptance. Implementation precedes those
+campaigns, benchmarks follow functional qualification and Terminal Bench is last.
+
 ## Build coherence and source readiness — 2026-10-06 UTC
 
 The observer's build identity now requires a JSON boolean. Native provider

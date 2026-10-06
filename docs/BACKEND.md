@@ -38,8 +38,8 @@ The functional source audit now maps items 3–7 to integrated context/recall,
 benchmark/dispatch, steering, generation-profile and three C17 sampler paths.
 The build-coherence correction also covers typed observer identity and the
 canonical full-provider Point build route. Source is ready for one combined
-qualification phase; this is not HIP compilation or runtime acceptance. Run the
-final combined local checks, rebuild complete coherent private providers/clients
+qualification phase; this is not HIP compilation or runtime acceptance. Final
+combined local checks pass; rebuild complete coherent private providers/clients
 on `.161` after fresh admission, then perform functional/quality/fault gates.
 Comparative performance follows those gates; Terminal Bench stays last.
 All six items remain open until their separate acceptance evidence is collected.
@@ -54,21 +54,20 @@ An open qualification gate does not mean its implementation is absent:
 | 6 | Temperature, top-k/min-p profiles and seeded AR/MTP controls | Independent original-weight probabilities, tool transitions and matched cost |
 | 7 | C17 grammar/masking, history and compact speculative distributions, including buffer ownership | Original-weight numerical/fault/resource/quality and cost gates |
 
-Source review finds integration for context/client limits, benchmark methods,
-steering/sampling and the three sampler extractions. The corrected checkpoint
-`77bcdc1c` passes native functional 98/98 and complete provider 67/67 in both
-Release and unsuppressed sanitizer builds, plus ICU-OFF core 68/68 and strict
-C17/C++17 public headers. All 30 complete witness groups agree across builds;
-the earlier lazy-null parity failure remains preserved. This
-[combined HOST receipt](development/validation/c17-final-functional-host-2026-10-06.json)
-qualifies the local code paths only. The matching r36 HIP build completes
-provider ON/OFF120, server, benchmark and reference consumers with exit 0.
-Its collected receipts bind all 1,019 variant files per provider; the supervisor
-and container are retired, the original lease is released and the router is
-restored. This is build evidence, not original-weight qualification.
-Original-weight, fault, quality and performance gates remain deferred until the
-implementation phase closes and require fresh admission. Terminal Bench remains
-last; no item is closed solely by compilation.
+The integrated checkpoint `88d4c4e5` passes native functional 101/101 and complete
+provider 67/67 in both Release and unsuppressed sanitizer builds, plus ICU-OFF
+core 69/69 and all 68 strict C17/C++17 public headers. All 30 complete witness
+groups agree across builds; all 267 preceding captures remain unchanged. The
+[current combined HOST receipt](development/validation/integrated-final-host-2026-10-06.json)
+preserves four failed link attempts and binds their corrected dependencies.
+It qualifies local synthetic and algorithm paths only. The earlier
+[`77bcdc1c` HOST receipt](development/validation/c17-final-functional-host-2026-10-06.json)
+and closed r36 HIP build remain historical evidence; that build predates the
+observer's private ABI and cannot qualify this checkpoint. Coherent current HIP
+compilation and original-weight functional, fault and quality gates need fresh
+`.161` admission. Comparative performance follows them; Terminal Bench remains
+last. No further intermediate campaign is queued, and compilation alone closes
+none of the six items.
 
 1. **Completed: selected original-weight OpenAI GPU controls.**
    The latest qualified runtime `dbdac28d` passes **37 general OpenAI checks

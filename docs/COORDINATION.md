@@ -1,5 +1,21 @@
 # DS4 / synapse-lie coordination
 
+## Integrated HOST collection closed — 2026-10-06
+
+Current source `88d4c4e5` passes native 101/101 and complete provider 67/67 in
+Release and unsuppressed ASan/UBSan/LSan, core ICU-OFF 69/69 and strict public
+headers. The [HOST receipt](development/validation/integrated-final-host-2026-10-06.json)
+binds completed local checks, preserved link failures and full unchanged witnesses.
+Offline collection and archive verification repeat no tests; peak local CPU
+is 94.625 C under CPU98/NVMe85/lower guards, with GPU masked/observe-only.
+
+Root has no live local tool handle or remote job/build/client/lease/window/plan/
+waiter/reservation/handle and uses neither `.157` nor `.158`. No remote campaign
+is prepared or admitted. All six items remain open. Source implementation comes
+first; final current-source HIP/original-weight functional/quality/fault gates
+need fresh peer/global/lease admission on `.161`, followed by benchmarks and
+Terminal Bench last. Historical closures are not admission.
+
 ## Functional source ready for combined qualification — 2026-10-06
 
 The final source audit covers the six owned roadmap items, with build-receipt
