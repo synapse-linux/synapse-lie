@@ -1,6 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Current sequence: implementation, qualification, benchmarks, eval
+
+The owner confirms implementation before further campaigns. Source integration
+and acceptance are separate in the [current roadmap](BACKEND.md#current-roadmap--2026-10-06-utc).
+Finish source corrections first, retaining only required focused local checks;
+then qualify the integrated runtime, run the matched benchmarks and run Terminal
+Bench last. No new remote campaign or machine reservation is queued.
+
 ## Combined final HOST qualification passes — 2026-10-06 UTC
 
 For code checkpoint `77bcdc1c`, all 98 native functional controls pass in both
@@ -18,10 +26,17 @@ Independent archive verification covers 534 witness captures and 1,833 members.
 The earlier null parity failure, strict build/ptrace refusals and packaging
 count/coverage corrections remain preserved. No test is repeated for packaging.
 
-Peak local CPU is 95.125 C under CPU 98 C/NVMe 85 C/lower guards. GPU is masked
-and observed only; no model forward, remote build, lease or service change occurs.
-Matching coherent HIP ON/OFF120/private consumers and original-weight `.161`
-AR/MTP, branch/fault/quality/resources/cost gates remain pending fresh admission.
+Peak local CPU is 95.125 C under CPU 98 C/NVMe 85 C/lower guards. In this HOST
+phase GPU is masked and observed only; no model forward, remote build, lease or
+service change occurs. The subsequent matching r36 HIP provider ON/OFF120 and
+private consumers build with exit 0; all 25 collected artifacts and both complete
+1,019-file variant maps verify locally. The first collection checker exit 1 is
+preserved: it assumed three individual recipe fields that the authoritative
+receipt instead binds through the complete variant map. Corrected offline
+verification passes without repeating a build or starting inference.
+The owned build processes/container are retired, the original lease is released
+and the router is restored. Original-weight `.161` AR/MTP,
+branch/fault/quality/resources/cost gates remain deferred, pending fresh admission.
 All six owned tasks remain open; Terminal Bench stays last and unreserved.
 
 ## Finish source corrections before further tests — 2026-10-06 UTC

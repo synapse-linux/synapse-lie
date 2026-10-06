@@ -26,14 +26,23 @@ do not constitute implementation tasks. GPU qualification in this queue uses
 `.161` with fresh coordination and admission for every run.
 
 Item 1 records completed qualification. The active queue is items 2–7 below.
-At the owner's request, implement the remaining functional changes before
-starting new test campaigns. New source stays explicitly unverified until the
-final qualification phase; earlier receipts retain their frozen source scope.
-Collect focused functional, CTest, sanitizer, GPU, quality and performance gates
-in that final phase, using `.161` for GPU work with fresh admission. Terminal
-Bench (item 2) runs last. Continue source work for items 3–7 first, starting with
-the remaining C17 extraction (item 7). No intermediate CPU/GPU campaign, Terminal
-Bench client/server restart or machine reservation is queued in the meantime.
+The owner confirms this order: finish functional implementation, qualify the
+combined runtime, run the comparative benchmarks, then run Terminal Bench
+(item 2) last. Do not alternate component changes with full test campaigns.
+Required focused local checks accompany source corrections; new GPU, quality,
+performance and full-suite campaigns wait for the integrated implementation.
+GPU qualification uses `.161` with fresh admission. No intermediate remote
+campaign, Terminal Bench restart or machine reservation is queued.
+
+An open qualification gate does not mean its implementation is absent:
+
+| Item | Source already integrated in this branch | Final qualification still open |
+| --- | --- | --- |
+| 3 | 1M context admission, explicit YaRN and long-context client deadlines | Independent recall and original-weight HTTP at long context |
+| 4 | Native benchmark methods, metrics and graph generation | Matched Gufo/Halogen runs through 1M and C1/2/4/6/8; actual sparse dispatch and reactive cost |
+| 5 | Steering bank, model/session policies, scheduled changes and RAM/SSD identities | Learned-direction quality, graph/correction/fault/vision cases and matched cost |
+| 6 | Temperature, top-k/min-p profiles and seeded AR/MTP controls | Independent original-weight probabilities, tool transitions and matched cost |
+| 7 | C17 grammar/masking, history and compact speculative distributions, including buffer ownership | Original-weight numerical/fault/resource/quality and cost gates |
 
 Source review finds integration for context/client limits, benchmark methods,
 steering/sampling and the three sampler extractions. The corrected checkpoint
@@ -42,9 +51,14 @@ Release and unsuppressed sanitizer builds, plus ICU-OFF core 68/68 and strict
 C17/C++17 public headers. All 30 complete witness groups agree across builds;
 the earlier lazy-null parity failure remains preserved. This
 [combined HOST receipt](development/validation/c17-final-functional-host-2026-10-06.json)
-qualifies the local code paths only. Matching coherent HIP ON/OFF120/private
-consumers and `.161` original-weight, fault, quality and performance gates still
-require fresh admission. Terminal Bench remains last; no item is closed.
+qualifies the local code paths only. The matching r36 HIP build completes
+provider ON/OFF120, server, benchmark and reference consumers with exit 0.
+Its collected receipts bind all 1,019 variant files per provider; the supervisor
+and container are retired, the original lease is released and the router is
+restored. This is build evidence, not original-weight qualification.
+Original-weight, fault, quality and performance gates remain deferred until the
+implementation phase closes and require fresh admission. Terminal Bench remains
+last; no item is closed solely by compilation.
 
 1. **Completed: selected original-weight OpenAI GPU controls.**
    The latest qualified runtime `dbdac28d` passes **37 general OpenAI checks

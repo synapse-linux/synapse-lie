@@ -1,5 +1,29 @@
 # DS4 / synapse-lie coordination
 
+## Current sequencing and closed r36 build — 2026-10-06
+
+The owner confirms implementation before further test campaigns. Root queues no
+new AR/MTP, GPU quality/fault, benchmark or Terminal Bench campaign while source
+work remains; only required focused local checks accompany corrections. Final
+qualification precedes comparative benchmarks, with Terminal Bench last.
+
+The matching r36 HIP provider ON/OFF120 and private consumers build with exit 0.
+All 25 copied compilation artifacts verify; both complete 1,019-file variant
+maps equal an independent reconstruction from the sealed recipes and pinned
+pristine source. The collection checker's earlier exit 1 remains preserved:
+three assumed individual recipe fields are absent, while the actual receipt
+binds their results through `variant_files`. Corrected local verification passes
+without a remote operation, rebuild or model execution.
+
+The owned supervisor/container are retired; the original `.161` lease
+`66307/105946405` is released at 21:37:29 UTC and the router is restored.
+Closure is observed at 21:39:38 UTC. Root holds no job/client/build/window/lease/
+waiter/reservation/handle on `.161`, uses neither `.157` nor `.158`, and has no
+prepared or admitted follow-up inference window. This closure is historical
+evidence, not global admission for another run. Fresh peer/global checks and the
+original lease remain mandatory for every later GPU window. All six items stay
+open. No performance or original-weight result is claimed for r36.
+
 ## Combined local HOST qualification collected — 2026-10-06
 
 Checkpoint `77bcdc1c` passes native functional 98/98 in Release and unsuppressed
@@ -10,10 +34,10 @@ files, 30 full witness groups per build and the complete portable archive.
 These are local synthetic/algorithm controls, not original-weight inference.
 Peak CPU is 95.125 C under CPU 98 C/NVMe 85 C/lower guards; GPU stays masked.
 
-No root remote job/client/build/window/lease/waiter/reservation is prepared or held
-on `.157/.158/.161/TB`. Fresh peer/global admission and the original `.161`
-lease remain mandatory for matching complete HIP ON/OFF120/private-consumer
-builds and every subsequent original-weight/fault/quality/performance window.
+At this HOST checkpoint, no root remote job/client/build/window/lease/waiter/
+reservation is prepared or held on `.157/.158/.161/TB`. Fresh peer/global
+admission and the original `.161` lease are required for the subsequent r36
+HIP build and every original-weight/fault/quality/performance window.
 All six root items stay open; Terminal Bench remains deferred last. Earlier
 receipts and actual failures remain unchanged. Q2 receives fresh root own-non-use
 at 21:17 UTC, explicitly separate from global admission.
