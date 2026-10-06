@@ -64,6 +64,20 @@ framing and reactive worker contracts are unchanged. See
 and the matching selected
 [AR/MTP qualification](../development/validation/c17-json-value-point-gpu-2026-10-06.json).
 
+`lie/json_store.h` adds independent root-collection ABI 1. C17 adopts exclusively
+caller-owned live JSON roots and transfers them back unchanged with `take`.
+Child and duplicate adoption refuse; cross-collection double ownership violates
+the caller contract. Roots, child identities and private views survive table
+growth. Refusal preserves caller ownership and outputs; release retires every
+root still held. Defaults bound cumulative successful adoptions at 262,144
+(taking a root does not refund this budget) and collection heap at 16 MiB,
+including table growth overlap. Root domains retain separate allocators/budgets;
+all allocator/view contexts outlive their respective collections and taken roots.
+Operations require caller synchronization and non-reentrant hooks. The additive
+`lie_json_value_is_root()` query changes no typed-value structure or version.
+Existing execution/request/state/HTTP layouts and cache framing are unchanged.
+See [derived value ownership](../development/C17-SAMPLING.md#derived-schema-value-ownership).
+
 `lie/grammar_lexeme.h` adds model-neutral primitive/table/memo ABI 1. Immutable
 tagged predicates own their alphabet/options and retain C numeric/DFA policies;
 the additive `lie_number_retain` and `lie_regex_retain` calls extend opaque

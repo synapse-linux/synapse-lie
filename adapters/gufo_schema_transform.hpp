@@ -5,7 +5,11 @@
 #include "lie/schema_transform.h"
 #include "lie/schema_format.h"
 #include "src/core/json_schema_lexeme.hpp"
+#if LIE_C17_SAMPLING
+#include "gufo_schema_store.hpp"
+#else
 #include <deque>
+#endif
 #include <exception>
 #include <stdexcept>
 namespace lie_gufo {
@@ -67,15 +71,23 @@ inline void schema_keys(const SchemaValue &n) {
   schema_check(lie_schema_keys(&d,&n,&e),e);
 }
 class SchemaArena {
+#if LIE_C17_SAMPLING
+  SchemaStore values_;
+#else
   std::deque<SchemaValue> values_;
+#endif
   std::exception_ptr failure_;
   template<class F> static lie_schema_status protect(void *p, F &&f) noexcept {
     auto &a=*static_cast<SchemaArena *>(p);
     return a.invoke(std::forward<F>(f));
   }
   SchemaValue *store(SchemaValue value) {
+#if LIE_C17_SAMPLING
+    return const_cast<SchemaValue *>(&values_.store(std::move(value)));
+#else
     if (values_.size()>=262144) throw std::invalid_argument("JSON Schema: schema expansion exceeds its resource budget");
     values_.push_back(std::move(value)); return &values_.back();
+#endif
   }
   static lie_schema_status clone(void *p, lie_schema_node n, lie_schema_node *out) noexcept {
     return protect(p,[&](auto &a){ *out=a.store(schema_value(n)); });
@@ -141,7 +153,11 @@ public:
     schema_check(rc,e);
   }
   SchemaValue take(lie_schema_node n) {
+#if LIE_C17_SAMPLING
+    return values_.take(schema_value(n));
+#else
     return std::move(*const_cast<SchemaValue *>(static_cast<const SchemaValue *>(n)));
+#endif
   }
   SchemaValue conjoin(const SchemaValue &root,const SchemaValue &l,const SchemaValue &r,unsigned depth) {
     const auto d=description();

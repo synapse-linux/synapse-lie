@@ -166,6 +166,7 @@ void lie_json_value_release(lie_json_value *n) {
   domain *c=n->owner;lie_grammar_allocator a=c->d.allocator;destroy(n);
   if (a.release) a.release(a.context,c);else free(c);
 }
+bool lie_json_value_is_root(const lie_json_value *n) { return n && !n->parent; }
 static void update_parents(lie_json_value *n) {
   for (size_t i=0;i<n->array.count;++i) n->array.data[i]->parent=n;
   for (size_t i=0;i<n->object.count;++i) n->object.data[i]->parent=n;

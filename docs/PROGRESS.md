@@ -1,6 +1,32 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## C17 derived schema root ownership passes HOST controls — 2026-10-06 UTC
+
+Per-compilation derived values and transformation/normalization staging now
+share the C17 root collection. Adoption and result extraction preserve native
+root/child/view identities without cloning; C17 owns cumulative admission,
+bounded collection heap and retirement. Typed views/errors and the remaining
+compiler orchestration/model controller are still transitional. Two exact guards
+preserve original OFF compiler storage and algorithms; provider identity binds
+99 files and the new recipe. Reactive scheduling, workers, request/KV formats
+and default dependencies remain unchanged.
+
+The [HOST receipt](development/validation/c17-schema-store-host-2026-10-06.json)
+records 54/54 ASan/UBSan/LSan tests in one complete run, two final focused C
+checks and three corrected Release provenance gates. All 29 complete previous
+original/ON/OFF witness groups (258 files) remain byte-for-byte unchanged.
+The C fixture covers 32,810 checks and ten refusals, including growth overlap;
+1,025 native roots and 2,049 typed insertions retain stable identities. The
+initial provenance run exits 8 because its strict count remained 96; the
+corrected 99-file run passes and both outcomes are retained. CPU maximum is
+94.625 C under CPU98/NVMe85/lower guards; GPU remains masked/observed only.
+This source has no matching GPU or performance qualification yet; `ad53e681`/r29
+remains separate. All local handles are collected. No remote job, client, build,
+lease, waiter, reservation or publication is created. All six owned tasks remain
+open; Terminal Bench stays stopped/collected/closed/deferred last until functional
+modifications and matching qualification finish.
+
 ## Immutable C17 grammar storage passes selected GPU controls — 2026-10-06 UTC
 
 The matching sealed `ad53e681` source compiles complete 96-file HIP ON/OFF

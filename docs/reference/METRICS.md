@@ -133,6 +133,15 @@ private object size is host ABI specific. Existing runtime metrics/worker
 accounting are unchanged. See
 [ownership](../development/C17-SAMPLING.md#immutable-grammar-table-ownership).
 
+`lie_json_store_describe()` reports live roots, cumulative accepted roots,
+collection requested live/peak bytes and successful allocation calls. Byte
+accounting includes the collection context, identity table and growth overlap;
+it excludes root-domain heap, private projection allocations and allocator
+overhead. Taking a root reduces live roots without refunding cumulative
+admission. These synchronous diagnostics add no HTTP metric or inference worker
+and measure no model cost or GPU speed. See
+[derived value ownership](../development/C17-SAMPLING.md#derived-schema-value-ownership).
+
 ## Registry
 
 Types: Counter (nonnegative increments), Gauge (explicit sampled value), Timer

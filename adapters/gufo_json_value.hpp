@@ -3,6 +3,7 @@
 #ifndef LIE_GUFO_JSON_VALUE_HPP
 #define LIE_GUFO_JSON_VALUE_HPP
 #include "lie/json_value.h"
+#include "lie/json_store.h"
 #include <cmath>
 #include <cstdint>
 #include <exception>
@@ -111,6 +112,17 @@ public:
     d.view_bytes=sizeof(Value);d.view_initialize=initialize;d.view_release=release_view;return d;
   }
   static Value adopt(lie_json_value *n) { return Value(n,true); }
+  // Refusal retains this owning facade. Success publishes an exact root into
+  // the C17 collection before relinquishing it; no inline-view move/clone.
+  lie_json_store_status transfer_root(lie_json_store *store,lie_json_value **out) {
+    if (!owns_ || !store || !out) return LIE_JSON_STORE_INVALID;
+    ensure();
+    const auto rc=lie_json_store_adopt(store,node_);
+    if (rc==LIE_JSON_STORE_OK) {
+      remember_moved();*out=node_;node_=nullptr;
+    }
+    return rc;
+  }
   const lie_json_value *native() const noexcept { return node_; }
   const lie_json_value *native() {
     if (!node_ && shadow_kind_!=LIE_JSON_VALUE_NULL) ensure();

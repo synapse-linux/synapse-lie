@@ -134,6 +134,46 @@ controller ownership are unchanged. There is still one device-owner worker. The 
 selection call is synchronous; it does not add an asynchronous GPU forward or
 establish a throughput improvement.
 
+## Derived schema value ownership
+
+Default-ON per-compilation derived values and all transformation/normalization
+staging retain native JSON roots in `lie/json_store.h`. C17 owns the bounded
+identity collection, successful adoption count and retirement. Private C++
+facades provide typed views and exception translation. Root domains continue
+to own their payloads and inline views; collection growth never moves them.
+Taking a result transfers its exact root without cloning the tree or moving a
+borrowed inline facade. The result remains valid after staging retires.
+Lazy null facades materialize a native root before adoption so its C-owned view
+has a stable identity.
+
+Defaults preserve the 262,144 cumulative schema-value admission limit and add
+a separate 16 MiB collection heap budget including growth overlap. Taking a
+root does not refund cumulative admission. Failed adoption retains caller
+ownership; child/duplicate adoption and taking an unowned root refuse.
+Root allocator/view contexts outlive every transferred root. Collection
+diagnostics exclude root-domain heap and private projection allocations.
+
+The two exact `schema-store-edits.json` guards preserve original OFF compiler
+storage/algorithms; `schema_store_edits_sha256` and all three new provider files
+are mandatory identity gates. Providers and private consumers rebuild together.
+No request/KV format, reactive scheduler, worker, RNG or dependency is added.
+Schema compiler orchestration, typed construction/errors/prompt text and
+model/controller ownership still have transitional C++ responsibilities.
+
+[HOST qualification](validation/c17-schema-store-host-2026-10-06.json) passes
+54 ASan/UBSan/LSan tests in one complete run. All 29 preceding complete
+original/ON/OFF witness groups (258 full files) remain byte-for-byte unchanged.
+Ownership controls include 1,025 native roots, 2,049 typed projection insertions,
+2,048 take/readopt cycles and ten C allocation/admission/overlap refusals.
+The final C fixture performs 32,810 checks. Existing root/child/view identities
+and embedded-NUL bytes survive collection growth and retirement of other roots;
+no tree clone occurs at adoption/take. These HOST controls qualify neither
+GPU speed nor a complete C17 frontend/model executor. The older `ad53e681`/r29
+GPU receipt excludes this increment; matching HIP/original-weight checks remain
+pending. Existing reactive worker/thread counts and default dependencies remain
+unchanged. Terminal Bench is deferred until functional modifications and
+qualification finish.
+
 ## Immutable grammar table ownership
 
 Default-ON schema finalization and reasoning/tool composition bind the finished

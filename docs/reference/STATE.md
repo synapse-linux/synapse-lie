@@ -210,6 +210,15 @@ retains imported primitives before source retirement. Removal of private C++
 template copies changes no persisted/request/KV format. See
 [ownership](../development/C17-SAMPLING.md#immutable-grammar-table-ownership).
 
+Per-compilation derived values and transformation/normalization staging now
+retain native JSON roots in a shared C17 collection. The compiler borrows root
+views until compilation retires; transformation results transfer their exact
+roots to owning facades before the collection retires. Collection growth never
+moves a root or child. Cumulative admission and collection-heap budgets are
+separate from each root's existing domain budget. These temporary roots do not
+enter request snapshots or DS4 RAM/SSD checkpoints. See
+[derived value ownership](../development/C17-SAMPLING.md#derived-schema-value-ownership).
+
 ## MTP development boundary
 
 The [MTP binding](../development/MTP.md) captures DS4 predictor K/V, full raw

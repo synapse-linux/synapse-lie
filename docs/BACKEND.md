@@ -270,6 +270,13 @@ client/server restart or machine reservation is queued in the meantime.
    ([GPU receipt](development/validation/c17-grammar-storage-point-gpu-2026-10-06.json)).
    Broader grammar branches/faults/quality/resources and matched cost stay open.
    Private construction/value/error/prompt facades and model/controller remain transitional.
+   Per-compilation derived values and transformation/normalization staging now
+   retain stable native roots in the shared C17 collection. The
+   [HOST receipt](development/validation/c17-schema-store-host-2026-10-06.json)
+   records 54 sanitizer checks, three corrected provenance gates and all 29
+   complete preceding witnesses unchanged. Original OFF compiler storage remains
+   guarded. Matching HIP/original-weight qualification for this increment is
+   pending; compiler orchestration/typed facades/model ownership remain open.
    Root-reference cycle/admission policy and root whitespace/body composition
    now also use C17, with [host checks](development/validation/c17-schema-root-host-2026-10-06.json).
    The matching sealed `3c4cac56` 96-file HIP build verifies complete ON/OFF

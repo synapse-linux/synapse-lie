@@ -59,6 +59,8 @@ void lie_json_value_description_init(lie_json_value_description *);
 lie_json_value_status lie_json_value_create(const lie_json_value_description *,
                                             lie_json_value **);
 void lie_json_value_release(lie_json_value *);
+/* True only for a live root; NULL and children return false. */
+bool lie_json_value_is_root(const lie_json_value *);
 lie_json_value_status lie_json_value_clone(const lie_json_value *,
   const lie_json_value_description *, lie_json_value **);
 lie_json_value_status lie_json_value_assign(lie_json_value *, const lie_json_value *);

@@ -12,6 +12,9 @@ The recorded GPU controls cover selected integrated paths. Broader numerical,
 fault, resource, quality and performance gates remain open.
 Gufo still owns model/controller state. Typed JSON values, immutable predicates,
 ordered tables and request grammar snapshots now belong to the shared C17 core.
+Derived schema values and transformation staging also have
+[C17 ownership with HOST validation](docs/development/C17-SAMPLING.md#derived-schema-value-ownership);
+their matching GPU qualification is pending.
 The Gufo comparison executable uses a separately compiled complete OFF provider;
 its private model/controller types match its selected sampling option.
 ICU remains the Unicode set/property/conversion dependency.

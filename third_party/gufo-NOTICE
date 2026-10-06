@@ -7,6 +7,13 @@ See THIRD_PARTY_NOTICES.md for provenance, versions and distribution boundaries;
 full imported notices are installed alongside it in third-party/.
 
 Adapted code includes:
+- Per-compilation derived schema storage follows the value admission/lifetimes
+  of JsonConstraintCompiler::Store at the independent Gufo pin below. The
+  first-party C17 json_store implementation owns native root identity tables,
+  cumulative bounds and retirement; transform/normalization staging uses the
+  same contract. Typed views/errors remain private adapters. Two exact
+  schema-store-edits.json guards retain original OFF compiler algorithms.
+  No DS4, sibling source, model payload or external collection code is imported.
 - Root schema admission in src/schema_root.c follows JsonConstraintCompiler::Compile
   at independently fetched immutable Gufo f783fedb9bea2ec7de941f6da4e02f4a4596b29e
   (MIT; gufo-LICENSE retained). C17 owns ordered root-reference traversal,
