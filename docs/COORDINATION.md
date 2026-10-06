@@ -1,5 +1,18 @@
 # DS4 / synapse-lie coordination
 
+## Local request-state ownership; eval stays deferred — 2026-10-06
+
+Root changes only its `feature/context-million-openai` worktree. Request grammar
+snapshots, independent copies and native runtime handoffs now use shared C17.
+Local host checks use masked GPUs and CPU98/NVMe85/lower guards. The
+[93-file host receipt](development/validation/c17-request-state-host-2026-10-06.json)
+requires a matching sealed HIP build and original-weight controls under fresh
+peer/global `.161` admission. The r26 closure below is historical and cannot
+admit this source. Root has no remote job/client/CPU/GPU/build/lease/waiter/
+reservation or admitted restart on `.161/.157/.158`. Point/DGX/Q2 and DS4 work
+remains separately owned. Terminal Bench stays stopped/collected/closed/deferred
+until modifications and matching qualification finish; no restart or migration.
+
 ## R26 primitive ownership build and AR/MTP closed — 2026-10-06
 
 Fresh Point/DGX own non-use and separate 07:50:15 / 07:57:40 / 08:05:49 UTC

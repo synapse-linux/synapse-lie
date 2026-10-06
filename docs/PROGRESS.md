@@ -1,6 +1,53 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Request grammar state ownership passes host checks — 2026-10-06 UTC
+
+Default-ON byte/token transitions, completion, canonicalization and mask queries
+now borrow owned C snapshots directly; results transfer an owned C handle.
+Repeated vector/string import/export is removed from this runtime path.
+Sampler/MTP copies use independent C17 deep duplication with saved allocator
+and limits. Copy assignment publishes after success; move/clear retire only
+their owned snapshot. Explicit legacy-vector transfer remains available outside
+the default-ON runtime. Private C++ value/error/view glue remains, alongside
+schema/regex/template construction and the model/controller. This does not
+complete the autonomous C executor or establish a speedup.
+
+The [host receipt](development/validation/c17-request-state-host-2026-10-06.json)
+binds 2,080 independent frame-copy oracles, 68 C copy allocator refusals, three
+private assignment refusals, 306 pristine/ON/OFF complete-state copy witnesses
+and four joined readers completing 256 iterations each. The selected state
+borrow/copy/move/advance path performs zero C++ allocations. All 50 sanitizer
+host checks pass and all 27 preceding complete witness hashes remain unchanged;
+the new complete-state group brings the total to 28. Three focused C sanitizer
+checks pass. Release checks pass cumulatively at 87 unique: the first full run
+passes 86, then the corrected provider verifier passes its focused rerun.
+The 58 public headers compile as C17/C++17 and the no-model server/bench link.
+Peak observed local CPU is 93.125 C under CPU98/NVMe85/lower guards; GPUs are
+masked and observe-only.
+
+Three exact guarded edits preserve the original OFF state/algorithms. The
+provider inventory now binds 93 files (81 first-party and 12 vendor/provenance).
+Private C++ request types require the provider's selected flag; the independent
+vocabulary header-view fixture retains its narrower size/layout scope. Initial
+alias, stale generated variant, mixed-private-type fixture and inventory-count
+failures retain their actual exits. Recipe dependencies now trigger exact
+variant regeneration. A lost detailed test log and its offline writer failure
+are retained; a single C test rerun binds the missing allocation/lifetime detail.
+No sanitizer suppression, foreign process action or new dependency occurs.
+The benchmark control now builds/links a complete OFF provider instead of
+interposing an OFF sampler over ON numerical/controller objects. Host receipt
+gates accept OFF and reject ON or mismatched-target archives; new HIP build/link
+and GPU control qualification remains open. Build instructions identify the
+second provider and the option to omit this comparison executable.
+
+Matching sealed HIP and original-weight AR/MTP controls on `.161` remain pending;
+the earlier `688b74c5` 92-file GPU receipt excludes this increment. Broader
+correction/fault/probability/quality/private resource/matched-cost gates and all
+six owned tasks stay open. Root creates no remote job/client/CPU/GPU/build/lease/
+waiter/reservation and preserves `.157` non-use. Terminal Bench stays stopped/
+collected/closed/deferred until modifications and qualification finish.
+
 ## Primitive ownership passes host and selected GPU checks — 2026-10-06 UTC
 
 `lie/grammar_lexeme.h` now owns immutable whitespace/number/string predicates,

@@ -59,12 +59,18 @@ def main():
     try:
         run('libraries', [sys.executable, '-B', 'tools/build-gufo.py', LIBRARY_LABEL,
                           '--qwen-only', '--state-access', '--hip-arch', 'gfx1150'])
+        reference_label = LIBRARY_LABEL + '-reference'
+        run('reference-libraries', ['cmake', '-DLABEL='+reference_label,
+                                  '-DLIE_HIP_ARCHITECTURE=gfx1150',
+                                  '-DLIE_C17_SAMPLING=OFF',
+                                  '-P', 'cmake/provider/Build.cmake'])
         run('configure', ['cmake', '-S', '.', '-B', 'build/'+LINK_LABEL, '-G', 'Ninja',
                           '-DCMAKE_BUILD_TYPE=Release', '-DLIE_GUFO_RUNTIME=ON',
                           '-DLIE_GUFO_STATE_ACCESS=ON', '-DLIE_HIP_ARCHITECTURE=gfx1150',
                           '-DLIE_BUILD_ID='+LINK_LABEL,
                           '-DGUFO_SOURCE='+str(ROOT/'.deps'/('gufo-state-access-'+LIBRARY_LABEL)),
-                          '-DGUFO_BUILD='+str(ROOT/'build'/LIBRARY_LABEL)])
+                          '-DGUFO_BUILD='+str(ROOT/'build'/LIBRARY_LABEL),
+                          '-DGUFO_REFERENCE_BUILD='+str(ROOT/'build'/reference_label)])
         run('link', ['cmake', '--build', 'build/'+LINK_LABEL, '--parallel', '1',
                      '--target', 'synapse-lie-server', 'synapse-lie-bench',
                      'synapse-lie-bench-gufo-reference', 'lie-hip-probe'])

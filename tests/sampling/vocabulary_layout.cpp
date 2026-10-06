@@ -1,16 +1,17 @@
 // SPDX-License-Identifier: MIT
-// Opposite-option header consumer; synthetic host, NOT GPU build/link qualification.
-#undef LIE_C17_SAMPLING
-#define LIE_C17_SAMPLING LIE_TEST_HEADER_VIEW
+// Selected request-state ABI with a separate opposite-option size() consumer.
+// Synthetic host, NOT GPU build/link qualification.
 #include "src/core/json_constraint.hpp"
 #include <cassert>
 #include <cstdio>
 using namespace gufo::sampling;
+extern "C" size_t LieVocabularyOtherHeaderSize(const ConstraintVocabulary *);
 int main() {
   auto vocabulary=std::make_shared<ConstraintVocabulary>(2,[](uint32_t token){
     return ConstraintVocabulary::Piece{token?"{}":"",!token};
   });
   assert(vocabulary->size()==2);
+  assert(LieVocabularyOtherHeaderSize(vocabulary.get())==2);
   TokenConstraint c;c.vocabulary=vocabulary;c.grammar=JsonConstraint::Object();
   auto state=c.grammar->Start();auto mask=c.Allowed(state);
   assert(mask->size()==2 && (*mask)[0]==0 && (*mask)[1]==1);

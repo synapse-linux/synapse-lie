@@ -41,16 +41,22 @@ build; the source fetcher refuses to replace an existing source directory.
 ```sh
 cmake -P cmake/provider/Fetch.cmake
 cmake -DLABEL=qwen-hip -P cmake/provider/Build.cmake
+cmake -DLABEL=qwen-reference-hip -DLIE_C17_SAMPLING=OFF -P cmake/provider/Build.cmake
 cmake -S . -B build/release -DCMAKE_BUILD_TYPE=Release \
   -DBUILD_TESTING=OFF -DLIE_GUFO_RUNTIME=ON -DLIE_GUFO_STATE_ACCESS=ON \
   -DGUFO_SOURCE="$PWD/.deps/gufo-state-access-qwen-hip" \
-  -DGUFO_BUILD="$PWD/build/qwen-hip"
+  -DGUFO_BUILD="$PWD/build/qwen-hip" \
+  -DGUFO_REFERENCE_BUILD="$PWD/build/qwen-reference-hip"
 cmake --build build/release -j2
 ```
 
 The fetcher acquires official Gufo sources at the recorded pin. The build helper
 creates a separate state-access variant for the default DS4 runtime cache;
-source and archive hashes are verified before linking. The resulting programs
+source and archive hashes are verified before linking. The benchmark control
+uses a complete OFF provider, including its numerical/controller archives;
+mixing an OFF sampler with ON request-state layouts is rejected. Configure
+`-DLIE_GUFO_REFERENCE_BENCH=OFF` to build only LIE without this comparison control.
+The resulting programs
 are `build/release/synapse-lie-server`, `synapse-lie-bench`,
 `synapse-lie-bench-gufo-reference`, `synapse-lie-monitor` and `synapse-lie-kvc`.
 `synapse-lie-bench-report` is also available for offline reporting. The benchmark

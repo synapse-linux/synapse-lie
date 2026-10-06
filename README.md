@@ -16,6 +16,9 @@ number/string/whitespace predicates, ordered tables and their construction memo
 now belong to the shared C17 core. The
 [predicate ownership host checks](docs/development/validation/c17-lexeme-host-2026-10-06.json)
 and matching 92-file HIP build qualify this increment's selected paths.
+Request grammar snapshots now also stay in C17 across transitions and
+speculative copies; their [host checks](docs/development/validation/c17-request-state-host-2026-10-06.json)
+pass, with matching GPU qualification still required for the newer source.
 ICU remains the Unicode set/property/conversion dependency.
 [Directional steering](docs/guides/USAGE.md#directional-steering) has shared-core
 and server/bench controls with host validation, including scheduled benchmark

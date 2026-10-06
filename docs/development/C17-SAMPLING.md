@@ -124,14 +124,69 @@ Immutable reasoning/tool composition and complete JSON syntax/decoding now
 belong to the C17 core. Typed JSON values, key/string bytes and ordered child
 storage now also belong to C17. Immutable primitive ownership, ordered predicate
 tables, construction-only identity memo and runtime predicate dispatch now use
-C17 as described below. Model/controller storage and private C++ facades,
-schema/regex compilation, template projections and request-state vectors remain
+C17 as described below. Request grammar snapshots now also stay in C17 across
+byte/token transitions, masks and speculative copies. Model/controller storage
+and private C++ facades, schema/regex compilation and template projections remain
 transitional.
 
 Reactive readiness, per-row credits, cancellation, native batching and MTP
 controller ownership are unchanged. There is still one device-owner worker. The C
 selection call is synchronous; it does not add an asynchronous GPU forward or
 establish a throughput improvement.
+
+## Owned request grammar snapshots
+
+The default-ON request state now owns a `lie_grammar_state` directly. Start,
+advance, expansion, canonicalization, token acceptance and mask queries use
+the C snapshot without repeated vector/string import and export. Existing
+request and MTP sampler copies call the additive C17
+`lie_grammar_state_duplicate` function. Copies retain complete frame order,
+symbol arrays and unsigned lexeme bytes in independent storage; moves transfer
+one owned handle and clear retires it. Copy assignment stages before publication.
+Refused copies preserve the source, previous destination and borrowed views.
+
+Duplication uses the snapshot's allocator/limits and accesses no program,
+predicate, model or device. The allocator context must outlive every copy.
+Snapshots may outlive the immutable grammar program for inspection and copying;
+runtime transitions still require a live matching program and predicate context.
+Immutable reads and copies may run concurrently with a suitable allocator;
+release/move/assignment require retiring all borrowers. Views are read-only and
+expire on owner replacement or release. There is no shared mutable speculative
+state or copy-on-write mechanism.
+
+`gufo_grammar_state.hpp` is a private C++ value/exception/read-only-view facade;
+it owns no vector/string payload. Default and moved-from states represent the
+same dead prefix as a zero-frame C snapshot. The C API keeps NULL distinct.
+An explicit legacy-vector snapshot bridge remains for fixtures/interoperability,
+outside the default-ON runtime path. Three guarded exact edits preserve the
+complete original OFF state and algorithms. C++ request types require the
+provider's selected option; only the vocabulary size/layout fixture checks an
+opposite-option header view. Public C layouts and ABI versions are unchanged.
+The Gufo benchmark control now requires a coherent complete OFF provider,
+including numerical/controller archives. An OFF sampler cannot be interposed
+over ON model/controller objects with a different private request-state layout.
+The receipt gate rejects ON or mismatched-target control archives. Both
+provider builds and the new control still require matching HIP qualification.
+Source construction now tracks edit recipes so incremental builds regenerate
+their exact variants when a recipe changes.
+
+The [host receipt](validation/c17-request-state-host-2026-10-06.json) records
+2,080 independent frame-copy oracles, 68 C allocator and three private assignment
+refusals, 306 complete pristine/ON/OFF state-copy witnesses, and four joined
+readers completing 256 iterations each. All 50 sanitizer host checks pass;
+all 27 earlier complete witness hashes are unchanged. The selected state
+borrow/copy/move/advance path makes zero C++ allocations. Three focused C
+sanitizer checks pass. Release checks pass cumulatively at 87 unique: 86 in the
+initial full run and the corrected provider verifier in one focused rerun.
+These host checks cover deep-copy lifetime after program/source retirement,
+allocation refusals, copy/move/self-assignment, joined concurrent readers and
+complete pristine/ON/OFF states/masks/sampler copies. Matching sealed HIP and
+original-weight AR/MTP qualification remains required for this increment;
+the earlier `688b74c5` 92-file GPU receipt excludes it. No inference worker,
+RNG, reactive frontier, cache payload or dependency changes. Removing payload
+transfers does not establish a measured speedup. Model/controller, private
+schema/regex/template construction and broader qualification remain open.
+Terminal Bench stays deferred until modifications and qualification finish.
 
 ## Owned primitive predicates
 
@@ -165,7 +220,8 @@ More C dispatch does not establish a throughput gain.
 
 Six guarded exact edits preserve the original OFF classes/vector/map. Existing
 `LIE_C17_SAMPLING=ON` selects C ownership; C++ facades/errors and schema/regex
-construction/template projections/request-state vectors remain private glue.
+construction/template projections remain private glue. Request snapshots use
+the later C17 ownership above.
 The normal product and default CTest remain Python-free with no new dependency.
 The [host receipt](validation/c17-lexeme-host-2026-10-06.json) binds independent
 ownership, allocator/capacity refusal and joined-reader checks, complete

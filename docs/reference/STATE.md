@@ -81,13 +81,26 @@ and matching `688b74c5` selected
 [AR/MTP controls](../development/validation/c17-lexeme-point-gpu-2026-10-06.json).
 The GPU controls use prompt retention disabled; they add no SSD restore,
 mixed-history, state-fault or matched-cost qualification. C++ facades, schema/regex
-compilation, request-state vectors and model/controller remain transitional.
+compilation and model/controller remain transitional; newer request-snapshot
+ownership is described below.
 Construction and imported templates are not model-prefix state, KV cache or
 SSD payloads. Grammar stacks remain independently copied request state, including
 speculative verification; no mutable reasoning/tool phase enters the model or
 cache. The additive description view borrows source tables until program release.
 [Host validation](../development/validation/c17-composition-host-2026-10-06.json)
 does not qualify new original-weight continuation, correction or restore.
+
+Default-ON request grammar stacks and lexeme bytes now remain owned C snapshots
+through byte/token transitions and mask queries. Speculative sampler copies use
+independent C17 duplication; correction/discard releases only the tentative copy.
+Views remain borrowed/read-only until owner replacement/release, and copy refusal
+preserves source and destination. Copying can outlive the program, but advancing
+still requires a live matching program and predicate context. The allocator
+context outlives all copies. Explicit legacy-vector import/export remains outside
+the default-ON runtime path. These request snapshots are not KV/recurrent tensors
+or DS4 RAM/SSD payloads. Matching new original-weight continuation, correction,
+fault and resource/cost gates remain open. See
+[ownership](../development/C17-SAMPLING.md#owned-request-grammar-snapshots).
 
 The compiled-schema C17 cache stores opaque grammar programs and copied schema
 keys. It is independent of KV/recurrent state, prefix retention and SSD files;

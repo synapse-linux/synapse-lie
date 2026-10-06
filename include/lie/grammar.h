@@ -133,6 +133,12 @@ uint64_t lie_grammar_state_hash(const lie_grammar_state *);
 lie_grammar_status lie_grammar_state_clone(const lie_grammar_program *,
                                           const lie_grammar_state *,
                                           lie_grammar_state **);
+/* Independent deep copy using the snapshot's own allocator and limits. No
+ * program, predicate, provider or device is accessed. The allocator context
+ * must outlive both copies. Frame order/bytes are preserved; on refusal input
+ * and *output remain unchanged. NULL input/output is invalid. */
+lie_grammar_status lie_grammar_state_duplicate(const lie_grammar_state *,
+                                              lie_grammar_state **output);
 lie_grammar_status lie_grammar_expand(const lie_grammar_program *,
                                       const lie_grammar_state *,
                                       lie_grammar_state **output);

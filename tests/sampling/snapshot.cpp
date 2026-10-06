@@ -22,7 +22,9 @@ void operator delete(void *p) noexcept { std::free(p); }
 void operator delete[](void *p) noexcept { std::free(p); }
 void operator delete(void *p, size_t) noexcept { std::free(p); }
 void operator delete[](void *p, size_t) noexcept { std::free(p); }
-using State = gufo::sampling::JsonConstraint::State;
+// This is the explicit legacy-vector bridge fixture. Default-ON request state
+// now owns C snapshots; it must not be mutated to recreate vector staging.
+using State = std::vector<gufo::sampling::JsonConstraint::Stack>;
 static State source(size_t count) {
   State s(count);
   for (size_t i = 0; i < count; ++i) {

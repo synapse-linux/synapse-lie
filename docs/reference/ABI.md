@@ -88,6 +88,16 @@ remain unchanged. See [ownership and limits](../development/C17-SAMPLING.md#owne
 and the matching selected
 [AR/MTP qualification](../development/validation/c17-lexeme-point-gpu-2026-10-06.json).
 
+The additive `lie_grammar_state_duplicate()` call deep-copies an opaque snapshot
+using its saved allocator and limits. No grammar program or predicate is accessed;
+frame order/bytes are exact and successful copies have independent storage.
+Refusals preserve input and output handles. The allocator context must outlive
+all copies; borrowed frame spans expire on owner release. Existing public
+structures and ABI versions remain unchanged. The default-ON private C++ request
+type now owns this C snapshot and must match the provider's selected compile
+option; it is not a public C ABI. See
+[request snapshot ownership](../development/C17-SAMPLING.md#owned-request-grammar-snapshots).
+
 `lie/grammar_composition.h` adds independent composition ABI 1. The synchronous
 core constructs immutable reasoning/tool marker automata, quotes arbitrary name
 bytes, reuses argument-program identities and remaps ordered tables/predicate

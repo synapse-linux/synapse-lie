@@ -254,10 +254,19 @@ client/server restart or machine reservation is queued in the meantime.
    sealed `688b74c5` HIP build passes selected original-weight AR37/MTP37
    controls on `.161`
    ([GPU receipt](development/validation/c17-lexeme-point-gpu-2026-10-06.json)).
-   Private facades, schema/regex
-   construction, template projections, request-state vectors and model/controller
+   Request grammar snapshots now also remain C-owned across transitions/masks
+   and independent speculative copies, with saved-allocator duplication and
+   [host checks](development/validation/c17-request-state-host-2026-10-06.json).
+   Three guarded edits preserve original OFF state/algorithms. The newer
+   93-file inventory requires matching sealed HIP/original-weight qualification;
+   `688b74c5` excludes this increment. Private facades, schema/regex
+   construction, template projections and model/controller
    remain transitional. Broader numerical/fault/resource/quality/matched-cost
    gates remain open.
+   The Gufo benchmark control requires a separately verified complete OFF
+   provider, including numerical/controller archives, to keep private request
+   layouts coherent. Host receipt/target gates pass; the new ON/OFF builds and
+   GPU control still require qualification.
    The earlier matching `a24875f` 66-file build passes selected original-weight
    AR37/MTP37 controls on `.161`
    ([GPU receipt](development/validation/c17-schema-policy-point-gpu-2026-10-06.json)).

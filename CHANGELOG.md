@@ -40,6 +40,14 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 ownership of request grammar snapshots and independent speculative
+  copies. Runtime transitions and masks use native snapshots directly, removing
+  repeated C++ vector/string transfers. Host original/default-ON/OFF states and
+  masks agree; matching GPU and performance qualification remains open.
+  The original OFF path and existing reactive worker/cache contracts remain.
+  The Gufo comparison executable uses a separately verified complete OFF
+  provider to preserve its private model/controller layouts.
+
 - Shared C17 immutable primitive ownership, ordered predicate tables and a
   construction-only schema identity memo. Runtime grammar dispatch calls the
   C numeric/string/DFA algorithms directly. Host original/default-ON/OFF

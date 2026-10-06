@@ -303,13 +303,85 @@ static size_t faults(void) {
   assert(!m.live);
   return calls;
 }
+static size_t duplicate_lifetimes(void) {
+  size_t copied_frames = 0;
+  for (size_t n = 0; n <= COUNT; ++n) {
+    memory m = {0};
+    lie_grammar_program *p = program(&m, 2000000);
+    source src;
+    fill(&src, n);
+    lie_grammar_snapshot_reader r = reader(&src);
+    lie_grammar_state *original = NULL, *copy = NULL;
+    assert(lie_grammar_state_read(p, &r, &original) == LIE_GRAMMAR_OK);
+    const uint64_t hash = lie_grammar_state_hash(original);
+    lie_grammar_program_release(p); /* Copies require no live program. */
+    assert(lie_grammar_state_duplicate(original, &copy) == LIE_GRAMMAR_OK);
+    assert(copy != original && lie_grammar_state_compare(copy, original) == 0 &&
+           lie_grammar_state_hash(copy) == hash);
+    for (size_t i = 0; i < n; ++i) {
+      lie_grammar_frame a, b;
+      assert(lie_grammar_state_frame(original, i, &a) == LIE_GRAMMAR_OK);
+      assert(lie_grammar_state_frame(copy, i, &b) == LIE_GRAMMAR_OK);
+      assert(a.symbol_count == b.symbol_count && a.lexeme_bytes == b.lexeme_bytes);
+      if (a.symbol_count) assert(a.symbols != b.symbols);
+      if (a.lexeme_bytes) assert(a.lexeme != b.lexeme);
+      ++copied_frames;
+    }
+    memset(&src, 0xa5, sizeof(src));
+    lie_grammar_state_release(original);
+    assert(lie_grammar_state_hash(copy) == hash);
+    lie_grammar_state *third = NULL;
+    assert(lie_grammar_state_duplicate(copy, &third) == LIE_GRAMMAR_OK);
+    lie_grammar_state_release(copy);
+    assert(lie_grammar_state_hash(third) == hash);
+    lie_grammar_state_release(third);
+    assert(!m.live);
+  }
+  return copied_frames;
+}
+static size_t duplicate_refusals(void) {
+  memory m = {0};
+  lie_grammar_program *p = program(&m, 2000000);
+  source src;
+  fill(&src, COUNT);
+  lie_grammar_snapshot_reader r = reader(&src);
+  lie_grammar_state *input = NULL, *output = NULL;
+  assert(lie_grammar_state_read(p, &r, &input) == LIE_GRAMMAR_OK);
+  lie_grammar_program_release(p);
+  const uint64_t hash = lie_grammar_state_hash(input);
+  size_t baseline = m.calls, live = m.live;
+  assert(lie_grammar_state_duplicate(input, &output) == LIE_GRAMMAR_OK);
+  const size_t allocations = m.calls - baseline;
+  lie_grammar_state_release(output);
+  assert(m.live == live);
+  for (size_t fail = 1; fail <= allocations; ++fail) {
+    m.fail_at = m.calls + fail;
+    output = (void *)(uintptr_t)1;
+    assert(lie_grammar_state_duplicate(input, &output) == LIE_GRAMMAR_RESOURCE &&
+           output == (void *)(uintptr_t)1 && m.live == live &&
+           lie_grammar_state_hash(input) == hash);
+  }
+  m.fail_at = 0;
+  output = (void *)(uintptr_t)1;
+  assert(lie_grammar_state_duplicate(NULL, &output) == LIE_GRAMMAR_INVALID &&
+         output == (void *)(uintptr_t)1);
+  assert(lie_grammar_state_duplicate(input, NULL) == LIE_GRAMMAR_INVALID &&
+         m.live == live);
+  lie_grammar_state_release(input);
+  assert(!m.live);
+  return allocations;
+}
 int main(void) {
   size_t count = roundtrips();
   refusals();
   maximum();
   size_t refused = faults();
+  const size_t copied = duplicate_lifetimes(), copy_refusals = duplicate_refusals();
   printf("SNAPSHOT_FRAME_ORACLES=%zu OWN_ALLOCATOR_REFUSALS=%zu "
          "STAGING_REFUSALS=17 OVERLAP_CASES=4 MAX_FRAMES=8192 "
          "HOST_NOT_INFERENCE\n",
          count, refused);
+  printf("C17_REQUEST_SNAPSHOT copied_frame_oracles=%zu copy_allocator_refusals=%zu "
+         "PROGRAM_RETIRED_INPUT_RETIRED_OUTPUT_INDEPENDENT HOST_NOT_INFERENCE\n",
+         copied, copy_refusals);
 }

@@ -119,11 +119,14 @@ inline std::shared_ptr<const lie_grammar_program> grammar_program(
   return std::shared_ptr<const lie_grammar_program>(p, lie_grammar_program_release);
 }
 using GrammarState = std::unique_ptr<lie_grammar_state, decltype(&lie_grammar_state_release)>;
+// Explicit legacy-vector transfer remains for fixtures/interoperability only.
+// The default-ON request state below stays in C across runtime operations.
+using NativeGrammarSnapshot = std::vector<gufo::sampling::JsonConstraint::Stack>;
 inline lie_grammar_status
 grammar_snapshot_read(const void *ctx, size_t index,
                       lie_grammar_frame *out) noexcept {
   const auto &f =
-      (*static_cast<const gufo::sampling::JsonConstraint::State *>(ctx))[index];
+      (*static_cast<const NativeGrammarSnapshot *>(ctx))[index];
   *out = {f.symbols.data(), f.symbols.size(),
           reinterpret_cast<const uint8_t *>(f.lexeme.data()), f.lexeme.size()};
   return LIE_GRAMMAR_OK;
@@ -131,7 +134,7 @@ grammar_snapshot_read(const void *ctx, size_t index,
 inline lie_grammar_status grammar_snapshot_prepare(void *ctx,
                                                    size_t count) noexcept {
   try {
-    static_cast<gufo::sampling::JsonConstraint::State *>(ctx)->resize(count);
+    static_cast<NativeGrammarSnapshot *>(ctx)->resize(count);
     return LIE_GRAMMAR_OK;
   } catch (const std::bad_alloc &) {
     return LIE_GRAMMAR_RESOURCE;
@@ -144,7 +147,7 @@ grammar_snapshot_write(void *ctx, size_t index, size_t symbols, size_t bytes,
                        lie_grammar_writable_frame *out) noexcept {
   try {
     auto &f =
-        (*static_cast<gufo::sampling::JsonConstraint::State *>(ctx))[index];
+        (*static_cast<NativeGrammarSnapshot *>(ctx))[index];
     f.symbols.resize(symbols);
     f.lexeme.resize(bytes);
     *out = {f.symbols.data(), f.symbols.size(),
@@ -158,7 +161,7 @@ grammar_snapshot_write(void *ctx, size_t index, size_t symbols, size_t bytes,
 }
 inline GrammarState
 grammar_import(const lie_grammar_program *p,
-               const gufo::sampling::JsonConstraint::State &source) {
+               const NativeGrammarSnapshot &source) {
   const lie_grammar_snapshot_reader reader{
       LIE_GRAMMAR_SNAPSHOT_ABI, sizeof(lie_grammar_snapshot_reader), &source,
       source.size(), grammar_snapshot_read};
@@ -166,15 +169,36 @@ grammar_import(const lie_grammar_program *p,
   grammar_check(lie_grammar_state_read(p, &reader, &state));
   return GrammarState(state, lie_grammar_state_release);
 }
-inline gufo::sampling::JsonConstraint::State
+inline NativeGrammarSnapshot
 grammar_export(const lie_grammar_state *s) {
-  gufo::sampling::JsonConstraint::State staging;
+  NativeGrammarSnapshot staging;
   const lie_grammar_snapshot_writer writer{
       LIE_GRAMMAR_SNAPSHOT_ABI, sizeof(lie_grammar_snapshot_writer), &staging,
       grammar_snapshot_prepare, grammar_snapshot_write};
   grammar_check(lie_grammar_state_write(s, &writer));
   return staging;
 }
+#if LIE_C17_SAMPLING
+class GrammarInput {
+  GrammarState empty_{nullptr, lie_grammar_state_release};
+  const lie_grammar_state *borrowed_;
+public:
+  GrammarInput(const lie_grammar_program *p, const RequestGrammarState &source)
+    : borrowed_(source.native()) {
+    if (!borrowed_) {
+      lie_grammar_state *raw = nullptr;
+      grammar_check(lie_grammar_state_import(p, nullptr, 0, &raw));
+      empty_.reset(raw);
+      borrowed_ = raw;
+    }
+  }
+  const lie_grammar_state *get() const noexcept { return borrowed_; }
+};
+inline GrammarInput grammar_import(const lie_grammar_program *p,
+                                   const RequestGrammarState &source) {
+  return GrammarInput(p, source);
+}
+#endif
 inline gufo::sampling::JsonConstraint::State grammar_run(
     const lie_grammar_program *p, const gufo::sampling::JsonConstraint::State &source,
     unsigned operation, uint8_t byte = 0, size_t token_bytes = 0) {
@@ -192,7 +216,11 @@ inline gufo::sampling::JsonConstraint::State grammar_run(
   }
   grammar_check(rc);
   GrammarState owned(raw, lie_grammar_state_release);
+#if LIE_C17_SAMPLING
+  return RequestGrammarState::adopt(owned.release());
+#else
   return grammar_export(owned.get());
+#endif
 }
 inline bool grammar_complete(const lie_grammar_program *p,
                               const gufo::sampling::JsonConstraint::State &source) {

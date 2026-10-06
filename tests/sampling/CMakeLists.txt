@@ -143,6 +143,12 @@ foreach(arm IN ITEMS reference candidate fallback)
   target_link_libraries(${arm}-compiler-probe PRIVATE ${arm})
   add_executable(${arm}-snapshot-probe "${REPO}/tests/sampling/snapshot.cpp")
   target_link_libraries(${arm}-snapshot-probe PRIVATE ${arm})
+  add_executable(${arm}-request-state "${REPO}/tests/sampling/request_state.cpp")
+  target_link_libraries(${arm}-request-state PRIVATE ${arm})
+  if(arm STREQUAL "candidate")
+    add_test(NAME c17-request-state-ownership COMMAND candidate-request-state ownership)
+    set_tests_properties(c17-request-state-ownership PROPERTIES TIMEOUT 30)
+  endif()
   if(NOT arm STREQUAL "reference")
     add_test(NAME ${arm}-snapshot-staging-refusals COMMAND ${arm}-snapshot-probe faults)
     set_tests_properties(${arm}-snapshot-staging-refusals PROPERTIES TIMEOUT 30)
@@ -165,7 +171,8 @@ foreach(arm IN ITEMS reference candidate fallback)
   add_executable(${arm}-vocabulary "${REPO}/tests/sampling/vocabulary.cpp")
   target_link_libraries(${arm}-vocabulary PRIVATE ${arm})
   if(NOT arm STREQUAL "reference")
-    add_executable(${arm}-vocabulary-layout "${REPO}/tests/sampling/vocabulary_layout.cpp")
+    add_executable(${arm}-vocabulary-layout "${REPO}/tests/sampling/vocabulary_layout.cpp"
+      "${REPO}/tests/sampling/vocabulary_header_view.cpp")
     target_link_libraries(${arm}-vocabulary-layout PRIVATE ${arm})
     if(arm STREQUAL "candidate")
       target_compile_definitions(${arm}-vocabulary-layout PRIVATE LIE_TEST_HEADER_VIEW=0)
@@ -360,6 +367,14 @@ add_test(NAME snapshot-grammar-reference-parity COMMAND "${CMAKE_COMMAND}"
   "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/snapshot-parity"
   -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
 set_tests_properties(snapshot-grammar-reference-parity PROPERTIES TIMEOUT 180)
+
+add_test(NAME request-state-reference-parity COMMAND "${CMAKE_COMMAND}"
+  "-DREFERENCE=$<TARGET_FILE:reference-request-state>"
+  "-DCANDIDATE=$<TARGET_FILE:candidate-request-state>"
+  "-DFALLBACK=$<TARGET_FILE:fallback-request-state>"
+  "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/request-state-parity"
+  -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
+set_tests_properties(request-state-reference-parity PROPERTIES TIMEOUT 180)
 
 add_test(NAME composition-cache-reference-parity COMMAND "${CMAKE_COMMAND}"
   "-DREFERENCE=$<TARGET_FILE:reference-composition-cache-probe>"

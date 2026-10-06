@@ -576,6 +576,29 @@ lie_grammar_status lie_grammar_state_clone(const lie_grammar_program *p,
                                           lie_grammar_state **out) {
   return copy_state(p, input, out);
 }
+lie_grammar_status lie_grammar_state_duplicate(const lie_grammar_state *input,
+                                              lie_grammar_state **out) {
+  if (!input || !out)
+    return LIE_GRAMMAR_INVALID;
+  lie_grammar_allocator a = input->allocator;
+  lie_grammar_state *s = a.allocate(a.context, sizeof(*s));
+  if (!s)
+    return LIE_GRAMMAR_RESOURCE;
+  *s = (lie_grammar_state){.allocator = a, .limits = input->limits};
+  for (size_t i = 0; i < input->count; ++i) {
+    frame f = {0};
+    lie_grammar_status rc = copy_frame(s, view(input->frames + i), 0, &f);
+    if (rc == LIE_GRAMMAR_OK)
+      rc = push(s, &f);
+    if (rc != LIE_GRAMMAR_OK) {
+      release_frame(s, &f);
+      lie_grammar_state_release(s);
+      return rc;
+    }
+  }
+  *out = s;
+  return LIE_GRAMMAR_OK;
+}
 lie_grammar_status lie_grammar_expand(const lie_grammar_program *p,
                                       const lie_grammar_state *input,
                                       lie_grammar_state **out) {

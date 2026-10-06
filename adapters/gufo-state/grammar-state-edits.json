@@ -1,0 +1,20 @@
+{
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "edits": [
+    {
+      "path": "src/core/json_constraint.hpp",
+      "old": "#include \"src/core/json_schema_lexeme.hpp\"",
+      "new": "#include \"src/core/json_schema_lexeme.hpp\"\n#if LIE_C17_SAMPLING\n#include \"gufo_grammar_state.hpp\"\n#endif"
+    },
+    {
+      "path": "src/core/json_constraint.hpp",
+      "old": "  using State = std::vector<Stack>;",
+      "new": "#if LIE_C17_SAMPLING\n  using State = lie_gufo::RequestGrammarState;\n#else\n  using State = std::vector<Stack>;\n#endif"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "  lie_gufo::GrammarState next(raw,lie_grammar_state_release);\n  return lie_gufo::grammar_export(next.get());",
+      "new": "  return JsonConstraint::State::adopt(raw);"
+    }
+  ]
+}

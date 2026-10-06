@@ -19,8 +19,13 @@ calls the existing attributed C numeric/string/DFA algorithms directly; C17
 retains their immutable policies. Six exact guarded edits in
 `adapters/gufo-state/grammar-lexeme-edits.json` preserve the original OFF
 classes/vector/map. `gufo_grammar_lexeme.hpp` supplies private C++ facades and
-error translation. C++ schema/regex construction, template projections,
-request-state vectors and model/controller remain transitional. Construction, schema
+error translation. Request grammar snapshots now stay in C17 through runtime
+transitions and independent speculative copies, with private read-only/value
+glue in `gufo_grammar_state.hpp` and three exact guarded edits in
+`adapters/gufo-state/grammar-state-edits.json`. The original OFF vectors and
+algorithms remain available. Explicit legacy-vector transfer remains outside
+the default-ON runtime path. C++ schema/regex construction, template projections
+and model/controller remain transitional. Construction, schema
 policies, vocabulary masks and grammar composition use shared C17 contracts;
 `gufo_grammar.hpp` adapts construction/state/errors. No sibling
 code is imported by this extraction.

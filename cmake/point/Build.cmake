@@ -42,9 +42,11 @@ file(SHA256 "${zstd_dev}/zstd_errors.h" zstd_errors_sha256)
 file(SHA256 "${zstd_dev}/LICENSE" zstd_license_sha256)
 file(SHA256 "${zstd_library}" zstd_library_sha256)
 set(provider "${LABEL}-provider")
+set(reference_provider "${LABEL}-reference-provider")
 set(runtime "${LABEL}-runtime")
 set(out "${root}/evidence/${LABEL}-compile")
 if(EXISTS "${out}" OR EXISTS "${root}/build/${provider}" OR
+   EXISTS "${root}/build/${reference_provider}" OR
    EXISTS "${root}/build/${runtime}")
   message(FATAL_ERROR "Build label exists; refusing replacement")
 endif()
@@ -69,6 +71,11 @@ run_stage(provider
   -DLIE_GUFO_STATE_ACCESS=ON -DLIE_DS4_RUNTIME_CACHE=ON
   -DLIE_C17_SAMPLING=ON -DLIE_VISION_WEIGHT_DECODE=ON -DLIE_DIRECTIONAL_STEERING=ON
   -P "${root}/cmake/provider/Build.cmake")
+run_stage(reference-provider
+  "${CMAKE_COMMAND}" "-DLABEL=${reference_provider}" -DLIE_HIP_ARCHITECTURE=gfx1150
+  -DLIE_GUFO_STATE_ACCESS=ON -DLIE_DS4_RUNTIME_CACHE=ON
+  -DLIE_C17_SAMPLING=OFF -DLIE_VISION_WEIGHT_DECODE=ON -DLIE_DIRECTIONAL_STEERING=ON
+  -P "${root}/cmake/provider/Build.cmake")
 run_stage(configure
   "${CMAKE_COMMAND}" -S "${root}" -B "${root}/build/${runtime}" -G Ninja
   -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF
@@ -79,7 +86,8 @@ run_stage(configure
   "-DZSTD_INCLUDE_DIR=${zstd_dev}" "-DZSTD_LIBRARY=${zstd_library}"
   "-DLIE_BUILD_ID=${runtime}"
   "-DGUFO_SOURCE=${root}/.deps/gufo-state-access-${provider}"
-  "-DGUFO_BUILD=${root}/build/${provider}")
+  "-DGUFO_BUILD=${root}/build/${provider}"
+  "-DGUFO_REFERENCE_BUILD=${root}/build/${reference_provider}")
 run_stage(link
   "${CMAKE_COMMAND}" --build "${root}/build/${runtime}" --parallel 1
   --target synapse-lie-server synapse-lie-bench
@@ -90,5 +98,7 @@ foreach(name IN ITEMS synapse-lie-server synapse-lie-bench
   file(SHA256 "${root}/build/${runtime}/${name}" hash)
   string(JSON binaries SET "${binaries}" "${name}" "\"${hash}\"")
 endforeach()
+file(SHA256 "${root}/build/${provider}/BUILD-RECEIPT.json" provider_receipt_sha256)
+file(SHA256 "${root}/build/${reference_provider}/BUILD-RECEIPT.json" reference_receipt_sha256)
 file(WRITE "${out}/result.json"
-  "{\"state\":\"BUILT_NOT_GPU_TESTED\",\"source_commit\":\"${SOURCE_COMMIT}\",\"label\":\"${LABEL}\",\"hip_architecture\":\"gfx1150\",\"checkpoint_compression\":true,\"zstd_header_sha256\":\"${zstd_header_sha256}\",\"zstd_errors_sha256\":\"${zstd_errors_sha256}\",\"zstd_license_sha256\":\"${zstd_license_sha256}\",\"zstd_library_sha256\":\"${zstd_library_sha256}\",\"exit_code\":0,\"binaries\":${binaries}}\n")
+  "{\"state\":\"BUILT_NOT_GPU_TESTED\",\"source_commit\":\"${SOURCE_COMMIT}\",\"label\":\"${LABEL}\",\"hip_architecture\":\"gfx1150\",\"reference_control_coherent_off\":true,\"provider_receipt_sha256\":\"${provider_receipt_sha256}\",\"reference_provider_receipt_sha256\":\"${reference_receipt_sha256}\",\"checkpoint_compression\":true,\"zstd_header_sha256\":\"${zstd_header_sha256}\",\"zstd_errors_sha256\":\"${zstd_errors_sha256}\",\"zstd_license_sha256\":\"${zstd_license_sha256}\",\"zstd_library_sha256\":\"${zstd_library_sha256}\",\"exit_code\":0,\"binaries\":${binaries}}\n")
