@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Down null-contract result and owner steering — 2026-10-06 UTC
+
+The model measures 1586.586480 PP /25.16050717 TG, nominal −0.082314% PP versus retained1587, overlapping ranges. All132 operator pairs/five post-timing buffers and21 parent model files are exact. Component improvements0.69–1.98% remain available for composition; no new headline gain. Host37+37 and13 primary commands pass;37 artifacts collect before release13:23:10 UTC/268296b2. The owner requests a complete curve through256K in parallel with deeper analysis, explicitly retaining the prior fixed-point optimization priority. A local GDN full-window draft compiles, but VGPR120→157 and instruction growth make it insufficient grounds for GPU priority. [Complete values](Q2-DOWN-FIXED-CONTRACT.md).
+
 ## Down null-contract preparation — 2026-10-06 UTC
 
 The new provider derives from retained IQ2 bounds, specializing only proven null arguments and the active full-row/aligned down route. Static binding preserves 164 parent bodies and three draft bodies; VGPR 85/96/104 becomes 84/95/103 with unchanged LDS/no spills. New .157 host 37+37 checks pass; 198 runtime fixture hashes/six manifests/1029 provider files freeze. One new component and one fixed original2048/tg128 model are prepared, with no control reruns. GPU admission and runtime measurements are pending. [Contract and scope](Q2-DOWN-FIXED-CONTRACT.md).

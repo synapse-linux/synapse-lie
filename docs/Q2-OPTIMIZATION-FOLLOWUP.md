@@ -1,4 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
+
+## Priority correction after the down null-contract trial
+
+Retain1587.893545 PP versus fixedUD1685.777092: the required reduction is74.889015ms. The new down contract gives0.69–1.98% operator-time reductions but model1586.586480, with overlapping ranges and21 exact files. Preserve it; do not lead the queue with another cold-branch or instruction-count reduction. The user keeps fixed-point parity as the priority and independently requests a curve through256K now.
+
+The saved1571 profile is diagnostic history, not a fresh1587 attribution. IQ2 gate/up239.500ms, Q2 down161.558ms, denseQ8/F16293.227ms (including SSM160.218ms), MoE combine/norm72.902ms and GDN recurrence82.683ms identify larger regions. Remaining designs include fused expert-output consumption, whole640-row gate/up ownership with packing, new dense operand loading/reuse, and recurrence/epilogue scheduling. Producer packing alone accounts for roughly17ms and cannot close75ms by itself. A2% improvement in the historical down region saves only3.23ms; static code reduction is not an adequate selection criterion.
+
+The first local GDN full-window draft retains source recurrence order and all164 parent device bodies, but unrolling increases VGPR120→157 and instructions1150→2868 with unchanged10400B LDS/no spills. Preserve it as compiler-only evidence; no provider, model plan, GPU admission or speedup claim. Large producer/consumer redesigns remain unimplemented and must preserve bounded memory, output ownership and explicit numerical qualification. Already-measured table/register/prefetch/cache negatives are not new pending tests.
+
 # Focused optimization queue
 
 ## Current action after both new model trials

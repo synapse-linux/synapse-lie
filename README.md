@@ -1,5 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [down null-contract trial](docs/Q2-DOWN-FIXED-CONTRACT.md) completes at 1586.586480 PP / 25.16050717 TG; 132 operator pairs and 21 parent model files are exact. Component time improves 0.69–1.98%, but no whole-model gain is observed. Retain 1587.893545 PP and preserve the marginal candidate. The owner also requests a parallel curve through 256K while fixed-point parity remains the optimization priority.
+
 The [down null-contract candidate](docs/Q2-DOWN-FIXED-CONTRACT.md) specializes the actual null arguments and aligned half-output route. All 164 parent bodies are unchanged; three private kernels reduce VGPR use. New .157 host 37+37 checks pass. One new component and one unchanged model comparison are prepared; retain 1587.893545 PP until measured evidence.
 
 The [fixed down model trial](docs/Q2-DOWN-FIXED-BOUNDS.md) measures 1584.926383 PP /25.18297866 TG, −0.186862% PP versus retained 1587.893545. All132 operator pairs and21 parent model files are exact; keep the parent. All samples, prefill durations and graphs are preserved. `.157` is released. The next local draft removes unused down-output arguments and reduces registers; no runtime gain is claimed.
