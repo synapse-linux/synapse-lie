@@ -28,10 +28,13 @@
       95,
       103
     ],
-    "provider_implemented": false,
+    "provider_implemented": true,
     "GPU_admission": false,
     "model_speedup_claim": false,
-    "old_component_or_model_rerun": false
+    "old_component_or_model_rerun": false,
+    "source": "config/q2-down-fixed-contract-source.json",
+    "plan": "config/q2-down-fixed-contract-plan.json",
+    "host_checks": 74
   },
   "deprioritized": [
     "Compact AoS IQ2 table-LDS placement regresses12\u201320% operator time and1.627%model PP",

@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Down null-contract preparation — 2026-10-06 UTC
+
+The new provider derives from retained IQ2 bounds, specializing only proven null arguments and the active full-row/aligned down route. Static binding preserves 164 parent bodies and three draft bodies; VGPR 85/96/104 becomes 84/95/103 with unchanged LDS/no spills. New .157 host 37+37 checks pass; 198 runtime fixture hashes/six manifests/1029 provider files freeze. One new component and one fixed original2048/tg128 model are prepared, with no control reruns. GPU admission and runtime measurements are pending. [Contract and scope](Q2-DOWN-FIXED-CONTRACT.md).
+
 ## Fixed down original-model result — 2026-10-06 UTC
 
 The model completes at1584.926383 PP /25.18297866 TG, nominal −0.186862% PP versus retained1587.893545. All132 component pairs/five post-timing buffers and21 model files match the parent; nine internal replays are exact. Captured routing cycles save0.33–0.61%, much less than the static instruction count; preserve the negative model result. Host37+37 and13 commands pass;37 artifacts collect before13:01:06 UTC release497f5d32. The next compiler-only draft specializes null down-output arguments:469/764/880 instructions,VGPR84/95/103, no provider or GPU admission yet. [Full values](Q2-DOWN-FIXED-BOUNDS.md).

@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Down null-contract preparation — 2026-10-06 UTC
+
+Core freshly confirms its own .157/.158 non-use. Global .157 checks at 13:13:18 UTC bind previous release 497f5d32, retired processes/groups, empty KFD, original Core CPU/four GPU leases and unchanged model stat tuples. Host 37+37 ends 13:14:38 UTC and seven artifacts collect. The frozen plan permits only one new component and one unchanged original model. No GPU admission or reservation at preparation; no remote cleanup.
+
 ## Fixed down window released — 2026-10-06 UTC
 
 Admission12:53:07 UTC /ae6bb5d7 binds checkpointd803a8e8 and plan55db2eb5. Component and model terminate with13 primary exits0;37 artifacts collect7+4+26. Release13:01:06.984319 UTC /497f5d32 retires1500 identities/1202 groups, KFD empty, original Core CPU/four GPU leases free and seven model stat tuples unchanged. Canonical/main/remote mirrors agree; Core is informed before analysis. No Q2 job/client/build/lease/window/waiter/reservation/restart/cleanup remains on .157/.158/.161. The null-argument down draft is local compiler work only, with no provider or runtime plan.
