@@ -1,5 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The RMS-owner runtime is now component-only and host-qualified on .157:36/36 Debug and36/36 ASan/UBSan pass,140 fixtures/eight manifests frozen against the unchanged1027-file parent. GPU admission/38-case qualification remain pending; no new model rate. [Plan](config/q2-hc-norm-owner-plan.json).
+
 The [four-owner RMS fixture](docs/Q2-HC-RMS-OWNER-PREPARATION.md) is prepared:
 38 whole cases/120 output records/28 timings, including ordinary/MoE, absent
 outputs and misaligned experts. Host syntax/device compilation exit0 and all

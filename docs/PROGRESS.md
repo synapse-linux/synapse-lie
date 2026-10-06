@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## RMS owner host qualification — 2026-10-06 UTC
+
+Wire the complete fixture into the explicit component-only remote pair and standalone HIP target. Nine focused coverage/counter/phase/history methods plus the new mode/source guard run on .157.36/36 Debug and36/36 ASan/UBSan pass at10:13:05UTC, all six command exits0/seven artifacts collected. Freeze140 tested fixture hashes/eight manifests with the1027-file retained provider and unchanged model benchmark. Fresh Core non-use/original CPU closure/KFD/registry revalidation succeeds10:06:19UTC; the initial sandbox-denied socket attempt stays preserved. GPU admission/qualification and model performance remain pending. [Host](../config/q2-hc-norm-owner-host-results.json), [plan](../config/q2-hc-norm-owner-plan.json).
+
 ## Four-owner RMS whole fixture prepared — 2026-10-06 UTC
 
 After the released HC cycle, prepare38 ordinary/MoE cases,120 whole output

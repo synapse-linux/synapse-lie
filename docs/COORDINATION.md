@@ -1,5 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+RMS-owner CPU host36+36 finishes10:13:05.879520UTC and collects all seven artifacts. Fresh root .157 non-use and original Core lease/identities/groups,KFD and dcb9d12a registry revalidate10:06:19UTC. Frozen component-only plan binds140 current host-tested files/eight manifests and the unchanged1027-file provider. No new GPU admission, job, lease, window, waiter or reservation exists yet. [Plan](../config/q2-hc-norm-owner-plan.json).
+
 Latest Q2 `.157` release **2026-10-06T06:15:12.481241UTC**, SHA
 `dcb9d12ad196f37fe25b3c8a392735823f028bca953059f2148f0068b708e63e`.
 HC host35+35/component-only work terminates and collects124 component artifacts

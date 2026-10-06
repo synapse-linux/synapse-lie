@@ -39,6 +39,24 @@ class RemoteGuardTests(unittest.TestCase):
                 remote.main()
             run.assert_not_called()
 
+    def test_hc_rms_owner_is_component_only(self):
+        variant = remote.HC_OWNER_VARIANT
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-ssm-fixed-bounds'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'HC RMS ownership requires its component-only draft provider')
+        self.refuse([remote.HC_OWNER_MODE, 'q2-fixture'],
+                    'HC RMS ownership requires its component-only draft provider')
+        base = [remote.HC_OWNER_MODE, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(base + [flag], 'HC RMS ownership component accepts no model')
+        with patch.object(sys, 'argv', [str(path), *base]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
     def test_ssm_channel_bounds_matching_modes_only(self):
         variant = 'ssm-channel-bounds'
         for mode in ('cpu', 'q2-profile', 'q2-bench', 'q2-curve'):
