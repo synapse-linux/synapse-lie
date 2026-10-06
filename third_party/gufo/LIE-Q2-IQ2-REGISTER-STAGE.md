@@ -22,5 +22,7 @@ dependency, model file, conversion format or persistent cache is added.
 Source is durable under this worktree's `.deps/` with reconstructible tracked
 patches. Static compiler evidence remains under
 `evidence/q2-iq2-register-stage-preparation/`, including the initial audit
-exit1 and corrected isolated audit. No remote source/build or GPU execution
-has occurred for this candidate. Production promotion is not implied.
+exit1 and corrected isolated audit. Fresh .157 host, component and original-model tests are now complete. Source
+and evidence are bound in the final audit; all outputs match the parent, but
+prefill regresses0.641809%. The saved1585 provider remains the composition
+base. The campaign is released; production promotion is not implied.

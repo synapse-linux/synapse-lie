@@ -1,5 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [IQ2 register-stage trial](docs/Q2-IQ2-REGISTER-STAGE.md) completes at
+**1575.134325 PP /25.21702868 TG**, nominal-0.641809% PP versus saved1585.
+All96 component pairs/21 parent files are exact, but the small component
+improvements do not survive the original model benchmark. Keep1585.308983
+/25.16079073 against fixed UD1685.777092; required PP increase6.337447%.
+Host33+33 passes,13 runtime exits are0 and37 artifacts verify. The .157
+window is released at03:31:16UTC (57b67078), without cleanup or control reruns.
+
+The next [Q2-down register-stage drafts](docs/Q2-DOWN-REGISTER-STAGE-DRAFT.md)
+address the active128-output/48-token geometry. Local compiler probes reduce
+LDS18560→8320 bytes but increase VGPR96→102 and instructions2641→2699 for
+the palette variant. No spills;162 production bodies remain exact. These are
+unqualified source/ISA probes, with no GPU test or speed claim. Next isolate
+this path and HC normalized-input reuse; full curve/Q4 remain deferred.
+
 The IQ2 tail16 trial completes at **1561.419263 PP / 25.16419202 TG**,
 1.506944% below retained1585 in prefill. All 96 component pairs, 21 parent
 model files and nine internal replays are exact; the 192 recorded maps match
@@ -7,13 +22,6 @@ the captured routes. Keep1585.308983 / 25.16079073. Host33+33 passes and all
 37 artifacts verify. Complete samples and graphs are saved; .157 is released
 at02:57:24UTC (b7da267d), without cleanup. The fixed UD gap remains6.337447%.
 [Results and unchanged comparison](docs/Q2-IQ2-TAIL16.md).
-
-The next [IQ2 register-stage prototype](docs/Q2-IQ2-REGISTER-STAGE.md)
-removes a wave-private weight stage while preserving the mixed128/64 map,
-launch count and accumulation order. Compiled BN128 LDS falls25728→16512
-bytes and VGPR150→142, with no scratch spills;161 other kernels match the
-saved parent. This is static preparation only, with no new GPU result or
-reservation. Retained performance remains1585.308983 /25.16079073.
 
 Current fixed-input routing diagnosis completes on .157 with96 exact count
 arrays, unchanged full prefill logits/first16 tokens, and no GPU build.9016 of

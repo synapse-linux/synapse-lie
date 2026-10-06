@@ -1,52 +1,43 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Focused optimization queue
 
-## Current priority after the 6 October tail16 measurement
+## Current priority after the 6 October register-stage measurement
 
 Keep1585.308983 PP /25.16079073 TG. Fixed UD1685.777092 requires6.337447%
 more PP, equivalent to76.991736ms less prefill at the same2048 tokens.
-The saved1585 binary now supplies exact counts for all48 layers, twice,
-without rebuilding. All prefill logits and first16 greedy tokens match saved
-model evidence. GDB timings are excluded from throughput comparisons.
-
-The completed [tail16 trial](Q2-IQ2-TAIL16.md) measures1561.419263 PP,
-1.506944% below retained1585. All96 component pairs/21 parent model files
-are exact, and all192 usage maps match the captured geometry. Real component
-layers0/3/22 take3.624–9.292% longer. Keep the existing mixed128/64 dispatch;
-the smaller-tail hypothesis is no longer pending.
-
-The [routing diagnosis](Q2-CURRENT-ROUTING.md) finds9016/12753 tails (70.697%)
-contain1..16 rows. Wide128 utilization is92.774%; tail64 utilization21.318%.
-This is a workload observation. The kernel already skips empty matrix fragments;
-row padding alone does not predict the speedup. The earlier uniform512-expert
-component has no wide tiles and does not reproduce this model workload.
+The current [IQ2 register-stage result](Q2-IQ2-REGISTER-STAGE.md) is complete:
+1575.134325 PP,0.641809% below the saved parent, with96 exact component pairs,
+21 exact parent files and nine exact internal replays. Captured component
+layers improve0.225–0.902%, but unchanged BN64 varies0.611%. Neither reduced
+LDS/VGPR nor these marginal operator gains establish a model improvement.
+The preceding tail16 and four-wave changes are also completed negatives.
 
 | Order | Concrete next work | Evidence and boundary |
 | --- | --- | --- |
-| 1 | Remove wave-private weight staging in IQ2 BN128. | [Isolated prototype and compiled audit](Q2-IQ2-REGISTER-STAGE.md) ready: LDS25728→16512 bytes, VGPR150→142, no spills, same eight waves/grid/barriers,161 other bodies exact. Removes code/scale publication and reads while retaining activation staging. GPU fixture/model still required; saved1571 region cost135.808ms. |
-| 2 | Apply the same ownership analysis to Q2 down. | Active128-row down blocks likewise keep weight rows inside their producer wave. No new implementation yet. Saved region161.558ms; preserve scale/affine rounding and ordered WMMA. This removes a stage that the old negative half-wave trial retained. |
-| 3 | Reuse normalized HC values for injection before rereading a full row. | The saved trace has20.272ms ordinary plus19.276ms deferred injection. Up/mix already holds the normalized inputs needed by injection. A fused producer needs an exact reduction/lifetime design and must charge partial-buffer traffic and register cost. No implementation or speed claim yet. |
+| 1 | Qualify Q2-down register palette on its active BN48 path. | [Two compiler probes](Q2-DOWN-REGISTER-STAGE-DRAFT.md) are ready from retained1585: LDS18560→8320, VGPR96→102, no spills, same12 WMMA/eight barriers,162 production bodies exact. v3 forms the exact palette once and has2699 static instructions versus2705 affine-v2 and2641 parent. Runtime fixture/provider still required. Saved region161.558ms; preserve F32 affine and inverse product. |
+| 2 | Reuse normalized HC values from the up/mix epilogue for injection. | Source confirms `HcMixRawF16Gemm` launches the up/mix producer and a separate `HcMixEpilogueVec4Kernel<float,false>` that rereads normalized inputs. Deferred norm has the analogous second consumer. Saved ordinary/deferred inject20.272/19.276ms. A fused design must preserve each sixteen-product per-thread chain and the exact wave/block/chunk reduction; charge new partials and register/LDS cost. No implementation or gain established. |
+| 3 | Remove remaining HC combine/norm materialization when consumers can preserve the original values. | Saved combine/norm186.168ms offers a larger region than launch gaps. Existing deferred-norm and half storage already eliminate selected passes. Any next fusion must target remaining reads/writes, preserve all ten expert FMAs and grouped RMS order, and include up/down consumer costs. No new numerical candidate yet. |
 
-[Representative component routes](../config/q2-fixed-input-route-fixtures.json)
-are layer0 and the layers with fewest/most eligible tails:3/22. Counts are real;
-component operands remain synthetic. These routes now have measured negative
-tail16 results and should also drive the next new-kernel fixture.
-The full fixed2048/tg128 test remains
-the acceptance point, including safe numerical-failure timings. No controls
-are rebuilt or rerun and no full curve is started before this gap is closed.
+The ordering is based on measured region size and a concrete removable pass;
+it is not a probability estimate. Q2-down resource reduction could be offset
+by added register exchange. IQ2-only staging reached too little runtime gain
+to close the gap. HC injection alone has39.548ms historical cost, less than
+77ms required, so it cannot supply the entire target even if that separate
+kernel disappeared. Gains from distinct candidates must survive actual
+composition; they cannot be added into a predicted rate.
 
-The old short48 whole-bucket and current tail16 trials both regressed and remain
-retained. Static occupancy/resource savings alone are insufficient to predict
-model gain. The register-stage prototype keeps the original dispatch geometry.
-Four-wave restricted to49..64-row tails reaches only5.967% of current tails and
-is lower priority after the full four-wave model result1572.745422 PP.
-Streaming compressed cache with full residency, generic SSM predicates and
-host callbacks remain lower priority after measured negatives and the5.090ms
-prefill inter-kernel gap in the saved trace. The ranking is an engineering
-priority, not a quantified success probability or measured speedup. The two
-expert regions total297.366ms in the saved1571 trace; recovering77ms entirely
-there would require about25.9% less time, a scenario rather than a forecast.
-[Routing opportunity audit](../config/q2-route-opportunities.json).
+[Captured component routes](../config/q2-fixed-input-route-fixtures.json)
+remain layers0/3/22. Counts are real, operands synthetic. The full original
+fixed2048/tg128 tester remains the acceptance point, with safe numeric-failure
+timings retained. Only new candidates are built/tested; saved fixedQ2/UD/1585
+references stay unchanged. No full curve/Q4 is started before this gap closes.
+
+The saved1571 profile has1321.833ms kernel work and5.090ms inter-kernel gaps;
+callbacks and expert cache policy cannot be credited with77ms compute savings.
+This is an older diagnostic profile, not a fresh1585 cost breakdown. Routing
+utilization and compiler occupancy remain useful diagnostics but do not predict
+speedup, as the exact negative tail16 trial demonstrates. All rejected sources,
+actual failures, full samples and their graphs remain preserved.
 
 ## Earlier queue entries
 

@@ -1,0 +1,426 @@
+{
+  "schema": "synapse-lie.q2-iq2-register-stage-command-audit.v1",
+  "commands": {
+    "generation-command.json": {
+      "argv": [
+        "python3",
+        "tools/prepare-q2-iq2-register-stage.py"
+      ],
+      "started_at": "2026-10-06T03:05:39.023200+00:00",
+      "finished_at": "2026-10-06T03:05:39.288573+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "5ac8551bdfeb0272fc6ba3ba29a0de197a16830a6560f2989b42f1736c605f8a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "assembly-command.json": {
+      "argv": [
+        "python3",
+        "evidence/q2-iq2-register-stage-preparation/compile-local.py",
+        "assembly"
+      ],
+      "started_at": "2026-10-06T03:05:50.656395+00:00",
+      "finished_at": "2026-10-06T03:06:00.667910+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "c9f9ba02ea3f4e1154c8567b0f0dfbcdba5f41b9c082246732e273b81071677d"
+    },
+    "static-audit-command.json": {
+      "argv": [
+        "python3",
+        "tools/analyze-q2-iq2-register-stage-static.py"
+      ],
+      "started_at": "2026-10-06T03:06:51.162301+00:00",
+      "finished_at": "2026-10-06T03:06:51.715377+00:00",
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "98731b68203d1af6f747df9925ab0eea7c341541994bda52cf7f9c0dccc1d48f"
+    },
+    "generation-v2-command.json": {
+      "argv": [
+        "python3",
+        "tools/prepare-q2-iq2-register-stage-v2.py"
+      ],
+      "started_at": "2026-10-06T03:08:38.823449+00:00",
+      "finished_at": "2026-10-06T03:08:39.147895+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "519b653b5cf4aeae013147879b63dd2aa7133702b63481e3cf8be3c762a1a3d1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "assembly-v2-command.json": {
+      "argv": [
+        "python3",
+        "evidence/q2-iq2-register-stage-preparation/compile-local.py",
+        "assembly-v2"
+      ],
+      "started_at": "2026-10-06T03:09:19.479969+00:00",
+      "finished_at": "2026-10-06T03:09:29.526426+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "fb804d281008741080ca5c080ffbe8201393a2508575d33853ee8ac733ba15c5"
+    },
+    "static-audit-v2-command.json": {
+      "argv": [
+        "python3",
+        "tools/analyze-q2-iq2-register-stage-static-v2.py"
+      ],
+      "started_at": "2026-10-06T03:10:50.883004+00:00",
+      "finished_at": "2026-10-06T03:10:51.590729+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "bde7ef984c874413eede2a0380b39b7c77b1e52189d06c71672fafebdd523dd3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "checkpoint-whitespace-command.json": {
+      "argv": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "started_at": "2026-10-06T03:16:29.632734+00:00",
+      "finished_at": "2026-10-06T03:16:29.638202+00:00",
+      "exit_code": 2,
+      "stdout_sha256": "389135d75efdc43322267577bbaf20107ffc26ff6b62871e1e2f4d6d3c4ecbae",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "fixture-device-command.json": {
+      "argv": [
+        "python3",
+        "evidence/q2-iq2-register-stage-preparation/compile-local.py",
+        "fixture-device"
+      ],
+      "started_at": "2026-10-06T03:23:33.851250+00:00",
+      "finished_at": "2026-10-06T03:23:35.890226+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "77583cbd6d5b6a40735306a37849838d20b0192e316a37363a5682c9cc362321"
+    },
+    "fixture-host-command.json": {
+      "argv": [
+        "python3",
+        "evidence/q2-iq2-register-stage-preparation/compile-local.py",
+        "fixture-host"
+      ],
+      "started_at": "2026-10-06T03:23:33.854143+00:00",
+      "finished_at": "2026-10-06T03:23:35.904291+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "4848088533750d439dc6d4bc8a8c798a8539af2c2f48a02caa963ecbdf3f6cfb"
+    },
+    "core-handover-command.json": {
+      "argv": [
+        "python3",
+        "evidence/q2-iq2-register-stage-preparation/check-core-handover.py"
+      ],
+      "started_at": "2026-10-06T03:23:36.542608+00:00",
+      "finished_at": "2026-10-06T03:23:36.938580+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "624730adfed6e701e84346c0dd268e81f75f5b423ca7e49c1a57fa8384789774",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "host-launch-command.json": {
+      "argv": [
+        "python3",
+        "tools/q2-remote.py",
+        "cpu",
+        "q2-iq2-register-stage-host-r1"
+      ],
+      "started_at": "2026-10-06T03:23:49.468712+00:00",
+      "finished_at": "2026-10-06T03:24:34.259219+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "d9a4bfee7b93eb9422b69e2c739638f69e750f48ad6546901970bfb3cb7217ce",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "host-collect-command.json": {
+      "argv": [
+        "python3",
+        "tools/q2-remote.py",
+        "collect",
+        "q2-iq2-register-stage-host-r1"
+      ],
+      "started_at": "2026-10-06T03:24:51.586305+00:00",
+      "finished_at": "2026-10-06T03:24:52.074301+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "9b6a92fb783387a69484903c038c2cefba374608225162563890e319244452a9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "freeze-plan-command.json": {
+      "argv": [
+        "python3",
+        "tools/freeze-q2-iq2-register-stage-plan.py"
+      ],
+      "started_at": "2026-10-06T03:25:02.832914+00:00",
+      "finished_at": "2026-10-06T03:25:03.612801+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "ecee3545ecda43328f186b2182da099acbcc98c65c2d8bbd9a09d3e046dd34d8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "helper-transfer-command.json": {
+      "argv": [
+        "python3",
+        "evidence/q2-iq2-register-stage-preparation/window-action.py",
+        "transfer"
+      ],
+      "started_at": "2026-10-06T03:25:11.743944+00:00",
+      "finished_at": "2026-10-06T03:25:12.079566+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "cb540dff6836539dece356abfefe942cf451863c373394f0d9adc36f71e27de4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "staging-command.json": {
+      "argv": [
+        "python3",
+        "evidence/q2-iq2-register-stage-preparation/stage-local.py"
+      ],
+      "started_at": "2026-10-06T03:25:08.799607+00:00",
+      "finished_at": "2026-10-06T03:25:12.855716+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "92410855c52d89195733a83cb0adc130d94a9d55b1711a069268cd8795535034",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "core-handover-admit-command.json": {
+      "argv": [
+        "python3",
+        "evidence/q2-iq2-register-stage-preparation/check-core-handover.py"
+      ],
+      "started_at": "2026-10-06T03:25:18.374093+00:00",
+      "finished_at": "2026-10-06T03:25:18.828427+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "fae654cf2efc8320a2632117f985b95a9853dfbe4737d1b76e79910a499f05a8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admission-command.json": {
+      "argv": [
+        "python3",
+        "evidence/q2-iq2-register-stage-preparation/window-action.py",
+        "admit",
+        "523856cc"
+      ],
+      "started_at": "2026-10-06T03:25:24.994747+00:00",
+      "finished_at": "2026-10-06T03:25:25.408983+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "d01d23e8f4215af666b10e07d6b10c8f590cc47f0dcf774f015a7d36a62483af",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "admission-publish-command.json": {
+      "argv": [
+        "python3",
+        "evidence/q2-iq2-register-stage-preparation/publish-window.py",
+        "admission"
+      ],
+      "started_at": "2026-10-06T03:25:36.636747+00:00",
+      "finished_at": "2026-10-06T03:25:37.149875+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "a059f2ae033b4aaf14e1c1b01bdf515e8a5a182313d3da6edabb3f518692bf55",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "component-status-1-command.json": {
+      "argv": [
+        "python3",
+        "tools/q2-remote.py",
+        "status",
+        "q2-iq2-register-stage-component-r1"
+      ],
+      "started_at": "2026-10-06T03:26:06.163492+00:00",
+      "finished_at": "2026-10-06T03:26:06.631856+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "0652a0f5ce809154a21b65764d948aec17709415ef9f5c31784ff912a40ac60c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "component-launch-command.json": {
+      "argv": [
+        "python3",
+        "tools/q2-remote.py",
+        "iq2-register-stage-check",
+        "q2-iq2-register-stage-component-r1",
+        "--source-variant",
+        "iq2-register-stage"
+      ],
+      "started_at": "2026-10-06T03:25:40.925952+00:00",
+      "finished_at": "2026-10-06T03:26:10.016249+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "25b49037192447aa5d76e7042a2136013d53c453e0d137ee911121b5fb437372",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "component-collect-command.json": {
+      "argv": [
+        "python3",
+        "tools/q2-remote.py",
+        "collect",
+        "q2-iq2-register-stage-component-r1"
+      ],
+      "started_at": "2026-10-06T03:26:23.656119+00:00",
+      "finished_at": "2026-10-06T03:26:24.138714+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "6135309b6e236cf8e6e61d02b28e953ad43b32cb415f1c59b06967dfee8a208e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "component-analysis-command.json": {
+      "argv": [
+        "python3",
+        "tools/analyze-q2-iq2-register-stage-component.py"
+      ],
+      "started_at": "2026-10-06T03:26:27.483234+00:00",
+      "finished_at": "2026-10-06T03:26:28.275576+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "6ef6b973498df5acbf09133d20a978092077756cc3f74397541aaee4e44fe1f0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "component-plot-command.json": {
+      "argv": [
+        "python3",
+        "tools/plot-q2-iq2-register-stage.py",
+        "component"
+      ],
+      "started_at": "2026-10-06T03:26:37.802890+00:00",
+      "finished_at": "2026-10-06T03:26:38.556634+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "345663c20c964ab0b630140bcca6dd2289545d5758a21c37f061bf78bb374a9b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "model-status-1-command.json": {
+      "argv": [
+        "python3",
+        "tools/q2-remote.py",
+        "status",
+        "q2-iq2-register-stage-model-r1"
+      ],
+      "started_at": "2026-10-06T03:27:02.307220+00:00",
+      "finished_at": "2026-10-06T03:27:02.742079+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "647230285ee9853a077b4850bc077d49f7125c6799db80645a1d653abbd99304",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "down-draft-generation-command.json": {
+      "argv": [
+        "python3",
+        "tools/prepare-q2-down-register-stage-draft.py"
+      ],
+      "started_at": "2026-10-06T03:29:40.472024+00:00",
+      "finished_at": "2026-10-06T03:29:40.488183+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "2a16978e30e396db87297ec02970310e9eb6102a282dd3fa24530730fea41343",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "model-status-2-command.json": {
+      "argv": [
+        "python3",
+        "tools/q2-remote.py",
+        "status",
+        "q2-iq2-register-stage-model-r1"
+      ],
+      "started_at": "2026-10-06T03:29:54.211597+00:00",
+      "finished_at": "2026-10-06T03:29:54.765702+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "13eb28a12f23153443341d641d1e98cd2a250808624d2034f1dc7cccebee8f29",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "model-status-3-command.json": {
+      "argv": [
+        "python3",
+        "tools/q2-remote.py",
+        "status",
+        "q2-iq2-register-stage-model-r1"
+      ],
+      "started_at": "2026-10-06T03:30:45.540277+00:00",
+      "finished_at": "2026-10-06T03:30:47.055496+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "d1a6a9d408ff11a502177a58be61abf59abc15a4a30dfaab3b524329a0c8c446",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "model-launch-command.json": {
+      "argv": [
+        "python3",
+        "tools/q2-remote.py",
+        "q2-counting-iq2-register-stage",
+        "q2-iq2-register-stage-model-r1",
+        "--source-variant",
+        "iq2-register-stage",
+        "--rebuild-mmq"
+      ],
+      "started_at": "2026-10-06T03:26:36.625380+00:00",
+      "finished_at": "2026-10-06T03:30:54.868030+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "c59a0c7bebef662377861f57ad26bb0b1252e5abdfd487602993f4f198f09ac9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "model-collect-command.json": {
+      "argv": [
+        "python3",
+        "tools/q2-remote.py",
+        "collect",
+        "q2-iq2-register-stage-model-r1"
+      ],
+      "started_at": "2026-10-06T03:31:01.493348+00:00",
+      "finished_at": "2026-10-06T03:31:02.945964+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "c81c158a0b981e0b4afe3f8520d1ad481a6964a5fd41e0b9189ad68c18f93921",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "release-command.json": {
+      "argv": [
+        "python3",
+        "evidence/q2-iq2-register-stage-preparation/window-action.py",
+        "release",
+        "523856cc"
+      ],
+      "started_at": "2026-10-06T03:31:16.523330+00:00",
+      "finished_at": "2026-10-06T03:31:16.973691+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "57b67078e073f09c2aeb73b2ed2f6c288781131029c8267b840d6bcc77b2f04b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "publish-release-command.json": {
+      "argv": [
+        "python3",
+        "evidence/q2-iq2-register-stage-preparation/publish-window.py",
+        "release"
+      ],
+      "started_at": "2026-10-06T03:31:27.841457+00:00",
+      "finished_at": "2026-10-06T03:31:28.374575+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "db209b7f744b9759ec938a77b61b2fa05fbe060c2bab9a5101b1999b0e4848a3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "model-analysis-command.json": {
+      "argv": [
+        "python3",
+        "tools/analyze-q2-iq2-register-stage-model.py",
+        "iq2-register-stage"
+      ],
+      "started_at": "2026-10-06T03:31:30.376301+00:00",
+      "finished_at": "2026-10-06T03:31:32.791229+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "bc7749234964461ffdbb64136e4f2e1908b731b55548cc8cb4b383be76dfeaa8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "model-plot-command.json": {
+      "argv": [
+        "python3",
+        "tools/plot-q2-iq2-register-stage.py",
+        "model"
+      ],
+      "started_at": "2026-10-06T03:32:09.268936+00:00",
+      "finished_at": "2026-10-06T03:32:09.765963+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "4566ecfba98a28d15a9222d0124d4a125d36e4c0685dc69b7b377adf54d9634b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "final-audit-command.json": {
+      "argv": [
+        "python3",
+        "tools/finalize-q2-iq2-register-stage.py"
+      ],
+      "started_at": "2026-10-06T03:32:17.702845+00:00",
+      "finished_at": "2026-10-06T03:32:20.794283+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "6d03305ca39a7fd84add07198e2c8f42a56f9b85bf10cd4c053dd4116f2ccf67",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "classified_failures": {
+    "static_scope": 1,
+    "literal_control_EOF": 2
+  },
+  "gpu_window_released": true,
+  "goal_met": false
+}

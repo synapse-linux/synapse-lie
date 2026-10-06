@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Latest Q2 window: IQ2 register-stage releases .157 at2026-10-06T03:31:16.929649UTC,
+receipt SHA57b67078e073f09c2aeb73b2ed2f6c288781131029c8267b840d6bcc77b2f04b.
+Fresh Core non-use and client closure were revalidated before admission. New
+host33+33/component/model all terminate and are collected before release;
+13 actual command exits0,37 artifacts verify.1328 identities/1062 groups
+are absent, KFD empty, all four original leases free and seven model stat
+identities unchanged. Canonical/main/remote release-active-ready mirrors agree.
+Core received closure before local analysis. No Q2 job, build, lease, waiter,
+reservation or restart remains; no cleanup or DS4 changes occurred. The next
+Q2-down drafts are local compiler-only probes and have no GPU admission.
+[Release](../config/q2-iq2-register-stage-window-release.json),
+[final audit](../config/q2-iq2-register-stage-final-audit.json).
+
 Tail16 host33+33 completes .157 at2026-10-06T02:41:48UTC and is collected.
 IQ2 tail16 releases .157 at2026-10-06T02:57:24.367920UTC,
 SHA256b7da267d9739b263a8ed46a5592246d143e3ea1ab127c99bcbfaae1c1e23a46f.

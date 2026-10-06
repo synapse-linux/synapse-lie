@@ -1,0 +1,22 @@
+{
+  "schema": "synapse-lie.q2-iq2-register-stage-staging.v1",
+  "arms": [
+    {
+      "mode": "iq2-register-stage-check",
+      "capsule_sha256": "5cd88d6595726e3770251530422b3a978bd94724a5895c0ac52a9b804ef84c7f",
+      "provider_files": 1028,
+      "fixture_files": 118,
+      "capsule_path": "evidence/q2-iq2-register-stage-stage-component/source.tar.gz",
+      "ssh_executed": false
+    },
+    {
+      "mode": "q2-counting-iq2-register-stage",
+      "capsule_sha256": "a8bc469dc512a178015a52a0f552ea0fa12906d8bca84c4b85df42dfe2c84973",
+      "provider_files": 1028,
+      "fixture_files": 118,
+      "capsule_path": "evidence/q2-iq2-register-stage-stage-model/source.tar.gz",
+      "ssh_executed": false
+    }
+  ],
+  "gpu_run": false
+}

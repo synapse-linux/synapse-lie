@@ -1,11 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 # IQ2 weights retained within their producer wave
 
-This prepared candidate starts from retained1585.308983 PP /25.16079073 TG.
-The fixed UD point remains1685.777092 PP /24.34174251 TG. No new model rate
-is established here: device execution, numerical checks and the original
-fixed2048/tg128 benchmark remain pending. The completed tail16 trial is
-negative and is not part of this source.
+The completed .157 model test measures1575.134325 PP /25.21702868 TG,
+nominally-0.641809%/+0.223514% versus retained1585.308983 /25.16079073.
+All96 component pairs,21 parent model files and nine internal replays are
+exact. Keep the saved1585 provider; this IQ2 candidate is retained as evidence.
+The fixed UD point remains1685.777092 PP /24.34174251 TG, requiring6.337447%
+more PP from the retained provider. No controls were rebuilt or rerun.
 
 The original IQ2 stage publishes decoded code bytes and rounded scales to
 LDS, then reads them from the same wave32. Source ownership enumeration
@@ -50,22 +51,65 @@ The original scale rounding, K16 accumulation order and anchored F32 SwiGLU
 epilogue are retained in source. Full GPU outputs and actual model results
 must establish the compiled behavior, including zero/negative scales and tails.
 
-## Next measured scope
+## Complete component and model measurements
 
-The next fixture should compare the literal saved1585 kernel and this new
-kernel on the existing captured layers0/3/22, plus full and unaffected-route
-controls. Use the same mixed128/64 map for both arms; tail16 is excluded.
-Include ragged output widths and token counts, three rotated weight sets,
-guards and saved full outputs. Preserve performance after safe numerical
-differences; stop only unsafe device work. The original model benchmark then
-uses saved fixedQ2/UD and saved1585 references without reruns.
+Both fixture arms use identical original128/64 maps. The candidate calls the
+production selector; its control uses the bound literal saved1585 body.
+Edge token counts and output widths plus captured layers0/3/22 give96 guarded
+full-output pairs. Five shapes each have two warmups and five alternating
+measurements with three weight rotations beyond32MiB:70 timing samples.
+Uniform160 exercises only BN128; uniform512 is the unchanged BN64 control.
+Captured counts are real, while operator operands remain synthetic.
 
-The runtime fixture, launcher binding and fresh coordinated .157 admission
-are not prepared by this static result. No GPU job or reservation is active.
-Q4 and full context curves stay deferred until fixed-point parity.
+| Component | Parent median us | Candidate median us | Time change |
+| --- | ---: | ---: | ---: |
+| Uniform160, BN128 only |3649.441401|3617.655754|-0.870973%|
+| Uniform512, unchanged BN64 |5467.982610|5501.382192|+0.610821%|
+| Captured layer0 |5202.055931|5155.110677|-0.902437%|
+| Captured layer3 |4184.441566|4156.162262|-0.675820%|
+| Captured layer22 |5522.008260|5509.595235|-0.224792%|
+
+The small component reductions do not survive the original model benchmark.
+The unchanged control also varies. These observations do not isolate cache,
+clock or occupancy effects, and they do not establish a causal decode gain:
+this specialization does not change the one-token decode path.
+
+| Original2048/128 sample | Prefill tokens/s | Decode calls/s | Prefill s | Decode s |
+| --- | ---: | ---: | ---: | ---: |
+| Warmup |1578.706281|25.19522528|1.297264744|5.040637605|
+| Measured1 |1577.153349|25.19586049|1.298542086|5.040510525|
+| Measured2 |1575.134325|25.21702868|1.300206571|5.036279318|
+| Measured3 |1573.689119|25.24314215|1.301400623|5.031069398|
+
+C1 greedy, MTP off, capacity9216/chunk2048 and127 timed decode calls remain
+fixed; the original input hash and tester are unchanged. Comparators are the
+saved fixedQ21443.672867/25.09595499, UD1685.777092/24.34174251 and best parent
+1585.308983/25.16079073. All measured candidate PP samples are below the saved
+parent range. Model residency43,156,012,544 bytes, deferred scratch7,946,240
+bytes and session376,777,748 bytes match the parent.
+
+Fresh .157 host33 Debug+33 ASan/UBSan pass. All13 runtime commands exit0;
+37 collected artifacts,118 fixtures,12 manifests and1028 provider files verify.
+The release at2026-10-06T03:31:16.929649UTC has SHA
+`57b67078e073f09c2aeb73b2ed2f6c288781131029c8267b840d6bcc77b2f04b`.
+KFD is empty, four original leases are free, seven model stat identities are
+unchanged and1328 recorded identities/1062 groups are absent. Main/remote
+mirrors agree; Core received closure. No job, reservation or cleanup remains.
+Model peaks are CPU84.875C/GPU75C with no thermal stop. Saved historical
+comparisons do not prove contemporaneous repeatability or independent quality.
+
+[Component results](../config/q2-iq2-register-stage-component-results.json),
+[model results](../config/q2-iq2-register-stage-model-results.json),
+[final audit](../config/q2-iq2-register-stage-final-audit.json),
+[disposition](../config/q2-iq2-register-stage-disposition.json),
+[all70 component samples](figures/q2-iq2-register-stage-component.csv),
+[all16 new/saved model samples](figures/q2-iq2-register-stage-model.csv).
+
+![All component samples](figures/q2-iq2-register-stage-component.svg)
+![Unchanged model comparison](figures/q2-iq2-register-stage-model.svg)
 
 The same wave ownership exists in the active Q2-down stage and is the next
-extension to examine after this experiment. That extension is not implemented.
+extension to examine after this experiment. A source-only [Q2-down draft](Q2-DOWN-REGISTER-STAGE-DRAFT.md) now exists; it is not runtime qualified.
 It differs from the old half-wave decode trial, which kept its code/affine LDS
 stage. The saved1571 trace attributes135.807810ms to IQ2 BN128 and161.558060ms
 to Q2 down. These are older diagnostic costs, not fresh1585 measurements or

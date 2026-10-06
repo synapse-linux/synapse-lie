@@ -1,5 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [IQ2 register-stage trial](Q2-IQ2-REGISTER-STAGE.md) completes at
+**1575.134325 PP /25.21702868 TG**, nominal-0.641809% PP versus saved1585.
+All96 component pairs/21 parent files are exact, but the small component
+improvements do not survive the original model benchmark. Keep1585.308983
+/25.16079073 against fixed UD1685.777092; required PP increase6.337447%.
+Host33+33 passes,13 runtime exits are0 and37 artifacts verify. The .157
+window is released at03:31:16UTC (57b67078), without cleanup or control reruns.
+
+The next [Q2-down register-stage drafts](Q2-DOWN-REGISTER-STAGE-DRAFT.md)
+address the active128-output/48-token geometry. Local compiler probes reduce
+LDS18560→8320 bytes but increase VGPR96→102 and instructions2641→2699 for
+the palette variant. No spills;162 production bodies remain exact. These are
+unqualified source/ISA probes, with no GPU test or speed claim. Next isolate
+this path and HC normalized-input reuse; full curve/Q4 remain deferred.
+
 The [IQ2 tail16 trial](Q2-IQ2-TAIL16.md) completes on .157 at
 2026-10-06T02:56:33UTC:1561.419263 PP /25.16419202 TG, nominal
 -1.506944%/+0.013518% versus saved1585.308983 /25.16079073. Every new measured
@@ -18,7 +33,7 @@ main and remote mirrors agree; Core receives closure. No Q2 job, build,
 waiter, reservation, restart or cleanup remains. Fixed-point PP still needs
 6.337447%; full curve/Q4 and independent task qualification remain open.
 
-Local follow-up now prepares the isolated [IQ2 register stage](Q2-IQ2-REGISTER-STAGE.md)
+Earlier static preparation introduced the isolated [IQ2 register stage](Q2-IQ2-REGISTER-STAGE.md)
 from saved1585. Symbolic ownership confirms that all weight-stage consumers
 stay within their producer wave, allowing a register exchange to replace the
 code/scale LDS stage. The1028-file v2 preserves161 other compiled bodies;
