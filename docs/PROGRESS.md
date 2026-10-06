@@ -1,6 +1,29 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Native HTTP deadlines cover the recorded 1M duration — 2026-10-06 UTC
+
+The shared C HTTP transport, ordinary workload, canonical Gufo curve and
+prepared multi-user client now accept deadlines up to 86,400 seconds. The
+long-context preset defaults to 14,400 seconds; ordinary, curve and multi-user
+defaults stay unchanged. The frozen physical 1M run took 7,478.56 seconds,
+exceeding the former 7,200-second client maximum. Client declarations do not
+configure the server or campaign supervisor.
+
+[HOST validation](development/validation/native-http-deadlines-host-2026-10-06.json)
+records three Release and three ASan/UBSan/LSan CTest contracts, all passing.
+Tests cover the maximum in every client, ordinary/long-context defaults,
+invalid values, exact report identity and existing HTTP/report/graph behavior.
+Synthetic children use private ephemeral loopback ports and a PATH without
+Python. The long-context fixture intentionally refuses nonlinear synthetic
+calibration; it is not original-weight recall or performance evidence.
+Sanitizers run outside sandbox ptrace with options unset and no suppression.
+Maximum local build/test CPU is 76.75 C under the existing guards; GPU is
+masked/observe-only. No new remote job, lease or reservation is created.
+The capability matrix is corrected to retain current AR37/MTP37 and fixed
+physical PP1,048,448/TG128 scope. All six owned tasks remain open; Terminal
+Bench stays stopped, collected, closed and deferred last. No push occurs.
+
 ## C17 schema publication passes matching GPU controls — 2026-10-06 UTC
 
 The sealed `33d12a02` source builds coherent 102-file HIP ON/OFF providers and

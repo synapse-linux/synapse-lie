@@ -381,7 +381,7 @@ int main(int argc, char **argv) {
                           "--server-label",
                           "NOT-INFERENCE",
                           "--timeout",
-                          "3",
+                          "86400",
                           NULL};
     check(invoke(argv[1], args) == 0,
           "canonical CLI independent of Python/PATH");

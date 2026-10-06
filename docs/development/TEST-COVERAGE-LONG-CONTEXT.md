@@ -69,9 +69,12 @@ separate API objective, not something the benchmark suite establishes.
 
 The C executable implements `--suite http` natively; no adjacent script or
 Python interpreter is required. The preset defaults to targets **258794, 524288, 786432, 1004581**, output budget
-64, three measured repetitions, zero discarded warmups and a 3600-second HTTP
-socket timeout. The endpoint's own deadline and the supervising campaign deadline
-must also cover the work; a socket timeout is not a total campaign deadline.
+64, three measured repetitions, zero discarded warmups and a 14400-second
+deadline for each complete HTTP request, including streaming. All native HTTP
+clients accept an explicit `--timeout` up to 86400 seconds. The frozen physical
+1M run took 7478.56 seconds, exceeding the former 7200-second client limit.
+The endpoint's own deadline and the supervising campaign deadline must also
+cover the work; the per-request client deadline is not a total campaign deadline.
 
 Example for a separately admitted, already 1M-qualified endpoint:
 
@@ -85,7 +88,8 @@ synapse-lie-bench --suite http --url http://192.168.5.161:8000/v1 \
 ```
 
 The server must be started with the declared context and YaRN profile, and its
-deadline must cover the complete prefill/generation work. Physical 1M capacity
+deadline must cover the complete prefill/generation work, for example
+`--request-timeout-ms 14400000`. Physical 1M capacity
 is qualified by the separate direct-core gate above; this HTTP command and its
 repetitions have not been measured as a full 1M comparison. For the native point
 use `--sizes 258794 --context-capacity 262144 --rope-scaling native`.

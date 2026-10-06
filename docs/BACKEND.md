@@ -77,6 +77,9 @@ client/server restart or machine reservation is queued in the meantime.
    recall checks still need completion; this single run is not a matched
    performance comparison. Native live progress also reaches its confirmed
    final snapshot, separately from process and lease retirement.
+   The native HTTP client deadline now covers the recorded duration: configurable
+   maximum 24 hours, long-context default four hours. Matching Release and
+   sanitizer fixtures pass; independent recall and HTTP GPU campaigns remain open.
 4. **Finish the requested Gufo/Halogen benchmark methods.** Compare full cold
    prefill and decode through 1M, and multi-user C1/2/4/6/8, with matched physical
    work, cache policy, output length, repetitions and server lifecycle. Retain
@@ -354,9 +357,9 @@ defines this thread's tasks; this table does not assign additional broad campaig
 | --- | --- | --- |
 | MTP | Verified bursts, reactive cancellation, predictor/controller checkpoints, RAM/SSD continuation and recorded AR/MTP GPU comparisons. | Independent predictor oracle, broader rejection/fault/quality and long-context coverage. |
 | Vision and joint MTP | Owned images, semantic cache/MRoPE, projector identity and joint RAM/SSD state; Halo image/cache and Point AR/MTP direct gates pass. | Broader image quality, mixed-history/fault cases and allocation-exact resource/performance qualification. |
-| Semantic events/functions | Shared C17 text/progress/tool/turn events and incremental arguments; corrected r11 AR and MTP pass all 34 HTTP/function/control checks, including disconnected background completion. | Full agent task evaluation, newer output-budget qualification and performance. |
-| C17 sampling | Owned dense selection, penalty/bias arithmetic and random draws; recorded GPU correctness and matched comparisons pass within their stated scope. | Retained cold-short regression; new owned history and compact/speculative probabilities have host checks only. Grammar runtime, vocabulary/cache and regex syntax/expression/DFA construction have host checks only. C17 Unicode registry/input handling has host checks only; ICU remains the property/set/conversion dependency. Snapshot marshalling algorithms have host checks only; provider container storage, JSON Schema compiler and model/controller state remain transitional. |
-| Extended context | Explicit native/YaRN2/YaRN4 contracts; short GPU profile gates and 512K/1M capacity allocations pass. Physical PP1,048,448 completes with 43 output tokens. | The declared TG128 gate fails on natural EOS; extended quality and matched performance remain open. |
+| Semantic events/functions | Shared C17 text/progress/tool/turn events and incremental arguments. The current `33d12a02` build passes 37 selected original-weight controls in each AR/MTP mode, including automatic output budgets and retained Responses lifecycle. | Full agent task evaluation, broader API cases and performance. |
+| C17 sampling and grammar | Owned selection, history, speculative probabilities, grammar storage/runtime, Unicode input, JSON values, schema publication and prompt ownership. Matching selected AR/MTP GPU controls and independent HOST witnesses pass within their stated scopes. | Individual branches, faults, quality, private resources and matched cost; typed construction/bootstrap/errors, integer-bound interval construction and model/controller remain transitional. ICU remains the property/set/conversion dependency. |
+| Extended context | Explicit native/YaRN2/YaRN4 contracts. The frozen `1bff953` C1 YaRN4 run completes physical PP1,048,448 and fixed TG128 at capacity 1,048,576. | Independent long-context recall and matched performance remain open. The older natural-EOS43 failure is retained separately. |
 
 MTP and vision remain model-neutral capabilities. The C17 core owns policy,
 scheduling, lifetimes, storage and metrics; the model binding owns predictor,

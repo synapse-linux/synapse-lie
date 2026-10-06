@@ -1198,10 +1198,63 @@ int main(int argc, char **argv) {
                   graphs,
                   "--repetitions",
                   "2",
+                  "--timeout",
+                  "86400",
                   NULL};
   run(http, 0);
+  json_object *http_rows = read_json("http.jsonl", true);
+  require(nb_number(json_object_array_get_idx(http_rows, 0),
+                    "timeout_seconds") == 86400,
+          "full-day HTTP timeout lost from report identity");
+  json_object_put(http_rows);
   graph_files("http-graphs");
   run(http, 1);
+  path(output, "http-default.jsonl");
+  char *ordinary_default[] = {
+      argv[2], "--suite", "http", "--url", api, "--model",
+      "cpu-test-fixture", "--requests", requests, "--server-label",
+      "NOT-INFERENCE", "--server-kv-cache", "off", "--output", output,
+      "--repetitions", "1", NULL};
+  run(ordinary_default, 0);
+  http_rows = read_json("http-default.jsonl", true);
+  require(nb_number(json_object_array_get_idx(http_rows, 0),
+                    "timeout_seconds") == 630,
+          "ordinary HTTP default timeout changed");
+  json_object_put(http_rows);
+  path(output, "http-long-default.jsonl");
+  char *long_default[] = {
+      argv[2], "--suite", "http", "--url", api, "--model",
+      "cpu-test-fixture", "--preset", "long-context", "--sizes", "128",
+      "--tg", "8", "--context-capacity", "1048576", "--rope-scaling",
+      "yarn4", "--server-label", "NOT-INFERENCE", "--server-kv-cache",
+      "off", "--output", output, "--repetitions", "1", NULL};
+  /* This fixture returns a fixed synthetic token count. The three actual
+   * HTTP calibration probes must refuse it as nonlinear, while retaining
+   * the selected long-context deadline in the report identity. */
+  run(long_default, 1);
+  http_rows = read_json("http-long-default.jsonl", true);
+  json_object *last = json_object_array_get_idx(
+      http_rows, json_object_array_length(http_rows) - 1);
+  require(nb_number(json_object_array_get_idx(http_rows, 0),
+                    "timeout_seconds") == 14400 &&
+              json_object_array_length(http_rows) == 5 &&
+              !strcmp(nb_string(last, "event"), "failed") &&
+              strstr(nb_string(last, "error"), "Nonlinear prompt calibration"),
+          "long-context default deadline or calibration refusal lost");
+  json_object_put(http_rows);
+  const char *bad_timeouts[] = {"86400.001", "0", "-1", "nan", "inf"};
+  for (size_t i = 0; i < sizeof(bad_timeouts) / sizeof(*bad_timeouts); ++i) {
+    char *invalid[] = {argv[2], "--suite", "http", "--url", api,
+                      "--model", "cpu-test-fixture", "--requests", requests,
+                      "--server-label", "NOT-INFERENCE", "--server-kv-cache",
+                      "off", "--output", output, "--timeout",
+                      (char *)bad_timeouts[i], NULL};
+    run(invalid, 2);
+  }
+  nb_error timeout_error = {0};
+  require(!nb_http_get(management, 86400.001, &timeout_error) &&
+              strstr(timeout_error.message, "at most 86400 seconds"),
+          "shared HTTP transport accepted an excessive timeout");
   stop_server();
   clean(root);
   puts("Native HTTP/KV restart/C2/backpressure, report/parser and PNG/SVG "

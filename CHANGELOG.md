@@ -372,6 +372,10 @@ stable release is declared. Detailed validation history is in
 
 ### Fixed
 
+- Native HTTP benchmark deadlines now allow up to 24 hours. The long-context
+  preset defaults to four hours, covering the recorded 1M prefill that exceeded
+  the former two-hour client maximum. Ordinary workload defaults are unchanged.
+
 - Optional steering qualification now accepts valid zero-acceptance MTP runs
   while requiring actual drafting and exact confirmed output parity. Strix Point
   passes selected malformed-bank and absent/zero/fresh-core recovery controls;

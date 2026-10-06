@@ -405,7 +405,9 @@ int nb_http_main(int argc, char **argv) {
            "SECONDS]\n  [--graphs DIRECTORY --compare REFERENCE-JSONL]\nNative "
            "C HTTP client; requires a running server. Actual usage and "
            "complete SSE evidence.\nCache/context/RoPE values are operator "
-           "declarations, not server configuration.\n--cache-policy is a "
+           "declarations, not server configuration.\nHTTP timeout is at most "
+           "86400 seconds; defaults to 14400 for long-context and 630 otherwise.\n"
+           "--cache-policy is a "
            "legacy alias of --server-kv-cache. No model, tool execution or "
            "implicit cache reset.");
       return 0;
@@ -439,7 +441,7 @@ int nb_http_main(int argc, char **argv) {
       errno = 0;
       c.timeout = strtod(v, &end);
       if (errno || end == v || *end || !isfinite(c.timeout) || c.timeout <= 0 ||
-          c.timeout > 7200)
+          c.timeout > NB_HTTP_TIMEOUT_MAX_SECONDS)
         goto usage;
     }
     else if (!strcmp(k, "--corpus-seed")) {
@@ -488,7 +490,7 @@ int nb_http_main(int argc, char **argv) {
   if (!c.tg)
     c.tg = c.long_context ? 64 : 256;
   if (!c.timeout)
-    c.timeout = c.long_context ? 3600 : 630;
+    c.timeout = c.long_context ? NB_HTTP_LONG_CONTEXT_TIMEOUT_SECONDS : 630;
   if (c.long_context &&
       (!c.context || !strcmp(c.rope, "unknown") || strcmp(c.cache, "off")))
     goto usage;

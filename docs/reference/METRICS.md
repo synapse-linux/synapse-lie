@@ -690,6 +690,13 @@ not numerical equivalence or an inference-quality certificate. These records do
 not measure server cold loading or peak allocation. CPU fixture values remain
 explicitly `NOT-INFERENCE`; they must never be published as GPU results.
 
+Native HTTP benchmark identities retain the effective `timeout_seconds` for
+each complete request. The configurable maximum is 86,400 seconds. The `http`
+long-context preset defaults to 14,400 seconds; ordinary HTTP, curve and
+multi-user defaults retain their documented values. A larger deadline does not
+change PP/TG timing boundaries, inference workers or throughput, and does not
+configure the server or the supervising campaign deadline.
+
 C17 [root schema admission](../development/C17-SAMPLING.md#root-schema-admission)
 adds no serving metric or inference thread. Its bounded work counter is a
 construction refusal budget; it is not prefill/decode throughput or GPU cost.

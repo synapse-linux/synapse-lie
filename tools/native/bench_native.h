@@ -9,6 +9,10 @@
 #include <stdint.h>
 #include <stdio.h>
 #define NB_LIMIT (32u * 1024u * 1024u)
+/* Seconds. Matches the server's maximum configurable request deadline.
+ * The 1M physical prefill already exceeds the former two-hour client limit. */
+#define NB_HTTP_TIMEOUT_MAX_SECONDS 86400.0
+#define NB_HTTP_LONG_CONTEXT_TIMEOUT_SECONDS 14400.0
 typedef struct {
   char message[256];
 } nb_error;

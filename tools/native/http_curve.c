@@ -497,7 +497,7 @@ static bool valid_id(json_object *id, nb_error *e) {
       !nb_count(id, "warmups", 0, 100, NULL) ||
       !nb_count(id, "seed", 0, UINT32_MAX, NULL) ||
       !real(id, "depth_tolerance", 0, .1, NULL) ||
-      !real(id, "timeout_seconds", .001, 7200, NULL) ||
+      !real(id, "timeout_seconds", .001, NB_HTTP_TIMEOUT_MAX_SECONDS, NULL) ||
       !eq(id, "client_id", "model-bench") ||
       !nb_count(id, "prefix_reply_tokens", 8, 8, NULL) ||
       !nb_count(id, "max_attempts", 4, 4, NULL) ||

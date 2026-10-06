@@ -325,7 +325,14 @@ without SSD options for that measurement. Other presets are `decode`,
 `conversation` and `long-context`; use `--requests FILE` to replay a saved
 corpus. The long-context generator can prepare larger inputs, but does not
 extend the model's context limit. `--timeout` is the deadline in seconds for a
-complete HTTP request, including response streaming.
+complete HTTP request, including response streaming; its maximum is 86,400
+seconds (24 hours) in all three HTTP clients. The `http` suite defaults to 630
+seconds, or 14,400 seconds (4 hours) for `--preset long-context`. The `http-curve`
+and `http-multi` defaults remain 3,600 and 630 seconds respectively.
+The frozen physical 1M run took 7,478.56 seconds, longer than the former
+7,200-second client limit. Set the server's own `--request-timeout-ms` and the
+campaign supervisor deadline to cover the work too; client options do not
+reconfigure either deadline. See the [extended-context guide](CONTEXT.md).
 
 For the [Point cold-context comparison](../benchmarks/2026-10-04/strix-point/http-depth/README.md),
 run one target per **fresh** 262,144-context server and use
