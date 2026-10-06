@@ -1,5 +1,10 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [Q2 network blocked audit](docs/Q2-NETWORK-BLOCKED.md) revalidates SSH255
+before connection at05:32:30UTC across three consecutive goal turns. The next
+HC execution requires `.157` connectivity; no remote job/lease/window starts.
+Checkpoint661a6e0e preparation and fixed1585.308983 versus1685.777092 PP remain.
+
 The [HC qualification preparation](docs/Q2-HC-QUALIFICATION-PREPARATION.md)
 now includes the full-output/timer analyzer and component-only freeze/admit/phase
 tools. Ten parser/phase regression methods await fresh35+35 host checks on `.157`;

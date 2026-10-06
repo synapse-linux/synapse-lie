@@ -1,0 +1,115 @@
+{
+  "schema": "synapse-lie.q2-network-blocked-audit.v1",
+  "at": "2026-10-06T05:34:10.560525+00:00",
+  "objective": "Q2 deve avere le stesse performance di UD",
+  "scope": "Full agreed PP/TG context curve; original fixed point remains first gate",
+  "previous_goal_turn_classification": "progress",
+  "source_checkpoint": "661a6e0e",
+  "preparation_sha256": "1bffe7d7dd257f292d6ada6809d51fe8584cb68061981eb1de309c99b87b905d",
+  "preparation_identities_exact": true,
+  "consecutive_goal_turns": [
+    {
+      "id": "01a10f88-6f0f-7041-9cdd-56a72791d5cf",
+      "attempts": [
+        "core-handover"
+      ],
+      "offline_progress": true
+    },
+    {
+      "id": "01a10fa0-7ed0-7f82-9781-e671f9418b66",
+      "attempts": [
+        "core-handover-r2",
+        "core-handover-r3"
+      ],
+      "offline_progress": true
+    },
+    {
+      "id": "01a10fb2-8190-77e3-ab2e-41f1552ae3bb",
+      "attempts": [
+        "core-handover-r4"
+      ],
+      "network_revalidation_terminal": true
+    }
+  ],
+  "remote_attempts": {
+    "core-handover": {
+      "argv": [
+        "python3",
+        "evidence/q2-hc-inject-reuse-component-preparation/check-core-handover.py"
+      ],
+      "started_at": "2026-10-06T04:57:12.856566+00:00",
+      "finished_at": "2026-10-06T04:57:15.948399+00:00",
+      "exit_code": 255,
+      "path": "evidence/q2-hc-inject-reuse-component-preparation/core-handover-command.json",
+      "sha256": "8f2128f52b1750e0400ca3843dd098181307b8b7b88246cc316ad01b0e5869fb",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3dbbae77e3e78f4e1556fef208ca559616a0ef08a6cb67484d55fb9f3b71a27"
+    },
+    "core-handover-r2": {
+      "argv": [
+        "python3",
+        "evidence/q2-hc-inject-reuse-component-preparation/check-core-handover.py"
+      ],
+      "started_at": "2026-10-06T05:12:37.049939+00:00",
+      "finished_at": "2026-10-06T05:12:40.172455+00:00",
+      "exit_code": 255,
+      "path": "evidence/q2-hc-inject-reuse-component-preparation/core-handover-r2-command.json",
+      "sha256": "2cc49b854f1315e94ca78a52fb210547082b1c6bcacf0e1630e42779e28c3cf2",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3dbbae77e3e78f4e1556fef208ca559616a0ef08a6cb67484d55fb9f3b71a27"
+    },
+    "core-handover-r3": {
+      "argv": [
+        "python3",
+        "evidence/q2-hc-inject-reuse-component-preparation/check-core-handover.py"
+      ],
+      "started_at": "2026-10-06T05:21:32.402378+00:00",
+      "finished_at": "2026-10-06T05:21:35.531937+00:00",
+      "exit_code": 255,
+      "path": "evidence/q2-hc-inject-reuse-component-preparation/core-handover-r3-command.json",
+      "sha256": "61a742f0e85e7ce766c291882d88b3d9497f48a4b3744f35b9ef869ea19705a5",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3dbbae77e3e78f4e1556fef208ca559616a0ef08a6cb67484d55fb9f3b71a27"
+    },
+    "core-handover-r4": {
+      "argv": [
+        "python3",
+        "evidence/q2-hc-inject-reuse-component-preparation/check-core-handover.py"
+      ],
+      "started_at": "2026-10-06T05:32:28.260356+00:00",
+      "finished_at": "2026-10-06T05:32:30.892575+00:00",
+      "exit_code": 255,
+      "path": "evidence/q2-hc-inject-reuse-component-preparation/core-handover-r4-command.json",
+      "sha256": "766754c2da3b4f13974cfcd71e3a7ec95dc16a77c8f190b9a04c702fb5681eaa",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3dbbae77e3e78f4e1556fef208ca559616a0ef08a6cb67484d55fb9f3b71a27"
+    }
+  },
+  "blocked_audit_threshold_satisfied": true,
+  "intended_goal_status": "blocked",
+  "blocker": "Required .157 machine unreachable: SSH255 No route to host before connection",
+  "external_change_required": "Restore .157 network reachability, then revalidate original coordination",
+  "permission_required": false,
+  "remote_connection_established": false,
+  "remote_staging_started": false,
+  "remote_build_or_job_started": false,
+  "live_job_wait": false,
+  "GPU_run": false,
+  "GPU_reserved": false,
+  "lease_or_window_started": false,
+  "retry_or_waiter_scheduled": false,
+  "remote_cleanup": false,
+  "global_remote_availability_claim": false,
+  "host_checks_executed": false,
+  "component_plan_frozen": false,
+  "model_inference": false,
+  "new_measured_performance": false,
+  "retained_PP": 1585.308983,
+  "retained_TG": 25.16079073,
+  "fixed_UD_PP": 1685.777092,
+  "required_PP_increase_percent": 6.3374465216160525,
+  "required_prefill_saving_ms": 76.99173599999986,
+  "goal_met": false,
+  "completion_proven": false,
+  "documentation_sha256": "669d7a1588cd1cfd294f57ffeb8499fef8f258d40870f204afe4abd07e11c891"
+}

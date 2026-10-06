@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Q2 network blocker revalidated — 2026-10-06 UTC
+
+The previous turn progresses through checkpoint661a6e0e. A fresh Core handover
+check now terminates05:32:30.892575UTC with SSH255/No route before connection.
+This same blocker spans three consecutive goal turns. The next HC component
+is prepared, but mandated `.157` host checks and runtime timing cannot execute.
+There is no live job/window/lease/reservation/waiter or remote staging to wait
+for. The parity objective remains unmet at1585.308983 versus1685.777092 PP.
+The blocked audit requires external network recovery, not additional approval.
+[Evidence and exact resumption boundary](Q2-NETWORK-BLOCKED.md).
+
 ## HC analyzer and component-only window preparation — 2026-10-06 UTC
 
 Complete the analyzer for200 outputs/57 logged scratch/19 Q8 checks/42 timings,

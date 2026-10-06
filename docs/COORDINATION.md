@@ -1,5 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Latest HC handover r4 terminates2026-10-06T05:32:30.892575UTC with SSH255/No
+route to host before connection. No remote job/build/model/window/lease/
+reservation/waiter or staging starts. Previous release e64145d6 is unchanged
+historical evidence, not current global availability. Three consecutive goal
+turns establish the same required-machine network blocker; new admission waits
+for reconnection and fresh ownership checks. [Audit](Q2-NETWORK-BLOCKED.md).
+
 HC handover checks r1/r2/r3 all terminate locally with SSH255/No route to host
 before connection. No staging, host/build/model, lease, reservation, window or
 waiter starts. Core freshly confirms its own non-use of `.157`; this does not
