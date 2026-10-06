@@ -75,8 +75,8 @@ quoting, identity imports/remapping and stop policy. Its
 ordered states and token masks against pristine/OFF algorithms. All 23 earlier
 witness hashes are unchanged; independent paired-allocation failure and core
 byte accounting checks pass. Typed predicate storage/templates remain private.
-This newer source needs matching GPU qualification; the previous `a24875f`
-receipt does not extend to it. Typed storage/model/controller ownership and
+The later matching `20777005` build below covers selected original-weight
+AR/MTP paths; the older `a24875f` receipt excludes this increment. Typed storage/model/controller ownership and
 broader qualification remain open.
 
 The later 83-file increment moves JSON binary64 conversion to `lie/binary64.h`.
@@ -85,8 +85,13 @@ Release, 17 sanitizer and 42 complete pristine/ON/OFF controls. All 24 previous
 complete witness hashes are unchanged. Three exact recipe edits keep both
 original OFF conversion bodies; the ON JSON and numeric schema paths call the
 same C codec. The inventory includes 71 first-party files and 12 vendor/provenance
-files. A fresh matching provider/application and original-weight GPU run is
-still required; `a24875f` does not cover this increment.
+files. The matching `20777005` sealed provider/application build now passes
+37 unchanged original-weight OpenAI controls in each AR/MTP mode on `.161`
+([GPU receipt](validation/c17-binary64-point-gpu-2026-10-06.json)). Selected
+integrated paths are qualified; individual branches, independent probability,
+faults, quality, private allocation-exact resources, matched cost and new SSD BPE
+remain open. Both modes observe 44 whole-process threads, including runtime
+helpers; no new inference thread or speedup is claimed.
 
 ## Ownership and behavior
 
@@ -585,9 +590,10 @@ MPFR/GMP are required only by the optional `tests/sampling` developer project,
 not by ordinary core/server/bench/default CTest. The codec object still contains
 Ryu's unused allocating convenience entry point; its malloc import does not
 describe the tested public paths. Typed JSON storage/full lexer, immutable
-predicates and model/controller remain private. Matching original-weight
-composition/codec, individual branches/faults/resources/cost and SSD BPE gates
-are still pending; no inference speedup is claimed.
+predicates and model/controller remain private. The matching composition/codec
+build passes the selected original-weight AR/MTP controls above; individual
+branches/faults/resources/cost and SSD BPE gates remain pending. No inference
+speedup is claimed.
 
 ## Pinned string format expansion
 

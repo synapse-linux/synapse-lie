@@ -14,6 +14,12 @@ and confirmed per-job token counts remain progress, not completion or a finished
 throughput sample. Sampled GTT/temperatures are observational resources, not
 allocation-exact or device-fault qualification.
 
+The matching `20777005` [composition/codec GPU controls](../development/validation/c17-binary64-point-gpu-2026-10-06.json)
+observe up to 44 whole-process threads in both AR/MTP, including runtime helpers.
+No inference worker is added. GTT/temperature samples remain observational;
+these functional results establish no matched timing, allocation-exact cost or
+reactive speedup.
+
 C17 binary64 text/work bounds are admission limits, with no new HTTP timing,
 counter or inference worker. Codec scratch is bounded stack storage; allocator
 hooks in the [host oracle](../development/validation/c17-binary64-host-2026-10-06.json)

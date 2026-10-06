@@ -14,3 +14,4 @@ cb57ffe4fc524c2401327607229cf6837dfe3975fab48b44dd0a7178738906c4  docs/benchmark
 5a0704e9a29a68c997b2d83a850656c34397ebb808477f43ac3033ca3358c690  rocm10-terminal-full-stopped-r16.tar.gz
 2dfe912628ddd44f30be333ce6d23d4db8b86bc753fed0c08ada1c5946eab7ea  rocm10-schema-body-openai-r18.tar.gz
 d0f85ee28eb2e85d94ddae9eb99859c3c7cb8acae0be1ca1023b87ec725361b7  rocm10-schema-policy-openai-r19.tar.gz
+28bb90941f0fec97083d6da1d4f02b381a44a3c9adedd62132b21227d89aac12  rocm10-composition-codec-openai-r20.tar.gz

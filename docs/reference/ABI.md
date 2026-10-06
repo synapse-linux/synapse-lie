@@ -20,6 +20,12 @@ public ABI. [Original-weight AR/MTP controls](../development/validation/c17-samp
 qualify that frozen integrated build within the stated wire/profile scope;
 they do not qualify an unfinished finite-value ABI or a complete owned executor.
 
+The matching `20777005` source/provider/application passes selected
+original-weight AR/MTP controls with the existing engine/state/worker/HTTP
+layouts unchanged. The [receipt](../development/validation/c17-binary64-point-gpu-2026-10-06.json)
+does not qualify individual branches, private resources/cost or a fully owned
+model executor.
+
 `lie/binary64.h` adds separate ABI 1. The synchronous, model-neutral C codec
 formats finite IEEE754 binary64 into caller storage without a NUL and parses
 full strict JSON number spans with nearest-even rounding. Signed zero survives;

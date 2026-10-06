@@ -41,6 +41,11 @@ profiles preserve these DS4 payload and cache identities. Their
 is wire/generation qualification with prompt cache disabled, not new original-
 weight RAM/SSD continuation, mixed-history lookup or state-fault evidence.
 
+The matching composition/codec `20777005` AR/MTP gates preserve admitted model/
+predictor stats and the existing DS4 payload/cache identities. Prompt retention
+is disabled for these [controls](../development/validation/c17-binary64-point-gpu-2026-10-06.json);
+they add no original-weight SSD BPE restore, mixed-history or state-fault claim.
+
 The shared C17 binary64 codec owns no persistent or request-local state. It
 borrows text and writes caller storage synchronously; exact arithmetic and
 digits use bounded stack scratch. Immutable Ryu lookup tables do not enter

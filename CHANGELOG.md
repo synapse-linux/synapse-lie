@@ -9,13 +9,15 @@ stable release is declared. Detailed validation history is in
 
 - Shared C17 JSON binary64 formatting and parsing, preserving number spelling,
   negative zero and nearest-even rounding. Bundled pinned Ryu adds no system
-  dependency; MPFR is used only by optional developer tests. Matching
-  original-weight GPU qualification remains pending.
+  dependency; MPFR is used only by optional developer tests. The matching
+  composition/codec build passes 37 original-weight OpenAI controls in both AR
+  and MTP on Strix Point; individual numerical branches and cost remain open.
 
 - Shared C17 immutable reasoning/tool grammar composition, including marker
   transitions, argument imports, JSON name quoting and parallel-call stop policy.
-  Original/default-ON/OFF complete states and masks agree in host checks; matching
-  original-weight GPU qualification remains pending.
+  Original/default-ON/OFF complete states and masks agree in host checks;
+  matching original-weight AR/MTP controls pass. Broader branch/resource/cost
+  qualification remains open.
 
 - The matching 66-file C17 provider/application build passes 37 original-weight
   OpenAI controls in both AR and MTP on Strix Point. These qualify selected
@@ -23,7 +25,7 @@ stable release is declared. Detailed validation history is in
 
 - Shared C17 ordered cache policy for reasoning and tool grammars, including
   duplicate reuse, synchronization and bounded eviction. Typed provider keys
-  and immutable composition remain private. Matching selected AR/MTP controls
+  remain private. Matching selected AR/MTP controls
   pass; individual branch, resource and cost gates remain pending.
 
 - Shared C17 JSON Schema format expansion for the nine existing formats,

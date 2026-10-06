@@ -1,6 +1,37 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Matching composition/codec GPU controls pass — 2026-10-06 UTC
+
+The sealed `20777005` source builds on `.161` in the pinned ROCm 10 image,
+with 83 exact provider bindings: 71 first-party files and 12 vendor/provenance
+files. Separate fresh original-lease windows pass 37 unchanged OpenAI controls
+in each AR/MTP mode, including strict schemas/functions, choices, logprobs,
+seeded replay, stored/background Responses and automatic output budgets.
+The [receipt](development/validation/c17-binary64-point-gpu-2026-10-06.json)
+binds all source/binaries and actual exits. The build and both servers exit 0;
+target/predictor stats stay unchanged. CPU peaks are 71.5 C
+for the build, 61.5 C for AR and 66.25 C for MTP.
+Whole-process thread maxima are 44/44, including runtime helpers;
+no new inference thread or speedup is claimed.
+
+All three supervisors/container identities and their leases are retired and
+collected. Fresh 2026-10-06T02:25:58.888806+00:00 closure verifies the original lease free
+then released, HTTP8000 unbound and restored router 91291 active/only KFD,
+with no foreign client or hot guard. CPU98/NVMe85/lower guards stay active and
+GPU temperature is observed only. No tuning, installation, deployment or `.157`
+activity occurs. A failed read-only AR observer and receipt-only filename
+errors retain their actual exits; observation is corrected on the same owner,
+with no inference restart or gate change. The portable archive retains all 97
+members and preserves the previous archive-index bytes.
+
+This qualifies selected integrated paths in the newer composition/codec source.
+Typed containers/lexer/predicate/model/controller ownership, individual branches,
+independent probability/fault/quality/allocation-exact/matched-cost and SSD BPE
+gates remain open. All six owned roadmap tasks stay open; Terminal Bench remains
+stopped and deferred until modifications and matching qualification finish.
+
+
 ## JSON binary64 conversion uses the shared C17 core — 2026-10-06 UTC
 
 The model-neutral `lie/binary64.h` ABI now supplies shortest JSON number spelling

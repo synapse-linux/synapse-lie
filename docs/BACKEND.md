@@ -211,11 +211,12 @@ client/server restart or machine reservation is queued in the meantime.
    complete states/masks and allocation/refusal oracles. JSON binary64 number
    formatting/parsing now also uses C17 with bundled pinned Ryu and independent
    bit/rounding/refusal oracles
-   ([host checks](development/validation/c17-binary64-host-2026-10-06.json)). This
-   newer 83-file inventory (71 first-party + 12 vendor/provenance files) requires
-   matching provider/application and original-weight gates. Typed JSON/key/value
-   containers, lexer/predicate storage and model/controller remain private.
-   The later matching `a24875f` 66-file build now passes selected original-weight
+   ([host checks](development/validation/c17-binary64-host-2026-10-06.json)). The
+   matching `20777005` 83-file inventory (71 first-party + 12 vendor/provenance
+   files) now passes selected original-weight AR37/MTP37 controls on `.161`
+   ([GPU receipt](development/validation/c17-binary64-point-gpu-2026-10-06.json)).
+   Typed JSON/key/value containers, lexer/predicate storage and model/controller
+   remain private. The earlier matching `a24875f` 66-file build passes selected original-weight
    AR37/MTP37 controls on `.161`
    ([GPU receipt](development/validation/c17-schema-policy-point-gpu-2026-10-06.json)).
    Individual numeric/format branches and independent probability/fault/private

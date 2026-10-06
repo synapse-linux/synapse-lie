@@ -1,5 +1,34 @@
 # DS4 / synapse-lie coordination
 
+## R20 matching composition/codec build and AR/MTP closed — 2026-10-06
+
+Fresh Point/DGX own non-use and 02:10:06 UTC global observation admit only the
+new root `20777005` source. The original lease device 66307 / inode 105946405 is
+briefly free then released, only router 84458 is on KFD, no foreign client/hot
+guard/HTTP8000 listener is observed and the exclusive r20 paths are absent.
+
+Build supervisor 85062 / start 12165699 holds the original lease and compiles the
+matching 83-file provider/application with no GPU devices; it exits 0 / releases
+at 02:14:28 UTC. Six run files and 17 compile artifacts are collected; fresh
+02:15:27 closure verifies exact identities retired and router 88406 restored.
+AR supervisor 88900 / start 12192900 and MTP supervisor 90223 / start 12221456 use
+separate fresh 02:16:08 / 02:20:29 admissions. Both pass 37 unchanged original-weight
+controls, exit 0 and release at 02:19:48 / 02:24:38 UTC, with 17-file collection and unchanged
+target/predictor stats. A read-only AR observer error is corrected on the same
+owner without restarting inference; its actual failed exit remains retained.
+
+Fresh 02:25:58 UTC final closure verifies all three supervisors/container labels
+absent, the original lease free briefly then released, HTTP8000 unbound and
+router 91291 active/only KFD. No foreign client or hot guard is observed.
+[Receipt](development/validation/c17-binary64-point-gpu-2026-10-06.json).
+CPU 98 / NVMe 85 / lower exposed guards and GPU observation stay intact; no tuning,
+installation, deployment or foreign mutation occurs. There is no standing
+root job/client/build/lease/waiter/reservation or `.157` activity. Selected
+integrated paths qualify; broader branches/faults/resources/cost/quality/SSD BPE
+remain open. Terminal Bench stays stopped and deferred until modifications and
+matching qualification finish.
+
+
 ## R19 matching build and AR/MTP actually closed — 2026-10-06
 
 Point and DGX supply fresh own `.161` non-use; root continues `.157` non-use.
