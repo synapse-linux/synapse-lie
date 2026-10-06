@@ -68,6 +68,7 @@ struct lie_core {
   pthread_mutex_t gate;
   atomic_bool stop;
   lie_core_info info;
+  lie_attention_dispatch_info attention_dispatch;
   lie_core_options options;
   char *path;
   char output_namespace[33]; /* Independent of HTTP; unique across core
@@ -368,6 +369,22 @@ lie_status lie_job_output_tokens(lie_job *j, int32_t *out, size_t cap, size_t *n
 }
 void lie_core_snapshot(lie_core *w, lie_core_info *out) {
     pthread_mutex_lock(&w->gate); *out=w->info; pthread_mutex_unlock(&w->gate);
+}
+lie_status lie_core_attention_dispatch_snapshot(lie_core *w,
+    lie_attention_dispatch_info *out,lie_error *e) {
+    if(!w||!out||out->abi_version!=LIE_ATTENTION_DISPATCH_ABI||out->struct_bytes!=sizeof(*out)){
+        if(e)snprintf(e->message,sizeof(e->message),"invalid attention dispatch snapshot");
+        return LIE_INVALID;
+    }
+    pthread_mutex_lock(&w->gate);*out=w->attention_dispatch;pthread_mutex_unlock(&w->gate);
+    return LIE_OK;
+}
+static void publish_attention_dispatch(lie_core *w) {
+    lie_attention_dispatch_info info;lie_attention_dispatch_info_init(&info);
+    lie_error error={0};
+    if(lie_model_attention_dispatch_snapshot(w->model,&info,&error)!=LIE_OK)
+        lie_attention_dispatch_info_init(&info); /* Explicitly unavailable, never inferred zero work. */
+    pthread_mutex_lock(&w->gate);w->attention_dispatch=info;pthread_mutex_unlock(&w->gate);
 }
 static void publish_outcome(lie_job *j, lie_job_finish finish, const char *message) {
     pthread_mutex_lock(&j->gate);
@@ -980,6 +997,7 @@ static bool step(lie_core *w, size_t index) {
     lie_status rc =
         lie_sequence_prefill(j->sequence, j->prompt, j->fed + add, &error);
     record_call(j, true, started_ok, started, rc == LIE_OK ? (unsigned)add : 0);
+    publish_attention_dispatch(w);
     if (rc != LIE_OK) {
       if (rc != LIE_CANCELLED) {
         if (!error.message[0])
@@ -1319,6 +1337,7 @@ static void *work(void *arg) {
         w->mtp_path?lie_backend_open_mtp(w->path,&options,w->options.max_active,w->mtp_path,w->options.mtp_draft_tokens,&w->model,&error):
         lie_backend_open_batch(w->path,&options,w->options.max_active,&w->model,&error);
     if (rc==LIE_OK) rc=lie_model_get_info(w->model,&model,&error);
+    if (rc==LIE_OK) publish_attention_dispatch(w);
     if(rc==LIE_OK&&w->steering_path){
         rc=lie_model_steering_info(w->model,&steering,&error);
         uint64_t elements=(uint64_t)steering.bank.layers*steering.bank.width;
@@ -1421,6 +1440,7 @@ lie_core *lie_core_create_steered(const lie_core_options *o,const lie_steering_m
        !isfinite(steering->defaults.ffn)||fabsf(steering->defaults.ffn)>100||
        !isfinite(steering->defaults.attention)||fabsf(steering->defaults.attention)>100))return NULL;
     lie_core *w=calloc(1,sizeof(*w)); if (!w) return NULL;
+    lie_attention_dispatch_info_init(&w->attention_dispatch);
     w->info.rope_profile=o->rope_profile;
     w->wake=w->notice=-1; w->options=*o; w->path=strdup(o->model_path);
     unsigned char output_nonce[16];

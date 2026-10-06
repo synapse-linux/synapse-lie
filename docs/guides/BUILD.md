@@ -60,6 +60,10 @@ source and archive hashes are verified before linking. The benchmark control
 uses a complete OFF provider, including its numerical/controller archives;
 mixing an OFF sampler with ON request-state layouts is rejected. Configure
 `-DLIE_GUFO_REFERENCE_BENCH=OFF` to build only LIE without this comparison control.
+Prefill attention observation is default ON. To disable it, pass
+`-DLIE_ATTENTION_DISPATCH_STATS=OFF` to **both provider build commands and the
+application configure command**. Rebuild the complete private providers and
+clients; the verifier rejects mismatched options or older observer-free receipts.
 The resulting programs
 are `build/release/synapse-lie-server`, `synapse-lie-bench`,
 `synapse-lie-bench-gufo-reference`, `synapse-lie-monitor` and `synapse-lie-kvc`.

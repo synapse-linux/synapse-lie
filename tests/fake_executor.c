@@ -112,6 +112,12 @@ lie_status lie_gufo_open(const char *path, const lie_model_options *o, lie_model
 lie_status lie_model_get_info(lie_model *m, lie_model_info *out, lie_error *e) {
     (void)e; owner(m); *out=(lie_model_info){.abi_version=LIE_EXECUTOR_ABI,.context_tokens=m->context,.vocab_tokens=2048,.prefill_capacity=m->chunk,.native_batch_capacity=m->width,.speculative_supported=m->mtp}; return LIE_OK;
 }
+lie_status lie_model_attention_dispatch_snapshot(lie_model *m,
+    lie_attention_dispatch_info *out,lie_error *e) {
+    if(!m||!out||out->abi_version!=LIE_ATTENTION_DISPATCH_ABI||out->struct_bytes!=sizeof(*out))
+        return error(e,LIE_INVALID,"invalid fixture attention dispatch snapshot");
+    owner(m);lie_attention_dispatch_info_init(out);return LIE_OK;
+}
 lie_status lie_model_close(lie_model **m, lie_error *e) { (void)e; owner(*m); assert(!(*m)->sequences); lie_steering_bank_release(&(*m)->steering_bank); free(*m); *m=NULL; return LIE_OK; }
 lie_status lie_model_chat_tokens(lie_model *m, const lie_chat_message *messages, size_t count, int32_t *out, size_t capacity, size_t *required, lie_error *e) {
     owner(m); assert(count && !m->failed);

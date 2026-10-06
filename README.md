@@ -41,6 +41,9 @@ the functional modifications are finished.
 [Build](docs/guides/BUILD.md) · [Usage](docs/guides/USAGE.md) ·
 [Benchmarks and graphs](docs/benchmarks/README.md) · [Changelog](CHANGELOG.md)
 
+[Benchmark usage](docs/guides/BENCHMARKS.md) explains each workload, timing scope
+and the core report's prefill-dispatch fields.
+
 ## Features
 
 - Chat Completions and Responses, with JSON/SSE, multiple choices, token

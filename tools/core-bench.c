@@ -28,6 +28,29 @@ static uint64_t now(void) {
 static void number(json_object *o,const char *key,uint64_t n) { json_object_object_add(o,key,json_object_new_uint64(n)); }
 static void text(json_object *o,const char *key,const char *s) { json_object_object_add(o,key,json_object_new_string(s)); }
 static json_object *event(const char *name) { json_object *o=json_object_new_object();text(o,"event",name);return o; }
+static json_object *dispatch_totals(const lie_attention_dispatch_totals *t) {
+    json_object *o=json_object_new_object();
+    number(o,"matrix_dense",t->matrix_dense);number(o,"matrix_sparse",t->matrix_sparse);
+    number(o,"scalar_dense",t->scalar_dense);number(o,"scalar_sparse",t->scalar_sparse);
+    number(o,"geometry_refusals",t->geometry_refusals);number(o,"mask_pitch_refusals",t->mask_pitch_refusals);
+    number(o,"attention_rows",t->attention_rows);return o;
+}
+static json_object *dispatch_view(const lie_attention_dispatch_info *v,bool exact,const char *scope) {
+    json_object *o=json_object_new_object();text(o,"scope",scope);
+    json_object_object_add(o,"supported",json_object_new_boolean(v->supported));
+    json_object_object_add(o,"exact",json_object_new_boolean(exact));
+    json_object_object_add(o,"pending",json_object_new_boolean(v->pending));
+    json_object_object_add(o,"overflowed",json_object_new_boolean(v->overflowed));
+    json_object_object_add(o,"model_domain",v->supported?json_object_new_uint64(v->domain):NULL);
+    json_object_object_add(o,"confirmed_batches",exact?json_object_new_uint64(v->confirmed_batches):NULL);
+    json_object_object_add(o,"unconfirmed_batches",exact?json_object_new_uint64(v->unconfirmed_batches):NULL);
+    json_object_object_add(o,"confirmed",exact?dispatch_totals(&v->confirmed):NULL);
+    json_object_object_add(o,"unconfirmed",exact?dispatch_totals(&v->unconfirmed):NULL);
+    json_object_object_add(o,"lifetime_max_rows",v->supported?json_object_new_uint64(v->max_observed_rows):NULL);
+    json_object_object_add(o,"lifetime_max_mask_words",v->supported?json_object_new_uint64(v->max_observed_mask_words):NULL);
+    if(!exact)text(o,"reason",v->supported?"non-exact-observation-window":"provider-unsupported");
+    return o;
+}
 static bool emit(FILE *f,json_object *o) {
     bool ok=fputs(json_object_to_json_string_ext(o,JSON_C_TO_STRING_PLAIN),f)>=0 && fputc('\n',f)!=EOF && !fflush(f);
     json_object_put(o);return ok;
@@ -137,7 +160,11 @@ static bool progress(lie_core *core,const consumer *rows,unsigned users,
                      unsigned rep,bool warmup,uint64_t begin,bool final) {
     uint64_t observed=now();if(!observed||observed<begin)return false;
     lie_core_info info;lie_core_snapshot(core,&info);
+    lie_attention_dispatch_info dispatch;lie_attention_dispatch_info_init(&dispatch);
+    bool seen=lie_core_attention_dispatch_snapshot(core,&dispatch,NULL)==LIE_OK;
     json_object *line=event("core_progress"),*jobs=json_object_new_array();
+    json_object_object_add(line,"prefill_attention_dispatch",dispatch_view(&dispatch,
+        seen&&dispatch.supported&&!dispatch.pending&&!dispatch.overflowed,"model-cumulative"));
     text(line,"schema","synapse-lie.core-progress.v1");
     number(line,"rep",rep);number(line,"warmup",warmup);
     number(line,"snapshot_monotonic_ns",observed);number(line,"elapsed_ns",observed-begin);
@@ -170,6 +197,8 @@ static bool sample(lie_core *c,const lie_core_request *r,unsigned users,unsigned
     uint64_t begin=now(),last=0,deadline=begin+(uint64_t)timeout*1000000u,next_progress=begin;
     if(!begin){snprintf(error,256,"clock failure");return false;}
     lie_core_info before;lie_core_snapshot(c,&before);
+    lie_attention_dispatch_info dispatch_before;lie_attention_dispatch_info_init(&dispatch_before);
+    bool dispatch_start=lie_core_attention_dispatch_snapshot(c,&dispatch_before,NULL)==LIE_OK;
     for(unsigned i=0;i<users;++i){rows[i].start=now();rows[i].scheduled=plan!=NULL;
         if(!rows[i].start||lie_core_submit_steering(c,r,plan,&rows[i].job)){snprintf(error,256,"core admission refused");goto done;}}
     while(finished<users){
@@ -253,7 +282,15 @@ static bool sample(lie_core *c,const lie_core_request *r,unsigned users,unsigned
         if(!emit(f,job))goto done;
     }
     lie_core_info after;lie_core_snapshot(c,&after);
-    json_object *point=event("sample");number(point,"rep",rep);number(point,"warmup",warmup);number(point,"users",users);
+    lie_attention_dispatch_info dispatch_after,dispatch_delta;
+    lie_attention_dispatch_info_init(&dispatch_after);lie_attention_dispatch_info_init(&dispatch_delta);
+    bool dispatch_end=lie_core_attention_dispatch_snapshot(c,&dispatch_after,NULL)==LIE_OK;
+    bool dispatch_exact=dispatch_start&&dispatch_end&&
+        lie_attention_dispatch_delta(&dispatch_before,&dispatch_after,&dispatch_delta)==LIE_DISPATCH_OK;
+    json_object *point=event("sample");
+    json_object_object_add(point,"prefill_attention_dispatch",dispatch_view(
+        dispatch_exact?&dispatch_delta:&dispatch_after,dispatch_exact,"model-cohort-delta"));
+    number(point,"rep",rep);number(point,"warmup",warmup);number(point,"users",users);
     uint64_t tokens=0;for(unsigned i=0;i<users;++i)tokens+=rows[i].tokens;
     number(point,"output_tokens",tokens);number(point,"wall_ns",last-begin);
     json_object_object_add(point,"output_per_total_wall_tps",json_object_new_double(tokens*1e9/(last-begin)));

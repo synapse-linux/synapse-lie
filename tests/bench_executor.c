@@ -60,6 +60,14 @@ lie_status lie_model_close(lie_model **m,lie_error *e) { (void)e; free(*m); *m=N
 lie_status lie_model_get_info(lie_model *m,lie_model_info *i,lie_error *e) {
     (void)e; *i=(lie_model_info){.abi_version=LIE_EXECUTOR_ABI,.context_tokens=m->context,.vocab_tokens=256,.prefill_capacity=2048,.native_batch_capacity=m->width,.speculative_supported=m->mtp}; return LIE_OK;
 }
+lie_status lie_model_attention_dispatch_snapshot(lie_model *m,
+    lie_attention_dispatch_info *out,lie_error *e) {
+    if(!m||!out||out->abi_version!=LIE_ATTENTION_DISPATCH_ABI||out->struct_bytes!=sizeof(*out)){
+        if(e)snprintf(e->message,sizeof(e->message),"invalid fixture attention dispatch snapshot");
+        return LIE_INVALID;
+    }
+    lie_attention_dispatch_info_init(out);return LIE_OK;
+}
 lie_status lie_model_chat_tokens(lie_model *m,const lie_chat_message *msg,size_t count,int32_t *p,size_t cap,size_t *n,lie_error *e) {
     (void)count;
     if (m->mode==6 && m->context<=8192 && msg[0].bytes>1024u*1024u-512u) {

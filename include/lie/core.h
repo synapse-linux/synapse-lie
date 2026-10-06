@@ -137,6 +137,11 @@ lie_core *lie_core_create_steered(const lie_core_options *,
  * Host vector bytes and provider-reported device vector bytes are separate
  * from model weights/KV and do not include allocation overhead/workspaces. */
 lie_status lie_core_steering_snapshot(lie_core *, lie_steering_model_info *, lie_error *);
+/* Copied last completed owner observation; callable from clients in any state.
+ * No numerical provider call, lock overlap, thread or device synchronization.
+ * Tagged output required; unavailable observations never imply zero GPU work. */
+lie_status lie_core_attention_dispatch_snapshot(lie_core *,
+  lie_attention_dispatch_info *, lie_error *);
 #define LIE_JOB_STEERING_ABI 1u
 typedef struct {
     uint32_t abi_version, struct_bytes;

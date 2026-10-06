@@ -1,6 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Provenance and dependency boundaries
 
+The model-neutral attention observer (`src/dispatch.c`, `lie/dispatch.h`) is
+owned MIT C17 code. `attention-dispatch-edits.json` records exact host-only hooks
+against official Gufo pin `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`; Gufo notices
+remain applicable to derived source. No device kernel, geometry/mask guard,
+weight, tensor or DS4 cache code is copied or changed by these hooks. Provider
+receipts separately bind the observer source/header, recipe and default-ON
+instrumentation option. The complete private producer/consumer variant must
+rebuild coherently; this source increment is not yet HIP/GPU qualified.
+
 First-party runtime, tools, tests, ABI and adapter use MIT (`../LICENSE`). The
 owned dense sampler is an attributed C17 port of independently fetched official
 Gufo, with its [MIT notice](gufo-NOTICE) and [license](gufo-LICENSE) retained.

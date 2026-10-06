@@ -9,6 +9,32 @@ Finish source corrections first, retaining only required focused local checks;
 then qualify the integrated runtime, run the matched benchmarks and run Terminal
 Bench last. No new remote campaign or machine reservation is queued.
 
+## Shared C17 prefill-dispatch observer — 2026-10-06 UTC
+
+The model-neutral inline observer stages actual matrix/scalar, dense/sparse
+attention selections, classifies geometry/mask-pitch refusals and distinguishes
+confirmed numerical completion from unconfirmed work. The owner publishes copied
+snapshots to shared-core clients; native benchmark sample/progress JSONL reports
+cohort deltas/cumulative counts with explicit unavailable values. It adds no heap,
+device work, worker, HTTP meter, cache framing or scheduling change. Production
+instrumentation is default ON and can be disabled at compilation.
+
+Focused Release and unsuppressed ASan/UBSan/LSan controls pass 3/3 each, covering
+staging/refusal/overflow, copied publication while the owner is held, cancel,
+poison/shutdown and native report unavailability. Public headers compile as C17
+and C++17. Exact variants derive with and without KVC from all 1,019 pinned files;
+the numerical kernel prefix is unchanged by this new recipe. Initial exit 8
+records preserve a fixture admission hook error and the sandbox LSan restriction;
+initial source-checker exit 1 preserves an incorrect pristine-prefix comparison
+that omitted preceding valid sampler recipes. Corrected checks pass. Peak local
+CPU is 83.125 C; no GPU, model or remote build is run.
+[Receipt](development/validation/attention-dispatch-host-2026-10-06.json) and
+[portable evidence](development/validation/raw/attention-dispatch-host-2026-10-06.tar.gz)
+bind the source and actual results. Coherent HIP compilation, actual GPU dispatch,
+observer cost and final integrated qualification remain deferred. This provides
+observability for the high-context hypothesis, not an optimized attention kernel
+or a measured performance improvement. All six root items remain open.
+
 ## Native associative recall and continuation client — 2026-10-06 UTC
 
 `synapse-lie-bench --suite http --preset long-context-recall` prepares three

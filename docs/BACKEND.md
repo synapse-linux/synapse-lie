@@ -39,7 +39,7 @@ An open qualification gate does not mean its implementation is absent:
 | Item | Source already integrated in this branch | Final qualification still open |
 | --- | --- | --- |
 | 3 | 1M context admission, explicit YaRN, client deadlines and native recall/continuation corpus with exact response oracles | Original-weight recall and HTTP at long context |
-| 4 | Native benchmark methods, metrics and graph generation | Matched Gufo/Halogen runs through 1M and C1/2/4/6/8; actual sparse dispatch and reactive cost |
+| 4 | Native benchmark methods, metrics, graph generation and C17 prefill-dispatch observation | Matched Gufo/Halogen runs through 1M and C1/2/4/6/8; actual sparse dispatch and reactive cost |
 | 5 | Steering bank, model/session policies, scheduled changes and RAM/SSD identities | Learned-direction quality, graph/correction/fault/vision cases and matched cost |
 | 6 | Temperature, top-k/min-p profiles and seeded AR/MTP controls | Independent original-weight probabilities, tool transitions and matched cost |
 | 7 | C17 grammar/masking, history and compact speculative distributions, including buffer ownership | Original-weight numerical/fault/resource/quality and cost gates |
@@ -123,7 +123,11 @@ last; no item is closed solely by compilation.
    [Pinned-source dispatch analysis](development/validation/long-context-sparse-dispatch-source-2026-10-06.json)
    identifies a 2,048-word sparse-WMMA limit: configured capacity above
    262,144 tokens can select the per-token fallback even at shallower
-   visible depth. Capture actual dispatch before attributing timings to
+   visible depth. The C17 observer and native core report now capture actual
+   matrix/scalar, dense/sparse selections, with confirmed/unconfirmed work and
+   explicit unsupported views. Focused host checks and exact source recipes
+   pass; coherent HIP compilation, actual GPU selections and matched observer
+   cost remain deferred. Capture actual dispatch before attributing timings to
    reactive scheduling; this finding is not measured causality or a
    constant-prefill guarantee.
 5. **Complete DS4 directional steering in LIE.** Load its per-layer `.f32`

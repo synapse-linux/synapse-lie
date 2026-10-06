@@ -1,5 +1,17 @@
 # DS4 / synapse-lie coordination
 
+## Local dispatch-observer increment — 2026-10-06
+
+The owner again requests completing functionality before test campaigns.
+Root adds C17 model/core dispatch snapshots and a native bench projection;
+only three required focused local controls run in Release and sanitizer builds,
+with GPU masked and CPU98/NVMe85/lower guards. No new remote build, client, model
+run, lease, window, waiter, reservation or handle is created. The older r36
+bundle predates this private producer ABI change and cannot qualify it.
+Full coherent ON/OFF producer/consumer HIP compilation and original-weight
+checks remain in the final integrated phase. Benchmarks follow functional
+qualification; Terminal Bench remains last. All six root items stay open.
+
 ## Current sequencing and closed r36 build — 2026-10-06
 
 The owner confirms implementation before further test campaigns. Root queues no

@@ -51,6 +51,14 @@ extern "C" lie_status lie_model_get_info(lie_model *m,lie_model_info *out,lie_er
     *out={LIE_EXECUTOR_ABI,m->model->MaxContext(),m->model->VocabSize(),m->model->PrefillCapacity(),reference_width,0,
         m->model->ResidentBytes(),m->model->SessionBytes(gufo::core::SessionMode::kAutoregressive,m->model->MaxContext()),m->model->DeferredScratchBytes()};return LIE_OK;
 }
+extern "C" lie_status lie_model_attention_dispatch_snapshot(lie_model *m,
+    lie_attention_dispatch_info *out,lie_error *e) {
+    if(!m||!out||out->abi_version!=LIE_ATTENTION_DISPATCH_ABI||out->struct_bytes!=sizeof(*out)){
+        if(e)std::snprintf(e->message,sizeof(e->message),"invalid reference attention dispatch snapshot");
+        return LIE_INVALID;
+    }
+    lie_attention_dispatch_info_init(out);return LIE_OK;
+}
 extern "C" lie_status lie_model_chat_tokens(lie_model *m,const lie_chat_message *input,size_t count,int32_t *out,size_t cap,size_t *needed,lie_error *e) {
     return protect(e,[&] { if(count!=1||input[0].role!=LIE_CHAT_USER)return fail(e,"reference expects one user message");
         gufo::tokenization::ChatMessage msg(gufo::tokenization::ChatRole::kUser,std::string(input[0].content,input[0].bytes));

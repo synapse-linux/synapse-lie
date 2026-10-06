@@ -46,6 +46,7 @@ static bool same_file_snapshot(const struct stat& a,const struct stat& b) noexce
         a.st_ctim.tv_sec==b.st_ctim.tv_sec&&a.st_ctim.tv_nsec==b.st_ctim.tv_nsec;
 }
 struct Runtime {
+    lie_attention_dispatch_counter attention_dispatch{};
     std::shared_ptr<qfn::Model> model;
     std::thread::id owner{std::this_thread::get_id()};
     std::uint32_t chunk{}, width{1}, drafts{};
@@ -59,6 +60,15 @@ struct Runtime {
     struct StateFile { int fd;struct stat stat; };
     std::vector<StateFile> state_files;
     std::shared_ptr<const gufo::sampling::ConstraintVocabulary> vocabulary;
+    Runtime(){
+        lie_attention_dispatch_init(&attention_dispatch,
+#if defined(LIE_GUFO_STATE_ACCESS) && LIE_ATTENTION_DISPATCH_STATS
+                                    true,
+#else
+                                    false,
+#endif
+                                    state_domain);
+    }
     ~Runtime(){for(auto& f:state_files)::close(f.fd);if(steering_bank)lie_steering_bank_release(&steering_bank);}
 };
 struct lie_model { std::shared_ptr<Runtime> runtime; };
@@ -113,6 +123,16 @@ struct SteeringStep {
         if(rc!=LIE_OK)return failed(s->runtime,e,e?e->message:"unconfirmed model steering frontier");
         return LIE_OK;
     }
+};
+/* C17 owns staging/confirmation. No observations from decode/captured graphs;
+ * destruction keeps exceptions and incomplete calls explicitly unconfirmed. */
+struct AttentionDispatchStep {
+    lie_attention_dispatch_counter *counter;
+    bool active;
+    explicit AttentionDispatchStep(lie_attention_dispatch_counter *c,bool changed)
+        :counter(c),active(changed&&lie_attention_dispatch_begin(c)==LIE_DISPATCH_OK){}
+    ~AttentionDispatchStep(){if(active)(void)lie_attention_dispatch_finish(counter,false);}
+    void complete(){if(active){(void)lie_attention_dispatch_finish(counter,true);active=false;}}
 };
 }
 extern "C" const char *lie_backend_name(void) { return "gufo-embedded-f783fedb"; }
@@ -247,6 +267,9 @@ static lie_status open_model(const char *path, const lie_model_options *o, uint3
         if(mtp_path)options.mtp_model_path=mtp_path;
         std::string message; r->model = qfn::Model::Load(path, options, &message);
         if (!r->model) return error(e, LIE_BACKEND_FAILED, message.c_str());
+#if defined(LIE_GUFO_STATE_ACCESS) && LIE_ATTENTION_DISPATCH_STATS
+        r->model->LieBindAttentionDispatch(&r->attention_dispatch);
+#endif
 #ifdef LIE_DS4_RUNTIME_CACHE
         const auto readers=qfn::LieStateAccess::ModelReaders(*r->model);
         if(!readers[0]||bool(readers[1])!=bool(mtp_path)||bool(readers[2])!=bool(vision))return error(e,LIE_INVALID,"admitted model readers incomplete");
@@ -675,10 +698,20 @@ extern "C" lie_status lie_sequence_prefill(lie_sequence *s, const int32_t *prefi
             return error(e, LIE_INVALID, "prefill token outside vocabulary");
         std::string message;
         SteeringStep steering;auto rc=steering.prepare(s,n,e);if(rc!=LIE_OK)return rc;
+        AttentionDispatchStep dispatch(&s->runtime->attention_dispatch,n>prior.size());
         if (!s->session->Sync({prefix, n}, &message)) return failed(s->runtime, e, message);
+        dispatch.complete(); /* Numerical completion precedes policy/output publication. */
         rc=steering.complete(s,e);if(rc!=LIE_OK)return rc;
         return s->cancelled.load() ? error(e, LIE_CANCELLED, "cancelled after completed step") : LIE_OK;
     });
+}
+extern "C" lie_status lie_model_attention_dispatch_snapshot(lie_model *m,
+    lie_attention_dispatch_info *out,lie_error *e) {
+    if(!m||!out||out->abi_version!=LIE_ATTENTION_DISPATCH_ABI||out->struct_bytes!=sizeof(*out))
+        return error(e,LIE_INVALID,"invalid attention dispatch snapshot");
+    auto rc=owner(m->runtime,e,true);if(rc!=LIE_OK)return rc;
+    return lie_attention_dispatch_snapshot(&m->runtime->attention_dispatch,out)==LIE_DISPATCH_OK?
+        LIE_OK:error(e,LIE_INVALID,"invalid attention dispatch observer");
 }
 extern "C" lie_status lie_sequence_decode(lie_sequence *s, lie_decode_result *out, lie_error *e) {
     if (!s || !out) return error(e, LIE_INVALID, "invalid decode output");

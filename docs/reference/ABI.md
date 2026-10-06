@@ -1,5 +1,18 @@
 # Experimental transitional execution ABI 3
 
+Attention-dispatch ABI 1 is a separate tagged C17 contract in `lie/dispatch.h`.
+`lie_model_attention_dispatch_snapshot` runs on the model owner and performs no
+device call or wait, including after a provider fault.
+`lie_core_attention_dispatch_snapshot` copies the last returned owner snapshot
+under the metadata lock and is callable by clients through STOPPED. Initialize
+outputs before either call; refusal leaves output unchanged. Unsupported
+providers return an explicit `supported=false` view, not inferred zero work.
+Existing executor, request, core-info, state and cache layouts are unchanged.
+The private numerical producer adds a borrowed observer and host-helper argument;
+its complete ON/OFF provider and consumer archives must rebuild together.
+Matching HIP compilation and GPU qualification remain deferred.
+See [dispatch measurement semantics](METRICS.md#prefill-attention-dispatch).
+
 Executor ABI 3 adds `rope_profile` to `lie_model_options` (20 bytes, offset 16).
 ABI 2 callers must rebuild: version and size checks reject the old structure.
 The shared C17 `lie/rope.h` contract supplies immutable native/YaRN2/YaRN4

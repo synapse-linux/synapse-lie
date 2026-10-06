@@ -7,6 +7,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "lie/rope.h"
+#include "lie/dispatch.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -142,6 +143,11 @@ lie_status lie_backend_open_batch(const char *, const lie_model_options *, uint3
  * No handle can be freed while another thread can still cancel/use it. */
 lie_status lie_gufo_open(const char *path, const lie_model_options *, lie_model **out, lie_error *);
 lie_status lie_model_get_info(lie_model *, lie_model_info *, lie_error *);
+/* Additive owner-only diagnostics. No device call/wait, including after poison.
+ * Tagged output required; unsupported providers return a supported=false view.
+ * Observations count only actual prefill attention selections. */
+lie_status lie_model_attention_dispatch_snapshot(lie_model *,
+  lie_attention_dispatch_info *, lie_error *);
 lie_status lie_model_close(lie_model **, lie_error *);
 lie_status lie_model_tokenize(lie_model *, const char *utf8, size_t bytes,
                               int32_t *out, size_t capacity, size_t *required, lie_error *);

@@ -1,5 +1,13 @@
 # C17 prefix state, RAM cache and optional SSD
 
+Attention-dispatch observation belongs to the admitted model owner, not a
+sequence checkpoint. Inline C17 staging requires no heap or device storage; its
+borrowed pointer outlives the numerical model. The shared core retains a copied
+view after cancellation, poison and shutdown. One nonzero process-local model
+domain identifies the observation epoch; exact deltas cannot cross epochs or
+processes. These counters never enter prefix identity, KV tensors, RAM/SSD
+checkpoint framing or model numerical state.
+
 Native C17 sampler history/probability owners keep request-local token windows,
 generated counts and sampling workspace in RAM. Deep clones are independent;
 exact moves rebind callback ownership. They do not enter model-prefix checkpoints,

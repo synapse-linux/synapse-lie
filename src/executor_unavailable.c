@@ -50,6 +50,15 @@ lie_status lie_sequences_decode(lie_sequence *const *s UNUSED,size_t n UNUSED,li
 
 int lie_backend_prefix_state_supported(void) { return 0; }
 const char *lie_backend_state_format(void) { return "none"; }
+lie_status lie_model_attention_dispatch_snapshot(lie_model *m UNUSED,
+    lie_attention_dispatch_info *out,lie_error *e) {
+  if(!out||out->abi_version!=LIE_ATTENTION_DISPATCH_ABI||out->struct_bytes!=sizeof(*out)) {
+    if(e)snprintf(e->message,sizeof(e->message),"invalid attention dispatch snapshot");
+    return LIE_INVALID;
+  }
+  lie_attention_dispatch_info_init(out);
+  return LIE_OK;
+}
 lie_status lie_model_state_identity(lie_model *m UNUSED,lie_state_identity *id UNUSED,uint64_t *d UNUSED,lie_error *e){return unavailable(e);}
 lie_status lie_sequence_state_describe(lie_sequence *s UNUSED,const lie_state_layout *from UNUSED,lie_state_layout *out UNUSED,lie_error *e) { return unavailable(e); }
 lie_status lie_sequence_state_read(lie_sequence *s UNUSED,const lie_state_layout *l UNUSED,void *p UNUSED,size_t n UNUSED,lie_error *e) { return unavailable(e); }

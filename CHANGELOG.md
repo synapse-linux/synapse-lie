@@ -7,6 +7,11 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Native core benchmark JSONL reports prefill attention selections, separating
+  completed and unconfirmed work and distinguishing unsupported measurements
+  from zero. The model-neutral C17 observer is shared with other core clients;
+  GPU dispatch and instrumentation cost remain under qualification.
+
 - Native `long-context-recall` benchmark preset generates independent bindings
   at start/middle/end, retrieves previously unanswered keys on a second turn,
   exports exact response oracles and retains all quality misses separately from

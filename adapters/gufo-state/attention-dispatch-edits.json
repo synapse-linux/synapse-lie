@@ -1,0 +1,52 @@
+{
+  "license": "MIT",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "purpose": "Observe actual prefill attention host selections; preserve kernel bodies, geometry, mask-pitch guard and decode dispatch. Borrow a C17 counter bound to the model owner. Full coherent private ABI rebuild required.",
+  "edits": [
+    {
+      "path": "src/models/qwen38_flash_next/engine.hpp",
+      "old": "#include <cstdint>",
+      "new": "#include <cstdint>\n#include \"lie/dispatch.h\"\n#define LIE_GUFO_ATTENTION_DISPATCH 1"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.hpp",
+      "old": "  ~Model();",
+      "new": "  ~Model();\n  // Owner-only borrowed observer. No device calls or allocation.\n  void LieBindAttentionDispatch(lie_attention_dispatch_counter* observer) noexcept;"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.cpp",
+      "old": "Model::~Model() = default;",
+      "new": "Model::~Model() = default;\n\nvoid Model::LieBindAttentionDispatch(lie_attention_dispatch_counter* observer) noexcept {\n  executor_->LieBindAttentionDispatch(observer);\n}"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
+      "old": "  ~Executor();",
+      "new": "  ~Executor();\n  void LieBindAttentionDispatch(lie_attention_dispatch_counter* observer) noexcept {\n    lie_attention_dispatch_ = observer;\n  }"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
+      "old": "  Options options_;",
+      "new": "  Options options_;\n  lie_attention_dispatch_counter* lie_attention_dispatch_{nullptr};"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp",
+      "old": "#include <hip/hip_runtime.h>",
+      "new": "#include <hip/hip_runtime.h>\n#include \"lie/dispatch.h\""
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp",
+      "old": "                         bool last_only = false);",
+      "new": "                         bool last_only = false,\n                         lie_attention_refusal* refusal = nullptr);"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "old": "                         bool last_only) {\n  if (heads != kWmmaQueryHeads || kv_heads != kWmmaKvHeads ||\n      d != kWmmaHeadDim || ratio != kWmmaRatio || n_tokens == 0 ||\n      (mask != nullptr && mask_words > kWmmaMaxMaskWords)) {\n    return false;\n  }\n  if (mask != nullptr) {",
+      "new": "                         bool last_only, lie_attention_refusal* refusal) {\n  if (refusal) *refusal = LIE_ATTENTION_REFUSAL_NONE;\n  if (heads != kWmmaQueryHeads || kv_heads != kWmmaKvHeads ||\n      d != kWmmaHeadDim || ratio != kWmmaRatio || n_tokens == 0) {\n    if (refusal) *refusal = LIE_ATTENTION_REFUSAL_GEOMETRY;\n    return false;\n  }\n  if (mask != nullptr && mask_words > kWmmaMaxMaskWords) {\n    if (refusal) *refusal = LIE_ATTENTION_REFUSAL_MASK_PITCH;\n    return false;\n  }\n  if (mask != nullptr) {"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "  if (MatrixRows(n_tokens) &&\n      WmmaCausalAttention(s_.q, s_.attn_gate, s.k_cache, s.v_cache, mask,\n                          mask_words_, s_.ctx, n_tokens, start_pos, c.num_heads,\n                          c.num_kv_heads, c.head_dim, c.compress_ratio, stream_,\n                          last_only)) {\n    return !project_output ||\n           Dense(l.attn_out, s_.ctx, out, n_tokens, error_msg);\n  }\n  // Narrow batches",
+      "new": "  lie_attention_refusal refusal = LIE_ATTENTION_REFUSAL_NONE;\n#if LIE_ATTENTION_DISPATCH_STATS\n  auto* observer = prefill_phase ? lie_attention_dispatch_ : nullptr;\n#else\n  lie_attention_dispatch_counter* observer = nullptr;\n#endif\n  if (MatrixRows(n_tokens) &&\n      WmmaCausalAttention(s_.q, s_.attn_gate, s.k_cache, s.v_cache, mask,\n                          mask_words_, s_.ctx, n_tokens, start_pos, c.num_heads,\n                          c.num_kv_heads, c.head_dim, c.compress_ratio, stream_,\n                          last_only, observer ? &refusal : nullptr)) {\n    if (observer) (void)lie_attention_dispatch_record(observer,\n        mask ? LIE_ATTENTION_MATRIX_SPARSE : LIE_ATTENTION_MATRIX_DENSE,\n        n_tokens, mask ? mask_words_ : 0, LIE_ATTENTION_REFUSAL_NONE);\n    return !project_output ||\n           Dense(l.attn_out, s_.ctx, out, n_tokens, error_msg);\n  }\n  if (observer) (void)lie_attention_dispatch_record(observer,\n      mask ? LIE_ATTENTION_SCALAR_SPARSE : LIE_ATTENTION_SCALAR_DENSE,\n      n_tokens, mask ? mask_words_ : 0, refusal);\n  // Narrow batches"
+    }
+  ]
+}

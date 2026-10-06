@@ -31,6 +31,20 @@ Decode rate and total output divided by request wall time are different metrics.
 The core report rejects missing executed-phase time, inconsistent call counts
 and phase times beyond the job's wall time before publishing graphs or a summary.
 
+## Reading prefill dispatch
+
+Core sample JSONL includes `prefill_attention_dispatch`: confirmed and
+unconfirmed attention selections over the cohort, split by matrix/scalar and
+dense/sparse paths. `mask_pitch_refusals` helps investigate the fallback at high
+configured context. `attention_rows` sums layer rows; it is not prompt usage.
+Progress snapshots report cumulative counts. Maximum rows/mask words remain
+lifetime maxima. Availability is explicit: null totals mean unsupported or
+non-exact observation, while supported fully cached samples can have zero new
+calls. This field does not alter PP/TG timing or prove a reactive improvement.
+[The contract](../reference/METRICS.md#prefill-attention-dispatch) specifies
+cancellation, epoch and overflow semantics. The producer's matching HIP build,
+GPU dispatch and cost qualification wait for the integrated final phase.
+
 ## Canonical Gufo conversation curve
 
 Use an already running, authorized HTTP server. For the README server example:

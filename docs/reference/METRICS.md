@@ -1,5 +1,36 @@
 # Actuator / Micrometer-inspired contract v1 (implemented subset)
 
+## Prefill attention dispatch
+
+The independent `lie/dispatch.h` C17 observer counts actual host selections of
+matrix/scalar, dense/sparse attention. The pinned producer records only trunk
+prefill: decode, graph capture/replay and predictor attention are excluded.
+One transaction encloses a changing `lie_sequence_prefill`; successful numerical
+completion confirms its staged calls. A refusal/exception before completion
+retains them as unconfirmed. Cancellation after numerical completion retains
+confirmed physical work even when no output is published. Counts describe
+attention calls and rows summed across layers, not launched-device completion
+proof per kernel, prompt tokens, graph launches, throughput or reactive speedup.
+
+The core publishes only after the owner returns; an in-flight client sees the
+previous view without waiting for the device. Model-cohort deltas require the
+same epoch, available endpoints, monotonic counters and no pending/overflow
+flag. Additions saturate instead of wrapping; saturation makes exact deltas
+unavailable. Maximum rows/mask words are lifetime maxima, including unconfirmed
+calls, and are labelled accordingly. Geometry and mask-pitch refusals come from
+the actual matrix-helper refusal. The original 2,048-word guard is unchanged.
+
+Native core samples emit `prefill_attention_dispatch` with scope
+`model-cohort-delta`; progress emits `model-cumulative`. Unsupported or non-exact
+windows carry a reason and null totals. Fully cached supported cohorts may
+validly have zero new attention calls. Standard synthetic fixtures and the direct Gufo-reference
+client report unsupported; this does not imply zero GPU work. No HTTP meter,
+inference thread or scheduling policy is added. `LIE_ATTENTION_DISPATCH_STATS`
+is default ON; OFF disables production observer binding/recording. Its cost and
+actual GPU dispatch still require final integrated qualification. Public C17
+and C++17 contracts and focused host controls pass; the producer recipe is only
+source-verified, with a coherent HIP rebuild deferred.
+
 `dense_sampling` is a build/backend identity in actuator and benchmark metadata,
 not a timer, counter or proof of GPU execution. Values distinguish the owned
 C17 dense selector, Gufo control, unavailable backend and synthetic fixture.

@@ -1049,6 +1049,18 @@ int main(int argc, char **argv) {
               nb_number(nb_get(point, "job_decode_tps"), "median") > 0,
           "cached prefill presented as executed work");
   json_object_put(sum);
+  json_object *dispatch_rows=read_json("core.jsonl",true);
+  for(size_t i=0;i<json_object_array_length(dispatch_rows);++i){
+    json_object *row=json_object_array_get_idx(dispatch_rows,i);
+    if(strcmp(nb_string(row,"event"),"sample"))continue;
+    json_object *dispatch=nb_get(row,"prefill_attention_dispatch");
+    require(dispatch&&!json_object_get_boolean(nb_get(dispatch,"supported"))&&
+        !json_object_get_boolean(nb_get(dispatch,"exact"))&&
+        !nb_get(dispatch,"confirmed")&&!nb_get(dispatch,"confirmed_batches")&&
+        !strcmp(nb_string(dispatch,"reason"),"provider-unsupported"),
+        "unsupported dispatch rendered as zero GPU work");
+  }
+  json_object_put(dispatch_rows);
   core_sampling_contract(argv[2], tokens, output);
   core_eos_contract(argv[2], tokens);
   core_progress_contract(argv[2]);
