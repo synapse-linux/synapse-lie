@@ -1,5 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Tail16 host33+33 completes .157 at2026-10-06T02:41:48UTC and is collected.
+Core explicitly reconfirms persistent non-use .157; read-only closure02:41:01
+confirms empty KFD and current release5f4d8c13. New116-fixture/12-manifest
+plan and1029-file source require fresh admission before GPU component/model.
+No GPU job/build/lease/reservation or cleanup is active at preparation.
+[Plan](../config/q2-iq2-tail16-plan.json).
+
 Current-routing-v2 releases .157 at2026-10-06T02:29:27.961448UTC,
 SHA2565f4d8c1374b0b462c353afa708e27cbc0176083536920047b376b2df52574f3c.
 Fresh Core closure02:28:03UTC precedes admission02:28:22UTC from4b991c0c.

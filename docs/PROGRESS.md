@@ -1,5 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+IQ2 tail16 is prepared from retained1585 with a bounded C17 width-relative
+map; thirteen numerical sources unchanged. New host33+33 on .157 and fixture
+syntax/static inventory checks pass. Component96-output/56-timing and original
+fixed2048/tg128 model runs await fresh GPU admission. Controls stay saved.
+[Candidate and fixed plan](Q2-IQ2-TAIL16.md).
+
 Current fixed-input routing diagnosis completes on .157 with96 exact count
 arrays, unchanged full prefill logits/first16 tokens, and no GPU build.9016 of
 12753 IQ2 tails (70.697%) contain at most16 rows. Next test the existing BN16
