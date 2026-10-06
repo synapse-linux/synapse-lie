@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The next [Q2 HC draft](docs/Q2-HC-INJECTION-REUSE-DRAFT.md) reuses normalized
+mix inputs and stages4096 coefficient bytes once in existing dead LDS. Relative
+to the first private reuse draft, raw/deferred instructions fall5234→4761 and
+5610→5148, with242VGPR/24576LDS/26barriers unchanged and no private scratch.
+All162 production bodies remain exact. This is static evidence only: no new
+GPU run, provider integration or performance increment. Retained1585.308983 PP
+still needs6.337447% to reach fixed UD1685.777092. Next prepare a complete guarded
+mix/injection cycle; whole640 producer/packing remains the larger redesign.
+
 The [Q2 down trial](docs/Q2-DOWN-REGISTER-PALETTE.md) completes at
 1579.532131 PP /25.17055431 TG, nominal-0.364399% PP against saved1585.
 All123 component pairs/21 parent model files are exact, but70 zero HIP timings

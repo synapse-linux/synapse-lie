@@ -1,7 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Focused optimization queue
 
-## Current priority after the 6 October register-stage measurement
+## Current priority after the down model measurement
+
+Keep1585.308983 PP /25.16079073 TG. The completed down-register-palette
+trial reaches1579.532131 PP,0.364399% lower; all123 component pairs and21
+parent model files are exact. The next candidate is
+[HC normalized-input/coefficient reuse](Q2-HC-INJECTION-REUSE-DRAFT.md):
+4096 coefficient bytes fit in dead existing LDS, avoiding their repeated
+per-token loads without adding a barrier or allocation. Static raw/deferred
+instructions fall5234→4761/5610→5148 relative to the first private reuse draft.
+All162 production bodies remain exact. This is not a runtime qualification
+or new speedup; full-cycle timing and a guarded provider still need preparation.
+Whole640 expert producer/packing ownership remains the larger next redesign.
+No old negative trial, saved comparator, Q4 or full curve is rerun.
+
+## Earlier priority after the 6 October register-stage measurement
 
 Keep1585.308983 PP /25.16079073 TG. Fixed UD1685.777092 requires6.337447%
 more PP, equivalent to76.991736ms less prefill at the same2048 tokens.

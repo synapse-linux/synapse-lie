@@ -1,5 +1,32 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## HC injection coefficient reuse prepared — 2026-10-06 UTC
+
+Following the down model result, inspect the first HC reuse draft's repeated
+coefficient reads. A128-token CTA shares one4096-byte tile. It fits after the
+16640-byte gate transpose in the existing24576-byte LDS allocation; the final
+projection barrier retires old staging and the first existing gate-publication
+barrier precedes all coefficient reads. No barrier, persistent allocation or
+LDS capacity is added. The original dot and reducer order remain unchanged.
+
+Device-only compilation passes. Static raw/deferred instructions fall
+5234→4761/5610→5148 against the first draft, global128 load instructions
+176→49/208→81. Both remain242VGPR/24576LDS/zero private; SGPR31→32/40→32.
+All162 original production bodies/resources are exact;10240 coefficient
+address vectors and source publication order verify. The first audit retains
+exit1 because it includes a renamed reducer symbol header; the additive fix
+excludes only that line and verifies all remaining operands/resources exact.
+This is not numerical runtime qualification or measured performance.
+
+The parent1027-file inventory and fixed input/comparators are unchanged.
+Retain1585.308983 PP /25.16079073 TG; fixed UD1685.777092 requires6.337447%
+more PP or76.991736ms less prefill. Historical injection39.548835ms alone cannot
+close that gap. The full raw/raw-Q8/deferred cycle needs a guarded fixture,
+independently valid timers and borrowed-scratch lifetime qualification before
+an isolated original-model trial. No GPU/client/build/lease/reservation is
+started remotely; previous release e64145d6 remains historical closure.
+[Candidate, compiler facts and next boundary](Q2-HC-INJECTION-REUSE-DRAFT.md).
+
 The [Q2 down register-palette trial](Q2-DOWN-REGISTER-PALETTE.md) completes on
 `.157`04:26:31UTC at1579.532131 PP /25.17055431 TG, nominal-0.364399%/+0.038805%
 against retained1585.308983 /25.16079073. All new measured PP values are below

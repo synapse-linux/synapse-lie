@@ -1,6 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 fixed-point priorities
 
+The latest [HC coefficient-reuse draft](Q2-HC-INJECTION-REUSE-DRAFT.md)
+stages4096 bytes once per workgroup in existing LDS. Raw/deferred instructions
+fall5234→4761/5610→5148 versus the first reuse draft, with unchanged242VGPR,
+24576LDS,26barriers and zero private bytes. All162 production bodies remain
+exact; this is compiler evidence only. A full-cycle fixture and isolated
+provider are still required. This is the next candidate, before the larger
+whole640 expert producer/packing redesign. Retained1585 and fixed UD stay
+unchanged. [Current bound queue](../config/q2-target-priorities-hc-lds-update.json).
+
 The [down trial now completes](Q2-DOWN-REGISTER-PALETTE.md):1579.532131 PP,
 nominal-0.364399% against saved1585,with123 component pairs/21 parent files
 exact. Keep1585. All70 HIP component timings are zero and rejected; the original
@@ -24,8 +33,9 @@ the cost of implementing it; no numerical success probability is claimed.
 
 | Priority | Active historical cost | New mechanism | Current evidence |
 | --- | ---: | --- | --- |
-| Q2 down register palette |161.558060ms|Remove wave-private weight/affine LDS staging; form the exact half palette once|Isolated production provider and guarded fixture prepared; GPU measurement pending|
-| HC mix/injection reuse |39.548835ms injection,96 calls|Compute ordered injection dots while normalized inputs are already loaded by mix; keep the original reduction in the second kernel|Three private compiler probes; no runtime fixture or production selector yet|
+| HC mix/injection reuse |39.548835ms injection,96 calls|Compute ordered injection dots during existing mix reads; share coefficients in dead projection LDS; retain the original reducer|Staged private compiler probes; no runtime fixture or production selector yet|
+| Whole640 producer/packing ownership |239.499759ms IQ2 gate/up,17.096259ms packing|Avoid the F32 intermediate write/read while retaining whole-row scale and producer reuse|Source boundary audit only; no new implementation|
+| Q2 down register palette, completed |161.558060ms|Remove wave-private weight/affine LDS staging; form the exact half palette once|Original-model1579.532131 PP regresses0.364399%; retain evidence, keep1585|
 
 The down would need to save47.655769% of its historical region to cover the
 whole77ms budget alone. HC injection alone is smaller than that budget even
@@ -34,7 +44,7 @@ is therefore a plausible route, but neither static resources nor isolated
 component gains establish full-model speed. The5.090460ms inter-kernel gap
 does not support obtaining77ms from reactive launch scheduling alone.
 
-## Down candidate ready for the first measured trial
+## Earlier down preparation, now measured
 
 The [1028-file source](../config/q2-down-register-palette-source.json) derives
 only from retained `ssm-fixed-bounds`, at the recorded official Gufo lineage.
@@ -59,7 +69,7 @@ phase tests cover missing/stale scope, transport failure preventing launch,
 preserving existing failed evidence and exact successful sequencing. They
 have not been run while `.157` is unreachable; syntax parsing is not a pass.
 
-## HC reuse: source and ISA, not measured performance
+## First HC reuse draft: source and ISA, not measured performance
 
 The [v2 probe](../experiments/q2-hc-inject-reuse-draft-v2.inc) extends private
 copies of the current raw-F16/raw-Q8 and deferred-norm mixer bodies. Each
@@ -87,7 +97,7 @@ traffic and injection-weight reads could outweigh removal of normalized reads.
 The initial uncompiled include retained two duplicate parent dispatchers;
 source inspection excludes them in v2 before the first compiler invocation.
 
-## Execution status and next measurements
+## Historical down admission and recovery sequence
 
 Reconnection at04:09UTC succeeds. Original Core CPU lease/closure, retired
 processes/groups, empty KFD and the previous GPU-release registry event
