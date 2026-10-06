@@ -43,8 +43,9 @@ stable release is declared. Detailed validation history is in
 - Shared C17 schema compilation publication and immutable prompt ownership.
   Reasoning and tools share the exact prompt bytes; failed compilation publishes
   no output. HOST lifetime, allocation-failure and original/ON/OFF checks pass.
-  Matching GPU qualification is pending; typed construction and model/controller
-  remain transitional.
+  The matching HIP build passes 37 selected original-weight OpenAI controls in
+  both AR and MTP on Strix Point. Typed construction/bootstrap/errors and
+  model/controller remain transitional; broader quality and cost stay open.
 
 - Shared C17 ownership and limits for derived schema values and transformation
   staging. Results transfer their exact roots without cloning and survive staging

@@ -6,8 +6,8 @@ and a command-line benchmark tool. Its shared C17 core manages reactive
 scheduling, concurrent requests, cancellation, metrics and prompt caching.
 The current numerical backend is an embedded Gufo adapter using C++ and HIP,
 with owned [C17 sampling, grammar and schema components](docs/development/C17-SAMPLING.md).
-The current [C17 schema build](docs/development/C17-SAMPLING.md#derived-schema-value-ownership)
-passes [37 OpenAI controls in both AR and MTP on Strix Point](docs/development/validation/c17-schema-store-point-gpu-2026-10-06.json).
+The current [C17 schema publication build](docs/development/C17-SAMPLING.md#schema-compilation-and-prompt-publication)
+passes [37 OpenAI controls in both AR and MTP on Strix Point](docs/development/validation/c17-schema-compile-point-gpu-2026-10-06.json).
 The recorded GPU controls cover selected integrated paths. Broader numerical,
 fault, resource, quality and performance gates remain open.
 Gufo still owns model/controller state. Typed JSON values, immutable predicates,
@@ -15,8 +15,8 @@ ordered tables and request grammar snapshots now belong to the shared C17 core.
 Derived schema values and transformation staging also have
 [C17 ownership](docs/development/C17-SAMPLING.md#derived-schema-value-ownership),
 with matching HOST and selected original-weight GPU controls.
-The newer [C17 schema publication workflow](docs/development/C17-SAMPLING.md#schema-compilation-and-prompt-publication)
-passes HOST sanitizer checks; its matching GPU qualification is pending.
+The shared [C17 schema publication workflow](docs/development/C17-SAMPLING.md#schema-compilation-and-prompt-publication)
+and immutable prompt ownership pass HOST and selected matching GPU controls.
 The Gufo comparison executable uses a separately compiled complete OFF provider;
 its private model/controller types match its selected sampling option.
 ICU remains the Unicode set/property/conversion dependency.

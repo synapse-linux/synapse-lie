@@ -1,26 +1,25 @@
 # Benchmark closure and the 1M context gate
 
-Current implementation: the shared core and derived provider expose explicit
-YaRN2/YaRN4 profiles through 1,048,576 total tokens. Independent CPU operator
-and physical-token lifecycle tests pass; original-weight short-profile gates
-pass on `.161`. Short-input capacity gates now pass at 512K and 1M after the
-authorized GTT112 reboot. Physical PP1,048,448 completes and stops naturally
-after 43 output tokens; the required TG128 gate fails with child exit 0 and
-supervisor/controller exit 1. Collection and ownership closure pass. Fixed-output
-extended-context qualification, recall quality and performance remain open.
-See the [current context guide](../guides/CONTEXT.md) and
-[memory estimate](validation/context-memory-point-2026-10-04.json).
-The source audit and old estimate below describe the earlier pristine/native
-checkpoint; the old estimate omits the complete raw index history now reserved
-by the DS4 state binding and must not be used for current 1M admission.
+Current implementation exposes native, YaRN2 and YaRN4 profiles through
+1,048,576 total tokens. Strix Point completes **1,048,448 physical prefill tokens
+and 128 fixed output tokens** with explicit YaRN4 and `--ignore-eos`. The
+[capacity/function receipt](validation/physical1m-fixed-point-gpu-2026-10-05.json)
+records actual work, telemetry and retirement. The older natural-EOS43 failure
+remains evidence. Independent long-context recall quality and matched repeated
+Gufo/Halogen performance comparisons remain open.
 
 The [current Point results](../benchmarks/models/qwen3.8-flash-next/strix-point/README.md)
-include the completed 40-window served HTTP AR/MTP concurrency campaign and
-16-window cold HTTP depth campaign through near 256K. The native Gufo HTTP
-conversation-curve client/report is implemented without Python; its extended
-GPU/quality campaigns remain separate. New OpenAI-control GPU gates and full
-Terminal Bench task evaluation remain pending. See the
-[current roadmap](../BACKEND.md#current-roadmap--2026-10-05-utc).
+include served concurrency and cold prefill through near 256K. The native
+benchmark client and graphs require no Python. Selected original-weight OpenAI
+controls pass 37 checks in each AR/MTP mode on the source-bound checkpoints;
+the newest [C17 publication receipt](validation/c17-schema-compile-point-gpu-2026-10-06.json)
+identifies its scope. Terminal Bench smoke passes 1/1; full Core-19 remains
+stopped and deferred until functional modifications and their qualification
+finish. See the [current roadmap](../BACKEND.md#current-roadmap--2026-10-06-utc).
+
+The estimates and matrix below describe earlier checkpoints. In particular,
+the old allocation estimate omits raw index history and must not be used for
+current 1M memory admission.
 
 ## Historical audit — 2026-10-02
 
@@ -77,7 +76,7 @@ must also cover the work; a socket timeout is not a total campaign deadline.
 Example for a separately admitted, already 1M-qualified endpoint:
 
 ```sh
-synapse-lie-bench --suite http --url http://192.168.5.157:8000/v1 \
+synapse-lie-bench --suite http --url http://192.168.5.161:8000/v1 \
   --model qwen3.8-flash-next --server-label 'exact build / weights / AR / YaRN4' \
   --server-kv-cache off --preset long-context \
   --context-capacity 1048576 --rope-scaling yarn4 \
@@ -85,10 +84,12 @@ synapse-lie-bench --suite http --url http://192.168.5.157:8000/v1 \
   --output long.jsonl --graphs long-charts
 ```
 
-**This invocation is not currently executable against LIE's 256K backend.**
-To exercise only its native point after ordinary GPU admission, use
-`--sizes 258794 --context-capacity 262144 --rope-scaling native`.
-Neither declaration reconfigures or independently verifies the server.
+The server must be started with the declared context and YaRN profile, and its
+deadline must cover the complete prefill/generation work. Physical 1M capacity
+is qualified by the separate direct-core gate above; this HTTP command and its
+repetitions have not been measured as a full 1M comparison. For the native point
+use `--sizes 258794 --context-capacity 262144 --rope-scaling native`.
+Client declarations do not reconfigure or independently verify the server.
 
 The original deterministic corpus contains varied three-digit numeric records,
 not a repeated maintenance paragraph. It is a synthetic throughput stressor,

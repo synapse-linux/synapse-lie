@@ -282,7 +282,11 @@ client/server restart or machine reservation is queued in the meantime.
    prompt ownership pass 56/56 sanitizer HOST checks, one focused C check and
    three provider gates. All 29 preceding complete witness groups remain
    unchanged. [Current HOST scope](development/C17-SAMPLING.md#schema-compilation-and-prompt-publication)
-   still awaits matching `.161` HIP ON/OFF provider/frontend qualification.
+   now has matching sealed `33d12a02` HIP ON/OFF providers and private
+   LIE/model/reference consumers passing AR37/MTP37
+   ([GPU receipt](development/validation/c17-schema-compile-point-gpu-2026-10-06.json)).
+   The official Gufo HTTP frontend is not built in this gate. Integer-bound
+   interval construction remains an identified C++ algorithm for the next port.
    Typed construction/initialization/callback-error facades and model/controller
    ownership remain transitional. This step does not close any of the six items.
    Compiler orchestration/typed facades/model ownership and broader branch,

@@ -399,7 +399,17 @@ done
 
 ### Original-weight HTTP AR and MTP gates
 
-The current matching `72e9e831` build adds C17 ownership of derived schema
+The current matching `33d12a02` build adds the C17 schema publication workflow
+and independent immutable prompt ownership shared by reasoning/tools. It passes
+the unchanged **37 controls in AR and MTP**. The
+[source-bound receipt](../../../../development/validation/c17-schema-compile-point-gpu-2026-10-06.json)
+and [portable raw evidence](data/rocm10-schema-compile-openai-r31.tar.gz) record
+coherent 102-file HIP ON/OFF providers, private LIE/model/reference consumers,
+telemetry and actual closure. The official Gufo HTTP frontend is not built in
+this gate. These are selected functional controls; no new performance graph or
+throughput comparison is implied.
+
+The preceding matching `72e9e831` build adds C17 ownership of derived schema
 values and transformation staging. It passes the unchanged **37 controls in AR
 and MTP**. The
 [source-bound receipt](../../../../development/validation/c17-schema-store-point-gpu-2026-10-06.json)

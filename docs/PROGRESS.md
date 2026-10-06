@@ -1,6 +1,35 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## C17 schema publication passes matching GPU controls — 2026-10-06 UTC
+
+The sealed `33d12a02` source builds coherent 102-file HIP ON/OFF providers and
+private LIE/model/reference consumers. Actual Ninja compiler/linker blocks
+verify the complete OFF reference selection. The unchanged 37 original-weight
+OpenAI controls pass in each AR/MTP mode on `.161`, with server/child/controller/
+supervisor exits 0. [GPU receipt](development/validation/c17-schema-compile-point-gpu-2026-10-06.json)
+and [portable raw evidence](benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-schema-compile-openai-r31.tar.gz)
+retain source identity, telemetry and actual closure. HOST56 and all 29 previous
+complete witness groups keep their separate scope. The official Gufo HTTP
+frontend is retained source only, not built or qualified by this gate.
+Typed construction/bootstrap/callback-error and model/controller remain
+transitional. Integer-bound interval construction is a remaining C++ algorithm.
+Broader branch/fault/probability/quality/private-resource/matched-cost and 1M
+recall gates remain open. No new performance or reactive C1 gain is claimed.
+
+AR/MTP CPU maxima are 60.25/65.25 C; GPU 62.0/67.0 C; NVMe 62.85/64.85 C. Whole-process thread maxima are 44/44; the source adds no inference worker.
+CPU98/NVMe85/lower guards and GPU observation remain unchanged. The local
+read-location failure exits 2; the initial closure observer exits 1 because it
+expected bundle absence after bundle creation. Both are retained; corrected
+fresh closure passes, with no build/inference restart.
+Fresh 2026-10-06T13:54:18.806004+00:00 closure verifies all three exact supervisor/container-init
+identities retired, owned containers removed, HTTP8000 unbound, original lease
+free then released, and router 177938 active/only KFD. Model/
+predictor stats stay unchanged. All actual handles are collected. Root has no
+remote job/client/build/lease/waiter/reservation; `.157/.158` remain unused.
+No tuning, install, deployment or push occurs. All six owned tasks remain open;
+Terminal Bench stays stopped/collected/closed/deferred last.
+
 ## C17 compilation and prompt publication pass HOST controls — 2026-10-06 UTC
 
 The shared C17 workflow now owns root/Visit sequencing, native prompt

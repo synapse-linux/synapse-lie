@@ -180,8 +180,12 @@ LSan execution failure (exit 8) and source-wiring failure (exit 1) are retained.
 The maximum recorded build/test CPU temperature is 88.625 C under the existing
 CPU98/NVMe85 guards; GPU is masked and observed only.
 
-This increment awaits a freshly admitted matching HIP ON/OFF build and selected
-original-weight controls on `.161`. The `72e9e831`/r30 GPU receipt excludes it.
+The matching `33d12a02` sealed build verifies coherent 102-file HIP ON/OFF
+providers and private LIE/model/reference consumers. It passes the unchanged
+37 selected original-weight OpenAI controls in each AR/MTP mode on `.161`
+([GPU receipt](validation/c17-schema-compile-point-gpu-2026-10-06.json)).
+The official Gufo HTTP frontend remains copied-source coverage only and is not
+compiled in this gate. The earlier `72e9e831`/r30 receipt retains its identity.
 Broader numerical, fault, quality, resource and matched-cost acceptance stays
 open. Terminal Bench remains deferred until functional changes and their
 qualification finish.

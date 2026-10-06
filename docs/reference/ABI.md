@@ -86,8 +86,10 @@ predicate and allocator contexts have the documented longer lifetimes. Defaults
 bound serialized schema bytes at 2 MiB and prompt heap at 8 MiB including growth
 overlap. Existing public layouts/versions and cache framing are unchanged.
 The private default-ON prompt getter/storage changes require complete matching
-ON/OFF providers and frontend consumers to rebuild together. HOST checks pass;
-matching HIP/original-weight qualification is pending. See
+ON/OFF providers and frontend consumers to rebuild together. HOST checks and
+matching selected HIP/original-weight AR37/MTP37 controls pass for private
+LIE/model/reference consumers; the official Gufo HTTP frontend is not built.
+See
 [publication contract](../development/C17-SAMPLING.md#schema-compilation-and-prompt-publication).
 
 `lie/grammar_lexeme.h` adds model-neutral primitive/table/memo ABI 1. Immutable

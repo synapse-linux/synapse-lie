@@ -1,5 +1,23 @@
 # DS4 / synapse-lie coordination
 
+## R31 schema publication build and selected GPU controls closed — 2026-10-06
+
+Fresh peer own non-use and separate global preflights admit `33d12a02` on `.161`.
+Device-free build and original-weight AR/MTP windows each hold the original
+device66307/inode105946405 lease. Coherent HIP ON/OFF providers/private consumers
+compile; AR37/MTP37 pass. All actual exits are 0; exact logs are collected and
+SHA verified. [Receipt](development/validation/c17-schema-compile-point-gpu-2026-10-06.json).
+The official Gufo HTTP frontend is not built; these controls do not qualify
+independent numerical branches, quality, faults or performance.
+
+Fresh 2026-10-06T13:54:18.806004+00:00 closure verifies all three exact supervisor/container-init
+identities gone, owned containers removed, HTTP8000 unbound, lease free then
+released and router 177938 restored/only KFD. Models retain
+their stat identities. CPU98/NVMe85/lower guards and GPU observation stay intact.
+Root has no remaining remote job/client/build/lease/waiter/reservation/handle;
+`.157/.158` remain unused. This dated closure is not future admission. All six
+tasks remain open; Terminal Bench stays stopped/collected/closed/deferred last.
+
 ## C17 compilation publication: HOST only — 2026-10-06
 
 The new 102-file increment passes local HOST sanitizer and provenance controls.
