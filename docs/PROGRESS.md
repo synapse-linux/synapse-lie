@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Whole640 LDS integrated chain prepared — 2026-10-06 UTC
+
+A separate1034-file provider now connects the qualified LDS tail producer to
+selective ordinary-row packing and the unchanged down consumer. The original
+164 device bodies and measured LDS body remain ISA/resource exact. C17
+partitioning preserves capacity and descriptor units, without new allocation,
+stream or count download. New tests exercise partial-F32 ownership through the
+complete expert chain. Actual .157 host39+39 passes, with six zero exits and seven artifacts
+collected; GPU/model qualification is pending. The retained1587.893545 PP and fixed UD1685.777092 references are unchanged.
+[Contract and qualification scope](Q2-IQ2-WHOLE640.md).
+
 ## Sixteen-wave whole640 measured; model benefit unproven — 2026-10-06 UTC
 
 The new component completes [0,0,0], with 104 exact output pairs, 21 actual

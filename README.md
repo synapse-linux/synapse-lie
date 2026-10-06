@@ -1,5 +1,10 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The new [whole640 integrated chain](docs/Q2-IQ2-WHOLE640.md) now has a separate
+provider with disjoint ordinary/fused buffer ownership. Static and compiler
+checks and .157 host39+39 pass; GPU/model qualification is pending. The retained
+1587.893545 PP comparison remains unchanged.
+
 The [whole640 IQ2 producer/packing trials](docs/Q2-IQ2-WHOLE640.md) each pass
 104 bit-exact output comparisons. Sixteen waves reduce the first draft's cost,
 but LDS results remain mixed: +7.32% time at 4 expert rows, −5.16% at 8 and

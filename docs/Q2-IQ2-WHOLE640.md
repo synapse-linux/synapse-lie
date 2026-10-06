@@ -2,8 +2,45 @@
 
 # Whole-row IQ2 producer and packing
 
+
+## Integrated LDS chain prepared — 2026-10-06 UTC
+
+The new `iq2-whole640-chain` provider integrates the measured sixteen-wave LDS
+body only for the existing full2048 IQ2 mixed route. The C17 partition preserves
+wide128 and ordinary64 work; the final1–16-row span keeps the original64-row
+encoding. Down descriptors, slot layout, allocations, streams and count
+downloads are unchanged. Other prefill widths keep the retained route.
+
+Fused slots write directly into the existing scaled-half/inverse buffer and
+leave their obsolete F32 gate slots unwritten. A new selective pack kernel
+visits only ordinary slots; the unchanged Q2 down consumer sees the complete
+packed buffer. These disjoint writes are required for correctness, not only
+for performance. The partial F32 buffer cannot be passed to the original
+whole-buffer pack while any fused span is present.
+
+The [source manifest](../config/q2-iq2-whole640-chain-source.json) binds1034
+provider files to the immutable1587 parent and qualified LDS donor. Compiler
+checks establish164 unchanged parent ISA/resource bodies and an identical
+LDS donor body; only selective packing is new device arithmetic. Host/device
+fixture compilation passes. Shared provider formatting reports exit1,
+including retained diagnostics and C17-style headers; no retained source is
+reformatted. The new .157 host cohort passes39 Debug and39 ASan/UBSan checks, with six zero
+command exits and all seven artifacts collected. Plan freezes265 fixture files
+and eight manifests. GPU/model qualification still needs fresh admission.
+
+The new guarded fixture compares mixed ordinary/fused work through packing
+and both F16/F32 down consumers. It retains finite numerical disagreements,
+checks expected-unwritten F32 slots, guards and immutable inputs, and verifies
+the actual last timed rotation before reset. The one timing case uses2048
+synthetic rows/64 experts, three weight banks beyond MALL and the complete
+producer/pack/down wall time. It does not replace the original model prompt.
+One original2048/TG128 candidate follows if device work is safe; saved model
+controls and the full curve are reused without reruns. The fixed target is
+still1685.777092 PP versus retained1587.893545, with no new model gain claimed.
+
+
 The fixed comparison remains Q2 **1587.893545 PP / 25.12414406 TG** against
-UD **1685.777092 PP / 24.34174251 TG**. The new whole640 experiment has
+UD **1685.777092 PP / 24.34174251 TG**. The first eight-wave experiment has
 completed its .157 component trial: both drafts are bit-exact to the parent,
 but slower. Neither is selected by the model executor.
 

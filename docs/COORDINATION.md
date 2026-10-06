@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Whole640 integrated chain host qualification — 2026-10-06 UTC
+
+Core confirms fresh own non-use19:21:36UTC. Global .157 preflight19:21:51UTC
+binds previous release d4c60136, original CPU/four GPU lease identities,
+retired processes/groups, empty KFD and unchanged seven model stat tuples.
+New host-r1 ends19:22:55.209009UTC with39 Debug/39 ASan checks, six zero exits
+and seven collected artifacts. The new plan permits only the mixed-chain
+component and one original2048/TG128 candidate, reusing saved controls. Fresh
+GPU admission remains required. Q2 has no .158/.161/TB job or reservation;
+no cleanup, foreign action, dependency or service change is planned.
+
 ## Sixteen-wave whole640 collected and released — 2026-10-06 UTC
 
 Fresh Core own non-use 18:51:53 UTC precedes admission 18:52:18.665845 UTC/

@@ -23,9 +23,10 @@ replace either the fixed reference or the saved native-curve UD values.
    IQ2 gate/up and Q2 down chain, whose saved profile totals 401.058 ms.
    Four whole-640 drafts have now been [measured](Q2-IQ2-WHOLE640.md), with
    exact tested outputs. The sixteen-wave LDS candidate has mixed component
-   timings and remains available for integrated evaluation. Next qualify its
-   mixed routing and selective packing together with the unchanged down
-   consumer, then measure one original model candidate. The opportunity is
+   timings and remains available for integrated evaluation. The separate1034-file integration is now prepared with unchanged parent
+   device bodies and allocations. Qualify its mixed routing and selective
+   packing together with the unchanged down consumer, then measure one
+   original model candidate. The opportunity is
    removing real intermediate publication and reads,
    while retaining expert-weight reuse. Removing the 17.096-ms packing pass
    alone cannot close the 74.889-ms fixed-point gap. No new runtime gain is
