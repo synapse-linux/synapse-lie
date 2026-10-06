@@ -57,7 +57,11 @@ inline std::shared_ptr<const lie_grammar_program> builder_finish(lie_grammar_bui
   for (size_t i = 0; i < d.class_count; ++i)
     for (unsigned byte = 0; byte < 256; ++byte)
       classes[i].set(byte, (d.classes[i * 32 + byte / 8] >> (byte % 8)) & 1u);
+#if LIE_C17_SAMPLING
+  d.predicates = lexemes.predicates();
+#else
   d.predicates = {&lexemes, grammar_allows, grammar_predicate_advance, grammar_predicate_canonical};
+#endif
   lie_grammar_program *p = nullptr; grammar_check(lie_grammar_program_create(&d, &p));
   return std::shared_ptr<const lie_grammar_program>(p, lie_grammar_program_release);
 }

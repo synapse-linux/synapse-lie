@@ -63,7 +63,7 @@ content; diagnostic allocation/peak counters may advance. Destruction and
 serialization traverse iteratively. These trees are schema/message construction
 state; they are not model-prefix state, KV tensors or DS4 RAM/SSD payloads.
 Private C++ facade references and synchronized string projections borrow the
-same C tree. Predicate/model/controller storage remains transitional. The
+same C tree. Model/controller storage remains transitional. The
 matching `5227bf4f` selected
 [AR/MTP controls](../development/validation/c17-json-value-point-gpu-2026-10-06.json)
 use prompt retention disabled and preserve existing state/cache identities;
@@ -71,7 +71,14 @@ they add no SSD restore, mixed-history, GPU state-fault or matched-cost claim.
 
 Immutable reasoning/tool grammar composition now belongs to C17. Construction
 copies source tables/names and imports ordered lexeme origins by program
-identity; the private adapter retains the corresponding immutable predicates.
+identity; the C17 ordered predicate table retains the corresponding immutable
+number/string/whitespace objects. Their numeric/DFA policies are also retained
+in C. The construction-only predicate memo borrows immutable schema identities;
+it is retired after compilation. Sealed tables and predicates allow concurrent
+reads, while release requires retiring all grammar borrowers. These new
+ownership paths have separate [host validation](../development/validation/c17-lexeme-host-2026-10-06.json);
+the older `5227bf4f` GPU receipt excludes them. C++ facades, schema/regex
+compilation, request-state vectors and model/controller remain transitional.
 Construction and imported templates are not model-prefix state, KV cache or
 SSD payloads. Grammar stacks remain independently copied request state, including
 speculative verification; no mutable reasoning/tool phase enters the model or

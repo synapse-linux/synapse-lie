@@ -24,6 +24,9 @@ inline void grammar_check(lie_grammar_status rc) {
   default: throw std::invalid_argument("invalid C17 JSON grammar input");
   }
 }
+#if LIE_C17_SAMPLING
+using Lexemes = LexemeTable;
+#else
 using Lexemes = std::vector<std::shared_ptr<const gufo::sampling::JsonSchemaLexeme>>;
 inline bool grammar_allows(const void *ctx, uint32_t id, uint8_t byte) noexcept {
   return static_cast<const Lexemes *>(ctx)->at(id)->AllowsByte(byte);
@@ -71,6 +74,7 @@ inline lie_grammar_status grammar_predicate_canonical(
     return LIE_GRAMMAR_PREDICATE;
   }
 }
+#endif
 inline uint32_t grammar_offset(size_t n) {
   if (n > UINT32_MAX)
     throw std::invalid_argument("JSON grammar table limit exceeded");
@@ -104,8 +108,12 @@ inline std::shared_ptr<const lie_grammar_program> grammar_program(
   d.classes = classes.data(); d.class_count = source_classes.size();
   d.lexeme_count = lexemes.size();
   // Context is immutable and owned by the containing provider grammar.
+#if LIE_C17_SAMPLING
+  d.predicates = lexemes.predicates();
+#else
   d.predicates = {&lexemes, grammar_allows,
                   grammar_predicate_advance, grammar_predicate_canonical};
+#endif
   lie_grammar_program *p = nullptr;
   grammar_check(lie_grammar_program_create(&d, &p));
   return std::shared_ptr<const lie_grammar_program>(p, lie_grammar_program_release);

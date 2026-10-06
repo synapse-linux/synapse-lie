@@ -13,8 +13,16 @@ probabilities, residual correction and host MTP proposal/verification arithmetic
 from the same pin; vector/error glue remains transitional. Gufo notices remain applicable; no DS4 cache code is copied.
 The C17 byte runtime in `src/grammar.c` ports rule expansion, byte transitions,
 completion and canonical-state ordering from official `json_constraint.cpp` at
-the same pin. Typed predicate/container storage remains transitional; construction, schema
-policies, vocabulary masks and grammar composition use shared C17 contracts; `gufo_grammar.hpp` adapts tables/state/predicates/errors. No sibling
+the same pin. Immutable primitive ownership, ordered predicate tables and the
+construction-only identity memo now use `src/grammar_lexeme.c`. Its dispatch
+calls the existing attributed C numeric/string/DFA algorithms directly; C17
+retains their immutable policies. Six exact guarded edits in
+`adapters/gufo-state/grammar-lexeme-edits.json` preserve the original OFF
+classes/vector/map. `gufo_grammar_lexeme.hpp` supplies private C++ facades and
+error translation. C++ schema/regex construction, template projections,
+request-state vectors and model/controller remain transitional. Construction, schema
+policies, vocabulary masks and grammar composition use shared C17 contracts;
+`gufo_grammar.hpp` adapts construction/state/errors. No sibling
 code is imported by this extraction.
 The native Gufo conversation benchmark port has its own
 [pinned source and fixture provenance](gufo-bench-source.json).

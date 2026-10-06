@@ -30,6 +30,9 @@ typedef struct lie_regex_program lie_regex_program;
 void lie_regex_description_init(lie_regex_description *);
 lie_regex_status lie_regex_create(const lie_regex_description *, lie_regex_program **);
 void lie_regex_release(lie_regex_program *);
+/* Add one immutable ownership reference; caller already holds a live reference.
+ * false on NULL/overflow. Existing release retires the final reference only. */
+bool lie_regex_retain(const lie_regex_program *);
 size_t lie_regex_state_count(const lie_regex_program *);
 uint32_t lie_regex_maximum_suffix(const lie_regex_program *);
 lie_regex_status lie_regex_accepting(const lie_regex_program *, uint32_t, bool *);

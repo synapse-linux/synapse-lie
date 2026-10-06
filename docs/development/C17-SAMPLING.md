@@ -122,13 +122,58 @@ C probability normalizer. The sampler as a whole is not yet autonomous C.
 Existing eligible GPU argmax shortcuts remain delegated and preserved.
 Immutable reasoning/tool composition and complete JSON syntax/decoding now
 belong to the C17 core. Typed JSON values, key/string bytes and ordered child
-storage now also belong to C17. Predicate/model/controller storage and private
-C++ reference/string projections remain transitional.
+storage now also belong to C17. Immutable primitive ownership, ordered predicate
+tables, construction-only identity memo and runtime predicate dispatch now use
+C17 as described below. Model/controller storage and private C++ facades,
+schema/regex compilation, template projections and request-state vectors remain
+transitional.
 
 Reactive readiness, per-row credits, cancellation, native batching and MTP
 controller ownership are unchanged. There is still one device-owner worker. The C
 selection call is synchronous; it does not add an asynchronous GPU forward or
 establish a throughput improvement.
+
+## Owned primitive predicates
+
+`lie/grammar_lexeme.h` exposes ABI 1 for immutable whitespace, numeric and string
+predicates. C17 owns their alphabet, tagged dispatch and copied options, retaining
+the existing C numeric policy or copied DFA. The ordered table retains leaf
+identities across growth, range imports and independent clones. Sealing rejects
+mutation and exports C-only callbacks to the byte runtime and vocabulary cache;
+hot dispatch no longer calls virtual C++ predicates or stages a `std::string`.
+The construction-only memo maps borrowed immutable schema identities to retained
+predicates. First publication wins, matching the original compiler cache.
+
+Defaults bound text/state at 64 MiB and table/memo entries at 262,144 with 64 MiB
+direct requested storage each. Table/memo accounting includes bodies and growth
+overlap; it excludes retained predicates/policies, allocator overhead, stack,
+C++ projections and process/device costs. Refusals retain logical contents and
+published outputs; diagnostic capacity/peak/allocation counters may advance.
+Numeric query work/scratch still belongs to its C policy, including lexically
+impossible long prefixes. Numeric advance appends rejected bytes; string and
+whitespace rejection preserves encoded state. Canonicalization changes copied
+mask keys only. Existing numeric, whitespace, UTF-8, escaping and regex semantics
+remain the independently pinned Gufo algorithms.
+
+Atomic retain requires an owned reference and refuses overflow. Final release
+retires dependencies. Immutable reads may run concurrently; construction and
+release require serialization and retiring borrowed grammar/hooks. Memo keys
+are never dereferenced and their owners outlive compilation. No model, HTTP,
+RNG, worker or persisted cache format enters this component. Reactive readiness,
+output credits, cancellation and the single device-owner worker are unchanged.
+More C dispatch does not establish a throughput gain.
+
+Six guarded exact edits preserve the original OFF classes/vector/map. Existing
+`LIE_C17_SAMPLING=ON` selects C ownership; C++ facades/errors and schema/regex
+construction/template projections/request-state vectors remain private glue.
+The normal product and default CTest remain Python-free with no new dependency.
+The [host receipt](validation/c17-lexeme-host-2026-10-06.json) binds independent
+ownership, allocator/capacity refusal and joined-reader checks, complete
+pristine/ON/OFF witnesses and the 92-file provider inventory. A matching sealed
+HIP build and original-weight AR/MTP controls on `.161` are still required;
+the older 89-file `5227bf4f` GPU receipt excludes these changes. Model/controller,
+broader branches/faults/probabilities/quality/resources and matched cost remain
+open. Terminal Bench stays deferred until modifications and qualification finish.
 
 ## Owned typed JSON values
 

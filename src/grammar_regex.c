@@ -3,8 +3,10 @@
  * src/core/json_schema_regex.cpp; compiler remains independently transitional. */
 #include "lie/grammar_regex.h"
 #include <stdlib.h>
+#include <stdatomic.h>
 #include <string.h>
 struct lie_regex_program {
+  atomic_size_t references;
   lie_grammar_allocator allocator;
   size_t states, classes, ranges, max_work;
   uint32_t maximum_suffix;
@@ -112,7 +114,8 @@ lie_regex_status lie_regex_create(const lie_regex_description *d, lie_regex_prog
   if (2 * c > SIZE_MAX / 4 - words || 2 * r > SIZE_MAX / 4 - words - 2 * c) return LIE_REGEX_RESOURCE;
   words += 2 * c + 2 * r;
   lie_regex_program *p = a.allocate(a.context, sizeof(*p)); if (!p) return LIE_REGEX_RESOURCE;
-  memset(p, 0, sizeof(*p)); p->allocator = a; p->states = n; p->classes = c; p->ranges = r; p->max_work = d->limits.max_work;
+  memset(p, 0, sizeof(*p)); atomic_init(&p->references, 1);
+  p->allocator = a; p->states = n; p->classes = c; p->ranges = r; p->max_work = d->limits.max_work;
   p->storage = a.allocate(a.context, words * sizeof(uint32_t));
   if (!p->storage) { a.release(a.context,p); return LIE_REGEX_RESOURCE; }
   p->next = p->storage; p->successors = p->next + t;
@@ -129,8 +132,21 @@ lie_regex_status lie_regex_create(const lie_regex_description *d, lie_regex_prog
   if (rc != LIE_REGEX_OK) lie_regex_release(p); else *out = p;
   return rc;
 }
+bool lie_regex_retain(const lie_regex_program *program) {
+  if (!program) return false;
+  lie_regex_program *p = (lie_regex_program *)program;
+  size_t old = atomic_load_explicit(&p->references, memory_order_relaxed);
+  while (old && old < SIZE_MAX) {
+    if (atomic_compare_exchange_weak_explicit(&p->references, &old, old + 1,
+          memory_order_relaxed, memory_order_relaxed)) return true;
+  }
+  return false;
+}
 void lie_regex_release(lie_regex_program *p) {
-  if (p) { p->allocator.release(p->allocator.context,p->storage); p->allocator.release(p->allocator.context,p); }
+  if (p && atomic_fetch_sub_explicit(&p->references, 1, memory_order_acq_rel) == 1) {
+    p->allocator.release(p->allocator.context,p->storage);
+    p->allocator.release(p->allocator.context,p);
+  }
 }
 size_t lie_regex_state_count(const lie_regex_program *p) { return p ? p->states : 0; }
 uint32_t lie_regex_maximum_suffix(const lie_regex_program *p) { return p ? p->maximum_suffix : 0; }

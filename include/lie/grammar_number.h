@@ -24,6 +24,9 @@ typedef struct { bool prefix, complete; } lie_number_match;
 void lie_number_description_init(lie_number_description *);
 lie_number_status lie_number_create(const lie_number_description *, lie_number_policy **);
 void lie_number_release(lie_number_policy *);
+/* Add one immutable ownership reference. Caller already holds a live reference;
+ * false on NULL/overflow. Paired release retires the final reference only. */
+bool lie_number_retain(const lie_number_policy *);
 /* Immutable, model-neutral exact decimal predicates. Runtime prefixes use
  * plain JSON decimal spelling, <=4096 bytes, and <=1024 integer shifts.
  * Complete values additionally allow JSON exponent spelling. Schema/value

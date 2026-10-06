@@ -64,6 +64,28 @@ framing and reactive worker contracts are unchanged. See
 and the matching selected
 [AR/MTP qualification](../development/validation/c17-json-value-point-gpu-2026-10-06.json).
 
+`lie/grammar_lexeme.h` adds model-neutral primitive/table/memo ABI 1. Immutable
+tagged predicates own their alphabet/options and retain C numeric/DFA policies;
+the additive `lie_number_retain` and `lie_regex_retain` calls extend opaque
+ownership without changing existing public structures or versions. Retain
+requires an already-owned reference; final release retires dependencies.
+Predicates default to 64 MiB text/state. Tables and construction-only identity
+memos default to 262,144 items and 64 MiB direct requested bytes, including
+their bodies and overlapping growth buffers. Retained predicates/policies,
+allocator overhead, stack, C++ projections and process/device costs are excluded.
+Refusals preserve logical contents and published outputs; table/memo capacity,
+peak and allocation diagnostics may advance. Input/output payloads may overlap;
+length/match metadata must be disjoint.
+
+Sealed ordered tables reject mutations and export C-only grammar hooks. Clone
+produces an independent mutable table retaining the same immutable predicates.
+Memo keys are borrowed identities, never dereferenced, and first publication
+wins. Memo reads require quiescent mutations. Mutation/release require caller
+serialization and retiring all borrowers. Paired aligned allocators outlive
+references and support caller concurrency. No worker, RNG, model or persisted
+cache enters these calls. Existing engine/state/HTTP layouts and DS4 framing
+remain unchanged. See [ownership and limits](../development/C17-SAMPLING.md#owned-primitive-predicates).
+
 `lie/grammar_composition.h` adds independent composition ABI 1. The synchronous
 core constructs immutable reasoning/tool marker automata, quotes arbitrary name
 bytes, reuses argument-program identities and remaps ordered tables/predicate
@@ -73,8 +95,9 @@ are retained by the caller; the composed view itself owns tables/name copies.
 Caller-bound predicates and an independent runtime program outlive construction
 retirement. Paired allocators, bounded work/tables and refusal preserve published
 outputs and retire partial work. Defaults retain 262144 rule/class/lexeme limits
-and 64 million work units. The adapter alone retains typed shared pointers,
-templates and exception translation. Existing engine/sampler/grammar/state/HTTP
+and 64 million work units. The C17 predicate table now retains imported leaf
+identities; the adapter still projects templates and translates exceptions.
+Existing engine/sampler/grammar/state/HTTP
 layouts, DS4 framing and reactive worker contracts remain unchanged. See
 [host validation](../development/validation/c17-composition-host-2026-10-06.json).
 

@@ -14,6 +14,7 @@ inline void vocabulary_check(lie_grammar_status rc) {
     throw std::runtime_error("JSON token mask work limit exceeded");
   grammar_check(rc);
 }
+#if !LIE_C17_SAMPLING
 inline bool vocabulary_cacheable(const void *context, const lie_grammar_state *s) noexcept {
   const auto &lexemes = *static_cast<const Lexemes *>(context);
   for (size_t i = 0; i < lie_grammar_state_count(s); ++i) {
@@ -26,6 +27,7 @@ inline bool vocabulary_cacheable(const void *context, const lie_grammar_state *s
   }
   return true;
 }
+#endif
 inline std::shared_ptr<const lie_grammar_vocabulary> vocabulary_program(
     std::span<const gufo::sampling::ConstraintVocabulary::Piece> input) {
   std::vector<lie_token_piece> pieces;
@@ -42,7 +44,11 @@ inline std::vector<uint8_t> vocabulary_mask(const lie_grammar_vocabulary *v,
   const lie_grammar_program *p, const lie_grammar_state *state,
   const Lexemes &lexemes, bool stop_only) {
   lie_vocabulary_query q; lie_vocabulary_query_init(&q);
+#if LIE_C17_SAMPLING
+  q.context = lexemes.native(); q.cache_transitions = lie_lexeme_table_cacheable;
+#else
   q.context = &lexemes; q.cache_transitions = vocabulary_cacheable;
+#endif
   std::vector<uint8_t> out(lie_vocabulary_size(v));
   vocabulary_check(lie_vocabulary_allowed(v,p,state,stop_only,&q,out.data(),out.size(),nullptr));
   return out;

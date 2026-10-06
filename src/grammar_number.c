@@ -4,6 +4,7 @@
  * LIE owns bounded storage, immutable policies and transactional refusals. */
 #include "lie/grammar_number.h"
 #include <stdint.h>
+#include <stdatomic.h>
 #include <stdlib.h>
 #include <string.h>
 #define CAP 8192u
@@ -11,6 +12,7 @@
 typedef struct { char d[CAP]; size_t n; int scale; bool negative; } decimal;
 typedef struct { decimal value; bool exclusive, present; } bound;
 struct lie_number_policy {
+  atomic_size_t references;
   lie_grammar_allocator allocator;
   size_t max_work;
   bool integer, has_multiple;
@@ -245,7 +247,8 @@ lie_number_status lie_number_create(const lie_number_description *d, lie_number_
       d->struct_bytes != sizeof(*d) || !d->max_work || !allocator_get(&d->allocator, &a)) return LIE_NUMBER_INVALID;
   lie_number_policy *p = a.allocate(a.context, sizeof(*p));
   if (!p) return LIE_NUMBER_RESOURCE;
-  memset(p, 0, sizeof(*p)); p->allocator = a; p->max_work = d->max_work; p->integer = d->integer;
+  memset(p, 0, sizeof(*p)); atomic_init(&p->references, 1);
+  p->allocator = a; p->max_work = d->max_work; p->integer = d->integer;
   workspace *w = a.allocate(a.context, sizeof(*w));
   if (!w) { a.release(a.context, p); return LIE_NUMBER_RESOURCE; }
   w->work = d->max_work;
@@ -253,7 +256,20 @@ lie_number_status lie_number_create(const lie_number_description *d, lie_number_
   if (rc != LIE_NUMBER_OK) a.release(a.context, p); else *out = p;
   return rc;
 }
-void lie_number_release(lie_number_policy *p) { if (p) p->allocator.release(p->allocator.context, p); }
+bool lie_number_retain(const lie_number_policy *policy) {
+  if (!policy) return false;
+  lie_number_policy *p = (lie_number_policy *)policy;
+  size_t old = atomic_load_explicit(&p->references, memory_order_relaxed);
+  while (old && old < SIZE_MAX) {
+    if (atomic_compare_exchange_weak_explicit(&p->references, &old, old + 1,
+          memory_order_relaxed, memory_order_relaxed)) return true;
+  }
+  return false;
+}
+void lie_number_release(lie_number_policy *p) {
+  if (p && atomic_fetch_sub_explicit(&p->references, 1, memory_order_acq_rel) == 1)
+    p->allocator.release(p->allocator.context, p);
+}
 static lie_number_status check(const lie_number_policy *p, workspace *w, lie_number_text bytes, lie_number_match *out) {
   *out = (lie_number_match){false, false};
   if (!bytes.bytes) { out->prefix = true; return LIE_NUMBER_OK; }

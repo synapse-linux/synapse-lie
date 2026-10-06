@@ -57,8 +57,12 @@ inline std::shared_ptr<const lie_grammar_program> composition_finish(
   lexemes = std::move(staged_lexemes); root = d.root;
   stop = view.stop_only_when_complete;
   auto bound = d;
+#if LIE_C17_SAMPLING
+  bound.predicates = lexemes.predicates();
+#else
   bound.predicates = {&lexemes, grammar_allows,
                       grammar_predicate_advance, grammar_predicate_canonical};
+#endif
   lie_grammar_program *program = nullptr;
   grammar_check(lie_grammar_program_create(&bound, &program));
   return std::shared_ptr<const lie_grammar_program>(program, lie_grammar_program_release);

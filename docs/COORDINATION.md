@@ -1,5 +1,18 @@
 # DS4 / synapse-lie coordination
 
+## Local predicate ownership; eval remains deferred — 2026-10-06
+
+Root changes only its `feature/context-million-openai` worktree. Immutable
+primitive/table/memo ownership and dispatch now use shared C17, with GPU-masked
+local host checks under CPU98/NVMe85/lower guards. No remote job, client, CPU/GPU
+build/run, lease, waiter or reservation is created on `.161/.157/.158`.
+The [92-file host receipt](development/validation/c17-lexeme-host-2026-10-06.json)
+requires a new sealed HIP build and original-weight controls under fresh peer
+and global `.161` admission. R25 closure below is historical, not admission for
+this source. Point/DGX/Q2 and DS4 work remains separately owned. Terminal Bench
+stays stopped/collected/closed/deferred until modifications and qualification
+finish; no restart, migration or standing reservation.
+
 ## R25 typed JSON build and AR/MTP closed — 2026-10-06
 
 Fresh Point/DGX own non-use and separate 06:42:37 / 06:47:23 / 06:52:28 UTC global

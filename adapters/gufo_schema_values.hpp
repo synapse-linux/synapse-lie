@@ -9,9 +9,26 @@
 #include <map>
 #include <optional>
 namespace lie_gufo {
+#if LIE_C17_SAMPLING
+class ValueChecks {
+  lie_lexeme_memo *memo_ = nullptr;
+public:
+  ValueChecks() { lexeme_check(lie_lexeme_memo_create(nullptr, &memo_)); }
+  ~ValueChecks() { lie_lexeme_memo_release(memo_); }
+  ValueChecks(const ValueChecks &) = delete;
+  ValueChecks &operator=(const ValueChecks &) = delete;
+  const lie_grammar_lexeme *find(const SchemaValue *key) const noexcept {
+    return lie_lexeme_memo_get(memo_, key);
+  }
+  void put(const SchemaValue *key, const gufo::sampling::JsonSchemaLexeme &value) {
+    lexeme_check(lie_lexeme_memo_put(memo_, key, value.C17Lexeme()));
+  }
+};
+#else
 using ValueChecks =
     std::map<const SchemaValue *,
              std::shared_ptr<const gufo::sampling::JsonSchemaLexeme>>;
+#endif
 inline lie_schema_values_description values_reader() {
   lie_schema_values_description d;
   lie_schema_values_description_init(&d);
@@ -60,6 +77,17 @@ class SchemaValues {
                                   lie_schema_node value, bool *out) noexcept {
     auto &v = *static_cast<SchemaValues *>(p);
     return v.arena_.invoke([&](auto &) {
+#if LIE_C17_SAMPLING
+      const auto *key = static_cast<const SchemaValue *>(schema);
+      auto *predicate = v.checks_->find(key);
+      if (!predicate) {
+        const auto value_check = schema_value(value).is_string()
+            ? gufo::sampling::JsonSchemaLexeme::String(schema_value(schema))
+            : gufo::sampling::JsonSchemaLexeme::Number(schema_value(schema), false);
+        v.checks_->put(key, *value_check); predicate = v.checks_->find(key);
+      }
+      *out = LexemeView(predicate).AcceptValue(schema_value(value));
+#else
       auto &check = (*v.checks_)[static_cast<const SchemaValue *>(schema)];
       if (!check)
         check =
@@ -68,6 +96,7 @@ class SchemaValues {
                 : gufo::sampling::JsonSchemaLexeme::Number(schema_value(schema),
                                                            false);
       *out = check->AcceptValue(schema_value(value));
+#endif
     });
   }
   static lie_schema_status number(void *p, lie_schema_node value,

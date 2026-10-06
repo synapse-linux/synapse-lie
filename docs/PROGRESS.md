@@ -1,6 +1,43 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Primitive ownership passes host checks — 2026-10-06 UTC
+
+`lie/grammar_lexeme.h` now owns immutable whitespace/number/string predicates,
+ordered retained tables, construction-only schema identity memo and C-only hot
+runtime dispatch. Numeric/DFA policies have additive atomic retains; final
+release retires dependencies. Table growth, self-import, clone and memo
+first-publication semantics preserve pinned order/identity. Sealing refuses
+mutations. Refusals preserve logical contents and outputs, with documented
+capacity/accounting exclusions. No inference thread, RNG, reactive frontier,
+KV payload format or production dependency changes. Six guarded edits retain
+complete original OFF classes/vector/map. C++ facades/errors, schema/regex
+compilation, template projections, request-state vectors and model/controller
+remain transitional; this does not complete the autonomous C executor.
+
+The [host receipt](development/validation/c17-lexeme-host-2026-10-06.json) binds
+34,889 C assertions, eight ownership allocator and two numeric-query refusals,
+16 joined readers completing 1,024 iterations, all 27 earlier complete witness
+hashes and the new 92-file inventory (80 first-party + 12 vendor/provenance).
+All 87 native Release, 60 core ASan/UBSan/LSan and 48 full host checks pass.
+Three additional optional allocation-retirement checks also pass; the actual
+focused selection runs four including a repeated numeric check, for 51 unique
+host checks. Local CPU peaks at 94.75 C under CPU98/NVMe85/lower guards,
+with GPU masked and observe-only. The 58 public
+headers compile together as C17/C++17 and the no-model server/bench link.
+Initial host build exit 2 is retained: the compiler's predicate-map field needed
+the same guarded C memo type as its normalized-value bridge. Corrected builds
+pass. No sanitizer suppression or foreign process action occurs.
+
+A new matching sealed HIP build and original-weight AR/MTP controls on `.161`
+remain pending. The preceding `5227bf4f` 89-file GPU evidence excludes this
+increment. Broader branches, faults, independent probabilities, private resource,
+quality and matched-cost gates stay open; all six owned roadmap tasks remain
+open. Root has no remote job/client/build/lease/waiter/reservation and keeps
+`.157` non-use. Terminal Bench stays stopped/collected/closed/deferred until
+functional modifications and matching qualification finish. No performance
+gain is claimed.
+
 ## Typed JSON ownership passes host and GPU checks — 2026-10-06 UTC
 
 `lie/json_value.h` now owns scalar/string/key bytes, ordered object/array child

@@ -246,8 +246,16 @@ client/server restart or machine reservation is queued in the meantime.
    89-file provider/application build passes selected original-weight AR37/MTP37
    controls on `.161`
    ([GPU receipt](development/validation/c17-json-value-point-gpu-2026-10-06.json)).
-   Predicate storage, model/controller and
-   broader numerical/fault/resource/quality/matched-cost gates remain open.
+   Immutable primitive storage, ordered predicate tables, construction-only
+   identity memo and hot dispatch now also use C17
+   ([host receipt](development/validation/c17-lexeme-host-2026-10-06.json)).
+   Six guarded edits preserve original OFF classes/vector/map; the inventory
+   now binds 92 files (80 first-party and 12 vendor/provenance). The prior
+   `5227bf4f` GPU receipt excludes this increment, which needs matching sealed
+   HIP and original-weight qualification. Private facades, schema/regex
+   construction, template projections, request-state vectors and model/controller
+   remain transitional. Broader numerical/fault/resource/quality/matched-cost
+   gates remain open.
    The earlier matching `a24875f` 66-file build passes selected original-weight
    AR37/MTP37 controls on `.161`
    ([GPU receipt](development/validation/c17-schema-policy-point-gpu-2026-10-06.json)).

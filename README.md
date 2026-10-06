@@ -11,10 +11,12 @@ JSON parser, binary64 codec and typed value storage, passes
 [37 OpenAI controls in both AR and MTP on Strix Point](docs/development/validation/c17-json-value-point-gpu-2026-10-06.json).
 These cover selected integrated paths. Broader numerical, fault, resource,
 quality and performance gates remain open.
-Gufo still owns model/controller state and predicate storage. Typed JSON values,
-keys and ordered child tables now belong to the shared C17 core, with
-[host validation](docs/development/validation/c17-json-value-host-2026-10-06.json).
-The matching HIP build binds all 89 provider files.
+Gufo still owns model/controller state. Typed JSON values and immutable
+number/string/whitespace predicates, ordered tables and their construction memo
+now belong to the shared C17 core. The newer
+[predicate ownership host checks](docs/development/validation/c17-lexeme-host-2026-10-06.json)
+require a matching GPU verification; the previous 89-file HIP receipt excludes
+this 92-file increment.
 ICU remains the Unicode set/property/conversion dependency.
 [Directional steering](docs/guides/USAGE.md#directional-steering) has shared-core
 and server/bench controls with host validation, including scheduled benchmark
