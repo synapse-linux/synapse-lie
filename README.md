@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Current fixed-input routing diagnosis completes on .157 with96 exact count
+arrays, unchanged full prefill logits/first16 tokens, and no GPU build.9016 of
+12753 IQ2 tails (70.697%) contain at most16 rows. Next test the existing BN16
+path on those tails: saved ISA has86 vs104 VGPR and11392 vs17536 LDS bytes.
+This is a measured workload and static opportunity, not a measured speedup.
+Best1585.308983 PP /25.16079073 TG and fixed UD remain unchanged. The failed
+first supervision attempt is retained; corrected host32+32 passes. .157 is
+released at02:29:27UTC (5f4d8c13), with no job or reservation remaining.
+[Routing results and next candidate](docs/Q2-CURRENT-ROUTING.md).
+
 Routing r1 is retained as an orchestration failure: GDB launched an owned
 child in a separate process group, rejected by the original group-only check.
 Release02:23:11UTC/c90966bb confirms empty KFD and free unchanged leases.

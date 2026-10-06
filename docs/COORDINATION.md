@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Current-routing-v2 releases .157 at2026-10-06T02:29:27.961448UTC,
+SHA2565f4d8c1374b0b462c353afa708e27cbc0176083536920047b376b2df52574f3c.
+Fresh Core closure02:28:03UTC precedes admission02:28:22UTC from4b991c0c.
+Host32+32 and diagnostic finish and collect before release. All1296 identities
+and1036 groups are retired, including the debugger inferior's separate group;
+KFD is empty, four original leases are unchanged/free and seven model stat
+tuples unchanged. Canonical/main/remote release-active-ready mirrors agree;
+Core receives closure. No job/build/waiter/client/reservation or cleanup remains.
+Future GPU work requires fresh admission. The initial failed attempt and its
+releasec90966bb remain intact. [Audit](../config/q2-current-routing-final-audit.json).
+
 Routing r1 is retained as an orchestration failure: GDB launched an owned
 child in a separate process group, rejected by the original group-only check.
 Release02:23:11UTC/c90966bb confirms empty KFD and free unchanged leases.

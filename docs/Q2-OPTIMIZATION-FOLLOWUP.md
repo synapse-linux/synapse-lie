@@ -1,34 +1,41 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Focused optimization queue
 
-## Current priority after the 6 October IQ2 four-wave measurement
+## Current priority after the 6 October fixed-input routing capture
 
 Keep1585.308983 PP /25.16079073 TG. Fixed UD1685.777092 requires6.337447%
-more PP, equivalent to76.991736ms less prefill at the same2048 tokens. The
-new four-wave trial is complete and negative:1572.745422 PP, despite a2.944%
-component-time reduction at512 experts.96 component pairs and21 parent model
-files are exact. No saved control is rebuilt/rerun and no full curve is started.
+more PP, equivalent to76.991736ms less prefill at the same2048 tokens.
+The saved1585 binary now supplies exact counts for all48 layers, twice,
+without rebuilding. All prefill logits and first16 greedy tokens match saved
+model evidence. GDB timings are excluded from throughput comparisons.
 
-The [routing-coverage audit](../config/q2-iq2-routing-coverage.json) identifies
-a concrete screening limitation: that512-expert component has zero BN128 tiles,
-whereas every saved model layer has128–159 wide tiles plus89–359 narrow tiles.
-Matching the number of experts alone does not reproduce the distribution.
-This is evidence of a mismatch, not causal proof of the performance regression.
+The [routing diagnosis](Q2-CURRENT-ROUTING.md) finds9016/12753 tails (70.697%)
+contain1..16 rows. Wide128 utilization is92.774%; tail64 utilization21.318%.
+This is a workload observation. The kernel already skips empty matrix fragments;
+row padding alone does not predict the speedup. The earlier uniform512-expert
+component has no wide tiles and does not reproduce this model workload.
 
 | Order | Concrete next work | Evidence and boundary |
 | --- | --- | --- |
-| 1 | Recover exact per-expert counts for the fixed input, then evaluate the IQ2 layout by real tail occupancy. | BN64 costs103.692ms in the saved1571 trace. Determine the actual one/two/three/four live16-row fragment distribution before selecting a four-wave threshold. No new kernel threshold is implemented or justified yet. |
-| 2 | Reduce repeated activation/dequantization work in IQ2 BN128 without doubling all live accumulators. | This separate path costs135.808ms. Extending the negative four-wave source blindly is not an accepted optimization. |
-| 3 | Connect Q2 down to ordered expert consumption with a concrete buffer-ownership design. | Down costs161.558ms, with additional consumer traffic. The existing100MiB half intermediate remains; unordered atomics change arithmetic and a ten-pass F32 buffer can increase traffic. A new complete-cycle implementation is required. |
-| 4 | Remove a real full-buffer pass in HC combine/norm/inject. | The family costs186.168ms in the saved trace. Existing row reuse, deferred MoE norm and half-output consumers already exist; do not count them as new work. |
+| 1 | Select existing IQ2 BN16 for1..16-row tails, retaining128/64 elsewhere. | Saved ISA:86 vs104 VGPR,11392 vs17536 LDS bytes,4 vs10 static barrier sites. Covers8732 whole buckets plus284 nonzero-offset tails. Width-relative descriptor indices need conversion. Independent row enumeration preserves all983040 rows and descriptor count; no new source or model run yet. |
+| 2 | Reduce repeated activation work in IQ2 BN128 with bounded accumulators. | Saved1571 cost135.808ms; wide tiles are mostly full. Blindly extending the negative four-wave source risks more register pressure. |
+| 3 | Connect Q2 down to ordered expert consumption, or remove an HC full-buffer pass. | Saved costs161.558ms down and186.168ms combine/norm/inject. Preserve ten-expert reduction order. Unordered atomics and ten F32 passes are not equivalent/smaller-traffic solutions. |
 
-Ten/twenty percent less time across the three expert kernels would save40.106/
-80.212ms in that saved trace. Those are sensitivity calculations, not predicted
-gains. Trace attribution is on1571, not a fresh1585 timing. Additional SSM
-predicate changes, full-residency streaming cache and host callbacks are lower
-priority after their measured negatives and the5.090ms prefill inter-kernel gap.
-Shared-down mirrors and the four SSM follow-ups below have since been measured;
-their historical preparation entries must not be read as the active queue.
+[Representative component routes](../config/q2-fixed-input-route-fixtures.json)
+are layer0 and the layers with fewest/most eligible tails:3/22. Counts are real;
+component operands will remain synthetic. The full fixed2048/tg128 test remains
+the acceptance point, including safe numerical-failure timings. No controls
+are rebuilt or rerun and no full curve is started before this gap is closed.
+
+The old short48 whole-bucket trial regressed and remains retained. It differs
+from the proposed narrower16-row dispatch and width-correct nonzero tails;
+its failure warns that resource savings can be offset by launch/scheduling cost.
+Four-wave restricted to49..64-row tails reaches only5.967% of current tails and
+is lower priority after the full four-wave model result1572.745422 PP.
+Streaming compressed cache with full residency, generic SSM predicates and
+host callbacks remain lower priority after measured negatives and the5.090ms
+prefill inter-kernel gap in the saved trace. No new speedup or probability of
+success is claimed. [Opportunity audit](../config/q2-route-opportunities.json).
 
 ## Earlier queue entries
 
