@@ -1,5 +1,33 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## HC full fixture and second scale-owner draft — 2026-10-06 UTC
+
+Complete the candidate-only HC raw/raw-Q8/deferred fixture and its component-only
+launcher/runner/HIP target.42 cases,57 replay sets,200 whole output records and42
+timings are prepared, including full macro-token Q8 padding, guards, immutable
+inputs and39,321,600-byte weight rotations. Safe numerical rejection retains
+timings; guard/runtime faults stop. Wall time is a labeled complete cycle;
+invalid raw HIP times remain invalid. Current host syntax/device-only compilations
+exit0; all165 fixture numerical bodies/resources match the prior draft exactly.
+The earlier fixture/bindings remain retained before metadata refinements.
+
+A new independent compile probe assigns four final RMS scales to four owner
+threads, preserving their original eight sequential partial additions/runtime
+divisor/rsqrt source. Both combine probes lower VGPR84→65, have zero private
+bytes,16 additional LDS bytes and one extra barrier. Instructions1634→1623 and
+1763→1740; compiler occupancy16 stays unchanged. All162 production bodies and
+the1027-file parent inventory remain exact. No GPU, quality or performance
+acceptance follows from these counts.
+
+Fresh Core own non-use is acknowledged, but the Core/lease closure check fails
+before connection: SSH255, No route to host. Raw evidence is retained; no staging,
+remote host/build, model payload, window, lease, reservation, waiter or retry.
+Last verified release remains04:27:46UTC/e64145d6, with no new remote availability
+claim. Current host Debug/ASan checks and GPU qualification wait for connectivity
+and fresh admission. Retain1585.308983 PP /25.16079073 TG; UD1685.777092 still
+requires6.337447% PP or76.991736ms. No control/full-curve/Q4 run or cleanup occurs.
+[Candidates, exact static evidence and qualification boundary](Q2-HC-TARGET-CANDIDATES.md).
+
 ## HC injection coefficient reuse prepared — 2026-10-06 UTC
 
 Following the down model result, inspect the first HC reuse draft's repeated

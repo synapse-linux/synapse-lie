@@ -21,6 +21,24 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_hc_injection_reuse_is_component_only(self):
+        variant = remote.HC_REUSE_VARIANT
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-ssm-fixed-bounds'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'HC injection reuse requires its component-only draft provider')
+        self.refuse([remote.HC_REUSE_MODE, 'q2-fixture'],
+                    'HC injection reuse requires its component-only draft provider')
+        base = [remote.HC_REUSE_MODE, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(base + [flag], 'HC injection reuse component accepts no model')
+        with patch.object(sys, 'argv', [str(path), *base]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
     def test_ssm_channel_bounds_matching_modes_only(self):
         variant = 'ssm-channel-bounds'
         for mode in ('cpu', 'q2-profile', 'q2-bench', 'q2-curve'):

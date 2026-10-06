@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [new fixed-target candidates](docs/Q2-HC-TARGET-CANDIDATES.md) have a complete
+HC injection-reuse fixture:42 cases/200 outputs/42 timings, current host/device
+compilation and165-body static checks pass. A second four-owner RMS draft lowers
+VGPR84→65 in both active combine kernels with one extra barrier/16 LDS bytes;
+162 production bodies remain exact. Neither has a GPU speed result. The new
+remote preflight fails before connection (SSH255, No route to host); no test,
+model, lease or reservation starts. Keep1585.308983 PP /25.16079073 TG against
+fixed UD1685.777092. Full curve/Q4 remain deferred; no controls rerun.
+
 The next [Q2 HC draft](docs/Q2-HC-INJECTION-REUSE-DRAFT.md) reuses normalized
 mix inputs and stages4096 coefficient bytes once in existing dead LDS. Relative
 to the first private reuse draft, raw/deferred instructions fall5234→4761 and
