@@ -261,14 +261,18 @@ client/server restart or machine reservation is queued in the meantime.
    93-file inventory has a matching sealed `117cbae6` HIP build and selected
    original-weight AR37/MTP37 controls
    ([GPU receipt](development/validation/c17-request-state-point-gpu-2026-10-06.json)).
-   Private facades, schema/regex
-   construction, template projections and model/controller
-   remain transitional. Broader numerical/fault/resource/quality/matched-cost
+   Root-reference cycle/admission policy and root whitespace/body composition
+   now also use C17, with [host checks](development/validation/c17-schema-root-host-2026-10-06.json).
+   The new 96-file provider needs a matching sealed HIP build and original-weight
+   qualification on `.161`; `117cbae6` excludes it. Private construction facades,
+   schema/regex wrappers, template projections and model/controller remain
+   transitional. Broader numerical/fault/resource/quality/matched-cost
    gates remain open.
    The Gufo benchmark control requires a separately verified complete OFF
    provider, including numerical/controller archives, to keep private request
-   layouts coherent. Host receipt/target gates pass; the new ON/OFF builds and
-   GPU control still require qualification.
+   layouts coherent. The sealed `117cbae6` ON/OFF HIP builds and two short C1
+   controls pass with exact physical-input/output/frontier witnesses; these
+   warmup0/rep1 correctness controls do not establish a performance gain.
    The earlier matching `a24875f` 66-file build passes selected original-weight
    AR37/MTP37 controls on `.161`
    ([GPU receipt](development/validation/c17-schema-policy-point-gpu-2026-10-06.json)).

@@ -98,6 +98,18 @@ type now owns this C snapshot and must match the provider's selected compile
 option; it is not a public C ABI. See
 [request snapshot ownership](../development/C17-SAMPLING.md#owned-request-grammar-snapshots).
 
+`lie/schema_root.h` adds independent ABI 1 for synchronous root admission and
+construction. The caller supplies immutable node readers, a body visitor and a
+builder. Schema mode validates resolved local-reference root identities but
+visits the original root; object-only mode uses initialized generic JSON
+primitives and may receive a NULL schema. Temporary identity storage uses the
+reader's paired allocator and retires before Visit/return. Defaults bound
+identities at 262,144 and whole-chain reader work at 64 million units. Refusal
+preserves outputs; earlier visitor/builder mutations require retiring failed
+compilation. No pointer/device/worker/RNG or persisted state is retained.
+Existing public structures and versions stay unchanged. See
+[root ownership](../development/C17-SAMPLING.md#root-schema-admission).
+
 `lie/grammar_composition.h` adds independent composition ABI 1. The synchronous
 core constructs immutable reasoning/tool marker automata, quotes arbitrary name
 bytes, reuses argument-program identities and remaps ordered tables/predicate

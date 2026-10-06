@@ -102,6 +102,12 @@ or DS4 RAM/SSD payloads. Matching new original-weight continuation, correction,
 fault and resource/cost gates remain open. See
 [ownership](../development/C17-SAMPLING.md#owned-request-grammar-snapshots).
 
+[Root schema admission](../development/C17-SAMPLING.md#root-schema-admission)
+uses construction-only identity scratch, freed before Visit or return. It
+changes no request snapshot, KV/recurrent tensor, model identity or DS4 RAM/SSD
+framing. Prompt/value/exception projections remain private adapters; existing
+reactive cancellation and snapshot-copy lifetimes are preserved.
+
 The compiled-schema C17 cache stores opaque grammar programs and copied schema
 keys. It is independent of KV/recurrent state, prefix retention and SSD files;
 its insertion/eviction never changes model cache identity or DS4 framing. Client

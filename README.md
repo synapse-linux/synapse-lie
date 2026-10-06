@@ -9,8 +9,10 @@ with owned [C17 sampling, grammar and schema components](docs/development/C17-SA
 Checkpoint `117cbae6`, including C17 request grammar snapshots and independent
 speculative copies, passes
 [37 OpenAI controls in both AR and MTP on Strix Point](docs/development/validation/c17-request-state-point-gpu-2026-10-06.json).
-These cover selected integrated paths. Broader numerical, fault, resource,
-quality and performance gates remain open.
+The later [C17 root schema admission](docs/development/C17-SAMPLING.md#root-schema-admission)
+passes host checks; its matching GPU qualification is pending.
+The recorded GPU controls cover selected integrated paths. Broader numerical,
+fault, resource, quality and performance gates remain open.
 Gufo still owns model/controller state. Typed JSON values, immutable predicates,
 ordered tables and request grammar snapshots now belong to the shared C17 core.
 The Gufo comparison executable uses a separately compiled complete OFF provider;

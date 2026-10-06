@@ -7,6 +7,15 @@ See THIRD_PARTY_NOTICES.md for provenance, versions and distribution boundaries;
 full imported notices are installed alongside it in third-party/.
 
 Adapted code includes:
+- Root schema admission in src/schema_root.c follows JsonConstraintCompiler::Compile
+  at independently fetched immutable Gufo f783fedb9bea2ec7de941f6da4e02f4a4596b29e
+  (MIT; gufo-LICENSE retained). C17 owns ordered root-reference traversal,
+  cycle identities and scratch retirement, resolved-root type/anyOf validation,
+  original-schema Visit admission and whitespace/body root construction.
+  Bounded identity storage and a shared whole-chain work budget are first-party
+  policy. Private JSON views, prompt text and exceptions remain adapters.
+  schema-root-edits.json records two exact default-ON/OFF replacements; original
+  OFF root admission is retained. No DS4 or sibling source/artifact is imported.
 - Binary64 number formatting/parsing now uses the shared first-party C17
   lie/binary64.h contract, with separately pinned Ryu C material as described
   in ryu-NOTICE. binary64-edits.json keeps both exact original OFF conversions

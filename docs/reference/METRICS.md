@@ -666,3 +666,7 @@ differ between model quantizations; such a comparison is a workload comparison,
 not numerical equivalence or an inference-quality certificate. These records do
 not measure server cold loading or peak allocation. CPU fixture values remain
 explicitly `NOT-INFERENCE`; they must never be published as GPU results.
+
+C17 [root schema admission](../development/C17-SAMPLING.md#root-schema-admission)
+adds no serving metric or inference thread. Its bounded work counter is a
+construction refusal budget; it is not prefill/decode throughput or GPU cost.

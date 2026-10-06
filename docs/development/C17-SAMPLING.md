@@ -134,6 +134,32 @@ controller ownership are unchanged. There is still one device-owner worker. The 
 selection call is synchronous; it does not add an asynchronous GPU forward or
 establish a throughput improvement.
 
+## Root schema admission
+
+`lie/schema_root.h` adds model-neutral ABI 1. C17 follows root `$ref` chains,
+detects repeated identities and checks that the resolved root has string type
+`object` and no `anyOf`. It then admits the original schema, including reference
+siblings, to Visit at depth zero and composes whitespace/body/whitespace. The
+JSON-object mode skips reader/visitor calls and reuses the C17 generic builder
+at depth 16. Prompt text and exception/value views remain private adapter glue.
+
+A lazy C memo owns temporary identities and retires every allocation before
+Visit or return. Defaults allow at most 262,144 identities and 64 million work
+units shared across the complete root chain. Input nodes/spans are immutable
+and stable; paired allocators/callback contexts outlive the call. Refusal
+preserves the result, while prior private visitor/builder changes require
+retiring the failed compilation. Builder finalization and predicate ownership
+keep their existing contracts. There is no worker, RNG, cache or device call.
+
+Two exact guarded edits retain the complete original OFF root algorithm under
+`LIE_C17_SAMPLING`. The provider binds 96 files, including the new C source,
+public header and private adapter, plus a `schema_root_edits_sha256` gate.
+[Host checks](validation/c17-schema-root-host-2026-10-06.json) retain complete
+original/ON/OFF states, byte masks, prompts, refusals and preceding witnesses.
+This increment needs its own sealed HIP build and original-weight qualification
+on `.161`; the earlier `117cbae6` receipt excludes it. Remaining construction
+facades/template projections and the model/controller are transitional.
+
 ## Owned request grammar snapshots
 
 The default-ON request state now owns a `lie_grammar_state` directly. Start,

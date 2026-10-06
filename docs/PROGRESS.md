@@ -1,6 +1,45 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Root schema admission passes host checks — 2026-10-06 UTC
+
+The default-ON compiler now uses shared C17 for root reference traversal,
+cycle identities, resolved object-root validation, original-schema Visit
+admission and whitespace/body root construction. A lazy bounded C memo retires
+before Visit/return; one work budget covers the whole chain. JSON-object mode
+skips schema readers/visitors and reuses the C generic builder. Two exact guarded
+edits retain original OFF behavior. Private prompt/value/exception views,
+construction facades/template projections and model/controller remain
+transitional. No reactive worker, RNG, request/KV payload or dependency changes.
+
+The [host receipt](development/validation/c17-schema-root-host-2026-10-06.json)
+binds 47 independent C oracles, 24 callback refusals, six allocation refusals
+and chains through 129 identities. Three focused ASan/UBSan/LSan C contracts
+pass. The complete host run passes 50/51 checks; its sole failure is a new
+fixture that omitted the original dead-prefix mask exception. Correcting only
+that fixture and rerunning its comparison passes, giving 51 unique host checks
+cumulatively, without a second complete run. The new original/ON/OFF witness
+has 86 cases, 29 successful compilations, 78 accepted values, 3,870 transitions
+and 4,410 mask queries, including 2,693 identical refusals. All 28 prior complete
+witness hashes are unchanged; the total is now 29 groups.
+
+Four focused Release checks pass, including provider/target refusal gates.
+All 59 public headers compile strictly as C17/C++17; the new C object has no
+C++ imports. The no-model server and native bench link. The provider binds
+96 files (84 first-party and 12 vendor/provenance), preserving all 93 prior
+file hashes. Peak local CPU is 88.125 C under CPU98/NVMe85/lower guards, with
+GPUs masked. The failed exact-edit ordering, its follow-on empty build,
+sandbox/ptrace LSan refusals, initial root witness and offline QA assertions
+retain their actual exits; no sanitizer is suppressed.
+
+This code needs its own sealed HIP build and original-weight qualification on
+`.161`; the earlier `117cbae6`/r27 GPU receipt excludes it. Broader branches,
+faults, probabilities, quality, private resources and matched cost remain open.
+All six owned roadmap tasks remain open. Root has no current/planned/admitted
+remote job/client/CPU/GPU/build/lease/waiter/reservation or live local handle.
+Terminal Bench remains stopped/collected/closed/deferred until functional
+modifications and matching qualification finish. No push or deployment occurs.
+
 ## Request grammar state ownership passes host and selected GPU checks — 2026-10-06 UTC
 
 Default-ON byte/token transitions, completion, canonicalization and mask queries

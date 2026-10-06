@@ -40,6 +40,11 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 root schema admission, including reference-cycle detection and
+  ordered root construction. Bounded temporary identity storage retires before
+  compilation callbacks. Original/OFF behavior is retained; host qualification
+  is recorded separately from the pending matching GPU build.
+
 - Shared C17 ownership of request grammar snapshots and independent speculative
   copies. Runtime transitions and masks use native snapshots directly, removing
   repeated C++ vector/string transfers. Host original/default-ON/OFF states and
