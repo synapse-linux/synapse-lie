@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## HC raw-Q8 integration preparation — 2026-10-06 UTC
+
+Fresh .157 checks at 12:29:13 UTC bind release f2eb2ccb, original lease identities, retired processes/groups, empty KFD and unchanged model stat tuples. Core reports own .157/.158 non-use while working separately on .161; Q2 remains absent from .161/.158. Host 37+37 checks end 12:30:26 UTC and all seven artifacts collect. The frozen plan permits only one new original 2048/tg128 model, reusing existing component/control evidence. No GPU admission or reservation at preparation. No remote cleanup.
+
 ## IQ2 compact-table window released — 2026-10-06 UTC
 
 Admission12:04:16/5eaa5c84 binds checkpointf9bf1eb2/plane0b16a41. One component

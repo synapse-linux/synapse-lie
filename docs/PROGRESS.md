@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## HC raw-Q8 integration prepared — 2026-10-06 UTC
+
+The component-tested raw-Q8 producer/reducer is integrated on the retained IQ2 fixed-bound parent. C17 policy checks allocation identity, byte capacity, fixed geometry and pending MoE output before borrowing existing down_e scratch. All 164 parent device bodies and both qualified component bodies match saved ISA. No new device memory, stream, callback or persistent borrow. Host 37+37 Debug/ASan tests pass on .157 and seven artifacts are collected. The model-only plan freezes 182 fixtures, six manifests and 1030 provider files; numerical component differences remain recorded. Fresh GPU admission is still required. [Contract and limits](Q2-HC-INJECT-RAW-Q8.md).
+
 ## Fixed IQ2 bounds original-model result — 2026-10-06 UTC
 
 One new unchanged exact2048/tg128 model concludes11:35:47UTC:1587.893545 PP/

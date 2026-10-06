@@ -379,3 +379,5 @@ quantization and WMMA arithmetic. Its source manifest binds all1028 files and
 the four-file patch. New orchestration, fixtures and analysis are first-party
 MIT. No sibling DS4/CachyOS source or artifacts are imported; this remains a
 transitional numerical port, not an owned C17 executor or quality acceptance.
+
+HC raw-Q8 injection experiment: `tools/prepare-q2-hc-inject-raw-q8.py` derives a private 1030-file provider from the retained independently fetched Gufo pin f783fedb9bea2ec7de941f6da4e02f4a4596b29e and the measured IQ2 fixed-bound parent. It reuses the original numerical bodies in `experiments/q2-hc-inject-reuse-draft-v3.inc`; their recorded finite injection differences remain. The new allocation identity/capacity policy is first-party C17 MIT. No DS4 or sibling-workspace source/artifacts are imported.

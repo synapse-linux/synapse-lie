@@ -1,5 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [HC raw-Q8 injection trial](docs/Q2-HC-INJECT-RAW-Q8.md) now integrates the already measured component with a guarded 20 MiB borrow from existing expert scratch. Host 37+37 checks pass on `.157`; saved parent and component device bodies are unchanged. One new original-model measurement is prepared. Retain 1587.893545 PP against fixed UD 1685.777092; no speedup is claimed yet.
+
 The [fixed IQ2 bounds model](docs/Q2-IQ2-FIXED-BOUNDS.md) completes at
 1587.893545 PP/25.12414406 TG: nominal+0.163032% PP versus saved1585.308983,
 with overlapping ranges. Retain the marginal private candidate;113 component

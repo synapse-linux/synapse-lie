@@ -18,11 +18,16 @@
     "component_evidence": "config/q2-hc-inject-reuse-component-results.json",
     "known_component_cycle_delta_percent": -0.211436,
     "known_max_abs_difference": 4.76837158203125e-07,
-    "model_provider_implemented": false,
-    "borrow_lifetime_qualified": false,
+    "model_provider_implemented": true,
+    "borrow_lifetime_qualified": true,
     "GPU_admission": false,
     "component_rerun": false,
-    "model_speedup_claim": false
+    "model_speedup_claim": false,
+    "host_checks": {
+      "debug": 37,
+      "asan_ubsan": 37
+    },
+    "model_plan": "config/q2-hc-inject-raw-q8-plan.json"
   },
   "deprioritized": [
     "Compact AoS IQ2 table-LDS placement regresses12\u201320% operator time and1.627%model PP",
