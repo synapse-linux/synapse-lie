@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+IQ2 four-wave releases .157 at2026-10-06T02:04:37.758289UTC,
+SHA256cf9f3b99ded9b5012145a111dad5722347cead379fc7f675c89b62276b05835c.
+Fresh Core closure01:55:10UTC precedes host31+31 and admission01:58:26UTC
+from579c377. Core explicitly reconfirms persistent non-use. Host/component/
+model finish and collect before release:13 exits0/37 artifacts. Closure verifies
+1274 retired identities/1018 groups, empty KFD, four unchanged free leases and
+seven unchanged model stat tuples. Canonical/main/remote release-active-ready
+mirrors agree; Core receives closure. No job/build/client/waiter/reservation,
+restart or cleanup remains. Further GPU work requires fresh admission.
+[Release](../config/q2-iq2-four-wave-window-release.json),
+[audit](../config/q2-iq2-four-wave-final-audit.json).
+
 SSM channel-bounds releases .157 at2026-10-06T01:36:46.129727UTC,
 SHA2568ffd9efb36cf38885a4e9a49a1daa4dafadfd15e8892e591e66c92675ed54f11.
 Fresh closure01:29:38UTC precedes admission01:29:56UTC from7682a9c. New host,

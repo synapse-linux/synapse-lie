@@ -1,0 +1,64 @@
+{
+  "schema": "synapse-lie.q2-iq2-four-wave-final.v1",
+  "plan_sha256": "0f9e75253676a72fb83ee209cc9e11beb5d0fe04e428a1f098e0b890495c1639",
+  "model_result_sha256": "f009fd1c0aa439bb2ded5c043eff75c931fc4e162c712fe8283362caf4ca001e",
+  "component_result_sha256": "4d0cfc56742135fb5f07b2c866855ee1020a78d5fd99456bd379d4a2fa2a3048",
+  "release_sha256": "cf9f3b99ded9b5012145a111dad5722347cead379fc7f675c89b62276b05835c",
+  "runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 37,
+  "host_reused": false,
+  "frozen_fixtures_verified": 107,
+  "frozen_manifests_verified": 9,
+  "provider_files_verified": 1027,
+  "retired_identities": 1274,
+  "retired_groups": 1018,
+  "thermal_max_c": {
+    "q2-iq2-four-wave-host-r1": {
+      "amdgpu": 39.0,
+      "k10temp": 66.0
+    },
+    "q2-iq2-four-wave-component-r1": {
+      "amdgpu": 39.0,
+      "k10temp": 61.5
+    },
+    "q2-iq2-four-wave-model-r1": {
+      "amdgpu": 72.0,
+      "k10temp": 76.75
+    }
+  },
+  "component_parent_exact": true,
+  "parent_model_checks": {
+    "input_exact": true,
+    "output_tokens_exact": true,
+    "changed_files": [],
+    "max_matched_history_kl": 0.0
+  },
+  "within_arm_exact": true,
+  "figures": {
+    "docs/figures/q2-iq2-four-wave-component.csv": "699bee850e5fa22a619198505f8387561f79bcdd413185d7efab1a2f96ed35a1",
+    "docs/figures/q2-iq2-four-wave-component.svg": "d85be90e3bbc5f82a891f91d7246b3dd7a890cdf14325ab9feeeb8d8e9b70a17",
+    "docs/figures/q2-iq2-four-wave-component.png": "9affd1355a04702fd12f590c71c1c79565d3c4ab5e866a40a6c4d3a65138ed63",
+    "docs/figures/q2-iq2-four-wave-model.csv": "e61090f0b553b0dafa8b15a11b05fe2b472d858a63c5424fdedb3dd06f53ec8a",
+    "docs/figures/q2-iq2-four-wave-model.svg": "4484e72674564b4c9e22b1ed078de13dd0e366926e921fc1c84f31b31b2b9d2f",
+    "docs/figures/q2-iq2-four-wave-model.png": "dc9b36fad80913afb73ade131b3af2bc6575c71a377a58dd0452146694725e35"
+  },
+  "raw_model_reanalysis": true,
+  "controls_rerun": false,
+  "full_curve": false,
+  "independent_quality": false,
+  "goal_met": false
+}

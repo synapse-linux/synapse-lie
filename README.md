@@ -1,11 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-The new [IQ2 four-wave candidate](docs/Q2-IQ2-FOUR-WAVE.md) targets the saved
-103.7ms BN64 expert path, keeping its64-row output tile and LDS fixed.161
-other compiled bodies remain exact; the new body has no spill but more
-registers per thread. Local preparation and fresh .157 host31+31 pass.
-GPU component/model measurements remain pending; retained Q2 is still
-1585.308983 PP /25.16079073 TG,6.337447% PP short of fixed UD.
+The [IQ2 four-wave experiment](docs/Q2-IQ2-FOUR-WAVE.md) completes at
+1572.745422 PP / 25.16571902 TG, -0.792499% PP against retained1585.308983.
+All 96 component pairs and 21 parent model files are exact. Keep the saved
+1585.308983 / 25.16079073 provider. The positive 512-expert component uses
+only BN64 tiles; the real model mixes BN128 and BN64. The next expert work
+prioritizes the real route distribution. Host31+31 passes, all 37 artifacts
+verify and .157 is released. The fixed UD point still requires 6.337447% PP.
 
 The [SSM channel-predicate experiment](docs/Q2-SSM-CHANNEL-BOUNDS.md) completes
 at1584.785508 PP /25.15417889 TG, nominal-0.033020%/-0.026278% versus retained

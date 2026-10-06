@@ -65,3 +65,69 @@ and the profile has only5.090460ms between prefill kernels.
 [static audit](../config/q2-iq2-four-wave-static.json),
 [plan](../config/q2-iq2-four-wave-plan.json),
 [profile](Q2-CURRENT-BEST-PROFILE.md).
+
+## Completed GPU and original-model result
+
+The model completes on .157 at 2026-10-06T02:03:58.692617+00:00. Keep the saved
+1585.308983 PP / 25.16079073 TG provider. The new candidate measures
+1572.745422 PP / 25.16571902 TG: -0.792499% PP and +0.019587% TG.
+All three new PP samples are below the saved parent range. Historical controls
+are reused, so this is not a contemporaneous causal attribution.
+
+All 96 complete component pairs, all 21 parent model files and all nine
+within-arm replays are exact. The inherited independent quality gap remains.
+The four GPU/model commands and three component commands all exit zero.
+
+| Component | Parent microseconds | New microseconds | Time change |
+| --- | ---: | ---: | ---: |
+| mixed-e64 | 3783.618927 | 3752.979914 | -0.809781% |
+| mixed-e128 | 4091.877937 | 4174.888929 | +2.028677% |
+| mixed-e512 | 5514.080048 | 5351.764679 | -2.943653% |
+
+| Model sample | Prefill seconds | Prefill tokens/s | Decode seconds | Decode calls/s |
+| --- | ---: | ---: | ---: | ---: |
+| Warmup | 1.302495684 | 1572.366055 | 5.056792200 | 25.11473578 |
+| Measured 1 | 1.302181505 | 1572.745422 | 5.046547642 | 25.16571902 |
+| Measured 2 | 1.301925727 | 1573.054405 | 5.044781306 | 25.17453033 |
+| Measured 3 | 1.303460063 | 1571.202723 | 5.048952932 | 25.15373023 |
+| Three-sample median | 1.302181505 | 1572.745422 | 5.046547642 | 25.16571902 |
+
+Model allocation remains 43,156,012,544 bytes, deferred scratch 7,946,240 bytes
+and session allocation 376,777,748 bytes. Loading takes 11.93061401 seconds;
+compilation and loading remain outside PP/TG. No public C17 ABI, persistent
+state or metrics contract changes.
+
+### Component distribution finding
+
+The 512-expert synthetic case has zero BN128 tiles and 512 BN64 tiles. Every
+layer in the saved fixed-input model profile has 128–159 BN128 tiles and
+89–359 BN64 tiles. Their median counts are 139.5 and 294.5. Thus the positive
+component case matches expert cardinality but not the model tile distribution.
+This does not isolate the regression cause. Per-expert tail occupancy is still
+missing from that trace, and no unmeasured dispatch threshold is promoted.
+
+The next expert experiment should recover the exact fixed-input route counts
+and measure the affected short/full tails before selecting a launch geometry.
+Extending this four-wave implementation blindly to BN128 is not justified.
+The [bound coverage audit](../config/q2-iq2-routing-coverage.json) retains all
+three synthetic geometries and the 48-layer model ranges without a GPU rerun.
+The fixed exact2048/tg128 acceptance benchmark stays unchanged.
+
+All 13 host/component/model commands exit zero and 37 artifacts verify;
+107 fixtures, nine manifests and 1027 provider files remain exact. Both charts
+are visually reviewed. The window releases at 2026-10-06T02:04:37.758289UTC,
+SHA256 cf9f3b99ded9b5012145a111dad5722347cead379fc7f675c89b62276b05835c.
+All 1274 recorded identities / 1018 groups are retired, KFD is empty, four
+original leases are free, seven model stat tuples are unchanged and canonical,
+main and remote mirrors agree. Core receives closure; no job, build, waiter,
+reservation, restart or cleanup remains.
+
+[Component samples](figures/q2-iq2-four-wave-component.csv),
+[model samples](figures/q2-iq2-four-wave-model.csv),
+[model result](../config/q2-iq2-four-wave-model-results.json),
+[final audit](../config/q2-iq2-four-wave-final-audit.json),
+[disposition](../config/q2-iq2-four-wave-disposition.json).
+
+![All component samples](figures/q2-iq2-four-wave-component.png)
+
+![All new and saved model samples](figures/q2-iq2-four-wave-model.png)

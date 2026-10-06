@@ -1,5 +1,36 @@
 <!-- SPDX-License-Identifier: MIT -->
-# Focused optimization queue after shared-Q8 component timing
+# Focused optimization queue
+
+## Current priority after the 6 October IQ2 four-wave measurement
+
+Keep1585.308983 PP /25.16079073 TG. Fixed UD1685.777092 requires6.337447%
+more PP, equivalent to76.991736ms less prefill at the same2048 tokens. The
+new four-wave trial is complete and negative:1572.745422 PP, despite a2.944%
+component-time reduction at512 experts.96 component pairs and21 parent model
+files are exact. No saved control is rebuilt/rerun and no full curve is started.
+
+The [routing-coverage audit](../config/q2-iq2-routing-coverage.json) identifies
+a concrete screening limitation: that512-expert component has zero BN128 tiles,
+whereas every saved model layer has128–159 wide tiles plus89–359 narrow tiles.
+Matching the number of experts alone does not reproduce the distribution.
+This is evidence of a mismatch, not causal proof of the performance regression.
+
+| Order | Concrete next work | Evidence and boundary |
+| --- | --- | --- |
+| 1 | Recover exact per-expert counts for the fixed input, then evaluate the IQ2 layout by real tail occupancy. | BN64 costs103.692ms in the saved1571 trace. Determine the actual one/two/three/four live16-row fragment distribution before selecting a four-wave threshold. No new kernel threshold is implemented or justified yet. |
+| 2 | Reduce repeated activation/dequantization work in IQ2 BN128 without doubling all live accumulators. | This separate path costs135.808ms. Extending the negative four-wave source blindly is not an accepted optimization. |
+| 3 | Connect Q2 down to ordered expert consumption with a concrete buffer-ownership design. | Down costs161.558ms, with additional consumer traffic. The existing100MiB half intermediate remains; unordered atomics change arithmetic and a ten-pass F32 buffer can increase traffic. A new complete-cycle implementation is required. |
+| 4 | Remove a real full-buffer pass in HC combine/norm/inject. | The family costs186.168ms in the saved trace. Existing row reuse, deferred MoE norm and half-output consumers already exist; do not count them as new work. |
+
+Ten/twenty percent less time across the three expert kernels would save40.106/
+80.212ms in that saved trace. Those are sensitivity calculations, not predicted
+gains. Trace attribution is on1571, not a fresh1585 timing. Additional SSM
+predicate changes, full-residency streaming cache and host callbacks are lower
+priority after their measured negatives and the5.090ms prefill inter-kernel gap.
+Shared-down mirrors and the four SSM follow-ups below have since been measured;
+their historical preparation entries must not be read as the active queue.
+
+## Earlier queue entries
 
 The [SSM row-group composition](Q2-SSM-ROW-GROUP.md) is completed, not pending: exact30-pair/60-FP64 component timing improves1.321083%, while model1576.943074 PP regresses0.207796% against saved1580. All21 parent files are exact. Retain the source; keep1580 as the base. Next prioritize the prepared alternating-buffer SSM, with compact-LDS and fixed-shape/bounds sources retained separately. The first campaign is released; subsequent runtime patch application, new plan binding and fresh admission are still required.
 

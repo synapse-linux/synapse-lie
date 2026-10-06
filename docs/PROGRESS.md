@@ -1,5 +1,23 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [IQ2 four-wave experiment](Q2-IQ2-FOUR-WAVE.md) completes at
+02:03:58UTC with1572.745422 PP /25.16571902 TG, nominal-0.792499% PP versus
+saved1585.308983. All96 component pairs/21 parent model files/nine replays
+are exact. Component time changes-0.810%/+2.029%/-2.944% at64/128/512 experts;
+the positive512 case has zero BN128 tiles, unlike every layer in the saved
+model profile. The new bound routing-coverage audit establishes that mismatch,
+not the regression's cause. Keep1585; no new throughput increment is claimed.
+
+Fresh host31+31 and new component/model yield13 zero exits/37 artifacts;
+107 fixtures/nine manifests/1027 provider files and six complete exports
+verify. Both charts are reviewed. Release02:04:37UTC SHAcf9f3b99 retires1274
+identities/1018 groups, KFD empty, four unchanged free leases/seven unchanged
+model stat tuples, canonical/main/remote mirrors exact. Core receives closure.
+No Q2 job/build/waiter/reservation or cleanup remains. This turn advances the
+goal by measuring a new candidate and narrowing the next experiment to actual
+expert shapes. The6.337447% fixed-point PP requirement remains; full curve/Q4
+are deferred. Preparation entries below retain their historical state.
+
 The [IQ2 four-wave candidate](Q2-IQ2-FOUR-WAVE.md) now has a source/assembly
 audit,96-pair guarded fixture and matched component/counting launcher modes.
 Only nonpacked BN64 changes;161 other bodies/resources remain exact.
