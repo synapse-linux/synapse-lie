@@ -1,6 +1,32 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## JSON ownership passes selected original-weight GPU gates — 2026-10-06 UTC
+
+The sealed `dbdac28d` source builds coherent 105-file HIP ON/OFF providers and
+private LIE/model/reference consumers on `.161`. Both original-weight modes
+pass **37 general OpenAI controls and 66 separate integer checks**, including
+60 exact JSON/SSE outputs and six expected HTTP400 refusals per mode.
+[GPU receipt](development/validation/c17-json-slot-point-gpu-2026-10-06.json)
+and [portable complete evidence](development/validation/raw/c17-json-slot-point-gpu-2026-10-06.tar.gz)
+bind source, binaries, fresh admissions, outputs, exit codes and closure.
+All three runs and their collections exit 0 against the matching HOST105
+inventory. The preceding HOST receipt retains its original scope; its lifetime
+fault checks do not become GPU fault qualification. Initial read-discovery
+exit 2 remains retained; no build or inference rerun occurs.
+
+Peak CPU temperatures are 73.625 C for the device-free build, 66.25 C for AR and
+68.25 C for MTP. Both inference windows observe 44 whole-process threads;
+the JSON ownership port adds no inference worker or measured speedup. CPU98,
+NVMe85/lower guards and GPU observation remain unchanged. Fresh closure at
+18:43:45.687731 UTC verifies all three exact supervisor/init/container identities
+absent, HTTP port 8000 unbound, the original lease (device 66307 / inode 105946405)
+free and released, and router PID 208314 restored. Root holds no remote job, lease, waiter or reservation
+and does not use `.157/.158`. All six owned tasks remain open; Terminal Bench
+stays last. Typed schema/grammar construction/bootstrap/callback errors and
+model/controller ownership, broader numerical/branch/fault/resource/quality and
+matched-cost gates remain open.
+
 ## JSON ownership and lazy state move into C17 — 2026-10-06 UTC
 
 The model-neutral `lie_json_value_slot` API owns root/borrowed admission, lazy

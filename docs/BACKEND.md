@@ -32,13 +32,13 @@ the next source work is the remaining C17 extraction (item 7). No Terminal Bench
 client/server restart or machine reservation is queued in the meantime.
 
 1. **Completed: selected original-weight OpenAI GPU controls.**
-   The latest qualified runtime `050ae826` passes **37 general OpenAI checks
+   The latest qualified runtime `dbdac28d` passes **37 general OpenAI checks
    and 66 additional bounded-integer checks in each AR/MTP mode** on `.161`.
    Tools, JSON/SSE, output budgets and retained Responses lifecycle pass;
    integer checks cover 60 exact outputs and six expected HTTP400 refusals per
    mode. Matching HIP ON/OFF builds, collected wire evidence, actual exits0
    and exact process/service/lease closure are verified.
-   [Current qualification](development/validation/output-schema-integer-point-gpu-2026-10-06.json).
+   [Current qualification](development/validation/c17-json-slot-point-gpu-2026-10-06.json).
    Broader task quality, probabilities, fault coverage and performance remain
    separate acceptance gates in the six open items below.
 2. **Deferred: run Terminal Bench after the functional modifications.** Use the pinned
@@ -322,7 +322,10 @@ client/server restart or machine reservation is queued in the meantime.
    [HOST receipt](development/validation/c17-json-slot-host-2026-10-06.json)
    records five Release, five sanitizer, 58 provider and three contract checks;
    all 30 complete preceding groups/267 files are unchanged. Private facade
-   sizes remain unchanged. Matching new-source HIP/AR/MTP gates are pending.
+   sizes remain unchanged. The matching `dbdac28d` coherent HIP ON/OFF build
+   now passes 37 general and 66 integer controls in each AR/MTP mode on `.161`
+   ([GPU receipt](development/validation/c17-json-slot-point-gpu-2026-10-06.json)).
+   Selected continuation is qualified; broader branches, faults and cost remain open.
    Typed schema/grammar construction/initialization/callback-error facades and model/controller
    ownership remain transitional. This step does not close any of the six items.
    Compiler orchestration/typed facades/model ownership and broader branch,

@@ -1,0 +1,3220 @@
+{
+  "schema": "synapse-lie.c17-json-slot-point-original-qualification.v1",
+  "at_utc": "2026-10-06T18:44:08.318937+00:00",
+  "state": "PASSED_WITH_STATED_SCOPE",
+  "source_commit": "dbdac28df9169b7d292b24e950551ca957329ca1",
+  "target": "pop@192.168.5.161",
+  "gpu_target": "gfx1150",
+  "model": "Qwen3.8-Flash-Next UD-Q4_K_XL",
+  "upstream_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "C17 JSON root/borrowed/lazy ownership and copy/move lifetimes selected original-weight continuation: coherent ON/OFF105 providers/private consumers; 37 unchanged general OpenAI and 66 integer JSON/SSE controls in each AR/MTP mode. Independent HOST ownership/lifetime fault witnesses remain separate. No whole JSON Schema, fully owned model executor, independent probability/recall/quality/fault/performance qualification.",
+  "host_receipt": {
+    "path": "docs/development/validation/c17-json-slot-host-2026-10-06.json",
+    "bytes": 214661,
+    "sha256": "d28bdde72038348c93b2bdef776928cab4025d3b9ab92bfaa978ba4b6be45c77"
+  },
+  "source_capsule": {
+    "path": "evidence/context-r35-source-seal.json",
+    "bytes": 1469,
+    "sha256": "28d1d92308b2541df685e002765357156550293e145b8f6a35f633777169207c"
+  },
+  "source_manifest": {
+    "path": "evidence/context-source-modern-r35/SOURCE-FILES.sha256",
+    "bytes": 349855,
+    "sha256": "da0fbe572c9fa583b905b3b3bc563a96a7b216f21a743ead7f87f1d7941120aa"
+  },
+  "bundle": {
+    "path": "evidence/context-r35-bundle-result.json",
+    "bytes": 1375,
+    "sha256": "a1946c88059ac9943f09331c362f4ec8ddb470d80bbf2fd269019bd0908c3d5b"
+  },
+  "provider_build_receipts": [
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/build/rocm10-point-modern-r35-provider/BUILD-RECEIPT.json",
+      "bytes": 138400,
+      "sha256": "0e1924380aef1a30757800188ffd1f99015ec4121deae6fdab9043e51bb55de6"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/build/rocm10-point-modern-r35-reference-provider/BUILD-RECEIPT.json",
+      "bytes": 138452,
+      "sha256": "919ebca11e12675942be0906cfd9c1967e6082d8f732b8eecb8713665aca4083"
+    }
+  ],
+  "compile_collection": {
+    "path": "evidence/context-r35-build-r1/compile-evidence/collection.json",
+    "bytes": 17262,
+    "sha256": "1e1c4ceaca1a413390d79698f6f942ec92b8b8ff49d609bb86ae3e112ee5d48e"
+  },
+  "compiler_linker_coherence": {
+    "path": "evidence/context-r35-build-r1/coherence-evidence/collection.json",
+    "bytes": 10703,
+    "sha256": "239600b4d071c383ca773083f7dee26d3fe9329fca2f6fee9288acbb71ae5a05"
+  },
+  "compiled_provider_files": {
+    "adapters/gufo_composition_cache.hpp": "77506a2ba4a009fef67456013d19e15535abeabc906e8b8d8607c3d637d905b8",
+    "adapters/gufo_distribution.hpp": "7b0370bf509a1a99370b48877fb7e3b8a4d060bf6c8fcdc037a090a72ef6169d",
+    "adapters/gufo_grammar.hpp": "16e73d18a411edaf20a8a548bc70b84589820212365eff46a8c7e29cb4ce5e4d",
+    "adapters/gufo_grammar_builder.hpp": "094c1474347afd5ac235bf89fe21d06cc990429e9393aa7f924ac799c6f42912",
+    "adapters/gufo_grammar_cache.hpp": "62d01ddae21a28175a0db91407204ebfff8bf9068a182d636c57fbf1186d304a",
+    "adapters/gufo_grammar_composition.hpp": "fb52f93d3883a2ddfcbb43c0980c8ac6b438eb67cf55f88cfe1104647fb8463d",
+    "adapters/gufo_grammar_lexeme.hpp": "e3c1459b3795e072643dde293a714d77641dd3b0be8bbe715d73070ac672748a",
+    "adapters/gufo_grammar_number.hpp": "f13f2a25ab3f4c7824953b39d60a0e596c3bc266143cb4b6fb48446fa1b53c34",
+    "adapters/gufo_grammar_regex.hpp": "45828984d95b4be1b7dd869793576b08c8f7e709ed3dc5931332c43f39ad434f",
+    "adapters/gufo_grammar_regex_compile.hpp": "c8c7190ba2be8997270a3701fad4c0b2804b23e7283497b212b6b233886ca249",
+    "adapters/gufo_grammar_regex_parse.hpp": "930b4e20b6f1294ec499639eb3c26997779af50924fd829e9685ec9bfae67b96",
+    "adapters/gufo_grammar_state.hpp": "b2cf0a703e10ef6a86c3a83f554c29b5d00be25cfb0e9f97b7cf0ec14be2d2a6",
+    "adapters/gufo_grammar_string.hpp": "81608a7cdd2a98d5fd960ebf12a2a9eb7875dfb77607ef7b8f570a877bbca5e2",
+    "adapters/gufo_grammar_vocabulary.hpp": "49b52fd81cdb6f1093aab3a04d0b677fb21aa93a6a7b642958ea4b8eeccd2fcc",
+    "adapters/gufo_history.hpp": "2ea84ec1d0ed3367da9105132e0e2cb532d5df5dd132f830834455a8d9fd2998",
+    "adapters/gufo_json_parse.hpp": "9b8c7c23226e6dc3aa8cb97a29b8168bfac8379e64f5db38cf454f8fdbb4f06b",
+    "adapters/gufo_json_value.hpp": "45a6830edaf9810cdc3c5e58f09a428fcdd1d8efa32ff3ae63deda2c1c50cc02",
+    "adapters/gufo_sampling.hpp": "a80a797acabcf4b0647de55bdd95bba93f8f85d5ccb98f8d47f62c1f7a6dae2d",
+    "adapters/gufo_schema_body.hpp": "a13d281b7e63930765ab5159195f93939528fcd6fa7d3171768da6f63c5d7e44",
+    "adapters/gufo_schema_compile.hpp": "41e4e359a4a890d893ef26519fdbd2de1f530d1406b177ba00827f204bfb0534",
+    "adapters/gufo_schema_dispatch.hpp": "b6297c9abb7f8fa01a2b3279559fe31897f3d18e0e02bb1e45e0ca6704ab64c1",
+    "adapters/gufo_schema_format.hpp": "02c59fbd7382d063b4a75b48acb610e5a94514597717d3b994d1b4a6de97d8fe",
+    "adapters/gufo_schema_integer.hpp": "366a5df4a04be137d8756ef87924bb8a4be9372663d1eaf3829ca78f05171964",
+    "adapters/gufo_schema_memo.hpp": "a03bf6772145fd2b184d76772e59a0b2577814850cdb2e00e7b791efaab57a16",
+    "adapters/gufo_schema_number.hpp": "e1e7fe4159cd3f2bd960fcc857c7d4e22c5c1726cca2c30ce24ea331da3b657f",
+    "adapters/gufo_schema_root.hpp": "cd06dda456f0b68f516394efae78ea452628d315745f6f77baffab4c27a264d3",
+    "adapters/gufo_schema_store.hpp": "b13dae2b78bfbc1fc466a64ddc0d39f411803c20d6d181857a50f356c59bca3d",
+    "adapters/gufo_schema_transform.hpp": "d7793f0c7380ff707cfc28a1fd812d760c15a9ffc1dbee087d8bf52ba077c0e9",
+    "adapters/gufo_schema_values.hpp": "5dd936e1a2e6eb2acce535f0816b5e6f34bff40fba167686d240376d71f762b9",
+    "adapters/gufo_schema_visit.hpp": "36bc2c418253f8f8dbe56336fbd88efe9608cea022c9f11acd526125dccd20b1",
+    "include/lie/binary64.h": "c9946b47a45cea79d98c1241609bed292a30a68643f9db16bf8ffc470bd3b141",
+    "include/lie/grammar.h": "4bb7d530b6977868dedead7eeca18aca779ad2d8970f9bae70890c767ebd9b76",
+    "include/lie/grammar_builder.h": "4f6749ffbd46bbc52ce54f5b038939085b9be8303b36b1041d9fa1e8b02bf89a",
+    "include/lie/grammar_cache.h": "57b822369091ef4e06dfda530f112d5d22b29c804e5f77dd7610269aa9763ec0",
+    "include/lie/grammar_composition.h": "d19f27a126322e7e29532a2917120f3a9d771e2688f9081449f2806a17ecbe8a",
+    "include/lie/grammar_lexeme.h": "d27e9cbca26c43940605de077ef22b80b86b5836af85e0b6557ffa358dbf9171",
+    "include/lie/grammar_number.h": "576309604c14fb1e7ec75fa9423c5b54427302e5a5d1f22ea86c55cd5b448f6a",
+    "include/lie/grammar_regex.h": "3d0fad812ccf1885874a05c0f814af67cc92ae534c2f4d82061115bba5dd849e",
+    "include/lie/grammar_regex_compile.h": "e4f77df63c3f9cf4101778258aff38ee8f63f81718ba1d74d63b90897a80e838",
+    "include/lie/grammar_regex_parse.h": "973c6273c11a1ad28287f8e25a185d92df86036d3346e3aea41a5191256065e8",
+    "include/lie/grammar_string.h": "e122f37df0d485ee3acc31f7871ca4410eb2f399e097c4f73dd5ca6b75b06ac9",
+    "include/lie/grammar_unicode.h": "9c715179a3377435329f6851235ea72d87d150d6c6ca7728caec7bcd0dea8f86",
+    "include/lie/grammar_vocabulary.h": "30bfe3435e21af1ad40d4c295fa8c2a670e5893958a36f8a60d04dafabd1f619",
+    "include/lie/json_parse.h": "fd12f8804298b68767ada7b19b80ecf3c1b91a615e028ebd601f797cf716db5e",
+    "include/lie/json_store.h": "1bb73cf2a8f13e45bbfab2c09a8aaf8804a8d4173ce2925b41040091d548b576",
+    "include/lie/json_value.h": "2a232cf82d9e37870dd38da88a7e674ae1079e1bab2bdbdde389f17abb6a3e1e",
+    "include/lie/ordered_cache.h": "32a7929f0127f28f8e639d57f6bfe050122a7f619bd1a19dd7fadc47fdebdf89",
+    "include/lie/sampling.h": "8196861ddbd9ffc2696170561def1b3e53b94182953487b5819fc848dbd15d09",
+    "include/lie/sampling_distribution.h": "1e80e4a6d3404804f44d32588bde6fc2e5231e9d9e726da2697dbbbf9c9c9555",
+    "include/lie/sampling_history.h": "281311d757079302b9aef0f2833e26fdd59a6ac604d7ec079dd14a21988b1597",
+    "include/lie/schema_body.h": "6bb82ce97c9f7156fe48fcd16e86508b1fbf2a7c582cd933fc8f06101040397f",
+    "include/lie/schema_compile.h": "28ade0fa8da21a14651c036a10c8ca044a93fa1958e198f6b89cf90c4701efd2",
+    "include/lie/schema_dispatch.h": "55c3f27f4d80a96cb4c026360b649d992f8e507b05bfd8202d731d4c6d44ae9e",
+    "include/lie/schema_format.h": "6b64af2b97444d3b79372564f08509261935eef7b060bbc3a56f9fda9fe03fda",
+    "include/lie/schema_integer.h": "966b0721d5ed4c9da06827c920b7f578ef8d0eab02acd56f81e52d699627c666",
+    "include/lie/schema_memo.h": "ce967e1cca82de2526bea1ff711c7fb5af33b2ce3b6b070cfff85640f2f1bd82",
+    "include/lie/schema_number.h": "88153e42bc2abd4d6b5c1b815b6f70236a4f91e5669e41e4daa66dbf6f724f79",
+    "include/lie/schema_root.h": "692482e3902cbf9511a98e6826f6ef3b829e11e0093cf1ecde39c83dbc622698",
+    "include/lie/schema_transform.h": "87aa7b05940598790ed2fd2feb1e8328e81adac0b1f49691abf416a38aff4209",
+    "include/lie/schema_values.h": "41d0e84736c1593b225c0d73ee652290a73ecb53cd5e600075a3acf83ed60164",
+    "include/lie/schema_visit.h": "9e6ce89bda7c6743b3b9f7fe36d17639a3eaeeaeaf72e81c5f846d0ab3bf2db3",
+    "src/binary64.c": "91b272dc793a5e7e8fe7a23565334e000ba679b90c78e0bcc80388653dbb6a57",
+    "src/grammar.c": "1cbd0e696df67cf860372bb8a71b7c2f522ae3149d31a36891ab1b221970455e",
+    "src/grammar_builder.c": "6718814c6e2f318f41264cce0909b807f02816c46ceef0f8c2ae6854c14ac4f8",
+    "src/grammar_cache.c": "e7dfe04eae201d9a02c01e867ebf4ffd4b1d1e28f3a7b6a2a47281ef426e7349",
+    "src/grammar_composition.c": "0c753809cb46935c1e1f67736e4d8d915ef9213b00acb3e8b89c09d827005bc2",
+    "src/grammar_lexeme.c": "0e9a48925b066471b5923c09006c8a01d3e1d45fe55be3f1c075aadf8f484806",
+    "src/grammar_number.c": "f9475e1e17402271b1855343395e2e6d572e1b893a25f4a6d74204145d40e5ea",
+    "src/grammar_regex.c": "9c0b784af9e1224788700aa7903f3c896689125c88f7a80f37de485d747ab26c",
+    "src/grammar_regex_compile.c": "35fc72306f922f28e5be23dfcb8a890e4176c265f395c471e7ad80a6c97788fb",
+    "src/grammar_regex_parse.c": "bf44aa90b933250256ca58511d9d36d306763614b339f568b3994111c9f0e112",
+    "src/grammar_string.c": "d9f1000350ac35e900807977aeec8af69e808633481068fcbdbf0705ef8c10ef",
+    "src/grammar_unicode.c": "b2c97a0309e83ee9d7ca79c0fb4ce14e0f15c2e1ee400616602d37e9c1b71a23",
+    "src/grammar_vocabulary.c": "c06c8711ad7a1d5916a5b983b1e7d433a0a9c3e97748a870fed3308da1970e9b",
+    "src/json_parse.c": "65e3e1474e00856fb625d7c1bced7a01f974bc0dcd7d8496b0a0943a456e95b6",
+    "src/json_store.c": "f99cc84befe6adbc993b065b0a45fce2b9ec407a1e5b891f3a8f4760a6efea08",
+    "src/json_value.c": "31da6bbebc9e4272ddc3196ea625537b6a50a5573cf473534f895dbef5f8aca7",
+    "src/ordered_cache.c": "435a75278909ec58b8da565e810ff6c4687b311f43bdd78e44ef3c445cb6eccf",
+    "src/sampling.c": "f2faac79a00fb7b74217283ae3782041c46af9fcce4d64f796b5015f6e0b1439",
+    "src/sampling_distribution.c": "9e459e1c14dc20c44a132a57401e84120a70495c28b963b33667d57f9ec0592b",
+    "src/sampling_history.c": "e66e74c690d274804e17b3127ddb0bf5837c7f3403a76e2980b99e1a13578398",
+    "src/schema_body.c": "37576082f767878f85af38787c51903fe76ea3a89bf8f269765c8c3607146f24",
+    "src/schema_compile.c": "6030118ce992bfa6a8c57ced640f3dae5d873bcc79f8af1efe03119c1710d1a9",
+    "src/schema_dispatch.c": "5737821a1f215c663da03906c5701702cb6f59d5250ba5aae11127c0bc025bc7",
+    "src/schema_format.c": "53f36f462f750e6d07c03dbe8257ffa34983c732fc86418bde9adba6e8e8b7f6",
+    "src/schema_integer.c": "de87134b47385b16fa7e435b79dbbda0b21748fb39c6aa26816ab916b507bad0",
+    "src/schema_internal.h": "ff1e3a45b1b0de2081e47acb1889f80303f87199dbdfe53492c35750f604f27b",
+    "src/schema_memo.c": "d26aee14562b0542db03a822e9eef071b98f6351e64282e33ad580c003357dfd",
+    "src/schema_number.c": "c1d3236dae4eeb632544cb237077a8dbabe23e49d062e574bcb1a4822689aecd",
+    "src/schema_root.c": "b4244b7b75a30efbe29628ec5949412d3cdcca2eea62111026670067ec10382b",
+    "src/schema_transform.c": "527ae6ba4e07202fd832ce9588aea3ec562e3c726c69113b29e624fffeefd169",
+    "src/schema_values.c": "a2413e3cc39f844e5d62106d54e9ad85540aee89edaa41e7db8a2c29132c6609",
+    "src/schema_visit.c": "ef1bedc0d628f0e21f08bc8251bd26bf9f84306a0fb15c2cd6ea36913b132a72",
+    "third_party/ryu-source.json": "739d0c0b49d81aaa93dd38df38c95421f521b2a3ecaee76ae6f99b353ed2135e",
+    "third_party/ryu/LICENSE-Apache2": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "third_party/ryu/LICENSE-Boost": "c9bff75738922193e67fa726fa225535870d2aa1059f91452c411736284ad566",
+    "third_party/ryu/ryu/common.h": "0bbd71d26da6193e678d0776cf418f43f287c73d6fd6725353df0aadf70f2a19",
+    "third_party/ryu/ryu/d2s.c": "d24323c7eb77d63f1e52c415212b50060b776f0883525d907d04954fcd48cf64",
+    "third_party/ryu/ryu/d2s_full_table.h": "2618f6e5fae6c4443899b184efe3d08295dd267dc9f1a994c983c7caca59ebe6",
+    "third_party/ryu/ryu/d2s_intrinsics.h": "1d05702f2edacce428223d4b43dd3095c1bd1f3ad30128ce1761d84356dddc7d",
+    "third_party/ryu/ryu/d2s_small_table.h": "54fec51f1c5eed786a8ce6de881b81582dd71f0812dcd4324b37396617bb0fa9",
+    "third_party/ryu/ryu/digit_table.h": "8b782573abc0b8554d74163ae6c02f0beb5c30d1e63eaebdb0ddf2c98d817e01",
+    "third_party/ryu/ryu/ryu.h": "b7feab0ba1df5e9ef3d602f386592ad152491405e49b408fb21c0e0e9e6bfb16",
+    "third_party/ryu/ryu/ryu_parse.h": "da8ad9764b2701627cb75926b9d14b540fdfd7be693d671da9594eb16dabd27a",
+    "third_party/ryu/ryu/s2d.c": "9485e78f329ec1cf931b737333ef7bd85195864dfb9dd096413f0d336a7a46d3"
+  },
+  "official_Gufo_HTTP_frontend_built": false,
+  "reference_control_coherent_off": true,
+  "runs": [
+    {
+      "label": "context-r35-build-r1",
+      "mode": "build",
+      "source_commit": "dbdac28df9169b7d292b24e950551ca957329ca1",
+      "started_at": "2026-10-06T18:19:09.435782+00:00",
+      "ended_at": "2026-10-06T18:24:11.900822+00:00",
+      "supervisor_pid": 199404,
+      "supervisor_start_ticks": 17970580,
+      "container": "862ef653d4aaac244f4bfe398f09765b4c01e573ac169eaeb44aa306ace3cfd8",
+      "original_lease": {
+        "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+        "device": 66307,
+        "inode": 105946405,
+        "cooperative_lie_only": true
+      },
+      "lease_released_at": "2026-10-06T18:24:11.900811+00:00",
+      "router_restored": {
+        "MainPID": "204816",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "actual_exit_code": 0,
+      "child_exit_code": 0,
+      "controller_exit_code": 0,
+      "peak_c": {
+        "nvme": 46.85,
+        "amdgpu": 45.0,
+        "k10temp": 73.625
+      },
+      "telemetry_rows": 263,
+      "artifacts": [
+        {
+          "path": "evidence/context-r35-build-r1/manifest.json",
+          "bytes": 1374,
+          "sha256": "a25bdaf8ee4106dadc00ec6fac7ae86d88970bb7fd27e6416e7b3777c8366be2"
+        },
+        {
+          "path": "evidence/context-r35-build-r1/result.json",
+          "bytes": 149077,
+          "sha256": "cf9c0a53f5f575503d3fc36e8a2cd495428c65f4b7807ec63b46adb471740f60"
+        },
+        {
+          "path": "evidence/context-r35-build-r1/runner.py",
+          "bytes": 112434,
+          "sha256": "d1dd434d41f046245afe060d69b299ad2bc5845ea36e8cec481e625733648d3a"
+        },
+        {
+          "path": "evidence/context-r35-build-r1/stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r35-build-r1/stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r35-build-r1/telemetry.jsonl",
+          "bytes": 354049,
+          "sha256": "3f4999f1300008107102b7145f4ed300f7b8818ac53f528e3996b8e9ede4f2bb"
+        },
+        {
+          "path": "evidence/context-r35-build-r1/collection.json",
+          "bytes": 3072,
+          "sha256": "6f7a0470bafd08f61b24b1b11195882fe4e9ebf257b580d8ee8ed04611477136"
+        },
+        {
+          "path": "evidence/context-r35-build-r1/controller-result.json",
+          "bytes": 541,
+          "sha256": "ec94bc56fdc85ac73f5b302e654fce8041f0daf5135e23987fbeff241451f698"
+        }
+      ],
+      "actual_window_retired": true,
+      "closure": {
+        "container_identity_source": "native supervisor result",
+        "container_init_pid": 199477,
+        "container_init_start_ticks": 17970703,
+        "label": "context-r35-build-r1",
+        "supervisor_identity_absent": true,
+        "container_init_identity_recorded": true,
+        "container_init_identity_absent": true,
+        "container_absent": true,
+        "container_inspect_exit": 1,
+        "container_inspect_stderr": "error: no such object: 862ef653d4aaac244f4bfe398f09765b4c01e573ac169eaeb44aa306ace3cfd8\n",
+        "label_listing_exit": 0,
+        "label_listing_empty": true
+      }
+    },
+    {
+      "label": "context-r35-integer-ar-r1",
+      "mode": "ar",
+      "source_commit": "dbdac28df9169b7d292b24e950551ca957329ca1",
+      "started_at": "2026-10-06T18:26:19.746136+00:00",
+      "ended_at": "2026-10-06T18:34:49.881770+00:00",
+      "supervisor_pid": 205534,
+      "supervisor_start_ticks": 18013610,
+      "container": "905222e07d57efe4399f932f332c6a88d10908192a6f42ce86c15f662e8484a3",
+      "original_lease": {
+        "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+        "device": 66307,
+        "inode": 105946405,
+        "cooperative_lie_only": true
+      },
+      "lease_released_at": "2026-10-06T18:34:49.881753+00:00",
+      "router_restored": {
+        "MainPID": "206792",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "actual_exit_code": 0,
+      "child_exit_code": 0,
+      "controller_exit_code": 0,
+      "peak_c": {
+        "nvme": 64.85,
+        "amdgpu": 70.0,
+        "k10temp": 66.25
+      },
+      "telemetry_rows": 491,
+      "artifacts": [
+        {
+          "path": "evidence/context-r35-integer-ar-r1/distrobox-create.log",
+          "bytes": 269,
+          "sha256": "2b781155596ff7f67c950d67064f3c784d4c0eb3493968ddbc4bc4218ce1b171"
+        },
+        {
+          "path": "evidence/context-r35-integer-ar-r1/distrobox.stderr.log",
+          "bytes": 1073,
+          "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+        },
+        {
+          "path": "evidence/context-r35-integer-ar-r1/distrobox.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r35-integer-ar-r1/http-controls-result.json",
+          "bytes": 2973,
+          "sha256": "a2a2e9b4e21d0577393b98c3b0c1b4f60889e1549bdeb1eb592de1274f6c9a02"
+        },
+        {
+          "path": "evidence/context-r35-integer-ar-r1/http-controls.py",
+          "bytes": 18408,
+          "sha256": "5a52223a674d850f4493794cc5cc190e807abd10b01adbe9faa29285fa0b54bd"
+        },
+        {
+          "path": "evidence/context-r35-integer-ar-r1/http-gate.py",
+          "bytes": 19320,
+          "sha256": "4aa144c9484dd2d9c1c421841291acd7b40b7d90275f7577288ac01fb9494605"
+        },
+        {
+          "path": "evidence/context-r35-integer-ar-r1/http-output-budget-result.json",
+          "bytes": 5475,
+          "sha256": "043d0b195d765c90d49a11ed8ed70ccc013632aa9dbd2f75699b94c75f87f0b0"
+        },
+        {
+          "path": "evidence/context-r35-integer-ar-r1/http-output-budget.py",
+          "bytes": 7386,
+          "sha256": "46fe16867cc37ab0ec684b02c4a1ae87dbf412b108bb6c5f1f5f5d3975156311"
+        },
+        {
+          "path": "evidence/context-r35-integer-ar-r1/http-result.json",
+          "bytes": 1826,
+          "sha256": "7c3433bc939164856f453a940d6feb35cb72d626ae094b40e4a1f3ae1b095d13"
+        },
+        {
+          "path": "evidence/context-r35-integer-ar-r1/http-schema-integer-result.json",
+          "bytes": 32270,
+          "sha256": "218f86ee7cefaa5a5ac7408b7fbeadabfdaf7aba84f612d1b47ee46ed2493911"
+        },
+        {
+          "path": "evidence/context-r35-integer-ar-r1/http-schema-integer.py",
+          "bytes": 10416,
+          "sha256": "3864bbda9e20b9579be79c8c5b4847632f5fa5995f8142115a91da100521df5e"
+        },
+        {
+          "path": "evidence/context-r35-integer-ar-r1/http-wire.jsonl",
+          "bytes": 1414778,
+          "sha256": "86828be4140a997953a1e1bee23bc2c9245058248a7cceb4e9a027864235301a"
+        },
+        {
+          "path": "evidence/context-r35-integer-ar-r1/manifest.json",
+          "bytes": 5150,
+          "sha256": "26b680c5957b9ce227680a0fc855c4b2b53d133844387377d331835ff2aec554"
+        },
+        {
+          "path": "evidence/context-r35-integer-ar-r1/result.json",
+          "bytes": 98390,
+          "sha256": "f8eec4b700ccf6d28df1c9a7de8696110c9a7c0d229ef877e752c05218457f0b"
+        },
+        {
+          "path": "evidence/context-r35-integer-ar-r1/runner.py",
+          "bytes": 112434,
+          "sha256": "d1dd434d41f046245afe060d69b299ad2bc5845ea36e8cec481e625733648d3a"
+        },
+        {
+          "path": "evidence/context-r35-integer-ar-r1/server.log",
+          "bytes": 92,
+          "sha256": "ec5a4a35875e3eedec180485bf93c35da0ac49badb81b3d2d11fbf43327bd31c"
+        },
+        {
+          "path": "evidence/context-r35-integer-ar-r1/stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r35-integer-ar-r1/stdout.log",
+          "bytes": 66621,
+          "sha256": "6e8fb71ff4bee0de38d1614cb85ec9523f90dec04829b5b34a9088b998d39e4c"
+        },
+        {
+          "path": "evidence/context-r35-integer-ar-r1/telemetry.jsonl",
+          "bytes": 918965,
+          "sha256": "80b12ee3a23a3c1c61e13fe129f35f51cc605590ff34f3e80fe5660275fb2fb6"
+        },
+        {
+          "path": "evidence/context-r35-integer-ar-r1/collection.json",
+          "bytes": 9352,
+          "sha256": "a3478ba3603ab459d92acd37991e098bc08c59f4880835a725b80f19a215418d"
+        },
+        {
+          "path": "evidence/context-r35-integer-ar-r1/controller-result.json",
+          "bytes": 921,
+          "sha256": "fc8c19a76ddd33afcc7e2cc105daaed2f0af11d45bf16cd66220d55977c22e68"
+        }
+      ],
+      "checks": 37,
+      "passed": [
+        "models",
+        "chat_json",
+        "chat_sse",
+        "responses_json",
+        "responses_sse",
+        "chat_function_json",
+        "chat_function_sse",
+        "chat_tool_result",
+        "responses_function_json",
+        "responses_function_sse",
+        "responses_tool_replay",
+        "responses_tool_result",
+        "allowed_tools",
+        "chat_choices_json",
+        "chat_choices_sse",
+        "chat_seed_replay",
+        "chat_logprobs",
+        "chat_logprobs_sse",
+        "chat_bias_positive",
+        "chat_bias_negative",
+        "chat_stop_json",
+        "chat_stop_sse",
+        "chat_json_object",
+        "responses_json_object",
+        "chat_json_schema",
+        "responses_json_schema",
+        "chat_store_crud",
+        "responses_background_disconnect",
+        "responses_cursor_replay",
+        "responses_input_pagination",
+        "responses_cancel_after_output",
+        "responses_delete",
+        "responses_truncation",
+        "unsupported_fields",
+        "models_context_output_limits",
+        "chat_automatic_output",
+        "responses_automatic_output"
+      ],
+      "integer_checks": 66,
+      "integer_exact_values": 60,
+      "expected_HTTP400_refusals": 6,
+      "integer_witnesses": {
+        "chat_json_positive-inclusive": {
+          "text": "{\n  \"value\": 7\n}",
+          "value": 7,
+          "lexeme": "7",
+          "low": 7,
+          "high": 7,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 7,
+            "maximum": 7
+          }
+        },
+        "chat_sse_positive-inclusive": {
+          "text": "{\n  \"value\": 7\n}",
+          "value": 7,
+          "lexeme": "7",
+          "low": 7,
+          "high": 7,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 7,
+            "maximum": 7
+          }
+        },
+        "chat_json_negative-inclusive": {
+          "text": "{\n  \"value\":  \t-7\n}",
+          "value": -7,
+          "lexeme": "-7",
+          "low": -7,
+          "high": -7,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -7,
+            "maximum": -7
+          }
+        },
+        "chat_sse_negative-inclusive": {
+          "text": "{\n  \"value\":  \t-7\n}",
+          "value": -7,
+          "lexeme": "-7",
+          "low": -7,
+          "high": -7,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -7,
+            "maximum": -7
+          }
+        },
+        "chat_json_positive-exclusive": {
+          "text": "{\n  \"value\": 2\n}",
+          "value": 2,
+          "lexeme": "2",
+          "low": 2,
+          "high": 2,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1,
+            "exclusiveMaximum": 3
+          }
+        },
+        "chat_sse_positive-exclusive": {
+          "text": "{\n  \"value\": 2\n}",
+          "value": 2,
+          "lexeme": "2",
+          "low": 2,
+          "high": 2,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1,
+            "exclusiveMaximum": 3
+          }
+        },
+        "chat_json_negative-exclusive": {
+          "text": "{\n  \"value\":  \t-2\n}",
+          "value": -2,
+          "lexeme": "-2",
+          "low": -2,
+          "high": -2,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": -3,
+            "exclusiveMaximum": -1
+          }
+        },
+        "chat_sse_negative-exclusive": {
+          "text": "{\n  \"value\":  \t-2\n}",
+          "value": -2,
+          "lexeme": "-2",
+          "low": -2,
+          "high": -2,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": -3,
+            "exclusiveMaximum": -1
+          }
+        },
+        "chat_json_positive-fractional": {
+          "text": "{\n  \"value\": 1\n}",
+          "value": 1,
+          "lexeme": "1",
+          "low": 1,
+          "high": 1,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 0.5,
+            "maximum": 1.5
+          }
+        },
+        "chat_sse_positive-fractional": {
+          "text": "{\n  \"value\": 1\n}",
+          "value": 1,
+          "lexeme": "1",
+          "low": 1,
+          "high": 1,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 0.5,
+            "maximum": 1.5
+          }
+        },
+        "chat_json_negative-fractional": {
+          "text": "{\n  \"value\":  \t-1\n}",
+          "value": -1,
+          "lexeme": "-1",
+          "low": -1,
+          "high": -1,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.5,
+            "maximum": -0.5
+          }
+        },
+        "chat_sse_negative-fractional": {
+          "text": "{\n  \"value\":  \t-1\n}",
+          "value": -1,
+          "lexeme": "-1",
+          "low": -1,
+          "high": -1,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.5,
+            "maximum": -0.5
+          }
+        },
+        "chat_json_cross-zero": {
+          "text": "{\n  \"value\": 0\n}",
+          "value": 0,
+          "lexeme": "0",
+          "low": 0,
+          "high": 0,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -0.5,
+            "maximum": 0.5
+          }
+        },
+        "chat_sse_cross-zero": {
+          "text": "{\n  \"value\": 0\n}",
+          "value": 0,
+          "lexeme": "0",
+          "low": 0,
+          "high": 0,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -0.5,
+            "maximum": 0.5
+          }
+        },
+        "chat_json_positive-prefix": {
+          "text": "{\n  \"value\": 10\n}",
+          "value": 10,
+          "lexeme": "10",
+          "low": 9,
+          "high": 11,
+          "output_tokens": 11,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9,
+            "maximum": 11
+          }
+        },
+        "chat_sse_positive-prefix": {
+          "text": "{\n  \"value\": 10\n}",
+          "value": 10,
+          "lexeme": "10",
+          "low": 9,
+          "high": 11,
+          "output_tokens": 11,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9,
+            "maximum": 11
+          }
+        },
+        "chat_json_negative-prefix": {
+          "text": "{\n  \"value\":  \t-10\n}",
+          "value": -10,
+          "lexeme": "-10",
+          "low": -11,
+          "high": -9,
+          "output_tokens": 14,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -11,
+            "maximum": -9
+          }
+        },
+        "chat_sse_negative-prefix": {
+          "text": "{\n  \"value\":  \t-10\n}",
+          "value": -10,
+          "lexeme": "-10",
+          "low": -11,
+          "high": -9,
+          "output_tokens": 14,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -11,
+            "maximum": -9
+          }
+        },
+        "chat_json_beyond-int64": {
+          "text": "{\n  \"value\": 9223372036854775808\n}",
+          "value": 9223372036854775808,
+          "lexeme": "9223372036854775808",
+          "low": 9223372036854775808,
+          "high": 9223372036854775808,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9223372036854775808,
+            "maximum": 9223372036854775808
+          }
+        },
+        "chat_sse_beyond-int64": {
+          "text": "{\n  \"value\": 9223372036854775808\n}",
+          "value": 9223372036854775808,
+          "lexeme": "9223372036854775808",
+          "low": 9223372036854775808,
+          "high": 9223372036854775808,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9223372036854775808,
+            "maximum": 9223372036854775808
+          }
+        },
+        "chat_json_exact-binary64": {
+          "text": "{\n  \"value\": 1000000000000000128\n}",
+          "value": 1000000000000000128,
+          "lexeme": "1000000000000000128",
+          "low": 1000000000000000128,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1000000000000000128,
+            "maximum": 1000000000000000128
+          }
+        },
+        "chat_sse_exact-binary64": {
+          "text": "{\n  \"value\": 1000000000000000128\n}",
+          "value": 1000000000000000128,
+          "lexeme": "1000000000000000128",
+          "low": 1000000000000000128,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1000000000000000128,
+            "maximum": 1000000000000000128
+          }
+        },
+        "chat_json_large-magnitude": {
+          "text": "{\n  \"value\": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104\n}",
+          "value": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "lexeme": "10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104",
+          "low": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "high": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "output_tokens": 110,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1e+100,
+            "maximum": 1e+100
+          }
+        },
+        "chat_sse_large-magnitude": {
+          "text": "{\n  \"value\": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104\n}",
+          "value": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "lexeme": "10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104",
+          "low": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "high": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "output_tokens": 110,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1e+100,
+            "maximum": 1e+100
+          }
+        },
+        "chat_json_largest-magnitude": {
+          "text": "{\n  \"value\": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368\n}",
+          "value": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "lexeme": "179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368",
+          "low": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "high": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "output_tokens": 318,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308
+          }
+        },
+        "chat_sse_largest-magnitude": {
+          "text": "{\n  \"value\": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368\n}",
+          "value": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "lexeme": "179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368",
+          "low": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "high": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "output_tokens": 318,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308
+          }
+        },
+        "chat_json_large-positive-exclusive": {
+          "text": "{\n  \"value\": 1000000000000000007\n}",
+          "value": 1000000000000000007,
+          "lexeme": "1000000000000000007",
+          "low": 1000000000000000001,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1e+18,
+            "maximum": 1.0000000000000001e+18
+          }
+        },
+        "chat_sse_large-positive-exclusive": {
+          "text": "{\n  \"value\": 1000000000000000007\n}",
+          "value": 1000000000000000007,
+          "lexeme": "1000000000000000007",
+          "low": 1000000000000000001,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1e+18,
+            "maximum": 1.0000000000000001e+18
+          }
+        },
+        "chat_json_large-negative-exclusive": {
+          "text": "{\n  \"value\":  \t-1000000000000000001\n}",
+          "value": -1000000000000000001,
+          "lexeme": "-1000000000000000001",
+          "low": -1000000000000000128,
+          "high": -1000000000000000001,
+          "output_tokens": 31,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.0000000000000001e+18,
+            "exclusiveMaximum": -1e+18
+          }
+        },
+        "chat_sse_large-negative-exclusive": {
+          "text": "{\n  \"value\":  \t-1000000000000000001\n}",
+          "value": -1000000000000000001,
+          "lexeme": "-1000000000000000001",
+          "low": -1000000000000000128,
+          "high": -1000000000000000001,
+          "output_tokens": 31,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.0000000000000001e+18,
+            "exclusiveMaximum": -1e+18
+          }
+        },
+        "chat_refusal_empty-interval": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: schema has no finite value"
+          },
+          "bounds": {
+            "minimum": 2,
+            "maximum": 1
+          }
+        },
+        "chat_refusal_exclusive-zero-empty": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: schema has no finite value"
+          },
+          "bounds": {
+            "minimum": 0,
+            "exclusiveMaximum": 0
+          }
+        },
+        "chat_refusal_invalid-minimum": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: minimum must be finite"
+          },
+          "bounds": {
+            "minimum": "invalid",
+            "maximum": 1
+          }
+        },
+        "responses_json_positive-inclusive": {
+          "text": "{\n  \"value\": 7\n}",
+          "value": 7,
+          "lexeme": "7",
+          "low": 7,
+          "high": 7,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 7,
+            "maximum": 7
+          }
+        },
+        "responses_sse_positive-inclusive": {
+          "text": "{\n  \"value\": 7\n}",
+          "value": 7,
+          "lexeme": "7",
+          "low": 7,
+          "high": 7,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 7,
+            "maximum": 7
+          }
+        },
+        "responses_json_negative-inclusive": {
+          "text": "{\n  \"value\":  \t-7\n}",
+          "value": -7,
+          "lexeme": "-7",
+          "low": -7,
+          "high": -7,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -7,
+            "maximum": -7
+          }
+        },
+        "responses_sse_negative-inclusive": {
+          "text": "{\n  \"value\":  \t-7\n}",
+          "value": -7,
+          "lexeme": "-7",
+          "low": -7,
+          "high": -7,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -7,
+            "maximum": -7
+          }
+        },
+        "responses_json_positive-exclusive": {
+          "text": "{\n  \"value\": 2\n}",
+          "value": 2,
+          "lexeme": "2",
+          "low": 2,
+          "high": 2,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1,
+            "exclusiveMaximum": 3
+          }
+        },
+        "responses_sse_positive-exclusive": {
+          "text": "{\n  \"value\": 2\n}",
+          "value": 2,
+          "lexeme": "2",
+          "low": 2,
+          "high": 2,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1,
+            "exclusiveMaximum": 3
+          }
+        },
+        "responses_json_negative-exclusive": {
+          "text": "{\n  \"value\":  \t-2\n}",
+          "value": -2,
+          "lexeme": "-2",
+          "low": -2,
+          "high": -2,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": -3,
+            "exclusiveMaximum": -1
+          }
+        },
+        "responses_sse_negative-exclusive": {
+          "text": "{\n  \"value\":  \t-2\n}",
+          "value": -2,
+          "lexeme": "-2",
+          "low": -2,
+          "high": -2,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": -3,
+            "exclusiveMaximum": -1
+          }
+        },
+        "responses_json_positive-fractional": {
+          "text": "{\n  \"value\": 1\n}",
+          "value": 1,
+          "lexeme": "1",
+          "low": 1,
+          "high": 1,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 0.5,
+            "maximum": 1.5
+          }
+        },
+        "responses_sse_positive-fractional": {
+          "text": "{\n  \"value\": 1\n}",
+          "value": 1,
+          "lexeme": "1",
+          "low": 1,
+          "high": 1,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 0.5,
+            "maximum": 1.5
+          }
+        },
+        "responses_json_negative-fractional": {
+          "text": "{\n  \"value\":  \t-1\n}",
+          "value": -1,
+          "lexeme": "-1",
+          "low": -1,
+          "high": -1,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.5,
+            "maximum": -0.5
+          }
+        },
+        "responses_sse_negative-fractional": {
+          "text": "{\n  \"value\":  \t-1\n}",
+          "value": -1,
+          "lexeme": "-1",
+          "low": -1,
+          "high": -1,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.5,
+            "maximum": -0.5
+          }
+        },
+        "responses_json_cross-zero": {
+          "text": "{\n  \"value\": 0\n}",
+          "value": 0,
+          "lexeme": "0",
+          "low": 0,
+          "high": 0,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -0.5,
+            "maximum": 0.5
+          }
+        },
+        "responses_sse_cross-zero": {
+          "text": "{\n  \"value\": 0\n}",
+          "value": 0,
+          "lexeme": "0",
+          "low": 0,
+          "high": 0,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -0.5,
+            "maximum": 0.5
+          }
+        },
+        "responses_json_positive-prefix": {
+          "text": "{\n  \"value\": 10\n}",
+          "value": 10,
+          "lexeme": "10",
+          "low": 9,
+          "high": 11,
+          "output_tokens": 11,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9,
+            "maximum": 11
+          }
+        },
+        "responses_sse_positive-prefix": {
+          "text": "{\n  \"value\": 10\n}",
+          "value": 10,
+          "lexeme": "10",
+          "low": 9,
+          "high": 11,
+          "output_tokens": 11,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9,
+            "maximum": 11
+          }
+        },
+        "responses_json_negative-prefix": {
+          "text": "{\n  \"value\":  \t-10\n}",
+          "value": -10,
+          "lexeme": "-10",
+          "low": -11,
+          "high": -9,
+          "output_tokens": 14,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -11,
+            "maximum": -9
+          }
+        },
+        "responses_sse_negative-prefix": {
+          "text": "{\n  \"value\":  \t-10\n}",
+          "value": -10,
+          "lexeme": "-10",
+          "low": -11,
+          "high": -9,
+          "output_tokens": 14,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -11,
+            "maximum": -9
+          }
+        },
+        "responses_json_beyond-int64": {
+          "text": "{\n  \"value\": 9223372036854775808\n}",
+          "value": 9223372036854775808,
+          "lexeme": "9223372036854775808",
+          "low": 9223372036854775808,
+          "high": 9223372036854775808,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9223372036854775808,
+            "maximum": 9223372036854775808
+          }
+        },
+        "responses_sse_beyond-int64": {
+          "text": "{\n  \"value\": 9223372036854775808\n}",
+          "value": 9223372036854775808,
+          "lexeme": "9223372036854775808",
+          "low": 9223372036854775808,
+          "high": 9223372036854775808,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9223372036854775808,
+            "maximum": 9223372036854775808
+          }
+        },
+        "responses_json_exact-binary64": {
+          "text": "{\n  \"value\": 1000000000000000128\n}",
+          "value": 1000000000000000128,
+          "lexeme": "1000000000000000128",
+          "low": 1000000000000000128,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1000000000000000128,
+            "maximum": 1000000000000000128
+          }
+        },
+        "responses_sse_exact-binary64": {
+          "text": "{\n  \"value\": 1000000000000000128\n}",
+          "value": 1000000000000000128,
+          "lexeme": "1000000000000000128",
+          "low": 1000000000000000128,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1000000000000000128,
+            "maximum": 1000000000000000128
+          }
+        },
+        "responses_json_large-magnitude": {
+          "text": "{\n  \"value\": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104\n}",
+          "value": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "lexeme": "10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104",
+          "low": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "high": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "output_tokens": 110,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1e+100,
+            "maximum": 1e+100
+          }
+        },
+        "responses_sse_large-magnitude": {
+          "text": "{\n  \"value\": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104\n}",
+          "value": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "lexeme": "10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104",
+          "low": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "high": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "output_tokens": 110,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1e+100,
+            "maximum": 1e+100
+          }
+        },
+        "responses_json_largest-magnitude": {
+          "text": "{\n  \"value\": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368\n}",
+          "value": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "lexeme": "179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368",
+          "low": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "high": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "output_tokens": 318,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308
+          }
+        },
+        "responses_sse_largest-magnitude": {
+          "text": "{\n  \"value\": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368\n}",
+          "value": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "lexeme": "179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368",
+          "low": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "high": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "output_tokens": 318,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308
+          }
+        },
+        "responses_json_large-positive-exclusive": {
+          "text": "{\n  \"value\": 1000000000000000007\n}",
+          "value": 1000000000000000007,
+          "lexeme": "1000000000000000007",
+          "low": 1000000000000000001,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1e+18,
+            "maximum": 1.0000000000000001e+18
+          }
+        },
+        "responses_sse_large-positive-exclusive": {
+          "text": "{\n  \"value\": 1000000000000000007\n}",
+          "value": 1000000000000000007,
+          "lexeme": "1000000000000000007",
+          "low": 1000000000000000001,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1e+18,
+            "maximum": 1.0000000000000001e+18
+          }
+        },
+        "responses_json_large-negative-exclusive": {
+          "text": "{\n  \"value\":  \t-1000000000000000001\n}",
+          "value": -1000000000000000001,
+          "lexeme": "-1000000000000000001",
+          "low": -1000000000000000128,
+          "high": -1000000000000000001,
+          "output_tokens": 31,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.0000000000000001e+18,
+            "exclusiveMaximum": -1e+18
+          }
+        },
+        "responses_sse_large-negative-exclusive": {
+          "text": "{\n  \"value\":  \t-1000000000000000001\n}",
+          "value": -1000000000000000001,
+          "lexeme": "-1000000000000000001",
+          "low": -1000000000000000128,
+          "high": -1000000000000000001,
+          "output_tokens": 31,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.0000000000000001e+18,
+            "exclusiveMaximum": -1e+18
+          }
+        },
+        "responses_refusal_empty-interval": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: schema has no finite value"
+          },
+          "bounds": {
+            "minimum": 2,
+            "maximum": 1
+          }
+        },
+        "responses_refusal_exclusive-zero-empty": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: schema has no finite value"
+          },
+          "bounds": {
+            "minimum": 0,
+            "exclusiveMaximum": 0
+          }
+        },
+        "responses_refusal_invalid-minimum": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: minimum must be finite"
+          },
+          "bounds": {
+            "minimum": "invalid",
+            "maximum": 1
+          }
+        }
+      },
+      "server_exit_code": 0,
+      "model_stat_unchanged": true,
+      "server_argv": [
+        "/bundle/runtime/bin/synapse-lie-server",
+        "--model",
+        "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "--model-id",
+        "qwen3.8-flash-next",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "53893",
+        "--management-host",
+        "127.0.0.1",
+        "--management-port",
+        "53937",
+        "--context",
+        "16384",
+        "--prefill-chunk",
+        "2048",
+        "--max-active",
+        "8",
+        "--kv-cache-ram-mb",
+        "0",
+        "--request-timeout-ms",
+        "180000"
+      ],
+      "gtt_peak_bytes": 90559934464,
+      "observed_process_threads_max": 44,
+      "actual_window_retired": true,
+      "closure": {
+        "container_identity_source": "evidence/context-r35-ar-live-r2.json",
+        "container_init_pid": 205745,
+        "container_init_start_ticks": 18013705,
+        "label": "context-r35-integer-ar-r1",
+        "supervisor_identity_absent": true,
+        "container_init_identity_recorded": true,
+        "container_init_identity_absent": true,
+        "container_absent": true,
+        "container_inspect_exit": 1,
+        "container_inspect_stderr": "error: no such object: 905222e07d57efe4399f932f332c6a88d10908192a6f42ce86c15f662e8484a3\n",
+        "label_listing_exit": 0,
+        "label_listing_empty": true
+      }
+    },
+    {
+      "label": "context-r35-integer-mtp-r1",
+      "mode": "mtp",
+      "source_commit": "dbdac28df9169b7d292b24e950551ca957329ca1",
+      "started_at": "2026-10-06T18:36:54.201500+00:00",
+      "ended_at": "2026-10-06T18:43:19.448693+00:00",
+      "supervisor_pid": 207134,
+      "supervisor_start_ticks": 18077057,
+      "container": "f5f781500ae994ebc2025af4c782d67eb40d6a153691e77357370f66c5718936",
+      "original_lease": {
+        "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+        "device": 66307,
+        "inode": 105946405,
+        "cooperative_lie_only": true
+      },
+      "lease_released_at": "2026-10-06T18:43:19.448666+00:00",
+      "router_restored": {
+        "MainPID": "208314",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "actual_exit_code": 0,
+      "child_exit_code": 0,
+      "controller_exit_code": 0,
+      "peak_c": {
+        "nvme": 66.85,
+        "amdgpu": 71.0,
+        "k10temp": 68.25
+      },
+      "telemetry_rows": 372,
+      "artifacts": [
+        {
+          "path": "evidence/context-r35-integer-mtp-r1/distrobox-create.log",
+          "bytes": 272,
+          "sha256": "638ac2daca59b7c7b10ae75e9cdbc7e59d37eeff8178789fd1c60896ac8ad89d"
+        },
+        {
+          "path": "evidence/context-r35-integer-mtp-r1/distrobox.stderr.log",
+          "bytes": 1073,
+          "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+        },
+        {
+          "path": "evidence/context-r35-integer-mtp-r1/distrobox.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r35-integer-mtp-r1/http-controls-result.json",
+          "bytes": 2977,
+          "sha256": "fa3dd1e99fe0390f19e0569edc157ddda534df0247316fd4947772f43aac86aa"
+        },
+        {
+          "path": "evidence/context-r35-integer-mtp-r1/http-controls.py",
+          "bytes": 18408,
+          "sha256": "5a52223a674d850f4493794cc5cc190e807abd10b01adbe9faa29285fa0b54bd"
+        },
+        {
+          "path": "evidence/context-r35-integer-mtp-r1/http-gate.py",
+          "bytes": 19320,
+          "sha256": "4aa144c9484dd2d9c1c421841291acd7b40b7d90275f7577288ac01fb9494605"
+        },
+        {
+          "path": "evidence/context-r35-integer-mtp-r1/http-output-budget-result.json",
+          "bytes": 5475,
+          "sha256": "043d0b195d765c90d49a11ed8ed70ccc013632aa9dbd2f75699b94c75f87f0b0"
+        },
+        {
+          "path": "evidence/context-r35-integer-mtp-r1/http-output-budget.py",
+          "bytes": 7386,
+          "sha256": "46fe16867cc37ab0ec684b02c4a1ae87dbf412b108bb6c5f1f5f5d3975156311"
+        },
+        {
+          "path": "evidence/context-r35-integer-mtp-r1/http-result.json",
+          "bytes": 1933,
+          "sha256": "a5c4db6efb2743d0357798d9b0c1f61392f89c4553b56ba4096a12181d714a55"
+        },
+        {
+          "path": "evidence/context-r35-integer-mtp-r1/http-schema-integer-result.json",
+          "bytes": 32270,
+          "sha256": "218f86ee7cefaa5a5ac7408b7fbeadabfdaf7aba84f612d1b47ee46ed2493911"
+        },
+        {
+          "path": "evidence/context-r35-integer-mtp-r1/http-schema-integer.py",
+          "bytes": 10416,
+          "sha256": "3864bbda9e20b9579be79c8c5b4847632f5fa5995f8142115a91da100521df5e"
+        },
+        {
+          "path": "evidence/context-r35-integer-mtp-r1/http-wire.jsonl",
+          "bytes": 1093235,
+          "sha256": "d7a3f4003d87616a73b69180b3a4787e7ff33e1bf9a6d991b47052a401d7a886"
+        },
+        {
+          "path": "evidence/context-r35-integer-mtp-r1/manifest.json",
+          "bytes": 5808,
+          "sha256": "4ee2384ead2432b0249f056aee46c82e2f916b144ccc0db2cfaa9e87e464308c"
+        },
+        {
+          "path": "evidence/context-r35-integer-mtp-r1/result.json",
+          "bytes": 99902,
+          "sha256": "ccfba4f935e3c987d82d0e54e610ea0b160a6387e62ed40b43866780cafd0751"
+        },
+        {
+          "path": "evidence/context-r35-integer-mtp-r1/runner.py",
+          "bytes": 112434,
+          "sha256": "d1dd434d41f046245afe060d69b299ad2bc5845ea36e8cec481e625733648d3a"
+        },
+        {
+          "path": "evidence/context-r35-integer-mtp-r1/server.log",
+          "bytes": 92,
+          "sha256": "7cc0e60a56fde2babc83ff4daec2dc3d5a367042e68a25d32f569c40a206b426"
+        },
+        {
+          "path": "evidence/context-r35-integer-mtp-r1/stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r35-integer-mtp-r1/stdout.log",
+          "bytes": 66634,
+          "sha256": "5ad78411566f5c58496c4006409dcb4881f07567360b9a67957f5af490ca8786"
+        },
+        {
+          "path": "evidence/context-r35-integer-mtp-r1/telemetry.jsonl",
+          "bytes": 689892,
+          "sha256": "8a781ff79753cf137fc2a11a998cc2f6d15f8a47b1c9f071ddf794dc92a91149"
+        },
+        {
+          "path": "evidence/context-r35-integer-mtp-r1/collection.json",
+          "bytes": 9378,
+          "sha256": "91bde0ab9da44b7c1a13bdd3d7594a1792fafb9d101b32107a57818787ef9b27"
+        },
+        {
+          "path": "evidence/context-r35-integer-mtp-r1/controller-result.json",
+          "bytes": 922,
+          "sha256": "02b393187032f7c72c3ba617ca0ea9855a4226aecc5daf8304195ddd0aca61bb"
+        }
+      ],
+      "checks": 37,
+      "passed": [
+        "models",
+        "chat_json",
+        "chat_sse",
+        "responses_json",
+        "responses_sse",
+        "chat_function_json",
+        "chat_function_sse",
+        "chat_tool_result",
+        "responses_function_json",
+        "responses_function_sse",
+        "responses_tool_replay",
+        "responses_tool_result",
+        "allowed_tools",
+        "chat_choices_json",
+        "chat_choices_sse",
+        "chat_seed_replay",
+        "chat_logprobs",
+        "chat_logprobs_sse",
+        "chat_bias_positive",
+        "chat_bias_negative",
+        "chat_stop_json",
+        "chat_stop_sse",
+        "chat_json_object",
+        "responses_json_object",
+        "chat_json_schema",
+        "responses_json_schema",
+        "chat_store_crud",
+        "responses_background_disconnect",
+        "responses_cursor_replay",
+        "responses_input_pagination",
+        "responses_cancel_after_output",
+        "responses_delete",
+        "responses_truncation",
+        "unsupported_fields",
+        "models_context_output_limits",
+        "chat_automatic_output",
+        "responses_automatic_output"
+      ],
+      "integer_checks": 66,
+      "integer_exact_values": 60,
+      "expected_HTTP400_refusals": 6,
+      "integer_witnesses": {
+        "chat_json_positive-inclusive": {
+          "text": "{\n  \"value\": 7\n}",
+          "value": 7,
+          "lexeme": "7",
+          "low": 7,
+          "high": 7,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 7,
+            "maximum": 7
+          }
+        },
+        "chat_sse_positive-inclusive": {
+          "text": "{\n  \"value\": 7\n}",
+          "value": 7,
+          "lexeme": "7",
+          "low": 7,
+          "high": 7,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 7,
+            "maximum": 7
+          }
+        },
+        "chat_json_negative-inclusive": {
+          "text": "{\n  \"value\":  \t-7\n}",
+          "value": -7,
+          "lexeme": "-7",
+          "low": -7,
+          "high": -7,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -7,
+            "maximum": -7
+          }
+        },
+        "chat_sse_negative-inclusive": {
+          "text": "{\n  \"value\":  \t-7\n}",
+          "value": -7,
+          "lexeme": "-7",
+          "low": -7,
+          "high": -7,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -7,
+            "maximum": -7
+          }
+        },
+        "chat_json_positive-exclusive": {
+          "text": "{\n  \"value\": 2\n}",
+          "value": 2,
+          "lexeme": "2",
+          "low": 2,
+          "high": 2,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1,
+            "exclusiveMaximum": 3
+          }
+        },
+        "chat_sse_positive-exclusive": {
+          "text": "{\n  \"value\": 2\n}",
+          "value": 2,
+          "lexeme": "2",
+          "low": 2,
+          "high": 2,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1,
+            "exclusiveMaximum": 3
+          }
+        },
+        "chat_json_negative-exclusive": {
+          "text": "{\n  \"value\":  \t-2\n}",
+          "value": -2,
+          "lexeme": "-2",
+          "low": -2,
+          "high": -2,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": -3,
+            "exclusiveMaximum": -1
+          }
+        },
+        "chat_sse_negative-exclusive": {
+          "text": "{\n  \"value\":  \t-2\n}",
+          "value": -2,
+          "lexeme": "-2",
+          "low": -2,
+          "high": -2,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": -3,
+            "exclusiveMaximum": -1
+          }
+        },
+        "chat_json_positive-fractional": {
+          "text": "{\n  \"value\": 1\n}",
+          "value": 1,
+          "lexeme": "1",
+          "low": 1,
+          "high": 1,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 0.5,
+            "maximum": 1.5
+          }
+        },
+        "chat_sse_positive-fractional": {
+          "text": "{\n  \"value\": 1\n}",
+          "value": 1,
+          "lexeme": "1",
+          "low": 1,
+          "high": 1,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 0.5,
+            "maximum": 1.5
+          }
+        },
+        "chat_json_negative-fractional": {
+          "text": "{\n  \"value\":  \t-1\n}",
+          "value": -1,
+          "lexeme": "-1",
+          "low": -1,
+          "high": -1,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.5,
+            "maximum": -0.5
+          }
+        },
+        "chat_sse_negative-fractional": {
+          "text": "{\n  \"value\":  \t-1\n}",
+          "value": -1,
+          "lexeme": "-1",
+          "low": -1,
+          "high": -1,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.5,
+            "maximum": -0.5
+          }
+        },
+        "chat_json_cross-zero": {
+          "text": "{\n  \"value\": 0\n}",
+          "value": 0,
+          "lexeme": "0",
+          "low": 0,
+          "high": 0,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -0.5,
+            "maximum": 0.5
+          }
+        },
+        "chat_sse_cross-zero": {
+          "text": "{\n  \"value\": 0\n}",
+          "value": 0,
+          "lexeme": "0",
+          "low": 0,
+          "high": 0,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -0.5,
+            "maximum": 0.5
+          }
+        },
+        "chat_json_positive-prefix": {
+          "text": "{\n  \"value\": 10\n}",
+          "value": 10,
+          "lexeme": "10",
+          "low": 9,
+          "high": 11,
+          "output_tokens": 11,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9,
+            "maximum": 11
+          }
+        },
+        "chat_sse_positive-prefix": {
+          "text": "{\n  \"value\": 10\n}",
+          "value": 10,
+          "lexeme": "10",
+          "low": 9,
+          "high": 11,
+          "output_tokens": 11,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9,
+            "maximum": 11
+          }
+        },
+        "chat_json_negative-prefix": {
+          "text": "{\n  \"value\":  \t-10\n}",
+          "value": -10,
+          "lexeme": "-10",
+          "low": -11,
+          "high": -9,
+          "output_tokens": 14,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -11,
+            "maximum": -9
+          }
+        },
+        "chat_sse_negative-prefix": {
+          "text": "{\n  \"value\":  \t-10\n}",
+          "value": -10,
+          "lexeme": "-10",
+          "low": -11,
+          "high": -9,
+          "output_tokens": 14,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -11,
+            "maximum": -9
+          }
+        },
+        "chat_json_beyond-int64": {
+          "text": "{\n  \"value\": 9223372036854775808\n}",
+          "value": 9223372036854775808,
+          "lexeme": "9223372036854775808",
+          "low": 9223372036854775808,
+          "high": 9223372036854775808,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9223372036854775808,
+            "maximum": 9223372036854775808
+          }
+        },
+        "chat_sse_beyond-int64": {
+          "text": "{\n  \"value\": 9223372036854775808\n}",
+          "value": 9223372036854775808,
+          "lexeme": "9223372036854775808",
+          "low": 9223372036854775808,
+          "high": 9223372036854775808,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9223372036854775808,
+            "maximum": 9223372036854775808
+          }
+        },
+        "chat_json_exact-binary64": {
+          "text": "{\n  \"value\": 1000000000000000128\n}",
+          "value": 1000000000000000128,
+          "lexeme": "1000000000000000128",
+          "low": 1000000000000000128,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1000000000000000128,
+            "maximum": 1000000000000000128
+          }
+        },
+        "chat_sse_exact-binary64": {
+          "text": "{\n  \"value\": 1000000000000000128\n}",
+          "value": 1000000000000000128,
+          "lexeme": "1000000000000000128",
+          "low": 1000000000000000128,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1000000000000000128,
+            "maximum": 1000000000000000128
+          }
+        },
+        "chat_json_large-magnitude": {
+          "text": "{\n  \"value\": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104\n}",
+          "value": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "lexeme": "10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104",
+          "low": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "high": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "output_tokens": 110,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1e+100,
+            "maximum": 1e+100
+          }
+        },
+        "chat_sse_large-magnitude": {
+          "text": "{\n  \"value\": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104\n}",
+          "value": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "lexeme": "10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104",
+          "low": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "high": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "output_tokens": 110,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1e+100,
+            "maximum": 1e+100
+          }
+        },
+        "chat_json_largest-magnitude": {
+          "text": "{\n  \"value\": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368\n}",
+          "value": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "lexeme": "179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368",
+          "low": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "high": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "output_tokens": 318,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308
+          }
+        },
+        "chat_sse_largest-magnitude": {
+          "text": "{\n  \"value\": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368\n}",
+          "value": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "lexeme": "179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368",
+          "low": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "high": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "output_tokens": 318,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308
+          }
+        },
+        "chat_json_large-positive-exclusive": {
+          "text": "{\n  \"value\": 1000000000000000007\n}",
+          "value": 1000000000000000007,
+          "lexeme": "1000000000000000007",
+          "low": 1000000000000000001,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1e+18,
+            "maximum": 1.0000000000000001e+18
+          }
+        },
+        "chat_sse_large-positive-exclusive": {
+          "text": "{\n  \"value\": 1000000000000000007\n}",
+          "value": 1000000000000000007,
+          "lexeme": "1000000000000000007",
+          "low": 1000000000000000001,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1e+18,
+            "maximum": 1.0000000000000001e+18
+          }
+        },
+        "chat_json_large-negative-exclusive": {
+          "text": "{\n  \"value\":  \t-1000000000000000001\n}",
+          "value": -1000000000000000001,
+          "lexeme": "-1000000000000000001",
+          "low": -1000000000000000128,
+          "high": -1000000000000000001,
+          "output_tokens": 31,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.0000000000000001e+18,
+            "exclusiveMaximum": -1e+18
+          }
+        },
+        "chat_sse_large-negative-exclusive": {
+          "text": "{\n  \"value\":  \t-1000000000000000001\n}",
+          "value": -1000000000000000001,
+          "lexeme": "-1000000000000000001",
+          "low": -1000000000000000128,
+          "high": -1000000000000000001,
+          "output_tokens": 31,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.0000000000000001e+18,
+            "exclusiveMaximum": -1e+18
+          }
+        },
+        "chat_refusal_empty-interval": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: schema has no finite value"
+          },
+          "bounds": {
+            "minimum": 2,
+            "maximum": 1
+          }
+        },
+        "chat_refusal_exclusive-zero-empty": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: schema has no finite value"
+          },
+          "bounds": {
+            "minimum": 0,
+            "exclusiveMaximum": 0
+          }
+        },
+        "chat_refusal_invalid-minimum": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: minimum must be finite"
+          },
+          "bounds": {
+            "minimum": "invalid",
+            "maximum": 1
+          }
+        },
+        "responses_json_positive-inclusive": {
+          "text": "{\n  \"value\": 7\n}",
+          "value": 7,
+          "lexeme": "7",
+          "low": 7,
+          "high": 7,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 7,
+            "maximum": 7
+          }
+        },
+        "responses_sse_positive-inclusive": {
+          "text": "{\n  \"value\": 7\n}",
+          "value": 7,
+          "lexeme": "7",
+          "low": 7,
+          "high": 7,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 7,
+            "maximum": 7
+          }
+        },
+        "responses_json_negative-inclusive": {
+          "text": "{\n  \"value\":  \t-7\n}",
+          "value": -7,
+          "lexeme": "-7",
+          "low": -7,
+          "high": -7,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -7,
+            "maximum": -7
+          }
+        },
+        "responses_sse_negative-inclusive": {
+          "text": "{\n  \"value\":  \t-7\n}",
+          "value": -7,
+          "lexeme": "-7",
+          "low": -7,
+          "high": -7,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -7,
+            "maximum": -7
+          }
+        },
+        "responses_json_positive-exclusive": {
+          "text": "{\n  \"value\": 2\n}",
+          "value": 2,
+          "lexeme": "2",
+          "low": 2,
+          "high": 2,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1,
+            "exclusiveMaximum": 3
+          }
+        },
+        "responses_sse_positive-exclusive": {
+          "text": "{\n  \"value\": 2\n}",
+          "value": 2,
+          "lexeme": "2",
+          "low": 2,
+          "high": 2,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1,
+            "exclusiveMaximum": 3
+          }
+        },
+        "responses_json_negative-exclusive": {
+          "text": "{\n  \"value\":  \t-2\n}",
+          "value": -2,
+          "lexeme": "-2",
+          "low": -2,
+          "high": -2,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": -3,
+            "exclusiveMaximum": -1
+          }
+        },
+        "responses_sse_negative-exclusive": {
+          "text": "{\n  \"value\":  \t-2\n}",
+          "value": -2,
+          "lexeme": "-2",
+          "low": -2,
+          "high": -2,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": -3,
+            "exclusiveMaximum": -1
+          }
+        },
+        "responses_json_positive-fractional": {
+          "text": "{\n  \"value\": 1\n}",
+          "value": 1,
+          "lexeme": "1",
+          "low": 1,
+          "high": 1,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 0.5,
+            "maximum": 1.5
+          }
+        },
+        "responses_sse_positive-fractional": {
+          "text": "{\n  \"value\": 1\n}",
+          "value": 1,
+          "lexeme": "1",
+          "low": 1,
+          "high": 1,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 0.5,
+            "maximum": 1.5
+          }
+        },
+        "responses_json_negative-fractional": {
+          "text": "{\n  \"value\":  \t-1\n}",
+          "value": -1,
+          "lexeme": "-1",
+          "low": -1,
+          "high": -1,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.5,
+            "maximum": -0.5
+          }
+        },
+        "responses_sse_negative-fractional": {
+          "text": "{\n  \"value\":  \t-1\n}",
+          "value": -1,
+          "lexeme": "-1",
+          "low": -1,
+          "high": -1,
+          "output_tokens": 13,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.5,
+            "maximum": -0.5
+          }
+        },
+        "responses_json_cross-zero": {
+          "text": "{\n  \"value\": 0\n}",
+          "value": 0,
+          "lexeme": "0",
+          "low": 0,
+          "high": 0,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -0.5,
+            "maximum": 0.5
+          }
+        },
+        "responses_sse_cross-zero": {
+          "text": "{\n  \"value\": 0\n}",
+          "value": 0,
+          "lexeme": "0",
+          "low": 0,
+          "high": 0,
+          "output_tokens": 10,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -0.5,
+            "maximum": 0.5
+          }
+        },
+        "responses_json_positive-prefix": {
+          "text": "{\n  \"value\": 10\n}",
+          "value": 10,
+          "lexeme": "10",
+          "low": 9,
+          "high": 11,
+          "output_tokens": 11,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9,
+            "maximum": 11
+          }
+        },
+        "responses_sse_positive-prefix": {
+          "text": "{\n  \"value\": 10\n}",
+          "value": 10,
+          "lexeme": "10",
+          "low": 9,
+          "high": 11,
+          "output_tokens": 11,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9,
+            "maximum": 11
+          }
+        },
+        "responses_json_negative-prefix": {
+          "text": "{\n  \"value\":  \t-10\n}",
+          "value": -10,
+          "lexeme": "-10",
+          "low": -11,
+          "high": -9,
+          "output_tokens": 14,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -11,
+            "maximum": -9
+          }
+        },
+        "responses_sse_negative-prefix": {
+          "text": "{\n  \"value\":  \t-10\n}",
+          "value": -10,
+          "lexeme": "-10",
+          "low": -11,
+          "high": -9,
+          "output_tokens": 14,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -11,
+            "maximum": -9
+          }
+        },
+        "responses_json_beyond-int64": {
+          "text": "{\n  \"value\": 9223372036854775808\n}",
+          "value": 9223372036854775808,
+          "lexeme": "9223372036854775808",
+          "low": 9223372036854775808,
+          "high": 9223372036854775808,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9223372036854775808,
+            "maximum": 9223372036854775808
+          }
+        },
+        "responses_sse_beyond-int64": {
+          "text": "{\n  \"value\": 9223372036854775808\n}",
+          "value": 9223372036854775808,
+          "lexeme": "9223372036854775808",
+          "low": 9223372036854775808,
+          "high": 9223372036854775808,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 9223372036854775808,
+            "maximum": 9223372036854775808
+          }
+        },
+        "responses_json_exact-binary64": {
+          "text": "{\n  \"value\": 1000000000000000128\n}",
+          "value": 1000000000000000128,
+          "lexeme": "1000000000000000128",
+          "low": 1000000000000000128,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1000000000000000128,
+            "maximum": 1000000000000000128
+          }
+        },
+        "responses_sse_exact-binary64": {
+          "text": "{\n  \"value\": 1000000000000000128\n}",
+          "value": 1000000000000000128,
+          "lexeme": "1000000000000000128",
+          "low": 1000000000000000128,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1000000000000000128,
+            "maximum": 1000000000000000128
+          }
+        },
+        "responses_json_large-magnitude": {
+          "text": "{\n  \"value\": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104\n}",
+          "value": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "lexeme": "10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104",
+          "low": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "high": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "output_tokens": 110,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1e+100,
+            "maximum": 1e+100
+          }
+        },
+        "responses_sse_large-magnitude": {
+          "text": "{\n  \"value\": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104\n}",
+          "value": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "lexeme": "10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104",
+          "low": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "high": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+          "output_tokens": 110,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1e+100,
+            "maximum": 1e+100
+          }
+        },
+        "responses_json_largest-magnitude": {
+          "text": "{\n  \"value\": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368\n}",
+          "value": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "lexeme": "179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368",
+          "low": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "high": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "output_tokens": 318,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308
+          }
+        },
+        "responses_sse_largest-magnitude": {
+          "text": "{\n  \"value\": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368\n}",
+          "value": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "lexeme": "179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368",
+          "low": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "high": 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368,
+          "output_tokens": 318,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": 1.7976931348623157e+308,
+            "maximum": 1.7976931348623157e+308
+          }
+        },
+        "responses_json_large-positive-exclusive": {
+          "text": "{\n  \"value\": 1000000000000000007\n}",
+          "value": 1000000000000000007,
+          "lexeme": "1000000000000000007",
+          "low": 1000000000000000001,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1e+18,
+            "maximum": 1.0000000000000001e+18
+          }
+        },
+        "responses_sse_large-positive-exclusive": {
+          "text": "{\n  \"value\": 1000000000000000007\n}",
+          "value": 1000000000000000007,
+          "lexeme": "1000000000000000007",
+          "low": 1000000000000000001,
+          "high": 1000000000000000128,
+          "output_tokens": 28,
+          "prompt_tokens": 25,
+          "bounds": {
+            "exclusiveMinimum": 1e+18,
+            "maximum": 1.0000000000000001e+18
+          }
+        },
+        "responses_json_large-negative-exclusive": {
+          "text": "{\n  \"value\":  \t-1000000000000000001\n}",
+          "value": -1000000000000000001,
+          "lexeme": "-1000000000000000001",
+          "low": -1000000000000000128,
+          "high": -1000000000000000001,
+          "output_tokens": 31,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.0000000000000001e+18,
+            "exclusiveMaximum": -1e+18
+          }
+        },
+        "responses_sse_large-negative-exclusive": {
+          "text": "{\n  \"value\":  \t-1000000000000000001\n}",
+          "value": -1000000000000000001,
+          "lexeme": "-1000000000000000001",
+          "low": -1000000000000000128,
+          "high": -1000000000000000001,
+          "output_tokens": 31,
+          "prompt_tokens": 25,
+          "bounds": {
+            "minimum": -1.0000000000000001e+18,
+            "exclusiveMaximum": -1e+18
+          }
+        },
+        "responses_refusal_empty-interval": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: schema has no finite value"
+          },
+          "bounds": {
+            "minimum": 2,
+            "maximum": 1
+          }
+        },
+        "responses_refusal_exclusive-zero-empty": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: schema has no finite value"
+          },
+          "bounds": {
+            "minimum": 0,
+            "exclusiveMaximum": 0
+          }
+        },
+        "responses_refusal_invalid-minimum": {
+          "status": 400,
+          "error": {
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_request",
+            "message": "JSON Schema: minimum must be finite"
+          },
+          "bounds": {
+            "minimum": "invalid",
+            "maximum": 1
+          }
+        }
+      },
+      "server_exit_code": 0,
+      "model_stat_unchanged": true,
+      "server_argv": [
+        "/bundle/runtime/bin/synapse-lie-server",
+        "--model",
+        "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "--model-id",
+        "qwen3.8-flash-next",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "57595",
+        "--management-host",
+        "127.0.0.1",
+        "--management-port",
+        "38163",
+        "--context",
+        "16384",
+        "--prefill-chunk",
+        "2048",
+        "--max-active",
+        "8",
+        "--kv-cache-ram-mb",
+        "0",
+        "--request-timeout-ms",
+        "180000",
+        "--model-mtp",
+        "/mtp/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+        "--mtp-draft-tokens",
+        "7"
+      ],
+      "gtt_peak_bytes": 94725414912,
+      "observed_process_threads_max": 44,
+      "actual_window_retired": true,
+      "closure": {
+        "container_identity_source": "evidence/context-r35-mtp-live-r2.json",
+        "container_init_pid": 207344,
+        "container_init_start_ticks": 18077194,
+        "label": "context-r35-integer-mtp-r1",
+        "supervisor_identity_absent": true,
+        "container_init_identity_recorded": true,
+        "container_init_identity_absent": true,
+        "container_absent": true,
+        "container_inspect_exit": 1,
+        "container_inspect_stderr": "error: no such object: f5f781500ae994ebc2025af4c782d67eb40d6a153691e77357370f66c5718936\n",
+        "label_listing_exit": 0,
+        "label_listing_empty": true
+      }
+    }
+  ],
+  "binaries": {
+    "runtime/bin/lie-hip-probe": "f7c2e09a4d89c9adacb29c9a30cc47e93794d5bf50abba93a794441ff1aa1412",
+    "runtime/bin/synapse-lie-bench": "4b19cdca8f1fe12ae004f28eeb415a0584b9f20948760d2601d1ff27e39ed0cd",
+    "runtime/bin/synapse-lie-bench-gufo-reference": "ac6f1becf4bf9ef4082f2abc2fbf054fedaf2939497582189bb77c71b15de04b",
+    "runtime/bin/synapse-lie-server": "b7829d41fa012f757072d3ba2c0ba3ef548b19b7d9ea82f8cc8053440dcbe0ea"
+  },
+  "coordination": [
+    {
+      "path": "evidence/context-r35-peer-nonuse-ar-r1.json",
+      "bytes": 2093,
+      "sha256": "388119d93f55deff89fd43af92a17165a9229cb11068dc0e9e1253d6adaf0c16"
+    },
+    {
+      "path": "evidence/context-r35-peer-nonuse-mtp-r1.json",
+      "bytes": 2265,
+      "sha256": "3042e4088c04dbea7d300ac0adb205de2f5194404a86c83e7d405355272d352b"
+    },
+    {
+      "path": "evidence/context-r35-peer-nonuse-r1.json",
+      "bytes": 2859,
+      "sha256": "b812911020ce9116e043773f323d14e33fc786894d3d15c1e47e04db1f9900f9"
+    }
+  ],
+  "fresh_preflights": [
+    {
+      "path": "evidence/context-r35-fresh-161-r2.json",
+      "bytes": 6808,
+      "sha256": "400e0f64b1c35cbad60cc9ba06ef4a010b79815e022fcf31ce232f9e31a90ca7"
+    },
+    {
+      "path": "evidence/context-r35-before-ar-r1.json",
+      "bytes": 6804,
+      "sha256": "13f744ac0b7089202554ffb0008f88c6a83bdffc6c49e51832c0a1b975facebe"
+    },
+    {
+      "path": "evidence/context-r35-before-mtp-r1.json",
+      "bytes": 6806,
+      "sha256": "53426f0512651f57a5771fc456febc3429d6dc9f2bee026c9ff5856574cbdb15"
+    }
+  ],
+  "final_fresh_closure": {
+    "path": "evidence/context-r35-mtp-closure-r1.json",
+    "bytes": 10485,
+    "sha256": "500c818f1552b9ec5da1486fc4910a790b1e3e955cda01511517db3f2b4a8e96"
+  },
+  "compile_collection_matches_current_HOST105": true,
+  "retained_failures": [
+    {
+      "path": "evidence/context-r35-discovery-failure-r1.json",
+      "bytes": 880,
+      "sha256": "f6b2014ab2bfd36321fd2c3cf60d957ba6ea1fb817e4fd73151e7dcebcc03630"
+    }
+  ],
+  "previous_matching_integer_GPU_receipt": {
+    "path": "docs/development/validation/output-schema-integer-point-gpu-2026-10-06.json",
+    "bytes": 132556,
+    "sha256": "5b143c6e6428b1d04346412231533bc39f65c64f22589c8b97fbcbc84f5b03d6"
+  },
+  "independent_HOST_portable_archive": {
+    "path": "docs/development/validation/raw/c17-json-slot-host-2026-10-06.tar.gz",
+    "bytes": 20811950,
+    "sha256": "929d5061140f07eb598420d9ba9b407ba4fb442d947dbe3b0602872376d34d6c"
+  },
+  "new_inference_threads": 0,
+  "existing_public_ABI_breaking_change": false,
+  "new_contract": "Additive lie_json_value_slot within JSON ABI1 owns root/borrowed admission, lazy state, copy/move construction/assignment, scalar moved state and root transfer. Existing layouts/reactive policy unchanged; typed references, synchronized strings and exception translation remain private C++.",
+  "thermal_policy": "CPU98/NVMe85/lower exposed guards; GPU observe-only. No fan/clock/power tuning.",
+  "KV_cache_payload_format_changed": false,
+  "root_157_158_non_use": true,
+  "Terminal_Bench": "STOPPED_COLLECTED_CLOSED_DEFERRED_LAST",
+  "all_six_owned_tasks_open": true,
+  "pending": [
+    "Terminal Bench Core-19 last after functional changes and qualification.",
+    "Independent 1M recall and native HTTP qualification.",
+    "Matched Gufo/Halogen context, concurrency, resources, threads and graphs.",
+    "Broader learned DS4 steering quality/faults/vision/cost.",
+    "Independent original-weight sampling probabilities/filter/tool transitions/cost.",
+    "Remaining C17 typed construction/bootstrap/callback errors/model-controller and broader numeric/branch/fault/resource/quality/cost qualification."
+  ],
+  "general_fractional_bounds_numeric_enum_const_multipleOf_qualified": false,
+  "portable_archive": {
+    "path": "docs/development/validation/raw/c17-json-slot-point-gpu-2026-10-06.tar.gz",
+    "bytes": 977709,
+    "sha256": "0e31269ad5202bc2e501d053c31561e943d74de1c637bb0d9e97ae891bb1c7a9"
+  },
+  "portable_archive_inventory": [
+    {
+      "path": "LICENSE",
+      "bytes": 1081,
+      "sha256": "7ea461cf01583ff889f2c0705702f4e97bc1751fd96d5381895754638dc1263d"
+    },
+    {
+      "path": "docs/development/validation/c17-json-slot-host-2026-10-06.json",
+      "bytes": 214661,
+      "sha256": "d28bdde72038348c93b2bdef776928cab4025d3b9ab92bfaa978ba4b6be45c77"
+    },
+    {
+      "path": "evidence/collect-context-r35-coherence.py",
+      "bytes": 4552,
+      "sha256": "42926853cf37bc79dfd2ee8144f894bc74794fd4d0862dbf7c1d9e4fd4ccc6a6"
+    },
+    {
+      "path": "evidence/collect-context-r35-compile.py",
+      "bytes": 5393,
+      "sha256": "97620e6419fe268eef35e67d16b5c8544a4f57ff4602b3a8c4e4cf52a3191949"
+    },
+    {
+      "path": "evidence/context-r35-ar-closure-r1.json",
+      "bytes": 8103,
+      "sha256": "e5251d4d15d92adbdb6008764ad4633bd7d91ad618b54b23dd51b23773bd6148"
+    },
+    {
+      "path": "evidence/context-r35-ar-closure-r1.py",
+      "bytes": 7586,
+      "sha256": "c77011dacefeda4e9497c77b03d7b3c275934816b33617f10a8392d984f93589"
+    },
+    {
+      "path": "evidence/context-r35-ar-live-r1.json",
+      "bytes": 5214,
+      "sha256": "5cda31fbf2dad75c3b446106b611f50815ec1d589d5ea9326e583dec70b86069"
+    },
+    {
+      "path": "evidence/context-r35-ar-live-r1.py",
+      "bytes": 3153,
+      "sha256": "8a73797d80fdce921e0b68db53cfde510cd2e9d0557d2de35e87c88e5c6b56e0"
+    },
+    {
+      "path": "evidence/context-r35-ar-live-r2.json",
+      "bytes": 6270,
+      "sha256": "2801374f6db36c67460515ac536b2e7ba92dbce032de61939a53866544436832"
+    },
+    {
+      "path": "evidence/context-r35-ar-live-r2.py",
+      "bytes": 3153,
+      "sha256": "de59d717e5174e2e5cec209b95f1f0dc98854a36f717cd142d72fba29ede6cd4"
+    },
+    {
+      "path": "evidence/context-r35-ar-live-r3.json",
+      "bytes": 6274,
+      "sha256": "7310010c5da1598374e49f3f1980ca7db1da259ee7aaa3838150d91d3d0dd4d6"
+    },
+    {
+      "path": "evidence/context-r35-ar-live-r3.py",
+      "bytes": 3153,
+      "sha256": "80fbd6f9f9d0aa669fe292fe408a5bb34971aa1e5010c4e9bbf17167c1ef3497"
+    },
+    {
+      "path": "evidence/context-r35-ar-live-r4.json",
+      "bytes": 6822,
+      "sha256": "c17bc9c36115285dc9c1ffa668d79cff03a21010fdae5ff83903e7029122a4b4"
+    },
+    {
+      "path": "evidence/context-r35-ar-live-r4.py",
+      "bytes": 3582,
+      "sha256": "a5196efe0dadc932d998e5030ebcf1d298453900a28f460ec9013200e242f6c3"
+    },
+    {
+      "path": "evidence/context-r35-ar-live-r5.json",
+      "bytes": 6824,
+      "sha256": "8eedd0c7438a1d69216ea7ad897392384352fdd714c6a6935f7785d886ea9704"
+    },
+    {
+      "path": "evidence/context-r35-ar-live-r5.py",
+      "bytes": 3582,
+      "sha256": "69b183250041ba9e7220b8f155ef3d724e9433679b7e210d7c8eeb100ef161c1"
+    },
+    {
+      "path": "evidence/context-r35-ar-live-r6.json",
+      "bytes": 6828,
+      "sha256": "afc0b9ce3528fb2df6cd3b1e036842dadba1ecfd2fb3e3ca024d7369a88f9a72"
+    },
+    {
+      "path": "evidence/context-r35-ar-live-r6.py",
+      "bytes": 3582,
+      "sha256": "da185724a36a2f03dfd13032ff8e002b798a20eb65f8426dbaac44750b51319d"
+    },
+    {
+      "path": "evidence/context-r35-before-ar-r1.json",
+      "bytes": 6804,
+      "sha256": "13f744ac0b7089202554ffb0008f88c6a83bdffc6c49e51832c0a1b975facebe"
+    },
+    {
+      "path": "evidence/context-r35-before-ar-r1.py",
+      "bytes": 4514,
+      "sha256": "684894771174d79e143ece46e84b33b6e57566012b8ff1956c56f1748ec8b696"
+    },
+    {
+      "path": "evidence/context-r35-before-mtp-r1.json",
+      "bytes": 6806,
+      "sha256": "53426f0512651f57a5771fc456febc3429d6dc9f2bee026c9ff5856574cbdb15"
+    },
+    {
+      "path": "evidence/context-r35-before-mtp-r1.py",
+      "bytes": 4516,
+      "sha256": "30d126907776e586ba7fd6be241247c8b9b11e7980c6f1a5fa2c61624ac0b5c9"
+    },
+    {
+      "path": "evidence/context-r35-build-closure-r1.json",
+      "bytes": 7694,
+      "sha256": "22fd53b79d2451b85c6ee2d0a36f8408d3a7b1f1dcbfbce3fa31004448e51d5b"
+    },
+    {
+      "path": "evidence/context-r35-build-closure-r1.py",
+      "bytes": 6247,
+      "sha256": "6e0cd2febe95813326c6edf41004e0020084e44cac78a4a470f4401cfa4da132"
+    },
+    {
+      "path": "evidence/context-r35-build-live-r1.json",
+      "bytes": 7315,
+      "sha256": "6193339118c7b594372d669bcf41fa33adfef4dd17828433e41f97414f2aef3e"
+    },
+    {
+      "path": "evidence/context-r35-build-live-r1.py",
+      "bytes": 3781,
+      "sha256": "b614977426b1d4009a037728efbea2ccd0af51c6dd23cabfe6ca009fc1651ca5"
+    },
+    {
+      "path": "evidence/context-r35-build-live-r2.json",
+      "bytes": 11619,
+      "sha256": "1973b7757910db4d93d16c06e46db1387fbb950d27022f3d15ee0d893b4614a5"
+    },
+    {
+      "path": "evidence/context-r35-build-live-r2.py",
+      "bytes": 3781,
+      "sha256": "20750de2463aefef3f56bf9f3f868f25e0548dc83b667a3afb16ce0110a1ff08"
+    },
+    {
+      "path": "evidence/context-r35-build-live-r3.json",
+      "bytes": 16567,
+      "sha256": "b2ad5bcfe380aba0bf0837f46d6aa238cbb3385db2a2a515d23acf1d81610c44"
+    },
+    {
+      "path": "evidence/context-r35-build-live-r3.py",
+      "bytes": 3781,
+      "sha256": "e8651aaa069629af3d5bfc5de3a9f2a1a2b2519fdfb49ca7a948d0984bb489d0"
+    },
+    {
+      "path": "evidence/context-r35-build-manifest.json",
+      "bytes": 1374,
+      "sha256": "a25bdaf8ee4106dadc00ec6fac7ae86d88970bb7fd27e6416e7b3777c8366be2"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/coherence-evidence/build/rocm10-point-modern-r35-provider/build.ninja",
+      "bytes": 112542,
+      "sha256": "f11af509f13321095a7179a057bf77c324ef8d60d067dfd8501acf853793b3d2"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/coherence-evidence/build/rocm10-point-modern-r35-reference-provider/build.ninja",
+      "bytes": 114642,
+      "sha256": "1cedd28dc78a4262b22e501277646836b1c0ed16904da375f2eebe961fd65202"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/coherence-evidence/build/rocm10-point-modern-r35-runtime/build.ninja",
+      "bytes": 218311,
+      "sha256": "525ccbdf3f041a3f4eb6638c71ef2b6d2622fce0b580c2fafa5f15ecf5365319"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/coherence-evidence/collection.json",
+      "bytes": 10703,
+      "sha256": "239600b4d071c383ca773083f7dee26d3fe9329fca2f6fee9288acbb71ae5a05"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/collection.json",
+      "bytes": 3072,
+      "sha256": "6f7a0470bafd08f61b24b1b11195882fe4e9ebf257b580d8ee8ed04611477136"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/build/rocm10-point-modern-r35-provider/BUILD-RECEIPT.json",
+      "bytes": 138400,
+      "sha256": "0e1924380aef1a30757800188ffd1f99015ec4121deae6fdab9043e51bb55de6"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/build/rocm10-point-modern-r35-reference-provider/BUILD-RECEIPT.json",
+      "bytes": 138452,
+      "sha256": "919ebca11e12675942be0906cfd9c1967e6082d8f732b8eecb8713665aca4083"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/collection.json",
+      "bytes": 17262,
+      "sha256": "1e1c4ceaca1a413390d79698f6f942ec92b8b8ff49d609bb86ae3e112ee5d48e"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-compile/configure.command",
+      "bytes": 740,
+      "sha256": "a834172056e733044b0c24a5abfb340aad5d210c55494ca5eec215d472517e18"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-compile/configure.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-compile/configure.stderr",
+      "bytes": 1608,
+      "sha256": "4b7ea0d9c62ad3dc7b3877ecacdaa0e4c174afa5e282ce251e652866881fb27c"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-compile/configure.stdout",
+      "bytes": 3849,
+      "sha256": "3ea0a89066b9a0c32adbd21f9265bd711388c25d1704d57fa336c522eac10d52"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-compile/link.command",
+      "bytes": 175,
+      "sha256": "740799412f43dee84c3043fdf6f97e176ac216473b749bfe4b41bec13028e5f3"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-compile/link.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-compile/link.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-compile/link.stdout",
+      "bytes": 11520,
+      "sha256": "ff95df2c0cb7aa3cb03453cd8d3197e85623013ea2ca88d76db112b32e826441"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-compile/provider.command",
+      "bytes": 261,
+      "sha256": "84d21d4e21ba81a38f19de0be1c3525cedf7c2c25cea83f476a40aa27eaa759b"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-compile/provider.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-compile/provider.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-compile/provider.stdout",
+      "bytes": 65,
+      "sha256": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-compile/reference-provider.command",
+      "bytes": 272,
+      "sha256": "1f22fe8df3c65080901f670dfce0e44e781aee12a08251257a03fc5d8cb12bd7"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-compile/reference-provider.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-compile/reference-provider.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-compile/reference-provider.stdout",
+      "bytes": 65,
+      "sha256": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-compile/result.json",
+      "bytes": 1181,
+      "sha256": "50421998959990f5e922039adbc9f6b7d8f30e22364656fcf3680928e2a3a057"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-provider/build.log",
+      "bytes": 9064,
+      "sha256": "95f9844def28139cc9095f2c1504eab95d5115c8ca46fc0fcaa74f537c8d5522"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-provider/configure.log",
+      "bytes": 3359,
+      "sha256": "5157c0683ce10cc473ccee22a50c8f957f493702ccd08cecafd57a8de15da4dd"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-provider/result.json",
+      "bytes": 138400,
+      "sha256": "0e1924380aef1a30757800188ffd1f99015ec4121deae6fdab9043e51bb55de6"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-reference-provider/build.log",
+      "bytes": 9294,
+      "sha256": "d625facbd5ad3391f5d346ba3b881bfef607771c36d0f5375a8b9793227bef51"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-reference-provider/configure.log",
+      "bytes": 3369,
+      "sha256": "4c12a58fb3eaf0c8cb1af1989c6f5707c5a933fe2496b03749c6fa24b173c31d"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/compile-evidence/evidence/rocm10-point-modern-r35-reference-provider/result.json",
+      "bytes": 138452,
+      "sha256": "919ebca11e12675942be0906cfd9c1967e6082d8f732b8eecb8713665aca4083"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/controller-result.json",
+      "bytes": 541,
+      "sha256": "ec94bc56fdc85ac73f5b302e654fce8041f0daf5135e23987fbeff241451f698"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/manifest.json",
+      "bytes": 1374,
+      "sha256": "a25bdaf8ee4106dadc00ec6fac7ae86d88970bb7fd27e6416e7b3777c8366be2"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/result.json",
+      "bytes": 149077,
+      "sha256": "cf9c0a53f5f575503d3fc36e8a2cd495428c65f4b7807ec63b46adb471740f60"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/runner.py",
+      "bytes": 112434,
+      "sha256": "d1dd434d41f046245afe060d69b299ad2bc5845ea36e8cec481e625733648d3a"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r35-build-r1/telemetry.jsonl",
+      "bytes": 354049,
+      "sha256": "3f4999f1300008107102b7145f4ed300f7b8818ac53f528e3996b8e9ede4f2bb"
+    },
+    {
+      "path": "evidence/context-r35-bundle-result.json",
+      "bytes": 1375,
+      "sha256": "a1946c88059ac9943f09331c362f4ec8ddb470d80bbf2fd269019bd0908c3d5b"
+    },
+    {
+      "path": "evidence/context-r35-discovery-failure-r1.json",
+      "bytes": 880,
+      "sha256": "f6b2014ab2bfd36321fd2c3cf60d957ba6ea1fb817e4fd73151e7dcebcc03630"
+    },
+    {
+      "path": "evidence/context-r35-fresh-161-r1.json",
+      "bytes": 6804,
+      "sha256": "21a5fa1856ce5c558fb752b942ce2558557b07dea7923eea7c35edaf46fa3ccc"
+    },
+    {
+      "path": "evidence/context-r35-fresh-161-r1.py",
+      "bytes": 4583,
+      "sha256": "839c88a411bb6a955577d75ec45be7c0cb3cd047f0569ade94fb64de6b561b54"
+    },
+    {
+      "path": "evidence/context-r35-fresh-161-r2.json",
+      "bytes": 6808,
+      "sha256": "400e0f64b1c35cbad60cc9ba06ef4a010b79815e022fcf31ce232f9e31a90ca7"
+    },
+    {
+      "path": "evidence/context-r35-fresh-161-r2.py",
+      "bytes": 4583,
+      "sha256": "045180b70cd15846cae60fba5b2535e88804e8e5c457a310c10c0a7bb8ed5e22"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-r1.json",
+      "bytes": 5150,
+      "sha256": "26b680c5957b9ce227680a0fc855c4b2b53d133844387377d331835ff2aec554"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-r1/collection.json",
+      "bytes": 9352,
+      "sha256": "a3478ba3603ab459d92acd37991e098bc08c59f4880835a725b80f19a215418d"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-r1/controller-result.json",
+      "bytes": 921,
+      "sha256": "fc8c19a76ddd33afcc7e2cc105daaed2f0af11d45bf16cd66220d55977c22e68"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-r1/distrobox-create.log",
+      "bytes": 269,
+      "sha256": "2b781155596ff7f67c950d67064f3c784d4c0eb3493968ddbc4bc4218ce1b171"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-r1/distrobox.stderr.log",
+      "bytes": 1073,
+      "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-r1/distrobox.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-r1/http-controls-result.json",
+      "bytes": 2973,
+      "sha256": "a2a2e9b4e21d0577393b98c3b0c1b4f60889e1549bdeb1eb592de1274f6c9a02"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-r1/http-controls.py",
+      "bytes": 18408,
+      "sha256": "5a52223a674d850f4493794cc5cc190e807abd10b01adbe9faa29285fa0b54bd"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-r1/http-gate.py",
+      "bytes": 19320,
+      "sha256": "4aa144c9484dd2d9c1c421841291acd7b40b7d90275f7577288ac01fb9494605"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-r1/http-output-budget-result.json",
+      "bytes": 5475,
+      "sha256": "043d0b195d765c90d49a11ed8ed70ccc013632aa9dbd2f75699b94c75f87f0b0"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-r1/http-output-budget.py",
+      "bytes": 7386,
+      "sha256": "46fe16867cc37ab0ec684b02c4a1ae87dbf412b108bb6c5f1f5f5d3975156311"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-r1/http-result.json",
+      "bytes": 1826,
+      "sha256": "7c3433bc939164856f453a940d6feb35cb72d626ae094b40e4a1f3ae1b095d13"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-r1/http-schema-integer-result.json",
+      "bytes": 32270,
+      "sha256": "218f86ee7cefaa5a5ac7408b7fbeadabfdaf7aba84f612d1b47ee46ed2493911"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-r1/http-schema-integer.py",
+      "bytes": 10416,
+      "sha256": "3864bbda9e20b9579be79c8c5b4847632f5fa5995f8142115a91da100521df5e"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-r1/http-wire.jsonl",
+      "bytes": 1414778,
+      "sha256": "86828be4140a997953a1e1bee23bc2c9245058248a7cceb4e9a027864235301a"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-r1/manifest.json",
+      "bytes": 5150,
+      "sha256": "26b680c5957b9ce227680a0fc855c4b2b53d133844387377d331835ff2aec554"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-r1/result.json",
+      "bytes": 98390,
+      "sha256": "f8eec4b700ccf6d28df1c9a7de8696110c9a7c0d229ef877e752c05218457f0b"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-r1/runner.py",
+      "bytes": 112434,
+      "sha256": "d1dd434d41f046245afe060d69b299ad2bc5845ea36e8cec481e625733648d3a"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-r1/server.log",
+      "bytes": 92,
+      "sha256": "ec5a4a35875e3eedec180485bf93c35da0ac49badb81b3d2d11fbf43327bd31c"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-r1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-r1/stdout.log",
+      "bytes": 66621,
+      "sha256": "6e8fb71ff4bee0de38d1614cb85ec9523f90dec04829b5b34a9088b998d39e4c"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-r1/telemetry.jsonl",
+      "bytes": 918965,
+      "sha256": "80b12ee3a23a3c1c61e13fe129f35f51cc605590ff34f3e80fe5660275fb2fb6"
+    },
+    {
+      "path": "evidence/context-r35-integer-ar-witness-proof-r1.json",
+      "bytes": 377,
+      "sha256": "45c25d5e04361a14923c50938332fe5d771ce6f531677b1cf75359d4e5691d1c"
+    },
+    {
+      "path": "evidence/context-r35-integer-mtp-r1.json",
+      "bytes": 5808,
+      "sha256": "4ee2384ead2432b0249f056aee46c82e2f916b144ccc0db2cfaa9e87e464308c"
+    },
+    {
+      "path": "evidence/context-r35-integer-mtp-r1/collection.json",
+      "bytes": 9378,
+      "sha256": "91bde0ab9da44b7c1a13bdd3d7594a1792fafb9d101b32107a57818787ef9b27"
+    },
+    {
+      "path": "evidence/context-r35-integer-mtp-r1/controller-result.json",
+      "bytes": 922,
+      "sha256": "02b393187032f7c72c3ba617ca0ea9855a4226aecc5daf8304195ddd0aca61bb"
+    },
+    {
+      "path": "evidence/context-r35-integer-mtp-r1/distrobox-create.log",
+      "bytes": 272,
+      "sha256": "638ac2daca59b7c7b10ae75e9cdbc7e59d37eeff8178789fd1c60896ac8ad89d"
+    },
+    {
+      "path": "evidence/context-r35-integer-mtp-r1/distrobox.stderr.log",
+      "bytes": 1073,
+      "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+    },
+    {
+      "path": "evidence/context-r35-integer-mtp-r1/distrobox.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r35-integer-mtp-r1/http-controls-result.json",
+      "bytes": 2977,
+      "sha256": "fa3dd1e99fe0390f19e0569edc157ddda534df0247316fd4947772f43aac86aa"
+    },
+    {
+      "path": "evidence/context-r35-integer-mtp-r1/http-controls.py",
+      "bytes": 18408,
+      "sha256": "5a52223a674d850f4493794cc5cc190e807abd10b01adbe9faa29285fa0b54bd"
+    },
+    {
+      "path": "evidence/context-r35-integer-mtp-r1/http-gate.py",
+      "bytes": 19320,
+      "sha256": "4aa144c9484dd2d9c1c421841291acd7b40b7d90275f7577288ac01fb9494605"
+    },
+    {
+      "path": "evidence/context-r35-integer-mtp-r1/http-output-budget-result.json",
+      "bytes": 5475,
+      "sha256": "043d0b195d765c90d49a11ed8ed70ccc013632aa9dbd2f75699b94c75f87f0b0"
+    },
+    {
+      "path": "evidence/context-r35-integer-mtp-r1/http-output-budget.py",
+      "bytes": 7386,
+      "sha256": "46fe16867cc37ab0ec684b02c4a1ae87dbf412b108bb6c5f1f5f5d3975156311"
+    },
+    {
+      "path": "evidence/context-r35-integer-mtp-r1/http-result.json",
+      "bytes": 1933,
+      "sha256": "a5c4db6efb2743d0357798d9b0c1f61392f89c4553b56ba4096a12181d714a55"
+    },
+    {
+      "path": "evidence/context-r35-integer-mtp-r1/http-schema-integer-result.json",
+      "bytes": 32270,
+      "sha256": "218f86ee7cefaa5a5ac7408b7fbeadabfdaf7aba84f612d1b47ee46ed2493911"
+    },
+    {
+      "path": "evidence/context-r35-integer-mtp-r1/http-schema-integer.py",
+      "bytes": 10416,
+      "sha256": "3864bbda9e20b9579be79c8c5b4847632f5fa5995f8142115a91da100521df5e"
+    },
+    {
+      "path": "evidence/context-r35-integer-mtp-r1/http-wire.jsonl",
+      "bytes": 1093235,
+      "sha256": "d7a3f4003d87616a73b69180b3a4787e7ff33e1bf9a6d991b47052a401d7a886"
+    },
+    {
+      "path": "evidence/context-r35-integer-mtp-r1/manifest.json",
+      "bytes": 5808,
+      "sha256": "4ee2384ead2432b0249f056aee46c82e2f916b144ccc0db2cfaa9e87e464308c"
+    },
+    {
+      "path": "evidence/context-r35-integer-mtp-r1/result.json",
+      "bytes": 99902,
+      "sha256": "ccfba4f935e3c987d82d0e54e610ea0b160a6387e62ed40b43866780cafd0751"
+    },
+    {
+      "path": "evidence/context-r35-integer-mtp-r1/runner.py",
+      "bytes": 112434,
+      "sha256": "d1dd434d41f046245afe060d69b299ad2bc5845ea36e8cec481e625733648d3a"
+    },
+    {
+      "path": "evidence/context-r35-integer-mtp-r1/server.log",
+      "bytes": 92,
+      "sha256": "7cc0e60a56fde2babc83ff4daec2dc3d5a367042e68a25d32f569c40a206b426"
+    },
+    {
+      "path": "evidence/context-r35-integer-mtp-r1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r35-integer-mtp-r1/stdout.log",
+      "bytes": 66634,
+      "sha256": "5ad78411566f5c58496c4006409dcb4881f07567360b9a67957f5af490ca8786"
+    },
+    {
+      "path": "evidence/context-r35-integer-mtp-r1/telemetry.jsonl",
+      "bytes": 689892,
+      "sha256": "8a781ff79753cf137fc2a11a998cc2f6d15f8a47b1c9f071ddf794dc92a91149"
+    },
+    {
+      "path": "evidence/context-r35-mtp-closure-r1.json",
+      "bytes": 10485,
+      "sha256": "500c818f1552b9ec5da1486fc4910a790b1e3e955cda01511517db3f2b4a8e96"
+    },
+    {
+      "path": "evidence/context-r35-mtp-closure-r1.py",
+      "bytes": 7760,
+      "sha256": "ebaf64642b672811520a8a88890560ee86980f23141f6d40f92b287e2551ac98"
+    },
+    {
+      "path": "evidence/context-r35-mtp-live-r2.json",
+      "bytes": 5210,
+      "sha256": "ac69a4cfcf3efee0ee402eb84ad4ebf8606f2445e18ec4946a4ca2e651d6b8cf"
+    },
+    {
+      "path": "evidence/context-r35-mtp-live-r2.py",
+      "bytes": 3156,
+      "sha256": "faa7d0ccb8a2f0fcf7214acc72ab11aadca2c9a75ad6a625028aff109bec585d"
+    },
+    {
+      "path": "evidence/context-r35-mtp-live-r3.json",
+      "bytes": 6624,
+      "sha256": "bfd0b63cde5e245b197953934ee50189c9ff66c0974c8c0d65da8acb63e16e55"
+    },
+    {
+      "path": "evidence/context-r35-mtp-live-r3.py",
+      "bytes": 3585,
+      "sha256": "bf565a83517b206f39628befec80d6bbf90a7662fba15fbaedfcbb53c71498b9"
+    },
+    {
+      "path": "evidence/context-r35-mtp-live-r4.json",
+      "bytes": 6824,
+      "sha256": "f1e4c542b9c2870786e28cfa502e3f78abd94d5e6f4ea4ca0af8947903f210ec"
+    },
+    {
+      "path": "evidence/context-r35-mtp-live-r4.py",
+      "bytes": 3585,
+      "sha256": "2bd2a56ab424e3b5147a600a1b559a505d18a99c562d46d877b9b5bea9783c67"
+    },
+    {
+      "path": "evidence/context-r35-mtp-live-r5.json",
+      "bytes": 6828,
+      "sha256": "015b6284388452bedcb09127669b0f82e75f3e0761c05857ffd59ea23dc260eb"
+    },
+    {
+      "path": "evidence/context-r35-mtp-live-r5.py",
+      "bytes": 3585,
+      "sha256": "027386b74cf511241f157358cef7038f0cc18f7daea6e2c2ed868920ba553c16"
+    },
+    {
+      "path": "evidence/context-r35-peer-nonuse-ar-r1.json",
+      "bytes": 2093,
+      "sha256": "388119d93f55deff89fd43af92a17165a9229cb11068dc0e9e1253d6adaf0c16"
+    },
+    {
+      "path": "evidence/context-r35-peer-nonuse-mtp-r1.json",
+      "bytes": 2265,
+      "sha256": "3042e4088c04dbea7d300ac0adb205de2f5194404a86c83e7d405355272d352b"
+    },
+    {
+      "path": "evidence/context-r35-peer-nonuse-r1.json",
+      "bytes": 2859,
+      "sha256": "b812911020ce9116e043773f323d14e33fc786894d3d15c1e47e04db1f9900f9"
+    },
+    {
+      "path": "evidence/context-r35-source-seal.json",
+      "bytes": 1469,
+      "sha256": "28d1d92308b2541df685e002765357156550293e145b8f6a35f633777169207c"
+    },
+    {
+      "path": "evidence/context-r35-source-stage.json",
+      "bytes": 3215,
+      "sha256": "ef24e1bd81ff4a0b6f3c4d1df0b27f6d32d8e07109a5549e4db88d5cb120b08d"
+    },
+    {
+      "path": "evidence/context-source-modern-r35/SOURCE-FILES.sha256",
+      "bytes": 349855,
+      "sha256": "da0fbe572c9fa583b905b3b3bc563a96a7b216f21a743ead7f87f1d7941120aa"
+    },
+    {
+      "path": "evidence/seal-context-r35-bundle.py",
+      "bytes": 2543,
+      "sha256": "2796de51c1d5199ec59e1806bc7ab614593fafa366efb81e2ce47a86acda2dbb"
+    },
+    {
+      "path": "evidence/seal-json-slot-point-r35.py",
+      "bytes": 13118,
+      "sha256": "6b96d8ea8e24eb63b0de0431e52abc93b9071db8a2590c02ca2ebf42986174d6"
+    },
+    {
+      "path": "evidence/stage-context-r35-source.py",
+      "bytes": 4126,
+      "sha256": "3ab92f5a46447ae323ed4c00203e5328b6db135b82368a8bf0c4bc453cc28bcf"
+    },
+    {
+      "path": "evidence/verify-json-slot-point-r35-r1.py",
+      "bytes": 4315,
+      "sha256": "0029aa65dd5d536bda4426804171744a2b7c180bab1a477acd842b2f8b47292f"
+    },
+    {
+      "path": "third_party/README.md",
+      "bytes": 29093,
+      "sha256": "e824a3be29850ae188578c77dcf2ab8614d1c128edeed6930a9158a16fd6a0eb"
+    }
+  ],
+  "publication": false,
+  "goal_complete": false
+}

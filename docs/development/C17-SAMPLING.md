@@ -513,8 +513,11 @@ numbers retain the original policy: serialization refuses them.
 five Release, five ASan/UBSan/LSan, 58 provider and three build-contract checks pass.
 All 30 complete preceding witness groups and 267 files remain byte-identical.
 Private Value/Array/Object sizes are unchanged at 152/168/8 bytes on the local
-host. Matching new-source HIP and original-weight AR/MTP checks remain pending;
-these fixtures do not qualify model inference, GPU faults, quality or performance.
+host. The matching `dbdac28d` coherent HIP ON/OFF build passes 37 general OpenAI
+and 66 integer controls in each original-weight AR/MTP mode on `.161`
+([GPU receipt](validation/c17-json-slot-point-gpu-2026-10-06.json)). The HOST
+receipt retains its original scope. Selected continuation is qualified; broader
+branches, GPU faults, quality, private resources and matched cost remain open.
 
 `lie/json_value.h` exposes model-neutral ABI 1. C17 owns exact byte strings/keys,
 ordered object and array child tables, scalar getters, cloning, transactional

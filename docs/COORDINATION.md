@@ -1,5 +1,28 @@
 # DS4 / synapse-lie coordination
 
+## R35 matching build, AR and MTP collected and closed — 2026-10-06
+
+Fresh Point/Q2/DGX own non-use and separate global preflights admit each `.161`
+window for sealed `dbdac28d`. The build supervisor (PID 199404 / start 17970580)
+holds the original lease (device 66307 / inode 105946405) and releases it at 18:24:11.900811 UTC.
+Coherent HIP ON/OFF105 providers and private consumers pass; six base, 25 compile
+and three coherence files are collected and SHA-verified against the current
+HOST inventory. AR supervisor (PID 205534 / start 18013610) and MTP supervisor
+(PID 207134 / start 18077057) each pass 37 general plus 66 integer controls and release at
+18:34:49.881753 / 18:43:19.448666 UTC. Nineteen files per mode are collected and
+SHA-verified. Server, child, controller and supervisor exit codes are 0.
+[Qualification receipt](development/validation/c17-json-slot-point-gpu-2026-10-06.json).
+
+Fresh closure at 18:43:45.687731 UTC verifies the exact three supervisor and
+container-init identities gone and containers removed, HTTP port 8000 unbound,
+the original lease (device 66307 / inode 105946405) free and released, and router PID 208314 active
+as the only KFD client. No foreign compute or guarded-hot sensor is observed.
+Root holds no job/client/build/lease/waiter/reservation or live handle and does
+not use `.157/.158`. This dated closure is not future admission. All six owned
+tasks remain open; Terminal Bench stays stopped, collected, closed and deferred
+last. CPU98/NVMe85/lower guards and GPU observation remain unchanged; no
+deployment, dependency installation, model conversion or tuning occurs.
+
 ## R35 JSON ownership slice: HOST only — 2026-10-06
 
 Root advances the C17 extraction locally: JSON root/borrowed ownership, lazy
