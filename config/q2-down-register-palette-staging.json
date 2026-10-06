@@ -1,0 +1,22 @@
+{
+  "schema": "synapse-lie.q2-down-register-palette-staging.v1",
+  "arms": [
+    {
+      "mode": "down-register-palette-check",
+      "capsule_sha256": "ecfda9319a686c038abe3b91a3d0d73ffc7fb066a3b126da31aef3d163d94f8e",
+      "provider_files": 1028,
+      "fixture_files": 120,
+      "capsule_path": "evidence/q2-down-register-palette-stage-component/source.tar.gz",
+      "ssh_executed": false
+    },
+    {
+      "mode": "q2-counting-down-register-palette",
+      "capsule_sha256": "2e370561e4e52754738659de39746d09ffe4f3b8f155d518bf066485356eb156",
+      "provider_files": 1028,
+      "fixture_files": 120,
+      "capsule_path": "evidence/q2-down-register-palette-stage-model/source.tar.gz",
+      "ssh_executed": false
+    }
+  ],
+  "gpu_run": false
+}

@@ -1,5 +1,32 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Reconnection04:09UTC: fresh original Core CPU lease/closure and retirement,
+empty KFD and57b67078 GPU-release registry revalidate. New down r2 host34+34
+completes04:10:50UTC, six exits0/seven collected artifacts. Its newly frozen
+helper also rechecks the old r1 CPU receipt/retirement. No GPU admission or
+reservation exists yet; next original-lease/model-stat checks gate that action.
+Root's fresh `.157` non-use remains in force. All r1 transport failures remain.
+
+Current Q2 state: no GPU/CPU job, build, lease, waiter or reservation on `.157`.
+The down register-palette host33+33 cohort finishes/collects03:42:10UTC, with
+six exit0 commands and7 verified artifacts. The later admission SSH exits255
+on connection timeout; attempted dependent publication exits1 and component
+SSH exits255/no-route. Neither SSH establishes a remote connection, and no
+GPU window/build/component/model starts. All failed local transports are
+terminal and preserved. Subsequent read-only probes remain no-route255.
+Core freshly confirms non-use `.157`, including04:04UTC closure of its separate
+`.161` jobs. Last verified `.157` release remains03:31:16UTC/57b67078; network
+unreachability is not a fresh global-closure proof. No foreign process is stopped.
+
+New phase-helper/34+34 host scope and r2 cohort recipes are preparation only.
+On reconnection, revalidate Core closure, registry, original lease identities,
+model stat identities and KFD before admitting any GPU work. Reboots must not
+silently rebind old inodes/receipts. A dependent phase requires a frozen active
+receipt and successful remote check; existing failed cohorts remain immutable.
+HC mix/injection reuse is compiler-only and has no production selector or GPU
+admission. Retained provider/model binaries and public C17 contracts remain.
+[Status and classified failures](Q2-TARGET-PRIORITIES.md).
+
 Latest Q2 window: IQ2 register-stage releases .157 at2026-10-06T03:31:16.929649UTC,
 receipt SHA57b67078e073f09c2aeb73b2ed2f6c288781131029c8267b840d6bcc77b2f04b.
 Fresh Core non-use and client closure were revalidated before admission. New

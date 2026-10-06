@@ -1,5 +1,49 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Reconnection04:09UTC revalidates the original Core CPU lease/closure, retired
+processes/groups, empty KFD and previous GPU-release registry event. Fresh
+down r2 host34/34 Debug and34/34 ASan/UBSan passes04:10:50UTC. Collection
+verifies six exit0 commands/seven artifacts. The newly frozen r2 plan binds
+122 fixtures/13 manifests/1028 provider files and both staging capsules;
+window helper also retires the earlier r1 CPU cohort without rerunning it.
+Component/model require fresh original GPU-lease/model-stat admission.
+No GPU window or throughput result is claimed at this preparation checkpoint.
+Previous outage notes and failed r1 transports remain historical evidence.
+
+The [new fixed-point priority audit](Q2-TARGET-PRIORITIES.md) keeps saved
+1585.308983 PP /25.16079073 TG against fixed UD1685.777092. The remaining
+76.991736ms budget directs two new mechanisms: wave-private Q2 down staging
+(historical161.558060ms) and HC normalized-input reuse for injection
+(historical39.548835ms). Both start from retained1585; no performance increment
+is claimed. The saved1571 trace is cost attribution, not a changed comparator.
+
+Down now has an isolated1028-file production provider, literal-parent control,
+123-pair guarded GPU fixture and70 timed samples including captured routes.
+Local ISA preserves161 other bodies, LDS18560→8320/VGPR96→102/private0.
+Fresh `.157` host33+33 passes03:42:10UTC before SSH becomes unreachable.
+Admission255 timeout, publication1 and component255 no-route preserve the
+sequencing error; no SSH connection, remote GPU build, admission or model
+started. Later no-route probes retain255. The current phase helper rejects
+failed/stale admissions and existing cohorts; five new cases are prepared.
+Current host34+34/r2 plan/runtime remain pending, with no local host test pass
+claimed. Reconnection must revalidate all leases/coordination, then run only
+the new candidate, preserving failed r1 evidence and saved comparisons.
+
+HC input reuse adds only private compiler probes. Raw/deferred mixer versions
+compute the original first MUL/15 ordered FMAs while normalized values are
+loaded and emit20MiB of dots into proposed dead `down_e` scratch. A second
+kernel retains the original wave/block/chunk reductions. Device-only compilation
+and symbolic tails/row-group coverage pass; all162 existing bodies are exact.
+Producer242VGPR/24576LDS/private0 and16WMMA/26barriers are unchanged; SGPR and
+instructions increase. The final reducer has178 static instructions against
+405/492 in the original standalone injectors. Full-cycle GPU timing, complete
+output replay and executor lifetime integration are not yet performed.
+
+No Q2 process, lease, waiter or reservation exists. Last verified release
+remains03:31:16UTC/57b67078; no fresh global closure is claimed while `.157`
+cannot be reached. Core confirms fresh non-use. Sources/evidence are durable,
+no remote cleanup or DS4 changes occur, and full curve/Q4 stay deferred.
+
 The [IQ2 register-stage trial](Q2-IQ2-REGISTER-STAGE.md) completes at
 **1575.134325 PP /25.21702868 TG**, nominal-0.641809% PP versus saved1585.
 All96 component pairs/21 parent files are exact, but the small component

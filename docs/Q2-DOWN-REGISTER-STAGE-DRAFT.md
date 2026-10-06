@@ -1,6 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 down: wave-private stage removal
 
+The v3 draft now has an [isolated production trial](Q2-TARGET-PRIORITIES.md),
+123-pair/70-timing fixture and historical `.157` host33+33 pass. Its GPU trial
+did not start because SSH failed before connection. Current phase changes
+require fresh34+34 on `.157`; no down speed or numerical result exists yet.
+The preparation descriptions below retain their original compiler-only scope.
+
 These source-only drafts start from retained1585.308983 PP /25.16079073 TG,
 not the negative IQ2 register-stage candidate. No model speed, device safety
 or numerical equivalence is established for these drafts.
@@ -70,7 +76,7 @@ are unchanged; source algebra and static compilation are not independent quality
 [correction and palette generator](../tools/prepare-q2-down-register-stage-draft-v3.py),
 [provenance](../third_party/gufo/LIE-Q2-DOWN-REGISTER-STAGE-DRAFT.md).
 
-The wrappers compile locally to device ISA only and are not executable GPU
-benchmarks. No production selector/provider or runtime fixture is wired yet,
-and no GPU reservation exists for these drafts. Public C17 model/state/metrics
-contracts and the retained provider remain unchanged.
+The draft wrappers compile locally to device ISA only. A separate production
+selector/provider and runtime fixture are now wired for v3, with GPU execution
+pending as stated above. No GPU reservation exists. Public C17 model/state/
+metrics contracts and the retained provider remain unchanged.

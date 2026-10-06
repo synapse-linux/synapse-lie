@@ -483,6 +483,35 @@ class RemoteGuardTests(unittest.TestCase):
                     remote.main()
                 run.assert_not_called()
 
+    def test_down_register_palette_manifest_binding(self):
+        self.assertEqual(remote.DOWN_REGISTER_PALETTE_MANIFEST,
+                         'config/q2-down-register-palette-source.json')
+        self.assertTrue((remote.ROOT / remote.DOWN_REGISTER_PALETTE_MANIFEST).is_file())
+
+    def test_down_register_palette_new_component_or_matched_counting_only(self):
+        variant = 'down-register-palette'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-iq2-raw-prefetch', 'q2-counting-iq2-slice-commit'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Q2 down register palette requires its component or matched historical counting provider')
+        self.refuse([remote.DOWN_REGISTER_PALETTE_MODE, 'q2-fixture'], 'Q2 down register palette requires')
+        base = [remote.DOWN_REGISTER_PALETTE_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Q2 down register palette component builds')
+        for mode in (remote.DOWN_REGISTER_PALETTE_MODE, 'q2-counting-down-register-palette'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
     def test_iq2_live_compose_manifest_binding(self):
         self.assertEqual(remote.IQ2_LIVE_COMPOSE_MANIFEST,
                          'config/q2-iq2-live-compose-source.json')

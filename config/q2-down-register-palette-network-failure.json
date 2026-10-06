@@ -1,0 +1,53 @@
+{
+  "schema": "synapse-lie.q2-down-register-palette-network-failure.v1",
+  "commands": {
+    "admission": {
+      "argv": [
+        "python3",
+        "evidence/q2-down-register-palette-preparation/window-action.py",
+        "admit",
+        "e3d2b268"
+      ],
+      "started_at": "2026-10-06T03:43:44.083656+00:00",
+      "finished_at": "2026-10-06T03:43:54.120257+00:00",
+      "exit_code": 255
+    },
+    "admission-publish": {
+      "argv": [
+        "python3",
+        "evidence/q2-down-register-palette-preparation/publish-window.py",
+        "admission"
+      ],
+      "started_at": "2026-10-06T03:44:15.517832+00:00",
+      "finished_at": "2026-10-06T03:44:15.548238+00:00",
+      "exit_code": 1
+    },
+    "component-launch": {
+      "argv": [
+        "python3",
+        "tools/q2-remote.py",
+        "down-register-palette-check",
+        "q2-down-register-palette-component-r1",
+        "--source-variant",
+        "down-register-palette"
+      ],
+      "started_at": "2026-10-06T03:44:19.777870+00:00",
+      "finished_at": "2026-10-06T03:44:21.807796+00:00",
+      "exit_code": 255
+    }
+  },
+  "admission_remote_connection_established": false,
+  "component_remote_connection_established": false,
+  "model_launched": false,
+  "GPU_run": false,
+  "window_acquired": false,
+  "published_admission": false,
+  "last_verified_release_sha256": "57b67078e073f09c2aeb73b2ed2f6c288781131029c8267b840d6bcc77b2f04b",
+  "sequencing_error": "Dependent publication and component command attempted after failed admission; both terminal, no SSH connection established",
+  "correction": "Inspect admission terminal and validate canonical receipt before any dependent action; never restart from an observation timeout",
+  "local_classification_first_assertion_exit": 1,
+  "local_classification_first_assertion_reason": "SSH diagnostics captured in component stdout rather than stderr; corrected after inspecting both streams",
+  "numerical_or_kernel_failure": false,
+  "needs_fresh_remote_revalidation": true,
+  "goal_met": false
+}

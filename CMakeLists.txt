@@ -79,6 +79,8 @@ add_test(NAME q2_binary_replay COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_binary_replay_test.py)
 add_test(NAME q2_remote COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_remote_test.py)
+add_test(NAME q2_down_register_palette_phase COMMAND "${Python3_EXECUTABLE}"
+  "${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_down_register_palette_phase_test.py")
 add_library(iq2_mixed_tiles STATIC experiments/iq2_mixed_tiles.c)
 target_include_directories(iq2_mixed_tiles PUBLIC experiments)
 target_compile_options(iq2_mixed_tiles PRIVATE -Wall -Wextra -Werror -Wpedantic)

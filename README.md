@@ -1,5 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+`.157` reconnects04:09UTC; original Core CPU lease/closure, empty KFD and
+previous GPU-release registry event revalidate. Fresh down host34+34 passes
+04:10:50UTC, all six exits0/seven artifacts verify. The new r2 plan freezes
+122 fixtures/13 manifests and1028 provider files; both staging capsules verify.
+GPU component/model are pending fresh admission. Earlier outage evidence stays
+intact; no new performance or independent-quality result is claimed.
+
+The [fixed-point priorities](docs/Q2-TARGET-PRIORITIES.md) now have an isolated
+Q2 down register-palette provider and a second HC mix/injection compiler probe.
+The down fixture covers123 full-output pairs/70 timing samples; historical
+host33+33 passes on `.157`, but new phase changes require fresh34+34. HC reuse
+keeps producer242VGPR/24576LDS/0private and moves injection dots into the
+existing normalized-input read; its producer instructions/SGPRs increase.
+Neither has a GPU speed result. `.157` SSH remains unreachable; failed connects
+started no window or GPU work. Keep1585.308983 PP /25.16079073 TG against
+UD1685.777092. No qualified controls, full curve or Q4 are rerun.
+
 The [IQ2 register-stage trial](docs/Q2-IQ2-REGISTER-STAGE.md) completes at
 **1575.134325 PP /25.21702868 TG**, nominal-0.641809% PP versus saved1585.
 All96 component pairs/21 parent files are exact, but the small component
