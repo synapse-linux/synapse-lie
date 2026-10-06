@@ -134,6 +134,41 @@ controller ownership are unchanged. There is still one device-owner worker. The 
 selection call is synchronous; it does not add an asynchronous GPU forward or
 establish a throughput improvement.
 
+## Signed integer bounds
+
+`lie/schema_integer.h` owns the complete signed interval policy used by plain
+integer schemas: ordered finite-bound lookup, ceil/floor, exact represented
+integer magnitude, exclusive endpoints, empty intervals and ordered
+positive/negative/`-0` grammar alternatives. The C17 magnitude formatter handles
+the full finite integral binary64 range through a bounded 1,024-bit workspace;
+it preserves values beyond `int64` without padding a shortest-decimal spelling.
+It writes caller storage without a NUL and preserves bytes/length on refusal.
+
+Compilation uses the existing borrowed schema reader and its work budget.
+Scratch is bounded stack storage; the private builder owns its allocations.
+The caller provides the unrestricted integer symbol from that same builder.
+Failed builder mutations require retiring the builder. No view is retained and
+no model, RNG, thread, HTTP or mutable cache belongs to this contract.
+Three exact `schema-integer-edits.json` replacements retain the original OFF
+algorithm. The default-ON adapter only translates native views and diagnostics.
+Provider provenance now binds 105 files; all previous 102 retain their hashes.
+
+[HOST validation](validation/c17-schema-integer-host-2026-10-06.json) records
+58/58 ASan/UBSan/LSan checks in one complete run, one focused C check and four
+Release checks. Independent C oracles cover 16,383 formats, 4,716 language
+decisions, 20 callback refusals and 38 allocator failures. The new original/ON/OFF
+witness compares 283 cases, 9,226 magnitude calls, 4,927 states and 574 masks.
+All 29 preceding complete witness groups (258 files) remain byte-identical.
+One test-setup failure exits 8 and is retained; the corrected fixture uses a
+standalone integer grammar. Sanitizers run outside ptrace with options unset
+and no suppression. The maximum observed CPU is 94.625 C under CPU98/NVMe85
+and existing lower guards; GPU remains masked/observe-only.
+
+The earlier `33d12a02`/r31 GPU receipt excludes this new source. Matching coherent
+HIP ON/OFF providers and private consumers require a fresh `.161` qualification.
+Typed construction/bootstrap/errors and model/controller remain transitional;
+broader branch/fault/quality/resource and matched-cost gates remain open.
+
 ## Schema compilation and prompt publication
 
 `lie/schema_compile.h` provides a synchronous, model-neutral C17 ABI 1 workflow:

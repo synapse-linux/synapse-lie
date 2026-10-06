@@ -44,7 +44,7 @@ foreach(arm IN ITEMS reference candidate fallback)
     list(APPEND sources "${pristine}/src/core/sampling.cpp")
   else()
     list(REMOVE_ITEM sources "${pristine}/src/core/json_constraint.cpp" "${pristine}/src/core/json_schema_lexeme.cpp" "${pristine}/src/core/json_schema_regex.cpp")
-    list(APPEND sources "${variant}/src/core/json_constraint.cpp" "${REPO}/src/grammar.c" "${REPO}/src/grammar_builder.c" "${REPO}/src/schema_transform.c" "${REPO}/src/schema_values.c" "${REPO}/src/grammar_cache.c" "${REPO}/src/ordered_cache.c" "${REPO}/src/grammar_composition.c" "${REPO}/src/binary64.c" "${REPO}/src/json_parse.c" "${REPO}/src/json_value.c" "${REPO}/src/json_store.c" "${REPO}/src/schema_memo.c" "${REPO}/src/schema_dispatch.c" "${REPO}/src/schema_visit.c" "${REPO}/src/schema_root.c" "${REPO}/src/schema_compile.c" "${REPO}/src/schema_body.c" "${REPO}/src/schema_number.c" "${REPO}/src/schema_format.c" "${variant}/src/core/json_schema_lexeme.cpp" "${REPO}/src/grammar_number.c" "${variant}/src/core/json_schema_regex.cpp" "${REPO}/src/grammar_regex.c" "${REPO}/src/grammar_string.c" "${REPO}/src/grammar_lexeme.c" "${REPO}/src/grammar_vocabulary.c" "${REPO}/src/grammar_regex_compile.c" "${REPO}/src/grammar_regex_parse.c" "${REPO}/src/grammar_unicode.c" "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c" "${REPO}/src/sampling_distribution.c")
+    list(APPEND sources "${variant}/src/core/json_constraint.cpp" "${REPO}/src/grammar.c" "${REPO}/src/grammar_builder.c" "${REPO}/src/schema_transform.c" "${REPO}/src/schema_values.c" "${REPO}/src/grammar_cache.c" "${REPO}/src/ordered_cache.c" "${REPO}/src/grammar_composition.c" "${REPO}/src/binary64.c" "${REPO}/src/json_parse.c" "${REPO}/src/json_value.c" "${REPO}/src/json_store.c" "${REPO}/src/schema_memo.c" "${REPO}/src/schema_dispatch.c" "${REPO}/src/schema_visit.c" "${REPO}/src/schema_root.c" "${REPO}/src/schema_compile.c" "${REPO}/src/schema_body.c" "${REPO}/src/schema_number.c" "${REPO}/src/schema_integer.c" "${REPO}/src/schema_format.c" "${variant}/src/core/json_schema_lexeme.cpp" "${REPO}/src/grammar_number.c" "${variant}/src/core/json_schema_regex.cpp" "${REPO}/src/grammar_regex.c" "${REPO}/src/grammar_string.c" "${REPO}/src/grammar_lexeme.c" "${REPO}/src/grammar_vocabulary.c" "${REPO}/src/grammar_regex_compile.c" "${REPO}/src/grammar_regex_parse.c" "${REPO}/src/grammar_unicode.c" "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c" "${REPO}/src/sampling_distribution.c")
   endif()
   add_library(${arm} STATIC ${sources})
   if(NOT arm STREQUAL "reference")
@@ -86,19 +86,27 @@ foreach(arm IN ITEMS reference candidate fallback)
   string(APPEND schema_text "\nnamespace gufo::sampling {\njson::Value LieSchemaConjoinProbe(const json::Value &root,const json::Value &l,const json::Value &r,unsigned depth) { return JsonConstraintCompiler(root,false).Conjoin(l,r,depth); }\nbool LieSchemaEqualProbe(const json::Value &a,const json::Value &b) { return JsonConstraintCompiler::EqualValue(a,b); }\nconst json::Value *LieSchemaReferenceProbe(const json::Value &root,const json::Value &ref) { return JsonConstraintCompiler(root,false).Reference(ref); }\nvoid LieSchemaKeysProbe(const json::Value &n) { JsonConstraintCompiler(n,false).Keys(n); }\n}\n")
   string(APPEND schema_text "\nnamespace gufo::sampling {\nstd::string LieSchemaValueProbe(const json::Value &root,const json::Value &schema,const json::Value &value,size_t depth) { auto normalized=JsonConstraintCompiler(root,false).ValueFor(schema,value,depth); return normalized ? std::string(\"MATCH \")+normalized->dump() : std::string(\"EXCLUDED\"); }\nbool LieSchemaTypeProbe(const json::Value &value,std::string_view type) { return JsonConstraintCompiler::MatchesType(value,type); }\n}\n")
   string(APPEND schema_text "\nnamespace gufo::sampling {\nstd::shared_ptr<const JsonConstraint> LieSchemaVisitProbe(const json::Value &root,const json::Value &node,const std::vector<size_t> &depths,std::vector<uint32_t> &ids) { JsonConstraintCompiler compiler(root,false); for (auto depth : depths) ids.push_back(compiler.Visit(node,depth)); return compiler.Compile(false); }\n}\n")
+  string(APPEND schema_text "\nnamespace gufo::sampling {\nuint32_t LieSchemaIntegerRuleProbe(const json::Value &schema) { return JsonConstraintCompiler(schema,false).Integer(schema); }\n}\n")
   file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/${arm}-schema-constraint.cpp" "${schema_text}")
+  # Compile the identical test-only exposure once per coherent arm. Its
+  # consumers retain the same definitions and source; no fixture is skipped.
+  add_library(${arm}-schema-exposure OBJECT "${CMAKE_CURRENT_BINARY_DIR}/${arm}-schema-constraint.cpp")
+  target_link_libraries(${arm}-schema-exposure PRIVATE ${arm})
+  add_executable(${arm}-integer-probe "${REPO}/tests/sampling/integer.cpp"
+    $<TARGET_OBJECTS:${arm}-schema-exposure>)
+  target_link_libraries(${arm}-integer-probe PRIVATE ${arm})
   add_executable(${arm}-schema-probe "${REPO}/tests/sampling/schema.cpp"
-    "${CMAKE_CURRENT_BINARY_DIR}/${arm}-schema-constraint.cpp")
+    $<TARGET_OBJECTS:${arm}-schema-exposure>)
   target_link_libraries(${arm}-schema-probe PRIVATE ${arm})
   add_executable(${arm}-values-probe "${REPO}/tests/sampling/values.cpp"
-    "${CMAKE_CURRENT_BINARY_DIR}/${arm}-schema-constraint.cpp")
+    $<TARGET_OBJECTS:${arm}-schema-exposure>)
   target_link_libraries(${arm}-values-probe PRIVATE ${arm})
   add_executable(${arm}-root-probe "${REPO}/tests/sampling/root.cpp")
   target_link_libraries(${arm}-root-probe PRIVATE ${arm})
   add_executable(${arm}-body-probe "${REPO}/tests/sampling/body.cpp")
   target_link_libraries(${arm}-body-probe PRIVATE ${arm})
   add_executable(${arm}-visit-probe "${REPO}/tests/sampling/visit.cpp"
-    "${CMAKE_CURRENT_BINARY_DIR}/${arm}-schema-constraint.cpp")
+    $<TARGET_OBJECTS:${arm}-schema-exposure>)
   target_link_libraries(${arm}-visit-probe PRIVATE ${arm})
   add_executable(${arm}-dispatch-probe "${REPO}/tests/sampling/dispatch.cpp")
   target_link_libraries(${arm}-dispatch-probe PRIVATE ${arm})
@@ -164,7 +172,7 @@ foreach(arm IN ITEMS reference candidate fallback)
   add_executable(${arm}-number-control-probe "${REPO}/tests/sampling/number_control.cpp")
   target_link_libraries(${arm}-number-control-probe PRIVATE ${arm})
   add_executable(${arm}-format-probe "${REPO}/tests/sampling/format.cpp"
-    "${CMAKE_CURRENT_BINARY_DIR}/${arm}-schema-constraint.cpp")
+    $<TARGET_OBJECTS:${arm}-schema-exposure>)
   target_link_libraries(${arm}-format-probe PRIVATE ${arm})
   add_executable(${arm}-grammar-probe "${REPO}/tests/sampling/grammar.cpp")
   target_link_libraries(${arm}-grammar-probe PRIVATE ${arm})
@@ -456,6 +464,17 @@ set_tests_properties(candidate-json-store-core-ownership PROPERTIES TIMEOUT 60)
 
 # Native publication/refusals and typed prompt sharing; no model forward.
 add_executable(candidate-schema-compile-core "${REPO}/tests/test_schema_compile.c")
+add_test(NAME schema-integer-reference-parity COMMAND "${CMAKE_COMMAND}"
+  "-DREFERENCE=$<TARGET_FILE:reference-integer-probe>"
+  "-DCANDIDATE=$<TARGET_FILE:candidate-integer-probe>"
+  "-DFALLBACK=$<TARGET_FILE:fallback-integer-probe>"
+  "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/integer-parity"
+  -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
+set_tests_properties(schema-integer-reference-parity PROPERTIES TIMEOUT 180)
+add_executable(candidate-schema-integer-core "${REPO}/tests/test_schema_integer.c")
+target_link_libraries(candidate-schema-integer-core PRIVATE candidate)
+add_test(NAME candidate-schema-integer-core-contract COMMAND candidate-schema-integer-core)
+set_tests_properties(candidate-schema-integer-core-contract PROPERTIES TIMEOUT 60)
 target_link_libraries(candidate-schema-compile-core PRIVATE candidate)
 add_test(NAME candidate-schema-compile-core-publication COMMAND candidate-schema-compile-core)
 set_tests_properties(candidate-schema-compile-core-publication PROPERTIES TIMEOUT 60)

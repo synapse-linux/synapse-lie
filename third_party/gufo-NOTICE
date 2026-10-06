@@ -7,6 +7,13 @@ See THIRD_PARTY_NOTICES.md for provenance, versions and distribution boundaries;
 full imported notices are installed alongside it in third-party/.
 
 Adapted code includes:
+- Signed integer-bound policy in src/schema_integer.c follows
+  JsonConstraintCompiler::Integer at the independent immutable Gufo pin below.
+  The first-party C17 implementation owns ordered lookup, rounding, exclusivity,
+  empty intervals and signed alternatives. Its exact represented binary64
+  magnitude formatter is independently implemented with bounded integer words;
+  no GCC/libstdc++ conversion code is imported. Three exact guarded replacements
+  preserve the original OFF algorithm. Typed views/errors remain private.
 - Per-compilation derived schema storage follows the value admission/lifetimes
   of JsonConstraintCompiler::Store at the independent Gufo pin below. The
   first-party C17 json_store implementation owns native root identity tables,

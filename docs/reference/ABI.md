@@ -14,6 +14,14 @@ ownership independently of request ABI 8 and generation ABI 3.
 borrowed rows/masks/counts, caller-owned bounded workspace and explicit RNG.
 See [ownership and remaining delegated state](../development/C17-SAMPLING.md).
 
+`lie/schema_integer.h` adds standalone C17 ABI 1 calls for exact integral
+binary64 magnitude and signed integer-bound grammar compilation. It reuses the
+existing borrowed schema reader and caller-owned private builder; failures
+preserve results and failed builder mutations require retirement. Existing
+engine, sampling, grammar, state and HTTP layouts are unchanged. Original/ON/OFF
+HOST witnesses pass; matching GPU qualification is pending. See
+[signed integer bounds](../development/C17-SAMPLING.md#signed-integer-bounds).
+
 The `1bff953` Point build keeps these layouts and versions unchanged. Its
 private adapter include-path and full snapshot-initialization fixes add no
 public ABI. [Original-weight AR/MTP controls](../development/validation/c17-sampling-point-gpu-2026-10-05.json)

@@ -1,6 +1,38 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Signed integer-bound compilation passes HOST controls — 2026-10-06 UTC
+
+The shared C17 integer compiler now owns ordered bounds, rounding, exact
+represented binary64 magnitudes, exclusivity, empty intervals and signed
+grammar alternatives. The default-ON adapter retains only native views/error
+translation; three exact recipe edits preserve the original OFF algorithm.
+All previous 102 provider files retain their identities; three new files make
+the coherent inventory 105. The identical test-only compiler exposure is now
+compiled once per arm and shared by its five consumers, with no skipped fixture.
+
+[HOST receipt](development/validation/c17-schema-integer-host-2026-10-06.json)
+records 58/58 ASan/UBSan/LSan checks, one focused C check and four Release checks.
+Independent C controls cover 16,383 formats, 4,716 language decisions, 20 callback
+refusals and 38 allocator failures. The new complete original/ON/OFF witness
+agrees for 283 cases, 9,226 magnitude calls, 4,927 states and 574 masks. All 29
+earlier complete groups (258 files) stay byte-identical. Initial test setup
+misused the whitespace bootstrap symbol and exits 8; its log and the corrected
+standalone integer fixture are retained. Read-discovery errors are also retained.
+The first receipt generator exits 1 after counting three generated C++ files
+as binaries; the corrected generator binds 119 executables/archives without
+rerunning tests, and retains both metadata outcomes.
+Sanitizers run outside ptrace with options unset and no suppression. CPU maximum
+is 94.625 C under CPU98/NVMe85/lower guards; GPU remains masked/observe-only.
+
+Matching new-source HIP ON/OFF/private consumers and original weights on `.161`
+remain pending. The `33d12a02`/r31 GPU receipt excludes this increment. Typed
+construction/bootstrap/errors and model/controller remain transitional; broader
+quality, faults, private resources and matched cost remain open. No remote
+job/lease/waiter/reservation is created, `.157/.158` stay unused and no push occurs.
+All six owned tasks remain open. Terminal Bench stays stopped, collected,
+closed and deferred last until functional changes and their qualification finish.
+
 ## Native HTTP deadlines cover the recorded 1M duration — 2026-10-06 UTC
 
 The shared C HTTP transport, ordinary workload, canonical Gufo curve and

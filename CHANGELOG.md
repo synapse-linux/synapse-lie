@@ -40,6 +40,10 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 signed integer-bound compilation, preserving exact large integer
+  magnitudes, exclusive endpoints and `-0`. Original/default-ON/OFF HOST grammar
+  witnesses agree; matching GPU qualification remains pending.
+
 - Shared C17 schema compilation publication and immutable prompt ownership.
   Reasoning and tools share the exact prompt bytes; failed compilation publishes
   no output. HOST lifetime, allocation-failure and original/ON/OFF checks pass.

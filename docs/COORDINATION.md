@@ -1,5 +1,19 @@
 # DS4 / synapse-lie coordination
 
+## C17 signed integer bounds: HOST only — 2026-10-06
+
+The 105-file source increment passes HOST58, one focused sanitizer C check and
+four Release checks. Its
+[source-bound receipt](development/validation/c17-schema-integer-host-2026-10-06.json)
+does not admit a remote build or qualify original-weight inference. No root
+remote job/client/build/CPU/GPU/lease/window/waiter/reservation is created.
+All actual local handles are collected. Matching new-source HIP ON/OFF and
+private consumers require fresh `.161` coordination and admission. Root does
+not use `.157/.158`. The earlier r31 closure is historical, not a future permit.
+CPU98/NVMe85/lower guards and masked/observe-only GPU remain unchanged.
+All six tasks stay open; Terminal Bench remains stopped/collected/closed/
+deferred last, without a restart or machine reservation. No tuning or push occurs.
+
 ## R31 schema publication build and selected GPU controls closed — 2026-10-06
 
 Fresh peer own non-use and separate global preflights admit `33d12a02` on `.161`.

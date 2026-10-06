@@ -5,6 +5,12 @@ not a timer, counter or proof of GPU execution. Values distinguish the owned
 C17 dense selector, Gufo control, unavailable backend and synthetic fixture.
 It changes no inference-worker count or existing timing/count semantics.
 
+Signed integer-bound compilation uses synchronous C17 construction work and
+bounded stack scratch. Its reader work budget is a refusal bound; it is not PP,
+TG, latency or a speedup metric. Builder allocation remains under the existing
+builder accounting. The new contract introduces no serving metric or worker;
+HOST parity does not establish whole-process or GPU cost.
+
 The `1bff953` [Point GPU receipt](../development/validation/c17-sampling-point-gpu-2026-10-05.json)
 records 37 AR/37 MTP controls and six fixed-TG128 sessions. Up to 44 observed
 process threads include provider/runtime helpers; this is not a reactive-worker
