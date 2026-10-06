@@ -11,28 +11,49 @@
     "iq2-half-sign-arithmetic",
     "iq2-fixed-bounds",
     "iq2-dpp-commit",
-    "iq2-table-lds"
+    "iq2-table-lds",
+    "hc-inject-raw-q8"
   ],
   "next": {
-    "mechanism": "Isolate already component-tested raw-Q8 HC injection reuse on the retained parent; retain finite numerical differences and measure the original model once after scratch-lifetime qualification.",
-    "component_evidence": "config/q2-hc-inject-reuse-component-results.json",
-    "known_component_cycle_delta_percent": -0.211436,
-    "known_max_abs_difference": 4.76837158203125e-07,
-    "model_provider_implemented": true,
-    "borrow_lifetime_qualified": true,
+    "mechanism": "Specialize active half-output Q2 down at m2560/k640 and aligned output; preserve arithmetic and ragged token bounds, measure component and original model.",
+    "draft": "config/q2-down-fixed-bounds-draft-static.json",
+    "instructions": [
+      [
+        1254,
+        971
+      ],
+      [
+        2641,
+        1729
+      ],
+      [
+        3350,
+        2152
+      ]
+    ],
+    "VGPR": [
+      [
+        85,
+        85
+      ],
+      [
+        96,
+        97
+      ],
+      [
+        104,
+        105
+      ]
+    ],
+    "provider_implemented": false,
     "GPU_admission": false,
-    "component_rerun": false,
-    "model_speedup_claim": false,
-    "host_checks": {
-      "debug": 37,
-      "asan_ubsan": 37
-    },
-    "model_plan": "config/q2-hc-inject-raw-q8-plan.json"
+    "model_speedup_claim": false
   },
   "deprioritized": [
     "Compact AoS IQ2 table-LDS placement regresses12\u201320% operator time and1.627%model PP",
     "Standalone table+DPP does not reduce BN128169VGPR; no GPU plan",
-    "Old negative SSM pingpong/compact LDS, Q8 mirrors and down live staging already measured; do not rerun"
+    "Old negative SSM pingpong/compact LDS, Q8 mirrors and down live staging already measured; do not rerun",
+    "Raw-Q8 HC injection reuse measures1583.808188 PP; preserve finite numerical differences and all evidence, no parent replacement"
   ],
   "controls_rebuilt_or_rerun": false,
   "Q4_run": false,

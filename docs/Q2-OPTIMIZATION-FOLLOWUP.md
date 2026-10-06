@@ -11,13 +11,12 @@ that parent. Both retain113 exact operator pairs and21 exact parent files.
 The table+DPP compiler draft still needs169VGPR atBN128; no provider/model
 admission follows. Do not repeat qualified negative SSM/Q8/down cohorts.
 
-Next isolate the component-tested raw-Q8 HC injection reuse path only, after
-qualifying its proposed borrowed scratch lifetime. Its-0.211436% cycle time
-is marginal, and4.768371582e-7 finite differences must remain visible. No
-original-model trial exists for that candidate; preserving those differences
-allows one original-model performance/quality check once integration is safe.
-No old component/control rerun, Q4 or full curve. This candidate has no provider
-or GPU admission yet. [Bound queue](../config/q2-last-mile-queue.json).
+The raw-Q8 HC injection model now completes at1583.808188 PP, -0.257282%
+versus the retained parent. Same output tokens, eight changed logit files;
+keep its complete evidence without replacing the parent. Next integrate and
+qualify the new fixed m2560/k640 down draft: 23–36% fewer static instructions,
+unchanged LDS/zero spills, VGPR85/97/105. No runtime gain is established yet.
+No old component/control rerun, Q4 or full curve. [Bound queue](../config/q2-last-mile-queue.json).
 
 ## Current priority after the down model measurement
 

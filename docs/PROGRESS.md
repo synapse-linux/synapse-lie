@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## HC raw-Q8 model result — 2026-10-06 UTC
+
+The new original model measures 1583.808188 PP / 25.10789589 TG, −0.257282% PP versus the retained 1587.893545. Output tokens and nine internal replays match; eight logit files change, maximum matched-history KL 0.004175090750 versus the parent. Preserve the experiment without promotion. Host 37+37 and all ten commands pass; 33 artifacts collect before 12:38:34 UTC release 962b229f. Fixed Q2/UD/input/timers remain unchanged. [Complete samples, scratch contract and limits](Q2-HC-INJECT-RAW-Q8.md).
+
 ## HC raw-Q8 integration prepared — 2026-10-06 UTC
 
 The component-tested raw-Q8 producer/reducer is integrated on the retained IQ2 fixed-bound parent. C17 policy checks allocation identity, byte capacity, fixed geometry and pending MoE output before borrowing existing down_e scratch. All 164 parent device bodies and both qualified component bodies match saved ISA. No new device memory, stream, callback or persistent borrow. Host 37+37 Debug/ASan tests pass on .157 and seven artifacts are collected. The model-only plan freezes 182 fixtures, six manifests and 1030 provider files; numerical component differences remain recorded. Fresh GPU admission is still required. [Contract and limits](Q2-HC-INJECT-RAW-Q8.md).

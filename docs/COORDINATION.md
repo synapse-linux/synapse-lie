@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## HC raw-Q8 model window released — 2026-10-06 UTC
+
+Admission 12:32:55 UTC / 83f66903 binds checkpoint be867224 and plan 93d5c661. The only model ends 12:37:41 UTC; all ten host/model exits pass and 33 artifacts collect. Release 12:38:34.376132 UTC / 962b229f retires 1484 identities and 1189 groups, with empty KFD, original CPU/four GPU leases free and seven model stat tuples unchanged. Canonical/main/remote mirrors agree and Core is informed before analysis. No Q2 job/client/build/lease/window/waiter/reservation remains on .157/.158/.161. No remote cleanup. The new down specialization is local compiler preparation only.
+
 ## HC raw-Q8 integration preparation — 2026-10-06 UTC
 
 Fresh .157 checks at 12:29:13 UTC bind release f2eb2ccb, original lease identities, retired processes/groups, empty KFD and unchanged model stat tuples. Core reports own .157/.158 non-use while working separately on .161; Q2 remains absent from .161/.158. Host 37+37 checks end 12:30:26 UTC and all seven artifacts collect. The frozen plan permits only one new original 2048/tg128 model, reusing existing component/control evidence. No GPU admission or reservation at preparation. No remote cleanup.
