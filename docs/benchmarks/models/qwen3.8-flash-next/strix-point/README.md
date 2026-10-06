@@ -399,13 +399,16 @@ done
 
 ### Original-weight HTTP AR and MTP gates
 
-The matching `688b74c5` shared C17 reasoning/tool composition, binary64 JSON
-codec, complete JSON parser, typed value-storage and primitive-ownership build passes the same
-37 original-weight controls in both AR and MTP. The
-[source-bound receipt](../../../../development/validation/c17-lexeme-point-gpu-2026-10-06.json)
-and [portable raw archive](data/rocm10-lexeme-openai-r26.tar.gz)
-record matching 92-file source/provider bindings, all exits, model/predictor
-stats and complete process/lease retirement. These are selected functional
+The matching `117cbae6` build, including C17 request grammar snapshots and
+independent speculative copies, passes the same 37 original-weight controls in
+both AR and MTP. The
+[source-bound receipt](../../../../development/validation/c17-request-state-point-gpu-2026-10-06.json)
+and [portable raw archive](data/rocm10-request-state-openai-r27.tar.gz)
+record both coherent 93-file ON/OFF providers, actual compiler/linker selections,
+all exits, model/predictor stats and complete process/lease retirement. Two C1
+direct controls also match full physical inputs, 128 outputs per point and
+prefill/final-decode frontier hashes with Gufo at prefix depths 0/4,096;
+warmup0/rep1 provides a correctness control. These are selected functional
 controls; individual numeric/format branches, SSD BPE, independent probabilities,
 faults, quality, resources and matched performance remain open. No new benchmark
 curve is added by this functional gate.

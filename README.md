@@ -6,19 +6,15 @@ and a command-line benchmark tool. Its shared C17 core manages reactive
 scheduling, concurrent requests, cancellation, metrics and prompt caching.
 The current numerical backend is an embedded Gufo adapter using C++ and HIP,
 with owned [C17 sampling, grammar and schema components](docs/development/C17-SAMPLING.md).
-Checkpoint `688b74c5`, including the shared C17 reasoning/tool grammar,
-JSON parser, binary64 codec, typed value storage and primitive predicates, passes
-[37 OpenAI controls in both AR and MTP on Strix Point](docs/development/validation/c17-lexeme-point-gpu-2026-10-06.json).
+Checkpoint `117cbae6`, including C17 request grammar snapshots and independent
+speculative copies, passes
+[37 OpenAI controls in both AR and MTP on Strix Point](docs/development/validation/c17-request-state-point-gpu-2026-10-06.json).
 These cover selected integrated paths. Broader numerical, fault, resource,
 quality and performance gates remain open.
-Gufo still owns model/controller state. Typed JSON values and immutable
-number/string/whitespace predicates, ordered tables and their construction memo
-now belong to the shared C17 core. The
-[predicate ownership host checks](docs/development/validation/c17-lexeme-host-2026-10-06.json)
-and matching 92-file HIP build qualify this increment's selected paths.
-Request grammar snapshots now also stay in C17 across transitions and
-speculative copies; their [host checks](docs/development/validation/c17-request-state-host-2026-10-06.json)
-pass, with matching GPU qualification still required for the newer source.
+Gufo still owns model/controller state. Typed JSON values, immutable predicates,
+ordered tables and request grammar snapshots now belong to the shared C17 core.
+The Gufo comparison executable uses a separately compiled complete OFF provider;
+its private model/controller types match its selected sampling option.
 ICU remains the Unicode set/property/conversion dependency.
 [Directional steering](docs/guides/USAGE.md#directional-steering) has shared-core
 and server/bench controls with host validation, including scheduled benchmark

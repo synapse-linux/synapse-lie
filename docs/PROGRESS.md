@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
-## Request grammar state ownership passes host checks — 2026-10-06 UTC
+## Request grammar state ownership passes host and selected GPU checks — 2026-10-06 UTC
 
 Default-ON byte/token transitions, completion, canonicalization and mask queries
 now borrow owned C snapshots directly; results transfer an owned C handle.
@@ -37,16 +37,34 @@ are retained; a single C test rerun binds the missing allocation/lifetime detail
 No sanitizer suppression, foreign process action or new dependency occurs.
 The benchmark control now builds/links a complete OFF provider instead of
 interposing an OFF sampler over ON numerical/controller objects. Host receipt
-gates accept OFF and reject ON or mismatched-target archives; new HIP build/link
-and GPU control qualification remains open. Build instructions identify the
+gates accept OFF and reject ON or mismatched-target archives. Build instructions identify the
 second provider and the option to omit this comparison executable.
 
-Matching sealed HIP and original-weight AR/MTP controls on `.161` remain pending;
-the earlier `688b74c5` 92-file GPU receipt excludes this increment. Broader
-correction/fault/probability/quality/private resource/matched-cost gates and all
-six owned tasks stay open. Root creates no remote job/client/CPU/GPU/build/lease/
-waiter/reservation and preserves `.157` non-use. Terminal Bench stays stopped/
-collected/closed/deferred until modifications and qualification finish.
+The matching sealed `117cbae6` build on `.161` compiles both complete HIP
+providers and passes 37 original-weight OpenAI controls in each AR/MTP mode.
+Collected Ninja commands verify ON primary/OFF reference private consumers and
+all three OFF numerical/core archives. Two direct C1 controls at prefix depths
+0/4,096 have identical complete physical inputs, 128 output IDs and full prefill/
+final-decode frontier hashes between LIE and Gufo. Warmup0/rep1 controls qualify
+these selected paths; they do not establish a speedup. The
+[GPU receipt](development/validation/c17-request-state-point-gpu-2026-10-06.json)
+and [portable raw evidence](benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-request-state-openai-r27.tar.gz)
+retain source, options, complete witnesses and actual exits separately from the
+unchanged host receipt and the earlier `688b74c5` evidence.
+
+AR/MTP CPU peaks are 61/65.625 C, GPU peaks 63/66 C and NVMe peaks
+62.85/67.85 C. HTTP modes observe 44 whole-process threads; direct controls
+observe 43. No inference worker is added. Fresh 09:24:11 UTC closure verifies
+all five exact supervisors/container-init identities retired, owned containers
+removed, the original lease free then released, router 140911 active/only KFD
+and HTTP8000 unbound. All server/child/supervisor/controller exits are 0 and
+model/predictor stats are unchanged. An observer's mistaken terminal-phase
+assertion and an offline closure-script syntax failure are retained; corrected
+observations and validation never restart inference. Broader correction/fault/
+probability/quality/private resource/matched-cost gates and all six owned tasks
+stay open. Root has no remote job/client/CPU/GPU/build/lease/waiter/reservation
+or admitted restart and preserves `.157/.158` non-use. Terminal Bench stays
+stopped/collected/closed/deferred until modifications and qualification finish.
 
 ## Primitive ownership passes host and selected GPU checks — 2026-10-06 UTC
 

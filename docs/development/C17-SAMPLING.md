@@ -166,7 +166,7 @@ The Gufo benchmark control now requires a coherent complete OFF provider,
 including numerical/controller archives. An OFF sampler cannot be interposed
 over ON model/controller objects with a different private request-state layout.
 The receipt gate rejects ON or mismatched-target control archives. Both
-provider builds and the new control still require matching HIP qualification.
+provider builds and the new control pass matching sealed HIP qualification.
 Source construction now tracks edit recipes so incremental builds regenerate
 their exact variants when a recipe changes.
 
@@ -180,9 +180,16 @@ sanitizer checks pass. Release checks pass cumulatively at 87 unique: 86 in the
 initial full run and the corrected provider verifier in one focused rerun.
 These host checks cover deep-copy lifetime after program/source retirement,
 allocation refusals, copy/move/self-assignment, joined concurrent readers and
-complete pristine/ON/OFF states/masks/sampler copies. Matching sealed HIP and
-original-weight AR/MTP qualification remains required for this increment;
-the earlier `688b74c5` 92-file GPU receipt excludes it. No inference worker,
+complete pristine/ON/OFF states/masks/sampler copies. The matching sealed
+`117cbae6` build compiles complete ON/OFF providers and passes selected
+original-weight AR37/MTP37 on `.161`
+([GPU receipt](validation/c17-request-state-point-gpu-2026-10-06.json)). Actual
+Ninja commands verify the primary/reference consumer flags and complete OFF
+archive linkage. Two common C1 controls preserve all physical inputs/output IDs
+and full prefill/final-decode frontier hashes between LIE and Gufo. All five
+windows close with actual exits 0, unchanged model stats and restored service/
+lease state. These selected controls do not qualify all grammar/copy branches.
+The earlier `688b74c5` 92-file GPU receipt excludes this increment. No inference worker,
 RNG, reactive frontier, cache payload or dependency changes. Removing payload
 transfers does not establish a measured speedup. Model/controller, private
 schema/regex/template construction and broader qualification remain open.

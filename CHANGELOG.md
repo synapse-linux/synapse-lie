@@ -43,7 +43,9 @@ stable release is declared. Detailed validation history is in
 - Shared C17 ownership of request grammar snapshots and independent speculative
   copies. Runtime transitions and masks use native snapshots directly, removing
   repeated C++ vector/string transfers. Host original/default-ON/OFF states and
-  masks agree; matching GPU and performance qualification remains open.
+  masks agree; the matching 93-file HIP build passes 37 selected original-weight
+  OpenAI controls in each AR/MTP mode on Strix Point. Broader qualification
+  and performance remain open.
   The original OFF path and existing reactive worker/cache contracts remain.
   The Gufo comparison executable uses a separately verified complete OFF
   provider to preserve its private model/controller layouts.

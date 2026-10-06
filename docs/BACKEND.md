@@ -258,8 +258,10 @@ client/server restart or machine reservation is queued in the meantime.
    and independent speculative copies, with saved-allocator duplication and
    [host checks](development/validation/c17-request-state-host-2026-10-06.json).
    Three guarded edits preserve original OFF state/algorithms. The newer
-   93-file inventory requires matching sealed HIP/original-weight qualification;
-   `688b74c5` excludes this increment. Private facades, schema/regex
+   93-file inventory has a matching sealed `117cbae6` HIP build and selected
+   original-weight AR37/MTP37 controls
+   ([GPU receipt](development/validation/c17-request-state-point-gpu-2026-10-06.json)).
+   Private facades, schema/regex
    construction, template projections and model/controller
    remain transitional. Broader numerical/fault/resource/quality/matched-cost
    gates remain open.

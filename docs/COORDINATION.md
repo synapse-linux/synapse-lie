@@ -1,17 +1,29 @@
 # DS4 / synapse-lie coordination
 
-## Local request-state ownership; eval stays deferred — 2026-10-06
+## R27 request-state build and selected controls closed — 2026-10-06
 
-Root changes only its `feature/context-million-openai` worktree. Request grammar
-snapshots, independent copies and native runtime handoffs now use shared C17.
-Local host checks use masked GPUs and CPU98/NVMe85/lower guards. The
-[93-file host receipt](development/validation/c17-request-state-host-2026-10-06.json)
-requires a matching sealed HIP build and original-weight controls under fresh
-peer/global `.161` admission. The r26 closure below is historical and cannot
-admit this source. Root has no remote job/client/CPU/GPU/build/lease/waiter/
-reservation or admitted restart on `.161/.157/.158`. Point/DGX/Q2 and DS4 work
-remains separately owned. Terminal Bench stays stopped/collected/closed/deferred
-until modifications and matching qualification finish; no restart or migration.
+Fresh peer own non-use and separate global observations admit sealed `117cbae6`
+on `.161`. The device-free build compiles complete coherent ON/OFF providers;
+25 compile artifacts and three Ninja files verify both 93-file inventories,
+private consumers and OFF archive linkage. Original-weight AR/MTP each pass
+37 unchanged OpenAI controls. The direct LIE/Gufo C1 controls match complete
+inputs, 128 output IDs per point and full prefill/final-decode frontier hashes
+at prefix depths 0/4,096. This is selected correctness evidence, not a speedup.
+[Receipt](development/validation/c17-request-state-point-gpu-2026-10-06.json).
+
+All five server/child/supervisor/controller windows exit 0 and are collected.
+Fresh 2026-10-06T09:24:11.035305+00:00 closure verifies their exact supervisors
+and observed container-init identities retired, owned containers removed,
+original lease device66307/inode105946405 briefly free then released, router
+140911 active/only KFD and HTTP8000 unbound. No foreign client/hot guard is
+observed. CPU98/NVMe85/lower guards and GPU observation remain intact. No tuning,
+installation, deployment or `.157/.158` activity occurs. Read-only observer and
+offline QA failures retain actual exits, with no inference restart. Root has
+no current/planned/admitted remote job/client/CPU/GPU/build/lease/waiter/
+reservation or remote handle on `.161/.157/.158`. This dated closure is not
+future admission. Peer/DS4 work stays separately owned. All six root tasks
+remain open. Terminal Bench stays stopped/collected/closed/deferred until
+modifications and qualification finish; no restart, migration or reservation.
 
 ## R26 primitive ownership build and AR/MTP closed — 2026-10-06
 
