@@ -40,6 +40,10 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Optional developer GPU qualification for bounded-integer schemas, with 66
+  separate Chat/Responses JSON/SSE membership and refusal checks. HOST wire and
+  supervision tests pass; original-weight execution remains pending.
+
 - Shared C17 signed integer-bound compilation, preserving exact large integer
   magnitudes, exclusive endpoints and `-0`. Original/default-ON/OFF HOST grammar
   witnesses agree; matching HIP ON/OFF builds and selected original-weight

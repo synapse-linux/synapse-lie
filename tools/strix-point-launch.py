@@ -53,6 +53,11 @@ def main():
             if hashlib.sha256(budget).hexdigest() != manifest.get('http_output_budget_sha256'):
                 parser.error('HTTP output-budget helper SHA-256 differs from manifest')
             files['http-output-budget.py'] = budget
+        if manifest.get('http_schema_integer_gate', False):
+            integer = (ROOT/'tools/strix-point-schema-integer-gate.py').read_bytes()
+            if hashlib.sha256(integer).hexdigest() != manifest.get('http_schema_integer_sha256'):
+                parser.error('HTTP integer-schema helper SHA-256 differs from manifest')
+            files['http-schema-integer.py'] = integer
     if manifest.get('bench_profile') == 'modern-http-multi':
         case = manifest.get('http_case')
         if case not in ('prose', 'repetition'):

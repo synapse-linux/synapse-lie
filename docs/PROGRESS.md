@@ -1,6 +1,27 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Bounded-integer original-weight protocol prepared — 2026-10-06 UTC
+
+The optional developer campaign adds 66 separate checks, using bounded integer
+schemas without enum/const shortcuts. Fifteen cases cover signs, zero, inclusive/
+exclusive and fractional endpoints, prefix transitions, exact magnitudes beyond
+int64 and through binary64 maximum. Both APIs use JSON and SSE; three invalid
+schemas require HTTP400 per API. Independent integer oracles preserve all digits.
+The 37 general GPU controls keep their existing count and scope.
+
+Three focused HOST CTest groups pass (63 supervisor, five existing output-budget
+and five new oracle tests). The initial mock omitted its bundle path and exits8;
+the corrected fixture and frozen failed log are retained. Atomic-patch and
+read-discovery failures remain local evidence. All105 provider files stay
+hash-identical to qualified `9a4f45b1`; no C lifetime/parser/metric or model
+source changes occur. Prior HOST sanitizer evidence retains its original scope.
+[Protocol receipt](development/validation/schema-integer-gpu-protocol-host-2026-10-06.json).
+Original-weight `.161` runs still need fresh admission. No GPU job/lease/waiter/
+reservation is created by these HOST fixtures; `.157/.158` stay unused and no
+dependency is installed. Python remains optional developer supervision only.
+All six tasks stay open; Terminal Bench remains stopped/collected/closed/deferred last.
+
 ## Signed integer-bound source passes matching GPU controls — 2026-10-06 UTC
 
 The sealed `9a4f45b1` source builds coherent 105-file HIP ON/OFF providers and

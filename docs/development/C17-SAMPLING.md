@@ -174,6 +174,19 @@ independently exercise every new bounded-integer branch. Typed construction/
 initialization/errors and model/controller remain transitional. Broader
 branch/fault/quality/resource and matched-cost gates remain open.
 
+The optional `http_schema_integer_gate` campaign is now prepared for 66
+additional original-weight checks: 15 independently bounded cases across
+Chat/Responses and JSON/SSE, plus three HTTP400 refusals per API. It uses
+integer intervals without `enum` or `const`, exact Python integer oracles,
+binary64 magnitudes through 309 decimal digits, exclusive endpoints and
+deterministic JSON/SSE replay. Its inventory stays separate from the 37
+general controls. [HOST protocol checks](validation/schema-integer-gpu-protocol-host-2026-10-06.json)
+validate malformed/truncated/out-of-range results, sidecar completeness and
+helper drift; they do not qualify original weights. The campaign reuses the
+unchanged r32 runtime; matching `.161` AR/MTP runs require fresh admission.
+These Python tools are optional developer supervision/oracles, not a server,
+native benchmark or default-test dependency.
+
 ## Schema compilation and prompt publication
 
 `lie/schema_compile.h` provides a synchronous, model-neutral C17 ABI 1 workflow:

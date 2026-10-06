@@ -222,14 +222,15 @@ def tool_gate(api, result):
 def main():
     args = sys.argv[1:]
     flags = set()
-    while args and args[-1] in ('--tools','--controls','--output-budget'):
+    while args and args[-1] in ('--tools','--controls','--output-budget','--schema-integer'):
         flag = args.pop()
         if flag in flags: raise SystemExit('Duplicate HTTP gate flag')
         flags.add(flag)
     check_tools, check_controls = '--tools' in flags, '--controls' in flags
     check_output = '--output-budget' in flags
+    check_integer = '--schema-integer' in flags
     if len(args) not in (3, 4) or args[2] not in ('ar', 'mtp') or (len(args) == 4) != (args[2] == 'mtp'):
-        raise SystemExit('Usage: http-gate.py SERVER MODEL ar|mtp [PREDICTOR] [--tools] [--controls] [--output-budget]')
+        raise SystemExit('Usage: http-gate.py SERVER MODEL ar|mtp [PREDICTOR] [--tools] [--controls] [--output-budget] [--schema-integer]')
     binary, model, mode = args[:3]
     api, management = port(), port()
     while management == api:
@@ -325,6 +326,13 @@ def main():
                 spec.loader.exec_module(budget)
                 checked = budget.output_budget_gate(api,MODEL_ID,exchange,events,ROOT)
                 result['passed'].extend(checked['passed'])
+            if check_integer:
+                spec = importlib.util.spec_from_file_location('original_schema_integer', ROOT/'http-schema-integer.py')
+                integer = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(integer)
+                checked = integer.integer_gate(api, MODEL_ID, exchange, events, ROOT)
+                # Keep the separate inventory and the general gate's count.
+                result['schema_integer_checks'] = len(checked['passed'])
             result['chat_text'] = text
             result['responses_text'] = response_text
             result['state'] = 'PASSED'

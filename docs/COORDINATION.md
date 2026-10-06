@@ -1,5 +1,16 @@
 # DS4 / synapse-lie coordination
 
+## R33 bounded-integer campaign prepared; no GPU admission — 2026-10-06
+
+The optional supervisor/oracle increment passes three HOST CTest groups and
+declares 66 bounded-integer API/membership checks separate from the general37.
+All105 provider hashes match the r32 `9a4f45b1` runtime; reuse does not waive
+fresh AR/MTP `.161` ownership/lease/resource/CPU98/NVMe85/GPU-observation admission.
+No remote run/client/build/lease/waiter/reservation is created by preparation;
+root does not use `.157/.158`. The r32 closure below stays historical. Source
+helpers and binary identities must be bound separately in each receipt.
+All six tasks stay open; Terminal Bench stays stopped/collected/closed/deferred last.
+
 ## R32 signed integer bounds build and selected GPU controls closed — 2026-10-06
 
 Fresh peer own non-use and separate global preflights admit sealed `9a4f45b1`

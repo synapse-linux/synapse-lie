@@ -80,6 +80,15 @@ HTTP_CONTROL_CHECKS = {
 HTTP_OUTPUT_BUDGET_CHECKS = {
     'models_context_output_limits', 'chat_automatic_output', 'responses_automatic_output',
 }
+HTTP_SCHEMA_INTEGER_CHECKS = {
+    f'{api}_{wire}_{name}' for api in ('chat', 'responses') for wire in ('json', 'sse')
+    for name in ('positive-inclusive', 'negative-inclusive', 'positive-exclusive',
+                 'negative-exclusive', 'positive-fractional', 'negative-fractional',
+                 'cross-zero', 'positive-prefix', 'negative-prefix', 'beyond-int64',
+                 'exact-binary64', 'large-magnitude', 'largest-magnitude',
+                 'large-positive-exclusive', 'large-negative-exclusive')
+} | {f'{api}_refusal_{name}' for api in ('chat', 'responses')
+     for name in ('empty-interval', 'exclusive-zero-empty', 'invalid-minimum')}
 
 def validate_core_progress(path, jobs, settings):
     """Stream native stderr; require live and matching retired final observations.
@@ -1255,6 +1264,13 @@ class Campaign:
             budget = checked_path(self.root/'http-output-budget.py')
             if sha(budget) != self.m.get('http_output_budget_sha256'):
                 raise ValueError('Modern HTTP output-budget helper drift')
+        check_integer = self.m.get('http_schema_integer_gate', False)
+        if type(check_integer) is not bool:
+            raise ValueError('HTTP integer-schema gate requires a boolean selection')
+        if check_integer:
+            integer = checked_path(self.root/'http-schema-integer.py')
+            if sha(integer) != self.m.get('http_schema_integer_sha256'):
+                raise ValueError('Modern HTTP integer-schema helper drift')
         model, rows = self.verified_model()
         predictor = None
         if mode == 'mtp':
@@ -1279,6 +1295,8 @@ class Campaign:
             command.append('--controls')
         if check_output:
             command.append('--output-budget')
+        if check_integer:
+            command.append('--schema-integer')
         self.r['bench_command'] = command
         self.record()
         try:
@@ -1307,6 +1325,16 @@ class Campaign:
                         len(checked.get('passed', [])) != len(HTTP_OUTPUT_BUDGET_CHECKS)):
                     raise RuntimeError('Incomplete original-weight automatic output budgets')
                 self.r['http_output_budget_sha256'] = sha(self.root/'http-output-budget-result.json')
+            if check_integer:
+                checked = json.loads((self.root/'http-schema-integer-result.json').read_text())
+                if (checked.get('schema') != 'synapse-lie.point-schema-integer.v1' or
+                        checked.get('state') != 'PASSED' or
+                        set(checked.get('passed', [])) != HTTP_SCHEMA_INTEGER_CHECKS or
+                        len(checked.get('passed', [])) != len(HTTP_SCHEMA_INTEGER_CHECKS) or
+                        set(checked.get('witnesses', {})) != HTTP_SCHEMA_INTEGER_CHECKS or
+                        result.get('schema_integer_checks') != len(HTTP_SCHEMA_INTEGER_CHECKS)):
+                    raise RuntimeError('Incomplete original-weight bounded integer controls')
+                self.r['http_schema_integer_sha256'] = sha(self.root/'http-schema-integer-result.json')
             if (result.get('schema') != 'synapse-lie.point-http-original.v1' or
                     result.get('state') != 'PASSED' or result.get('mode') != mode or
                     result.get('server_exit_code') != 0 or

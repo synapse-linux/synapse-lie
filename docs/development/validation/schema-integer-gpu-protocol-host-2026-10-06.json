@@ -1,0 +1,270 @@
+{
+  "schema": "synapse-lie.schema-integer-gpu-protocol-host.v1",
+  "at_utc": "2026-10-06T15:41:28.218993+00:00",
+  "state": "HOST_QUALIFIED_NOT_ORIGINAL_WEIGHT_QUALIFIED",
+  "source_parent_commit": "0e5895337fb28652a1b2f226a8ffedcf898cdd83",
+  "runtime_source_commit": "9a4f45b11133df71a4f4b0e9a0dbcffd94ae04ef",
+  "runtime_previous_GPU_receipt": {
+    "path": "docs/development/validation/c17-schema-integer-point-gpu-2026-10-06.json",
+    "bytes": 51738,
+    "sha256": "f07c3a3cde5f176d8f265ff6bde01dbeeba63e6104593f7361e10a372b8c52af"
+  },
+  "provider105_unchanged": {
+    "adapters/gufo_composition_cache.hpp": "77506a2ba4a009fef67456013d19e15535abeabc906e8b8d8607c3d637d905b8",
+    "adapters/gufo_distribution.hpp": "7b0370bf509a1a99370b48877fb7e3b8a4d060bf6c8fcdc037a090a72ef6169d",
+    "adapters/gufo_grammar.hpp": "16e73d18a411edaf20a8a548bc70b84589820212365eff46a8c7e29cb4ce5e4d",
+    "adapters/gufo_grammar_builder.hpp": "094c1474347afd5ac235bf89fe21d06cc990429e9393aa7f924ac799c6f42912",
+    "adapters/gufo_grammar_cache.hpp": "62d01ddae21a28175a0db91407204ebfff8bf9068a182d636c57fbf1186d304a",
+    "adapters/gufo_grammar_composition.hpp": "fb52f93d3883a2ddfcbb43c0980c8ac6b438eb67cf55f88cfe1104647fb8463d",
+    "adapters/gufo_grammar_lexeme.hpp": "e3c1459b3795e072643dde293a714d77641dd3b0be8bbe715d73070ac672748a",
+    "adapters/gufo_grammar_number.hpp": "f13f2a25ab3f4c7824953b39d60a0e596c3bc266143cb4b6fb48446fa1b53c34",
+    "adapters/gufo_grammar_regex.hpp": "45828984d95b4be1b7dd869793576b08c8f7e709ed3dc5931332c43f39ad434f",
+    "adapters/gufo_grammar_regex_compile.hpp": "c8c7190ba2be8997270a3701fad4c0b2804b23e7283497b212b6b233886ca249",
+    "adapters/gufo_grammar_regex_parse.hpp": "930b4e20b6f1294ec499639eb3c26997779af50924fd829e9685ec9bfae67b96",
+    "adapters/gufo_grammar_state.hpp": "b2cf0a703e10ef6a86c3a83f554c29b5d00be25cfb0e9f97b7cf0ec14be2d2a6",
+    "adapters/gufo_grammar_string.hpp": "81608a7cdd2a98d5fd960ebf12a2a9eb7875dfb77607ef7b8f570a877bbca5e2",
+    "adapters/gufo_grammar_vocabulary.hpp": "49b52fd81cdb6f1093aab3a04d0b677fb21aa93a6a7b642958ea4b8eeccd2fcc",
+    "adapters/gufo_history.hpp": "2ea84ec1d0ed3367da9105132e0e2cb532d5df5dd132f830834455a8d9fd2998",
+    "adapters/gufo_json_parse.hpp": "9b8c7c23226e6dc3aa8cb97a29b8168bfac8379e64f5db38cf454f8fdbb4f06b",
+    "adapters/gufo_json_value.hpp": "58713fd2fa4bc62996bb18f6435abb5084a1d4781d46050d02f81f2e9d66ad2d",
+    "adapters/gufo_sampling.hpp": "a80a797acabcf4b0647de55bdd95bba93f8f85d5ccb98f8d47f62c1f7a6dae2d",
+    "adapters/gufo_schema_body.hpp": "a13d281b7e63930765ab5159195f93939528fcd6fa7d3171768da6f63c5d7e44",
+    "adapters/gufo_schema_compile.hpp": "41e4e359a4a890d893ef26519fdbd2de1f530d1406b177ba00827f204bfb0534",
+    "adapters/gufo_schema_dispatch.hpp": "b6297c9abb7f8fa01a2b3279559fe31897f3d18e0e02bb1e45e0ca6704ab64c1",
+    "adapters/gufo_schema_format.hpp": "02c59fbd7382d063b4a75b48acb610e5a94514597717d3b994d1b4a6de97d8fe",
+    "adapters/gufo_schema_integer.hpp": "366a5df4a04be137d8756ef87924bb8a4be9372663d1eaf3829ca78f05171964",
+    "adapters/gufo_schema_memo.hpp": "a03bf6772145fd2b184d76772e59a0b2577814850cdb2e00e7b791efaab57a16",
+    "adapters/gufo_schema_number.hpp": "e1e7fe4159cd3f2bd960fcc857c7d4e22c5c1726cca2c30ce24ea331da3b657f",
+    "adapters/gufo_schema_root.hpp": "cd06dda456f0b68f516394efae78ea452628d315745f6f77baffab4c27a264d3",
+    "adapters/gufo_schema_store.hpp": "b13dae2b78bfbc1fc466a64ddc0d39f411803c20d6d181857a50f356c59bca3d",
+    "adapters/gufo_schema_transform.hpp": "d7793f0c7380ff707cfc28a1fd812d760c15a9ffc1dbee087d8bf52ba077c0e9",
+    "adapters/gufo_schema_values.hpp": "5dd936e1a2e6eb2acce535f0816b5e6f34bff40fba167686d240376d71f762b9",
+    "adapters/gufo_schema_visit.hpp": "36bc2c418253f8f8dbe56336fbd88efe9608cea022c9f11acd526125dccd20b1",
+    "include/lie/binary64.h": "c9946b47a45cea79d98c1241609bed292a30a68643f9db16bf8ffc470bd3b141",
+    "include/lie/grammar.h": "4bb7d530b6977868dedead7eeca18aca779ad2d8970f9bae70890c767ebd9b76",
+    "include/lie/grammar_builder.h": "4f6749ffbd46bbc52ce54f5b038939085b9be8303b36b1041d9fa1e8b02bf89a",
+    "include/lie/grammar_cache.h": "57b822369091ef4e06dfda530f112d5d22b29c804e5f77dd7610269aa9763ec0",
+    "include/lie/grammar_composition.h": "d19f27a126322e7e29532a2917120f3a9d771e2688f9081449f2806a17ecbe8a",
+    "include/lie/grammar_lexeme.h": "d27e9cbca26c43940605de077ef22b80b86b5836af85e0b6557ffa358dbf9171",
+    "include/lie/grammar_number.h": "576309604c14fb1e7ec75fa9423c5b54427302e5a5d1f22ea86c55cd5b448f6a",
+    "include/lie/grammar_regex.h": "3d0fad812ccf1885874a05c0f814af67cc92ae534c2f4d82061115bba5dd849e",
+    "include/lie/grammar_regex_compile.h": "e4f77df63c3f9cf4101778258aff38ee8f63f81718ba1d74d63b90897a80e838",
+    "include/lie/grammar_regex_parse.h": "973c6273c11a1ad28287f8e25a185d92df86036d3346e3aea41a5191256065e8",
+    "include/lie/grammar_string.h": "e122f37df0d485ee3acc31f7871ca4410eb2f399e097c4f73dd5ca6b75b06ac9",
+    "include/lie/grammar_unicode.h": "9c715179a3377435329f6851235ea72d87d150d6c6ca7728caec7bcd0dea8f86",
+    "include/lie/grammar_vocabulary.h": "30bfe3435e21af1ad40d4c295fa8c2a670e5893958a36f8a60d04dafabd1f619",
+    "include/lie/json_parse.h": "fd12f8804298b68767ada7b19b80ecf3c1b91a615e028ebd601f797cf716db5e",
+    "include/lie/json_store.h": "1bb73cf2a8f13e45bbfab2c09a8aaf8804a8d4173ce2925b41040091d548b576",
+    "include/lie/json_value.h": "0b9459507df4d7e21bd0f4f67f5ba5daa86aeae539909bda68b21e362b5ef684",
+    "include/lie/ordered_cache.h": "32a7929f0127f28f8e639d57f6bfe050122a7f619bd1a19dd7fadc47fdebdf89",
+    "include/lie/sampling.h": "8196861ddbd9ffc2696170561def1b3e53b94182953487b5819fc848dbd15d09",
+    "include/lie/sampling_distribution.h": "1e80e4a6d3404804f44d32588bde6fc2e5231e9d9e726da2697dbbbf9c9c9555",
+    "include/lie/sampling_history.h": "281311d757079302b9aef0f2833e26fdd59a6ac604d7ec079dd14a21988b1597",
+    "include/lie/schema_body.h": "6bb82ce97c9f7156fe48fcd16e86508b1fbf2a7c582cd933fc8f06101040397f",
+    "include/lie/schema_compile.h": "28ade0fa8da21a14651c036a10c8ca044a93fa1958e198f6b89cf90c4701efd2",
+    "include/lie/schema_dispatch.h": "55c3f27f4d80a96cb4c026360b649d992f8e507b05bfd8202d731d4c6d44ae9e",
+    "include/lie/schema_format.h": "6b64af2b97444d3b79372564f08509261935eef7b060bbc3a56f9fda9fe03fda",
+    "include/lie/schema_integer.h": "15a71e5a9b08c276fbd916acd05664eb0c89a6458288d48d6bcd425ab5f75e2c",
+    "include/lie/schema_memo.h": "ce967e1cca82de2526bea1ff711c7fb5af33b2ce3b6b070cfff85640f2f1bd82",
+    "include/lie/schema_number.h": "88153e42bc2abd4d6b5c1b815b6f70236a4f91e5669e41e4daa66dbf6f724f79",
+    "include/lie/schema_root.h": "692482e3902cbf9511a98e6826f6ef3b829e11e0093cf1ecde39c83dbc622698",
+    "include/lie/schema_transform.h": "87aa7b05940598790ed2fd2feb1e8328e81adac0b1f49691abf416a38aff4209",
+    "include/lie/schema_values.h": "41d0e84736c1593b225c0d73ee652290a73ecb53cd5e600075a3acf83ed60164",
+    "include/lie/schema_visit.h": "9e6ce89bda7c6743b3b9f7fe36d17639a3eaeeaeaf72e81c5f846d0ab3bf2db3",
+    "src/binary64.c": "91b272dc793a5e7e8fe7a23565334e000ba679b90c78e0bcc80388653dbb6a57",
+    "src/grammar.c": "1cbd0e696df67cf860372bb8a71b7c2f522ae3149d31a36891ab1b221970455e",
+    "src/grammar_builder.c": "6718814c6e2f318f41264cce0909b807f02816c46ceef0f8c2ae6854c14ac4f8",
+    "src/grammar_cache.c": "e7dfe04eae201d9a02c01e867ebf4ffd4b1d1e28f3a7b6a2a47281ef426e7349",
+    "src/grammar_composition.c": "0c753809cb46935c1e1f67736e4d8d915ef9213b00acb3e8b89c09d827005bc2",
+    "src/grammar_lexeme.c": "0e9a48925b066471b5923c09006c8a01d3e1d45fe55be3f1c075aadf8f484806",
+    "src/grammar_number.c": "f9475e1e17402271b1855343395e2e6d572e1b893a25f4a6d74204145d40e5ea",
+    "src/grammar_regex.c": "9c0b784af9e1224788700aa7903f3c896689125c88f7a80f37de485d747ab26c",
+    "src/grammar_regex_compile.c": "35fc72306f922f28e5be23dfcb8a890e4176c265f395c471e7ad80a6c97788fb",
+    "src/grammar_regex_parse.c": "bf44aa90b933250256ca58511d9d36d306763614b339f568b3994111c9f0e112",
+    "src/grammar_string.c": "d9f1000350ac35e900807977aeec8af69e808633481068fcbdbf0705ef8c10ef",
+    "src/grammar_unicode.c": "b2c97a0309e83ee9d7ca79c0fb4ce14e0f15c2e1ee400616602d37e9c1b71a23",
+    "src/grammar_vocabulary.c": "c06c8711ad7a1d5916a5b983b1e7d433a0a9c3e97748a870fed3308da1970e9b",
+    "src/json_parse.c": "65e3e1474e00856fb625d7c1bced7a01f974bc0dcd7d8496b0a0943a456e95b6",
+    "src/json_store.c": "f99cc84befe6adbc993b065b0a45fce2b9ec407a1e5b891f3a8f4760a6efea08",
+    "src/json_value.c": "9c6e01aa3eeec331fa6c1e8e9321b44f42b70277141a10243e9855f8138333f9",
+    "src/ordered_cache.c": "435a75278909ec58b8da565e810ff6c4687b311f43bdd78e44ef3c445cb6eccf",
+    "src/sampling.c": "f2faac79a00fb7b74217283ae3782041c46af9fcce4d64f796b5015f6e0b1439",
+    "src/sampling_distribution.c": "9e459e1c14dc20c44a132a57401e84120a70495c28b963b33667d57f9ec0592b",
+    "src/sampling_history.c": "e66e74c690d274804e17b3127ddb0bf5837c7f3403a76e2980b99e1a13578398",
+    "src/schema_body.c": "37576082f767878f85af38787c51903fe76ea3a89bf8f269765c8c3607146f24",
+    "src/schema_compile.c": "6030118ce992bfa6a8c57ced640f3dae5d873bcc79f8af1efe03119c1710d1a9",
+    "src/schema_dispatch.c": "5737821a1f215c663da03906c5701702cb6f59d5250ba5aae11127c0bc025bc7",
+    "src/schema_format.c": "53f36f462f750e6d07c03dbe8257ffa34983c732fc86418bde9adba6e8e8b7f6",
+    "src/schema_integer.c": "d82c3e221836556856343358647b4ba39e068f25ff749ca0700aed8e91100fad",
+    "src/schema_internal.h": "ff1e3a45b1b0de2081e47acb1889f80303f87199dbdfe53492c35750f604f27b",
+    "src/schema_memo.c": "d26aee14562b0542db03a822e9eef071b98f6351e64282e33ad580c003357dfd",
+    "src/schema_number.c": "c1d3236dae4eeb632544cb237077a8dbabe23e49d062e574bcb1a4822689aecd",
+    "src/schema_root.c": "b4244b7b75a30efbe29628ec5949412d3cdcca2eea62111026670067ec10382b",
+    "src/schema_transform.c": "527ae6ba4e07202fd832ce9588aea3ec562e3c726c69113b29e624fffeefd169",
+    "src/schema_values.c": "a2413e3cc39f844e5d62106d54e9ad85540aee89edaa41e7db8a2c29132c6609",
+    "src/schema_visit.c": "ef1bedc0d628f0e21f08bc8251bd26bf9f84306a0fb15c2cd6ea36913b132a72",
+    "third_party/ryu-source.json": "739d0c0b49d81aaa93dd38df38c95421f521b2a3ecaee76ae6f99b353ed2135e",
+    "third_party/ryu/LICENSE-Apache2": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "third_party/ryu/LICENSE-Boost": "c9bff75738922193e67fa726fa225535870d2aa1059f91452c411736284ad566",
+    "third_party/ryu/ryu/common.h": "0bbd71d26da6193e678d0776cf418f43f287c73d6fd6725353df0aadf70f2a19",
+    "third_party/ryu/ryu/d2s.c": "d24323c7eb77d63f1e52c415212b50060b776f0883525d907d04954fcd48cf64",
+    "third_party/ryu/ryu/d2s_full_table.h": "2618f6e5fae6c4443899b184efe3d08295dd267dc9f1a994c983c7caca59ebe6",
+    "third_party/ryu/ryu/d2s_intrinsics.h": "1d05702f2edacce428223d4b43dd3095c1bd1f3ad30128ce1761d84356dddc7d",
+    "third_party/ryu/ryu/d2s_small_table.h": "54fec51f1c5eed786a8ce6de881b81582dd71f0812dcd4324b37396617bb0fa9",
+    "third_party/ryu/ryu/digit_table.h": "8b782573abc0b8554d74163ae6c02f0beb5c30d1e63eaebdb0ddf2c98d817e01",
+    "third_party/ryu/ryu/ryu.h": "b7feab0ba1df5e9ef3d602f386592ad152491405e49b408fb21c0e0e9e6bfb16",
+    "third_party/ryu/ryu/ryu_parse.h": "da8ad9764b2701627cb75926b9d14b540fdfd7be693d671da9594eb16dabd27a",
+    "third_party/ryu/ryu/s2d.c": "9485e78f329ec1cf931b737333ef7bd85195864dfb9dd096413f0d336a7a46d3"
+  },
+  "sources": [
+    {
+      "path": "CMakeLists.txt",
+      "bytes": 51423,
+      "sha256": "addcdb518a862d89f72f5ccb919326cf0cd273b0eebb226910c8d04ec77a9046"
+    },
+    {
+      "path": "tools/strix-point-schema-integer-gate.py",
+      "bytes": 10416,
+      "sha256": "3864bbda9e20b9579be79c8c5b4847632f5fa5995f8142115a91da100521df5e"
+    },
+    {
+      "path": "tools/strix-point-campaign.py",
+      "bytes": 112434,
+      "sha256": "d1dd434d41f046245afe060d69b299ad2bc5845ea36e8cec481e625733648d3a"
+    },
+    {
+      "path": "tools/strix-point-launch.py",
+      "bytes": 7564,
+      "sha256": "7764c0eb455eff82d7ff228cdad5c2cb997ef2655f04c17df81337dffbc446ad"
+    },
+    {
+      "path": "tools/strix-point-http-gate.py",
+      "bytes": 19320,
+      "sha256": "4aa144c9484dd2d9c1c421841291acd7b40b7d90275f7577288ac01fb9494605"
+    },
+    {
+      "path": "tools/strix-point-bench-collect.py",
+      "bytes": 10134,
+      "sha256": "c5a4237c954b7e1346d7abdd70834a4235e4b396e54145f8c27c69771c388db4"
+    },
+    {
+      "path": "tests/test_strix_point_schema_integer.py",
+      "bytes": 6498,
+      "sha256": "df525f3e312de92e712ed24a9b6020af3379f1e663ff98cea57078559f7e99fc"
+    },
+    {
+      "path": "tests/test_strix_point_campaign.py",
+      "bytes": 89888,
+      "sha256": "4a8a15ae2b564e5de8dfe9dcc3527c1ac1a0eb2b6fd8c0d1df09e430e44f6736"
+    },
+    {
+      "path": "tests/test_strix_point_output_budget.py",
+      "bytes": 6407,
+      "sha256": "a49738db73496ddb9ec2c35ec6c00d5dd08f0cb2b2408c95badc02e64e2c9cb5"
+    }
+  ],
+  "actual_commands": [
+    {
+      "directory": "evidence/schema-integer-gpu-host-configure-r1",
+      "actual_exit_code": 0,
+      "child_exit_code": 0,
+      "result": {
+        "path": "evidence/schema-integer-gpu-host-configure-r1/result.json",
+        "bytes": 582,
+        "sha256": "3fe3974fff3ff49a9e5c65a3526a50a8a34d2b33f355f48c3a0bf187cb896a55"
+      }
+    },
+    {
+      "directory": "evidence/schema-integer-gpu-host-configure-r2",
+      "actual_exit_code": 0,
+      "child_exit_code": 0,
+      "result": {
+        "path": "evidence/schema-integer-gpu-host-configure-r2/result.json",
+        "bytes": 585,
+        "sha256": "07c82d34a811093e18ccc28f55a438eb01ee4f2d62b29de9c0a4639ccd84305a"
+      }
+    },
+    {
+      "directory": "evidence/schema-integer-gpu-host-ctest-r1",
+      "actual_exit_code": 8,
+      "child_exit_code": 8,
+      "result": {
+        "path": "evidence/schema-integer-gpu-host-ctest-r1/result.json",
+        "bytes": 547,
+        "sha256": "8a6ee2ff5c11e592ad6bfc5dbb55390b400278d1c6f6857a2819ae115bc824b2"
+      }
+    },
+    {
+      "directory": "evidence/schema-integer-gpu-host-ctest-r2",
+      "actual_exit_code": 0,
+      "child_exit_code": 0,
+      "result": {
+        "path": "evidence/schema-integer-gpu-host-ctest-r2/result.json",
+        "bytes": 544,
+        "sha256": "9d38e1a88afb9332bfb3143b1ae851c73c3a8628f44a37814d87ff1b2a7f2253"
+      }
+    }
+  ],
+  "final_CTest_groups": 3,
+  "final_unittest_counts": {
+    "supervisor": 63,
+    "existing_budget": 5,
+    "new_integer_oracle": 5
+  },
+  "declared_original_weight_checks": {
+    "valid_cases": 15,
+    "APIs": 2,
+    "wire_modes": 2,
+    "expected_HTTP400_per_API": 3,
+    "total": 66,
+    "not_enum_or_const": true
+  },
+  "native_bench_server_default_tests_require_Python": false,
+  "Python_scope": "Explicit optional developer supervision/oracles; LIE_LEGACY_PYTHON_TESTS default OFF.",
+  "C_runtime_model_ABI_state_metrics_changes": false,
+  "ASan_UBSan_scope": "Existing58-test sanitizer HOST receipt belongs to the unchanged105-file provider. New source changes only optional Python fixtures/supervision, registration and documentation; no new sanitizer model or parser claim.",
+  "original_weight_GPU_run_started": false,
+  "gpu_build_hash_conversion_remote_lease_waiter_reservation": false,
+  "root_157_158_nonuse": true,
+  "all_six_owned_tasks_open": true,
+  "Terminal_Bench": "Stopped/collected/closed/deferred last",
+  "retained_failures": [
+    {
+      "path": "evidence/schema-integer-gpu-initial-host-failure-r1.json",
+      "bytes": 515,
+      "sha256": "cb22f5b7e5137c5ca6752509434719ba4d9dcfa1e76503932d7942e9ab1833d3"
+    },
+    {
+      "path": "evidence/context-r33-read-location-failure-r1.json",
+      "bytes": 402,
+      "sha256": "3e1e286bd1aa832add960691bdb74b361a63cd794219d0b1a27990b68e0c5a60"
+    },
+    {
+      "path": "evidence/context-r33-atomic-patch-failure-r1.json",
+      "bytes": 441,
+      "sha256": "38d855624c247e41b5af5fc9691b205f7a220ea37c0318700dde1609135d37ef"
+    },
+    {
+      "path": "evidence/context-r33-atomic-patch-failure-r2.json",
+      "bytes": 456,
+      "sha256": "04b0440fc95bc73abb96c302fc8a683733664d4ffec5d6e22b1d72ceaf7b0fa1"
+    }
+  ],
+  "portable_raw": {
+    "path": "docs/development/validation/raw/schema-integer-gpu-protocol-host-2026-10-06.tar.gz",
+    "bytes": 65253,
+    "sha256": "ca640553000bf0e1c0721ca06f90d039228a059e88b46a9269eb2e72c208b4b2",
+    "members": 31
+  },
+  "publication": false,
+  "complete_final_LastTest": {
+    "path": "evidence/schema-integer-gpu-host-ctest-r2/LastTest.log",
+    "bytes": 3020,
+    "sha256": "c024651a8449139a7e9aa0872808a3ff6556737119169e00d8dddb788f60b5c4"
+  },
+  "prior_unsealed_raw_draft_retained": {
+    "path": "evidence/schema-integer-gpu-protocol-initial-raw-r1.tar.gz",
+    "bytes": 65155,
+    "sha256": "a2db0cb296a4694c89860d08a858fe5997b54ed01a2790984cf703e3ce3abefa"
+  }
+}

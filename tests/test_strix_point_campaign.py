@@ -993,6 +993,46 @@ class Tests(unittest.TestCase):
         with patch.object(c,'verified_model') as model,patch.object(c,'run_container') as child:
             with self.assertRaisesRegex(ValueError,'boolean selection'):c.bench()
             model.assert_not_called();child.assert_not_called()
+    def test_modern_http_integer_gate_binds_separate_complete_sidecar(self):
+        c=self.campaign('modern-http-integer')
+        helper=c.root/'http-gate.py';helper.write_bytes(b'fixture helper')
+        integer=c.root/'http-schema-integer.py';integer.write_bytes(b'integer oracle fixture')
+        c.m.update(stack='rocm10-fedora43',transport='distrobox',bench_profile='modern-http',
+                   decode_mode='ar',bundle=str(self.base),model_plan={'files':[{'name':'target.gguf'}]},
+                   http_schema_integer_gate=True,http_gate_sha256=point.sha(helper),
+                   http_schema_integer_sha256=point.sha(integer))
+        selected=sorted(point.HTTP_SCHEMA_INTEGER_CHECKS)
+        sidecar={'schema':'synapse-lie.point-schema-integer.v1','state':'PASSED',
+                 'passed':selected,'witnesses':{k:{} for k in selected}}
+        result={'schema':'synapse-lie.point-http-original.v1','state':'PASSED','mode':'ar',
+                'server_exit_code':0,'schema_integer_checks':66,
+                'passed':['models','chat_json','chat_sse','responses_json','responses_sse']}
+        def run(command,*_):
+            self.assertEqual(command[-1],'--schema-integer')
+            (c.root/'http-result.json').write_text(json.dumps(result))
+            (c.root/'http-schema-integer-result.json').write_text(json.dumps(sidecar))
+        with patch.object(c,'verified_model',return_value=(self.base/'model',[])), \
+             patch.object(c,'check_model_after'),patch.object(c,'run_container',side_effect=run) as child:
+            c.bench()
+            self.assertEqual(c.r['http_schema_integer_sha256'],point.sha(c.root/'http-schema-integer-result.json'))
+            for invalid in (selected[:-1],selected+[selected[0]]):
+                sidecar['passed']=invalid
+                with self.assertRaisesRegex(RuntimeError,'Incomplete original-weight bounded'):c.bench()
+            sidecar['passed']=selected;sidecar['witnesses'].pop(selected[0])
+            with self.assertRaisesRegex(RuntimeError,'Incomplete original-weight bounded'):c.bench()
+            integer.write_bytes(b'changed');count=child.call_count
+            with self.assertRaisesRegex(ValueError,'integer-schema helper drift'):c.bench()
+            self.assertEqual(child.call_count,count)
+
+    def test_modern_http_integer_gate_refuses_nonboolean_before_model_access(self):
+        c=self.campaign('modern-http-integer-type')
+        helper=c.root/'http-gate.py';helper.write_bytes(b'fixture helper')
+        c.m.update(stack='rocm10-fedora43',transport='distrobox',bench_profile='modern-http',
+                   decode_mode='ar',http_gate_sha256=point.sha(helper),http_schema_integer_gate=1)
+        with patch.object(c,'verified_model') as model,patch.object(c,'run_container') as child:
+            with self.assertRaisesRegex(ValueError,'boolean selection'):c.bench()
+            model.assert_not_called();child.assert_not_called()
+
     def test_modern_http_multi_pins_corpus_mode_and_complete_native_result(self):
         c = self.campaign('modern-http-multi')
         helper = c.root/'http-multi-gate.py'; helper.write_bytes(b'fixture multi helper')
