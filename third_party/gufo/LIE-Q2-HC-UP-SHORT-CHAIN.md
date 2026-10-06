@@ -21,3 +21,11 @@ uses the retained provider directly as its in-process operator control, plus
 an independent FP64 formula. No production model dispatch or public C ABI is
 changed by these drafts. Local object compilation is not GPU correctness,
 original-weight inference, occupancy or performance evidence.
+
+The separately generated `.deps/gufo-q2-hc-up-short-chain-run` has1029 files,
+bound by `config/q2-hc-up-short-chain-model-source.json`. It adds the exact
+measured include and changes three parent files: two executor call names,
+header declarations and the include statement. All166 compiled device bodies
+and resources match the measured probe. This private opt-in model candidate
+changes FP32 reduction deliberately; independent component checks pass, while
+exactness differs and independent model/task quality is still unqualified.

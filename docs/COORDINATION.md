@@ -1,5 +1,25 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## HC-up component collected and released — 2026-10-06 UTC
+
+Admission20:13:37.783635UTC/557d07da binds checkpointb4d569e7 and plan90567dfa.
+The component completes20:14:51.589540UTC with exits0,0,1. All68 component+7
+host artifacts collect before release20:15:48.994636UTC, SHA
+79baceeeada040899b48da044a7081f890d2447954624fff360fd7affcb5bc27.
+1692 identities/1350 groups retire, KFD is empty, original Core CPU/four GPU
+leases are free and seven model stat identities unchanged. Canonical/main/
+remote active+ready/release mirrors agree; Core receives closure before analysis.
+
+Core subsequently confirms fresh own non-use20:20:45UTC. Global preflight
+20:21:09.738025UTC revalidates that closure, processes, leases, KFD and models
+before the new model launcher's CPU host gate. No model window is inherited.
+
+Model host q2-hc-up-short-chain-model-host-r1 completes20:21:56.874038UTC:
+39/39 Debug and39/39 ASan/UBSan, six zero exits and seven collected artifacts.
+Plan5b5d8ebe binds282 fixture hashes, the1029-file private provider and the
+already collected component. Only q2-hc-up-short-chain-model-r1 is planned,
+with original2048/TG128 parameters; fresh checkpoint/admission is required.
+
 ## HC-up short-chain host qualification — 2026-10-06 UTC
 
 Core own non-use20:02UTC is followed by global preflight20:11:01.767820UTC,

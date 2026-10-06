@@ -3,8 +3,53 @@
 
 The retained fixed result remains **1587.893545 PP / 25.12414406 TG** against
 the unchanged UD **1685.777092 PP / 24.34174251 TG**. The previous whole640
-integration regressed to1576.766972 PP. This draft has compiler evidence only;
-it is neither a measured gain nor a replacement performance default.
+integration regressed to1576.766972 PP. The component now completes on .157
+with safe finite outputs and all independent formula checks passing. Its
+completed wall times improve; original-model performance remains unmeasured.
+
+## Collected component result
+
+All468 independent reports pass (234 per arm), with candidate mixed-output
+relative RMS at most1.6932891e-6 and peak-scaled error2.0759471e-6 against the
+unchanged2e-5 limits. Complete mixed outputs differ by at most8.9406967e-8;
+232/232 enabled injection comparisons are exact. F16 copies differ where
+changed F32 rounding crosses a half boundary, maximum2.44140625e-4.
+The explicit exactness rejection remains exit1, following build exits0,0.
+It is not a memory/device failure or an independent formula rejection.
+
+| Path | Parent completed wall us | Candidate completed wall us | Time change |
+|---|---:|---:|---:|
+| Ordinary | 1358.049500 | 1279.984950 | -5.7483% |
+| Deferred normalization | 1396.577300 | 1300.389388 | -6.8874% |
+
+These are means of the five original measured wall samples per arm, including
+HIP launch and completion overhead. Every candidate sample is below every
+parent sample in its path. All28 HIP-event values are invalid zeros; no GPU
+event aggregate or kernel-only speed claim is made. The first analysis
+explicitly rejected those zeros; its failure is preserved. The final report
+keeps event aggregates null and wall observations in separate fields, without
+substitution. All raw samples remain in the
+[component report](../config/q2-hc-up-short-chain-results.json).
+
+All68 component and7 host artifacts collect before20:15:48.994636UTC release
+79baceee.1692 recorded process identities and1350 groups are absent, KFD is
+empty and original leases/model stat identities are unchanged. No retained
+model reference or already qualified component is rerun.
+
+## Private original-model candidate
+
+A separate1029-file provider connects the exact measured ordinary/deferred
+bodies to the existing original-F16 executor branches. The two call targets,
+their declarations and a private include are the only changed parent files;
+all166 device bodies/resources are instruction-exact to the measured probe.
+Scalar, small-shape and raw-Q8 branches are unchanged. No device allocation,
+stream, public ABI, scheduler or resource-accounting contract changes.
+
+The model plan retains the exact2048 input, capacity9216, chunk2048,128 output
+tokens/127 timed decode calls, C1/MTPoff, one warmup, three measured sessions
+and15s cooldown outside timing. It runs only the new candidate, with saved
+Q2/UD/best-parent controls. Finite numerical differences and task quality are
+separate from throughput. Original-weight results are pending.
 
 ## Why this path
 

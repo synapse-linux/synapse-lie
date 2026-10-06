@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## HC-up component collected; original-model candidate connected — 2026-10-06 UTC
+
+The component completes safely with exits0,0,1:234/234 independent formula
+checks pass per arm, while the changed reduction differs from parent by at
+most8.94e-8 F32. Completed wall means fall5.7483% ordinary and6.8874% deferred.
+All28 HIP-event values are zero/invalid and remain unusable for GPU timing;
+they are not replaced by wall values. All68+7 artifacts collect before release
+79baceee; no remote process/lease remains. The1029-file private model now calls
+the same two measured bodies, with all166 device bodies/resources verified
+unchanged after integration. The next run is only this new original2048/TG128
+candidate. [All values and limitations](Q2-HC-UP-SHORT-CHAIN.md).
+
 ## HC-up short-chain prepared; no new measured gain — 2026-10-06 UTC
 
 Saved-profile reassessment isolates HC up85.327ms versus historical UD55.498ms,

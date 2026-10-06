@@ -317,6 +317,34 @@ class RemoteGuardTests(unittest.TestCase):
         self.assertEqual(remote.HC_RMS_ORDINARY_MANIFEST,
                          'config/q2-hc-rms-owner-ordinary-source.json')
 
+    def test_hc_up_short_chain_model_is_new_model_only(self):
+        variant, mode = remote.HC_SHORT_MODEL_VARIANT, remote.HC_SHORT_MODEL_MODE
+        for other in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                      'q2-counting-ssm-fixed-bounds', remote.HC_OWNER_MODE):
+            message = ('HC RMS ownership requires its component-only draft provider'
+                       if other == remote.HC_OWNER_MODE else
+                       'Historical counting requires its matched provider'
+                       if other in remote.COUNTING_SOURCES else
+                       'HC up short chain requires its matched historical counting provider')
+            self.refuse([other, 'q2-fixture', '--source-variant', variant], message)
+        self.refuse([mode, 'q2-fixture'], 'Historical counting requires its matched provider')
+        base = [mode, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base, 'Historical counting requires a full MMQ rebuild')
+        for flag in ('--detach', '--native-curve', '--point-only', '--replay-from'):
+            extra = [flag, 'q2-norm-fixed-model-before-r1'] if flag == '--replay-from' else [flag]
+            self.refuse(base + ['--rebuild-mmq'] + extra,
+                        'Persistent launch is limited' if flag == '--detach' else
+                        'HC up short chain accepts no curve')
+        with patch.object(sys, 'argv', [str(path), *base, '--rebuild-mmq']), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+        self.assertEqual(remote.COUNTING_SOURCES[mode], variant)
+        self.assertEqual(remote.HC_SHORT_MODEL_MANIFEST,
+                         'config/q2-hc-up-short-chain-model-source.json')
+
     def test_hc_rms_owner_is_component_only(self):
         variant = remote.HC_OWNER_VARIANT
         for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
