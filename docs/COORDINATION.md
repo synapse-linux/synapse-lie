@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## HC-up original-model window collected and released — 2026-10-06 UTC
+
+Admission20:23:29.598018UTC/2dac8465 binds checkpoint757501d9 and plan5b5d8ebe.
+The sole new model completes20:28:23.543808UTC with four zero command exits.
+All26 model+7 host artifacts collect before release20:29:30.363010UTC, SHA
+39a36b31c64fb3d6dd54104ca3deee203ee2a513e3884946e63da43d05281398.
+1704 recorded identities/1360 groups are retired; KFD is empty, original
+Core CPU/four GPU leases are unchanged/free and seven model stat tuples exact.
+Canonical/main/remote active+ready/release mirrors agree and Core receives
+closure before model analysis. No Q2 job/client/build/lease/window/waiter/
+reservation/planned window/live handle/restart/cleanup remains on .157/.158/
+.161/TB. A future SSM trial requires its own host gate, plan and fresh admission.
+
 ## HC-up component collected and released — 2026-10-06 UTC
 
 Admission20:13:37.783635UTC/557d07da binds checkpointb4d569e7 and plan90567dfa.

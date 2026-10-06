@@ -3,9 +3,55 @@
 
 The retained fixed result remains **1587.893545 PP / 25.12414406 TG** against
 the unchanged UD **1685.777092 PP / 24.34174251 TG**. The previous whole640
-integration regressed to1576.766972 PP. The component now completes on .157
-with safe finite outputs and all independent formula checks passing. Its
-completed wall times improve; original-model performance remains unmeasured.
+integration regressed to1576.766972 PP. The new original-model trial reaches
+**1589.732497 PP / 25.15389128 TG**, only **+0.115811% PP** versus the retained
+parent. The observed ranges overlap; this is a marginal candidate, not a
+verified material gain or a replacement default. No saved reference changes.
+
+## Original model result
+
+The benchmark uses the original physical 2048-token input, capacity 9216,
+chunk 2048, 128 output tokens/127 timed decode calls, C1 and MTP off. Its
+original median aggregation is unchanged. Saved Q2 and UD controls are read
+from their qualified artifacts, without rebuilding or rerunning them.
+
+| Source | PP token/s | TG calls/s | Prefill s |
+|---|---:|---:|---:|
+| Initial fixed Q2 | 1443.672867 | 25.09595499 | 1.418603928 |
+| Retained Q2 parent | 1587.893545 | 25.12414406 | 1.289759006 |
+| New HC-up candidate | 1589.732497 | 25.15389128 | 1.288267054 |
+| Fixed UD | 1685.777092 | 24.34174251 | 1.214869991 |
+
+| Candidate session | PP token/s | TG calls/s | Prefill s | Decode s |
+|---|---:|---:|---:|---:|
+| Warmup, excluded | 1592.035846 | 25.14674077 | 1.286403196 | 5.050356273 |
+| 1 | 1589.157120 | 25.15389128 | 1.288733489 | 5.048920605 |
+| 2 | 1590.141099 | 25.12056728 | 1.287936021 | 5.055618314 |
+| 3 | 1589.732497 | 25.15613678 | 1.288267054 | 5.048469927 |
+
+The nominal increase is 1.838952 token/s, saving 1.491952 ms. The remaining
+UD prefill gap is 73.397063 ms. Parent PP samples range 1585.263379–1589.688108;
+the new range is 1589.157120–1590.141099. This single candidate with historical
+controls does not establish a repeatable 0.12% benefit. The larger component
+wall-time change therefore does not establish a similar model improvement.
+
+Every saved input and generated token remains exact to the parent, and all
+nine within-candidate replay comparisons are exact. Eight saved PP logits
+arrays change; maximum matched-history KL is 0.004725420737 against the parent.
+The simple greedy continuations are not independent general task quality.
+No tolerance is relaxed and no numerical or production promotion is made.
+
+The four model commands exit 0. All 26 model and 7 host artifacts collect
+before release at 20:29:30.363010 UTC, SHA `39a36b31`. The full
+[model report](../config/q2-hc-up-short-chain-model-results.json) retains all
+original samples, logits comparisons and immutable workload bindings.
+
+Retain this marginal mechanism without repeating it. The next candidate is
+the separately prepared SSM resident-tile composition: it reduces LDS from
+48 to 32 KiB and actual VGPR from 220 to 158 without private scratch. Its
+complete projection/convolution component and original-model performance
+are still unmeasured. Earlier individual row128 and compact-LDS trials are
+already negative and are not repeated.
 
 ## Collected component result
 
@@ -49,7 +95,7 @@ The model plan retains the exact2048 input, capacity9216, chunk2048,128 output
 tokens/127 timed decode calls, C1/MTPoff, one warmup, three measured sessions
 and15s cooldown outside timing. It runs only the new candidate, with saved
 Q2/UD/best-parent controls. Finite numerical differences and task quality are
-separate from throughput. Original-weight results are pending.
+separate from throughput. The original-weight result is reported above.
 
 ## Why this path
 
@@ -126,7 +172,7 @@ qualification (six command exits0, seven collected artifacts),
 then a fresh lease/registry/process/KFD/model-stat admission. Collect and
 publish closure before analysis. No model control, Q4 or full curve is rerun.
 The exact2048/TG128 model contract remains unchanged; model integration and
-its original-weight trial require a separate frozen plan.
+its original-weight trial used a separate frozen plan and released window.
 
 Source and compiler bindings: [static report](../config/q2-hc-up-short-chain-static.json).
 Provenance: [private drafts](../third_party/gufo/LIE-Q2-HC-UP-SHORT-CHAIN.md).

@@ -1,5 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Current2026-10-06 queue: [HC-up short chain](Q2-HC-UP-SHORT-CHAIN.md) has a
+completed safe component and a marginal1589.732497 PP original-model result.
+Retained1587.893545 and fixed UD1685.777092 remain unchanged. Whole640 integration
+has since measured1576.766972 PP and is negative; it is no longer an untested
+candidate. The next compiler-only composition is the SSM32KiB resident tile.
+[Current priorities](Q2-TARGET-PRIORITIES.md) supersede the preparation order below.
+
 Current update2026-10-06: [ordinary RMS model retry](Q2-HC-RMS-OWNER-MODEL-RESULTS.md)
 measures1584.244040 PP/25.16964571 TG with all21 parent files exact and no
 measured improvement over1585.308983. Preserve its small negative observation;

@@ -1,6 +1,29 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 fixed-point priorities
 
+Current queue,2026-10-06: retained1587.893545 PP remains the performance
+reference against fixed UD1685.777092. [HC-up short chain](Q2-HC-UP-SHORT-CHAIN.md)
+now completes at1589.732497 PP: only+0.115811%, with overlapping observed ranges.
+Its component wall gains5.75%/6.89% did not yield a similar model benefit.
+Keep it as marginal evidence without promotion or rerun. The same workload
+and saved references stay fixed; eight logits arrays change, tokens do not.
+
+The next unmeasured composition is the SSM resident-tile compiler draft:
+32KiB LDS, zero private scratch,158 actual VGPR after operand phasing.
+It still needs a complete producer/consumer component; compiler resources
+alone do not establish occupancy or speed. Earlier row128/compact-LDS
+ingredients have negative results and are not rerun individually.
+
+Whole640 integrated producer/packing/down is now measured negative at
+1576.766972 PP; ordinary RMS is also negative. Keep the earlier marginal
+injection-reuse evidence available, but it is not an untested priority.
+HC-down whole-row and single-chain experiments already have negative evidence.
+Installed FETCH_SIZE is uncalibrated, so new bandwidth attribution is not
+claimed. [Corrected saved-profile grouping](Q2-HC-UP-SHORT-CHAIN.md#why-this-path)
+keeps historical traces distinct from the current fixed measurement.
+
+The entries below preserve earlier preparation states and their evidence.
+
 The latest [HC coefficient-reuse draft](Q2-HC-INJECTION-REUSE-DRAFT.md)
 stages4096 bytes once per workgroup in existing LDS. Raw/deferred instructions
 fall5234→4761/5610→5148 versus the first reuse draft, with unchanged242VGPR,

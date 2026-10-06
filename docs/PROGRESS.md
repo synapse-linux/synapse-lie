@@ -1,5 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## HC-up model completes with only a marginal change — 2026-10-06 UTC
+
+Original2048/TG128 HC-up candidate: **1589.732497 PP /25.15389128 TG**, versus
+retained1587.893545/25.12414406 and fixed UD1685.777092/24.34174251. Nominal
+PP +0.115811% saves1.491952ms, with overlapping observed ranges. This does not
+establish a material or repeatable gain; keep the retained performance default.
+Inputs and generated tokens remain exact, all nine internal replays are exact,
+but eight PP logits arrays change. Independent task quality is unqualified.
+
+All four model commands exit0;26 model+7 host artifacts collect before
+20:29:30.363010UTC release39a36b31.1704 identities/1360 groups are absent,
+KFD empty and original leases/model stat identities unchanged. No Q2 workload,
+window, waiter or cleanup remains. Next is the already prepared SSM32KiB
+resident composition, whose component/model performance is unmeasured.
+[Full original comparison and all samples](Q2-HC-UP-SHORT-CHAIN.md).
+
 ## HC-up component collected; original-model candidate connected — 2026-10-06 UTC
 
 The component completes safely with exits0,0,1:234/234 independent formula

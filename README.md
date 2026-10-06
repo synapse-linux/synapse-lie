@@ -1,10 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-The [HC-up short-chain component](docs/Q2-HC-UP-SHORT-CHAIN.md) passes all468
-independent formula reports, with completed wall time -5.75% ordinary and
--6.89% deferred. Exactness differences and invalid zero HIP-event timings
-remain explicit. The integrated original-model trial is pending;
-the retained1587.893545 PP result is unchanged.
+The [HC-up short-chain model](docs/Q2-HC-UP-SHORT-CHAIN.md) measures
+1589.732497 PP / 25.15389128 TG: only +0.115811% PP against retained1587.893545,
+with overlapping observed ranges. Generated tokens remain exact; eight PP
+logits arrays change. Preserve this marginal candidate without promotion.
+All model commands pass and GPU work is collected/released. The retained
+performance default and fixed UD reference remain unchanged.
 
 The [whole640 integrated chain](docs/Q2-IQ2-WHOLE640.md) now completes its
 original2048/TG128 trial:1576.766972 PP, −0.700713% against retained1587.893545,
