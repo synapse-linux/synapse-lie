@@ -1,5 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## RMS owner component exact and measured — 2026-10-06 UTC
+
+All38 cases/120 whole output records pass exactly on .157, including post-timing residuals and absent outputs. Ordinary complete-cycle wall improves1.682111%; MoE median time changes+0.260699% with overlapping ranges. All28 HIP timings are invalid zero. Preserve all warm/measured samples and graphs without projecting model rates. Host36+36 and all nine host/component command exits0; seven host/four component artifacts collect before release10:17:30.469914UTC/27506424.1388 identities/1111 groups retire, KFD empty, original leases free/unchanged and seven model stat tuples unchanged. Mirrors agree, Core informed before local analysis, no live job/window/waiter/reservation or cleanup.
+
+Prepare only the qualified ordinary route in a new private1028-file provider:one launch file changes/one include added; all162 original bodies and the qualified ordinary body are exact in ISA/resources. n>=96 selects owners; original smaller/decode/MoE dispatch stays. No lifetime, allocation, stream or callback changes. Source/assembly/static exits0; no new model arm/runtime wiring/plan or model rate yet. Retain1585.308983 PP/25.16079073 TG and unchanged UD1685.777092/gap76.991736ms. [All values and next model gate](Q2-HC-RMS-OWNER-RESULTS.md).
+
 ## RMS owner host qualification — 2026-10-06 UTC
 
 Wire the complete fixture into the explicit component-only remote pair and standalone HIP target. Nine focused coverage/counter/phase/history methods plus the new mode/source guard run on .157.36/36 Debug and36/36 ASan/UBSan pass at10:13:05UTC, all six command exits0/seven artifacts collected. Freeze140 tested fixture hashes/eight manifests with the1027-file retained provider and unchanged model benchmark. Fresh Core non-use/original CPU closure/KFD/registry revalidation succeeds10:06:19UTC; the initial sandbox-denied socket attempt stays preserved. GPU admission/qualification and model performance remain pending. [Host](../config/q2-hc-norm-owner-host-results.json), [plan](../config/q2-hc-norm-owner-plan.json).

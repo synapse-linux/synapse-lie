@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Runtime qualification2026-10-06: all38 cases/120 whole output records are exact
+on .157; host36+36 and three component command exits pass. Complete-cycle
+ordinary wall improves1.682111%, MoE changes+0.260699% time with overlapping
+ranges. All28 HIP elapsed samples remain invalid zero. The window releases
+10:17:30UTC/27506424 before analysis. Only the ordinary route is extracted into
+a new private candidate; original-model performance/quality remains pending.
+[Complete values and source boundary](../../docs/Q2-HC-RMS-OWNER-RESULTS.md).
+
 Fixture update2026-10-06: the new private38-case ordinary/MoE fixture derives
 its retained kernels from this same independently fetched parent and reuses
 first-party guarded-buffer helpers from the HC injection fixture. All164
