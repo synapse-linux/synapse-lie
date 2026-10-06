@@ -14,10 +14,14 @@ typedef struct {
   lie_schema_transform_description transform;
   size_t number_work;
   void *conversion_context;
-  /* Binary64 codec hook only: locale-neutral JSON spelling/parsing,
+  /* Optional binary64 codec overrides: locale-neutral JSON spelling/parsing,
    * no lookup, validation, interval/grid or representability policy. Serialize
    * writes at most capacity bytes, without a NUL; parse consumes the full span.
-   * Neither callback retains a view. Refusals must not throw across the C ABI. */
+   * Neither callback retains a view. Refusals must not throw across the C ABI.
+   * Each NULL hook independently selects the owned C17 binary64 codec; that
+   * path ignores conversion_context, retains no state and allocates no heap.
+   * Native codec refusal returns CALLBACK with a static English error message.
+   * Custom hook statuses pass through unchanged; callers own their errors. */
   lie_schema_status (*serialize)(void *, double, char *, size_t, size_t *);
   lie_schema_status (*parse)(void *, lie_schema_bytes, double *);
 } lie_schema_number_description;
@@ -25,7 +29,9 @@ void lie_schema_number_description_init(lie_schema_number_description *);
 /* Synchronous borrowed-reader contract follows schema_transform. C17 owns
  * ordered keyword lookup, finite/positive checks, exact-decimal preparation,
  * scalar type selection, LCM representability and literal publication. The
- * conversion hooks select the owned binary64 codec in the current adapter.
+ * initialized description selects the owned binary64 codec without callbacks;
+ * clients can override either conversion independently. Native parse uses the
+ * bounded default lie_binary64 limits and consumes the complete span.
  * number_work=0 selects grammar_number's default. Its paired allocator owns
  * policies/workspaces and must outlive a created policy. No shared mutable
  * cache, model, HTTP, RNG or thread ownership. Refusals preserve outputs; a

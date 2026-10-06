@@ -1,8 +1,9 @@
 /* SPDX-License-Identifier: MIT */
 /* Numeric leaf control adapted from the independently pinned MIT Gufo
- * json_schema_lexeme.cpp. Binary64 conversion uses a declared C17 codec hook;
+ * json_schema_lexeme.cpp. Binary64 conversion defaults to the owned C17 codec;
  * ordered schema/finite/grid/LCM publication policy belongs to this C17 core. */
 #include "lie/schema_number.h"
+#include "lie/binary64.h"
 #include "schema_internal.h"
 #include <math.h>
 #include <string.h>
@@ -14,8 +15,7 @@ static lie_schema_status fail(context *c, lie_schema_status status, const char *
 }
 static bool valid(const lie_schema_number_description *d) {
   return d && d->abi_version == LIE_SCHEMA_NUMBER_ABI &&
-    d->struct_bytes == sizeof(*d) && lie_schema_internal_valid(&d->transform) &&
-    d->serialize;
+    d->struct_bytes == sizeof(*d) && lie_schema_internal_valid(&d->transform);
 }
 static lie_schema_status numeric(context *c, lie_number_status status) {
   switch (status) {
@@ -36,8 +36,13 @@ static lie_schema_status spelling(const lie_schema_number_description *d,
   if (!isfinite(value)) return fail(c, LIE_SCHEMA_INVALID, "JSON numbers must be finite");
   TRY(lie_schema_internal_tick(c, 1));
   size_t bytes = 0;
-  TRY(d->serialize(d->conversion_context, value, text,
-                   LIE_SCHEMA_NUMBER_TEXT_CAPACITY, &bytes));
+  if (d->serialize) {
+    TRY(d->serialize(d->conversion_context, value, text,
+                     LIE_SCHEMA_NUMBER_TEXT_CAPACITY, &bytes));
+  } else if (lie_binary64_format(value, text, LIE_SCHEMA_NUMBER_TEXT_CAPACITY,
+                                 &bytes) != LIE_BINARY64_OK) {
+    return fail(c, LIE_SCHEMA_CALLBACK, "JSON number serialization failed");
+  }
   if (!bytes || bytes > LIE_SCHEMA_NUMBER_TEXT_CAPACITY)
     return fail(c, LIE_SCHEMA_INVALID, "invalid binary64 serialization result");
   *out = (lie_number_text){text, bytes};
@@ -100,7 +105,7 @@ lie_schema_status lie_schema_number_accept(const lie_schema_number_description *
 }
 lie_schema_status lie_schema_number_intersect(const lie_schema_number_description *d,
     lie_schema_node left, lie_schema_node right, double *out, lie_schema_error *e) {
-  if (!valid(d) || !d->parse || !left || !right || !out) return LIE_SCHEMA_INVALID;
+  if (!valid(d) || !left || !right || !out) return LIE_SCHEMA_INVALID;
   context c = {&d->transform, 0, e};
   const lie_schema_node nodes[] = {left, right};
   lie_schema_value values[2];
@@ -120,7 +125,11 @@ lie_schema_status lie_schema_number_intersect(const lie_schema_number_descriptio
                                       d->number_work, common, sizeof(common), &bytes)));
   TRY(lie_schema_internal_tick(&c, 1));
   double result = 0;
-  TRY(d->parse(d->conversion_context, (lie_schema_bytes){common, bytes}, &result));
+  if (d->parse) {
+    TRY(d->parse(d->conversion_context, (lie_schema_bytes){common, bytes}, &result));
+  } else if (lie_binary64_parse(common, bytes, NULL, &result) != LIE_BINARY64_OK) {
+    return fail(&c, LIE_SCHEMA_CALLBACK, "JSON parse error: bad number");
+  }
   bool exact = false;
   if (isfinite(result)) {
     char serialized[LIE_SCHEMA_NUMBER_TEXT_CAPACITY];

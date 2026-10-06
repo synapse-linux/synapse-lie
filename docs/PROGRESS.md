@@ -1,6 +1,44 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Implement remaining functionality before final tests — 2026-10-06 UTC
+
+The owner defers new CPU and GPU test campaigns until the remaining functional
+implementation is ready. Source changes after a qualified checkpoint remain
+explicitly unverified. Focused CTest and sanitizer gates stay required in the
+final phase, alongside GPU, quality and performance qualification; GPU work uses
+`.161` with fresh coordination. Terminal Bench runs last. Completed receipts
+remain immutable and do not qualify subsequent changes. All six owned tasks
+stay open, with no intermediate remote job or machine reservation queued.
+
+## Default schema-number conversion stays inside C17 — 2026-10-06 UTC
+
+Initialized numeric descriptions now call the owned C17 binary64 codec directly;
+serialization and parse hooks are independent optional overrides. C17 owns the
+native conversion error record and preserves refused outputs. Arithmetic and
+number spelling are unchanged. The private adapter retains borrowed typed views,
+final exception projection and custom-hook capture, with no standard C++ codec
+trampoline. Existing public layouts, reactive scheduling, workers and RAM/SSD
+payloads remain unchanged.
+
+[HOST receipt](development/validation/c17-schema-codec-host-2026-10-06.json)
+and [complete portable evidence](development/validation/raw/c17-schema-codec-host-2026-10-06.tar.gz)
+record five Release, five ASan/UBSan/LSan, 58 provider and three contract checks,
+all passing. The independent C fixture has 1,581 grid/LCM/literal/control oracles,
+37 callback and 18 allocation refusals with no remaining allocations. All 30
+preceding witness groups and 267 files remain byte-identical. Four custom C++
+exceptions and the native overflow diagnostic remain exact; the selected
+numeric bridge retains zero C++ allocations. Read-discovery failures and the
+initial packaging recipe-name assertion exit 1 remain preserved. Packaging is
+corrected without repeating build or inference.
+
+Peak local Strix Halo395 CPU temperature is 92.25 C, under CPU98/NVMe85/lower
+guards; GPU is masked and observed only. These checks finished before the owner
+deferred further campaigns. Matching new-source HIP ON/OFF and original-weight
+AR37+66/MTP37+66 on `.161` remain pending in the final qualification phase and
+require fresh admission. Root holds no remote job, lease, waiter or reservation on `.161`, does
+not use `.157/.158`, and keeps all six owned tasks open. Terminal Bench stays last.
+
 ## JSON ownership passes selected original-weight GPU gates — 2026-10-06 UTC
 
 The sealed `dbdac28d` source builds coherent 105-file HIP ON/OFF providers and

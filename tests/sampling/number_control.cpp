@@ -87,6 +87,7 @@ int main() {
   // The private ABI retains exceptions from its codec without crossing C.
   for (unsigned kind=0;kind<4;++kind) {
     lie_gufo::SchemaNumber number; auto d=number.description();
+    assert(!d.serialize && !d.parse && !d.conversion_context);
     struct Hook { lie_gufo::SchemaNumber *number; unsigned kind; } hook{&number,kind};
     d.conversion_context=&hook;
     d.serialize=[](void *p,double,char *,size_t,size_t *) noexcept {
@@ -109,6 +110,15 @@ int main() {
     catch (const std::invalid_argument &e) { caught=3; assert(std::string(e.what())=="numeric sentinel"); }
     catch (const std::runtime_error &e) { caught=2; assert(std::string(e.what())=="numeric sentinel"); }
     assert(caught==kind);
+  }
+  {
+    lie_gufo::SchemaNumber number;
+    bool caught=false;
+    try { (void)number.intersect(Value(1e308),Value(0.3)); }
+    catch (const std::runtime_error &e) {
+      assert(std::string(e.what())=="JSON parse error: bad number"); caught=true;
+    }
+    assert(caught);
   }
 #endif
   std::cout << "NUMERIC_CONTROL_CASES=" << cases << " HOST_NOT_INFERENCE\n";

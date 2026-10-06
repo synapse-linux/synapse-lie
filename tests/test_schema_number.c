@@ -192,10 +192,12 @@ static void literals(void) {
 /* Every callback and every allocator call of each selected successful route
  * is refused independently. Setup callbacks/allocations are counted apart. */
 static void refusals(void) {
+  for (unsigned native=0;native<2;++native)
   for (unsigned route=0;route<4;++route) for (unsigned which=0;which<2;++which) {
     size_t sites=0;
     for (size_t at=0;at<=sites;++at) {
       fixture f={0}; lie_schema_number_description d=description(&f);
+      if (native) { d.serialize=NULL; d.parse=NULL; }
       node schema=object(), step=number(0.1), value=number(0.3);
       field(&schema,"multipleOf",&step);
       lie_number_policy *policy=NULL, *output=(lie_number_policy *)&schema;
@@ -236,7 +238,9 @@ static void contracts(void) {
   assert(lie_schema_number_create(&bad,&schema,false,&policy,&e)==LIE_SCHEMA_INVALID);
   bad=d; bad.struct_bytes--; assert(lie_schema_number_create(&bad,&schema,false,&policy,&e)==LIE_SCHEMA_INVALID);
   bad=d; bad.transform.allocator.release=NULL; assert(lie_schema_number_create(&bad,&schema,false,&policy,&e)==LIE_SCHEMA_INVALID);
-  bad=d; bad.serialize=NULL; assert(lie_schema_number_create(&bad,&schema,false,&policy,&e)==LIE_SCHEMA_INVALID);
+  bad=d; bad.serialize=NULL;
+  assert(lie_schema_number_create(&bad,&schema,false,&policy,&e)==LIE_SCHEMA_OK);
+  lie_number_release(policy); policy=NULL;
   assert(lie_schema_number_create(&d,NULL,false,&policy,&e)==LIE_SCHEMA_INVALID);
   assert(lie_schema_number_create(&d,&schema,false,NULL,&e)==LIE_SCHEMA_INVALID);
   assert(lie_schema_number_create(&d,&schema,false,&policy,&e)==LIE_SCHEMA_OK);
@@ -256,8 +260,72 @@ static void contracts(void) {
   assert(lie_schema_number_create(&d,&schema,true,&policy,&e)==LIE_SCHEMA_WORK_LIMIT && !policy && !f.live);
   lie_schema_number_description_init(NULL); oracles+=11;
 }
+static unsigned gcd(unsigned a, unsigned b) {
+  while (b) { const unsigned r=a%b; a=b; b=r; }
+  return a;
+}
+/* Independent integer-grid and rational LCM oracles. Native conversions must
+ * not call the poisoned conversion context or the dictionary callbacks. */
+static void native_defaults(void) {
+  for (unsigned integer=0;integer<2;++integer) for (int step=1;step<=9;++step) {
+    fixture f={0}; lie_schema_number_description d=description(&f);
+    d.serialize=NULL; d.parse=NULL; d.conversion_context=(void *)(uintptr_t)1;
+    node schema=object(), low=number(-1.5), high=number(1.5), grid=number(step/10.0);
+    field(&schema,"minimum",&low); field(&schema,"maximum",&high);
+    field(&schema,"multipleOf",&grid);
+    lie_number_policy *policy=NULL; lie_schema_error e={0};
+    assert(lie_schema_number_create(&d,&schema,integer!=0,&policy,&e)==LIE_SCHEMA_OK);
+    for (int i=-30;i<=30;++i) {
+      node value=number(i/10.0); const bool expected=i>=-15 && i<=15 && i%step==0 && (!integer || i%10==0);
+      bool accepted=!expected;
+      assert(lie_schema_number_accept(&d,policy,&value,&accepted,&e)==LIE_SCHEMA_OK && accepted==expected);
+      ++oracles;
+    }
+    lie_number_release(policy); assert(!f.live);
+  }
+  for (unsigned a=1;a<=20;++a) for (unsigned b=1;b<=20;++b) {
+    fixture f={0}; lie_schema_number_description d=description(&f);
+    d.serialize=NULL; d.parse=NULL; d.conversion_context=(void *)(uintptr_t)1;
+    node left=number(a/10.0), right=number(b/10.0);
+    const double expected=(a/gcd(a,b)*b)/10.0; double out=-123;
+    lie_schema_error e={0};
+    assert(lie_schema_number_intersect(&d,&left,&right,&out,&e)==LIE_SCHEMA_OK && out==expected);
+    assert(!f.live); ++oracles;
+  }
+  /* Independent overrides: either missing hook uses the native codec. */
+  for (unsigned hook=0;hook<2;++hook) {
+    fixture f={0}; lie_schema_number_description d=description(&f);
+    if (hook) d.serialize=NULL; else d.parse=NULL;
+    node left=number(0.2), right=number(0.3); double out=-123; lie_schema_error e={0};
+    assert(lie_schema_number_intersect(&d,&left,&right,&out,&e)==LIE_SCHEMA_OK && out==0.6);
+    assert(!f.live); ++oracles;
+  }
+  fixture f={0}; lie_schema_number_description d=description(&f);
+  d.serialize=NULL; d.parse=NULL;
+  node left=number(1e308), right=number(0.3); double out=-123; lie_schema_error e={0};
+  assert(lie_schema_number_intersect(&d,&left,&right,&out,&e)==LIE_SCHEMA_CALLBACK && out==-123);
+  assert(e.message && !strcmp(e.message,"JSON parse error: bad number") && !f.live); ++oracles;
+  const double values[]={-0.0,0.3,1.2,0x1p-1074,0x1.fffffffffffffp+1023};
+  const char *spellings[]={"-0","0.3","1.2","5e-324","1.7976931348623157e+308"};
+  for (size_t i=0;i<sizeof(values)/sizeof(*values);++i) {
+    fixture f2={0}; lie_schema_number_description native=description(&f2);
+    native.serialize=NULL; native.parse=NULL; native.conversion_context=(void *)(uintptr_t)1;
+    lie_builder_description bd; lie_builder_description_init(&bd);
+    bd.allocator=native.transform.allocator; lie_grammar_builder *builder=NULL;
+    assert(lie_builder_create(&bd,&builder)==LIE_BUILDER_OK);
+    node value=number(values[i]); uint32_t id=UINT32_MAX; lie_schema_error error={0};
+    assert(lie_schema_number_literal(&native,&value,builder,&id,&error)==LIE_SCHEMA_OK);
+    lie_grammar_description grammar;
+    assert(lie_builder_finish(builder,id,0,&grammar)==LIE_BUILDER_OK);
+    lie_grammar_program *program=NULL;
+    assert(lie_grammar_program_create(&grammar,&program)==LIE_GRAMMAR_OK);
+    lie_builder_release(builder);
+    assert(completes(program,spellings[i]) && !completes(program,"") && !completes(program,"0.2"));
+    lie_grammar_program_release(program); assert(!f2.live); oracles+=3;
+  }
+}
 int main(void) {
-  constraints(); intersections(); literals(); refusals(); contracts();
+  constraints(); intersections(); literals(); refusals(); contracts(); native_defaults();
   printf("C17 schema number: %zu independent oracles, %zu callback refusals, %zu allocation refusals; HOST_NOT_INFERENCE\n",
          oracles,callback_refusals,allocation_refusals);
 }

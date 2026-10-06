@@ -1,5 +1,32 @@
 # DS4 / synapse-lie coordination
 
+## Owner defers new tests until functional implementation is ready — 2026-10-06
+
+Root continues functional source work without new intermediate CPU/GPU test
+campaigns. Final qualification retains focused CTest, sanitizer and model gates;
+GPU work uses `.161` with fresh peer coordination and lease admission at that
+time. No build/run/client/waiter/reservation is queued on `.161/.157/.158`.
+New source stays unverified until those gates pass. Historical closures and
+receipts grant no future admission. All six owned tasks remain open; Terminal
+Bench stays stopped, collected, closed and deferred last. This sequencing applies
+to root-owned work and does not change another agent's tasks or leases.
+
+## Native schema-number codec: HOST only — 2026-10-06
+
+Root advances the C17 extraction locally: default numeric conversion and its
+error records stay inside C17, while custom hooks and typed projection retain
+their declared owners. Five Release, five sanitizer, 58 provider and three
+contract checks pass, with 30 preceding witness groups/267 files unchanged.
+Local CPU peaks at 92.25 C under CPU98/NVMe85/lower guards; GPU is masked and
+observed only. No model forward, remote GPU build, model hash/conversion,
+dependency installation, service mutation or tuning occurs.
+
+Root holds no remote job/client/build/lease/waiter/reservation or live handle on
+`.161/.157/.158/TB`. Matching new-source HIP/AR/MTP gates are deferred to final
+qualification and need fresh admission;
+the r35 closure below is historical only. All six owned tasks remain open and
+Terminal Bench stays stopped, collected, closed and deferred last.
+
 ## R35 matching build, AR and MTP collected and closed — 2026-10-06
 
 Fresh Point/Q2/DGX own non-use and separate global preflights admit each `.161`

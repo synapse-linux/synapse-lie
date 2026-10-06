@@ -7,6 +7,10 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- C17 schema-number descriptions now use the shared binary64 codec directly
+  by default. Serialization and parsing callbacks are independent optional
+  overrides; native failures preserve outputs and record deterministic errors.
+
 - Shared C17 JSON binary64 formatting and parsing, preserving number spelling,
   negative zero and nearest-even rounding. Bundled pinned Ryu adds no system
   dependency; MPFR is used only by optional developer tests. The matching

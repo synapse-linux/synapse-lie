@@ -1019,14 +1019,27 @@ refusals preserve output arguments and retire temporary arithmetic workspaces.
 The added `lie_number_equal_with_allocator` keeps the original comparison API
 and lets these calls share the declared paired allocator.
 
-The private adapter supplies borrowed views, callbacks to the shared C17
-binary64 codec and typed exception translation. It holds only an exception
+Initialized descriptions now select the shared C17 binary64 codec directly.
+Each NULL conversion hook independently uses that native path, ignoring the
+conversion context. Custom hooks remain optional and caller-owned; native
+parse/format failures record a static English diagnostic in C17. The private
+adapter supplies borrowed views and final typed exception translation. It holds only an exception
 pointer and no staging container. A separate untimed probe records zero C++
 heap allocations for selected bridge construction/acceptance/small-LCM/literal
 paths. C arithmetic workspaces are separate; this is not allocation-exact
 whole-engine qualification or a performance measurement. The later C17
 codec and composition increments are host-qualified; typed storage/model/controller
 remain private. No worker/event/RNG, DS4 RAM/SSD layout or inference thread changes.
+
+The [current native-codec HOST receipt](validation/c17-schema-codec-host-2026-10-06.json)
+records 1,581 independent numeric/grid/LCM/literal controls, 37 callback and 18
+allocation refusals, four custom exception projections and native overflow
+projection. Five Release, five sanitizer, 58 complete provider and three contract
+tests pass; all 30 preceding witness groups/267 files remain byte-identical.
+The raw evidence preserves the initial packaging recipe-name failure. Matching
+new-source HIP ON/OFF and original-weight AR37+66/MTP37+66 remain pending in the
+owner-requested final qualification phase after functional implementation;
+these HOST checks do not qualify inference, GPU faults or matched performance.
 
 The [host receipt](validation/c17-schema-number-host-2026-10-06.json) records
 65 independent control/literal oracles, 22 callback refusals, nine selected

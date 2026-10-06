@@ -1,29 +1,13 @@
 // SPDX-License-Identifier: MIT
-// Borrowed JSON views and typed exception translation; binary64 codec is C17.
+// Borrowed JSON views and typed errors; standard conversion stays inside C17.
 #ifndef LIE_GUFO_SCHEMA_NUMBER_HPP
 #define LIE_GUFO_SCHEMA_NUMBER_HPP
 #include "lie/schema_number.h"
-#include "lie/binary64.h"
 #include "gufo_schema_transform.hpp"
 #include <cstring>
 namespace lie_gufo {
 class SchemaNumber {
   std::exception_ptr failure_;
-  static lie_schema_status serialize(void *p, double value, char *text,
-      size_t capacity, size_t *bytes) noexcept {
-    auto &self = *static_cast<SchemaNumber *>(p);
-    return self.invoke([&](auto &) {
-      if (lie_binary64_format(value, text, capacity, bytes) != LIE_BINARY64_OK)
-        throw std::runtime_error("JSON number serialization failed");
-    });
-  }
-  static lie_schema_status parse(void *p, lie_schema_bytes text, double *out) noexcept {
-    auto &self = *static_cast<SchemaNumber *>(p);
-    return self.invoke([&](auto &) {
-      if (lie_binary64_parse(text.data, text.size, nullptr, out) != LIE_BINARY64_OK)
-        throw std::runtime_error("JSON parse error: bad number");
-    });
-  }
 public:
   template<class F> lie_schema_status invoke(F &&f) noexcept {
     try { f(*this); return LIE_SCHEMA_OK; }
@@ -36,9 +20,6 @@ public:
     lie_schema_number_description d;
     lie_schema_number_description_init(&d);
     d.transform = schema_reader();
-    d.conversion_context = this;
-    d.serialize = serialize;
-    d.parse = parse;
     return d;
   }
   void check(lie_schema_status rc, const lie_schema_error &e) {
@@ -49,6 +30,10 @@ public:
       throw std::invalid_argument(e.message);
     if (failure_ && (rc == LIE_SCHEMA_CALLBACK || (rc == LIE_SCHEMA_EMPTY && !e.message)))
       std::rethrow_exception(failure_);
+    if (rc == LIE_SCHEMA_CALLBACK && e.message &&
+        (std::strcmp(e.message, "JSON number serialization failed") == 0 ||
+         std::strcmp(e.message, "JSON parse error: bad number") == 0))
+      throw std::runtime_error(e.message);
     schema_check(rc, e);
   }
   std::shared_ptr<const lie_number_policy> create(const SchemaValue &schema, bool integer) {

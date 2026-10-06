@@ -22,8 +22,19 @@ and clears payload only after success. Slots require caller synchronization and
 cannot be copied with struct assignment. Later move refusal may materialize a
 lazy pointer without changing logical values. Existing tree descriptions,
 engine/state/cache/event/metric layouts are unchanged. HOST lifecycle/parity
-checks pass; matching new-source GPU qualification remains pending. See
+checks and selected matching `dbdac28d` AR/MTP GPU controls pass
+([receipt](../development/validation/c17-json-slot-point-gpu-2026-10-06.json)). See
 [owned JSON values](../development/C17-SAMPLING.md#owned-typed-json-values).
+
+Schema-number ABI 1 retains its existing layouts and adds default native
+conversion semantics: each NULL serialize/parse hook independently uses the
+owned C17 binary64 codec and ignores `conversion_context`. Overrides remain
+caller-owned. Native conversion refusal preserves outputs and reports CALLBACK
+with a static diagnostic; the private adapter projects the original typed error.
+The initialized description still requires its borrowed schema reader.
+[HOST controls](../development/validation/c17-schema-codec-host-2026-10-06.json)
+pass; matching GPU qualification of this later source remains pending in the
+owner-requested final phase after functional implementation.
 
 `lie/schema_integer.h` adds standalone C17 ABI 1 calls for exact integral
 binary64 magnitude, exact integer comparison and signed grammar compilation.

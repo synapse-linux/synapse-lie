@@ -26,10 +26,14 @@ do not constitute implementation tasks. GPU qualification in this queue uses
 `.161` with fresh coordination and admission for every run.
 
 Item 1 records completed qualification. The active queue is items 2–7 below.
-At the owner's request, Terminal Bench (item 2) is deferred until the functional
-modifications and their qualification are finished. Continue items 3–7 first;
-the next source work is the remaining C17 extraction (item 7). No Terminal Bench
-client/server restart or machine reservation is queued in the meantime.
+At the owner's request, implement the remaining functional changes before
+starting new test campaigns. New source stays explicitly unverified until the
+final qualification phase; earlier receipts retain their frozen source scope.
+Collect focused functional, CTest, sanitizer, GPU, quality and performance gates
+in that final phase, using `.161` for GPU work with fresh admission. Terminal
+Bench (item 2) runs last. Continue source work for items 3–7 first, starting with
+the remaining C17 extraction (item 7). No intermediate CPU/GPU campaign, Terminal
+Bench client/server restart or machine reservation is queued in the meantime.
 
 1. **Completed: selected original-weight OpenAI GPU controls.**
    The latest qualified runtime `dbdac28d` passes **37 general OpenAI checks
@@ -326,6 +330,11 @@ client/server restart or machine reservation is queued in the meantime.
    now passes 37 general and 66 integer controls in each AR/MTP mode on `.161`
    ([GPU receipt](development/validation/c17-json-slot-point-gpu-2026-10-06.json)).
    Selected continuation is qualified; broader branches, faults and cost remain open.
+   Standard schema-number conversion now calls the C17 binary64 codec directly;
+   each conversion hook is an independent optional override. The
+   [HOST receipt](development/validation/c17-schema-codec-host-2026-10-06.json)
+   records Release5/sanitizer5/provider58/contracts3 and all 30 preceding groups/
+   267 files unchanged. Matching new-source HIP/AR/MTP qualification is pending.
    Typed schema/grammar construction/initialization/callback-error facades and model/controller
    ownership remain transitional. This step does not close any of the six items.
    Compiler orchestration/typed facades/model ownership and broader branch,
