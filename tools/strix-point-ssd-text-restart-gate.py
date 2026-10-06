@@ -161,6 +161,9 @@ def main():
                             '--kv-disk-staging-mb', '512']
             (ROOT / 'ssd-text-progress.json').write_text(json.dumps(
                 {'phase': phase, 'started_at': now(), 'completed': list(observations)}) + '\n')
+            if phase == 'calibration':
+                with (ROOT / 'restart-started.marker').open('x') as marker:
+                    marker.write(now() + '\n')
             with (ROOT / f'bench-{phase}.log').open('xb') as log:
                 child = subprocess.run(command, stdout=log, stderr=subprocess.STDOUT,
                                        timeout=660, check=False)

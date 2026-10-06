@@ -36,7 +36,7 @@ FILES = {
     'preflight': ('manifest.json', 'runner.py', 'result.json', 'telemetry.jsonl'),
 }
 OPTIONAL = {
-    'ssd-text-restart': ('ssd-text-restart-result.json', 'ssd-text-progress.json',
+    'ssd-text-restart': ('ssd-text-restart-result.json', 'ssd-text-progress.json', 'restart-started.marker',
                          'calibration.txt', 'prompt.txt', 'tokens.json',
                          'measurements-calibration.jsonl', 'measurements-fresh.jsonl',
                          'measurements-cold.jsonl', 'measurements-hot.jsonl',
