@@ -18,7 +18,10 @@ inline lie_schema_status schema_describe(void *, lie_schema_node n, lie_schema_v
   case SchemaValue::Type::kNull: out->kind=LIE_SCHEMA_NULL; break;
   case SchemaValue::Type::kBool: out->kind=LIE_SCHEMA_BOOL; break;
   case SchemaValue::Type::kNumber: out->kind=LIE_SCHEMA_NUMBER; break;
-  case SchemaValue::Type::kString: out->kind=LIE_SCHEMA_STRING; out->text={v.str().data(),v.str().size()}; break;
+  case SchemaValue::Type::kString: {
+    out->kind=LIE_SCHEMA_STRING;size_t bytes=0;
+    const char *text=lie_json_value_string(v.raw(),&bytes);out->text={text,bytes};break;
+  }
   case SchemaValue::Type::kArray: out->kind=LIE_SCHEMA_ARRAY; break;
   case SchemaValue::Type::kObject: out->kind=LIE_SCHEMA_OBJECT; break;
   }
@@ -29,7 +32,10 @@ inline lie_schema_status schema_child(void *, lie_schema_node n, size_t i,
   const auto &v=schema_value(n); if (i>=v.size()) return LIE_SCHEMA_INVALID;
   *key={};
   if (v.is_array()) *out=&v.items()[i];
-  else if (v.is_object()) { const auto &m=v.members()[i]; *key={m.first.data(),m.first.size()}; *out=&m.second; }
+  else if (v.is_object()) {
+    const auto *child=lie_json_value_at(v.raw(),true,i);size_t bytes=0;
+    const char *text=lie_json_value_key(child,&bytes);*key={text,bytes};*out=&SchemaValue::facade(child);
+  }
   else return LIE_SCHEMA_INVALID;
   return LIE_SCHEMA_OK;
 }

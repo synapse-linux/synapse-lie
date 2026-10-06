@@ -121,13 +121,54 @@ kernels. Reporting logits still use the provider transform before the existing
 C probability normalizer. The sampler as a whole is not yet autonomous C.
 Existing eligible GPU argmax shortcuts remain delegated and preserved.
 Immutable reasoning/tool composition and complete JSON syntax/decoding now
-belong to the C17 core. Typed JSON trees, predicate and key/value containers
-remain private adapter storage.
+belong to the C17 core. Typed JSON values, key/string bytes and ordered child
+storage now also belong to C17. Predicate/model/controller storage and private
+C++ reference/string projections remain transitional.
 
 Reactive readiness, per-row credits, cancellation, native batching and MTP
 controller ownership are unchanged. There is still one device-owner worker. The C
 selection call is synchronous; it does not add an asynchronous GPU forward or
 establish a throughput improvement.
+
+## Owned typed JSON values
+
+`lie/json_value.h` exposes model-neutral ABI 1. C17 owns exact byte strings/keys,
+ordered object and array child tables, scalar getters, cloning, transactional
+replacement, parsing and serialization. Each root has an allocator/budget domain;
+children are borrowed and keep stable identity across sibling insertion. Refused
+operations preserve content and output handles. Moves retire source payloads only
+after the destination succeeds. Ancestor move assignment refuses; copies stage
+before replacing, including descendant/ancestor sources. Duplicate append keeps
+order and lookup selects the first exact key; parsing still rejects duplicates.
+Inactive child tables are retained only for the pinned private compatibility API.
+
+Defaults are 64 MiB requested heap, 262,144 nodes, 512 value levels and 268,435,456
+copy/output work units. Parser limits remain independently bounded at 128 levels.
+Clone depth is bounded; destruction and serialization use iterative traversal.
+Metrics include allocator headers, context, child tables, facade storage and growth
+overlap. They exclude allocator overhead, stack, private projection allocations,
+GPU and whole-process costs. No model, HTTP, RNG, runtime thread or cache format
+enters this component. Concurrent immutable C reads are allowed; mutations and
+release require caller synchronization and retirement of borrowers.
+
+The default-ON adapter now uses this C17 tree directly. `gufo_json_value.hpp`
+provides private references, exception translation and lazily copied `std::string`
+projections required by existing callers. Projection initialization is locked;
+const reads never create or mutate a C tree. These locks add no inference worker
+or asynchronous model forward. The full original OFF Value/parser remain guarded
+by two additional exact edits at the independently fetched Gufo pin. The normal
+product and default CTest remain Python-free and gain no system dependency.
+
+The [host receipt](validation/c17-json-value-host-2026-10-06.json) records the
+independent C ownership/cleanup checks, every selected allocator/view/output
+refusal, 512-level copying/retirement, complete pristine/ON/OFF value witnesses,
+prior unchanged parser/sampler/grammar witnesses and private projection failure
+and parallel-reader checks. The 89-file provider inventory includes 77 first-party
+and 12 vendor/provenance bindings. This is host qualification only; the earlier
+`904774da` GPU receipt does not qualify this tree. Matching sealed HIP build,
+original-weight AR/MTP, broader numerical/fault/private-resource and matched cost
+remain open. Terminal Bench stays stopped/deferred until modifications and
+matching qualification finish.
 
 ## Complete JSON parser
 
@@ -147,12 +188,13 @@ charge requested C allocation sizes and overlapping growth; they exclude fixed
 stack storage, allocator overhead, private sink containers and device/process
 memory. Work and byte budgets are admission limits, not timing measurements.
 
-The private adapter only constructs Gufo's typed tree and translates exceptions.
+At `904774da`, the private adapter constructs Gufo's typed tree and translates
+exceptions. The later typed-value extraction below moves that staging to C17.
 Three exact edits at the recorded Gufo pin select C17 under default-ON
 `LIE_C17_SAMPLING`, preserving the complete original parser under OFF. The parser
 adds no HTTP coupling, dependency, cache-format change, RNG operation or thread.
-This is an extraction of syntax and decoding; model/controller ownership and
-typed JSON/predicate containers remain private.
+This parser checkpoint extracts syntax/decoding; its receipt excludes the later
+typed-value extraction. Model/controller and predicate ownership remain private.
 
 The [host receipt](validation/c17-json-parser-host-2026-10-06.json) binds 1,301
 independent C checks, 368 allocator refusals and 602 callback refusals. The actual
@@ -638,8 +680,8 @@ zero allocator calls while selected public codec calls execute. It is QA-only:
 MPFR/GMP are required only by the optional `tests/sampling` developer project,
 not by ordinary core/server/bench/default CTest. The codec object still contains
 Ryu's unused allocating convenience entry point; its malloc import does not
-describe the tested public paths. Typed JSON storage, immutable
-predicates and model/controller remain private. The matching composition/codec
+describe the tested public paths. The later typed-value extraction above owns
+JSON storage; immutable predicates and model/controller remain private. The matching composition/codec
 build passes the selected original-weight AR/MTP controls above; individual
 branches/faults/resources/cost and SSD BPE gates remain pending. No inference
 speedup is claimed.

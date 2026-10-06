@@ -11,13 +11,10 @@ JSON binary64 codec and complete JSON parser, passes
 [37 OpenAI controls in both AR and MTP on Strix Point](docs/development/validation/c17-json-parser-point-gpu-2026-10-06.json).
 These cover selected integrated paths. Broader numerical, fault, resource,
 quality and performance gates remain open.
-Gufo still owns model/controller state and typed containers. Immutable
-reasoning/tool composition and JSON binary64 conversion now use the shared C17
-core, with [host validation](docs/development/validation/c17-binary64-host-2026-10-06.json).
-Complete JSON syntax, UTF-8/escape decoding and duplicate-key detection also now
-use the shared C17 core, with
-[host validation](docs/development/validation/c17-json-parser-host-2026-10-06.json).
-Its typed tree storage remains in the private adapter.
+Gufo still owns model/controller state and predicate storage. Typed JSON values,
+keys and ordered child tables now belong to the shared C17 core, with
+[host validation](docs/development/validation/c17-json-value-host-2026-10-06.json).
+This newer 89-file increment still requires matching HIP/GPU qualification.
 ICU remains the Unicode set/property/conversion dependency.
 [Directional steering](docs/guides/USAGE.md#directional-steering) has shared-core
 and server/bench controls with host validation, including scheduled benchmark

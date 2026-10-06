@@ -24,8 +24,13 @@ Gufo `src/core/json.hpp` at `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`
 (source SHA-256 `abe26aa93f76be30d07aeef1a4aa5875ae6312689f499a5b53f8a6e7fae5368d`).
 Its iterative traversal, bounded workspace and per-object key tables are owned
 C17. Three exact edits in `adapters/gufo-state/json-parser-edits.json` preserve
-the original OFF parser; `adapters/gufo_json_parse.hpp` constructs private typed
-trees and translates exceptions. The retained Gufo MIT notice/license apply.
+the original OFF parser. The later `src/json_value.c` independently implements
+C17 scalar/string/key/ordered-table ownership, copies/moves and serialization
+against the same pinned ordered-value semantics. Two additional exact edits in
+`json-value-edits.json` preserve the complete original OFF Value class.
+`adapters/gufo_json_value.hpp` supplies private C++ references and synchronized
+string projections; `gufo_json_parse.hpp` only translates status/publication.
+The retained Gufo MIT notice/license apply.
 No extra dependency or sibling project code is introduced.
 No sibling DS4/CachyOS project sources, recipes,
 configs or binaries were imported. Read-only inventory/qualification observations are

@@ -40,6 +40,13 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 typed JSON ownership, including exact string/key bytes, ordered
+  object/array storage, transactional copies/moves, parsing and serialization.
+  Private C++ references and synchronized string projections preserve existing
+  callers. Original/default-ON/OFF host witnesses agree; matching HIP and
+  original-weight qualification remain pending. No dependency or runtime thread
+  is added; the original OFF implementation remains available.
+
 - Shared C17 complete JSON parser with ordered events, strict UTF-8/escape
   decoding, decoded duplicate-key detection and bounded allocation/work.
   Original/default-ON/OFF host trees and errors agree. The matching build passes

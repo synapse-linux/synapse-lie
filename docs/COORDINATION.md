@@ -1,5 +1,17 @@
 # DS4 / synapse-lie coordination
 
+## Typed JSON host qualification only — 2026-10-06
+
+Root completes local C17 typed JSON ownership and private facade host/sanitizer
+checks. All owned tool handles are collected; fixture threads join before return.
+The [89-file host receipt](development/validation/c17-json-value-host-2026-10-06.json)
+requires a matching sealed HIP build and original-weight controls under a fresh
+`.161` admission. Root has no remote job/client/CPU/GPU/build/lease/waiter or
+reservation on `.161`, `.157` or `.158`, and keeps `.157` non-use. The r24 closure
+below remains a dated observation, not current admission. Peer Q2/DGX activities
+and releases are separately owned evidence. Terminal Bench stays stopped,
+collected and deferred until functional modifications and qualification finish.
+
 ## R24 parser build and AR/MTP actually closed — 2026-10-06
 
 Fresh Point/DGX own non-use and separate 05:16:01 / 05:26:39 / 05:33:05 UTC global

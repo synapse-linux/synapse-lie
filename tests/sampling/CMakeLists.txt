@@ -44,7 +44,7 @@ foreach(arm IN ITEMS reference candidate fallback)
     list(APPEND sources "${pristine}/src/core/sampling.cpp")
   else()
     list(REMOVE_ITEM sources "${pristine}/src/core/json_constraint.cpp" "${pristine}/src/core/json_schema_lexeme.cpp" "${pristine}/src/core/json_schema_regex.cpp")
-    list(APPEND sources "${variant}/src/core/json_constraint.cpp" "${REPO}/src/grammar.c" "${REPO}/src/grammar_builder.c" "${REPO}/src/schema_transform.c" "${REPO}/src/schema_values.c" "${REPO}/src/grammar_cache.c" "${REPO}/src/ordered_cache.c" "${REPO}/src/grammar_composition.c" "${REPO}/src/binary64.c" "${REPO}/src/json_parse.c" "${REPO}/src/schema_memo.c" "${REPO}/src/schema_dispatch.c" "${REPO}/src/schema_visit.c" "${REPO}/src/schema_body.c" "${REPO}/src/schema_number.c" "${REPO}/src/schema_format.c" "${variant}/src/core/json_schema_lexeme.cpp" "${REPO}/src/grammar_number.c" "${variant}/src/core/json_schema_regex.cpp" "${REPO}/src/grammar_regex.c" "${REPO}/src/grammar_string.c" "${REPO}/src/grammar_vocabulary.c" "${REPO}/src/grammar_regex_compile.c" "${REPO}/src/grammar_regex_parse.c" "${REPO}/src/grammar_unicode.c" "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c" "${REPO}/src/sampling_distribution.c")
+    list(APPEND sources "${variant}/src/core/json_constraint.cpp" "${REPO}/src/grammar.c" "${REPO}/src/grammar_builder.c" "${REPO}/src/schema_transform.c" "${REPO}/src/schema_values.c" "${REPO}/src/grammar_cache.c" "${REPO}/src/ordered_cache.c" "${REPO}/src/grammar_composition.c" "${REPO}/src/binary64.c" "${REPO}/src/json_parse.c" "${REPO}/src/json_value.c" "${REPO}/src/schema_memo.c" "${REPO}/src/schema_dispatch.c" "${REPO}/src/schema_visit.c" "${REPO}/src/schema_body.c" "${REPO}/src/schema_number.c" "${REPO}/src/schema_format.c" "${variant}/src/core/json_schema_lexeme.cpp" "${REPO}/src/grammar_number.c" "${variant}/src/core/json_schema_regex.cpp" "${REPO}/src/grammar_regex.c" "${REPO}/src/grammar_string.c" "${REPO}/src/grammar_vocabulary.c" "${REPO}/src/grammar_regex_compile.c" "${REPO}/src/grammar_regex_parse.c" "${REPO}/src/grammar_unicode.c" "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c" "${REPO}/src/sampling_distribution.c")
   endif()
   add_library(${arm} STATIC ${sources})
   if(NOT arm STREQUAL "reference")
@@ -106,6 +106,12 @@ foreach(arm IN ITEMS reference candidate fallback)
   target_link_libraries(${arm}-binary64-probe PRIVATE ${arm})
   add_executable(${arm}-json-parser-probe "${REPO}/tests/sampling/json_parser.cpp")
   target_link_libraries(${arm}-json-parser-probe PRIVATE ${arm})
+  add_executable(${arm}-json-value-probe "${REPO}/tests/sampling/json_value.cpp")
+  target_link_libraries(${arm}-json-value-probe PRIVATE ${arm})
+  add_executable(${arm}-json-value-readers "${REPO}/tests/sampling/json_value_threads.cpp")
+  target_link_libraries(${arm}-json-value-readers PRIVATE ${arm})
+  add_test(NAME ${arm}-json-value-const-readers COMMAND ${arm}-json-value-readers)
+  set_tests_properties(${arm}-json-value-const-readers PROPERTIES TIMEOUT 30)
   add_executable(${arm}-composition-probe "${REPO}/tests/sampling/composition.cpp")
   target_link_libraries(${arm}-composition-probe PRIVATE ${arm})
   add_executable(${arm}-composition-cache-probe "${REPO}/tests/sampling/composition_cache.cpp")
@@ -393,3 +399,16 @@ target_link_options(candidate-binary64-oracle PRIVATE
   -Wl,--wrap=malloc -Wl,--wrap=calloc -Wl,--wrap=realloc -Wl,--wrap=free)
 add_test(NAME binary64-independent-MPFR-oracle COMMAND candidate-binary64-oracle)
 set_tests_properties(binary64-independent-MPFR-oracle PROPERTIES TIMEOUT 300)
+
+add_test(NAME json-value-reference-parity COMMAND "${CMAKE_COMMAND}"
+  "-DREFERENCE=$<TARGET_FILE:reference-json-value-probe>"
+  "-DCANDIDATE=$<TARGET_FILE:candidate-json-value-probe>"
+  "-DFALLBACK=$<TARGET_FILE:fallback-json-value-probe>"
+  "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/json-value-parity"
+  -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
+set_tests_properties(json-value-reference-parity PROPERTIES TIMEOUT 120)
+
+add_executable(candidate-json-value-faults "${REPO}/tests/sampling/json_value_faults.cpp")
+target_link_libraries(candidate-json-value-faults PRIVATE candidate)
+add_test(NAME candidate-json-value-projection-refusals COMMAND candidate-json-value-faults)
+set_tests_properties(candidate-json-value-projection-refusals PROPERTIES TIMEOUT 30)

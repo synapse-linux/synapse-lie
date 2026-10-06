@@ -1,6 +1,37 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Typed JSON ownership moves to shared C17 — 2026-10-06 UTC
+
+`lie/json_value.h` now owns scalar/string/key bytes, ordered object/array child
+storage, clone/move/replacement, typed parsing and serialization. Refusals retain
+content and output handles; child identity survives sibling insertion. Copies
+stage before replacement, moves retire sources after success, and destruction
+is iterative through the 512-level bound. The private C++ facade translates
+references/errors and locks lazy string projections; immutable reads never mutate
+or create a C tree. No inference worker, reactive/event/RNG/cache-format or
+production dependency changes. The full original OFF Value/parser remain.
+
+The [host receipt](development/validation/c17-json-value-host-2026-10-06.json)
+binds 18,499 C assertions, 113 allocator, 11 view and 54 output refusals, 11
+private projection allocation refusals, and 2,007 complete pristine/ON/OFF value
+witnesses. All 26 prior complete hashes, including 34,071 JSON parser cases,
+remain unchanged. All 86 Release, 59 ASan/UBSan/LSan core and 51 final host checks
+pass. Each arm's eight immutable readers completes 512 iterations and joins all
+fixture threads. The 57 public headers compile together as C17/C++17; the no-model
+server and bench link. Peak observed local CPU is 94.25 C with CPU98/NVMe85/lower
+guards, GPU masked and observe-only. Initial ptrace/socket/inventory/build/test
+selection failures retain actual exits; the empty exit0 selection is not a pass.
+
+The provider binds 89 files: 77 first-party and 12 vendor/provenance; 84 earlier
+bindings and all 1,019 official Gufo/11 Ryu files are unchanged. This is host-only:
+`904774da` GPU evidence excludes the new typed storage. Matching sealed HIP build
+and original-weight AR/MTP on `.161`, predicate/model/controller ownership and
+broader numerical/fault/private-resource/quality/matched-cost gates stay open.
+All six owned roadmap tasks remain open. Root has no remote job/client/build/
+lease/waiter/reservation and preserves `.157` non-use. Terminal Bench remains
+stopped/deferred until modifications and matching qualification finish.
+
 ## Complete JSON parser passes matching GPU controls — 2026-10-06 UTC
 
 The sealed `904774da` source builds on `.161` in the pinned ROCm 10 image,
