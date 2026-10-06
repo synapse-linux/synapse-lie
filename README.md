@@ -1,5 +1,10 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [SSM resident-tile component](docs/Q2-SSM-RESIDENT.md) is prepared with
+the original two-stage K schedule, 32 KiB LDS and shorter operand lifetimes.
+It checks complete projection/convolution and every timed output before reuse.
+Runtime qualification is pending; the retained fixed model reference remains.
+
 The [HC-up short-chain model](docs/Q2-HC-UP-SHORT-CHAIN.md) measures
 1589.732497 PP / 25.15389128 TG: only +0.115811% PP against retained1587.893545,
 with overlapping observed ranges. Generated tokens remain exact; eight PP

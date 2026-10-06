@@ -1,0 +1,40 @@
+{
+  "schema": "synapse-lie.q2-ssm-resident-fixture.v1",
+  "bindings": {
+    "tests/q2_ssm_resident.hip": "84fa09e02a78386cf15239e5dbb566e4598ab77526a20c24977e107d690da9d5",
+    "experiments/q2-ssm-resident-oracle.inc": "29609c9f4e94d84907e3c975902fe5ab60ec8fb87e96b1ac23b983b22b1a58d0",
+    "experiments/q2-ssm-resident-fence-draft.inc": "333eda5f305d279e5f419b0205ec202853dc59d9fc57ec74794b4611d625ffe8",
+    "tools/prepare-q2-ssm-resident-draft.py": "5cf2c7863a2e0dffd1ea2c3ccd3a29efa07fdcba05586368ffc69af294c26276"
+  },
+  "compile_receipt": "evidence/q2-ssm-resident-fixture-preparation/compile-command.json",
+  "compile_receipt_sha256": "e73cb53a9a44714bbb7d7b7d53e4f7179d02d28370b783747eec268fac1e3c69",
+  "source_variant": "iq2-fixed-bounds",
+  "source_manifest_sha256": "2e81463dbbe134190c300f2b008684d584f0d75f60f36f16eb25b765c2c4b45c",
+  "static_report": "config/q2-hc-up-short-chain-static.json",
+  "static_report_sha256": "e63bc932e710207c6ee4bd35ca994da72ed43d6780bcf8c1451f323ebe5c1674",
+  "selected": "ssm-resident-fence",
+  "shapes": [
+    1024,
+    1025,
+    1057,
+    2048,
+    2049
+  ],
+  "M": 16384,
+  "K": 2560,
+  "convolution_channels": 10240,
+  "convolution_taps": 4,
+  "weight_rotations": 3,
+  "rotated_weight_bytes": 133693440,
+  "full_output_pairs": 72,
+  "sampled_fp64_checks": 144,
+  "oracle_samples_per_check": 24,
+  "timing_records": 14,
+  "timed_pairs_checked_before_reuse": 42,
+  "independent_timed_states_per_arm": 3,
+  "primary_component_timer": "completed monotonic wall time; separate raw HIP values with validity",
+  "numerical_exit": 1,
+  "unsafe_exit": 2,
+  "GPU_run": false,
+  "model_inference": false
+}

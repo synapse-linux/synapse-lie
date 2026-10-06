@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Resident SSM component prepared — 2026-10-06 UTC
+
+The new BM128/BK2 composition combines a 32KiB XOR transpose with phased
+operand lifetimes:158 actual VGPR, zero scratch, original K-stage/barrier and
+per-output arithmetic order preserved. Output-row blocks double, so resource
+reductions do not establish a speedup. Local object compilation passes.
+
+The fixture compares the retained launcher to the private fenced draft across
+five shapes,72 complete output pairs and144 sampled FP64 checks. Three timed
+destinations per arm prevent rotation overwrite; all42 actual timed pairs
+are checked. Wall/HIP timers stay separate and finite mismatches retain timing.
+Host/GPU qualification is pending. [Contract](Q2-SSM-RESIDENT.md).
+
 ## HC-up model completes with only a marginal change — 2026-10-06 UTC
 
 Original2048/TG128 HC-up candidate: **1589.732497 PP /25.15389128 TG**, versus

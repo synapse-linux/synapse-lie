@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## SSM resident host gate and frozen component — 2026-10-06 UTC
+
+Core own non-use20:38:55UTC precedes global preflight20:40:04.456014UTC,
+anchored to39a36b31. Original Core CPU/four GPU lease identities are free,
+all retired processes/groups absent, KFD empty and seven model stat tuples
+unchanged. q2-ssm-resident-host-r1 completes20:40:51.018910UTC with39/39 Debug
+and39/39 ASan/UBSan, six zero exits and seven collected artifacts.
+
+Plan6599fc47 binds287 fixture hashes and admits only the new synthetic SSM
+projection/convolution component. No model arm or saved-control rerun belongs
+to this window. A committed checkpoint and fresh global admission still gate
+GPU work; complete collection and published closure precede analysis.
+
 ## HC-up original-model window collected and released — 2026-10-06 UTC
 
 Admission20:23:29.598018UTC/2dac8465 binds checkpoint757501d9 and plan5b5d8ebe.
