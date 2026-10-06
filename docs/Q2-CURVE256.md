@@ -2,6 +2,19 @@
 
 # Retained Q2 and UD: requested curve through 256K
 
+Revision3 is admitted at14:23:54.860769 UTC, SHA`bfe0bdc9`, from checkpoint
+`8e1bc151` and plan`6ff6aa7f`. The retained Q2 original-model curve is running
+and has completed all requested points through128K;192K/256K and the matched
+UD arm remain in progress/pending. No new rate or parity verdict is published
+before final collection and release. Historical pending statements below
+describe earlier preparation stages.
+
+The local shared upstream formatting check exits1 with101 diagnostics:100
+are in byte-unchanged inherited files and one is alignment in the newly
+embedded capacity helper. Preserve its actual log; it is not a passed check.
+The frozen runtime is retained through both arms. The helper's cosmetic
+alignment can be corrected for future generation after collection/release.
+
 Revision3 additionally admits the required4096-token headroom in the private
 host engine configuration for both models. Revision2 exposed the GGUF262144
 limit before model upload; no inference client started. Its nine artifacts

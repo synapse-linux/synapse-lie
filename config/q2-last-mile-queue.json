@@ -21,7 +21,7 @@
     "fixed_point_priority_retained": true,
     "parallel_curve_requested_by_owner": true,
     "parallel_curve_max_context": 262144,
-    "parallel_curve_runtime_admission": false,
+    "parallel_curve_runtime_admission": true,
     "larger_unimplemented_mechanisms": [
       "Expert down output consumption without the full intermediate",
       "Whole640 gate/up producer plus packing",
@@ -37,7 +37,8 @@
     "model_speedup_claim": false,
     "old_component_rerun": false,
     "parallel_curve_plan": "config/q2-curve256-v3-plan.json",
-    "partial_chunk_coverage": "Two exact2048 dispatch guards remain; canonical continuation counts must not be changed to make them active"
+    "partial_chunk_coverage": "Two exact2048 dispatch guards remain; canonical continuation counts must not be changed to make them active",
+    "parallel_curve_admission": "config/q2-curve256-v3-window-admission.json"
   },
   "deprioritized": [
     "Compact AoS IQ2 table-LDS placement regresses12\u201320% operator time and1.627%model PP",
@@ -49,7 +50,7 @@
   ],
   "controls_rebuilt_or_rerun": false,
   "Q4_run": false,
-  "full_curve_admitted": false,
+  "full_curve_admitted": true,
   "goal_met": false,
   "current_assessment": "docs/Q2-REMAINING-WORK.md",
   "source_audit": "config/q2-remaining-work-audit.json"

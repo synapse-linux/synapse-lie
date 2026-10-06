@@ -42,6 +42,16 @@ do not force their token counts to make the optimized path appear active.
 This is a distinct next step for whole-curve parity, even after fixed-point
 parity is reached. [Bound source audit](../config/q2-remaining-work-audit.json).
 
+The host contract in `lie_q2_deferred_norm_state.h` also requires2048 rows in
+both publication and matching. Changing only the two executor guards would
+leave that contract inconsistent: a producer could return after publication
+was refused. The complete future change must cover producer selection,
+publication, matching, reconstruction fallback and last-reader ownership.
+Existing operator evidence already covers partial token rows, but it does not
+replace this integrated lifetime qualification. An initial1024–2048 range
+would cover typical2040/2042 continuations while keeping smaller routes intact;
+no such extension is implemented or measured in the current curve.
+
 ## Remaining mechanisms with substantial scope
 
 The costs below come from the saved1571.716479 diagnostic executable, not a

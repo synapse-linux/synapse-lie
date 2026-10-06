@@ -12,7 +12,8 @@
     ".deps/gufo-q2-iq2-fixed-bounds-run/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "361722189d69208bd03b1ca64265a9e11b6fc159975574b36cc43ec105a8e4e6",
     ".deps/gufo-q2-iq2-fixed-bounds-run/src/models/qwen38_flash_next/kernels/rocm/q2_down_half_storage.inc": "07314a9dd06c99bb09f6a121bc290967e23bc5a0df34e59f9ace35af38bcafde",
     ".deps/gufo-q2-iq2-fixed-bounds-run/src/models/qwen38_flash_next/kernels/rocm/q2_iq2_fixed_bounds.inc": "72a5ab5c6e3d6a974faff12ba6b8663b2a5fb7cdedf7fd89babe5c0d23d288d2",
-    ".deps/gufo-q2-iq2-fixed-bounds-run/src/models/qwen38_flash_next/kernels/rocm/q2_scaled_input.inc": "b442b8349504307aae51569f75cba5864fd508e2cf7e49bdc5a99ef1a193cdc2"
+    ".deps/gufo-q2-iq2-fixed-bounds-run/src/models/qwen38_flash_next/kernels/rocm/q2_scaled_input.inc": "b442b8349504307aae51569f75cba5864fd508e2cf7e49bdc5a99ef1a193cdc2",
+    ".deps/gufo-q2-iq2-fixed-bounds-run/src/models/qwen38_flash_next/kernels/rocm/lie_q2_deferred_norm_state.h": "ae04cd47fd9c30f8ac25418a48e31b1ca38cae46b3d4333c3d7dfe51e4568668"
   },
   "exact2048_dispatches": [
     {
@@ -30,5 +31,11 @@
   "guard_extension_implemented": false,
   "context_curve_requested": true,
   "new_performance_claim": false,
-  "goal_met": false
+  "goal_met": false,
+  "additional_exact2048_state_contract": {
+    "path": ".deps/gufo-q2-iq2-fixed-bounds-run/src/models/qwen38_flash_next/kernels/rocm/lie_q2_deferred_norm_state.h",
+    "publication_line": 27,
+    "matching_line": 38,
+    "partial_extension_requires_all_four_guards": true
+  }
 }
