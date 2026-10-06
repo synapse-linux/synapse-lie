@@ -1,5 +1,22 @@
 # DS4 / synapse-lie coordination
 
+## R33 integer AR failure collected and window closed — 2026-10-06
+
+Fresh peer non-use and global admission authorize a separate `.161` AR window
+using the unchanged r32 `9a4f45b1` runtime and `7fb62c5a` protocol. Its 26 passed
+integer checks precede an HTTP502 at the large positive exclusive endpoint.
+Server exit is 0; child/controller/supervisor exits are 1; collection exits 0.
+The original failure and complete returned witnesses remain under local
+`evidence/context-r33-integer-ar-r1/`. MTP is not started. Root next works on the
+shared C final validator with HOST fixtures, without reserving any GPU.
+
+Fresh closure at 2026-10-06T15:52:14.222826 UTC verifies supervisor
+187668/start17049986 and init187870/start17050072 gone, container54d541e6 removed,
+HTTP8000 unbound, original device66307/inode105946405 lease free then released
+and router188718 restored/only KFD. This historical closure grants no future
+admission. Root has no remote job/client/build/lease/waiter/reservation and does
+not use `.157/.158`. All six tasks remain open; Terminal Bench stays deferred last.
+
 ## R33 bounded-integer campaign prepared; no GPU admission — 2026-10-06
 
 The optional supervisor/oracle increment passes three HOST CTest groups and

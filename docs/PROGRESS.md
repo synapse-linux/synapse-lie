@@ -1,6 +1,26 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Bounded-integer GPU gate exposes final-validation error — 2026-10-06 UTC
+
+The freshly admitted `.161` AR session reuses the qualified `9a4f45b1` runtime
+with the `7fb62c5a` protocol. It passes 26 of 66 integer checks, including exact
+binary64-maximum output in JSON and SSE, then returns HTTP502 for the interval
+`exclusiveMinimum: 1e18, maximum: 1.0000000000000001e18`. The final shared-core
+validator compares rounded doubles, which cannot distinguish the allowed integer
+`1000000000000000001` from the excluded lower endpoint. The original-weight
+failure remains retained; HOST reproduction and a shared C validator correction
+are next. This result does not qualify the complete integer protocol. MTP was
+not started. The earlier general AR37/MTP37 result retains its original scope.
+
+Collection exits 0; server exit is 0 and child/controller/supervisor exits are 1.
+Closure at 2026-10-06T15:52:14.222826 UTC verifies the exact owned processes gone,
+container removed, HTTP8000 unbound, original lease free then released and the
+preexisting router restored. No root GPU job or reservation remains. Closure is
+a dated observation, not admission for a later run. All six [owned roadmap
+items](BACKEND.md#current-roadmap--2026-10-06-utc) remain open; Terminal Bench
+stays stopped, collected, closed and deferred until modifications are finished.
+
 ## Bounded-integer original-weight protocol prepared — 2026-10-06 UTC
 
 The optional developer campaign adds 66 separate checks, using bounded integer

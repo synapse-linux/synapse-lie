@@ -303,8 +303,12 @@ client/server restart or machine reservation is queued in the meantime.
    `9a4f45b1` 105-file HIP ON/OFF/private-consumer build now passes unchanged
    selected AR37/MTP37 on `.161`
    ([GPU receipt](development/validation/c17-schema-integer-point-gpu-2026-10-06.json)).
-   Individual bounded-integer GPU branches are not independently exercised
-   by these enum-based OpenAI schemas and remain open.
+   A new independent 66-check bounded-integer protocol passes its first 26 AR
+   checks, including binary64-maximum JSON/SSE output, then fails HTTP502 at
+   an exclusive lower endpoint near `1e18`. The final shared C validator's
+   rounded-double comparison needs a HOST regression and correction before
+   fresh AR/MTP qualification. The failed AR window is collected and closed;
+   MTP was not started. Full bounded-integer acceptance remains open.
    Typed construction/initialization/callback-error facades and model/controller
    ownership remain transitional. This step does not close any of the six items.
    Compiler orchestration/typed facades/model ownership and broader branch,
