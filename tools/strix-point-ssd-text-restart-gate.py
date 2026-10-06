@@ -71,7 +71,10 @@ def parse_phase(rows, mode, phase, suffix_question=False):
             job.get('output_tokens') != expected_output or job.get('finish') != 'length' or
             sample.get('output_tokens') != expected_output or sample.get('ssd_errors') != 0):
         raise RuntimeError('Incomplete fixed-budget core output')
-    cached = PREFIX_TOKENS if phase == 'hot' else 0
+    # The core captures the complete input before decode, in addition to its
+    # early cold checkpoint. With a suffix the longest persisted match includes
+    # that suffix; capture-finish controls generation-end snapshots only.
+    cached = (len(ids) if suffix_question else PREFIX_TOKENS) if phase == 'hot' else 0
     if (job.get('cached_tokens') != cached or job.get('ssd_cached_tokens') != cached or
             job.get('prefill_tokens') != len(ids) - cached):
         raise RuntimeError('Incorrect restored or physically executed token count')
@@ -114,7 +117,7 @@ def compare_phases(phases, suffix_question=False):
             raise RuntimeError('Natural suffix tokenization differs across the text boundary')
     return {'calibration_token_id': seed[0],
             'fresh_bpe_tokens': len(fresh['input']['physical_ids']),
-            'saved_physical_tokens': PREFIX_TOKENS,
+            'saved_physical_tokens': len(expected),
             'fresh_bpe_ids_sha256': fresh['input']['physical_ids_sha256'],
             'saved_physical_ids_sha256': hot['input']['physical_ids_sha256'],
             'saved_history_longer_than_fresh_bpe': True,

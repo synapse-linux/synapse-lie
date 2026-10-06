@@ -20,7 +20,7 @@ class Tests(unittest.TestCase):
         if suffix_question:
             ids += [71, 72, 73]
         output = gate.OUTPUT_TOKENS if disk else 1
-        cached = gate.PREFIX_TOKENS if phase == 'hot' else 0
+        cached = len(ids) if phase == 'hot' else 0
         rows = [
             {'event': 'identity', 'schema': 'synapse-lie.core-bench.v1',
              'synthetic': False, 'mode': mode, 'cache_policy': 'ssd' if disk else 'off',
@@ -137,15 +137,22 @@ class Tests(unittest.TestCase):
                   for phase in gate.PHASES}
         result = gate.compare_phases(phases, True)
         self.assertEqual(result['fresh_bpe_tokens'], 259)
-        self.assertEqual(result['saved_physical_tokens'], gate.PREFIX_TOKENS)
+        self.assertEqual(result['saved_physical_tokens'], gate.PREFIX_TOKENS + 3)
         self.assertEqual(result['physical_suffix_tokens'], 3)
-        self.assertEqual(result['hot_prefill_tokens'], 3)
+        self.assertEqual(result['hot_prefill_tokens'], 0)
         phases['fresh']['input']['physical_ids'][-1] += 1
         with self.assertRaisesRegex(RuntimeError, 'Natural suffix'):
             gate.compare_phases(phases, True)
         rows = self.rows('mtp', 'hot', True)
         rows[3]['mtp_accepted_tokens'] = 0
         with self.assertRaisesRegex(RuntimeError, 'accept a draft'):
+            gate.parse_phase(rows, 'mtp', 'hot', True)
+
+    def test_complete_prompt_match_must_include_the_saved_suffix(self):
+        rows = self.rows('mtp', 'hot', True)
+        rows[3].update(cached_tokens=gate.PREFIX_TOKENS,
+                       ssd_cached_tokens=gate.PREFIX_TOKENS, prefill_tokens=3)
+        with self.assertRaisesRegex(RuntimeError, 'Incorrect restored'):
             gate.parse_phase(rows, 'mtp', 'hot', True)
 
 

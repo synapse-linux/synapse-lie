@@ -1568,9 +1568,9 @@ class Campaign:
                     (fixture == 'plain' and result['physical_suffix_tokens'] != 0) or
                     any(result.get(phase+'_exit_code') != 0 for phase in ('calibration', 'fresh', 'cold', 'hot')) or
                     not 0 < result.get('fresh_bpe_tokens', 0) < 2048 or
-                    result.get('saved_physical_tokens') != 2048 or
-                    result.get('hot_ssd_cached_tokens') != 2048 or
-                    result.get('hot_prefill_tokens') != result.get('physical_suffix_tokens', 0) or
+                    result.get('saved_physical_tokens') != 2048 + result['physical_suffix_tokens'] or
+                    result.get('hot_ssd_cached_tokens') != result['saved_physical_tokens'] or
+                    result.get('hot_prefill_tokens') != 0 or
                     not result.get('saved_history_longer_than_fresh_bpe') or
                     not result.get('physical_ids_equal') or not result.get('output_ids_equal')):
                 raise RuntimeError('Incomplete original-weight SSD text restart gate')
