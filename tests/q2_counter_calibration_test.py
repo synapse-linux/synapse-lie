@@ -45,10 +45,10 @@ class CalibrationTests(unittest.TestCase):
             plan = dict(fixtures={'fixture': calibration.sha(root / 'fixture')},
                         installed_files=[dict(path=str(installed), sha256=calibration.sha(installed))],
                         previous_release_sha256='previous')
-            (root / 'config/q2-counter-calibration-plan.json').write_text(json.dumps(plan))
+            (root / 'config/q2-counter-calibration-v2-plan.json').write_text(json.dumps(plan))
             admission = dict(previous_release_sha256='previous', planned_labels=[root.name], gpu_reserved=True)
             if mutation == 'admission': admission['gpu_reserved'] = False
-            (parent / 'q2-counter-calibration-window-admission.json').write_text(json.dumps(admission))
+            (parent / 'q2-counter-calibration-v2-window-admission.json').write_text(json.dumps(admission))
             if mutation == 'source': (root / 'fixture').write_text('changed')
             if mutation == 'installed': installed.write_text('changed')
             calls = []

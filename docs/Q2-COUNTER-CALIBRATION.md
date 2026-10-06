@@ -43,5 +43,18 @@ The source is MIT and independent of the official ROCm reproducer; the
 upstream references. Provider source is packaged by the existing qualification
 launcher but is neither compiled nor called by this standalone fixture.
 
-Prepared state: GPU build and calibration are pending. No performance gain is
-claimed. No saved reference is rebuilt or rerun; no cleanup occurs on .157.
+The first attempt stops at compilation: clang rejects `-mwavefrontsize32`
+with exit1. No kernel executes. The complete failed command/log and two
+artifacts are retained in `q2-counter-calibration-r1`; release at00:59:26UTC
+SHAd39fb71c verifies1228 retired identities/980 groups and empty KFD. The
+[failure report](../config/q2-counter-calibration-r1-failure.json) remains
+separate from numerical or counter results.
+
+Revision2 uses the driver's supported `-mno-wavefrontsize64`; its dry-run
+selects `oclc_wavefrontsize64_off.bc`. The GPU fixture is byte-identical.
+A fresh host31+31 completes at01:01:40UTC, six exits0/seven artifacts, binding
+the corrected launcher and admission path. The
+[second plan](../config/q2-counter-calibration-v2-plan.json) preserves all
+original geometry, data, counter groups and acceptance limits. GPU compilation
+and calibration are pending a fresh window afterd39fb71c. No performance gain
+is claimed, no saved reference is rebuilt/rerun and no cleanup occurs on .157.

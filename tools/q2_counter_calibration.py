@@ -16,12 +16,12 @@ def sha(path):
 
 
 def execute(root, result, run, env, save):
-    plan_path = root / 'config/q2-counter-calibration-plan.json'
+    plan_path = root / 'config/q2-counter-calibration-v2-plan.json'
     plan = json.loads(plan_path.read_text())
     for name, digest in plan['fixtures'].items():
         if sha(root / name) != digest:
             raise RuntimeError('Calibration source changed: ' + name)
-    admission = json.loads((root.parent / 'q2-counter-calibration-window-admission.json').read_text())
+    admission = json.loads((root.parent / 'q2-counter-calibration-v2-window-admission.json').read_text())
     if (admission['previous_release_sha256'] != plan['previous_release_sha256'] or
             root.name not in admission['planned_labels'] or not admission['gpu_reserved']):
         raise RuntimeError('Calibration window not admitted')
@@ -34,7 +34,7 @@ def execute(root, result, run, env, save):
     build.mkdir(parents=True)
     binary = build / 'q2-counter-calibration'
     run(['/opt/rocm/bin/hipcc', '-O3', '-std=c++17', '--offload-arch=gfx1151',
-         '-mwavefrontsize32', str(root / 'tests/q2_counter_calibration.hip'), '-o', str(binary)], env, 180)
+         '-mno-wavefrontsize64', str(root / 'tests/q2_counter_calibration.hip'), '-o', str(binary)], env, 180)
     result['binary_sha256'] = sha(binary)
     save()
     gpu_env = {k: v for k, v in env.items() if k not in ('HIP_VISIBLE_DEVICES', 'ROCR_VISIBLE_DEVICES')}
