@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [HC qualification preparation](docs/Q2-HC-QUALIFICATION-PREPARATION.md)
+now includes the full-output/timer analyzer and component-only freeze/admit/phase
+tools. Ten parser/phase regression methods await fresh35+35 host checks on `.157`;
+syntax/source checks alone pass. The third handover SSH attempt fails255 before
+connection, with no remote job or reservation. Retain1585.308983 PP; fixed UD
+1685.777092 still needs76.991736ms. HC input reuse is first, four-owner RMS second,
+whole640 producer/packing third; none has a new runtime performance result.
+
 The [new fixed-target candidates](docs/Q2-HC-TARGET-CANDIDATES.md) have a complete
 HC injection-reuse fixture:42 cases/200 outputs/42 timings, current host/device
 compilation and165-body static checks pass. A second four-owner RMS draft lowers

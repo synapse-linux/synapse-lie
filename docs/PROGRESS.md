@@ -1,5 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## HC analyzer and component-only window preparation — 2026-10-06 UTC
+
+Complete the analyzer for200 outputs/57 logged scratch/19 Q8 checks/42 timings,
+including safe numerical failure arrays, exact raw HIP float identities and
+actual arm order. Invalid HIP durations remain invalid; complete-cycle wall
+evidence retains its separate submission/synchronization scope. New freeze,
+window and phase helpers require matching tested capsules, original leases,
+registry and retirement before a component-only launch. No model arm exists.
+Ten parser/phase regression methods register in one new CTest; new host35+35
+and all runtime gates remain pending. Prior frozen preparation receipts remain
+historical, not retroactively rebound to the changed root wiring.
+
+The third consecutive Core handover SSH attempt fails255/No route before
+connection. Core freshly reports its own `.157` non-use; no global closure
+is inferred from that message. No remote staging/job/lease/reservation/window
+or waiter starts. Last release e64145d6 is unchanged. Retain1585.308983 PP and
+25.16079073 TG; fixed UD1685.777092 PP still requires76.991736ms/6.337447%.
+[Priority, prepared gates and borrowed workspace boundary](Q2-HC-QUALIFICATION-PREPARATION.md).
+
 ## HC full fixture and second scale-owner draft — 2026-10-06 UTC
 
 Complete the candidate-only HC raw/raw-Q8/deferred fixture and its component-only

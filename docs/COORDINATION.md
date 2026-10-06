@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+HC handover checks r1/r2/r3 all terminate locally with SSH255/No route to host
+before connection. No staging, host/build/model, lease, reservation, window or
+waiter starts. Core freshly confirms its own non-use of `.157`; this does not
+establish current KFD/global availability. Last release e64145d6 below remains
+historical. New component-only freeze/controller/phase tools are preparation;
+actual host35+35, original lease/global/registry revalidation and admission are
+required on reconnection. No model arm or borrow adoption is authorized by
+that component plan. [Prepared sequence](Q2-HC-QUALIFICATION-PREPARATION.md).
+
 Latest Q2 `.157` release **2026-10-06T04:27:46.757600UTC**, SHA
 e64145d666ce7ebcd470a7587a54979d6b11c8c909b073cc639c3d8071a652db.
 Down host34+34/component/model terminate and collect37 artifacts before
