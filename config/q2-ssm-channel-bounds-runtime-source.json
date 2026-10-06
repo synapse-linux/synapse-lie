@@ -1,0 +1,18 @@
+{
+  "schema": "synapse-lie.q2-ssm-channel-runtime.v1",
+  "variants": {
+    "ssm-channel-bounds": {
+      "manifest": "config/q2-ssm-channel-bounds-source.json",
+      "fixture": "tests/q2_ssm_row_group.hip",
+      "event_prefix": "ssm_row_group",
+      "component_mode": "ssm-channel-bounds-check",
+      "model_mode": "q2-counting-ssm-channel-bounds",
+      "bindings": {
+        "config/q2-ssm-channel-bounds-source.json": "3940bd5b14ab176e3487a57bfa4eeeb5780669966f6babda86d9033e935754eb",
+        "tests/q2_ssm_row_group.hip": "1f315d7149629391c58ff83035400626167bf6520ebdbdaf08baf0b30de315c9",
+        "experiments/q2-ssm-row-group-oracle.inc": "f7b1dbcc361e9fc65fb96657f7f6d2c1d0bb2e7d16b7ef5f1447712acdcc3797",
+        "experiments/q2-ssm-row-group-control.inc": "39007b053edc6feff11316641529514b07cd5f8e4b28c9a9ea5ebef14a0edf9a"
+      }
+    }
+  }
+}

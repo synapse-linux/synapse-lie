@@ -48,10 +48,15 @@ GPU or execute inference. No .157 build, job, lease, waiter, reservation or
 cleanup occurs. The latest GPU release remains
 [`7a3722f3`](../config/q2-counter-calibration-v2-window-release.json).
 
-Before a device measurement, bind this candidate into the leased runner and
-freeze its source/fixture plan. The existing syntax-checked SSM fixture uses
+The candidate is now bound into the leased runner under its own component
+and original counting modes. A separate source registry preserves all four
+historical SSM registrations. Fresh .157 host qualification completes at
+2026-10-06T01:27:38UTC:31 Debug and31 ASan/UBSan tests pass, six commands exit0
+and seven collected artifacts verify. The frozen plan binds105 fixtures,
+13 manifests and1027 provider files; no qualified model control is rebuilt.
+The existing syntax-checked SSM fixture uses
 the literal saved1580 control; that identity must stay explicit if reused.
-Measure the new candidate on .157 with guarded complete outputs and the
+Fresh GPU admission is still required. Measure the new candidate on .157 with guarded complete outputs and the
 unchanged original2048/tg128 model. Compare saved1585 outputs and all fixed
 historical rates without rerunning qualified controls. Safe numerical or
 component timing rejection still permits the requested model performance run;
@@ -63,6 +68,7 @@ full context/concurrency parity remain open.
 [patch](../experiments/q2-ssm-channel-bounds.patch),
 [generator](../tools/prepare-q2-ssm-channel-bounds.py),
 [audit tool](../tools/analyze-q2-ssm-channel-bounds-static.py).
+[Runtime plan](../config/q2-ssm-channel-bounds-plan.json).
 
 The separate compressed expert-cache experiment already references original
 **antirez/ds4**, independently fetched at0aaea5a238fb41a35106a551e73c8409dfb751ac.

@@ -98,7 +98,8 @@ SHARED_DOWN_MANIFESTS = {
 }
 SHARED_DOWN_MODES = {name + '-check': name for name in SHARED_DOWN_MANIFESTS}
 SSM_FOLLOWUP_MANIFEST = 'config/q2-ssm-followup-runtime-source.json'
-SSM_FOLLOWUP_VARIANTS = ('ssm-fixed-shape', 'ssm-fixed-bounds', 'ssm-compact-lds', 'ssm-pingpong')
+SSM_CHANNEL_MANIFEST = 'config/q2-ssm-channel-bounds-runtime-source.json'
+SSM_FOLLOWUP_VARIANTS = ('ssm-fixed-shape', 'ssm-fixed-bounds', 'ssm-compact-lds', 'ssm-pingpong', 'ssm-channel-bounds')
 SSM_FOLLOWUP_SOURCES = {'q2-counting-' + v: v for v in SSM_FOLLOWUP_VARIANTS}
 SSM_FOLLOWUP_MODES = {v + '-check': v for v in SSM_FOLLOWUP_VARIANTS}
 DOWN_REGISTER_SCATTER_MANIFEST = 'config/q2-down-register-scatter-pair-source.json'
@@ -203,7 +204,8 @@ def collection_receipt(archive):
 
 
 def ssm_followup_source(parser, name):
-    info = json.loads((ROOT / SSM_FOLLOWUP_MANIFEST).read_text())['variants'][name]
+    registry = SSM_CHANNEL_MANIFEST if name == 'ssm-channel-bounds' else SSM_FOLLOWUP_MANIFEST
+    info = json.loads((ROOT / registry).read_text())['variants'][name]
     for path, digest in info['bindings'].items():
         if file_sha256(ROOT / path) != digest:
             parser.error('Q2 SSM follow-up source or fixture binding changed')

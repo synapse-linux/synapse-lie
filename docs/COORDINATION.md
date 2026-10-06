@@ -1,5 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+SSM channel-bounds host31+31 completes on .157 at01:27:38UTC, is collected and
+bound to its new runner/source plan. Core confirms persistent non-use .157;
+fresh closure, registry, KFD and four-lease admission remain mandatory before
+any GPU build/run. Latest release remains7a3722f3. No host process is scheduled
+to restart, and no cleanup or model/control mutation is performed.
+[Plan](../config/q2-ssm-channel-bounds-plan.json).
+
 Counter calibration r2 releases .157 at2026-10-06T01:04:20.298495UTC,
 SHA2567a3722f3ee8aa1b318131a33087f6d504974880e8dca5c9a5e9ed54d8b77f7a5.
 Fresh handover revalidation01:02:47UTC precedes admission01:03:12UTC from

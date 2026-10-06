@@ -1,5 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+SSM channel-bounds runtime preparation now passes fresh .157 host31+31 at
+01:27:38UTC: six exits0/seven artifacts,105 bound fixtures and1027 provider
+files. New component/counting modes retain all historical source registries
+and model controls. The frozen plan identifies the older1580 component control
+and retained1585 construction parent separately. GPU admission remains pending;
+no speed or numerical acceptance follows from host checks.
+
 A new [SSM channel-bound candidate](Q2-SSM-CHANNEL-BOUNDS.md) derives directly
 from retained1585. Local generation proves the channel partition across4096
 float4 owners/16384 rows. Equivalent block-uniform predicates reduce static

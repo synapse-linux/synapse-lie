@@ -21,6 +21,33 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_ssm_channel_bounds_matching_modes_only(self):
+        variant = 'ssm-channel-bounds'
+        for mode in ('cpu', 'q2-profile', 'q2-bench', 'q2-curve'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Q2 SSM follow-up requires its component or matched historical counting provider')
+        component = [variant + '-check', 'q2-fixture', '--source-variant', variant]
+        self.refuse([variant + '-check', 'q2-fixture'], 'Q2 SSM follow-up requires')
+        self.refuse(component + ['--rebuild-mmq'], 'Q2 SSM follow-up component builds')
+        model = ['q2-counting-' + variant, 'q2-fixture', '--source-variant', variant]
+        self.refuse(model, 'Historical counting requires a full MMQ rebuild')
+        for argv in (component, model + ['--rebuild-mmq']):
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_ssm_channel_registry_preserves_historical_registry(self):
+        historical = json.loads((remote.ROOT / remote.SSM_FOLLOWUP_MANIFEST).read_text())
+        current = json.loads((remote.ROOT / remote.SSM_CHANNEL_MANIFEST).read_text())
+        self.assertNotIn('ssm-channel-bounds', historical['variants'])
+        self.assertEqual(set(current['variants']), {'ssm-channel-bounds'})
+        self.assertEqual(current['variants']['ssm-channel-bounds']['event_prefix'], 'ssm_row_group')
+
     def test_half_fixed_width_manifest_binding(self):
         self.assertEqual(remote.HALF_FIXED_WIDTH_MANIFEST,
                          'config/q2-half-fixed-width-source.json')
