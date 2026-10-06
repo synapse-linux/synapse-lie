@@ -1,5 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Bounded selector grid reaches private model qualification — 2026-10-06 UTC
+
+The component passes62 exact score/mask pairs and62 independent checks.
+Completed wall means nominally improve62.29%/26.78% in the original4K/32K
+selector slices; all samples remain visible and128K ranges overlap widely.
+These are component measurements. Four artifacts collect before release
+21:56:42 UTC /358b1fd0, with original leases free and all owned groups retired.
+[Results and integration](Q2-SELECT-LIVE-GRID.md).
+
+The private model changes only the prefill host launch bound, preserving164
+device bodies, captured decode and buffer layout. New .157 HOST39+39 passes;
+plan55bf5bcb selects original native full-prefix history through32K, using the
+saved client and retained MMQ archive. No saved control or full curve rerun.
+Offline decode analysis locates recurring gaps at token boundaries, where
+CPU sampling/copies also occur; they are not all removable reactive overhead.
+
 ## Exact selector query reuse is slower — 2026-10-06 UTC
 
 The score-plus-top-k component passes48 exact score/mask pairs and48 independent

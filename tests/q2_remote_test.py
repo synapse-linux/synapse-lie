@@ -21,6 +21,38 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_live_grid_replays_original_prefix_history_through32k(self):
+        from q2_select_live_grid_model import inputs, client_argv
+        from q2_full_prefill128 import inputs as original_inputs
+        root = path.parents[1]
+        _, original, cases = original_inputs(root)
+        selected = inputs(root)
+        self.assertEqual(selected, list(zip(cases, original['cases']))[:9])
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)/'result.jsonl'
+            argv = client_argv(root, Path('/bench'), output)
+            options = dict(zip(argv[1::2], argv[2::2]))
+            self.assertEqual(options['--context-capacity'], '133760')
+            self.assertEqual(options['--warmups'], '0')
+            raw = (root/original['requests']).read_bytes().splitlines(keepends=True)
+            self.assertEqual(Path(options['--requests']).read_bytes(), b''.join(raw[:9]))
+            with self.assertRaises(ValueError):
+                client_argv(root, Path('/bench'), output, depth=4096)
+
+    def test_live_grid_requires_matched_native_mode_without_control_rebuild(self):
+        args = ['q2-prefill-live-grid', 'q2-fixture', '--source-variant', 'prefill-live-grid-q2']
+        self.refuse(args, 'Live-grid prefill requires')
+        self.refuse(args+['--native-curve','--rebuild-mmq'], 'Live-grid prefill requires')
+        self.refuse(args+['--native-curve','--prefill-only-depth','65536'], 'Saved prefill depth requires')
+        self.refuse(['q2-prefill-live-grid','q2-fixture','--source-variant','prefill128-q2','--native-curve'],
+                    'Canonical curve requires its matched')
+        with patch.object(sys, 'argv', [str(path), *args, '--native-curve']), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
     def test_full_prefill_recovery_preserves_original_messages(self):
         from q2_full_prefill128 import inputs
         root = path.parents[1]

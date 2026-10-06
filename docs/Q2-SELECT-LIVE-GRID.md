@@ -38,3 +38,41 @@ Expected gain is depth-dependent: less empty dispatch earlier, little to remove
 near full capacity. Measure before adoption; keep all completed-model PP/TG
 references unchanged. No saved control rebuild/rerun, Q4, full curve, model
 conversion, dependency installation or cleanup is part of this component.
+
+## Component collected — 2026-10-06 UTC
+
+All62 complete score/mask pairs are exact; all62 independent reports pass.
+All164 original device bodies and resource descriptors remain identical.
+Completed wall means below retain every raw sample in the
+[result](../config/q2-select-live-grid-results.json). All56 zero HIP event
+durations are invalid. Ranges overlap and variability is large, especially
+on the128K full-chunk slice; these percentages are not full-model speedups.
+
+| Original selector slice | Capacity grid µs | Live grid µs | Time change |
+|---|---:|---:|---:|
+| 4K final tail | 673.6406 | 254.0094 | −62.293% |
+| 32K last full chunk | 1288.4108 | 943.3298 | −26.783% |
+| 128K last full chunk | 2924.7486 | 2657.6954 | −9.131% |
+| 128K final tail | 1626.5640 | 1596.0868 | −1.874% |
+
+HOST39+39 and three component commands pass. Four artifacts collect before
+release21:56:42.312392UTC /358b1fd0, with1766 identities/1411 groups retired,
+empty KFD and unchanged/free original leases and model stat tuples. Mirrors
+agree and Core receives closure before analysis.
+
+## Private model integration
+
+The [candidate](../config/q2-select-live-grid-model-source.json) changes three
+private provider files: the executor passes a host-known slice extent only
+when `prefill_phase` is true; the selector host launcher uses it for grid size.
+Zero keeps the original capacity grid in decode, including captured replay.
+No new buffers, streams, callbacks, public ABI or state format are introduced.
+Local compilation confirms all164 device bodies/resources remain exact.
+
+The model trial uses the saved native C client binary and reuses the retained
+MMQ archive after binding its complete source and qualification. It replays
+the original first nine full-prefill requests through32K, preserving the
+preparation sequence and both8K attempts. Capacity133760, chunks2048, original
+final tails, C1, zero prefix hits and eight-token replies are unchanged.
+Only the new candidate is built/run. HOST39+39 passes on .157; frozen plan
+55bf5bcb still requires a committed checkpoint and fresh GPU admission.

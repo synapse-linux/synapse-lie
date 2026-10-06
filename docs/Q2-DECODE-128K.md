@@ -112,6 +112,21 @@ The useful hypotheses are:
 [Bound diagnostic evidence](../config/q2-decode-reactive-reassessment.json).
 No additional reactive decode speedup has been measured in this track.
 
+Further [offline gap locations](../config/q2-decode-gap-locations.json) show
+13 pauses around2ms between runtime copies at successive token boundaries.
+Neighbouring dispatches include the next embedding. The original diagnostic
+harness scans finite logits and selects the CPU argmax after each completed
+forward; runtime and profiling overhead also contribute. These gaps cannot
+all be labelled scheduler or PLE delay. A larger3.175ms gap follows an early
+HC combine before a copy/quantize sequence; GPU ordering alone does not prove
+its CPU cause. The diagnostic harness and its saved comparisons remain frozen.
+
+For serving, the useful distinction is between reducing a synchronous transfer
+or sampling dependency and hiding independent preparation behind GPU work.
+Moving sampling to the GPU would require qualification of sampler semantics,
+logprob reporting and state, and would not itself be a reactive scheduling win.
+No present evidence supports promising a C1 percentage at128K from these gaps.
+
 ## Prefill priority
 
 At the saved 128K point, the complete input is 130925 physical tokens: 63 full

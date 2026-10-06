@@ -1,0 +1,439 @@
+{
+  "schema": "synapse-lie.q2-decode-gap-locations.v1",
+  "profile_path": "evidence/q2-current-best-profile-r1/results/profile/q2_results.db",
+  "profile_sha256": "592d3c630e56967896d4847c83f3c0959b0c56972ce0f6a7bd8e1bdccccbaa58",
+  "dispatches": 23594,
+  "gap_sum_ns": 79979815,
+  "groups": {
+    "other": {
+      "ns": 70771281,
+      "count": 18883
+    },
+    "before_activation_quantize": {
+      "ns": 9208534,
+      "count": 4710
+    }
+  },
+  "largest": [
+    {
+      "ns": 3175423,
+      "before": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcCombineKernel<float>(float*, float const*, float const*, unsigned int, float const*, float*, void*, unsigned int, unsigned int, float)",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182046414619,
+      "end": 1776182049590042
+    },
+    {
+      "ns": 2224894,
+      "before": "__amd_rocclr_copyBuffer",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182087607394,
+      "end": 1776182089832288
+    },
+    {
+      "ns": 2141898,
+      "before": "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182042986683,
+      "end": 1776182045128581
+    },
+    {
+      "ns": 2107138,
+      "before": "__amd_rocclr_copyBuffer",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182128586362,
+      "end": 1776182130693500
+    },
+    {
+      "ns": 2084299,
+      "before": "__amd_rocclr_copyBuffer",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182373253555,
+      "end": 1776182375337854
+    },
+    {
+      "ns": 2080010,
+      "before": "__amd_rocclr_copyBuffer",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182495056549,
+      "end": 1776182497136559
+    },
+    {
+      "ns": 2057718,
+      "before": "__amd_rocclr_copyBuffer",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182535716537,
+      "end": 1776182537774255
+    },
+    {
+      "ns": 2052748,
+      "before": "__amd_rocclr_copyBuffer",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182454398364,
+      "end": 1776182456451112
+    },
+    {
+      "ns": 2052390,
+      "before": "__amd_rocclr_copyBuffer",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182251238086,
+      "end": 1776182253290476
+    },
+    {
+      "ns": 2052310,
+      "before": "__amd_rocclr_copyBuffer",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182413557340,
+      "end": 1776182415609650
+    },
+    {
+      "ns": 2051109,
+      "before": "__amd_rocclr_copyBuffer",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182169575011,
+      "end": 1776182171626120
+    },
+    {
+      "ns": 2035100,
+      "before": "__amd_rocclr_copyBuffer",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182576536359,
+      "end": 1776182578571459
+    },
+    {
+      "ns": 2030289,
+      "before": "__amd_rocclr_copyBuffer",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182210399355,
+      "end": 1776182212429644
+    },
+    {
+      "ns": 2029498,
+      "before": "__amd_rocclr_copyBuffer",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182332412445,
+      "end": 1776182334441943
+    },
+    {
+      "ns": 2006901,
+      "before": "__amd_rocclr_copyBuffer",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182291559371,
+      "end": 1776182293566272
+    },
+    {
+      "ns": 19280,
+      "before": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcCombineKernel<float>(float*, float const*, float const*, unsigned int, float const*, float*, void*, unsigned int, unsigned int, float)",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182172754513,
+      "end": 1776182172773793
+    },
+    {
+      "ns": 19240,
+      "before": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcCombineKernel<float>(float*, float const*, float const*, unsigned int, float const*, float*, void*, unsigned int, unsigned int, float)",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182091156755,
+      "end": 1776182091175995
+    },
+    {
+      "ns": 19159,
+      "before": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcCombineKernel<float>(float*, float const*, float const*, unsigned int, float const*, float*, void*, unsigned int, unsigned int, float)",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182579814509,
+      "end": 1776182579833668
+    },
+    {
+      "ns": 19079,
+      "before": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcCombineKernel<float>(float*, float const*, float const*, unsigned int, float const*, float*, void*, unsigned int, unsigned int, float)",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182416735403,
+      "end": 1776182416754482
+    },
+    {
+      "ns": 18839,
+      "before": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcCombineKernel<float>(float*, float const*, float const*, unsigned int, float const*, float*, void*, unsigned int, unsigned int, float)",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182294649326,
+      "end": 1776182294668165
+    },
+    {
+      "ns": 18760,
+      "before": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcCombineKernel<float>(float*, float const*, float const*, unsigned int, float const*, float*, void*, unsigned int, unsigned int, float)",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182335589837,
+      "end": 1776182335608597
+    },
+    {
+      "ns": 18600,
+      "before": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcCombineKernel<float>(float*, float const*, float const*, unsigned int, float const*, float*, void*, unsigned int, unsigned int, float)",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182213574537,
+      "end": 1776182213593137
+    },
+    {
+      "ns": 18519,
+      "before": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcCombineKernel<float>(float*, float const*, float const*, unsigned int, float const*, float*, void*, unsigned int, unsigned int, float)",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182131877552,
+      "end": 1776182131896071
+    },
+    {
+      "ns": 7639,
+      "before": "__amd_rocclr_copyBuffer",
+      "after": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::EmbedKernel(void const*, gufo::models::qwen38_flash_next::rocm::WeightType, int const*, float*, unsigned int, unsigned int)",
+      "start": 1776182003538337,
+      "end": 1776182003545976
+    },
+    {
+      "ns": 7560,
+      "before": "__amd_rocclr_copyBuffer",
+      "after": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::EmbedKernel(void const*, gufo::models::qwen38_flash_next::rocm::WeightType, int const*, float*, unsigned int, unsigned int)",
+      "start": 1776182045150700,
+      "end": 1776182045158260
+    },
+    {
+      "ns": 7480,
+      "before": "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+      "after": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RmsNormKernel(float const*, float const*, float*, unsigned int, unsigned int, float)",
+      "start": 1776182049837916,
+      "end": 1776182049845396
+    },
+    {
+      "ns": 7320,
+      "before": "__amd_rocclr_copyBuffer",
+      "after": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::EmbedKernel(void const*, gufo::models::qwen38_flash_next::rocm::WeightType, int const*, float*, unsigned int, unsigned int)",
+      "start": 1776182497158078,
+      "end": 1776182497165398
+    },
+    {
+      "ns": 7280,
+      "before": "qfn_mmq::quantize_q8_1(float const*, void*, long, long, long, long, long, unsigned int, HIP_vector_type<unsigned int, 3u>)",
+      "after": "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+      "start": 1776182003765891,
+      "end": 1776182003773171
+    },
+    {
+      "ns": 7279,
+      "before": "__amd_rocclr_copyBuffer",
+      "after": "qfn_mmq::quantize_q8_1(float const*, void*, long, long, long, long, long, unsigned int, HIP_vector_type<unsigned int, 3u>)",
+      "start": 1776182049601522,
+      "end": 1776182049608801
+    },
+    {
+      "ns": 7200,
+      "before": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcMixEpilogueKernel(float const*, float const*, float const*, float*, float*, unsigned int, unsigned int)",
+      "after": "qfn_mmq::quantize_q8_1(float const*, void*, long, long, long, long, long, unsigned int, HIP_vector_type<unsigned int, 3u>)",
+      "start": 1776182003752291,
+      "end": 1776182003759491
+    },
+    {
+      "ns": 7080,
+      "before": "qfn_mmq::quantize_q8_1(float const*, void*, long, long, long, long, long, unsigned int, HIP_vector_type<unsigned int, 3u>)",
+      "after": "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+      "start": 1776182045367775,
+      "end": 1776182045374855
+    },
+    {
+      "ns": 7000,
+      "before": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcMixEpilogueKernel(float const*, float const*, float const*, float*, float*, unsigned int, unsigned int)",
+      "after": "qfn_mmq::quantize_q8_1(float const*, void*, long, long, long, long, long, unsigned int, HIP_vector_type<unsigned int, 3u>)",
+      "start": 1776182045354815,
+      "end": 1776182045361815
+    },
+    {
+      "ns": 7000,
+      "before": "qfn_mmq::quantize_q8_1(float const*, void*, long, long, long, long, long, unsigned int, HIP_vector_type<unsigned int, 3u>)",
+      "after": "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+      "start": 1776182049616001,
+      "end": 1776182049623001
+    },
+    {
+      "ns": 6960,
+      "before": "qfn_mmq::quantize_q8_1(float const*, void*, long, long, long, long, long, unsigned int, HIP_vector_type<unsigned int, 3u>)",
+      "after": "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+      "start": 1776182103131183,
+      "end": 1776182103138143
+    },
+    {
+      "ns": 6760,
+      "before": "qfn_mmq::quantize_q8_1(float const*, void*, long, long, long, long, long, unsigned int, HIP_vector_type<unsigned int, 3u>)",
+      "after": "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+      "start": 1776182497370913,
+      "end": 1776182497377673
+    },
+    {
+      "ns": 6720,
+      "before": "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+      "after": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::SmallGemmKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)1, 1u, false>(void const*, float const*, float*, unsigned int, unsigned int)",
+      "start": 1776182090155540,
+      "end": 1776182090162260
+    },
+    {
+      "ns": 6720,
+      "before": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcMixEpilogueKernel(float const*, float const*, float const*, float*, float*, unsigned int, unsigned int)",
+      "after": "qfn_mmq::quantize_q8_1(float const*, void*, long, long, long, long, long, unsigned int, HIP_vector_type<unsigned int, 3u>)",
+      "start": 1776182497358193,
+      "end": 1776182497364913
+    },
+    {
+      "ns": 6691,
+      "before": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcCombineKernel<float>(float*, float const*, float const*, unsigned int, float const*, float*, void*, unsigned int, unsigned int, float)",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182539051913,
+      "end": 1776182539058604
+    },
+    {
+      "ns": 6640,
+      "before": "qfn_mmq::quantize_q8_1(float const*, void*, long, long, long, long, long, unsigned int, HIP_vector_type<unsigned int, 3u>)",
+      "after": "void qfn_mmq::mul_mat_vec_q_moe<(qfn_mmq::ggml_type)16, 2, true>(void const*, void const*, int const*, float*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, void const*)",
+      "start": 1776182004710068,
+      "end": 1776182004716708
+    },
+    {
+      "ns": 6530,
+      "before": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcCombineKernel<float>(float*, float const*, float const*, unsigned int, float const*, float*, void*, unsigned int, unsigned int, float)",
+      "after": "__amd_rocclr_copyBuffer",
+      "start": 1776182498250331,
+      "end": 1776182498256861
+    }
+  ],
+  "scope": "Offline historical1571 trace,2048 input/15 decode calls. Location is not CPU causal attribution. Token boundary gaps include original fixture finite-logit scan/argmax and transfers; do not label all gaps as removable reactive overhead.",
+  "new_GPU_run": false,
+  "benchmark_harness_modified": false,
+  "largest_neighbours": [
+    {
+      "gap_ns": 3175423,
+      "neighbours": [
+        [
+          "void qfn_mmq::mul_mat_vec_q_moe<(qfn_mmq::ggml_type)10, 2, false>(void const*, void const*, int const*, float*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, void const*)",
+          1776182046353380,
+          1776182046402059
+        ],
+        [
+          "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::MoeEpilogueKernel(float const*, float const*, float const*, float const*, unsigned int, float*, unsigned int, unsigned int)",
+          1776182046404329,
+          1776182046408249
+        ],
+        [
+          "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcCombineKernel<float>(float*, float const*, float const*, unsigned int, float const*, float*, void*, unsigned int, unsigned int, float)",
+          1776182046410459,
+          1776182046414619
+        ],
+        [
+          "__amd_rocclr_copyBuffer",
+          1776182049590042,
+          1776182049601522
+        ],
+        [
+          "qfn_mmq::quantize_q8_1(float const*, void*, long, long, long, long, long, unsigned int, HIP_vector_type<unsigned int, 3u>)",
+          1776182049608801,
+          1776182049616001
+        ],
+        [
+          "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+          1776182049623001,
+          1776182049786597
+        ],
+        [
+          "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+          1776182049792357,
+          1776182049837916
+        ],
+        [
+          "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RmsNormKernel(float const*, float const*, float*, unsigned int, unsigned int, float)",
+          1776182049845396,
+          1776182049869035
+        ]
+      ]
+    },
+    {
+      "gap_ns": 2224894,
+      "neighbours": [
+        [
+          "qfn_mmq::quantize_q8_1(float const*, void*, long, long, long, long, long, unsigned int, HIP_vector_type<unsigned int, 3u>)",
+          1776182084601668,
+          1776182084602708
+        ],
+        [
+          "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+          1776182084604587,
+          1776182087592915
+        ],
+        [
+          "__amd_rocclr_copyBuffer",
+          1776182087595394,
+          1776182087607394
+        ],
+        [
+          "__amd_rocclr_copyBuffer",
+          1776182089832288,
+          1776182089836288
+        ],
+        [
+          "__amd_rocclr_copyBuffer",
+          1776182089838589,
+          1776182089840787
+        ],
+        [
+          "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::EmbedKernel(void const*, gufo::models::qwen38_flash_next::rocm::WeightType, int const*, float*, unsigned int, unsigned int)",
+          1776182089843547,
+          1776182089851067
+        ],
+        [
+          "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RmsNormKernel(float const*, float const*, float*, unsigned int, unsigned int, float)",
+          1776182089853507,
+          1776182089861387
+        ],
+        [
+          "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcDownF16VecKernel(__half const*, float const*, float*)",
+          1776182089863387,
+          1776182089895106
+        ]
+      ]
+    },
+    {
+      "gap_ns": 2141898,
+      "neighbours": [
+        [
+          "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcMixEpilogueKernel(float const*, float const*, float const*, float*, float*, unsigned int, unsigned int)",
+          1776182039995566,
+          1776182039997646
+        ],
+        [
+          "qfn_mmq::quantize_q8_1(float const*, void*, long, long, long, long, long, unsigned int, HIP_vector_type<unsigned int, 3u>)",
+          1776182039999896,
+          1776182040000976
+        ],
+        [
+          "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+          1776182040003316,
+          1776182042986683
+        ],
+        [
+          "__amd_rocclr_copyBuffer",
+          1776182045128581,
+          1776182045138700
+        ],
+        [
+          "__amd_rocclr_copyBuffer",
+          1776182045144300,
+          1776182045150700
+        ],
+        [
+          "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::EmbedKernel(void const*, gufo::models::qwen38_flash_next::rocm::WeightType, int const*, float*, unsigned int, unsigned int)",
+          1776182045158260,
+          1776182045179140
+        ],
+        [
+          "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RmsNormKernel(float const*, float const*, float*, unsigned int, unsigned int, float)",
+          1776182045184899,
+          1776182045207139
+        ],
+        [
+          "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcDownF16VecKernel(__half const*, float const*, float*)",
+          1776182045213099,
+          1776182045256818
+        ]
+      ]
+    }
+  ]
+}

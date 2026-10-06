@@ -1,5 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Selector live-grid closure — 2026-10-06 UTC: checkpoint7609a4a3, plan5011e904,
+HOST39+39 pass, admissionff730f0b at21:54:37.789176. Component0/0/0 completes
+21:55:18.346225; four artifacts collect before21:56:42.312392 release
+358b1fd01d73489857289961025ea15a18a33d94228970b18fb34070a6220e4a.
+1766 identities/1411 groups retire; KFD empty, original leases and seven model
+stat tuples unchanged. Main/remote mirrors match; Core notified before analysis.
+
+Live-grid model preparation: Core refreshes own remote non-use; fresh global
+preflight22:07:38.139564 anchors358b1fd0 and unchanged ownership/model identities.
+New host-r1 ends22:08:32.141146 with39 Debug/39 ASan checks and six zero exits;
+seven artifacts collect. Plan55bf5bcb binds313 runtime fixtures for one new
+native full-prefill candidate through32K, no control rebuild/rerun or cleanup.
+No GPU window is admitted by this preparation; checkpoint and fresh admission
+remain required. Q2 has no job/window/handle on .158/.161/TB.
+
 Selector query-pair closure — 2026-10-06 UTC: checkpoint3423f227, plan55aabb11,
 HOST39+39 pass. Fresh Core own-non-use and global preflight precede admission
 c7bc9ef7 at21:45:35.777614. Three component commands exit0; four artifacts
