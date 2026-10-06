@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+After compact-LDS releasea47f405b, the retained-counter audit performs only
+read-only .157 file collection and ELF metadata inspection. No GPU runtime,
+profiler session, remote build, lease, waiter or reservation is started.
+Core confirms persistent non-use .157 at local checkpointa24875fe; this does
+not itself admit a future GPU run. A proposed calibration requires fresh
+coordination and lease admission. No cleanup or model access occurs.
+[Audit](Q2-RETAINED-COUNTERS.md),
+[bound evidence](../config/q2-retained-counter-capabilities.json).
+
 Compact-LDS SSM releases .157 at2026-10-06T00:30:45.862213UTC, SHA256
 a47f405b1f4624e30efab76eba4d5ad1968498fccfe623dd7804ac60e8dc8abd.
 New component/model are terminal and collected: seven exits0/30 artifacts;

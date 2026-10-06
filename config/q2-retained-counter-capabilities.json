@@ -1,0 +1,710 @@
+{
+  "schema": "synapse-lie.q2-retained-counter-capabilities.v1",
+  "state": "STATIC_INSTALLATION_AUDIT_NOT_RUNTIME_COUNTER_QUALIFICATION",
+  "architecture": "gfx1151",
+  "rocm_version": "7.2.4",
+  "commands": {
+    "installed-files": {
+      "path": "evidence/q2-retained-counter-preparation/installed-files-command.json",
+      "sha256": "ab4005de1b885512be827e6e10354322a3dc972295ddda1ae2cd663ba7475925",
+      "finished_at": "2026-10-06T00:36:45.319460+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "936b36359d5db65b6c730805285aaee284c18293949cf53b6ee5f3447ef08f1f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "installed-metrics": {
+      "path": "evidence/q2-retained-counter-preparation/installed-metrics-command.json",
+      "sha256": "3942567de84ec6152d6630546b2cb0c1214c175f4d528ab565adcbef10c06e42",
+      "finished_at": "2026-10-06T00:40:45.477660+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "fd52aa7558918dcb5aa05d5c3f0f409cc01deb43644a5af6b3d22c10cb189661",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "installed-libraries": {
+      "path": "evidence/q2-retained-counter-preparation/installed-libraries-command.json",
+      "sha256": "2cb17003c3651d131ad0e57fb84d2a3da71b1d90cfdec3de27f9eb32de706d7c",
+      "finished_at": "2026-10-06T00:44:37.302194+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "a149416869bbda1f7cf1352655497b762d71c3809fff312db353f7cb791c5d29",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "upstream-notes": {
+      "path": "evidence/q2-retained-counter-preparation/upstream-notes-command.json",
+      "sha256": "459654f5824439d5fb5620ba6d7976e2d18efe7cbf17f86f8b44e6e9de29a716",
+      "finished_at": "2026-10-06T00:41:58.065027+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "844641dff4f64b5f193ebf3ddfbd8129722e3a7a18e7139af8df68c1e1f1e476",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "upstream-fixes": {
+      "path": "evidence/q2-retained-counter-preparation/upstream-fixes-command.json",
+      "sha256": "7d01a338ecf4ee188a29aff34e08deda46af6b290cd3b57c28b1ac11b72d52c0",
+      "finished_at": "2026-10-06T00:43:13.616598+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "287432b7a5c4412ed860508b87b4bdb3d8136a2b4dedfd10fb2a6ea2eb97a5c0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "installed_files": [
+    {
+      "path": "/opt/rocm/share/rocprofiler-sdk/basic_counters.xml",
+      "resolved": "/opt/rocm/share/rocprofiler-sdk/basic_counters.xml",
+      "bytes": 107538,
+      "sha256": "8a048361cf43880181fca1fbf939d875dbf45f3a5fa0e422021b2da0cd0032dd"
+    },
+    {
+      "path": "/opt/rocm/share/rocprofiler-sdk/derived_counters.xml",
+      "resolved": "/opt/rocm/share/rocprofiler-sdk/derived_counters.xml",
+      "bytes": 95215,
+      "sha256": "8aad9313b1084e791dc04b5cc06a6d94cda614042f492d20cc65239dc143b161"
+    },
+    {
+      "path": "/opt/rocm/share/rocprofiler-sdk/counter_defs.yaml",
+      "resolved": "/opt/rocm/share/rocprofiler-sdk/counter_defs.yaml",
+      "bytes": 285385,
+      "sha256": "a4f129653c1f1ea35458a09c81eb8f6e2be3be62661ec5bbd4b5aadceb11a2e5"
+    },
+    {
+      "path": "/opt/rocm/share/rocprofiler-sdk/tests/rocprofv3/counter-collection/input1/conftest.py",
+      "resolved": "/opt/rocm/share/rocprofiler-sdk/tests/rocprofv3/counter-collection/input1/conftest.py",
+      "bytes": 1913,
+      "sha256": "c6fab9b36b0f4acdb2c5d28fbeb374ab378e63b55a69ca06e4cf8dd2f5e7d032"
+    },
+    {
+      "path": "/opt/rocm/share/rocprofiler-sdk/tests/rocprofv3/counter-collection/input1/validate.py",
+      "resolved": "/opt/rocm/share/rocprofiler-sdk/tests/rocprofv3/counter-collection/input1/validate.py",
+      "bytes": 5180,
+      "sha256": "64daa52c0f828a793b53f54c62f9150c7913f22b4c7ada1a9708848b96e58da3"
+    },
+    {
+      "path": "/opt/rocm/.info/version",
+      "resolved": "/opt/rocm/.info/version",
+      "bytes": 6,
+      "sha256": "f2b48b91ae6a73a55c3d69079b4428b3f8c73e63046da6e73f0eee958e8aea8f"
+    },
+    {
+      "path": "/var/lib/pacman/local/rocprofiler-register-7.2.4-1.1/desc",
+      "resolved": "/var/lib/pacman/local/rocprofiler-register-7.2.4-1.1/desc",
+      "bytes": 418,
+      "sha256": "aca83b89ae39eda83d2176b632ea04e0c98188f52fba7e4efca06815d4ab82dc"
+    },
+    {
+      "path": "/var/lib/pacman/local/rocprofiler-7.2.4-2.1/desc",
+      "resolved": "/var/lib/pacman/local/rocprofiler-7.2.4-2.1/desc",
+      "bytes": 532,
+      "sha256": "451a54e0f836f052eb76d4131504ac506f062a26dcf313706b78a59777654ca0"
+    },
+    {
+      "path": "/var/lib/pacman/local/hsa-amd-aqlprofile-7.2.4-1.1/desc",
+      "resolved": "/var/lib/pacman/local/hsa-amd-aqlprofile-7.2.4-1.1/desc",
+      "bytes": 451,
+      "sha256": "b85cba7431837873486fdc419e7049fd0957637bfec56d17a7bf7b45e7800eee"
+    }
+  ],
+  "launcher": {
+    "path": "/opt/rocm/bin/rocprofv3",
+    "sha256": "ecae3de73277b3c095b6c2fc1368e84241ea0a664f187ec3d983a5ea056d2efc"
+  },
+  "libraries": [
+    {
+      "path": "/opt/rocm/lib/libhsa-amd-aqlprofile64.so.1.0.0",
+      "bytes": 401136,
+      "sha256": "d1cf160461aad39c1e7032ff772c443cb75b0c94fc35df3ff0abe87e5207ac8e",
+      "readelf": {
+        "--dynamic": {
+          "exit_code": 0,
+          "lines": [
+            " 0x0000000000000001 (NEEDED)             Libreria condivisa: [libhsa-runtime64.so.1]",
+            " 0x0000000000000001 (NEEDED)             Libreria condivisa: [libstdc++.so.6]",
+            " 0x0000000000000001 (NEEDED)             Libreria condivisa: [libgcc_s.so.1]",
+            " 0x0000000000000001 (NEEDED)             Libreria condivisa: [libc.so.6]",
+            " 0x0000000000000001 (NEEDED)             Libreria condivisa: [ld-linux-x86-64.so.2]",
+            " 0x000000000000000e (SONAME)             soname della libreria: [libhsa-amd-aqlprofile64.so.1]"
+          ],
+          "stderr": ""
+        },
+        "--dyn-syms": {
+          "exit_code": 0,
+          "lines": [
+            "   142: 000000000001e150   211 FUNC    GLOBAL DEFAULT   10 aqlprofile_register_agent_info",
+            "   148: 000000000001e230    15 FUNC    GLOBAL DEFAULT   10 aqlprofile_register_agent"
+          ],
+          "stderr": ""
+        }
+      }
+    },
+    {
+      "path": "/opt/rocm/lib/librocprofiler-sdk.so.1.1.0",
+      "bytes": 9718520,
+      "sha256": "88bec357fc33c6a3c2a1dd3f795d2bfe6e22247cc471c02aeff581b54e08889f",
+      "readelf": {
+        "--dynamic": {
+          "exit_code": 0,
+          "lines": [
+            " 0x0000000000000001 (NEEDED)             Libreria condivisa: [libglog.so.2]",
+            " 0x0000000000000001 (NEEDED)             Libreria condivisa: [libfmt.so.12]",
+            " 0x0000000000000001 (NEEDED)             Libreria condivisa: [libyaml-cpp.so.0.9]",
+            " 0x0000000000000001 (NEEDED)             Libreria condivisa: [libamd_comgr.so.3]",
+            " 0x0000000000000001 (NEEDED)             Libreria condivisa: [libhsa-amd-aqlprofile64.so.1]",
+            " 0x0000000000000001 (NEEDED)             Libreria condivisa: [libdrm.so.2]",
+            " 0x0000000000000001 (NEEDED)             Libreria condivisa: [libdrm_amdgpu.so.1]",
+            " 0x0000000000000001 (NEEDED)             Libreria condivisa: [libdw.so.1]",
+            " 0x0000000000000001 (NEEDED)             Libreria condivisa: [libstdc++.so.6]",
+            " 0x0000000000000001 (NEEDED)             Libreria condivisa: [libgcc_s.so.1]",
+            " 0x0000000000000001 (NEEDED)             Libreria condivisa: [libc.so.6]",
+            " 0x0000000000000001 (NEEDED)             Libreria condivisa: [ld-linux-x86-64.so.2]",
+            " 0x000000000000000e (SONAME)             soname della libreria: [librocprofiler-sdk.so.1]"
+          ],
+          "stderr": ""
+        },
+        "--dyn-syms": {
+          "exit_code": 0,
+          "lines": [
+            "    37: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND drmOpenRender",
+            "   365: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND aqlprofile_register_agent"
+          ],
+          "stderr": ""
+        }
+      }
+    }
+  ],
+  "counters": [
+    {
+      "name": "CU_NUM",
+      "description": "CU_NUM",
+      "expression": "simd_count/simd_per_cu"
+    },
+    {
+      "name": "SIMD_NUM",
+      "description": "SIMD Number",
+      "expression": "simd_count"
+    },
+    {
+      "name": "FETCH_SIZE",
+      "description": "The total kilobytes fetched from the video memory. This is measured with all extra fetches and any cache or memory effects taken into account.",
+      "expression": "(GL2C_EA_RDREQ_32B_sum*32+GL2C_EA_RDREQ_64B_sum*64+GL2C_EA_RDREQ_96B_sum*96+GL2C_EA_RDREQ_128B_sum*128)/1024"
+    },
+    {
+      "name": "GL2C_EA_RDREQ_128B",
+      "description": "Number of 128-byte GL2C/EA read requests",
+      "block": "GL2C",
+      "event": 102
+    },
+    {
+      "name": "GL2C_EA_RDREQ_128B_sum",
+      "description": "Number of 128-byte GL2C/EA read requests. Sum over GL2C instances.",
+      "expression": "reduce(GL2C_EA_RDREQ_128B,sum)"
+    },
+    {
+      "name": "GL2C_EA_RDREQ_32B",
+      "description": "Number of 32-byte GL2C/EA read requests",
+      "block": "GL2C",
+      "event": 99
+    },
+    {
+      "name": "GL2C_EA_RDREQ_32B_sum",
+      "description": "Number of 32-byte GL2C/EA read requests. Sum over GL2C instances.",
+      "expression": "reduce(GL2C_EA_RDREQ_32B,sum)"
+    },
+    {
+      "name": "GL2C_EA_RDREQ_64B",
+      "description": "Number of 64-byte GL2C/EA read requests",
+      "block": "GL2C",
+      "event": 100
+    },
+    {
+      "name": "GL2C_EA_RDREQ_64B_sum",
+      "description": "Number of 64-byte GL2C/EA read requests. Sum over GL2C instances.",
+      "expression": "reduce(GL2C_EA_RDREQ_64B,sum)"
+    },
+    {
+      "name": "GL2C_EA_RDREQ_96B",
+      "description": "Number of 96-byte GL2C/EA read requests",
+      "block": "GL2C",
+      "event": 101
+    },
+    {
+      "name": "GL2C_EA_RDREQ_96B_sum",
+      "description": "Number of 96-byte GL2C/EA read requests. Sum over GL2C instances.",
+      "expression": "reduce(GL2C_EA_RDREQ_96B,sum)"
+    },
+    {
+      "name": "GL2C_EA_WRREQ_64B",
+      "description": "Number of 64-byte transactions going (64-byte write or CMPSWAP) over the TC_EA_wrreq interface.",
+      "block": "GL2C",
+      "event": 85
+    },
+    {
+      "name": "GL2C_EA_WRREQ_64B_sum",
+      "description": "Number of 64-byte transactions going (64-byte write or CMPSWAP) over the GL2C_EA_wrreq interface. Sum over GL2C instances.",
+      "expression": "reduce(GL2C_EA_WRREQ_64B,sum)"
+    },
+    {
+      "name": "GL2C_HIT",
+      "description": "Number of cache hits",
+      "block": "GL2C",
+      "event": 42
+    },
+    {
+      "name": "GL2C_HIT_sum",
+      "description": "Number of cache hits. Sum over GL2C instances.",
+      "expression": "reduce(GL2C_HIT,sum)"
+    },
+    {
+      "name": "GL2C_MC_RDREQ",
+      "description": "Number of GL2C/EA read requests (either 32-byte or 64-byte or 128-byte).",
+      "block": "GL2C",
+      "event": 96
+    },
+    {
+      "name": "GL2C_MC_RDREQ_sum",
+      "description": "Number of GL2C/EA read requests (either 32-byte or 64-byte or 128-byte). Sum over GL2C instances.",
+      "expression": "reduce(GL2C_MC_RDREQ,sum)"
+    },
+    {
+      "name": "GL2C_MC_WRREQ",
+      "description": "Number of transactions (either 32-byte or 64-byte) going over the GL2C_EA_wrreq interface. Atomics may travel over the same interface and are generally classified as write requests. This does not include probe commands",
+      "block": "GL2C",
+      "event": 83
+    },
+    {
+      "name": "GL2C_MC_WRREQ_STALL",
+      "description": "Number of cycles a write request was stalled.",
+      "block": "GL2C",
+      "event": 88
+    },
+    {
+      "name": "GL2C_MC_WRREQ_sum",
+      "description": "Number of transactions (either 32-byte or 64-byte) going over the GL2C_MC_wrreq interface. Sum over GL2C instances.",
+      "expression": "reduce(GL2C_MC_WRREQ,sum)"
+    },
+    {
+      "name": "GL2C_MISS",
+      "description": "Number of cache misses.  UC reads count as misses.",
+      "block": "GL2C",
+      "event": 43
+    },
+    {
+      "name": "GL2C_MISS_sum",
+      "description": "Number of cache misses. Sum over GL2C instances.",
+      "expression": "reduce(GL2C_MISS,sum)"
+    },
+    {
+      "name": "GL2C_WRREQ_STALL_max",
+      "description": "Number of cycles a write request was stalled. Max over GL2C instances.",
+      "expression": "reduce(GL2C_MC_WRREQ_STALL,max)"
+    },
+    {
+      "name": "GPUBusy",
+      "description": "The percentage of time GPU was busy.",
+      "expression": "100*reduce(GRBM_GUI_ACTIVE,max)/reduce(GRBM_COUNT,max)"
+    },
+    {
+      "name": "GPU_UTIL",
+      "description": "Percentage of the time that GUI is active",
+      "expression": "100*reduce(GRBM_GUI_ACTIVE,max)/reduce(GRBM_COUNT,max)"
+    },
+    {
+      "name": "GRBM_COUNT",
+      "description": "Tie High - Count Number of Clocks",
+      "block": "GRBM",
+      "event": 0
+    },
+    {
+      "name": "GRBM_GUI_ACTIVE",
+      "description": "The GUI is Active",
+      "block": "GRBM",
+      "event": 2
+    },
+    {
+      "name": "L2CacheHit",
+      "description": "The percentage of fetch, write, atomic, and other instructions that hit the data in L2 cache. Value range: 0% (no hit) to 100% (optimal).",
+      "expression": "100*reduce(GL2C_HIT,sum)/(reduce(GL2C_HIT,sum)+reduce(GL2C_MISS,sum))"
+    },
+    {
+      "name": "LDSBankConflict",
+      "description": "The percentage of GPUTime LDS is stalled by bank conflicts. Value range: 0% (optimal) to 100% (bad).",
+      "expression": "100*reduce(SQC_LDS_BANK_CONFLICT,sum)/reduce(SQC_LDS_IDX_ACTIVE,sum)"
+    },
+    {
+      "name": "MAX_WAVE_SIZE",
+      "description": "Max wave size constant",
+      "expression": "wave_front_size"
+    },
+    {
+      "name": "MeanOccupancyPerActiveCU",
+      "description": "Mean occupancy per active compute unit.",
+      "expression": "reduce(SQ_WAVE_CYCLES,sum)/reduce(SQ_BUSY_CYCLES,sum)"
+    },
+    {
+      "name": "MeanOccupancyPerCU",
+      "description": "Mean occupancy per compute unit.",
+      "expression": "reduce(SQ_WAVE_CYCLES,sum)/reduce(GRBM_GUI_ACTIVE,max)/CU_NUM"
+    },
+    {
+      "name": "OccupancyPercent",
+      "description": "GPU Occupancy as % of maximum.",
+      "expression": "100*reduce(SQ_WAVE_CYCLES,sum)/reduce(GRBM_GUI_ACTIVE,max)/CU_NUM/32"
+    },
+    {
+      "name": "MemUnitBusy",
+      "description": "The percentage of GPUTime the memory unit is active. The result includes the stall time (MemUnitStalled). This is measured with all extra fetches and writes and any cache or memory effects taken into account. Value range: 0% to 100% (fetch-bound).",
+      "expression": "100*reduce(TA_TA_BUSY,max)/reduce(GRBM_GUI_ACTIVE,max)"
+    },
+    {
+      "name": "SALUInsts",
+      "description": "The average number of scalar ALU instructions executed per work-item (affected by flow control).",
+      "expression": "reduce(SQ_INSTS_SALU,sum)/reduce(SQ_WAVES,sum)"
+    },
+    {
+      "name": "SE_NUM",
+      "description": "SE_NUM",
+      "expression": "array_count/simd_arrays_per_engine"
+    },
+    {
+      "name": "SFetchInsts",
+      "description": "The average number of scalar fetch instructions from the video memory executed per work-item (affected by flow control).",
+      "expression": "reduce(SQ_INSTS_SMEM,sum)/reduce(SQ_WAVES,sum)"
+    },
+    {
+      "name": "SQC_LDS_BANK_CONFLICT",
+      "description": "Number of cycles LDS is stalled by bank conflicts. (emulated, C1)",
+      "block": "SQ",
+      "event": 256
+    },
+    {
+      "name": "SQC_LDS_IDX_ACTIVE",
+      "description": "Number of cycles LDS is used for indexed (non-direct,non-interpolation) operations. {per-simd, emulated, C1}",
+      "block": "SQ",
+      "event": 261
+    },
+    {
+      "name": "SQ_ACCUM_PREV",
+      "description": "This is a hardware register that can be used for accumulating values for other counters. This is useful in expressions where you want to integrate over time. Only accumulates once every 4 cycles. This counter is primarily for use with derived counters supplied by rocprof.",
+      "block": "SQ",
+      "event": 1
+    },
+    {
+      "name": "SQ_BUSY_CYCLES",
+      "description": "Number of clock cycles there are active waves in a shader engine (as reported by the distributed sequencer). This value does not denote the number of active waves, only the clock cycle in which any wave is present in a SE. This value is returned on a per-shader engine basis in clock cycles.",
+      "block": "SQ",
+      "event": 3
+    },
+    {
+      "name": "SQ_INSTS_FLAT",
+      "description": "Total number of FLAT instructions issued. When used in combination with SQ_ACTIVE_INST_FLAT (cycle count for executing instructions) the average latency of FLAT instruction execution can be calculated (SQ_ACTIVE_INST_FLAT / SQ_INSTS). This value is returned per-SE (aggregate of values in SIMDs in the SE).",
+      "block": "SQ",
+      "event": 56
+    },
+    {
+      "name": "SQ_INSTS_LDS",
+      "description": "Total number of LDS instructions issued (including FLAT). This value is returned per-SE (aggregate of values in SIMDs in the SE). See AMD ISAs for more information on LDS instructions.",
+      "block": "SQ",
+      "event": 57
+    },
+    {
+      "name": "SQ_INSTS_SALU",
+      "description": "Total Number of SALU (Scalar ALU) instructions issued. This value is returned per-SE (aggregate of values in SIMDs in the SE). See AMD ISAs for more information on SALU instructions.",
+      "block": "SQ",
+      "event": 58
+    },
+    {
+      "name": "SQ_INSTS_SMEM",
+      "description": "Total number of SMEM (Scalar Memory Read) instructions issued. This value is returned per-SE (aggregate of values in SIMDs in the SE). See AMD ISAs for more information on SMEM instructions.",
+      "block": "SQ",
+      "event": 59
+    },
+    {
+      "name": "SQ_INSTS_TEX_LOAD",
+      "description": "The number of buffer load, image load, sample, or atomic (with return) texture instructions issued. The value is returned per-SE (aggregate of values in SIMDs in the SE). See AMD ISAs for more information on TEX_LOAD instructions.",
+      "block": "SQ",
+      "event": 66
+    },
+    {
+      "name": "SQ_INSTS_TEX_STORE",
+      "description": "The number of buffer store, image store, or atomic (without return) texture instructions issued. The value is returned per-SE (aggregate of values in SIMDs in the SE). See AMD ISAs for more information on TEX_STORE instructions.",
+      "block": "SQ",
+      "event": 67
+    },
+    {
+      "name": "SQ_INSTS_VALU",
+      "description": "The number of VALU (Vector ALU) instructions issued. The value is returned per-SE (aggregate of values in SIMDs in the SE). See AMD ISAs for more information on VALU instructions.",
+      "block": "SQ",
+      "event": 62
+    },
+    {
+      "name": "SQ_INSTS_WAVE32",
+      "description": "Number of wave32 instructions issued, for flat, lds, valu, tex. {emulated, C1}",
+      "block": "SQ",
+      "event": 70
+    },
+    {
+      "name": "SQ_INSTS_WAVE32_LDS",
+      "description": "Number of wave32 LDS indexed instructions issued. Wave64 may count 1 or 2, depending on what gets issued. {emulated, C1}",
+      "block": "SQ",
+      "event": 72
+    },
+    {
+      "name": "SQ_INSTS_WAVE32_VALU",
+      "description": "Number of wave32 valu instructions issued. Wave64 may count 1 or 2, depending on what gets issued. {emulated, C1}",
+      "block": "SQ",
+      "event": 73
+    },
+    {
+      "name": "SQ_WAVE32_INSTS",
+      "description": "Number of instructions issued by wave32 waves. Skipped instructions are not counted. {emulated}",
+      "block": "SQ",
+      "event": 82
+    },
+    {
+      "name": "SQ_WAVE64_INSTS",
+      "description": "Number of instructions issued by wave64 waves. Skipped instructions are not counted. {emulated}",
+      "block": "SQ",
+      "event": 83
+    },
+    {
+      "name": "SQ_WAVES",
+      "description": "Count number of waves sent to distributed sequencers (SQs). This value represents the number of waves that are sent to each SQ. This only counts new waves sent since the start of collection (for dispatch profiling this is the timeframe of kernel execution, for agent profiling it is the timeframe between start_context and read counter data). A sum of all SQ_WAVES values will give the total number of waves started by the application during the collection timeframe. Returns one value per-SE (aggregates of SIMD values).",
+      "block": "SQ",
+      "event": 4
+    },
+    {
+      "name": "SQ_WAVES_sum",
+      "description": "Gives the total number of waves currently enqueued by the application during the collection timeframe (for dispatch profiling this is the timeframe of kernel execution, for agent profiling it is the timeframe between start_context and read counter data). See SQ_WAVES for more details.",
+      "expression": "reduce(SQ_WAVES,sum)"
+    },
+    {
+      "name": "SQ_WAVE_CYCLES",
+      "description": "The cycles spent executing waves in the CUs. This value is reported per-SE (aggregates of SIMD values) and is nondeterministic. Units are in quad-cycles (4 cycles). Useful for determining how much time is spent executing wave code vs overhead/waiting. Low cycle count relative to actual number of cycles processed by the CU can indicate that the CU is stalling or is overloaded.",
+      "block": "SQ",
+      "event": 24
+    },
+    {
+      "name": "TA_BUSY_avr",
+      "description": "TA block is busy. Average over TA instances.",
+      "expression": "reduce(TA_TA_BUSY,avr)"
+    },
+    {
+      "name": "TA_BUSY_max",
+      "description": "TA block is busy. Max over TA instances.",
+      "expression": "reduce(TA_TA_BUSY,max)"
+    },
+    {
+      "name": "TA_BUSY_min",
+      "description": "TA block is busy. Min over TA instances.",
+      "expression": "reduce(TA_TA_BUSY,min)"
+    },
+    {
+      "name": "TA_TA_BUSY",
+      "description": "TA block is busy. Perf_Windowing not supported for this counter.",
+      "block": "TA",
+      "event": 15
+    },
+    {
+      "name": "VALUInsts",
+      "description": "The average number of vector ALU instructions executed per work-item (affected by flow control).",
+      "expression": "reduce(SQ_INSTS_VALU,sum)/reduce(SQ_WAVES,sum)"
+    },
+    {
+      "name": "WRITE_SIZE",
+      "description": "The total kilobytes written to the video memory. This is measured with all extra fetches and any cache or memory effects taken into account.",
+      "expression": "((GL2C_MC_WRREQ_sum-GL2C_EA_WRREQ_64B_sum)*32+GL2C_EA_WRREQ_64B_sum*64)/1024"
+    },
+    {
+      "name": "Wavefronts",
+      "description": "Total wavefronts.",
+      "expression": "reduce(SQ_WAVES,sum)"
+    },
+    {
+      "name": "WriteUnitStalled",
+      "description": "The percentage of GPUTime the Write unit is stalled. Value range: 0% to 100% (bad).",
+      "expression": "100*GL2C_WRREQ_STALL_max/reduce(GRBM_GUI_ACTIVE,max)"
+    }
+  ],
+  "counter_kind_counts": {
+    "expression": 33,
+    "GL2C": 10,
+    "GRBM": 2,
+    "SQ": 18,
+    "TA": 1
+  },
+  "newer_pr_added_names_absent": [
+    "GL1C_ARB_RET_LEVEL",
+    "GL1C_REQ_READ_128B",
+    "GL1C_REQ_READ_32B",
+    "GL1C_REQ_READ_64B",
+    "SQ_INST_LEVEL_TEX_LOAD",
+    "SQ_VALU_STARVE",
+    "SQ_VMEM_BUS_ACTIVE",
+    "SQ_VMEM_BUS_STALL",
+    "SQ_WAIT_CNT_LGKM",
+    "SQ_WAIT_CNT_VMVS",
+    "SQ_WAIT_DELAY_ALU",
+    "SQ_WAIT_INST_SCA",
+    "SQ_WAIT_INST_VALU",
+    "SQ_WAIT_INST_VMEM",
+    "TA_ADDRESSER_BUSY",
+    "TA_ADDRESSER_FIFO_BUSY",
+    "TA_ADDRESSER_STALLED_CYCLES",
+    "TA_ALIGNER_BUSY",
+    "TA_ALIGNER_CYCLES",
+    "TA_FLAT_TOTAL_CYCLES",
+    "TA_STORE_WRITE_DATA_INPUT_CYCLES",
+    "TA_STORE_WRITE_DATA_OUTPUT_CYCLES",
+    "TA_VMEMCMD_CYCLES",
+    "TA_VMEMREQ_CYCLES",
+    "TA_WRITE_PATH_BUSY",
+    "TCP_TA_REQ"
+  ],
+  "upstream_evidence": [
+    {
+      "url": "https://api.github.com/repos/ROCm/rocm-systems/issues/2352",
+      "file": "fetch-size-issue.json",
+      "sha256": "41d9f2dfde4ef43174ddfc0dcfa28affc09f3aae815407452f1cee2eac36a46d",
+      "bytes": 9143
+    },
+    {
+      "url": "https://api.github.com/repos/ROCm/rocm-systems/issues/2352/comments",
+      "file": "fetch-size-comments.json",
+      "sha256": "cd050172b439ca7b043ee79e31992c2f7c1d65140e0862b3015a844203c9935b",
+      "bytes": 14320
+    },
+    {
+      "url": "https://api.github.com/repos/ROCm/rocm-systems/issues/3828",
+      "file": "sq-counters-issue.json",
+      "sha256": "f64deab90b074db6c0576cd364127c12547c7b6a331eb47d7429d7be1b8fa012",
+      "bytes": 6575
+    },
+    {
+      "url": "https://api.github.com/repos/ROCm/rocm-systems/issues/3828/comments",
+      "file": "sq-counters-comments.json",
+      "sha256": "486cbe2734926dfe821f02bbe4ff0661889a6347a9b90788099dfe6e6dbf3784",
+      "bytes": 3378
+    },
+    {
+      "url": "https://api.github.com/repos/ROCm/rocm-systems/pulls/10041",
+      "file": "gfx115-counters-pr.json",
+      "sha256": "c96249281ca2d2103d4f0eaaea93ada9b60611064fd6acbfe5e8ee36ef2aa70f",
+      "bytes": 17727
+    },
+    {
+      "url": "https://api.github.com/repos/ROCm/rocm-systems/pulls/3100",
+      "file": "gl2c-fix-pr.json",
+      "sha256": "61ab14ac9e73b68f06f4c41a5d183ac6974263a107a2e26fd4a302c8dc115eae",
+      "bytes": 22240
+    },
+    {
+      "url": "https://api.github.com/repos/ROCm/rocm-systems/pulls/3100/files",
+      "file": "gl2c-fix-files.json",
+      "sha256": "4f51af7687b08d526929b9751424171911166b3e6e05328dab4472a63a4e2c65",
+      "bytes": 1008
+    },
+    {
+      "url": "https://api.github.com/repos/ROCm/rocm-systems/pulls/8229",
+      "file": "sq-fix-pr.json",
+      "sha256": "43345701f400079a1b619275ba5d83cb4881c524770a7419c5fadc9f55d1cbb7",
+      "bytes": 20962
+    },
+    {
+      "url": "https://api.github.com/repos/ROCm/rocm-systems/pulls/8229/files",
+      "file": "sq-fix-files.json",
+      "sha256": "a6dac4ba5c183d6d661a4e29719e517d4675916884e6f72c166545453b9e40b6",
+      "bytes": 65016
+    },
+    {
+      "url": "https://api.github.com/repos/ROCm/rocm-systems/pulls/10041/files",
+      "file": "gfx115-counters-files.json",
+      "sha256": "bfe18671c34ff5757d8bd645c2d790c30e5d080d8d320dbf377590d5a4a7c2a2",
+      "bytes": 13629
+    }
+  ],
+  "upstream_fixes": [
+    {
+      "html_url": "https://github.com/ROCm/rocm-systems/pull/3100",
+      "title": "[SWDEV-573156] Added fix to update GL2C counters instance count for GFX11.5",
+      "merged_at": "2026-03-06T04:12:36Z",
+      "merge_commit_sha": "86e28b9fae316df298f1f7214a73ccdd58ff1067"
+    },
+    {
+      "html_url": "https://github.com/ROCm/rocm-systems/pull/8229",
+      "title": "fix(aqlprofile): GFX11 harvested-WGP SQ aliasing + multi-counter desync",
+      "merged_at": "2026-07-22T14:01:07Z",
+      "merge_commit_sha": "f4facf48bf02d15ecae8d0e5a7d4b97cdcba97d8"
+    },
+    {
+      "html_url": "https://github.com/ROCm/rocm-systems/pull/10041",
+      "title": "Add approved SQ/GL1C/GRBM/TA/TCP counters for gfx1150-1153",
+      "merged_at": "2026-08-24T20:19:58Z",
+      "merge_commit_sha": "60ca803e2c55a852c189a47da4b46b35a966bb83"
+    }
+  ],
+  "saved_gpu_identity": {
+    "source": "evidence/q2-current-best-profile-r1/results/profile/q2_results.db",
+    "sha256": "592d3c630e56967896d4847c83f3c0959b0c56972ce0f6a7bd8e1bdccccbaa58",
+    "fields": {
+      "name": "gfx1151",
+      "product_name": "AMD Radeon 8060S Graphics",
+      "cu_count": 40,
+      "simd_count": 80,
+      "wave_front_size": 32,
+      "array_count": 4,
+      "num_shader_banks": 2,
+      "simd_arrays_per_engine": 2,
+      "cu_per_simd_array": 10
+    }
+  },
+  "retained": {
+    "report": "config/q2-ssm-fixed-bounds-model-results.json",
+    "sha256": "f11b8e3e7663ce78de183032a924358e8429ea953a66cc0dd86849359852acdd",
+    "binary_sha256": "db356a95046fd6951ba279627868f4a7bdeb49efdcc17225a6aafea3d85b4787",
+    "prefill_tok_s": 1585.308983,
+    "decode_steps_s": 25.16079073
+  },
+  "findings": [
+    "64 explicit gfx1151 definitions: 31 hardware counters and 33 expressions/constants. Definition presence does not prove collection works.",
+    "The installed SDK test skips its positive SQ_WAVES assertion on gfx1151. That skip alone does not prove broken counters.",
+    "The installed SDK ELF requires external libhsa-amd-aqlprofile64.so.1 and imports aqlprofile_register_agent, not aqlprofile_register_agent_info. The harvested-WGP V2 route added by PR8229 is not established.",
+    "Saved target is Radeon 8060S with 40 CUs; the PR8229 reproduction used harvested parts. Do not assume its failure occurs on this target.",
+    "PR3100 changes GL2C instance count from four to eight. The installed YAML formula cannot establish the linked binary includes that fix.",
+    "All 26 new counter names added by PR10041 are absent. Do not substitute events from other architectures or modify runtime definitions.",
+    "FETCH_SIZE is a byte-weighted request sum divided by 1024, therefore KiB; it is not a byte count. It does not independently identify DRAM traffic beyond the shared cache.",
+    "Static VGPR/LDS limits and the prior1571 dispatch trace do not measure active occupancy, stalls or bandwidth of retained1585."
+  ],
+  "next_diagnostic": {
+    "state": "PROPOSED_NOT_ADMITTED_OR_EXECUTED",
+    "admission": "Fresh coordinated four-lease admission after compact-LDS release; no standing reservation.",
+    "controls": "Small owned HIP calibration with deterministic complete output and fixed wave32 launch geometry. No model or benchmark reference rerun.",
+    "passes": [
+      {
+        "counters": [
+          "SQ_WAVES_sum"
+        ],
+        "check": "Known grid/32 per kernel across ten repetitions; all complete output checks pass."
+      },
+      {
+        "counters": [
+          "SQ_WAVES_sum",
+          "GRBM_COUNT"
+        ],
+        "check": "The same exact wave totals with co-collection; record per-instance data and rejected passes."
+      },
+      {
+        "counters": [
+          "FETCH_SIZE"
+        ],
+        "check": "Coalesced read of known incompressible bytes beyond32MiB; inspect GL2C instance coverage and units. Predeclare calibration tolerance including cache effects."
+      }
+    ],
+    "after_calibration": "Only qualified counter groups may profile the already saved retained1585 binary with exact binary/source/runtime checks. Filter relevant kernels and keep profiled times outside benchmark results.",
+    "unavailable_counters": "Use separate retained dispatch tracing and controlled numerical changes if necessary; no driver, package or profiler patches."
+  },
+  "gpu_run": false,
+  "model_inference": false,
+  "model_build": false,
+  "gpu_reserved": false,
+  "controls_rerun": false,
+  "numerical_change": false,
+  "throughput_change_claimed": false,
+  "runtime_counter_qualified": false,
+  "goal_met": false
+}

@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [retained counter audit](Q2-RETAINED-COUNTERS.md) reads installed .157
+profiler definitions, package metadata and ELF dependencies without initializing
+GPU runtimes. Five collection commands exit0;64 explicit gfx1151 definitions
+are bound, and all26 newly named metrics from official PR10041 are absent.
+Official GL2C/SQ corrections are identified and their resolutions preserved.
+The SDK test skips gfx1151 SQ positivity, but the saved40-CU8060S identity is
+not the harvested-part reproducer: no broken counter is asserted on .157.
+Next is a small known-work calibration before profiling the saved1585 binary.
+No model/fixture/launcher change, GPU job, lease, reservation or control rerun
+occurs. The audit adds a reproducible measurement constraint, not a speed gain;
+retained1585.308983/25.16079073 and the6.337447% PP gap to fixedUD stay unchanged.
+
 The [compact-LDS SSM campaign](Q2-SSM-COMPACT-LDS.md) completes on .157 at
 2026-10-06T00:30:02UTC:1555.078658 PP /25.13403225 TG, down1.906904% PP versus
 retained1585 and1.591421% versus construction1580. All30 component pairs,

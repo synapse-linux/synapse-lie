@@ -1,5 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [retained Q2 counter audit](docs/Q2-RETAINED-COUNTERS.md) identifies64
+installed gfx1151 metrics and verifies missing newer stall counters. Official
+GL2C/SQ fixes require a small calibration before their counts guide optimization;
+their published failures are not established on this40-CU target. This is
+read-only preparation, with no new GPU run or throughput result. Retain
+1585.308983 PP /25.16079073 TG and the unchanged fixedQ2/UD comparisons.
+
 The [compact-LDS SSM measurement](docs/Q2-SSM-COMPACT-LDS.md) completes at
 1555.078658 PP /25.13403225 TG, losing1.906904% PP against retained1585.
 All30 component pairs/60 FP64 checks and both21-file parent comparisons pass.
