@@ -1,5 +1,19 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## IQ2 sign arithmetic measured and released — 2026-10-06 UTC
+
+One new fixed exact2048/tg128 model measures1582.080007 PP/25.15197322 TG,
+−0.203681% PP versus saved1585.308983. Component32768 sign/code pairs/101 outputs
+and21 parent model files are exact; retain private evidence, keep1585 best.
+All70 HIP times are invalid zero; complete wall cycles are1.2–2.1% slower.
+Host36+36 and13 primary commands exit0,39 final artifacts verify. Preserve an
+early local collection snapshot and failed overwrite retry, then collect final
+26 artifacts without model rerun. Release11:21:43UTC/40974980 retires1424 IDs/
+1140 groups, empty KFD, original leases/model stats unchanged/free. Core is
+informed before analysis. Full curve/Q4 remain deferred; next local IQ2 fixed
+bounds probe removes26–29% static instructions without a runtime speed claim.
+[Complete samples, graph and disposition](Q2-IQ2-HALF-SIGN-ARITHMETIC.md).
+
 ## IQ2 half-byte sign arithmetic host-qualified — 2026-10-06 UTC
 
 Prepare one private unpacked m640/k2560 BN64/128 gate/up candidate, no table,

@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [IQ2 sign-arithmetic model trial](docs/Q2-IQ2-HALF-SIGN-ARITHMETIC.md)
+completes on .157 at1582.080007 PP/25.15197322 TG,−0.203681% PP versus saved1585.
+All32768 sign/code pairs,101 component outputs and21 parent model files are
+exact; the extra integer work gives no model gain. Keep1585.308983 PP.
+Host36+36/model/component commands pass;39 artifacts collect before11:21:43UTC
+release40974980. All16 model samples and70 operator timings remain; the early
+collection snapshot/error is preserved without a model rerun or remote cleanup.
+
 The [IQ2 half-byte sign candidate](docs/Q2-IQ2-HALF-SIGN-ARITHMETIC.md) is
 prepared and host-qualified on .157:36+36 checks pass,153 fixture hashes and
 1028 provider files freeze. All162 original ISA bodies stay exact; two private

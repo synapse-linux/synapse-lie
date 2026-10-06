@@ -19,3 +19,5 @@ No upstream numerical or task-quality qualification is claimed.
 
 [Experiment and runtime limits](../../docs/Q2-IQ2-HALF-SIGN-ARITHMETIC.md),
 [source inventory and patch bindings](../../config/q2-iq2-half-sign-arithmetic-source.json).
+
+The completed .157 component has32768 exact code/sign pairs and101 exact float outputs;21 full model files equal the measured parent. New model PP1582.080007 falls0.203681% versus saved1585.308983. This private arithmetic route stays unpromoted; original-table lookup remains the performance best. Collection workflow snapshot failures are preserved independently of numerical evidence.

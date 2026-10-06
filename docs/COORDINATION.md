@@ -1,5 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## IQ2 sign arithmetic window released — 2026-10-06 UTC
+
+Admission11:14:26.631807UTC/4ac46b4d binds checkpoint0566d2f0 and one component+
+one original model at exact2048/tg128. Each takes original four GPU leases;
+Core confirms separate .161 work and no .157 interleaving. All13 host/component/
+model commands exit0; terminal model11:20:12UTC. All39 final artifacts collect.
+A premature local snapshot and failed collection overwrite are preserved;
+final collection succeeds, with no inference rerun or remote cleanup.
+
+Release11:21:43.043192UTC/40974980 retires1424 identities/1140 groups, empty
+KFD, original Core CPU/four GPU leases unchanged/free, seven original model
+stat tuples unchanged. Canonical/main/run/remote mirrors exact and Core informed
+before local analysis. No Q2 job/build/client/lease/window/reservation/waiter/
+restart/cleanup remains .157/.158/.161. Next IQ2 fixed bounds is local-only;
+no new window/plan/admission is implied by this release.
+
 ## IQ2 half-byte sign arithmetic preparation — 2026-10-06 UTC
 
 Core reports11:09UTC no own CPU/GPU/client/build/lease/reservation/waiter on
