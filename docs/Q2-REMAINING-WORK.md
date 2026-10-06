@@ -35,6 +35,13 @@ can enter them on full2048-token chunks; its final partial chunk and subsequent
 continuation can take different paths. This is a source-proven eligibility
 limit, **not yet a measured explanation of a new curve result**.
 
+For one contiguous prefill, intermediate chunks are full-sized:5000 tokens
+become2048 +2048 +904. Only the final chunk can be partial. In the canonical
+curve, however, the long prefix is prepared separately and restored; the
+measured continuation can itself be a single2042-token partial chunk. The
+extension therefore targets tails and continuations. It cannot speed up the
+already eligible intermediate chunks or close the fixed exact2048 gap.
+
 Extending these guards requires qualifying partial rows, buffer identities,
 deferred-state lifetimes and original numerical outputs. Merely deleting the
 guards would bypass their qualification. Keep the actual canonical requests;
@@ -52,7 +59,38 @@ replace this integrated lifetime qualification. An initial1024–2048 range
 would cover typical2040/2042 continuations while keeping smaller routes intact;
 no such extension is implemented or measured in the current curve.
 
+Here, "contract" means the internal buffer hand-off rules: valid row count,
+buffer identity, representation and lifetime. It does not propose a different
+normalization formula. The intended extension must preserve the existing
+arithmetic, rounding boundaries and reconstruction behavior for each row.
+
+Partial-row evidence already exists: the older
+[paired producer component](../config/q2-norm-ragged-results.json) and
+[HC library dispatch model experiment](Q2-HC-LIBRARY-RAGGED-MODEL.md) must be
+reused, not rerun as new discoveries. The latter extends a different consumer
+and is already represented in the retained source. Neither qualifies the
+current combined F16 expert-output/deferred-state extension. The
+[re-audit](../config/q2-rejected-test-reaudit-progress.json) explicitly records
+why broadening these guards adds no mechanism at the fixed2048 point.
+
 ## Remaining mechanisms with substantial scope
+
+### Capacity changes can change attention dispatch
+
+The curve's private266240 effective capacity also increases the sparse mask
+pitch from2048 to2080 words. Both retained providers reject the WMMA sparse
+attention launcher when that pitch exceeds2048 and fall back to
+`AttentionKernel` followed by `SigmoidMul`. This is determined by configured
+capacity whenever a sparse mask is present, not only by a query crossing256K.
+The numerical device bodies are unchanged, but their selection changes.
+Consequently this curve cannot isolate the effect of retained Q2 optimizations
+against the older133760-capacity curves. The new Q2/UD arms share the fallback.
+
+Simply deleting the launch guard is unsafe: the WMMA union scan has eight local
+words per thread and2052 shared entries. A future fix must separate allocated
+mask pitch from the visible extent and qualify the actual capacity boundary;
+contexts beyond262144 require additional kernel coverage. This affects the
+long-context experiment, not the fixed9216-capacity parity reference.
 
 The costs below come from the saved1571.716479 diagnostic executable, not a
 fresh profile of1587.893545. They prioritize regions; they are neither promised

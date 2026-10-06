@@ -21,7 +21,7 @@
     "fixed_point_priority_retained": true,
     "parallel_curve_requested_by_owner": true,
     "parallel_curve_max_context": 262144,
-    "parallel_curve_runtime_admission": true,
+    "parallel_curve_runtime_admission": false,
     "larger_unimplemented_mechanisms": [
       "Expert down output consumption without the full intermediate",
       "Whole640 gate/up producer plus packing",
@@ -37,8 +37,12 @@
     "model_speedup_claim": false,
     "old_component_rerun": false,
     "parallel_curve_plan": "config/q2-curve256-v3-plan.json",
-    "partial_chunk_coverage": "Two exact2048 dispatch guards remain; canonical continuation counts must not be changed to make them active",
-    "parallel_curve_admission": "config/q2-curve256-v3-window-admission.json"
+    "partial_chunk_coverage": "Only the last chunk of contiguous prefill can be partial; extending current guards targets tails and cached-prefix continuations, not fixed2048 parity.",
+    "parallel_curve_admission": "config/q2-curve256-v3-window-admission.json",
+    "parallel_curve_completed": true,
+    "parallel_curve_release": "config/q2-curve256-v3-window-release.json",
+    "parallel_curve_results": "config/q2-curve256-results.json",
+    "separate_long_context_requirement": "Capacity266240 increases mask pitch2080 and disables sparse WMMA in both arms; distinguish allocated pitch from visible extent and qualify scan bounds before another comparable curve."
   },
   "deprioritized": [
     "Compact AoS IQ2 table-LDS placement regresses12\u201320% operator time and1.627%model PP",
@@ -53,5 +57,6 @@
   "full_curve_admitted": true,
   "goal_met": false,
   "current_assessment": "docs/Q2-REMAINING-WORK.md",
-  "source_audit": "config/q2-remaining-work-audit.json"
+  "source_audit": "config/q2-remaining-work-audit.json",
+  "active_gpu_window": null
 }

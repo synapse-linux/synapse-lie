@@ -1,5 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## 256K curves completed; capacity changes attention dispatch — 2026-10-06 UTC
+
+Both native curves complete:20 accepted measurements,48 requests,12 zero model-command exits and30 model artifacts plus7 host artifacts. Q2 PP at128K/256K is695.423/665.593 versus UD819.081/729.470; TG is24.8567/24.3669 versus24.5138/23.4692. Historical prefill rates are higher, but the266240 capacity makes sparse-mask pitch2080 exceed WMMA's2048-word limit in both new arms. The old/new comparison therefore does not isolate numerical optimizations. This source finding is explicit in the [complete values, timings and graphs](Q2-CURVE256.md). No stable speedup or quality verdict follows.
+
+All evidence collects before15:02:59.961437 UTC release3e59f417;1575 identities/1260 groups retired, KFD empty, original leases free/model stats unchanged. Core informed before local audit; audit/plot exit0. No remote cleanup or further GPU activity. Fixed1587.893545 versus1685.777092 remains the priority. Owner clarification is recorded: only the final chunk of contiguous prefill can be partial; broadening partial-row buffer contracts helps tails/continuations, not intermediate2048 chunks or the fixed reference. Existing partial-row evidence is reused, not recast as a new experiment.
+
 ## 256K capacity headroom and full optimization assessment — 2026-10-06 UTC
 
 Curve r2 exposes the original GGUF262144 guard before upload/inference;9 artifacts collect before14:13:29 UTC/d866e817 release. An exact private AR-only262144→266240 effective capacity edit precedes DeviceModel upload in both providers, preserving numerical/MMQ files and RoPE; model files remain untouched. Host44+44 includes C17/C++ guard boundaries and exact engine-only archive reuse;7 artifacts collect. Fresh GPU admission remains required. The [complete current analysis](Q2-REMAINING-WORK.md) distinguishes already-completed negatives, substantial remaining dataflow work and two exact2048 guards that do not cover typical canonical continuation sizes. Fixed-point parity remains first priority.

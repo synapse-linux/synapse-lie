@@ -37,5 +37,16 @@
     "publication_line": 27,
     "matching_line": 38,
     "partial_extension_requires_all_four_guards": true
-  }
+  },
+  "contiguous_prefill": "All intermediate chunks are2048; only the final chunk may be partial. A cached-prefix continuation can be one partial chunk.",
+  "partial_extension_closes_fixed_point_gap": false,
+  "existing_partial_evidence": [
+    "config/q2-norm-ragged-results.json",
+    "config/q2-hc-library-ragged-model-results.json",
+    "config/q2-rejected-test-reaudit-progress.json"
+  ],
+  "curve_results": "config/q2-curve256-results.json",
+  "curve_results_sha256": "69ddfd1630151769ccced3a481474e78aac65c73c2c2d4e919be863f295141ab",
+  "capacity_changes_sparse_attention_dispatch": true,
+  "historical_curve_speedup_isolated": false
 }

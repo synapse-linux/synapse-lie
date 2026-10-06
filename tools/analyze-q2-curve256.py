@@ -51,6 +51,46 @@ def inventory(archive, prefix):
             for m in archive.getmembers() if m.isfile() and m.name.startswith(prefix)}
 
 
+def attention_dispatch_audit(provider):
+    """Bind the capacity-induced sparse fallback; this is source evidence."""
+    findings = {}
+    for key, variant in provider['variants'].items():
+        base = ROOT/variant['source']/'src/models/qwen38_flash_next'
+        paths = {'executor':base/'kernels/rocm/executor.cpp',
+                 'kernels':base/'kernels/rocm/kernels.hip.cpp',
+                 'config':base/'config.cpp'}
+        needles = {
+            'executor': ['(c.context_length + c.compress_ratio - 1) / c.compress_ratio',
+                         'e->mask_words_ = (max_blocks + 31) / 32',
+                         'rocm::Attention(s_.q, s.k_cache, s.v_cache, mask, mask_words_'],
+            'kernels': ['kWmmaMaxMaskWords = 2048',
+                        '(mask != nullptr && mask_words > kWmmaMaxMaskWords)',
+                        'unsigned local_words[8]',
+                        'kListCapacity = 4 * 512 + 4'],
+            'config': ['c.indexer_top_k != 2048 || c.compress_ratio != 4']}
+        files = {}
+        for kind, path in paths.items():
+            source = path.read_text()
+            relative = path.relative_to(ROOT/variant['source']).as_posix()
+            require(sha(path) == variant['files'][relative]
+                    and all(n in source for n in needles[kind]),
+                    'Attention capacity source changed: '+str(path))
+            files[str(path.relative_to(ROOT))] = dict(sha256=sha(path),
+                lines=[source[:source.index(n)].count('\n')+1 for n in needles[kind]])
+        findings[key] = files
+    return dict(evidence='source_inference_not_runtime_trace', source_files=findings,
+        model_compress_ratio=4, original_declared_context=262144,
+        original_mask_words=2048, effective_context=266240, effective_mask_words=2080,
+        sparse_wmma_mask_word_limit=2048, sparse_wmma_rejected=True,
+        fallback='AttentionKernel followed by SigmoidMul whenever sparse mask is present',
+        numerical_device_bodies_changed=False, kernel_selection_changed_by_capacity=True,
+        historical_speedup_isolated=False,
+        limit='Both new arms share this fallback. Old capacity uses a different sparse '
+              'prefill route, so old/new rates do not isolate the retained optimizations. '
+              'Removing the guard alone is unsafe beyond262144: eight local words per '
+              'thread and2052 shared union entries also bound the existing kernel.')
+
+
 def arm(key, entry, plan, provider, host, pins):
     directory = ROOT/'evidence'/entry['label']
     result, transport = common.artifact_integrity(directory)
@@ -167,6 +207,7 @@ def main():
     require(h['state'] == 'CPU_FIXTURES_PASS_NO_MODEL_INFERENCE' and not h['model_access']
         and sha(host/'results/result.json') == plan['host_result_sha256'], 'Host gate differs')
     provider = read(ROOT/'config/q2-curve256-headroom-source.json')
+    dispatch = attention_dispatch_audit(provider)
     pins = read(ROOT/'config/q2-curve256-binaries.json')
     arms = {key:arm(key,entry,plan,provider,host,pins)
             for key,entry in zip(('q2','ud'),plan['arms'])}
@@ -204,9 +245,11 @@ def main():
         historical_report_sha256=sha(historical_path),historical_capacity=133760,
         new_capacity=266240,model_declared_capacity=262144,
         numerical_kernels_changed=False,capacity_extrapolation_quality_qualified=False,
+        attention_dispatch=dispatch,
         comparison='Same canonical recipe, frozen native client and old/new physical counts retained. '
                    'Historical controls have smaller capacity and separate cache history; one accepted point per depth '
-                   'does not establish a causal or statistical speedup. Fixed exact2048 benchmark remains separate.',
+                   'does not establish a causal or statistical speedup. Capacity266240 also disables sparse WMMA '
+                   'for both new arms, unlike historical capacity. Fixed exact2048 benchmark remains separate.',
         fixed_point_changed=False,independent_quality=False,goal_met=False)
     output = ROOT/'config/q2-curve256-results.json'
     require(not output.exists(), 'Preserve existing report')

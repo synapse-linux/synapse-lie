@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Curve r3 collected and released — 2026-10-06 UTC
+
+Admission14:23:54.860769 UTC/bfe0bdc9 binds8e1bc151/plan6ff6aa7f. Q2 ends14:44:11.729955 and UD15:02:58.711962; all12 model-command exits0 and30 model artifacts plus7 host artifacts collect. Release15:02:59.961437 UTC/SHA3e59f4175fec424ff6695121becf3c2f66228da89136ab5bd05ada39920cd664 verifies1575 identities/1260 groups retired, KFD empty, original Core CPU/four GPU leases free and seven model stat tuples unchanged. Mirrors publish successfully and Core receives closure before local performance analysis. No Q2 plan/job/client/build/CPU/GPU/lease/window/waiter/reservation/restart/cleanup remains .157/.158/.161. Core's proposed new Integer C17 work on .161 is separate; Q2 confirms own non-use. Sparse-WMMA capacity confounding is recorded in the curve report, not corrected during a frozen run.
+
 ## Curve r2 closed; headroom host-qualified — 2026-10-06 UTC
 
 Admission14:06:34/2dad4459 binds1a94baad/d8041c76. Only Q2 initializes and fails the declared context limit; no model request runs, UD is not started. Its exact server PID/start/group is gracefully terminated after backendFAILED; the owning supervisor records the failure. Nine run artifacts collect before14:13:29.498735 UTC/SHA d866e817ee4ede438a13889d6728a47c9ca69a52a16dbe2c614b2da4adfcf2ae. All1550IDs/1242groups retired, KFD empty, original leases free/model stats unchanged; mirrors agree and Core receives closure. Fresh handover14:17:55 and host-r4's44+44/7collected artifacts bind the bounded host-capacity correction. Core confirms own non-use; no Q2 activity .158/.161 or cleanup. New GPU admission is pending.

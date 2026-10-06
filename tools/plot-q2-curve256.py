@@ -39,7 +39,8 @@ def main():
         ax.set_ylabel(unit);ax.set_title(title,fontsize=11);ax.grid(alpha=.22)
     axes[0,0].legend(fontsize=8)
     fig.suptitle('.157 GPU — native synapse-lie-bench, canonical prose, pp≈2048 / tg128, C1 AR\n'
-                 'One accepted measurement per depth; historical controls retain capacity/cache-history differences',fontsize=12)
+                 'Capacity266240 forces sparse attention fallback in both new arms\n'
+                 'One measurement per depth; old/new comparison also changes capacity, attention route and cache history',fontsize=11)
     for suffix in ('png','svg'):
         target=out/('curve.'+suffix)
         if target.exists():raise ValueError('Preserve existing plot')
