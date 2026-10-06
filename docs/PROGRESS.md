@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
-## Root schema admission passes host checks — 2026-10-06 UTC
+## Root schema admission passes host and selected GPU checks — 2026-10-06 UTC
 
 The default-ON compiler now uses shared C17 for root reference traversal,
 cycle identities, resolved object-root validation, original-schema Visit
@@ -32,11 +32,30 @@ GPUs masked. The failed exact-edit ordering, its follow-on empty build,
 sandbox/ptrace LSan refusals, initial root witness and offline QA assertions
 retain their actual exits; no sanitizer is suppressed.
 
-This code needs its own sealed HIP build and original-weight qualification on
-`.161`; the earlier `117cbae6`/r27 GPU receipt excludes it. Broader branches,
-faults, probabilities, quality, private resources and matched cost remain open.
-All six owned roadmap tasks remain open. Root has no current/planned/admitted
-remote job/client/CPU/GPU/build/lease/waiter/reservation or live local handle.
+The matching sealed `3c4cac56` build on `.161` verifies both complete 96-file
+HIP providers, ON primary/OFF reference private consumers and all three OFF
+numerical/core archives. It passes the unchanged 37 original-weight OpenAI
+controls in each AR/MTP mode. The
+[GPU receipt](development/validation/c17-schema-root-point-gpu-2026-10-06.json)
+and [portable raw evidence](benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-schema-root-openai-r28.tar.gz)
+retain this qualification separately from the unchanged host receipt and r27.
+No new direct C1 or performance measurement is recorded. The host root witness
+is not coverage of every root branch on GPU.
+
+AR/MTP CPU peaks are 62/66.5 C, GPU peaks 63/68 C and NVMe peaks
+65.85/64.85 C. Recorded whole-process thread maxima are
+44/44; no inference worker is added. Fresh 10:31:42 UTC closure verifies
+all three exact supervisors/container-init identities retired, owned containers
+removed, the original lease free then released, router 150313 active/only KFD
+and HTTP8000 unbound. All server/child/supervisor/controller exits are 0; model
+and predictor stats are unchanged. An observer's exclusive local output-name
+refusal is preserved with actual exit 1; its correction never restarts inference.
+Two offline verifier errors retain exits 1: ignored HOST fixtures require their
+frozen hashes, and a removed Ninja reader helper needs restoration. The corrected
+verifier passes; its sources and refusals have a separate portable supplement.
+Broader branches, faults, probabilities, quality, private resources and matched
+cost remain open. All six owned roadmap tasks remain open. Root has no remote
+job/client/CPU/GPU/build/lease/waiter/reservation or live local handle.
 Terminal Bench remains stopped/collected/closed/deferred until functional
 modifications and matching qualification finish. No push or deployment occurs.
 

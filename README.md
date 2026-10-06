@@ -6,11 +6,8 @@ and a command-line benchmark tool. Its shared C17 core manages reactive
 scheduling, concurrent requests, cancellation, metrics and prompt caching.
 The current numerical backend is an embedded Gufo adapter using C++ and HIP,
 with owned [C17 sampling, grammar and schema components](docs/development/C17-SAMPLING.md).
-Checkpoint `117cbae6`, including C17 request grammar snapshots and independent
-speculative copies, passes
-[37 OpenAI controls in both AR and MTP on Strix Point](docs/development/validation/c17-request-state-point-gpu-2026-10-06.json).
-The later [C17 root schema admission](docs/development/C17-SAMPLING.md#root-schema-admission)
-passes host checks; its matching GPU qualification is pending.
+The current [C17 grammar and root schema build](docs/development/C17-SAMPLING.md#root-schema-admission)
+passes [37 OpenAI controls in both AR and MTP on Strix Point](docs/development/validation/c17-schema-root-point-gpu-2026-10-06.json).
 The recorded GPU controls cover selected integrated paths. Broader numerical,
 fault, resource, quality and performance gates remain open.
 Gufo still owns model/controller state. Typed JSON values, immutable predicates,

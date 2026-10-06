@@ -263,8 +263,11 @@ client/server restart or machine reservation is queued in the meantime.
    ([GPU receipt](development/validation/c17-request-state-point-gpu-2026-10-06.json)).
    Root-reference cycle/admission policy and root whitespace/body composition
    now also use C17, with [host checks](development/validation/c17-schema-root-host-2026-10-06.json).
-   The new 96-file provider needs a matching sealed HIP build and original-weight
-   qualification on `.161`; `117cbae6` excludes it. Private construction facades,
+   The matching sealed `3c4cac56` 96-file HIP build verifies complete ON/OFF
+   providers and passes the unchanged 37 original-weight OpenAI controls in each
+   AR/MTP mode on `.161`
+   ([GPU receipt](development/validation/c17-schema-root-point-gpu-2026-10-06.json)).
+   Individual root GPU branches, faults and matched cost remain open. Private construction facades,
    schema/regex wrappers, template projections and model/controller remain
    transitional. Broader numerical/fault/resource/quality/matched-cost
    gates remain open.

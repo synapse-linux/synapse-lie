@@ -42,8 +42,9 @@ stable release is declared. Detailed validation history is in
 
 - Shared C17 root schema admission, including reference-cycle detection and
   ordered root construction. Bounded temporary identity storage retires before
-  compilation callbacks. Original/OFF behavior is retained; host qualification
-  is recorded separately from the pending matching GPU build.
+  compilation callbacks. Original/OFF behavior is retained; the matching
+  96-file HIP build passes 37 selected original-weight OpenAI controls in each
+  AR/MTP mode on Strix Point. Broader qualification and performance remain open.
 
 - Shared C17 ownership of request grammar snapshots and independent speculative
   copies. Runtime transitions and masks use native snapshots directly, removing

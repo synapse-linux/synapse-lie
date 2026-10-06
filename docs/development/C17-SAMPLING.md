@@ -156,8 +156,12 @@ Two exact guarded edits retain the complete original OFF root algorithm under
 public header and private adapter, plus a `schema_root_edits_sha256` gate.
 [Host checks](validation/c17-schema-root-host-2026-10-06.json) retain complete
 original/ON/OFF states, byte masks, prompts, refusals and preceding witnesses.
-This increment needs its own sealed HIP build and original-weight qualification
-on `.161`; the earlier `117cbae6` receipt excludes it. Remaining construction
+The matching sealed `3c4cac56` HIP build verifies both complete 96-file ON/OFF
+providers and passes the unchanged 37 original-weight OpenAI controls in each
+AR/MTP mode on `.161`
+([GPU receipt](validation/c17-schema-root-point-gpu-2026-10-06.json)).
+The host receipt retains its host-only scope; individual root GPU branches,
+faults, resources, quality and matched cost remain open. Remaining construction
 facades/template projections and the model/controller are transitional.
 
 ## Owned request grammar snapshots

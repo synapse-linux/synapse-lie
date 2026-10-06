@@ -399,6 +399,15 @@ done
 
 ### Original-weight HTTP AR and MTP gates
 
+The current matching `3c4cac56` build adds C17 root schema admission and passes
+these same **37 controls in AR and MTP**. The
+[source-bound receipt](../../../../development/validation/c17-schema-root-point-gpu-2026-10-06.json)
+and [portable raw archive](data/rocm10-schema-root-openai-r28.tar.gz)
+record the complete coherent 96-file ON/OFF providers, actual compiler/linker
+selections, telemetry and closure. These qualify selected functional paths;
+individual root GPU branches and matched performance remain open. The earlier
+`117cbae6` C1 correctness controls below retain their own source identity.
+
 The matching `117cbae6` build, including C17 request grammar snapshots and
 independent speculative copies, passes the same 37 original-weight controls in
 both AR and MTP. The
