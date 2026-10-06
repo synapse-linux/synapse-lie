@@ -1,5 +1,17 @@
 # DS4 / synapse-lie coordination
 
+## C17 compilation publication: HOST only — 2026-10-06
+
+The new 102-file increment passes local HOST sanitizer and provenance controls.
+Its [source-bound receipt](development/validation/c17-schema-compile-host-2026-10-06.json)
+does not admit or qualify a remote build/run. All actual local test handles are
+collected; root has no remote job/client/CPU/GPU/build/lease/waiter/reservation.
+The r30 closure below remains historical and is not future admission. Matching
+HIP ON/OFF providers/private frontend consumers require a fresh coordinated
+`.161` window. `.157/.158` remain unused by root. CPU98/NVMe85/lower guards and
+GPU observation stay intact. All six owned tasks remain open; Terminal Bench
+stays stopped/collected/closed/deferred last, with no restart or reservation.
+
 ## R30 derived schema root build and selected controls closed — 2026-10-06
 
 Fresh peer own non-use and separate global preflights admit sealed `72e9e831`

@@ -1,0 +1,48 @@
+{
+  "schema": "synapse-lie.gufo-state-edits.v1",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "license": "MIT",
+  "scope": "Shared C17 root/serialization/finalization/binding/publication workflow and independently owned immutable prompt bytes. C++ translates typed callbacks/ownership/exceptions only here. Original OFF getter/storage/frontend and existing OFF compiler algorithms retained; typed construction/controller remains transitional.",
+  "edits": [
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "#include \"gufo_schema_root.hpp\"",
+      "new": "#include \"gufo_schema_root.hpp\"\n#include \"gufo_schema_compile.hpp\""
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    grammar_->root_ = lie_gufo::schema_root(schema_, object_only, builder_.get(), ws_,\n      [this](const json::Value &node, size_t depth) { return Visit(node, depth); });\n    grammar_->prompt_ = object_only ? \"Respond with a single valid JSON object.\"\n        : \"Respond with a single JSON object matching this JSON Schema:\\n\" + schema_.dump();",
+      "new": "    const auto compiled = lie_gufo::schema_compile(schema_, object_only, builder_.get(), ws_,\n      grammar_->lexemes_, [this](const json::Value &node, size_t depth) { return Visit(node, depth); });\n    grammar_->root_ = compiled.root;\n    grammar_->prompt_ = compiled.prompt;\n    grammar_->c17_program_ = compiled.program;"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    grammar_->c17_program_ = lie_gufo::builder_finish(builder_.get(), grammar_->lexemes_, grammar_->root_);",
+      "new": "    // Shared C17 compilation has already finalized and published both outputs."
+    },
+    {
+      "path": "src/core/json_constraint.hpp",
+      "old": "#include \"gufo_grammar_state.hpp\"",
+      "new": "#include \"gufo_grammar_state.hpp\"\n#include \"lie/schema_compile.h\"\n#include <string_view>"
+    },
+    {
+      "path": "src/core/json_constraint.hpp",
+      "old": "  [[nodiscard]] const std::string& prompt() const { return prompt_; }",
+      "new": "#if LIE_C17_SAMPLING\n  [[nodiscard]] std::string_view prompt() const {\n    size_t bytes = 0;\n    const char *text = lie_schema_prompt_bytes(prompt_.get(), &bytes);\n    return {text, bytes};\n  }\n#else\n  [[nodiscard]] const std::string& prompt() const { return prompt_; }\n#endif"
+    },
+    {
+      "path": "src/core/json_constraint.hpp",
+      "old": "  std::string prompt_;",
+      "new": "#if LIE_C17_SAMPLING\n  std::shared_ptr<const lie_schema_prompt> prompt_;\n#else\n  std::string prompt_;\n#endif"
+    },
+    {
+      "path": "src/cli/serve/inference_backend.cpp",
+      "old": "  auto instruction = request.response_format ? request.response_format->prompt()\n                                             : std::string();",
+      "new": "#if LIE_C17_SAMPLING\n  std::string instruction = request.response_format\n      ? std::string(request.response_format->prompt()) : std::string();\n#else\n  auto instruction = request.response_format ? request.response_format->prompt()\n                                             : std::string();\n#endif"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    (void)grammar_->Start();",
+      "new": "#if !LIE_C17_SAMPLING\n    (void)grammar_->Start();\n#endif"
+    }
+  ]
+}

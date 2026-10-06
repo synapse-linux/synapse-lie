@@ -294,3 +294,20 @@ do not qualify original-weight GPU numerical/resource/performance behavior.
 LIE grammar-storage-edits.json removes only default-ON private rule/class table
 projections after the independently pinned state recipes. Original OFF fields
 and algorithms remain guarded; finished tables are owned by the MIT C17 core.
+
+
+Schema compilation and prompt publication extraction
+--------------------------------------------------
+The synchronous publication order and exact prompt text in src/schema_compile.c
+follow independently fetched official Gufo f783fedb9bea2ec7de941f6da4e02f4a4596b29e
+JsonConstraintCompiler. LIE owns the C17 publication/lifetime/budget contract,
+native immutable prompt buffer and failure retirement. gufo_schema_compile.hpp
+retains typed callback/exception and smart-pointer translation. Eight exact
+schema-compile-edits.json replacements retain original OFF compiler/getter/string
+and frontend code. Default-ON reasoning/tool grammars share the C prompt owner;
+the private frontend copies the view where an owned mutable string is required.
+Matching complete HIP providers and consumers must rebuild together. HOST tests
+retain the copied frontend source but do not compile or qualify that HIP path.
+Typed construction/initialization/errors and model/controller stay transitional.
+No DS4 or sibling CachyOS source/artifact is imported. This increment is HOST
+qualified only; earlier source72e9/r30 GPU evidence excludes it.

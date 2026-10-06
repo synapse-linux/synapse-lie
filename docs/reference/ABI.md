@@ -78,6 +78,18 @@ Operations require caller synchronization and non-reentrant hooks. The additive
 Existing execution/request/state/HTTP layouts and cache framing are unchanged.
 See [derived value ownership](../development/C17-SAMPLING.md#derived-schema-value-ownership).
 
+`lie/schema_compile.h` adds independent compilation ABI 1. Its descriptor binds
+the native root/visitor, paired allocator and nonthrowing predicate callbacks.
+Success publishes an independently owned prompt, immutable program and root;
+refusal leaves the result untouched. The builder/input may retire after success;
+predicate and allocator contexts have the documented longer lifetimes. Defaults
+bound serialized schema bytes at 2 MiB and prompt heap at 8 MiB including growth
+overlap. Existing public layouts/versions and cache framing are unchanged.
+The private default-ON prompt getter/storage changes require complete matching
+ON/OFF providers and frontend consumers to rebuild together. HOST checks pass;
+matching HIP/original-weight qualification is pending. See
+[publication contract](../development/C17-SAMPLING.md#schema-compilation-and-prompt-publication).
+
 `lie/grammar_lexeme.h` adds model-neutral primitive/table/memo ABI 1. Immutable
 tagged predicates own their alphabet/options and retain C numeric/DFA policies;
 the additive `lie_number_retain` and `lie_regex_retain` calls extend opaque

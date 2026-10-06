@@ -40,6 +40,12 @@ stable release is declared. Detailed validation history is in
 
 ### Added
 
+- Shared C17 schema compilation publication and immutable prompt ownership.
+  Reasoning and tools share the exact prompt bytes; failed compilation publishes
+  no output. HOST lifetime, allocation-failure and original/ON/OFF checks pass.
+  Matching GPU qualification is pending; typed construction and model/controller
+  remain transitional.
+
 - Shared C17 ownership and limits for derived schema values and transformation
   staging. Results transfer their exact roots without cloning and survive staging
   retirement. HOST lifetime and complete original/default-ON/OFF comparisons pass;

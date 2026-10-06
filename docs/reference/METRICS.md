@@ -142,6 +142,14 @@ admission. These synchronous diagnostics add no HTTP metric or inference worker
 and measure no model cost or GPU speed. See
 [derived value ownership](../development/C17-SAMPLING.md#derived-schema-value-ownership).
 
+`lie_schema_prompt_describe()` reports exact prompt bytes, retained capacity,
+requested live/peak owned bytes and successful allocation calls. Context,
+terminating NUL, capacity and geometric growth overlap are charged; input,
+builder/program heaps and allocator overhead are excluded. These diagnostics
+add no HTTP metric or inference thread and establish no model speedup or whole
+compilation cost. See
+[prompt ownership](../development/C17-SAMPLING.md#schema-compilation-and-prompt-publication).
+
 ## Registry
 
 Types: Counter (nonnegative increments), Gauge (explicit sampled value), Timer

@@ -134,6 +134,58 @@ controller ownership are unchanged. There is still one device-owner worker. The 
 selection call is synchronous; it does not add an asynchronous GPU forward or
 establish a throughput improvement.
 
+## Schema compilation and prompt publication
+
+`lie/schema_compile.h` provides a synchronous, model-neutral C17 ABI 1 workflow:
+root admission and Visit, exact native JSON prompt serialization, builder
+finalization, predicate binding, immutable program creation, initial-state
+validation and publication. It publishes the root, program and prompt together
+only after every stage succeeds. Refusal preserves caller outputs and retires
+all workflow-owned staging; the caller must retire the failed builder and
+visitor context because their earlier mutations can remain.
+
+The opaque native prompt owns exact bytes and a terminating NUL independently
+of the program. Both outputs require release. The input and builder may retire
+after success; predicate contexts outlive the program and its states, and paired
+allocator contexts outlive both outputs. The schema reader and native JSON value
+must describe the same stable immutable input. Callback hooks are nonthrowing,
+non-reentrant and caller-synchronized. Schema error spans borrow the input.
+
+The serialized schema defaults to a 2 MiB bound. The independent prompt heap
+defaults to 8 MiB and charges its context, capacity, NUL and allocation overlap
+during geometric growth. Its diagnostics exclude input, builder and program
+heap and allocator overhead. Object-only mode keeps the original fixed prompt.
+Reasoning/tool facades share the same native prompt owner and byte identity;
+default-ON private prompt string storage is removed. The HTTP frontend copies
+the borrowed view when it needs a mutable owned instruction.
+
+Eight exact `schema-compile-edits.json` replacements preserve the original OFF
+getter, string storage, compiler and frontend paths. The mandatory
+`schema_compile_edits_sha256` gate and 102-file provider inventory require
+complete providers and private consumers to rebuild together. The official
+frontend edit is retained in the HOST copied-source inventory; these HOST
+fixtures do not compile or qualify that HIP frontend. Typed construction,
+initialization, callback/exception translation and model/controller ownership
+remain transitional. Reactive scheduling, inference workers, RNG, cache
+payloads and product/default test dependencies retain their existing contracts.
+
+[HOST qualification](validation/c17-schema-compile-host-2026-10-06.json) records
+56/56 ASan/UBSan/LSan checks in one complete run, one final focused C check and
+three Release provider gates. All 29 previous complete original/ON/OFF witness
+groups (258 files) remain byte-for-byte unchanged. Native controls cover four
+successful publications, 15 refusals and 15 allocation faults; typed controls
+retain four exception categories and exact shared prompt identity after input
+retirement. Final sanitizers run outside ptrace without suppressions. The earlier
+LSan execution failure (exit 8) and source-wiring failure (exit 1) are retained.
+The maximum recorded build/test CPU temperature is 88.625 C under the existing
+CPU98/NVMe85 guards; GPU is masked and observed only.
+
+This increment awaits a freshly admitted matching HIP ON/OFF build and selected
+original-weight controls on `.161`. The `72e9e831`/r30 GPU receipt excludes it.
+Broader numerical, fault, quality, resource and matched-cost acceptance stays
+open. Terminal Bench remains deferred until functional changes and their
+qualification finish.
+
 ## Derived schema value ownership
 
 Default-ON per-compilation derived values and all transformation/normalization

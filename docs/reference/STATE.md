@@ -219,6 +219,16 @@ separate from each root's existing domain budget. These temporary roots do not
 enter request snapshots or DS4 RAM/SSD checkpoints. See
 [derived value ownership](../development/C17-SAMPLING.md#derived-schema-value-ownership).
 
+The C17 compilation workflow publishes its native prompt and immutable program
+only after initial-state validation succeeds. They have independent ownership;
+both require release. Input and builder retirement preserves the published
+prompt/program. Predicate contexts outlive the program and its states; paired
+allocator contexts outlive both outputs. Reasoning/tools share an immutable
+prompt owner. Refusal retires workflow staging but may leave earlier builder or
+visitor mutations, so the entire failed compilation must retire. These prompt
+objects do not enter DS4 RAM/SSD checkpoints or change reactive request state.
+See [publication lifetimes](../development/C17-SAMPLING.md#schema-compilation-and-prompt-publication).
+
 ## MTP development boundary
 
 The [MTP binding](../development/MTP.md) captures DS4 predictor K/V, full raw

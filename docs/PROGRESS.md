@@ -1,6 +1,34 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## C17 compilation and prompt publication pass HOST controls — 2026-10-06 UTC
+
+The shared C17 workflow now owns root/Visit sequencing, native prompt
+serialization, finalization, predicate binding, program creation, initial-state
+validation and atomic output publication. Independent immutable prompt bytes
+are shared by reasoning/tool facades. Typed construction/bootstrap/errors and
+model/controller remain transitional; the autonomous C executor is unfinished.
+
+[HOST evidence](development/validation/c17-schema-compile-host-2026-10-06.json)
+records 56/56 ASan/UBSan/LSan checks, one final focused C check, three Release
+provider gates and 29 complete unchanged original/ON/OFF witnesses (258 files).
+Four publications, 15 refusals, 15 allocation faults and four typed exception
+categories pass. Eight exact edits preserve original OFF behavior; 102 provider
+files include 90 first-party and 12 vendor/provenance files. Original upstream
+and all 99 previous provider files retain their identities. The source-wiring
+failure exits 1; the first sandbox-ptrace LSan execution exits 8. Both are
+retained. Final sanitizers run outside ptrace with options unset, no suppression
+and no source workaround. Maximum build/test CPU is 88.625 C; existing CPU98,
+NVMe85/lower guards and masked/observe-only GPU remain unchanged.
+
+Matching `.161` HIP ON/OFF providers and frontend consumers must be rebuilt and
+qualified; the earlier `72e9e831`/r30 receipt excludes this new source. No new
+GPU, quality, performance or C1/reactive gain is claimed. All six owned tasks
+remain open. All local test handles are collected; no root remote job/client/
+build/lease/waiter/reservation is created. Terminal Bench remains stopped,
+collected, closed and deferred last. Assigned DGX/weight-format/Point work stays
+outside this queue. No push, deployment or tuning occurs.
+
 ## C17 derived schema roots pass matching GPU controls — 2026-10-06 UTC
 
 The sealed `72e9e831` source compiles coherent 99-file HIP ON/OFF providers and

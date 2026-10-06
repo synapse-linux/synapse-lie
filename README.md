@@ -15,6 +15,8 @@ ordered tables and request grammar snapshots now belong to the shared C17 core.
 Derived schema values and transformation staging also have
 [C17 ownership](docs/development/C17-SAMPLING.md#derived-schema-value-ownership),
 with matching HOST and selected original-weight GPU controls.
+The newer [C17 schema publication workflow](docs/development/C17-SAMPLING.md#schema-compilation-and-prompt-publication)
+passes HOST sanitizer checks; its matching GPU qualification is pending.
 The Gufo comparison executable uses a separately compiled complete OFF provider;
 its private model/controller types match its selected sampling option.
 ICU remains the Unicode set/property/conversion dependency.

@@ -278,6 +278,13 @@ client/server restart or machine reservation is queued in the meantime.
    guarded. Matching sealed `72e9e831` coherent 99-file HIP ON/OFF providers
    and private consumers pass unchanged AR37/MTP37 original-weight controls
    ([GPU receipt](development/validation/c17-schema-store-point-gpu-2026-10-06.json)).
+   The newer shared C17 compilation/publication workflow and independent native
+   prompt ownership pass 56/56 sanitizer HOST checks, one focused C check and
+   three provider gates. All 29 preceding complete witness groups remain
+   unchanged. [Current HOST scope](development/C17-SAMPLING.md#schema-compilation-and-prompt-publication)
+   still awaits matching `.161` HIP ON/OFF provider/frontend qualification.
+   Typed construction/initialization/callback-error facades and model/controller
+   ownership remain transitional. This step does not close any of the six items.
    Compiler orchestration/typed facades/model ownership and broader branch,
    fault, quality, private-resource and matched-cost gates remain open.
    Root-reference cycle/admission policy and root whitespace/body composition
