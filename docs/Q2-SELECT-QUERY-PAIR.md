@@ -49,3 +49,24 @@ they provide no original-weight model throughput or quality result.
 No saved Q2/UD control, Q4, full curve or model run is scheduled by this plan.
 Collect and release the .157 window before analysis. A component win must still
 survive a separate model trial on the original saved requests.
+
+## Completed component — 2026-10-06 UTC
+
+All48 score/mask pairs are byte-exact and all48 independent score/top-k reports
+pass. The measured operation is slower; no model trial or adoption follows.
+
+| Shape | Original µs | Query pair µs | Time change |
+|---|---:|---:|---:|
+| Last full32K selector slice | 968.4734 | 1294.9370 | +33.709% |
+| Last full128K selector slice | 2359.0504 | 4242.8964 | +79.856% |
+| Original128K final tail slice | 2172.4586 | 3387.0920 | +55.911% |
+
+These are arithmetic means of the five saved wall samples, not model token
+rates. The32K observations are noisy; both128K candidate ranges are entirely
+slower than their control ranges. All42 zero HIP event durations remain invalid.
+[Full samples and validation](../config/q2-select-query-pair-results.json).
+
+HOST39+39 passes; component exits0,0,0. Four artifacts collect before release
+21:47:04.780034 UTC /f40710f4. All1755 identities and1402 groups retire, KFD is
+empty, original leases/models are unchanged, mirrors match and Core receives
+closure before analysis. The register pressure tradeoff did not pay here.

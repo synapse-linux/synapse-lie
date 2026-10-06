@@ -132,6 +132,11 @@ at the actual last complete32K/128K chunks and original128K tail. It retains
 the complete score-plus-top-k consumer and benchmarks the register tradeoff;
 static compilation alone is not a performance result.
 
+The query-pair trial is exact but slower and is not promoted. The following
+[live-grid trial](Q2-SELECT-LIVE-GRID.md) preserves every numerical kernel and
+omits only score blocks beyond the known eager-prefill extent. It keeps the
+original allocation, score pitch and graph-safe decode grid.
+
 Keep model trials on the original saved requests and 2048 chunking; expand
 measurement only after a useful component result. Any changed output budget
 or newly instrumented profile must be labeled separately from saved benchmark

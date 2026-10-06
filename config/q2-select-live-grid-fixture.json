@@ -1,0 +1,21 @@
+{
+  "schema": "synapse-lie.q2-select-live-grid-fixture.v1",
+  "bindings": {
+    "tests/q2_select_live_grid.hip": "8bb637543ebbbc4d434fa8a5f5187ef143581506fae79a55adc289ee24eddb87",
+    "experiments/q2-select-live-grid.inc": "91c98c4f9cfd3d297d0c9f7a132ccd6d5c68b3379edf58284da6006e5116cfac"
+  },
+  "compile_receipt": "evidence/q2-select-live-grid-runtime-preparation/fixture-command.json",
+  "compile_receipt_sha256": "d81f2363035a650a43ff95db8d3b88009ff71086a4230ddabea0e75263505d97",
+  "cases": 7,
+  "pair_records": 62,
+  "oracle_records": 62,
+  "timing_records": 56,
+  "timing_cases": 4,
+  "score_pitch": 33440,
+  "mask_words": 1045,
+  "ratio": 4,
+  "budget": 512,
+  "arithmetic_limits": 2e-05,
+  "graph_replay_tested": false,
+  "model_inference": false
+}

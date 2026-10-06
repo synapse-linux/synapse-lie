@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Exact selector query reuse is slower — 2026-10-06 UTC
+
+The score-plus-top-k component passes48 exact score/mask pairs and48 independent
+reports, but takes33.71%/79.86%/55.91% more time on the32K full-chunk slice,
+128K full-chunk slice and original128K final tail slice. No model run follows.
+HOST39+39 and component0/0/0 pass; four artifacts collect before21:47:04 UTC /
+f40710f4 release. [Details](Q2-SELECT-QUERY-PAIR.md). Next inspect bounded prefill
+grids: current graph-safe capacity grids launch many empty blocks before the
+context is full. Any restriction must apply only to eager prefill and preserve
+captured decode capacity, all arithmetic and the original chunk boundaries.
+
 ## Q8 decode grouping measured; reactive limits documented — 2026-10-06 UTC
 
 The new four-row component passes303 exact pairs and606 FP64 checks. Large

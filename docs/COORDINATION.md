@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Selector query-pair closure — 2026-10-06 UTC: checkpoint3423f227, plan55aabb11,
+HOST39+39 pass. Fresh Core own-non-use and global preflight precede admission
+c7bc9ef7 at21:45:35.777614. Three component commands exit0; four artifacts
+collect before release21:47:04.780034 /
+f40710f4068d1c59100d3d88217924bb735fc77dccc14ada3eb2cfa8d8d3b44e.
+All1755 identities/1402 groups retire; empty KFD, original CPU/four GPU leases
+and seven model stat tuples unchanged. Main/remote canonical, active and ready
+mirrors match; Core notified before analysis. No job/client/build/window/waiter/
+reservation, model test, foreign termination or remote cleanup remains.
+
 Q8 decode rows4 component closure — 2026-10-06 UTC: checkpoint958a079e,
 plan327d416d, HOST Debug39/39+ASan39/39 and global preflight pass. Core own-non-use
 is refreshed21:25. Admission f68733b6 at21:27:12.278947 permits only the new
