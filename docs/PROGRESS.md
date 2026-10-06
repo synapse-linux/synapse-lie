@@ -1,5 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The corrected [compressed expert cache](Q2-COMPRESSED-CACHE.md) now implements the original
+antirez/ds4 slot mechanism: original IQ2/Q2 bytes, protected selected hits, LRU
+eviction and GPU completion before reuse. Its32GiB budget replaces expert
+allocations. Source1030files,162 original kernels exact,ten new zero-scratch
+specializations; .157 host30+30 passes. GPU component/model remain pending.
+The FP16 mirror result below is a separate rejected experiment.
+
 The owner clarifies the cache reference as **antirez/ds4**, not its Gufo port.
 The initial FP16 expert-mirror experiment completes but loses5.565692% PP
 against retained1585; all21 parent files stay exact. Thirteen runtime exits0
