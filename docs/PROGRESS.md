@@ -1,5 +1,19 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Whole640 chain completed; retained parent remains faster — 2026-10-06 UTC
+
+One original model candidate measures1576.766972 PP /25.17428377 TG,
+−0.700713% PP versus retained1587.893545. All21 parent model files and nine
+internal replays remain exact. The mixed component has51 exact complete
+output pairs and24,027,244 independently reconstructed packing values, but
+its complete-chain mean is11.081958% slower. Do not promote this candidate.
+Saved fixed Q2/UD controls and the full curve remain unchanged.
+
+All13 command exits0;173 artifacts collect before19:32:22UTC releasecb652eb5.
+No remote workload/lease/window remains. Preserve the mechanism and negative
+evidence; dense Q8/SSM operand reuse and complete HC pass removal are the next
+priorities. [All original comparisons and samples](Q2-IQ2-WHOLE640.md).
+
 ## Whole640 LDS integrated chain prepared — 2026-10-06 UTC
 
 A separate1034-file provider now connects the qualified LDS tail producer to

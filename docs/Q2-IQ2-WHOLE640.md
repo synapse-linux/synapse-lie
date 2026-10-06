@@ -2,6 +2,81 @@
 
 # Whole-row IQ2 producer and packing
 
+## Integrated LDS chain measured — 2026-10-06 UTC
+
+The integrated candidate is numerically exact to the retained Q2 in this
+trial, but slower. Keep `iq2-fixed-bounds` as the performance default. Its
+source, fixed input and saved Q2/UD references are unchanged. No full curve,
+Q4, previous standalone component or saved model control is rerun.
+
+| Original fixed comparison | Prefill token/s | Decode calls/s | Prefill s | Decode s |
+| --- | ---: | ---: | ---: | ---: |
+| Initial Q2 | 1443.672867 | 25.09595499 | 1.418603928 | 5.060576497 |
+| Retained Q2 | 1587.893545 | 25.12414406 | 1.289759006 | 5.054898575 |
+| New whole640 chain | 1576.766972 | 25.17428377 | 1.298860286 | 5.044830716 |
+| Fixed UD | 1685.777092 | 24.34174251 | 1.214869991 | 5.217375049 |
+
+New PP is **−0.700713%** against the retained parent. The three measured
+samples span1575.843680–1577.242730. TG is nominally+0.199568%; this source
+changes the full2048 prefill route, so that observation does not establish a
+decode mechanism improvement. Historical controls limit causal attribution.
+Original aggregation, exact2048 input, capacity9216, chunk2048, TG128 with127
+timed calls, one warmup/three measured sessions and15s external cooldowns stay
+fixed. All new model sessions, including warmup:
+
+| Session | PP token/s | TG calls/s | Prefill s | Decode s |
+| --- | ---: | ---: | ---: | ---: |
+| Warmup | 1576.309729 | 25.08984666 | 1.299237049 | 5.061808536 |
+| Measured 1 | 1575.843680 | 25.16699191 | 1.299621292 | 5.046292399 |
+| Measured 2 | 1576.766972 | 25.18538572 | 1.298860286 | 5.042606908 |
+| Measured 3 | 1577.242730 | 25.17428377 | 1.298468499 | 5.044830716 |
+
+All21 model output files match the retained Q2 exactly, including prefill/final
+logits and generated tokens; all nine internal replays match. Inherited
+quantization differences from UD remain. No independent task-quality or
+whole-curve parity claim follows from these deterministic checks.
+
+The mixed component completes17 replay cases, including seven actual timed
+buffer checks. All51 packed/inverse/down output pairs are byte-exact; ordinary
+F32 rows match and obsolete fused F32 rows retain their poison. Offline
+reconstruction checks24,027,244 packing values/scales with zero mismatches.
+Both down output formats, nonzero tail offsets and unaligned half outputs
+pass. The complete mixed-chain timing is slower **11.081958%**:
+
+| Sample | Parent chain, us | New chain, us |
+| --- | ---: | ---: |
+| Warmup 1 | 1409.787000 | 1570.416333 |
+| Warmup 2 | 1287.307000 | 1524.024333 |
+| Measured 1 | 1303.920000 | 1452.619667 |
+| Measured 2 | 1297.396667 | 1483.398333 |
+| Measured 3 | 1410.600333 | 1471.495667 |
+| Measured 4 | 1419.783333 | 1453.692667 |
+| Measured 5 | 1290.770000 | 1606.245333 |
+| Mean measured | 1344.494067 | 1493.490333 |
+
+All component samples remain included. The marginal isolated LDS observations
+do not survive this mixed-chain test. Removing global F32 publication alone
+is insufficient for this layout; this run does not isolate LDS residency,
+extra dispatch or selective-pack overhead. Preserve the negative result and
+avoid treating this short-tail fusion as the next route to close74.889ms.
+Dense Q8/SSM operand work and complete HC buffer-pass removal remain higher
+priority than another rearrangement of this same tail.
+
+All13 primary command exits are zero, with173 artifacts verified:
+7host +140component +26model. Host checks pass39 Debug/39 ASan. Collection
+precedes release19:32:22.401464UTC/cb652eb5, with1681 identities/1341 groups
+retired, KFD empty, original CPU/four GPU leases free and seven model stat
+tuples unchanged. Mirrors agree and Core receives closure before local
+analysis. No remote work, reservation, restart or cleanup remains.
+
+[Component evidence](../config/q2-iq2-whole640-chain-component-results.json),
+[model evidence](../config/q2-iq2-whole640-chain-model-results.json),
+[final audit](../config/q2-iq2-whole640-chain-final-audit.json),
+[all model samples](figures/q2-iq2-whole640-chain-model.csv).
+
+![Whole640 chain compared with original saved controls](figures/q2-iq2-whole640-chain-model.png)
+
+
 
 ## Integrated LDS chain prepared — 2026-10-06 UTC
 

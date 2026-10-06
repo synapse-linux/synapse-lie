@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Whole640 chain collected and released — 2026-10-06 UTC
+
+Admission19:25:15.088582UTC/f1fd3964 binds checkpoint8ffbbfc0 and plan07750330.
+Component and model conclude19:26:05.170926 and19:31:36.996732UTC; all13 primary
+commands exit0. All173 artifacts collect7+140+26 before release19:32:22.401464UTC,
+SHA cb652eb5be2dccd340ba35a03c4aaa418de5c45994ea94616da85c8f4f29a136.
+All1681 identities/1341 groups retire; KFD is empty, original Core CPU/four
+GPU lease identities are free and seven model stat tuples unchanged. Main,
+canonical and remote mirrors agree; Core receives closure before analysis.
+No Q2 job/client/build/lease/window/waiter/reservation/planned window/live
+handle/restart/cleanup remains .157/.158/.161/TB. Future GPU work needs a new
+plan and fresh handover/admission; this release grants no inherited window.
+
 ## Whole640 integrated chain host qualification — 2026-10-06 UTC
 
 Core confirms fresh own non-use19:21:36UTC. Global .157 preflight19:21:51UTC

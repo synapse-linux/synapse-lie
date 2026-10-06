@@ -1,16 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-The new [whole640 integrated chain](docs/Q2-IQ2-WHOLE640.md) now has a separate
-provider with disjoint ordinary/fused buffer ownership. Static and compiler
-checks and .157 host39+39 pass; GPU/model qualification is pending. The retained
-1587.893545 PP comparison remains unchanged.
+The [whole640 integrated chain](docs/Q2-IQ2-WHOLE640.md) now completes its
+original2048/TG128 trial:1576.766972 PP, −0.700713% against retained1587.893545,
+with all21 parent model files exact. The mixed component is11.08% slower.
+Keep the existing performance default; all173 artifacts and the negative
+candidate are preserved. GPU work is collected and released.
 
-The [whole640 IQ2 producer/packing trials](docs/Q2-IQ2-WHOLE640.md) each pass
-104 bit-exact output comparisons. Sixteen waves reduce the first draft's cost,
-but LDS results remain mixed: +7.32% time at 4 expert rows, −5.16% at 8 and
-−4.19% at 16, with high observations retained in both arms. Keep that marginal
-candidate for integrated evaluation and preserve the 1587.893545 PP provider.
-No new model throughput is claimed.
+The preceding [whole640 producer/packing trials](docs/Q2-IQ2-WHOLE640.md)
+each passed104 exact output comparisons. Their mixed isolated LDS timings
+motivated the complete-chain/model trial above; all earlier samples remain
+preserved alongside its result.
 
 [Updated Q2 prefill and decode graph](docs/figures/q2-full-prefill128/pp-tg.png):
 the saved exact-2K/TG128 reference appears separately from the complete 4K–128K

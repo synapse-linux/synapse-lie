@@ -19,30 +19,24 @@ replace either the fixed reference or the saved native-curve UD values.
 
 ## Next interventions, ranked after the complete prefill
 
-1. **Expert producer, packing and consumer ownership.** Target the active
-   IQ2 gate/up and Q2 down chain, whose saved profile totals 401.058 ms.
-   Four whole-640 drafts have now been [measured](Q2-IQ2-WHOLE640.md), with
-   exact tested outputs. The sixteen-wave LDS candidate has mixed component
-   timings and remains available for integrated evaluation. The separate1034-file integration is now prepared with unchanged parent
-   device bodies and allocations. Qualify its mixed routing and selective
-   packing together with the unchanged down consumer, then measure one
-   original model candidate. The opportunity is
-   removing real intermediate publication and reads,
-   while retaining expert-weight reuse. Removing the 17.096-ms packing pass
-   alone cannot close the 74.889-ms fixed-point gap. No new runtime gain is
-   established for the model by the component results.
-2. **Dense Q8 operand reuse, especially the fused SSM projection.** The saved
-   Q8/F16 region costs 293.227 ms, including 160.218 ms in that projection.
-   Increase useful output work per staged input without an expanded permanent
-   weight mirror. Register and LDS pressure must be checked before a model
-   trial. Aligned-pair loaders, mirrors and the previous pingpong variants have
-   already run; they are preserved negatives, not new candidates.
-3. **A complete HC buffer-pass removal.** The saved combine/norm/injection
-   region costs 186.168 ms. A new design must remove an active read/write pass
-   while preserving ten-expert reduction order, residual contributions and
-   last-reader ownership. The completed raw-Q8 injection and ordinary RMS
-   trials are not evidence of a retained model gain. Keep marginal candidates
-   available for a measured composition, without adding their percentages.
+1. **Dense Q8 operand reuse, especially the fused SSM projection.** The saved
+   Q8/F16 region costs293.227ms, including160.218ms in that projection.
+   Target active operand/accumulator work and useful block residency without
+   an expanded permanent weight mirror. Register/LDS resources must be checked
+   before one new model trial. Aligned-pair loaders, mirrors, row-group4,
+   compact-LDS and pingpong variants are completed negatives, not new work.
+2. **A complete HC buffer-pass removal.** The saved combine/norm/injection
+   region costs186.168ms. Remove an active read/write pass while preserving
+   ten-expert reduction order, residual contributions and last-reader ownership.
+   Raw-Q8 injection and ordinary RMS trials have already run; retain marginal
+   candidates for measured composition without adding their percentages.
+3. **Expert chain ownership beyond short-tail fusion.** The saved IQ2 gate/up
+   plus Q2 down region totals401.058ms. The whole640 LDS integration now
+   [completes](Q2-IQ2-WHOLE640.md): exact component/model outputs, but11.08%
+   slower mixed-chain time and1576.766972 PP, −0.700713% versus retained1587.
+   Keep the negative candidate. Another rearrangement of that same short-tail
+   route is lower priority. A new design must improve active expert-weight or
+   consumer reuse; removing the17.096-ms packing pass alone cannot close74.889ms.
 
 These historical costs come from the retained 1571 diagnostic executable,
 not a fresh profile of the current 1587 provider; regions may overlap.
