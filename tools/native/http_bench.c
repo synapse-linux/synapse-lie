@@ -38,7 +38,9 @@ typedef struct {
   unsigned tg, context, reps, warmups, turns;
   uint64_t seed;
   double timeout;
-  bool long_context;
+  bool long_context, recall, turns_supplied, has_quality;
+  uint64_t quality_checks, quality_passes, warmup_quality_checks,
+      warmup_quality_passes;
   json_object *options, *targets;
   FILE *file;
   nb_error error;
@@ -154,6 +156,14 @@ static char *notes(config *c, unsigned count) {
   return text;
 }
 static json_object *with_messages(config *c, unsigned count, unsigned budget) {
+  if (c->recall) {
+    json_object *item = nb_recall_case(c->seed, count, c->turns, budget, &c->error);
+    if (!item)
+      return NULL;
+    json_object *o = json_object_get(nb_get(item, "body"));
+    json_object_put(item);
+    return o;
+  }
   char *text = notes(c, count);
   if (!text)
     return NULL;
@@ -231,13 +241,18 @@ static json_object *cases(config *c) {
       goto fail;
     }
     unsigned count = (unsigned)((target - p0) / unit);
-    json_object *item = json_object_new_object();
+    json_object *item = c->recall
+                            ? nb_recall_case(c->seed, count, c->turns, c->tg, &c->error)
+                            : json_object_new_object();
+    if (!item)
+      goto fail;
     char id[80];
     snprintf(id, sizeof(id), "%s-%" PRId64, c->preset, target);
     nb_str(item, "id", id);
     nb_num(item, "target_prompt_tokens", target);
     nb_num(item, "expected_prompt_tokens", p0 + count * unit);
-    json_object *o = with_messages(c, count,
+    json_object *o = c->recall ? json_object_get(nb_get(item, "body"))
+                              : with_messages(c, count,
                                    c->long_context                 ? c->tg
                                    : !strcmp(c->preset, "prefill") ? 1
                                                                    : 32);
@@ -247,7 +262,7 @@ static json_object *cases(config *c) {
     }
     json_object_object_add(item, "body", o);
     json_object_array_add(a, item);
-    if (c->long_context) {
+    if (c->long_context && !c->recall) {
       json_object *corpus = json_object_new_object();
       nb_str(corpus, "generator", "lie-long-context-v1");
       json_object_object_add(corpus, "seed", json_object_new_uint64(c->seed));
@@ -289,12 +304,17 @@ static bool run(config *c) {
     json_object *item = json_object_array_get_idx(a, i);
     const char *id = nb_string(item, "id");
     json_object *follow = nb_get(item, "followups");
+    json_object *expected = nb_get(item, "expected");
     if (!*id || strlen(id) > 256 ||
         (follow && (!json_object_is_type(follow, json_type_array) ||
                     json_object_array_length(follow) > 99))) {
       nb_fail(&c->error, "Invalid case ID or followups");
       goto end;
     }
+    size_t turns = follow ? json_object_array_length(follow) + 1 : 1;
+    if (!nb_recall_oracles_valid(expected, turns, &c->error))
+      goto end;
+    c->has_quality |= expected != NULL;
     for (size_t j = 0; j < i; j++)
       if (!strcmp(id, nb_string(json_object_array_get_idx(a, j), "id"))) {
         nb_fail(&c->error, "Duplicate case IDs");
@@ -349,6 +369,28 @@ static bool run(config *c) {
         nb_add(r, "target_prompt_tokens",
                turn ? NULL : nb_get(item, "target_prompt_tokens"));
         nb_add(r, "corpus", nb_get(item, "corpus"));
+        json_object *expected = nb_get(item, "expected");
+        if (expected) {
+          json_object *score = nb_recall_score(
+              json_object_array_get_idx(expected, turn), r, &c->error);
+          if (!score) {
+            /* Retain the complete received observation on evaluator refusal. */
+            emit(c, r);
+            json_object_put(r);
+            json_object_put(o);
+            goto end;
+          }
+          bool pass = json_object_get_boolean(nb_get(score, "pass"));
+          if (rep < c->warmups) {
+            ++c->warmup_quality_checks;
+            c->warmup_quality_passes += pass;
+          } else {
+            ++c->quality_checks;
+            c->quality_passes += pass;
+          }
+          nb_add(r, "quality", score);
+          json_object_put(score);
+        }
         bool valid = emit(c, r);
         int64_t pp = nb_number(nb_get(r, "usage"), "prompt_tokens");
         if (!turn && nb_get(item, "expected_prompt_tokens") &&
@@ -397,7 +439,7 @@ int nb_http_main(int argc, char **argv) {
     if (!strcmp(k, "--help")) {
       puts("Usage: synapse-lie-bench --suite http --url HTTP-BASE/v1 --model "
            "ID --output NEW-JSONL\n  --server-label ID --server-kv-cache "
-           "off|on|unknown (--preset prefill|decode|conversation|long-context "
+           "off|on|unknown (--preset prefill|decode|conversation|long-context|long-context-recall "
            "| --requests JSONL)\n  [--sizes TOKENS,...] [--tg N] [--warmups 0] "
            "[--repetitions 3] [--turns 20]\n  [--context-capacity N "
            "--rope-scaling native|yarn2|yarn4] [--corpus-seed N]\n  "
@@ -406,7 +448,11 @@ int nb_http_main(int argc, char **argv) {
            "C HTTP client; requires a running server. Actual usage and "
            "complete SSE evidence.\nCache/context/RoPE values are operator "
            "declarations, not server configuration.\nHTTP timeout is at most "
-           "86400 seconds; defaults to 14400 for long-context and 630 otherwise.\n"
+           "86400 seconds; defaults to 14400 for long-context presets and 630 otherwise.\n"
+           "Recall checks random key/value bindings at start/middle/end; --turns 1|2 "
+           "(default 2) includes retrieval of previously unanswered keys on continuation.\n"
+           "Prepared request cases may carry one exact JSON-object oracle per turn "
+           "in expected[]. Quality misses retain all samples and return exit 1.\n"
            "--cache-policy is a "
            "legacy alias of --server-kv-cache. No model, tool execution or "
            "implicit cache reset.");
@@ -471,6 +517,7 @@ int nb_http_main(int argc, char **argv) {
         if (!n || n > 100)
           goto usage;
         c.turns = (unsigned)n;
+        c.turns_supplied = true;
       } else
         goto usage;
     }
@@ -484,11 +531,17 @@ int nb_http_main(int argc, char **argv) {
       (c.compare && !c.graphs))
     goto usage;
   if (c.preset && strcmp(c.preset, "prefill") && strcmp(c.preset, "decode") &&
-      strcmp(c.preset, "conversation") && strcmp(c.preset, "long-context"))
+      strcmp(c.preset, "conversation") && strcmp(c.preset, "long-context") &&
+      strcmp(c.preset, "long-context-recall"))
     goto usage;
-  c.long_context = c.preset && !strcmp(c.preset, "long-context");
+  c.recall = c.preset && !strcmp(c.preset, "long-context-recall");
+  c.long_context = c.recall || (c.preset && !strcmp(c.preset, "long-context"));
+  if (c.recall && !c.turns_supplied)
+    c.turns = 2;
+  if (c.recall && c.turns != 1 && c.turns != 2)
+    goto usage;
   if (!c.tg)
-    c.tg = c.long_context ? 64 : 256;
+    c.tg = c.recall ? 128 : c.long_context ? 64 : 256;
   if (!c.timeout)
     c.timeout = c.long_context ? NB_HTTP_LONG_CONTEXT_TIMEOUT_SECONDS : 630;
   if (c.long_context &&
@@ -498,6 +551,7 @@ int nb_http_main(int argc, char **argv) {
     goto end;
   c.targets = json_object_new_array();
   char *sizes = strdup(c.sizes          ? c.sizes
+                       : c.recall       ? "8192,131072,524288,786432,1048064"
                        : c.long_context ? "258794,524288,786432,1004581"
                                         : "8192,32768,131072,258794");
   if (!sizes)
@@ -511,7 +565,9 @@ int nb_http_main(int argc, char **argv) {
     uint64_t n;
     if (!integer(at, 1048576, &n) || n < 128 ||
         json_object_array_length(c.targets) >= 32 ||
-        (c.long_context && n + c.tg > c.context)) {
+        (c.long_context &&
+         n + (uint64_t)c.tg * (c.recall ? c.turns : 1) +
+             (c.recall && c.turns == 2 ? 256 : 0) > c.context)) {
       sizes_ok = false;
       break;
     }
@@ -553,20 +609,38 @@ int nb_http_main(int argc, char **argv) {
   nb_str(id, "scope",
          "Native C HTTP client; no model open, server control, tool execution "
          "or implicit cache reset");
+  if (c.recall)
+    nb_str(id, "quality_scope",
+           "Synthetic associative recall at three record positions; two-turn mode "
+           "queries unanswered keys from the original ledger; not perplexity or vendor quality");
   bool ok = emit(&c, id);
   json_object_put(id);
   if (ok)
     ok = run(&c);
-  json_object *complete = nb_event(ok ? "complete" : "failed");
-  nb_num(complete, "exit_code", ok ? 0 : 1);
+  bool quality_ok = c.quality_checks == c.quality_passes;
+  json_object *complete = nb_event(!ok ? "failed" : quality_ok ? "complete" : "quality_failed");
+  nb_num(complete, "exit_code", ok && quality_ok ? 0 : 1);
   if (!ok)
     nb_str(complete, "error", c.error.message);
+  else if (!quality_ok)
+    nb_str(complete, "error", "Recall expectation failed");
+  if (c.has_quality) {
+    json_object *summary = json_object_new_object();
+    json_object_object_add(summary, "checks", json_object_new_uint64(c.quality_checks));
+    json_object_object_add(summary, "passes", json_object_new_uint64(c.quality_passes));
+    json_object_object_add(summary, "warmup_checks", json_object_new_uint64(c.warmup_quality_checks));
+    json_object_object_add(summary, "warmup_passes", json_object_new_uint64(c.warmup_quality_passes));
+    nb_real(summary, "exact_match_rate",
+            c.quality_checks ? (double)c.quality_passes / c.quality_checks : NAN);
+    nb_add(complete, "quality_summary", summary);
+    json_object_put(summary);
+  }
   bool complete_ok = emit(&c, complete);
   json_object_put(complete);
   if (fclose(c.file))
     complete_ok = false;
   c.file = NULL;
-  rc = ok && complete_ok ? 0 : 1;
+  rc = ok && quality_ok && complete_ok ? 0 : 1;
   if (!rc && c.graphs)
     rc = nb_report(c.output, c.graphs, c.label, c.compare, "Reference", false,
                    &c.error);

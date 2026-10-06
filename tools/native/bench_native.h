@@ -45,6 +45,11 @@ int nb_report(const char *, const char *, const char *, const char *,
               const char *, bool, nb_error *);
 int nb_report_main(int, char **);
 int nb_http_main(int, char **);
+/* Synthetic associative-recall corpus and exact, bounded C17 response oracle.
+ * No model execution or token-count estimate is hidden in these helpers. */
+json_object *nb_recall_case(uint64_t, unsigned, unsigned, unsigned, nb_error *);
+bool nb_recall_oracles_valid(json_object *, size_t, nb_error *);
+json_object *nb_recall_score(json_object *, json_object *, nb_error *);
 int nb_http_multi_main(int, char **);
 int nb_http_curve_main(int, char **);
 char *nb_gufo_text(uint64_t, size_t, nb_error *);

@@ -245,7 +245,7 @@ int main(int argc,char **argv) {
                  "Direct GPU executor timings; no HTTP, cold-file claim or exact allocation peak.\n"
                  "Shared GPU requires coordinated leases. Synthetic builds are NOT-INFERENCE.\n"
                  "Core: --suite core --help (shared C engine).\n"
-                 "HTTP: --suite http --help (native client, running authorized server).\n"
+                 "HTTP: --suite http --help (native client, long-context throughput and recall).\n"
                  "Canonical Gufo curve: --suite http-curve --help (cached conversation through 128K).\n"
                  "Prepared cohorts: --suite http-multi --help (C1/2/4/6/8).\n"
                  "KV disk HTTP: --suite http-kv-disk --help (restart and concurrent consumers).\n"

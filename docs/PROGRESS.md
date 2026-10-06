@@ -9,6 +9,27 @@ Finish source corrections first, retaining only required focused local checks;
 then qualify the integrated runtime, run the matched benchmarks and run Terminal
 Bench last. No new remote campaign or machine reservation is queued.
 
+## Native associative recall and continuation client — 2026-10-06 UTC
+
+`synapse-lie-bench --suite http --preset long-context-recall` prepares three
+seeded key/value bindings among numeric distractors at start/middle/end.
+Two-turn mode asks for the middle key first, then retrieves previously unanswered
+keys from the original ledger. Exact C17 JSON oracles, physical-count calibration,
+copied requests/positions and separate quality/infrastructure outcomes are wired.
+Quality misses retain every remaining turn and repetition. No model/HTTP/core
+ABI, cache policy, reactive scheduling or inference thread is changed.
+
+Focused Release controls pass 2/2. The HTTP fixture passes ASan/UBSan/LSan and
+the corrected standalone recall fixture passes its subsequent sanitizer run;
+earlier CTest exit 8 records retain the invalid NUL-fixture construction and
+Release loopback sandbox refusal. Peak local CPU is 80.625 C under CPU98/NVMe85
+guards; GPU is masked. These are client/algorithm fixtures, not inference.
+[Receipt](development/validation/native-recall-host-2026-10-06.json) and
+[portable evidence](development/validation/raw/native-recall-host-2026-10-06.tar.gz)
+record exact source scope and actual results.
+Original-weight recall through 1M and full integrated qualification remain open.
+No remote run, lease or reservation is prepared; Terminal Bench stays last.
+
 ## Combined final HOST qualification passes — 2026-10-06 UTC
 
 For code checkpoint `77bcdc1c`, all 98 native functional controls pass in both

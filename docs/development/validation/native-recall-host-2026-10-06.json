@@ -1,0 +1,465 @@
+{
+  "schema": "synapse-lie.native-recall-host.v1",
+  "at_utc": "2026-10-06T22:03:39.966436+00:00",
+  "state": "HOST_CLIENT_FIXTURES_PASSED_GPU_PENDING",
+  "source_base_commit": "ec2b2c96943bb9c73d91c59a8e2cebb4d9d3dac2",
+  "source_scope": "Integrated client changes bound by exact source hashes; no claim for full project or original-weight inference",
+  "source_files": {
+    "CMakeLists.txt": "60b1da07b80d7bf73dc242a04a50e78f9402d74e1dc1946b02adedad3a6c8e4b",
+    "tools/lie-bench.c": "1beb5cd9cead530d37d1c1fff939ffe34aaa0580fee15c8955605fc972a46673",
+    "tools/native/bench_native.h": "c023ddb467541fa2e44fe3fac7fc35e0cf31414540352e77cfcec4b38da1f122",
+    "tools/native/http_bench.c": "0e701baa3561254ca8e9a4146449d1fae1a183b7948eccdabbd3dc66296722a9",
+    "tools/native/recall.c": "ae154a585d3d81a533fc31f8c144fdeacef64c76ef8a9922dff2cad3ae11775c",
+    "tests/test_native_bench.c": "4fe8db5713884fb94887584dc80ffc96c812224809802caf26636ba2d370bcb6",
+    "tests/test_recall_native.c": "96246278201ed4aa70c3e3e040d6455a2a84baf4d0b6b9a8cca8ecb7400c2336",
+    "include/lie/json_parse.h": "fd12f8804298b68767ada7b19b80ecf3c1b91a615e028ebd601f797cf716db5e",
+    "src/json_parse.c": "65e3e1474e00856fb625d7c1bced7a01f974bc0dcd7d8496b0a0943a456e95b6",
+    "src/binary64.c": "91b272dc793a5e7e8fe7a23565334e000ba679b90c78e0bcc80388653dbb6a57"
+  },
+  "feature": "Native long-context-recall with three seeded ledger bindings, one/two-turn response oracles, physical calibration and complete miss collection",
+  "controls": [
+    "Independent accepted/rejected exact JSON response vectors, including order, escapes, duplicates, missing/extra fields, type/prose/tool refusals",
+    "Deterministic seed/corpus/physical-row and byte-offset metadata, bounds and malformed-oracle admission",
+    "Continuation requests previously unanswered keys from original ledger",
+    "Native HTTP retains two warmup and four measured quality misses with complete response wire evidence and exit1 quality_failed",
+    "Calibration refuses nonlinear synthetic counts; context admission reserves both outputs and continuation",
+    "Existing native HTTP/KV restart/concurrent/backpressure/report/PNG/SVG fixture remains passing"
+  ],
+  "release_final": {
+    "checks": 2,
+    "passed": 2,
+    "run": "recall-r74-release-ctest-r2"
+  },
+  "sanitizer_qualified_checks": [
+    {
+      "test": "native-benchmark-contract",
+      "run": "recall-r74-asan-ctest",
+      "status": "Passed",
+      "whole_ctest_exit_code": 8
+    },
+    {
+      "test": "native-recall-contract",
+      "run": "recall-r74-asan-ctest-r2",
+      "status": "Passed",
+      "whole_ctest_exit_code": 0
+    }
+  ],
+  "sanitizer_options": {
+    "ASAN_OPTIONS": "detect_leaks=1:abort_on_error=1",
+    "UBSAN_OPTIONS": "halt_on_error=1:print_stacktrace=1",
+    "LSAN_OPTIONS": "",
+    "suppressions": false
+  },
+  "preserved_failures": [
+    {
+      "run": "recall-r74-release-ctest",
+      "actual_exit_code": 8,
+      "reason": "Fixture file reader refuses constructed decoded NUL; sandbox refuses ephemeral socket"
+    },
+    {
+      "run": "recall-r74-asan-ctest",
+      "actual_exit_code": 8,
+      "reason": "Standalone NUL fixture construction; HTTP control already passes"
+    }
+  ],
+  "correction": "Construct typed embedded-NUL oracle directly, because file reader correctly refuses it; rerun Release with private loopback available",
+  "tests_not_repeated_after_pass": "Sanitizer HTTP fixture is not repeated after its pass; only corrected standalone fixture is rerun",
+  "commands": {
+    "recall-r74-release-configure": {
+      "actual_exit_code": 0,
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/recall-r74-release",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DLIE_CORE_ONLY=OFF",
+        "-DLIE_SANITIZERS=OFF",
+        "-DBUILD_TESTING=ON",
+        "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+        "-DLIE_GUFO_RUNTIME=OFF",
+        "-DLIE_GUFO_HEADER_CHECK=OFF",
+        "-DLIE_GUFO_STATE_ACCESS=OFF",
+        "-DLIE_BUILD_ID=recall-r74"
+      ],
+      "tests": {}
+    },
+    "recall-r74-asan-configure": {
+      "actual_exit_code": 0,
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/recall-r74-asan",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_CORE_ONLY=OFF",
+        "-DLIE_SANITIZERS=ON",
+        "-DBUILD_TESTING=ON",
+        "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+        "-DLIE_GUFO_RUNTIME=OFF",
+        "-DLIE_GUFO_HEADER_CHECK=OFF",
+        "-DLIE_GUFO_STATE_ACCESS=OFF",
+        "-DLIE_BUILD_ID=recall-r74"
+      ],
+      "tests": {}
+    },
+    "recall-r74-release-build": {
+      "actual_exit_code": 0,
+      "argv": [
+        "cmake",
+        "--build",
+        "build/recall-r74-release",
+        "--target",
+        "test-recall-native",
+        "test-native-bench",
+        "test-synthetic-lie-bench",
+        "test-steered-lie-bench",
+        "test-ssd-http-server",
+        "synapse-lie-bench",
+        "--parallel",
+        "2"
+      ],
+      "tests": {}
+    },
+    "recall-r74-asan-build": {
+      "actual_exit_code": 0,
+      "argv": [
+        "cmake",
+        "--build",
+        "build/recall-r74-asan",
+        "--target",
+        "test-recall-native",
+        "test-native-bench",
+        "test-synthetic-lie-bench",
+        "test-steered-lie-bench",
+        "test-ssd-http-server",
+        "synapse-lie-bench",
+        "--parallel",
+        "2"
+      ],
+      "tests": {}
+    },
+    "recall-r74-release-ctest": {
+      "actual_exit_code": 8,
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/recall-r74-release",
+        "--output-on-failure",
+        "-R",
+        "^(native-recall-contract|native-benchmark-contract)$",
+        "--parallel",
+        "2"
+      ],
+      "tests": {}
+    },
+    "recall-r74-asan-ctest": {
+      "actual_exit_code": 8,
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/recall-r74-asan",
+        "--output-on-failure",
+        "-R",
+        "^(native-recall-contract|native-benchmark-contract)$",
+        "--parallel",
+        "2"
+      ],
+      "tests": {
+        "native-benchmark-contract": "Passed"
+      }
+    },
+    "recall-r74-release-build-r2": {
+      "actual_exit_code": 0,
+      "argv": [
+        "cmake",
+        "--build",
+        "build/recall-r74-release",
+        "--target",
+        "test-recall-native",
+        "--parallel",
+        "2"
+      ],
+      "tests": {}
+    },
+    "recall-r74-asan-build-r2": {
+      "actual_exit_code": 0,
+      "argv": [
+        "cmake",
+        "--build",
+        "build/recall-r74-asan",
+        "--target",
+        "test-recall-native",
+        "--parallel",
+        "2"
+      ],
+      "tests": {}
+    },
+    "recall-r74-release-ctest-r2": {
+      "actual_exit_code": 0,
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/recall-r74-release",
+        "--output-on-failure",
+        "-R",
+        "^(native-recall-contract|native-benchmark-contract)$",
+        "--parallel",
+        "2"
+      ],
+      "tests": {
+        "native-recall-contract": "Passed",
+        "native-benchmark-contract": "Passed"
+      }
+    },
+    "recall-r74-asan-ctest-r2": {
+      "actual_exit_code": 0,
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/recall-r74-asan",
+        "--output-on-failure",
+        "-R",
+        "^native-recall-contract$"
+      ],
+      "tests": {
+        "native-recall-contract": "Passed"
+      }
+    }
+  },
+  "maximum_local_cpu_c": 80.625,
+  "cpu_guard_c": 98,
+  "nvme_guard_c": 85,
+  "gpu_masked": true,
+  "build_parallelism_per_build": 2,
+  "model_forward": false,
+  "remote_operation": false,
+  "GPU_qualification": false,
+  "full_project_qualification": false,
+  "new_engine_API_state_cache_or_reactive_change": false,
+  "native_product_and_default_CTest_python_dependency": false,
+  "development_thermal_helper_python": true,
+  "all_six_root_tasks_open": true,
+  "terminal_bench": "DEFERRED_LAST",
+  "raw_archive": {
+    "path": "docs/development/validation/raw/native-recall-host-2026-10-06.tar.gz",
+    "bytes": 79362,
+    "sha256": "0872aafde40216ddbc4c6707477b38d358defcc6060f8375b2b7ce4421014f4f",
+    "members": {
+      "build/recall-r74-asan/CMakeCache.txt": {
+        "bytes": 38644,
+        "sha256": "7f8a6ae34466a296efca739334ef7495303205b0b1ce19bf4e436e1c069f816b"
+      },
+      "build/recall-r74-release/CMakeCache.txt": {
+        "bytes": 38662,
+        "sha256": "a421a7f4dc21977fee249eb0e89fe4a663b4f8602eb32b6dc0010c75c12ce741"
+      },
+      "evidence/recall-r74-asan-build-r2/command.log": {
+        "bytes": 133,
+        "sha256": "f61b1fae514fb0f502b7a67ad79c4663ce68c6792f2ad0b98cb9b4a1548457da"
+      },
+      "evidence/recall-r74-asan-build-r2/plan.json": {
+        "bytes": 960,
+        "sha256": "4d3451b9ad35e1dfa0f5d1218f651d466fd5645cc8938766fb349215128b8213"
+      },
+      "evidence/recall-r74-asan-build-r2/result.json": {
+        "bytes": 457,
+        "sha256": "7de80748c06b36681e5c7d5bc8e87f3bec34168e2b5931681abdb0e4d70ee998"
+      },
+      "evidence/recall-r74-asan-build-r2/temperatures.jsonl": {
+        "bytes": 1828,
+        "sha256": "d1b578130df140569c489b4b7d5b29d1319c4753912e6eb00e90c1c8741740d3"
+      },
+      "evidence/recall-r74-asan-build/command.log": {
+        "bytes": 12084,
+        "sha256": "e04973a331c9c2427cc899bc16fff24d9bfe795af154c3820871e045e324f679"
+      },
+      "evidence/recall-r74-asan-build/plan.json": {
+        "bytes": 1100,
+        "sha256": "a8ff4efee65f51782c633e5f2f59e1182eba96eb9e07c4e34a69d1d1b7a563f9"
+      },
+      "evidence/recall-r74-asan-build/result.json": {
+        "bytes": 597,
+        "sha256": "1629f4c094db7ca45ddb7b2d55d0c5ccab077c6682bd42f4632ab570b101d835"
+      },
+      "evidence/recall-r74-asan-build/temperatures.jsonl": {
+        "bytes": 4869,
+        "sha256": "f08725d03cd6a58606f814311f87205eb578b90268bd94689cffd3a852d44b92"
+      },
+      "evidence/recall-r74-asan-configure/command.log": {
+        "bytes": 3395,
+        "sha256": "b227283d69c7563d70506c3971adca8ec18454bd68145e850906979d9d92875c"
+      },
+      "evidence/recall-r74-asan-configure/plan.json": {
+        "bytes": 1210,
+        "sha256": "702de176856e18169a15dc7c4ef04b75e623b66ac3be5568c156aa1653871268"
+      },
+      "evidence/recall-r74-asan-configure/result.json": {
+        "bytes": 708,
+        "sha256": "69342aec872811e72df487ead06a26007851957340900b96f4b95b1582f1dc4f"
+      },
+      "evidence/recall-r74-asan-configure/temperatures.jsonl": {
+        "bytes": 1830,
+        "sha256": "848c5a0597e45bd141de38fcc1326c4d312c5709bb1dd0dad90804e856d907a3"
+      },
+      "evidence/recall-r74-asan-ctest-r2/command.log": {
+        "bytes": 300,
+        "sha256": "ec0eeb2c3f1f3e8b586ef5a35518c2d53fc8efdaec610362e55b693f77143775"
+      },
+      "evidence/recall-r74-asan-ctest-r2/plan.json": {
+        "bytes": 969,
+        "sha256": "328ec82d6fb5c5ca595fe5fedb2810559e5a66879059667971f10ebd2aebb076"
+      },
+      "evidence/recall-r74-asan-ctest-r2/result.json": {
+        "bytes": 460,
+        "sha256": "d5faad90eca24b14d12fdf54bf6960084a64377c46e9420e2e839e9be43d515d"
+      },
+      "evidence/recall-r74-asan-ctest-r2/temperatures.jsonl": {
+        "bytes": 1827,
+        "sha256": "b9b9ab61704ad0baacf21029214f9a15e8b7a241bd86768bca4240f72fe277b5"
+      },
+      "evidence/recall-r74-asan-ctest/command.log": {
+        "bytes": 617,
+        "sha256": "d298c74d6c5ad4f234c87ece984a917f61ca349222fbe7a81cc404178298da1e"
+      },
+      "evidence/recall-r74-asan-ctest/plan.json": {
+        "bytes": 1024,
+        "sha256": "9204b545f4373936cf8b0bc78d7a0886c820415dd4cacd6681029890b9e4a465"
+      },
+      "evidence/recall-r74-asan-ctest/result.json": {
+        "bytes": 514,
+        "sha256": "e53dfa21ec67c65ab8a25099a5267b8f026df0da0fa37c9e377e783731cf1f4e"
+      },
+      "evidence/recall-r74-asan-ctest/temperatures.jsonl": {
+        "bytes": 9725,
+        "sha256": "55128cbc5d0dae0d772b827027d2ba61f4b40fa3ad35b72540fc5cbc53feaa56"
+      },
+      "evidence/recall-r74-release-build-r2/command.log": {
+        "bytes": 133,
+        "sha256": "f61b1fae514fb0f502b7a67ad79c4663ce68c6792f2ad0b98cb9b4a1548457da"
+      },
+      "evidence/recall-r74-release-build-r2/plan.json": {
+        "bytes": 963,
+        "sha256": "54db596fa4f59cb24146ee39af70e86733a2c6c33daa60a20b468b13d286a445"
+      },
+      "evidence/recall-r74-release-build-r2/result.json": {
+        "bytes": 460,
+        "sha256": "85c7205eb588edffa11e80b69b1fb53c21637f185517d01525c95821875bc4ad"
+      },
+      "evidence/recall-r74-release-build-r2/temperatures.jsonl": {
+        "bytes": 1830,
+        "sha256": "3065f4f6ab6fd6493e5a3c8db2af5129b46e86329b2afef817e8178a80081679"
+      },
+      "evidence/recall-r74-release-build/command.log": {
+        "bytes": 12084,
+        "sha256": "e07818e45b5503668121b7fd3e6a40057a4eb6ad3d3fd94d0d5c1e0cf7e9d88b"
+      },
+      "evidence/recall-r74-release-build/plan.json": {
+        "bytes": 1103,
+        "sha256": "329673cde3be95701017f61ed5d0c278f469f360fd740f66cee2a58004b9a84d"
+      },
+      "evidence/recall-r74-release-build/result.json": {
+        "bytes": 601,
+        "sha256": "bbaaf4870bcfa6a520b3392dad8b6af7293b7891c48b640ec711769a8922aafe"
+      },
+      "evidence/recall-r74-release-build/temperatures.jsonl": {
+        "bytes": 7300,
+        "sha256": "6a20e2b0ca25cc8855f7f52329c206178e0e4802b84cebcca49a1412c81156fb"
+      },
+      "evidence/recall-r74-release-configure/command.log": {
+        "bytes": 3398,
+        "sha256": "28f678ca5421928cada82800de0350ae5e1302460438b610ec6aafab732b0af8"
+      },
+      "evidence/recall-r74-release-configure/plan.json": {
+        "bytes": 1216,
+        "sha256": "052b970461fc73e452935716ff3721a44a8c2d907710cad20009dda779324c92"
+      },
+      "evidence/recall-r74-release-configure/result.json": {
+        "bytes": 714,
+        "sha256": "174a7b8aefa04fb67f1b33f23670c3ede4b07fddbc4eecb4f35157b7f78d5c92"
+      },
+      "evidence/recall-r74-release-configure/temperatures.jsonl": {
+        "bytes": 1829,
+        "sha256": "3e9949190abb3011f21bc91e4758a421b2e67195189973c0fe0b01b77c6a1e33"
+      },
+      "evidence/recall-r74-release-ctest-r2/command.log": {
+        "bytes": 413,
+        "sha256": "9b29730c1b8016923493c3b6a8ccb877a3ad45900980f61c2c195bc31ee76e68"
+      },
+      "evidence/recall-r74-release-ctest-r2/plan.json": {
+        "bytes": 1027,
+        "sha256": "8112c89b88b9988a78997a0a25055396fd4d631c3450806704e064249fc6911e"
+      },
+      "evidence/recall-r74-release-ctest-r2/result.json": {
+        "bytes": 517,
+        "sha256": "040324110a18c922c7b9a8a4ff20b86cd668b68671faa96733fa2b33c2fab578"
+      },
+      "evidence/recall-r74-release-ctest-r2/temperatures.jsonl": {
+        "bytes": 9117,
+        "sha256": "d48086e11d2f670514b0fdf68fb0e4f154d89adb4ca91795fe039fc8b28c5ab0"
+      },
+      "evidence/recall-r74-release-ctest/command.log": {
+        "bytes": 859,
+        "sha256": "3252490cae9a3a4f022ad2c3585bf2579abd1b84a5f50b8893f2c01390389129"
+      },
+      "evidence/recall-r74-release-ctest/plan.json": {
+        "bytes": 1021,
+        "sha256": "7fbdbc75860753d3d8d343e1448c93feb6ed67fd52f5714d15781476b60d438c"
+      },
+      "evidence/recall-r74-release-ctest/result.json": {
+        "bytes": 518,
+        "sha256": "1ee86871f8d0c8cbdf9c8a96990941217280d307b804afb8b99502bab22aecbc"
+      },
+      "evidence/recall-r74-release-ctest/temperatures.jsonl": {
+        "bytes": 3653,
+        "sha256": "a9a05d9f35e56d20d5f55450c938d1a1baa00afb68d29995827def151eb6f64e"
+      },
+      "source/CMakeLists.txt": {
+        "bytes": 54518,
+        "sha256": "60b1da07b80d7bf73dc242a04a50e78f9402d74e1dc1946b02adedad3a6c8e4b"
+      },
+      "source/include/lie/json_parse.h": {
+        "bytes": 2779,
+        "sha256": "fd12f8804298b68767ada7b19b80ecf3c1b91a615e028ebd601f797cf716db5e"
+      },
+      "source/src/binary64.c": {
+        "bytes": 12919,
+        "sha256": "91b272dc793a5e7e8fe7a23565334e000ba679b90c78e0bcc80388653dbb6a57"
+      },
+      "source/src/json_parse.c": {
+        "bytes": 14741,
+        "sha256": "65e3e1474e00856fb625d7c1bced7a01f974bc0dcd7d8496b0a0943a456e95b6"
+      },
+      "source/tests/test_native_bench.c": {
+        "bytes": 74001,
+        "sha256": "4fe8db5713884fb94887584dc80ffc96c812224809802caf26636ba2d370bcb6"
+      },
+      "source/tests/test_recall_native.c": {
+        "bytes": 7658,
+        "sha256": "96246278201ed4aa70c3e3e040d6455a2a84baf4d0b6b9a8cca8ecb7400c2336"
+      },
+      "source/tools/lie-bench.c": {
+        "bytes": 23121,
+        "sha256": "1beb5cd9cead530d37d1c1fff939ffe34aaa0580fee15c8955605fc972a46673"
+      },
+      "source/tools/native/bench_native.h": {
+        "bytes": 4853,
+        "sha256": "c023ddb467541fa2e44fe3fac7fc35e0cf31414540352e77cfcec4b38da1f122"
+      },
+      "source/tools/native/http_bench.c": {
+        "bytes": 25053,
+        "sha256": "0e701baa3561254ca8e9a4146449d1fae1a183b7948eccdabbd3dc66296722a9"
+      },
+      "source/tools/native/recall.c": {
+        "bytes": 11520,
+        "sha256": "ae154a585d3d81a533fc31f8c144fdeacef64c76ef8a9922dff2cad3ae11775c"
+      }
+    }
+  }
+}

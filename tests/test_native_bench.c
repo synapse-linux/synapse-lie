@@ -1221,6 +1221,43 @@ int main(int argc, char **argv) {
                     "timeout_seconds") == 630,
           "ordinary HTTP default timeout changed");
   json_object_put(http_rows);
+  save("recall-requests.jsonl",
+       "{\"id\":\"recall-fixture\",\"body\":{\"messages\":[{\"role\":\"user\","
+       "\"content\":\"hello\"}],\"max_tokens\":8},\"followups\":[\"continue\"],"
+       "\"expected\":[{\"kind\":\"json-object-exact\",\"value\":{\"key\":\"first\"}},"
+       "{\"kind\":\"json-object-exact\",\"value\":{\"key\":\"second\"}}]}\n");
+  char recall_requests[2400];
+  path(recall_requests, "recall-requests.jsonl");
+  path(output, "http-quality.jsonl");
+  char *recall[] = {
+      argv[2], "--suite", "http", "--url", api, "--model",
+      "cpu-test-fixture", "--requests", recall_requests, "--server-label",
+      "NOT-INFERENCE", "--server-kv-cache", "off", "--output", output,
+      "--repetitions", "2", "--warmups", "1", NULL};
+  /* The synthetic executor emits prose, so every exact JSON oracle must miss.
+   * A miss must retain all repetitions/turns and remain distinct from HTTP failure. */
+  run(recall, 1);
+  http_rows = read_json("http-quality.jsonl", true);
+  json_object *quality_last = json_object_array_get_idx(
+      http_rows, json_object_array_length(http_rows) - 1);
+  json_object *quality_summary = nb_get(quality_last, "quality_summary");
+  require(json_object_array_length(http_rows) == 8 &&
+              !strcmp(nb_string(quality_last, "event"), "quality_failed") &&
+              nb_number(quality_last, "exit_code") == 1 &&
+              nb_number(quality_summary, "checks") == 4 &&
+              nb_number(quality_summary, "passes") == 0 &&
+              nb_number(quality_summary, "warmup_checks") == 2 &&
+              nb_number(quality_summary, "warmup_passes") == 0,
+          "quality misses truncated the cohort or became infrastructure failures");
+  for (size_t i = 1; i + 1 < json_object_array_length(http_rows); ++i) {
+    json_object *sample = json_object_array_get_idx(http_rows, i);
+    require(!strcmp(nb_string(sample, "event"), "sample") &&
+                !strcmp(nb_string(nb_get(sample, "quality"), "status"), "FAIL") &&
+                nb_get(nb_get(sample, "quality"), "expected") &&
+                nb_get(sample, "response_chunks"),
+            "quality sample lost its oracle or received wire evidence");
+  }
+  json_object_put(http_rows);
   path(output, "http-long-default.jsonl");
   char *long_default[] = {
       argv[2], "--suite", "http", "--url", api, "--model",
@@ -1243,6 +1280,29 @@ int main(int argc, char **argv) {
           "long-context default deadline or calibration refusal lost");
   json_object_put(http_rows);
   const char *bad_timeouts[] = {"86400.001", "0", "-1", "nan", "inf"};
+  path(output, "http-recall-calibration.jsonl");
+  char *recall_preset[] = {
+      argv[2], "--suite", "http", "--url", api, "--model",
+      "cpu-test-fixture", "--preset", "long-context-recall", "--sizes", "512",
+      "--tg", "8", "--context-capacity", "1048576", "--rope-scaling",
+      "yarn4", "--server-label", "NOT-INFERENCE", "--server-kv-cache",
+      "off", "--output", output, "--repetitions", "1", NULL};
+  run(recall_preset, 1);
+  http_rows = read_json("http-recall-calibration.jsonl", true);
+  last = json_object_array_get_idx(http_rows, json_object_array_length(http_rows) - 1);
+  require(json_object_array_length(http_rows) == 5 &&
+              nb_number(json_object_array_get_idx(http_rows, 0), "timeout_seconds") == 14400 &&
+              !strcmp(nb_string(last, "event"), "failed") &&
+              strstr(nb_string(last, "error"), "Nonlinear prompt calibration"),
+          "recall calibration refusal or long-context deadline");
+  json_object_put(http_rows);
+  char *invalid_recall[] = {
+      argv[2], "--suite", "http", "--url", api, "--model",
+      "cpu-test-fixture", "--preset", "long-context-recall", "--sizes", "1048065",
+      "--tg", "128", "--context-capacity", "1048576", "--rope-scaling",
+      "yarn4", "--server-label", "NOT-INFERENCE", "--server-kv-cache",
+      "off", "--output", output, "--repetitions", "1", NULL};
+  run(invalid_recall, 2);
   for (size_t i = 0; i < sizeof(bad_timeouts) / sizeof(*bad_timeouts); ++i) {
     char *invalid[] = {argv[2], "--suite", "http", "--url", api,
                       "--model", "cpu-test-fixture", "--requests", requests,

@@ -7,6 +7,11 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Native `long-context-recall` benchmark preset generates independent bindings
+  at start/middle/end, retrieves previously unanswered keys on a second turn,
+  exports exact response oracles and retains all quality misses separately from
+  HTTP failures. Original-weight recall qualification remains pending.
+
 - Native schema staging preserves lazy JSON null inputs during copying and
   normalization. The correction passes combined HOST regression controls;
   original-weight GPU qualification remains pending.

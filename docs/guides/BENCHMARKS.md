@@ -19,6 +19,7 @@ identifies the measurements already qualified on GPU.
 | `fresh` | The cost of processing a complete new prompt. | Full prompt prefill from an empty sequence, then decode. |
 | `core` | The shared C engine, including admission and cache behavior. | Per-job TTFT, executed prefill, decode and output over cohort wall time. |
 | `http` | Client-visible API latency and replayable conversation workloads. | HTTP request wall time and reported executor timings. |
+| `http --preset long-context-recall` | Exact recovery of independent key/value bindings at start, middle and end, including continuation. | Actual prompt/output usage and per-turn exact-match results; separate from throughput workloads. |
 | `http-curve` | Canonical Gufo conversation depth curve, through 128K by default. | Executed new-turn PP and TG, with HTTP wall time and TTFT recorded separately. |
 | `http-multi` | Gufo-style prepared HTTP cohorts at C1/2/4/6/8, for AR or a separately configured MTP server. | Sum of individual server decode rates, common HTTP wall throughput, TTFT and preparation prefill. |
 | `http-kv-disk` | KV checkpoint persistence across a server restart, including concurrent consumers. | HTTP latency, actual restored tokens and disk accounting. |
@@ -322,12 +323,12 @@ Start the server first. This suite uses the native C HTTP client:
 Here `--server-kv-cache off` **records the server's declared configuration**; it
 does not change the server. Start the server with `--kv-cache-ram-mb 0` and
 without SSD options for that measurement. Other presets are `decode`,
-`conversation` and `long-context`; use `--requests FILE` to replay a saved
+`conversation`, `long-context` and `long-context-recall`; use `--requests FILE` to replay a saved
 corpus. The long-context generator can prepare larger inputs, but does not
 extend the model's context limit. `--timeout` is the deadline in seconds for a
 complete HTTP request, including response streaming; its maximum is 86,400
 seconds (24 hours) in all three HTTP clients. The `http` suite defaults to 630
-seconds, or 14,400 seconds (4 hours) for `--preset long-context`. The `http-curve`
+seconds, or 14,400 seconds (4 hours) for either long-context preset. The `http-curve`
 and `http-multi` defaults remain 3,600 and 630 seconds respectively.
 The frozen physical 1M run took 7,478.56 seconds, longer than the former
 7,200-second client limit. Set the server's own `--request-timeout-ms` and the
@@ -345,6 +346,55 @@ acquires the GPU lease and archives both original requests and results. The
 offline verifier removes only that Gufo-specific cache-control field when
 checking matched request bodies. Client declarations alone do not disable a
 server cache or raise its context capacity.
+
+## Long-context recall and continuation
+
+Use a separately qualified server with the declared capacity and RoPE profile.
+For a 1M-capacity server with RAM prefix caching disabled:
+
+```sh
+"$LIE_BENCH" --suite http \
+  --url http://127.0.0.1:8000/v1 --model qwen3.8-flash-next \
+  --preset long-context-recall --sizes 8192,131072,1048064 \
+  --context-capacity 1048576 --rope-scaling yarn4 \
+  --tg 128 --turns 2 --warmups 0 --repetitions 1 --corpus-seed 77 \
+  --server-kv-cache off --server-label lie \
+  --output results/recall.jsonl --export-requests results/recall-requests.jsonl
+```
+
+Three independently seeded bindings replace distractor rows at the beginning,
+middle and end. Two-turn mode first asks for the middle binding, then asks for
+the other two from the original ledger. Their answers are absent from the first
+assistant reply. `--turns 1` asks for all three together. This measures synthetic
+associative recall, not natural-language quality or a vendor's quality corpus.
+Positions are recorded as row indices and UTF-8 byte offsets, not token offsets.
+
+Three small 8/16/32-record requests calibrate physical input counts. They have
+one-token output budgets and are not scored. Nonlinear calibration refuses the
+run; use an explicitly prepared `--requests` corpus for that tokenizer.
+Every first-turn sample must match its predicted physical input count. Targets
+round down to complete records; actual usage is retained for every turn.
+Two-turn admission reserves both output budgets and 256 tokens for continuation;
+the example's largest target leaves 512 tokens within the declared 1M capacity.
+The server's request deadline must cover the actual work.
+
+Exported cases retain the exact request, positions, follow-up and one
+`expected[]` oracle per turn. Replay the same file on another endpoint with
+`--requests results/recall-requests.jsonl --timeout 14400`. The evaluator requires
+exact string values in a flat JSON object; member order and JSON escapes may
+differ. Missing, extra or duplicate keys, prose, tool calls and wrong values fail.
+Oracles remain client metadata and are not sent as request fields.
+For a prepared single-turn case, the metadata has this form:
+
+```json
+{"expected":[{"kind":"json-object-exact","value":{"requested-key":"known-value"}}]}
+```
+
+Each sample records `quality`; the final `quality_summary` separates measured
+and warmup counts. A wrong answer preserves all remaining samples and ends with
+`quality_failed`, exit 1. HTTP or workload failure ends with `failed`, exit 1.
+Timing reports refuse failed quality runs. Source/client fixtures are separate
+from original-weight recall qualification, which remains pending.
 
 ## Prepared HTTP multi-user cohorts
 

@@ -38,7 +38,7 @@ An open qualification gate does not mean its implementation is absent:
 
 | Item | Source already integrated in this branch | Final qualification still open |
 | --- | --- | --- |
-| 3 | 1M context admission, explicit YaRN and long-context client deadlines | Independent recall and original-weight HTTP at long context |
+| 3 | 1M context admission, explicit YaRN, client deadlines and native recall/continuation corpus with exact response oracles | Original-weight recall and HTTP at long context |
 | 4 | Native benchmark methods, metrics and graph generation | Matched Gufo/Halogen runs through 1M and C1/2/4/6/8; actual sparse dispatch and reactive cost |
 | 5 | Steering bank, model/session policies, scheduled changes and RAM/SSD identities | Learned-direction quality, graph/correction/fault/vision cases and matched cost |
 | 6 | Temperature, top-k/min-p profiles and seeded AR/MTP controls | Independent original-weight probabilities, tool transitions and matched cost |
@@ -110,6 +110,11 @@ last; no item is closed solely by compilation.
    The native HTTP client deadline now covers the recorded duration: configurable
    maximum 24 hours, long-context default four hours. Matching Release and
    sanitizer fixtures pass; independent recall and HTTP GPU campaigns remain open.
+   The native `long-context-recall` client now prepares three seeded bindings
+   at start/middle/end, exact per-turn response oracles and a continuation that
+   asks for previously unanswered keys. Actual counts, copied corpus and quality
+   misses are retained separately from infrastructure failures. Client source
+   and local fixtures do not qualify original-weight long-context recall.
 4. **Finish the requested Gufo/Halogen benchmark methods.** Compare full cold
    prefill and decode through 1M, and multi-user C1/2/4/6/8, with matched physical
    work, cache policy, output length, repetitions and server lifecycle. Retain

@@ -7,6 +7,11 @@ new AR/MTP, GPU quality/fault, benchmark or Terminal Bench campaign while source
 work remains; only required focused local checks accompany corrections. Final
 qualification precedes comparative benchmarks, with Terminal Bench last.
 
+The later native recall client has focused local Release/sanitizer fixture
+coverage only ([receipt](development/validation/native-recall-host-2026-10-06.json)).
+It adds no remote job, build, lease, window or reservation. The frozen r36 bundle
+predates this client change and does not qualify its original-weight recall.
+
 The matching r36 HIP provider ON/OFF120 and private consumers build with exit 0.
 All 25 copied compilation artifacts verify; both complete 1,019-file variant
 maps equal an independent reconstruction from the sealed recipes and pinned
