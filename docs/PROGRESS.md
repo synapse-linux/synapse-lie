@@ -1,5 +1,30 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [Q2 down register-palette trial](Q2-DOWN-REGISTER-PALETTE.md) completes on
+`.157`04:26:31UTC at1579.532131 PP /25.17055431 TG, nominal-0.364399%/+0.038805%
+against retained1585.308983 /25.16079073. All new measured PP values are below
+the saved parent range; keep1585. Every123 component pair and21 parent model
+files are exact,nine internal replays pass.70 zero HIP timings are rejected
+with no component speed inference. Original model wall timing remains unchanged.
+
+Host34+34/focused registry CTest1/1 pass;13 primary commands exit0/37 artifacts
+verify. Ten transport/orchestration/analysis failures remain classified,including
+the zero-timing analyzer guards and registry last-event mistake. Bound additive
+corrections preserve frozen originals,all safety checks and the original model
+scope. Only the new candidate runs; no qualified control/component repeat,
+Q4/full curve or tuning occurs. Six figures/CSV exports retain70 invalid timing
+and16 model/comparison samples,with both charts visually checked.
+
+Release04:27:46UTC/e64145d6 verifies1351 primary/historical identities and1081
+groups retired,KFD empty,four original leases free,seven model stat tuples
+unchanged. Supplemental CPU test identity/group is separately revalidated
+retired before release. Canonical/main/remote mirrors agree and Core receives
+closure before analysis. Peak CPU84.375/GPU74C;resident/deferred/session bytes
+remain unchanged. No Q2 job,build,lease,waiter,reservation,restart or cleanup.
+Next priority is HC normalized-input reuse from retained1585,not this candidate;
+its static draft is ready but needs a full producer/consumer fixture. The
+fixed-point77ms/6.337447% budget and independent/full-curve qualification remain.
+
 Reconnection04:09UTC revalidates the original Core CPU lease/closure, retired
 processes/groups, empty KFD and previous GPU-release registry event. Fresh
 down r2 host34/34 Debug and34/34 ASan/UBSan passes04:10:50UTC. Collection

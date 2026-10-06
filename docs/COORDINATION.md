@@ -1,5 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Latest Q2 `.157` release **2026-10-06T04:27:46.757600UTC**, SHA
+e64145d666ce7ebcd470a7587a54979d6b11c8c909b073cc639c3d8071a652db.
+Down host34+34/component/model terminate and collect37 artifacts before
+release;13 primary command exits0. Fresh admission follows original Core
+closure04:12:44UTC,four unchanged leases,retired processes/KFD/model stats.
+Release retires1351 primary/historical identities/1081 groups,KFD empty,
+four original leases free and seven model stat tuples unchanged. Supplemental
+registry CTest1/1 CPU identity226288/start182590583/group226288 separately
+revalidates retired04:27:36UTC. Canonical/main/remote mirrors agree. Core
+receives closure before local model analysis. No Q2 process,build,lease,
+waiter,reservation,restart,cleanup or DS4 mutation remains. HC input-reuse
+compiler probes are local only; future GPU work needs fresh coordinated admission.
+[Release](../config/q2-down-register-palette-v2-window-release.json),
+[final audit](../config/q2-down-register-palette-final-audit.json).
+
 Reconnection04:09UTC: fresh original Core CPU lease/closure and retirement,
 empty KFD and57b67078 GPU-release registry revalidate. New down r2 host34+34
 completes04:10:50UTC, six exits0/seven collected artifacts. Its newly frozen

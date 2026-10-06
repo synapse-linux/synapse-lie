@@ -1,6 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Isolated Q2 down register-palette trial
 
+Runtime trial completes at1579.532131 PP /25.17055431 TG and is not promoted:
+keep retained1585.123 component pairs/21 parent model files are exact;70 HIP
+timings are rejected as zero. Bound additive analysis/registry corrections
+preserve frozen originals and numerical/ownership contracts. Host34+34 and
+focused CTest1/1 pass;`.157` releases04:27:46UTC/e64145d6. No independent
+quality or whole-curve acceptance is implied. [Results](../../docs/Q2-DOWN-REGISTER-PALETTE.md).
+
 The [source manifest](../../config/q2-down-register-palette-source.json) pins
 the1028-file candidate and retained `ssm-fixed-bounds` parent, both derived
 from independently fetched official Gufo at

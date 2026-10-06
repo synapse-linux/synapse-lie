@@ -1,6 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 down: wave-private stage removal
 
+The [isolated v3 trial](Q2-DOWN-REGISTER-PALETTE.md) completes on `.157` at
+1579.532131 PP /25.17055431 TG,nominal-0.364399% PP.123 component pairs/21 parent
+model files are exact;70 HIP timings are invalid zeros. Keep1585.308983.
+Host34+34/focused CTest1/1 pass and the window releases04:27:46UTC/e64145d6.
+
 The v3 draft now has an [isolated production trial](Q2-TARGET-PRIORITIES.md),
 123-pair/70-timing fixture and historical `.157` host33+33 pass. Its GPU trial
 did not start because SSH failed before connection. Current phase changes

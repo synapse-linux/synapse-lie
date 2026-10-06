@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [Q2 down trial](docs/Q2-DOWN-REGISTER-PALETTE.md) completes at
+1579.532131 PP /25.17055431 TG, nominal-0.364399% PP against saved1585.
+All123 component pairs/21 parent model files are exact, but70 zero HIP timings
+are rejected. The unchanged original model wall timer supplies the valid
+comparison. Keep1585.308983 /25.16079073; next prioritize HC input reuse.
+Host34+34 and focused registry CTest1/1 pass;13 primary exits0/37 artifacts
+verify. `.157` releases04:27:46UTC/e64145d6. No cleanup or control rerun occurs.
+
 `.157` reconnects04:09UTC; original Core CPU lease/closure, empty KFD and
 previous GPU-release registry event revalidate. Fresh down host34+34 passes
 04:10:50UTC, all six exits0/seven artifacts verify. The new r2 plan freezes

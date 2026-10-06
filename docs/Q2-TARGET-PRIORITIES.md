@@ -1,6 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Q2 fixed-point priorities
 
+The [down trial now completes](Q2-DOWN-REGISTER-PALETTE.md):1579.532131 PP,
+nominal-0.364399% against saved1585,with123 component pairs/21 parent files
+exact. Keep1585. All70 HIP component timings are zero and rejected; the original
+model wall timer remains valid. `.157` releases04:27:46UTC/e64145d6. Next place
+HC normalized-input reuse first; its compiler probe below is not yet measured.
+Earlier preparation priorities and outage descriptions remain historical.
+[Updated queue](../config/q2-target-priorities-update.json).
+
 Keep the saved comparison: **1585.308983 PP / 25.16079073 TG** for Q2,
 **1685.777092 PP / 24.34174251 TG** for UD. The original tester uses exactly
 2048 prompt tokens,128 outputs/127 timed decode calls,capacity9216/chunk2048,
