@@ -59,6 +59,11 @@ add_executable(test_q2_argmax tests/q2_argmax.cpp)
 target_compile_options(test_q2_argmax PRIVATE -Wall -Wextra -Werror -Wpedantic)
 add_test(NAME q2_argmax COMMAND test_q2_argmax)
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
+add_executable(test_q2_capture_routes tests/q2_capture_routes.c)
+target_compile_options(test_q2_capture_routes PRIVATE -Wall -Wextra -Werror -Wpedantic)
+add_test(NAME q2_capture_routes COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_capture_routes_test.py $<TARGET_FILE:test_q2_capture_routes>)
+set_tests_properties(q2_capture_routes PROPERTIES TIMEOUT 120)
 add_test(NAME q2_counter_calibration COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_counter_calibration_test.py)
 add_test(NAME q2_compressed_cache_launch COMMAND ${Python3_EXECUTABLE}

@@ -1,5 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Saved1585 routing diagnosis is prepared with the original fixed2048 prompt,
+without rebuilding the qualified executable. Host32+32 and seven GDB child
+lifecycle cases per build pass on .157. Diagnostic times are ineligible for
+performance comparisons. GPU execution still requires fresh admission.
+[Plan](config/q2-current-routing-plan.json).
+
 The [IQ2 four-wave experiment](docs/Q2-IQ2-FOUR-WAVE.md) completes at
 1572.745422 PP / 25.16571902 TG, -0.792499% PP against retained1585.308983.
 All 96 component pairs and 21 parent model files are exact. Keep the saved

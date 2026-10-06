@@ -1,5 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Current-routing host32+32 completes at2026-10-06T02:18:58UTC and is collected.
+Fresh Core closure02:18:11UTC confirms non-use, empty KFD and prior release
+cf9f3b99 unchanged. No GPU admission yet. The planned96 host reads use the
+saved1585 executable without rebuild; no control performance rerun.
+[Plan](../config/q2-current-routing-plan.json).
+
 IQ2 four-wave releases .157 at2026-10-06T02:04:37.758289UTC,
 SHA256cf9f3b99ded9b5012145a111dad5722347cead379fc7f675c89b62276b05835c.
 Fresh Core closure01:55:10UTC precedes host31+31 and admission01:58:26UTC

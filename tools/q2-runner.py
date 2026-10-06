@@ -33,6 +33,7 @@ def now():
 
 def main():
     mode = sys.argv[1]
+    routing_mode = mode == 'q2-current-routing'
     counter_mode = mode == 'counter-calibration'
     if counter_mode and len(sys.argv) != 2:
         raise SystemExit('Counter calibration accepts no model or build variants')
@@ -41,6 +42,8 @@ def main():
             'q2-counting-hc-moe-deferred', 'q2-fixed-moe-profile-binary.json'),
         'q2-current-best-profile': ('q2-half-consumer-eight-model-r1',
             'q2-counting-half-consumer-eight', 'q2-current-best-profile-binary.json'),
+        'q2-current-routing': ('q2-ssm-fixed-bounds-model-r1',
+            'q2-counting-ssm-fixed-bounds', 'q2-current-routing-binary.json'),
     }.get(mode)
     if saved_profile and len(sys.argv) != 2:
         raise SystemExit('Fixed MoE profile requires the saved candidate binary only')
@@ -91,7 +94,7 @@ def main():
     ple_mode = mode in ('q2-ple', 'ud-ple', 'q2-ple-cache64k', 'q2-ple-lookahead', 'q2-ple-first-access')
     ple_target = 'q2_ple_lookahead' if mode in ('q2-ple-lookahead', 'q2-ple-first-access') else 'q2_ple'
     model_mode = bool(saved_profile) or counting_mode or curve_mode or original_mode or terminal_run or io_mode or ple_mode or mode in ('q2-smoke','q2-bench','q2-bench2k','ud-bench2k','q2-decode-baseline','ud-decode-baseline','q2-profile','ud-profile','ud-base','ud-patched')
-    profile_mode = bool(saved_profile) or mode in ('q2-profile','ud-profile')
+    profile_mode = (bool(saved_profile) and not routing_mode) or mode in ('q2-profile','ud-profile')
     mixed_mode = mode in ('iq2-mixed-reference-check', 'iq2-mixed-check')
     hc_mode = mixed_mode or mode in ('compressed-cache-check', 'expert-cache-check', 'q8-mirror-check', 'scaled-wave-pack-check', 'scaled-expert-order-check', 'compact-expert-chain-check', 'producer-q8-check', 'shared-q8-pair-check', 'q8-aligned-pair-check', 'q8-k16-phases-check', 'down-raw-prefetch-check', 'iq2-fused-grid-check', 'half-fixed-width-check', 'half-consumer-eight-check', 'shared-down-fixed-check', 'shared-down-n64-check', 'ssm-row-group-check', 'ssm-fixed-shape-check', 'ssm-fixed-bounds-check', 'ssm-channel-bounds-check', 'ssm-compact-lds-check', 'ssm-pingpong-check', 'down-register-scatter-check', 'down-half-vector-check', 'down-half-pair-check', 'down-half-storage-check', 'down-live-stage-check', 'down-output-reuse-check', 'iq2-wide-pair-check', 'iq2-four-wave-check', 'iq2-lane-commit-check', 'iq2-short-tiles-check', 'iq2-slice-commit-check', 'iq2-sign-mask-check', 'iq2-raw-prefetch-check', 'ssm-row128-check', 'q8-halfpair-check', 'iq2-halfbyte-check', 'iq2-halfstage-check', 'q8-grouped-check', 'hc-bk256-bench', 'shared-q8-oracle-replay', 'shared-q8-producer-check', 'scaled-row-check', 'iq2-live-epilogue-check', 'iq2-wmma-signs-check', 'iq2-signs-check', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-norm-ragged-bench', 'hc-library-ragged-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench')
     hc_target = 'q2_compressed_cache' if mode == 'compressed-cache-check' else 'q2_expert_cache' if mode == 'expert-cache-check' else 'q2_shared_down_mirror' if mode in ('shared-down-fixed-check', 'shared-down-n64-check') else 'q2_ssm_compact_lds' if mode in ('ssm-compact-lds-check', 'ssm-pingpong-check') else 'q2_ssm_row_group' if mode in ('ssm-fixed-shape-check', 'ssm-fixed-bounds-check', 'ssm-channel-bounds-check') else 'q2_ssm_row_group' if mode == 'ssm-row-group-check' else 'q2_down_register_scatter' if mode == 'down-register-scatter-check' else 'q2_producer_q8' if mode == 'producer-q8-check' else 'q2_compact_expert_chain' if mode == 'compact-expert-chain-check' else 'q2_scaled_expert_order' if mode == 'scaled-expert-order-check' else 'q2_scaled_wave_pack' if mode == 'scaled-wave-pack-check' else 'q2_shared_q8_pair' if mode == 'shared-q8-pair-check' else 'q2_q8_aligned_pair' if mode == 'q8-aligned-pair-check' else 'q2_half_fixed_width' if mode == 'half-fixed-width-check' else 'q2_half_consumer_eight' if mode == 'half-consumer-eight-check' else 'q2_down_half_vector' if mode == 'down-half-vector-check' else 'q2_down_half_pair' if mode == 'down-half-pair-check' else 'q2_down_half_storage' if mode == 'down-half-storage-check' else 'q2_down_live_stage' if mode == 'down-live-stage-check' else 'q2_down_output_reuse' if mode == 'down-output-reuse-check' else 'q2_iq2_four_wave' if mode == 'iq2-four-wave-check' else 'q2_iq2_wide_pair' if mode == 'iq2-wide-pair-check' else 'q2_iq2_lane_commit' if mode == 'iq2-lane-commit-check' else 'q2_iq2_short_tiles_check' if mode == 'iq2-short-tiles-check' else 'q2_iq2_slice_commit' if mode == 'iq2-slice-commit-check' else 'q2_q8_mirror' if mode == 'q8-mirror-check' else 'q2_iq2_sign_mask' if mode == 'iq2-sign-mask-check' else 'q2_iq2_fused_grid' if mode == 'iq2-fused-grid-check' else 'q2_q8_k16_phases' if mode == 'q8-k16-phases-check' else 'q2_down_raw_prefetch' if mode == 'down-raw-prefetch-check' else 'q2_iq2_raw_prefetch' if mode == 'iq2-raw-prefetch-check' else 'q2_ssm_row128' if mode == 'ssm-row128-check' else 'q2_q8_halfpair' if mode == 'q8-halfpair-check' else 'q2_iq2_halfbyte' if mode == 'iq2-halfbyte-check' else 'q2_iq2_halfstage' if mode == 'iq2-halfstage-check' else 'q2_q8_grouped' if mode == 'q8-grouped-check' else 'q2_hc_bk256' if mode == 'hc-bk256-bench' else 'q2_shared_q8_oracle_replay' if mode == 'shared-q8-oracle-replay' else 'q2_shared_q8_producer' if mode == 'shared-q8-producer-check' else 'q2_scaled_row_reuse' if mode == 'scaled-row-check' else 'q2_iq2_mixed_tiles' if mixed_mode else 'q2_iq2_live_epilogue' if mode == 'iq2-live-epilogue-check' else 'q2_iq2_wmma_signs' if mode == 'iq2-wmma-signs-check' else 'q2_iq2_signs' if mode == 'iq2-signs-check' else 'q2_hc_library_ragged' if mode == 'hc-library-ragged-bench' else 'q2_hc_decode_reduce' if mode == 'hc-decode-reduce-bench' else 'q2_hc_library_norm' if mode in ('hc-library-norm-bench', 'hc-norm-ragged-bench') else 'q2_narrow_vector' if mode == 'narrow-vector-check' else 'q2_scaled_tiles' if mode == 'scaled-tiles-check' else 'q2_scaled' if mode == 'scaled-input-check' else 'q2_shared_fork' if mode == 'shared-fork-check' else 'q2_hc_deferred_norm' if mode == 'hc-deferred-bench' else 'q2_hc_sequence' if mode == 'hc-sequence-bench' else 'q2_hc_up_chains' if mode == 'hc-up-chain-bench' else 'q2_hc_input' if mode == 'hc-input-bench' else 'q2_hc_norm_half' if mode.startswith('hc-norm-') else 'q2_hc_moe_fused' if mode.startswith('hc-moe-') else 'q2_hc_up_fused' if mode == 'hc-up-operators' else 'q2_packed_bench' if mode in ('packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench') else 'q2_packed' if mode == 'packed-operators' else 'q2_iq2_pair' if mode == 'iq2-pair-operators' else 'q2_routed' if mode == 'routed-operators' else 'q2_hc_pp' if mode.startswith('hc-pp-') or mode == 'hc-library-bench' else 'q2_hc'
@@ -385,6 +388,16 @@ def main():
                 save()
                 if ple_mode:
                     run([str(binary),model_paths[0]] + (['--first-access'] if mode == 'q2-ple-first-access' else []),dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),1800)
+                elif routing_mode:
+                    result['diagnostic_scope'] = 'Host routing counts through GDB entry breakpoint; no performance claim or device trace'
+                    save()
+                    run(['gdb', '-nx', '-nh', '--batch', '-iex', 'set auto-load off',
+                         '-ex', 'set pagination off', '-ex', 'set confirm off',
+                         '-ex', 'set print thread-events off', '-ex', 'set disable-randomization off',
+                         '-x', str(ROOT/'tools/q2_capture_routes.py'), '--args',
+                         str(binary), model_paths[0], 'profile'],
+                        dict(env, HIP_VISIBLE_DEVICES='0', ROCR_VISIBLE_DEVICES='0',
+                             LIE_Q2_ROUTING_OUTPUT=str(results)), 300)
                 elif profile_mode:
                     run([profiler,'--kernel-trace','-d',str(results/'profile'),'-o','q2','--',
                          str(binary),model_paths[0],'profile'],dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),1800)
@@ -409,6 +422,7 @@ def main():
         if curve_mode: result['state']='CANONICAL_ROUTE_PROFILE_COMPLETE_NOT_BENCHMARK' if curve_routes else 'CANONICAL_PLE_PROFILE_COMPLETE_NOT_BENCHMARK' if curve_profile else 'CANONICAL_HTTP_WORKLOAD_COMPLETE_NOT_PARITY_VERDICT'
         if terminal_run: result['state']='TERMINAL_ENDPOINT_PROBE_COMPLETE_NOT_TASK_SCORE' if mode.endswith('probe') else 'TERMINAL_BENCH_COMMAND_COMPLETE_INSPECT_REWARDS'
         if profile_mode: result['state']='DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK'
+        if routing_mode: result['state']='DIAGNOSTIC_ROUTING_COMPLETE_NOT_WALL_BENCHMARK'
         if ple_mode: result['state']='PLE_DIAGNOSTIC_COMPLETE_NOT_PERFORMANCE_VERDICT'
         if io_mode: result['state']='PLE_ROW_IO_COMPLETE_NO_MODEL_FORWARD'
         if mixed_mode: result['state']='SYNTHETIC_IQ2_MIXED_CYCLE_COMPLETE_NOT_MODEL_THROUGHPUT'

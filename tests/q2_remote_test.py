@@ -1012,6 +1012,20 @@ class RemoteGuardTests(unittest.TestCase):
                 remote.main()
             run.assert_not_called()
 
+    def test_current_routing_reuses_only_saved1585(self):
+        argv = [remote.CURRENT_ROUTING_MODE, 'q2-fixture', '--source-variant', 'ssm-fixed-bounds']
+        for extra in (['--rebuild-mmq'], ['--native-curve'], ['--point-only'], ['--detach'],
+                      ['--replay-from', 'q2-norm-fixed-model-before-r1']):
+            self.refuse(argv + extra, 'Current routing requires the saved1585 binary only')
+        self.refuse([remote.CURRENT_ROUTING_MODE, 'q2-fixture'],
+                    'Current routing requires the saved1585 binary only')
+        with patch.object(sys, 'argv', [str(path), *argv]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
     def test_selective_scaled_fixed_counting_scope(self):
         variant = 'scaled-selective'
         for mode in ('cpu', 'q2-bench', 'q2-profile', 'q2-curve', 'scaled-tiles-check',

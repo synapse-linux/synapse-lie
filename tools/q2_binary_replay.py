@@ -36,7 +36,7 @@ def libraries(binary, env):
 def verify_replay(root, label, mode, env, library_reader=libraries, *,
                   manifest_name='q2-fixed-binary-replay.json'):
     if manifest_name not in ('q2-fixed-binary-replay.json', 'q2-fixed-moe-profile-binary.json',
-                             'q2-current-best-profile-binary.json'):
+                             'q2-current-best-profile-binary.json', 'q2-current-routing-binary.json'):
         raise RuntimeError('Unqualified replay manifest')
     manifest_path = root/'config'/manifest_name
     manifest = json.loads(manifest_path.read_text())
@@ -69,7 +69,7 @@ def verify_replay(root, label, mode, env, library_reader=libraries, *,
     if runtime != expected['libraries']:
         raise RuntimeError('Replay library identity changed')
     historical = receipt.get('runtime_libraries')
-    if manifest_name == 'q2-current-best-profile-binary.json' and historical != runtime:
+    if manifest_name in ('q2-current-best-profile-binary.json', 'q2-current-routing-binary.json') and historical != runtime:
         raise RuntimeError('Replay historical library identity changed')
     return binary, dict(reference=str(previous), manifest_sha256=sha(manifest_path),
                         receipt_sha256=expected['receipt_sha256'], binary_sha256=digest,

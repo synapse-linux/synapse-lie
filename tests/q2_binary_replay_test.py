@@ -87,6 +87,31 @@ class ReplayTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, 'mode changed'):
             verify_replay(self.root, self.label, 'other-mode', {}, manifest_name=profile.name)
 
+    def test_current_routing_requires_original_runtime_hashes(self):
+        profile = self.root/'config/q2-current-routing-binary.json'
+        receipt_path = self.old/'results/result.json'
+        receipt = json.loads(receipt_path.read_text())
+        for libraries, accepted in ((None, False), ({'lib': 'old'}, False),
+                                    ({'lib': 'qualified'}, True)):
+            with self.subTest(libraries=libraries):
+                receipt['runtime_libraries'] = libraries
+                receipt_path.write_text(json.dumps(receipt))
+                self.expected['receipt_sha256'] = sha(receipt_path)
+                profile.write_text(json.dumps(dict(controls={self.label: self.expected})))
+                def replay():
+                    return verify_replay(self.root, self.label, self.mode, {},
+                        library_reader=lambda *_: {'lib': 'qualified'}, manifest_name=profile.name)
+                if accepted:
+                    binary, report = replay()
+                    self.assertEqual(binary, self.binary)
+                    self.assertTrue(report['historical_library_hashes_available'])
+                    self.assertEqual(report['build_commands'], 0)
+                else:
+                    with self.assertRaisesRegex(RuntimeError, 'historical library identity changed'):
+                        replay()
+        with self.assertRaisesRegex(RuntimeError, 'mode changed'):
+            verify_replay(self.root, self.label, 'other-mode', {}, manifest_name=profile.name)
+
     def test_unqualified_manifest_path_is_rejected(self):
         with self.assertRaisesRegex(RuntimeError, 'Unqualified replay manifest'):
             verify_replay(self.root, self.label, self.mode, {}, manifest_name='../elsewhere.json')
