@@ -1,5 +1,26 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Sixteen-wave whole640 preparation — 2026-10-06 UTC
+
+Fresh global .157 handover 18:48:44 UTC binds fe9a9190, original Core CPU/four
+GPU lease identities, empty KFD, retired processes/groups and unchanged model
+stats. Core's r35 closure confirms its own non-use. New host-r1 ends
+18:49:33.212355 UTC with 38+38 checks/six zero exits and seven artifacts
+collected. Plan e85d58ab permits only the new sixteen-wave component;
+fresh admission is still required. No Q2 .158/.161/TB use or remote cleanup.
+
+## Whole640 component collected and released — 2026-10-06 UTC
+
+Admission 18:32:31.450844 UTC/e50ef08f binds checkpoint 1f248ba6 and plan
+3ac31b7b. The only component finishes 18:33:33.079489 UTC with three zero
+exits; all 380 component/seven host artifacts collect before release
+18:35:33.289603 UTC/fe9a9190. All 1654 identities/1319 groups retire, KFD is
+empty, original Core CPU/four GPU leases are free and seven model stat tuples
+unchanged. Canonical/main/remote mirrors agree; Core receives closure before
+numerical/performance analysis. No Q2 job/client/build/lease/window/waiter/
+reservation/restart/cleanup remains .157/.158/.161/TB. New sixteen-wave source
+is local compiler preparation only, without another GPU plan or admission.
+
 ## Whole640 component preparation — 2026-10-06 UTC
 
 Fresh .157 global handover at 18:28:34 UTC verifies final full-prefill release

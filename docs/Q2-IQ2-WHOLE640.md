@@ -4,7 +4,46 @@
 
 The fixed comparison remains Q2 **1587.893545 PP / 25.12414406 TG** against
 UD **1685.777092 PP / 24.34174251 TG**. The new whole640 experiment has
-compiler evidence only so far. It is not selected by the model executor.
+completed its .157 component trial: both drafts are bit-exact to the parent,
+but slower. Neither is selected by the model executor.
+
+The [collected results](../config/q2-iq2-whole640-results.json) preserve all
+63 timings, including warmups, and all 380 component artifacts. Mean wall
+time over the five measured samples, in microseconds for gate/up plus packing:
+
+| Live rows per expert | Current chain | Register draft | LDS draft | LDS time change |
+|---:|---:|---:|---:|---:|
+| 4 | 505.059 | 2705.759 | 618.025 | +22.367% |
+| 8 | 518.792 | 2766.647 | 631.133 | +21.654% |
+| 16 | 644.021 | 2840.109 | 763.476 | +18.548% |
+
+These are new synthetic operator timings, not replacements for the fixed
+model comparison. The 16-row case contains high observations in both the
+parent and LDS samples; all remain included. No median substitution or
+outlier removal is used. No model or saved model control was rerun.
+
+All 104 candidate output pairs are bit-exact, including the actual buffers
+from 21 timed samples. Device guards, written/finite values and immutable
+inputs pass; an offline check independently reconstructs the original packing
+for 9,381,676 saved values and inverse scales. These checks establish component
+equivalence over the tested tensors, not independent model quality.
+
+Keep the retained provider. Removing the global F32 intermediate is correct
+but does not pay for this execution layout. Register spilling, block residency
+and the ten sequential output groups are possible costs; this trial does not
+isolate their contributions. The next local draft uses sixteen waves and five
+128-column groups, retaining only 40 accumulator and 20 packing floats per
+thread. It needs its own device evidence and has no production selector.
+
+The sixteen-wave [compiler record](../config/q2-iq2-whole640-wave16-static.json)
+keeps all 164 parent bodies exact. Register/LDS drafts respectively use
+20,608/61,568 shared bytes, 136/0 private bytes per thread, and 1,861/686
+static instructions. The LDS allocation uses 169 VGPRs versus 241 in the
+eight-wave version. These resource changes are not performance evidence.
+The new fixture compiles; .157 host 38+38 checks pass and seven artifacts
+collect. Its [separate plan](../config/q2-iq2-whole640-wave16-plan.json) freezes
+254 files/four manifests and permits only the two new drafts against the
+parent chain, without rerunning the previous drafts or any model control.
 
 The retained expert path writes 640 F32 gate/up values per routed row, then
 reads that row to choose a dyadic scale and convert it to F16 for Q2 down.
@@ -66,4 +105,7 @@ All preparation commands and earlier drafts remain under local
 `evidence/q2-iq2-whole640-*`. The .157 host gate passes 38 Debug and 38
 ASan/UBSan checks, with six zero exits and all seven artifacts collected.
 The [frozen component plan](../config/q2-iq2-whole640-plan.json) binds 246
-fixture files and four manifests. GPU results are pending fresh admission.
+fixture files and four manifests. The component exits [0,0,0], completes at
+18:33:33 UTC and is fully collected before release at 18:35:33 UTC, SHA
+`fe9a91904ce626a363a9ce80e3389d0f06fd6de5006e7b83cb796048ff841967`.
+No job, lease, reservation or remote cleanup remains.

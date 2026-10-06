@@ -1,5 +1,29 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Sixteen-wave whole640 component prepared — 2026-10-06 UTC
+
+The new block shape handles 128 gate/up columns per group, halving sequential
+groups to five. Each wave owns one full row in the epilogue. Register spill
+falls from 1380 to 136 bytes/thread; the LDS version remains spill-free,
+uses 169 allocated VGPRs and 61568 shared bytes, with 686 static instructions.
+All 164 parent bodies are exact. Only the new pair is scheduled for component
+qualification; previous drafts and model controls will not rerun. New .157
+host 38+38 passes, seven artifacts collect and plan e85d58ab freezes 254 files.
+No new GPU admission or model gain yet. [Scope and earlier result](Q2-IQ2-WHOLE640.md).
+
+## Whole640 component measured and retained as negative — 2026-10-06 UTC
+
+Both new drafts complete on .157 with [0,0,0] command exits, 104 bit-exact
+output pairs and 21 actual timed-buffer replays. Offline original packing is
+exact for 9,381,676 saved values/scales. All 63 timing records remain, including
+the high 16-row observations. LDS gate/up+packing takes 618.025/631.133/763.476
+microseconds for 4/8/16 live rows versus 505.059/518.792/644.021 for the parent:
+18.55–22.37% slower. Register spilling makes the other draft substantially
+slower. Keep retained 1587.893545 PP; no model rerun or integration.
+380 component and seven host artifacts collect before verified .157 release.
+The next compiler-only draft doubles waves and halves sequential groups.
+[Full results, exact scope and retained source](Q2-IQ2-WHOLE640.md).
+
 ## Whole640 producer/packing preparation — 2026-10-06 UTC
 
 Prepare register and LDS variants that own all 640 values of an IQ2 expert

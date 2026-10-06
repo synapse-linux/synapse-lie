@@ -1,9 +1,10 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-The new [whole640 IQ2 producer/packing experiment](docs/Q2-IQ2-WHOLE640.md)
-removes an F32 intermediate in two isolated drafts. Both compile; the shared
-memory version has no spills. GPU comparison is pending and the retained
-1587.893545 PP result remains unchanged.
+The [whole640 IQ2 producer/packing trial](docs/Q2-IQ2-WHOLE640.md) completes
+with 104 bit-exact output pairs. Its shared-memory draft takes 18.55–22.37%
+more component time and its register draft is slower still. Preserve the
+1587.893545 PP provider; the next local draft changes block ownership and
+sequential group count. No new model throughput is claimed.
 
 [Updated Q2 prefill and decode graph](docs/figures/q2-full-prefill128/pp-tg.png):
 the saved exact-2K/TG128 reference appears separately from the complete 4K–128K
