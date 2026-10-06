@@ -1,6 +1,39 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Immutable reasoning/tool composition uses C17 — 2026-10-06 UTC
+
+The shared `lie/grammar_composition.h` contract now owns marker automata,
+ordered alternatives, JSON tool-name quoting, argument-program identity reuse,
+rule/class/lexeme remapping and completion/parallel policy. The private adapter
+copies typed templates and retains immutable predicates; construction policy
+is C17. Three exact recipe edits retain both original OFF algorithms. The
+additive program-description API exports borrowed immutable tables without
+calling predicates or changing the existing grammar ABI.
+
+The [host receipt](development/validation/c17-composition-host-2026-10-06.json)
+records 16 Release/16 sanitizer/40 pristine-ON-OFF checks.
+All 23 earlier complete witness hashes stay unchanged. New comparisons
+cover 327 cases and 19002 complete prefix states/masks, including all 256
+name bytes, repeated predicate imports, nested reasoning and strict/parallel/plain
+modes. Independent C checks cover 582 oracles and 43 refusals, every observed
+construction allocation failure and exact requested-byte accounting. Sealed
+runtime tables survive composition retirement. All 54 headers compile as C17/C++17;
+provider source/header/glue inventory now has 69 files.
+
+The first sanitizer test exits 8 because LeakSanitizer refuses ptrace; its actual
+log is retained. Two new comparison-fixture attempts also retain their explicit
+root-object and no-valid-token diagnostics; only the fixture was corrected.
+The same tests pass outside ptrace with ASan/UBSan/LSan enabled
+and overrides unset. CPU peaks 90.125 C under CPU98/NVMe85/lower exposed guards;
+GPUs remain masked. No new remote build/run/lease/reservation, worker or speed
+claim is added. The latest matching original-weight evidence remains `a24875f`
+(66 files); it does not qualify this newer increment. Binary64 codec, opaque
+private containers/model/controller and independent GPU branch/resource/cost
+and SSD BPE gates remain open. All six owned tasks remain open; Terminal Bench
+stays stopped and deferred until functional modifications and gates finish.
+
+
 ## Matching 66-file GPU build and AR/MTP controls pass — 2026-10-06 UTC
 
 The sealed `a24875f` provider/application includes the later C17 numeric,

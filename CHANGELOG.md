@@ -7,6 +7,11 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Shared C17 immutable reasoning/tool grammar composition, including marker
+  transitions, argument imports, JSON name quoting and parallel-call stop policy.
+  Original/default-ON/OFF complete states and masks agree in host checks; matching
+  original-weight GPU qualification remains pending.
+
 - The matching 66-file C17 provider/application build passes 37 original-weight
   OpenAI controls in both AR and MTP on Strix Point. These qualify selected
   integrated paths; individual numeric/format branches, faults and cost remain open.

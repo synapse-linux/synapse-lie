@@ -135,6 +135,13 @@ void lie_grammar_program_release(lie_grammar_program *p) {
   a.release(a.context, p->tables);
   a.release(a.context, p);
 }
+lie_grammar_status lie_grammar_program_describe(const lie_grammar_program *p,
+                                               lie_grammar_description *out) {
+  if (!p || !out)
+    return LIE_GRAMMAR_INVALID;
+  *out = p->d;
+  return LIE_GRAMMAR_OK;
+}
 static lie_grammar_state *new_state(const lie_grammar_program *p) {
   lie_grammar_allocator a = p->d.allocator;
   lie_grammar_state *s = a.allocate(a.context, sizeof(*s));

@@ -20,6 +20,20 @@ public ABI. [Original-weight AR/MTP controls](../development/validation/c17-samp
 qualify that frozen integrated build within the stated wire/profile scope;
 they do not qualify an unfinished finite-value ABI or a complete owned executor.
 
+`lie/grammar_composition.h` adds independent composition ABI 1. The synchronous
+core constructs immutable reasoning/tool marker automata, quotes arbitrary name
+bytes, reuses argument-program identities and remaps ordered tables/predicate
+slots. `lie_grammar_program_describe()` additively exports a borrowed description
+until program release. Source origins remain alive until imported predicates
+are retained by the caller; the composed view itself owns tables/name copies.
+Caller-bound predicates and an independent runtime program outlive construction
+retirement. Paired allocators, bounded work/tables and refusal preserve published
+outputs and retire partial work. Defaults retain 262144 rule/class/lexeme limits
+and 64 million work units. The adapter alone retains typed shared pointers,
+templates and exception translation. Existing engine/sampler/grammar/state/HTTP
+layouts, DS4 framing and reactive worker contracts remain unchanged. See
+[host validation](../development/validation/c17-composition-host-2026-10-06.json).
+
 `lie/grammar_cache.h` adds separate compiled-schema cache ABI 1: copied byte
 keys, bounded entries, opaque retained values and explicit release. Concurrent
 calls serialize internally; retain/copy callbacks run under the lock and release
@@ -87,7 +101,7 @@ output argument can refuse before mutation. The default construction budget is
 64 million counted units, distinct from runtime state work. This adds no engine,
 request/generation, worker/event or persisted-state layout. The current 45-file
 inventory and extended runtime recipe require matching sealed provider/application
-builds. Schema dispatch and private caching/composition templates remain
+builds. Typed provider templates/predicates and the binary64 codec remain
 transitional. See [construction ownership](../development/C17-SAMPLING.md#grammar-construction-and-validation).
 
 `lie/schema_transform.h` adds separate schema-transformation ABI 1. Tagged
@@ -97,9 +111,9 @@ typed views; writers copy spans into caller-owned private staging. Refusal
 preserves result arguments; retire staging on success or failure. Object keys
 are unique and ordered. Output/error storage is disjoint from views/context;
 error detail borrows the input tree. Equality is iterative; conjunction has a
-64-level reference budget. Format and binary-double multipleOf leaf policy stay
+64-level reference budget. Typed JSON/storage and the binary64 codec stay
 in the adapter. No model, worker, RNG, engine or DS4 layout changes. Matching
-45-file provider/application builds are required. See
+provider/application rebuilds are required for changed private sources. See
 [schema ownership](../development/C17-SAMPLING.md#json-schema-conjunction-and-reference-resolution).
 
 `lie/schema_values.h` adds separate finite-value/container ABI 1 using the same

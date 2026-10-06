@@ -14,6 +14,15 @@ and confirmed per-job token counts remain progress, not completion or a finished
 throughput sample. Sampled GTT/temperatures are observational resources, not
 allocation-exact or device-fault qualification.
 
+C17 immutable grammar composition reports construction `work`, `owned_bytes`
+and `peak_owned_bytes` through its local view, without adding HTTP counters,
+timers or inference workers. Byte accounting includes the C object, requested
+array capacities, temporary quotes/symbols, tables and lexeme-origin storage;
+it excludes allocator metadata, provider templates/predicates, ICU, process and
+device memory. Work is an admission budget, not elapsed time or throughput.
+[Host accounting/refusal checks](../development/validation/c17-composition-host-2026-10-06.json)
+leave original-weight allocation-exact resources and matched cost open.
+
 The C17 compiled-schema cache adds no HTTP metric, inference worker or timing
 claim. Its optional inspection reports resident entries and key bytes only;
 opaque handles, programs and transient insertion storage are excluded. Matching
@@ -78,7 +87,7 @@ whole-provider allocation cost and GPU continuation remain separate gates.
 Grammar construction adds bounded C rule/class/table and
 productivity/cycle scratch allocations. Its 64-million-unit default work budget
 is admission accounting, not elapsed time or throughput. The provider retains
-private composition templates, schema dispatch and private composition caching and leaf translation. The independent
+typed provider templates/predicates, leaf translation and binary64 codec. The independent
 fixture peak counts requested owned payload only, excluding helper headers,
 provider/ICU/process/GPU allocations. No new HTTP metric or inference worker
 is introduced; original-weight allocation-exact cost remains unqualified.

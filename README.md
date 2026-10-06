@@ -11,8 +11,11 @@ Dense sampling has recorded GPU checks. Checkpoint `a24875f`, including the
 [37 OpenAI controls in both AR and MTP on Strix Point](docs/development/validation/c17-schema-policy-point-gpu-2026-10-06.json).
 These cover selected integrated paths. Individual numeric/format branches,
 broader numerical, fault, resource and performance gates remain open.
-Gufo still owns model/controller state, selected numeric leaves and private
-container/composition templates; ICU remains the Unicode set/property/conversion dependency.
+Gufo still owns model/controller state, private containers and the binary64
+codec; immutable reasoning/tool composition now uses
+the shared C17 core with [host validation](docs/development/validation/c17-composition-host-2026-10-06.json).
+The newer 69-file composition increment still needs matching GPU qualification.
+ICU remains the Unicode set/property/conversion dependency.
 [Directional steering](docs/guides/USAGE.md#directional-steering) has shared-core
 and server/bench controls with host validation, including scheduled benchmark
 changes, HTTP creation-time plans and live updates to individual stored choices.

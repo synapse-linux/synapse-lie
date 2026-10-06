@@ -11,7 +11,7 @@ acceptable as an **explicit transitional implementation**, not something to
 rename and claim as an owned backend. Do not require a big-bang rewrite before
 learning from real workloads; do not let the prototype define the final limits.
 
-## Current roadmap — 2026-10-05 UTC
+## Current roadmap — 2026-10-06 UTC
 
 Strix Point integration is merged into `develop` at `30598a3`; current context
 and OpenAI work remains on `feature/context-million-openai`. Recorded GPU
@@ -196,8 +196,8 @@ client/server restart or machine reservation is queued in the meantime.
    now also use C17, with [host witnesses](development/validation/c17-schema-body-host-2026-10-05.json).
    All 19 earlier complete witnesses remain unchanged. The matching memo/dispatch/
    Visit/body build now passes selected AR37/MTP37 GPU controls
-   ([receipt](development/validation/c17-schema-body-point-gpu-2026-10-05.json)). Immutable grammar
-   composition and the binary64 codec need extraction within the same task. Numeric
+   ([receipt](development/validation/c17-schema-body-point-gpu-2026-10-05.json)). The binary64 codec
+   still needs extraction within the same task. Numeric
    schema preparation, scalar acceptance, LCM representability and literal
    publication now also use C17, with
    [host checks](development/validation/c17-schema-number-host-2026-10-06.json).
@@ -206,7 +206,11 @@ client/server restart or machine reservation is queued in the meantime.
    Reasoning/tool composition cache ordering, duplicate-before-eviction policy
    and synchronization now also use C17
    ([host checks](development/validation/c17-composition-cache-host-2026-10-06.json)).
-   Opaque key/value containers and immutable grammar composition remain private.
+   Immutable reasoning/tool grammar composition now also uses C17
+   ([host checks](development/validation/c17-composition-host-2026-10-06.json)), with
+   complete states/masks and allocation/refusal oracles. Its newer 69-file inventory
+   requires matching provider/application and original-weight gates. Opaque
+   key/value containers, typed predicate storage and binary64 codec remain private.
    The later matching `a24875f` 66-file build now passes selected original-weight
    AR37/MTP37 controls on `.161`
    ([GPU receipt](development/validation/c17-schema-policy-point-gpu-2026-10-06.json)).

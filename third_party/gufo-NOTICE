@@ -7,12 +7,20 @@ See THIRD_PARTY_NOTICES.md for provenance, versions and distribution boundaries;
 full imported notices are installed alongside it in third-party/.
 
 Adapted code includes:
+- Immutable reasoning/tool grammar composition in src/grammar_composition.c
+  follows JsonConstraint::WithReasoning/WithTools and JSON name escaping at
+  independently fetched immutable Gufo f783fedb9bea2ec7de941f6da4e02f4a4596b29e
+  (MIT; gufo-LICENSE retained). C17 owns ordered marker automata, alternatives,
+  identity imports/remapping, quoting and stop policy. Typed template/predicate
+  storage stays private. composition-edits.json records three exact edits and
+  preserves both original OFF algorithms. No DS4/sibling code or artifacts
+  are imported. Matching GPU qualification/cost remains separate.
 - Ordered reasoning/tool composition cache policy in src/ordered_cache.c follows
   JsonConstraint::WithReasoning/WithTools at independently fetched immutable pin
   f783fedb9bea2ec7de941f6da4e02f4a4596b29e (MIT, gufo-LICENSE retained).
   C17 owns ordering/search, duplicate-before-eviction insertion, synchronization
   and smallest-key bounded eviction. Opaque typed key/value storage/comparisons
-  and immutable grammar composition remain private. Refusals are transactional
+  remain private; immutable composition now uses the module above. Refusals are transactional
   under the owned ABI. composition-cache-edits.json records five exact edits,
   with four original OFF cache blocks retained. No DS4 or sibling source/code
   artifact is imported; numerical forward and matching GPU gates remain separate.
@@ -126,8 +134,8 @@ Synapse LIE's explicitly selected state-access variant applies independently
 recorded MIT source edits for state access, MTP/vision state and target sampling
 controls. adapters/gufo-state/sampling-edits.json identifies the exact pinned
 bias/reporting replacements; the build receipt and source inventory bind their
-hashes. Model/controller and private composition remain delegated Gufo
-implementation; the owned runtime/numeric ports are attributed below.
+hashes. Model/controller and typed predicate/template storage remain delegated
+Gufo implementation; immutable composition uses the C17 port attributed above.
 No model weights or sibling-project source are imported by this recipe.
 
 The owned C17 dense sampling implementation in src/sampling.c is a port of

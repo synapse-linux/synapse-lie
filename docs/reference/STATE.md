@@ -41,6 +41,16 @@ profiles preserve these DS4 payload and cache identities. Their
 is wire/generation qualification with prompt cache disabled, not new original-
 weight RAM/SSD continuation, mixed-history lookup or state-fault evidence.
 
+Immutable reasoning/tool grammar composition now belongs to C17. Construction
+copies source tables/names and imports ordered lexeme origins by program
+identity; the private adapter retains the corresponding immutable predicates.
+Construction and imported templates are not model-prefix state, KV cache or
+SSD payloads. Grammar stacks remain independently copied request state, including
+speculative verification; no mutable reasoning/tool phase enters the model or
+cache. The additive description view borrows source tables until program release.
+[Host validation](../development/validation/c17-composition-host-2026-10-06.json)
+does not qualify new original-weight continuation, correction or restore.
+
 The compiled-schema C17 cache stores opaque grammar programs and copied schema
 keys. It is independent of KV/recurrent state, prefix retention and SSD files;
 its insertion/eviction never changes model cache identity or DS4 framing. Client
@@ -68,7 +78,7 @@ Owned C17 byte-grammar snapshots are request-local and independently copied
 while sampling or verifying speculation. Programs/mask-cache predicates are not
 serialized in DS4 RAM/SSD model-prefix payloads. Failed expansion/advance or
 canonicalization does not change the request's live state. The provider still
-supplies schema dispatch and private composition caching and private container storage. Concrete
+supplies typed predicate/container storage and the remaining binary64 codec. Concrete
 rule/primitive construction and productive/nullable/cycle validation now use
 the C17 builder. Unicode registry/input and snapshot read/write planning/copies
 now use shared C17 contracts, with ICU retained for set/property/conversion
@@ -80,7 +90,7 @@ C17 schema transformations borrow immutable typed JSON views and publish only
 private staging results. Equality/pointer/pattern scratch retires on every path;
 the provider retires its deque/container staging at the exception boundary.
 Conjunction refusal leaves input trees and the published result unchanged.
-Format/binary-double leaf policy and schema dispatch and private composition caching
+Typed JSON/predicate/storage and the binary64 codec
 remain transitional. These construction objects add no inference state, DS4
 payload, RAM/SSD identity, RNG transition or reactive frontier.
 

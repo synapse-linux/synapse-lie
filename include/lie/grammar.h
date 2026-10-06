@@ -79,6 +79,11 @@ void lie_grammar_description_init(lie_grammar_description *);
 lie_grammar_status lie_grammar_program_create(const lie_grammar_description *,
                                              lie_grammar_program **output);
 void lie_grammar_program_release(lie_grammar_program *);
+/* Copy the immutable description; tables and contexts remain borrowed until
+ * program release. This adds no ownership or predicate calls. On refusal the
+ * caller's description is unchanged. */
+lie_grammar_status lie_grammar_program_describe(const lie_grammar_program *,
+                                               lie_grammar_description *);
 lie_grammar_status lie_grammar_state_import(const lie_grammar_program *,
                                            const lie_grammar_frame *, size_t,
                                            lie_grammar_state **output);

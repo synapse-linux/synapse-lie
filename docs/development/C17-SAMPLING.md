@@ -65,7 +65,19 @@ integrated paths are qualified; individual numeric/format branches, new SSD BPE,
 independent probability/fault/private resource/matched cost remain open. Both
 modes observe a maximum of 44 whole-process threads, including runtime helpers;
 the source adds no inference worker or measured speedup. Immutable grammar
-composition, opaque typed key/value storage and binary64 codec remain private.
+composition is now extracted in the later host-qualified increment below.
+Opaque typed key/value storage and binary64 codec remain private.
+
+The later 69-file increment moves the full immutable reasoning/tool algorithm to
+`lie/grammar_composition.h`: marker transitions, ordered alternatives, name
+quoting, identity imports/remapping and stop policy. Its
+[host checks](validation/c17-composition-host-2026-10-06.json) compare complete
+ordered states and token masks against pristine/OFF algorithms. All 23 earlier
+witness hashes are unchanged; independent paired-allocation failure and core
+byte accounting checks pass. Typed predicate storage/templates remain private.
+This newer source needs matching GPU qualification; the previous `a24875f`
+receipt does not extend to it. Binary64 codec/model/controller ownership and
+broader qualification remain open.
 
 ## Ownership and behavior
 
