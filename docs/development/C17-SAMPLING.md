@@ -3,14 +3,73 @@
 
 Current source adds exact final decimal validation, a C17 compilation
 context/bootstrap, native schema staging/string construction and the complete
-production schema frontend. These
+production schema frontend, plus native history/probability buffer ownership. These
 are **unverified**: new test campaigns are deferred until
 remaining functional implementation is ready. The receipts below retain their
 stated frozen sources. See [compilation context](#compilation-context-and-bootstrap)
 and [decimal output validation](#final-decimal-output-validation), plus
 [native schema staging](#native-schema-staging) and
 [string-schema construction](#native-string-schema-construction) and
-[native frontend](#native-production-schema-frontend).
+[native frontend](#native-production-schema-frontend) and
+[native sampler storage](#native-sampler-buffer-ownership).
+
+## Native sampler buffer ownership
+
+`lie/sampling_storage.h` adds model-neutral ABI 1 for initialized inline history
+and probability owners. C17 owns allocation, geometric growth, requested-byte
+accounting, retirement, deep logical clone and exact move transfer. No heap is
+needed until the first buffer request. The default 64 MiB cap applies independently
+to each owner, includes simultaneous old/new buffers during growth, and excludes
+inline bodies, allocator overhead, private projections and other domains. Paired
+fresh/disjoint aligned allocator hooks must outlive owners. Clones stage a new
+independent domain before replacing a destination; aggregate process cost still
+includes both domains. Release initializes an empty reusable owner and resets
+its lifetime diagnostics.
+
+History callbacks bind to the owner address; shallow C struct copies are forbidden.
+Native move rebinds callbacks and leaves the source initialized/empty. Reset
+publishes options only on success, so a refused reset retains the old policy.
+Prompt tokens count for repetition only; committed tokens count for generation
+according to the existing history contract. Clones keep independent buffers;
+RNG, grammar and deferred draws keep their separate request owners. Input aliases
+and overlapping clone records refuse. Move requires disjoint records or self.
+
+Probability workspaces borrow the owner, and growth preserves the complete old
+capacity, including unpublished C algorithm scratch above logical count. The
+producer writes entries and explicitly publishes count; publication changes no
+probability bits. Allocation refusal leaves prior logical state intact; native
+algorithm refusal follows its existing unpublished-scratch contract. Capacity/
+diagnostics may advance. Borrowers retire before mutation/destruction; operations
+are serialized/nonreentrant. This is RAM sampler state, never KV tensor framing
+or SSD prefix state. No model/device/HTTP operation, queue, worker or global cache
+is added.
+
+The default-ON private `SamplerState` and `SamplingDistribution` use native
+owners. Dense/ranked builds, checked/stable distributions, residual staging and
+proposal verification no longer grow probability vectors in C++. Production
+native rows move directly into distributions. Existing vector constructors and
+`FromNormalized` remain explicit compatibility input boundaries. Private
+spans/error/handle translations remain C++; original OFF fields and algorithms
+stay guarded. Private type layouts now differ, so coherent complete ON/OFF
+core/numerical/provider/consumer rebuilds are required; mixing old libraries or
+different header selections is invalid. Public C engine/request/generation ABI,
+reactive flow, cache, HTTP and metrics contracts are unchanged.
+
+This increment, 20 exact edits and the 120-file inventory are **implemented, unverified**.
+Written native/private fixtures cover independent FIFO/count oracles, clone/move
+lifetimes, callback rebinding, staging preservation, overlapping input, allocation
+refusal, budget overlap, pending draws and production MTP calls. Existing complete
+pristine/ON/OFF witnesses remain final gates. C++ allocation probes now measure
+only private C++ allocations; native requested bytes have separate diagnostics
+and must be included in later resource/cost analysis. A zero C++ count is never
+a zero total-heap claim. No new configure/build/test/GPU run or speedup claim is
+made; earlier receipts exclude this source. Focused strict builds, unsuppressed
+sanitizers, complete witnesses, original-weight `.161` AR/MTP/fault/quality and
+matched resource/cost checks belong to the final phase.
+
+Current root item 7 covers grammar/masking, history and compact speculative
+distributions only. Full model/controller/kernel replacement remains the
+architectural destination and is not implicitly added to that work queue.
 
 The first model-executor extraction on `feature/c17-sampling` replaces dense
 token selection and random draws with `src/sampling.c`, shared through

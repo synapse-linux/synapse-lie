@@ -7,6 +7,11 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- C17 owns bounded sampler history and probability buffers, including deep
+  clones, exact moves, allocation limits and requested-byte accounting. The
+  default sampler uses these buffers; private provider/client rebuilds and final
+  qualification are pending.
+
 - Production schema and generic JSON compilation use a complete native C17
   frontend, with independently owned program/prompt/predicate results and stable
   error diagnostics. Private C++ projections remain; final qualification is pending.

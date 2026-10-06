@@ -1,5 +1,13 @@
 # C17 prefix state, RAM cache and optional SSD
 
+Native C17 sampler history/probability owners keep request-local token windows,
+generated counts and sampling workspace in RAM. Deep clones are independent;
+exact moves rebind callback ownership. They do not enter model-prefix checkpoints,
+KV tensors or DS4 RAM/SSD framing. Source and default-ON integration are currently
+unverified; final lifetime/fault/continuation qualification is pending. Matching
+private sampler/distribution consumers must rebuild together. See
+[sampler storage](../development/C17-SAMPLING.md#native-sampler-buffer-ownership).
+
 The selected static RoPE profile and the exact frequency/amplitude plan bind
 SSD cache identity. Native policy identity is preserved; YaRN2/YaRN4 checkpoints
 cannot be reused by native or differently scaled models. RAM stores belong to

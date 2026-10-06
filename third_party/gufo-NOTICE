@@ -345,3 +345,19 @@ retain the copied frontend source but do not compile or qualify that HIP path.
 Typed construction/initialization/errors and model/controller stay transitional.
 No DS4 or sibling CachyOS source/artifact is imported. This increment is HOST
 qualified only; earlier source72e9/r30 GPU evidence excludes it.
+
+Native sampler buffer ownership integration (unverified)
+-------------------------------------------------------
+LIE's MIT sampling_storage.c/.h provide first-party allocation/lifetime/budget
+policy for its C17 history/distribution algorithms. The 20 exact pinned
+sampling-storage-edits.json replacements bind the independently fetched official
+Gufo f783fedb sampler to native history/probability owners under default-ON
+selection. Original OFF vectors/algorithms remain guarded; private spans/errors/
+config/RNG/shared handles stay transitional. Dense/ranked/residual/proposal
+workspaces grow in C17; native production results transfer without a C++ row copy.
+Public vector constructors remain compatibility input boundaries. Private layouts
+change and require matching complete provider/core/numerical/consumer builds.
+This does not complete model/controller/kernel ownership or remove C++/HIP.
+No DS4 or sibling CachyOS/peer artifact is imported. Source and written fixtures
+are unverified pending the owner-requested final qualification phase; earlier
+HOST/GPU receipts do not qualify this increment or establish performance gains.

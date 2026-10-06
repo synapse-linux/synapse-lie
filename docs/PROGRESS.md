@@ -1,6 +1,36 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Sampler history and probability buffers owned by C17 — 2026-10-06 UTC
+
+The shared `lie/sampling_storage.h` contract owns bounded token/penalty and
+probability buffers, growth, accounting, transactional logical clones and exact
+move transfer. Inline initialized owners allocate no initial heap; moving a
+history rebinds its native callback context. Growth preserves unpublished C
+algorithm staging, charges simultaneous old/new buffer bytes and refuses before
+publishing logical state. Default requested heap limits are 64 MiB per owner.
+
+The default-ON private sampler now holds native history and distribution owners.
+Dense/ranked/residual/proposal paths write directly into C workspaces; production
+results transfer into distributions without a C++ row copy. Span, exception,
+config, RNG and handle projections remain private. Public vector constructors
+are compatibility input boundaries; original OFF algorithms/layouts stay guarded.
+Matching complete provider/core/numerical/client rebuilds are required because
+private sampler/distribution layouts change. Existing public C engine/HTTP/state/
+cache/event/metric contracts and reactive scheduling remain unchanged by design.
+
+**Implemented, unverified:** 20 exact source edits and 120 provider files are
+recorded. Native and private integration fixtures cover FIFO/count oracles,
+independent clones, move identity, callback rebinding, staging growth, requested
+memory limits, allocation refusal, copied pending draws and MTP calls. No new
+configure/build/test/GPU campaign is started. Final qualification combines every
+unverified increment, complete ON/OFF witnesses, unsuppressed sanitizers and
+matching `.161` original-weight faults/quality/resources/cost. Earlier receipts
+remain frozen. Current item 7 is limited to grammar/masking, sampler history and
+compact speculative distributions; complete model/controller/kernel replacement
+is an architectural boundary, not an added root task. All six items remain open
+until their acceptance gates pass; Terminal Bench stays last, without reservation.
+
 ## Production schema frontend implemented in C17 — 2026-10-06 UTC
 
 `lie_schema_frontend` connects native JSON readers, compiler state, body/visit/
@@ -19,7 +49,7 @@ cache identity, references, enum filtering, output/error lifetime and allocation
 refusals. No configure/build/test/GPU campaign is started. Matching strict build,
 unsuppressed sanitizers, complete ON/OFF witnesses and `.161` original-weight
 AR/MTP, faults, quality/resources/cost remain final gates. Earlier receipts retain
-their frozen sources. Remaining model/controller ownership and broader acceptance
+their frozen sources. Remaining sampler buffer ownership and broader acceptance
 keep all six tasks open; Terminal Bench stays last, without a reservation.
 
 ## Native C17 string-schema construction — 2026-10-06 UTC

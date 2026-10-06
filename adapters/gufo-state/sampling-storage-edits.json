@@ -1,0 +1,108 @@
+{
+  "schema": "synapse-lie.gufo-state-edits.v1",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "license": "MIT",
+  "scope": "Default-ON history and ordered/speculative probability buffer ownership/growth move to C17; private spans/errors/copy-move handles and original OFF algorithms remain. Matching private provider/consumer rebuild is required. No model/controller, worker or HTTP rewrite.",
+  "edits": [
+    {
+      "path": "src/core/sampling.hpp",
+      "old": "#include \"lie/sampling.h\"",
+      "new": "#include \"lie/sampling.h\"\n#if LIE_C17_SAMPLING\n#include \"gufo_sampling_storage.hpp\"\n#endif"
+    },
+    {
+      "path": "src/core/sampling.hpp",
+      "old": "private:\n  friend class SamplerState;",
+      "new": "#if LIE_C17_SAMPLING\n  // Transfer an already-normalized native buffer without a C++ row copy.\n  static SamplingDistribution FromOwned(lie_gufo::ProbabilityStorage entries) {\n    return SamplingDistribution(std::move(entries), std::in_place);\n  }\n#endif\n\nprivate:\n  friend class SamplerState;"
+    },
+    {
+      "path": "src/core/sampling.hpp",
+      "old": "  std::vector<Probability> entries_;",
+      "new": "#if LIE_C17_SAMPLING\n  SamplingDistribution(lie_gufo::ProbabilityStorage entries, std::in_place_t);\n  lie_gufo::ProbabilityStorage entries_;\n#else\n  std::vector<Probability> entries_;\n#endif"
+    },
+    {
+      "path": "src/core/sampling.hpp",
+      "old": "  [[nodiscard]] std::span<const TokenPenalty> penalties() const noexcept {\n    return penalty_counts_;\n  }",
+      "new": "  [[nodiscard]] std::span<const TokenPenalty> penalties() const noexcept {\n#if LIE_C17_SAMPLING\n    return history_.penalties();\n#else\n    return penalty_counts_;\n#endif\n  }"
+    },
+    {
+      "path": "src/core/sampling.hpp",
+      "old": "  std::vector<TokenId> history_;\n  std::vector<TokenPenalty> penalty_counts_;\n  std::vector<Probability> candidate_scratch_;",
+      "new": "#if LIE_C17_SAMPLING\n  lie_gufo::OwnedHistory history_;\n#else\n  std::vector<TokenId> history_;\n  std::vector<TokenPenalty> penalty_counts_;\n  std::vector<Probability> candidate_scratch_;\n#endif"
+    },
+    {
+      "path": "src/core/sampling.cpp",
+      "old": "std::span<const Probability> SamplingDistribution::entries() const noexcept {\n  return entries_;\n}",
+      "new": "#if LIE_C17_SAMPLING\nSamplingDistribution::SamplingDistribution(lie_gufo::ProbabilityStorage entries,\n                                           std::in_place_t)\n    : entries_(std::move(entries)) {\n  lie_gufo::distribution_stable(entries_, 1.0);\n}\n#endif\n\nstd::span<const Probability> SamplingDistribution::entries() const noexcept {\n  return {entries_.data(), entries_.size()};\n}"
+    },
+    {
+      "path": "src/core/sampling.cpp",
+      "old": "  return SamplingDistribution::FromNormalized(lie_gufo::distribution_ranked(logits, config, penalties));",
+      "new": "  return SamplingDistribution::FromOwned(lie_gufo::distribution_ranked(logits, config, penalties));"
+    },
+    {
+      "path": "src/core/sampling.cpp",
+      "old": "  std::vector<TokenId> history;\n  std::vector<TokenPenalty> penalties;\n  lie_gufo::history_reset(config, history, penalties, prompt_tokens);\n  lie_gufo::history_accept(config, history, penalties, generated_tokens);\n  return DistributionWithPenalties(logits, config, penalties);",
+      "new": "  lie_gufo::OwnedHistory history;\n  lie_gufo::history_reset(config, history, prompt_tokens);\n  lie_gufo::history_accept(history, generated_tokens);\n  return DistributionWithPenalties(logits, config, history.penalties());"
+    },
+    {
+      "path": "src/core/sampling.cpp",
+      "old": "  lie_gufo::history_reset(config_, history_, penalty_counts_, initial_history);",
+      "new": "  lie_gufo::history_reset(config_, history_, initial_history);"
+    },
+    {
+      "path": "src/core/sampling.cpp",
+      "old": "      penalty_counts_(other.penalty_counts_),",
+      "new": "#if !LIE_C17_SAMPLING\n      penalty_counts_(other.penalty_counts_),\n#endif"
+    },
+    {
+      "path": "src/core/sampling.cpp",
+      "old": "  penalty_counts_ = other.penalty_counts_;\n  candidate_scratch_.clear();",
+      "new": "#if !LIE_C17_SAMPLING\n  penalty_counts_ = other.penalty_counts_;\n  candidate_scratch_.clear();\n#endif"
+    },
+    {
+      "path": "src/core/sampling.cpp",
+      "old": "std::span<const TokenId> SamplerState::history() const noexcept {\n  return history_;\n}",
+      "new": "std::span<const TokenId> SamplerState::history() const noexcept {\n#if LIE_C17_SAMPLING\n  return history_.tokens();\n#else\n  return history_;\n#endif\n}"
+    },
+    {
+      "path": "src/core/sampling.cpp",
+      "old": "  lie_gufo::history_reset(config_, history_, penalty_counts_, tokens);",
+      "new": "  lie_gufo::history_reset(config_, history_, tokens);"
+    },
+    {
+      "path": "src/core/sampling.cpp",
+      "old": "    lie_gufo::history_accept(config_, history_, penalty_counts_, tokens);\n    constraint_state_ = std::move(next);\n  } else {\n    lie_gufo::history_accept(config_, history_, penalty_counts_, tokens);\n  }",
+      "new": "    lie_gufo::history_accept(history_, tokens);\n    constraint_state_ = std::move(next);\n  } else {\n    lie_gufo::history_accept(history_, tokens);\n  }"
+    },
+    {
+      "path": "src/core/sampling.cpp",
+      "old": "      return SamplingDistribution({{SampleConstrainedGreedy(logits), 1.0}}, 1.0);",
+      "new": "      return SamplingDistribution::FromOwned(lie_gufo::distribution_singleton(SampleConstrainedGreedy(logits)));"
+    },
+    {
+      "path": "src/core/sampling.cpp",
+      "old": "  return SamplingDistribution(\n      lie_gufo::dense_distribution(logits, config_, penalty_counts_), 1.0);",
+      "new": "  return SamplingDistribution::FromOwned(\n      lie_gufo::dense_distribution(logits, config_, history_.penalties()));"
+    },
+    {
+      "path": "src/core/sampling.cpp",
+      "old": "  return SamplingDistribution::FromNormalized(\n      lie_gufo::distribution_ranked(logits, config_, penalty_counts_, token_ids));",
+      "new": "  return SamplingDistribution::FromOwned(\n      lie_gufo::distribution_ranked(logits, config_, history_.penalties(), token_ids));"
+    },
+    {
+      "path": "src/core/sampling.cpp",
+      "old": "double SamplerState::AdjustedLogit(TokenId token, float logit) const noexcept {\n  const auto found = std::ranges::lower_bound(penalty_counts_, token, {},\n                                              &TokenPenalty::token);\n  const double bias = token < config_.logit_bias.size() ? config_.logit_bias[token] : 0.0;\n  return bias + (found == penalty_counts_.end() || found->token != token\n             ? static_cast<double>(logit)\n             : Penalize(logit, config_, *found));\n}",
+      "new": "double SamplerState::AdjustedLogit(TokenId token, float logit) const noexcept {\n#if LIE_C17_SAMPLING\n  const auto counts = history_.penalties();\n  const auto found = std::ranges::lower_bound(counts, token, {}, &TokenPenalty::token);\n  const double bias = token < config_.logit_bias.size() ? config_.logit_bias[token] : 0.0;\n  return bias + (found == counts.end() || found->token != token\n      ? static_cast<double>(logit)\n      : lie_sampling_penalize(logit, config_.repeat_penalty,\n          config_.frequency_penalty, config_.presence_penalty,\n          found->repeated, found->generated_count));\n#else\n  const auto found = std::ranges::lower_bound(penalty_counts_, token, {},\n                                              &TokenPenalty::token);\n  const double bias = token < config_.logit_bias.size() ? config_.logit_bias[token] : 0.0;\n  return bias + (found == penalty_counts_.end() || found->token != token\n             ? static_cast<double>(logit)\n             : Penalize(logit, config_, *found));\n#endif\n}"
+    },
+    {
+      "path": "src/core/sampling.cpp",
+      "old": "  return lie_gufo::dense_greedy(logits, config_, penalty_counts_);",
+      "new": "  return lie_gufo::dense_greedy(logits, config_, history_.penalties());"
+    },
+    {
+      "path": "src/core/sampling.cpp",
+      "old": "  return lie_gufo::dense_greedy(logits, config_, penalty_counts_, *mask);",
+      "new": "  return lie_gufo::dense_greedy(logits, config_, history_.penalties(), *mask);"
+    }
+  ]
+}

@@ -267,8 +267,26 @@ caller-owned token/penalty storage and growth callbacks. Reset counts prompt tok
 only for repetition; accept counts all committed generated tokens independently
 of the repetition window. Refusal preserves logical state; capacities/scratch may
 change. Independent copy leaves RNG and grammar to their owners. The transitional
-provider keeps its ON/OFF vector layout, with storage/exception glue only. No
-executor, request, generation or persisted-state layout changes.
+provider originally kept its ON/OFF vector layout; current unverified default-ON
+source uses the additive native storage contract below. Public executor, request,
+generation and persisted-state layouts are unchanged.
+
+`lie/sampling_storage.h` adds separate model-neutral storage ABI 1. Initialized
+inline owners hold bounded history/probability buffers, requested-byte diagnostics
+and allocator hooks. They are move-only C ownership records: use native clone/
+move, never shallow copy. Clone stages an independent allocator domain, preserves
+the destination on refusal and leaves source ownership unchanged. Move transfers
+exact buffers/hooks, rebinds history callbacks and leaves an empty initialized
+source; move records must be disjoint or self. Default 64 MiB requested heap caps
+include old/new growth overlap per owner; body/allocator/private overhead and
+other owners are separate. Probability workspaces preserve unpublished capacity
+and count is explicitly published without initializing entries. Reset changes
+history options only on success. Paired hooks outlive owners and callers serialize
+operations/retire borrowers. No RNG, device, thread or persistent KV state is owned.
+Default-ON private sampler/distribution layouts change; all private provider and
+consumer translation units require a matching complete rebuild. Public C engine/
+HTTP/cache/event/metric contracts are unchanged. Source/fixtures remain unverified
+until final qualification. See [native storage](../development/C17-SAMPLING.md#native-sampler-buffer-ownership).
 
 `lie/sampling_distribution.h` adds separate distribution ABI 1 for tagged ranked
 rows, mutable proposal output and immutable proposal views. Caller-owned storage

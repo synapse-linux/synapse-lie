@@ -168,6 +168,17 @@ Bench client/server restart or machine reservation is queued in the meantime.
    lifetimes, numerical oracles and GPU comparisons before replacing each
    component. Preserve the shared reactive core and limit this task to those
    three identified extractions.
+   The later default-ON source also moves token/penalty/probability buffer ownership,
+   growth, accounting, logical clones and exact move transfer into C17. Private
+   sampler/distribution layouts change; matching complete provider and consumer
+   builds are required. Production rows transfer without a C++ probability-vector
+   copy; original OFF layouts remain guarded. This increment has 20 edits and
+   a 120-file inventory. It and the written ownership/refusal/MTP fixtures are
+   **unverified**, with all new tests
+   deferred to the final phase. See
+   [native sampler storage](development/C17-SAMPLING.md#native-sampler-buffer-ownership).
+   Full model/controller/kernel replacement remains an architectural destination,
+   outside these three identified extractions and the current root queue.
    Sampler history/penalty bookkeeping is now wired through an owned C17
    contract under the default-ON sampler selection, retaining an OFF reference.
    Host FIFO/count oracles and pristine/ON/OFF full witnesses pass; original-weight

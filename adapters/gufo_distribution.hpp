@@ -7,13 +7,13 @@
 #include "src/core/sampling.hpp"
 namespace lie_gufo {
 inline lie_sampling_workspace
-distribution_storage(std::vector<gufo::sampling::Probability> &v) {
-  return {v.data(), v.size(), dense_grow, &v};
+distribution_storage(ProbabilityStorage &v) {
+  return v.workspace();
 }
-inline void distribution_checked(std::vector<gufo::sampling::Probability> &v) {
+inline void distribution_checked(ProbabilityStorage &v) {
   if (v.empty())
     throw std::invalid_argument("sampling distribution cannot be empty");
-  std::vector<gufo::sampling::Probability> scratch;
+  ProbabilityStorage scratch;
   auto w = distribution_storage(scratch);
   size_t count = v.size();
   auto rc = lie_sampling_distribution_checked(v.data(), &count, &w);
@@ -22,18 +22,25 @@ inline void distribution_checked(std::vector<gufo::sampling::Probability> &v) {
   if (rc == LIE_SAMPLING_NO_FINITE)
     throw std::invalid_argument("sampling distribution has no probability");
   dense_check(rc);
-  v.resize(count);
+  v.publish(count);
 }
-inline void distribution_stable(std::vector<gufo::sampling::Probability> &v,
+inline void distribution_stable(ProbabilityStorage &v,
                                 double total) {
   size_t count = v.size();
   auto rc = lie_sampling_distribution_stable(v.data(), &count, total);
   if (rc == LIE_SAMPLING_NONFINITE)
     throw std::runtime_error("logit softmax normalization failed");
   dense_check(rc);
-  v.resize(count);
+  v.publish(count);
 }
-inline std::vector<gufo::sampling::Probability>
+inline ProbabilityStorage distribution_singleton(uint32_t token) {
+  ProbabilityStorage entries;
+  auto w = entries.workspace();
+  if (w.grow(w.context, 1, &w.entries, &w.capacity)) throw std::bad_alloc();
+  w.entries[0] = {token, 1.0}; entries.publish(1);
+  return entries;
+}
+inline ProbabilityStorage
 distribution_ranked(std::span<const float> logits,
                     const gufo::sampling::SamplingConfig &config,
                     std::span<const gufo::sampling::TokenPenalty> penalties,
@@ -48,11 +55,11 @@ distribution_ranked(std::span<const float> logits,
   row.penalty_count = penalties.size();
   row.token_ids = ids.data();
   row.token_id_count = ids.size();
-  std::vector<gufo::sampling::Probability> entries, scratch;
+  ProbabilityStorage entries, scratch;
   auto w = distribution_storage(entries), s = distribution_storage(scratch);
   size_t count = 0;
   dense_check(lie_sampling_distribution_ranked(&row, &options, &w, &s, &count));
-  entries.resize(count);
+  entries.publish(count);
   return entries;
 }
 inline uint32_t
@@ -61,7 +68,7 @@ distribution_residual(std::span<const gufo::sampling::Probability> entries,
                       std::span<const float> probabilities, uint64_t *rng) {
   const lie_sampling_sparse_row q{ids.data(), ids.size(), probabilities.data(),
                                   probabilities.size()};
-  std::vector<gufo::sampling::Probability> draft, residual;
+  ProbabilityStorage draft, residual;
   auto d = distribution_storage(draft), r = distribution_storage(residual);
   uint32_t token = 0;
   dense_check(lie_sampling_distribution_residual_draw(
@@ -108,7 +115,7 @@ proposal_verify(std::span<const gufo::sampling::Probability> target,
                 std::span<const float> probabilities, uint32_t token,
                 float probability, uint64_t *rng) {
   auto q = proposal_view(ids, probabilities, token, probability);
-  std::vector<gufo::sampling::Probability> draft, residual;
+  ProbabilityStorage draft, residual;
   auto d = distribution_storage(draft), r = distribution_storage(residual);
   uint32_t out = 0;
   bool accepted = false;

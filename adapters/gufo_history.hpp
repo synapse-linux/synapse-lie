@@ -3,6 +3,7 @@
 #ifndef LIE_GUFO_HISTORY_HPP
 #define LIE_GUFO_HISTORY_HPP
 #include "lie/sampling_history.h"
+#include "gufo_sampling_storage.hpp"
 #include "src/core/sampling.hpp"
 #include <new>
 #include <span>
@@ -18,6 +19,17 @@ history_options(const gufo::sampling::SamplingConfig &c) {
   o.repetition = c.repeat_penalty != 1 && c.repeat_last_n != 0;
   return o;
 }
+inline void history_reset(const gufo::sampling::SamplingConfig &c,
+                          OwnedHistory &history,
+                          std::span<const gufo::sampling::TokenId> input) {
+  history.reset(history_options(c), input);
+}
+inline void history_accept(OwnedHistory &history,
+                           std::span<const gufo::sampling::TokenId> input) {
+  history.accept(input);
+}
+// Retained compatibility projection; default-ON storage has no C++ grow hook.
+#if !LIE_C17_SAMPLING
 class HistoryStorage {
   std::vector<gufo::sampling::TokenId> &tokens_;
   std::vector<gufo::sampling::TokenPenalty> &penalties_;
@@ -93,5 +105,6 @@ inline void history_accept(const gufo::sampling::SamplingConfig &c,
   history_check(lie_sampling_history_accept(&options, &storage.state,
                                             input.data(), input.size()));
 }
+#endif
 } // namespace lie_gufo
 #endif
