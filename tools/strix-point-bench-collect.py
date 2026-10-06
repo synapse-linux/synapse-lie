@@ -14,6 +14,8 @@ SSH = ['ssh', '-F', '/dev/null', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=8'
        'pop@192.168.5.161']
 SCP = ['scp', '-F', '/dev/null', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=8']
 FILES = {
+    'ssd-text-restart': ('manifest.json', 'runner.py', 'ssd-text-restart-gate.py',
+                         'result.json', 'telemetry.jsonl'),
     'http': ('manifest.json', 'runner.py', 'http-gate.py', 'result.json', 'telemetry.jsonl'),
     'bench': ('manifest.json', 'runner.py', 'result.json', 'measurements.jsonl',
               'telemetry.jsonl', 'stdout.log', 'stderr.log'),
@@ -34,6 +36,13 @@ FILES = {
     'preflight': ('manifest.json', 'runner.py', 'result.json', 'telemetry.jsonl'),
 }
 OPTIONAL = {
+    'ssd-text-restart': ('ssd-text-restart-result.json', 'ssd-text-progress.json',
+                         'calibration.txt', 'prompt.txt', 'tokens.json',
+                         'measurements-calibration.jsonl', 'measurements-fresh.jsonl',
+                         'measurements-cold.jsonl', 'measurements-hot.jsonl',
+                         'bench-calibration.log', 'bench-fresh.log', 'bench-cold.log',
+                         'bench-hot.log', 'stdout.log', 'stderr.log', 'distrobox-create.log',
+                         'distrobox.stdout.log', 'distrobox.stderr.log'),
     'http': ('http-result.json', 'http-wire.jsonl', 'server.log', 'stdout.log',
              'stderr.log', 'distrobox-create.log', 'distrobox.stdout.log',
              'distrobox.stderr.log', 'http-controls.py', 'http-controls-result.json',

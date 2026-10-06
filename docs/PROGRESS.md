@@ -31,6 +31,17 @@ independent probability/fault/quality/allocation-exact/matched-cost and SSD BPE
 gates remain open. All six owned roadmap tasks stay open; Terminal Bench remains
 stopped and deferred until modifications and matching qualification finish.
 
+The dedicated `modern-core-ssd-text-restart` qualification profile now has ten
+passing host rejection/comparison checks
+([receipt](development/validation/ssd-text-restart-host-2026-10-06.json)). Four
+independent core processes calibrate a character token, measure fresh BPE,
+persist 2,048 separated physical tokens, then restore that longer history from
+the same visible text. Cold/hot confirmed output IDs must match; RAM retention
+is off and SSD drain/hit counters must confirm actual persistence/reuse.
+This is optional developer tooling, with no new product/default-CTest dependency,
+runtime code, ABI or format change. Original-weight execution and scheduled
+physical-index qualification remain pending.
+
 
 ## JSON binary64 conversion uses the shared C17 core — 2026-10-06 UTC
 

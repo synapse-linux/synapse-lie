@@ -934,6 +934,8 @@ class Campaign:
             return self.modern_http_gate()
         if profile == 'modern-core-ssd-restart':
             return self.modern_ssd_restart_gate()
+        if profile == 'modern-core-ssd-text-restart':
+            return self.modern_ssd_text_restart_gate()
         if profile == 'modern-core-vision':
             return self.modern_vision_bench()
         if profile in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-reactive-probe'):
@@ -1525,6 +1527,50 @@ class Campaign:
         finally:
             if (self.root/'ssd-restart-result.json').exists():
                 self.r['ssd_restart_partial'] = {'result_sha256': sha(self.root/'ssd-restart-result.json')}
+            self.check_model_after(rows)
+    def modern_ssd_text_restart_gate(self):
+        if self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox':
+            raise ValueError('Modern SSD text restart requires ROCm 10 Distrobox')
+        mode = self.m.get('decode_mode')
+        if mode not in ('ar', 'mtp'):
+            raise ValueError('Modern SSD text restart mode must be ar or mtp')
+        helper = checked_path(self.root/'ssd-text-restart-gate.py')
+        if sha(helper) != self.m.get('ssd_text_restart_gate_sha256'):
+            raise ValueError('Modern SSD text restart helper drift')
+        model, rows = self.verified_model()
+        predictor = None
+        if mode == 'mtp':
+            predictor, witness = self.verified_predictor()
+            rows.append(witness)
+        elif 'predictor_plan' in self.m:
+            raise ValueError('AR SSD text restart must not admit a predictor')
+        (self.root/'kv').mkdir(mode=0o700, exist_ok=False)
+        command = ['/usr/bin/python3', '-B', '/work/ssd-text-restart-gate.py',
+                   '/bundle/runtime/bin/synapse-lie-bench',
+                   '/model/'+self.m['model_plan']['files'][0]['name'], mode]
+        if predictor:
+            command.append('/mtp/'+predictor.name)
+        self.r['bench_command'] = command
+        self.record()
+        try:
+            self.run_container(command, self.m['bundle'], 3000, model)
+            result = json.loads((self.root/'ssd-text-restart-result.json').read_text())
+            if (result.get('schema') != 'synapse-lie.point-ssd-text-restart.v1' or
+                    result.get('state') != 'PASSED' or result.get('mode') != mode or
+                    any(result.get(phase+'_exit_code') != 0 for phase in ('calibration', 'fresh', 'cold', 'hot')) or
+                    not 0 < result.get('fresh_bpe_tokens', 0) < 2048 or
+                    result.get('saved_physical_tokens') != 2048 or
+                    result.get('hot_ssd_cached_tokens') != 2048 or result.get('hot_prefill_tokens') != 0 or
+                    not result.get('saved_history_longer_than_fresh_bpe') or
+                    not result.get('physical_ids_equal') or not result.get('output_ids_equal')):
+                raise RuntimeError('Incomplete original-weight SSD text restart gate')
+            self.r['ssd_text_restart_result'] = {
+                'mode': mode, 'result_sha256': sha(self.root/'ssd-text-restart-result.json'),
+                'fresh_bpe_tokens': result['fresh_bpe_tokens'],
+                'saved_physical_tokens': result['saved_physical_tokens']}
+        finally:
+            if (self.root/'ssd-text-restart-result.json').exists():
+                self.r['ssd_text_restart_partial'] = {'result_sha256': sha(self.root/'ssd-text-restart-result.json')}
             self.check_model_after(rows)
     def finish(self):
         failures = []

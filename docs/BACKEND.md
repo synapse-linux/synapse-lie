@@ -221,6 +221,10 @@ client/server restart or machine reservation is queued in the meantime.
    ([GPU receipt](development/validation/c17-schema-policy-point-gpu-2026-10-06.json)).
    Individual numeric/format branches and independent probability/fault/private
    resource/matched cost gates remain open; this is no new SSD BPE qualification.
+   The dedicated SSD text restart gate is now prepared with ten host rejection
+   checks ([receipt](development/validation/ssd-text-restart-host-2026-10-06.json)).
+   It separates calibration, fresh BPE, cold saved physical history and a new
+   process restoring that history from text; original-weight qualification is pending.
    [Release/cache host checks](development/validation/release-cache-host-2026-10-05.json)
    pass 79/79/35 with 20 unchanged complete witnesses. The device-free r17 provider
    builds but its application fails a strict optimized C warning; the collected
