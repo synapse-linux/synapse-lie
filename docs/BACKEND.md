@@ -114,8 +114,9 @@ client/server restart or machine reservation is queued in the meantime.
    qualifies this regression; learned-direction quality, independent graph/
    correction/fault, vision and matched cost remain open.
    The separate `modern-core-steering-admission` profile is host-prepared
-   ([receipt](development/validation/steering-admission-host-2026-10-06.json)):
-   fifteen refusal/equivalence checks and 61 campaign checks pass. Real-model
+   ([receipt](development/validation/steering-admission-draft-host-2026-10-06.json)):
+   sixteen refusal/equivalence checks and 61 campaign checks pass. MTP requires
+   actual drafting, with zero acceptance valid and no accepted-burst claim. Real-model
    absent/zero/fresh-core recovery equality and twelve expected loader refusals
    still require fresh GPU qualification; host JSON/byte fixtures are not inference.
    DS4's `--dir-steering-file`, `--dir-steering-ffn` and

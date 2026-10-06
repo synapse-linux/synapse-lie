@@ -140,13 +140,25 @@ class Tests(unittest.TestCase):
             with self.assertRaises(RuntimeError):
                 gate.parse_success(rows, actual, 'ar', 'zero', self.bank)
 
-    def test_mtp_must_draft_and_accept_and_ar_must_not(self):
+    def test_mtp_must_draft_and_have_valid_counters_and_ar_must_not(self):
         for mode, key, value in (('mtp', 'mtp_drafted_tokens', 0),
-                                 ('mtp', 'mtp_accepted_tokens', 0),
+                                 ('mtp', 'mtp_accepted_tokens', -1),
+                                 ('mtp', 'mtp_accepted_tokens', 15),
+                                 ('mtp', 'mtp_accepted_tokens', True),
+                                 ('mtp', 'mtp_accepted_tokens', None),
                                  ('ar', 'mtp_accepted_tokens', 1), ('ar', 'mtp_drafted_tokens', 1)):
             rows = self.success(mode=mode); rows[3][key] = value
             with self.subTest(mode=mode, key=key), self.assertRaisesRegex(RuntimeError, 'MTP'):
                 gate.parse_success(rows, 0, mode, 'zero', self.bank)
+
+    def test_zero_accepted_drafts_are_valid_without_claiming_accepted_burst(self):
+        successes, refusals = self.parsed('mtp')
+        for phase in gate.SUCCESS:
+            rows = self.success(phase, 'mtp')
+            rows[3]['mtp_accepted_tokens'] = 0
+            successes[phase] = gate.parse_success(rows, 0, 'mtp', phase, self.bank)
+        self.assertTrue(gate.compare(successes, refusals)['output_ids_equal'])
+        self.assertEqual(successes['zero']['job']['mtp_accepted_tokens'], 0)
 
     def test_output_and_input_mismatch_or_missing_refusals_cannot_pass(self):
         for field, key in (('job', 'output_ids'), ('input', 'physical_ids')):

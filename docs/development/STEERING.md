@@ -3,13 +3,15 @@
 
 The C17 shared library owns direction-bank loading, bounded host allocation,
 immutable values, session policy transactions, history/cache identities and
-explicit state metadata. Owned HIP activation operators and target-provider
-hooks are qualified only by host contracts and syntax checks. Direct C model and
-session/model-state binding is present in provider and shared-worker source.
+explicit state metadata. Direct C model and session/model-state binding is
+present in provider and shared-worker source. Selected original-weight AR/MTP
+GPU cases qualify exact scheduled physical indices and compatible SSD reuse
+([receipt](validation/steering-physical-index-point-gpu-2026-10-06.json));
+independent numerical/graph/correction/fault oracles remain open.
 Server/native core bench share initial model-wide controls and scoped RAM/SSD
 lookup. The shared core supports asynchronous live job changes, native benchmark
 schedules, HTTP creation-time plans and individual stored-choice controls.
-GPU qualification remains open.
+Broader GPU qualification remains open.
 Loading a bank or advancing policy metadata is not model inference and does
 not qualify steering quality or performance.
 

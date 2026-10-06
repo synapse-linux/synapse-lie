@@ -1,6 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## MTP admission oracle corrected; raw failure retained — 2026-10-06 UTC
+
+The first original-model AR admission window passes all three successes and
+twelve native refusals. Its MTP counterpart completes the absent-bank native
+process with exit 0, drafts six tokens and accepts zero. The QA wrapper exits 1
+because it incorrectly demands positive acceptance for this equivalence test.
+All raw exits/logs are collected; fresh 04:29:00 UTC closure verifies both windows
+retired and the original lease free/released with router 105618 active/only KFD.
+
+The corrected oracle requires actual drafting and valid acceptance counters,
+including zero accepted; exact confirmed output equality remains mandatory.
+Sixteen host checks and the unchanged 61 campaign checks pass
+([receipt](development/validation/steering-admission-draft-host-2026-10-06.json)).
+This does not qualify an accepted MTP burst. Original scheduled steering already
+retains its independent three accepted proposals. A new MTP campaign requires
+fresh admission. Runtime/ABI/cache/dependencies/threads remain unchanged and
+Terminal Bench remains stopped/deferred.
+
 ## Steering bank admission gate prepared — 2026-10-06 UTC
 
 Fifteen host refusal/equivalence checks and 61 campaign checks pass

@@ -104,8 +104,11 @@ def parse_success(rows, actual_exit, mode, phase, bank):
         raise RuntimeError('Incomplete successful output')
     if mode == 'ar' and (job.get('mtp_drafted_tokens') != 0 or job.get('mtp_accepted_tokens') != 0):
         raise RuntimeError('AR entered MTP')
-    if mode == 'mtp' and (job.get('mtp_drafted_tokens', 0) <= 0 or job.get('mtp_accepted_tokens', 0) <= 0):
-        raise RuntimeError('MTP baseline did not exercise real draft acceptance')
+    if mode == 'mtp':
+        drafted, accepted = job.get('mtp_drafted_tokens'), job.get('mtp_accepted_tokens')
+        if (type(drafted) is not int or type(accepted) is not int or
+                drafted <= 0 or not 0 <= accepted <= drafted):
+            raise RuntimeError('MTP baseline lacks real drafting or valid acceptance counters')
     return found
 
 
