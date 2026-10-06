@@ -9,6 +9,25 @@ Finish source corrections first, retaining only required focused local checks;
 then qualify the integrated runtime, run the matched benchmarks and run Terminal
 Bench last. No new remote campaign or machine reservation is queued.
 
+## Current integrated HIP build collected and closed — 2026-10-06 UTC
+
+The `.161` build of source `d63b9b7b` / code `88d4c4e5` completes both private
+sampler ON/OFF120 providers, the two-file default-ON observer and server/native
+bench/reference/probe consumers. All four stages and supervisor/container/
+controller exit 0. Independent verification reconstructs all 41 recipes and
+1,019 variant files per provider, with matching private consumer flags.
+The [build receipt](development/validation/integrated-point-hip-build-2026-10-06.json)
+and [portable evidence](development/validation/raw/integrated-point-hip-build-2026-10-06.tar.gz)
+bind six base, 25 compilation and three coherence artifacts; all 128 archive
+members verify. No build or test is repeated for collection.
+
+The compiler has no GPU devices and loads no model. CPU peaks at 72.625 C
+under CPU98/NVMe85/lower guards. The original lease releases at 23:12:47 UTC;
+fresh closure at 23:13:53 verifies owned identities retired, container removed,
+HTTP8000 unbound and router224255 restored as the only KFD client. No subsequent
+window is admitted or reserved. Original-weight functional/quality/fault gates,
+matched benchmarks and Terminal Bench last remain open in that order.
+
 ## Integrated final HOST checkpoint — 2026-10-06 UTC
 
 The current functional source is integrated at `88d4c4e5`. Final local checks

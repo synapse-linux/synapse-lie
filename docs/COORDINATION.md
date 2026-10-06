@@ -1,5 +1,25 @@
 # DS4 / synapse-lie coordination
 
+## Current integrated HIP build released — 2026-10-06
+
+Fresh Q2/Point/DGX own non-use and separate global preflight precede the `.161`
+build of `d63b9b7b` / code `88d4c4e5`. Supervisor218729/start19701862 holds the
+original lease66307/105946405; container init218802/start19701978 has no GPU
+devices. Complete ON/OFF120 providers, observer2 and consumers compile with
+exit0. Six base, 25 compile and three coherence artifacts are collected and
+verified; the full variant maps equal all 41 independently reconstructed recipes.
+[Build receipt](development/validation/integrated-point-hip-build-2026-10-06.json).
+
+Lease release is 23:12:47.549668 UTC. Fresh closure at 23:13:53.876245 UTC
+verifies both exact owned identities gone, the container removed, HTTP8000
+unbound, original lease unchanged/free and router224255 restored/only KFD.
+Peak CPU is 72.625 C under CPU98/NVMe85/lower guards; GPU is observed only.
+No model/hash/conversion, deployment, dependency installation or tuning occurs.
+Root holds no job/build/client/lease/window/plan/waiter/reservation/handle on
+`.161/.157/.158/TB`. This dated closure grants no future admission. Original-weight
+functional/quality/fault qualification needs fresh coordination; benchmarks
+follow and Terminal Bench stays last. All six root items remain open.
+
 ## Integrated HOST collection closed — 2026-10-06
 
 Current source `88d4c4e5` passes native 101/101 and complete provider 67/67 in

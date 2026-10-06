@@ -37,10 +37,11 @@ campaign, Terminal Bench restart or machine reservation is queued.
 The functional source audit now maps items 3–7 to integrated context/recall,
 benchmark/dispatch, steering, generation-profile and three C17 sampler paths.
 The build-coherence correction also covers typed observer identity and the
-canonical full-provider Point build route. Source is ready for one combined
-qualification phase; this is not HIP compilation or runtime acceptance. Final
-combined local checks pass; rebuild complete coherent private providers/clients
-on `.161` after fresh admission, then perform functional/quality/fault gates.
+canonical full-provider Point build route. Source integration, compilation and
+runtime acceptance are separate. Final
+combined local checks and current coherent `.161` private producer/consumer HIP
+compilation pass. Perform original-weight functional/quality/fault gates after
+fresh admission.
 Comparative performance follows those gates; Terminal Bench stays last.
 All six items remain open until their separate acceptance evidence is collected.
 
@@ -63,9 +64,13 @@ preserves four failed link attempts and binds their corrected dependencies.
 It qualifies local synthetic and algorithm paths only. The earlier
 [`77bcdc1c` HOST receipt](development/validation/c17-final-functional-host-2026-10-06.json)
 and closed r36 HIP build remain historical evidence; that build predates the
-observer's private ABI and cannot qualify this checkpoint. Coherent current HIP
-compilation and original-weight functional, fault and quality gates need fresh
-`.161` admission. Comparative performance follows them; Terminal Bench remains
+observer's private ABI and cannot qualify this checkpoint. The matching
+[r37 HIP build](development/validation/integrated-point-hip-build-2026-10-06.json)
+now completes both full private providers and consumers with exit0; their exact
+variant maps and flags verify, and the run is collected/closed with the router
+restored. This is compilation evidence. Original-weight functional, fault and
+quality gates need fresh `.161` admission. Comparative performance follows them;
+Terminal Bench remains
 last. No further intermediate campaign is queued, and compilation alone closes
 none of the six items.
 
@@ -135,8 +140,9 @@ none of the six items.
    visible depth. The C17 observer and native core report now capture actual
    matrix/scalar, dense/sparse selections, with confirmed/unconfirmed work and
    explicit unsupported views. Focused host checks and exact source recipes
-   pass; coherent HIP compilation, actual GPU selections and matched observer
-   cost remain deferred. Capture actual dispatch before attributing timings to
+   pass; coherent current HIP compilation also passes. Actual GPU selections and
+   matched observer cost remain deferred. Capture actual dispatch before attributing
+   timings to
    reactive scheduling; this finding is not measured causality or a
    constant-prefill guarantee.
 5. **Complete DS4 directional steering in LIE.** Load its per-layer `.f32`
@@ -218,7 +224,8 @@ none of the six items.
    copy; original OFF layouts remain guarded. This increment has 20 edits and
    a 120-file inventory. Combined Release/sanitizer HOST controls now pass the
    ownership/refusal/MTP fixtures and complete original/ON/OFF witnesses.
-   Matching HIP, original-weight and resource/cost gates remain open. See
+   The complete current private HIP producer/consumer build passes; original-weight
+   and resource/cost gates remain open. See
    [native sampler storage](development/C17-SAMPLING.md#native-sampler-buffer-ownership).
    Full model/controller/kernel replacement remains an architectural destination,
    outside these three identified extractions and the current root queue.
