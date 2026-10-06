@@ -21,6 +21,20 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_full_prefill128_requires_matched_saved_binary_replay(self):
+        argv = ['q2-prefill128', 'q2-fixture', '--source-variant', 'prefill128-q2']
+        self.refuse(argv, 'Curve128 requires')
+        self.refuse(argv + ['--native-curve', '--rebuild-mmq'], 'Curve128 requires')
+        self.refuse(argv + ['--native-curve', '--point-only'], 'Focused point requires')
+        self.refuse(['q2-prefill128', 'q2-fixture', '--source-variant', 'curve128-q2', '--native-curve'],
+                    'Canonical curve requires its matched')
+        with patch.object(sys, 'argv', [str(path), *argv, '--native-curve']), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
     def test_retained128_reuses_only_native_full_curve_at_original_capacity(self):
         from q2_native_curve import check_backend, client_argv
         argv = ['q2-curve128', 'q2-fixture', '--source-variant', 'curve128-q2']

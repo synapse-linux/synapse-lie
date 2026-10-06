@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Full-prefill scope correction — 2026-10-06 UTC
+
+The latest owner instruction explicitly requests the latest optimized Q2 on
+the complete prefill, with no invented token variations. Replay the exact saved
+messages, full2048-token intermediate chunks and only the natural last remainder.
+The previously launched continuation curve was an assistant scope error; it
+terminates on correction with retained partial evidence and verified release.
+[Exact input replay and limits](Q2-FULL-PREFILL128.md).
+
 ## Original-capacity 128K curve prepared — 2026-10-06 UTC
 
 The owner requests the complete 0–128K curve now. The native C client, prose

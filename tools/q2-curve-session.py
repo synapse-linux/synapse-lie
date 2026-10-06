@@ -35,9 +35,10 @@ def main():
         flags = flags[1:]
         if native_bench is None:
             raise ValueError('Focused point requires the native benchmark')
-    if flags not in ([], ['--profile-ple'], ['--iq2-signs'], ['--ple-cache-first'], ['--profile-routes'], ['--iq2-mixed'], ['--iq2-scale'], ['--scaled-row'], ['--norm-ragged'], ['--retained-128']):
+    if flags not in ([], ['--profile-ple'], ['--iq2-signs'], ['--ple-cache-first'], ['--profile-routes'], ['--iq2-mixed'], ['--iq2-scale'], ['--scaled-row'], ['--norm-ragged'], ['--retained-128'], ['--retained-prefill']):
         raise ValueError('Unknown diagnostic flags')
-    retained128 = flags == ['--retained-128']
+    full_prefill = flags == ['--retained-prefill']
+    retained128 = full_prefill or flags == ['--retained-128']
     if retained128 and (variant != 'q2' or native_bench is None or point_only):
         raise ValueError('Retained128 requires the complete native Q2 curve')
     profile = flags == ['--profile-ple']
@@ -62,7 +63,7 @@ def main():
     receipt = dict(state='STARTING', variant=variant, commands=[], started_ns=time.monotonic_ns(),
                    instrumentation='routing-counts' if routes else 'ple-forward' if profile else None,
                    point_only=point_only,
-                   provider_experiment='iq2-fixed-bounds-retained128' if retained128 else 'norm-ragged' if norm_ragged else 'scaled-row-reuse' if row_reuse else 'iq2-scale-reuse' if scale else 'iq2-mixed-ordered' if mixed else
+                   provider_experiment='iq2-fixed-bounds-full-prefill128' if full_prefill else 'iq2-fixed-bounds-retained128' if retained128 else 'norm-ragged' if norm_ragged else 'scaled-row-reuse' if row_reuse else 'iq2-scale-reuse' if scale else 'iq2-mixed-ordered' if mixed else
                                        'ple-cache-first-ordered' if cache_first else
                                        'iq2-signs-ordered' if iq2_signs else None)
     if native_bench is not None:
@@ -121,6 +122,10 @@ def main():
                 check_backend(receipt['backend_ready'], native_variant)
                 argv = client_argv(native_bench, result/'native-curve.jsonl',
                                    result/'native-curve-graphs', native_variant, point_only=point_only)
+            if full_prefill:
+                from q2_full_prefill128 import client_argv as full_argv
+                argv = full_argv(ROOT, native_bench, result/'full-prefill.jsonl')
+                receipt['workload'] = 'Exact saved full-prefix requests; no continuation measurements'
             command = dict(argv=argv, started_ns=time.monotonic_ns())
             receipt['commands'].append(command)
             with (result/'curve-client.log').open('xb') as client_log:
@@ -132,6 +137,9 @@ def main():
                 save()
                 if command['exit_code']:
                     raise RuntimeError('Canonical curve client failed; raw evidence retained')
+            if full_prefill:
+                from q2_full_prefill128 import validate_result
+                receipt['full_prefill_validation'] = validate_result(ROOT, result/'full-prefill.jsonl')
             if native_bench is not None:
                 with urllib.request.urlopen(f'http://127.0.0.1:{management}/actuator/llm', timeout=5) as response:
                     payload = response.read(1048577)

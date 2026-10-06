@@ -1,5 +1,10 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The requested [full-prefill test through128K](docs/Q2-FULL-PREFILL128.md) replays
+exact saved inputs on the latest retained Q2, measuring every2048-token chunk
+and the natural last remainder. The preceding continuation curve was stopped
+after the owner corrected its scope; partial-tail rates do not establish whole-prefill performance.
+
 The retained [fixed comparison](docs/Q2-IQ2-FIXED-BOUNDS.md) measures Q2 prefill
 at **1587.893545 token/s**, versus the initial **1443.672867** and the unchanged
 UD target of **1685.777092**. The original physical input, direct-executor timer,
@@ -19,8 +24,7 @@ The separate [attention-capacity draft](docs/Q2-ATTENTION-CAPACITY.md) has local
 compilation and host-test evidence only. Its synthetic GPU fixture has neither
 admission nor a run and is not scheduled. New performance work remains limited
 to new Q2 candidates under the frozen fixed comparison, using saved controls.
-The owner additionally requests a [corrected 0–128K curve](docs/Q2-CURVE128.md)
-at the original133760 capacity, reusing the saved UD reference and native client.
+The [attempted continuation curve](docs/Q2-CURVE128.md) is retired after the scope correction.
 
 The [down null-contract trial](docs/Q2-DOWN-FIXED-CONTRACT.md) completes at 1586.586480 PP / 25.16050717 TG; 132 operator pairs and 21 parent model files are exact. Component time improves 0.69–1.98%, but no whole-model gain is observed. Retain 1587.893545 PP and preserve the marginal candidate. The owner also requests a parallel curve through 256K while fixed-point parity remains the optimization priority.
 

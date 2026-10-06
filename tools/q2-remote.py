@@ -204,8 +204,8 @@ REAUDIT_SOURCES = {'q2-counting-reaudit-exact': 'reaudit-q8-row',
 MIXED_TILE_MODES = ('iq2-mixed-reference-check', 'iq2-mixed-check')
 CURVE256_MODES = ('q2-curve256', 'ud-curve256')
 CURVE256_VARIANTS = ('curve256-q2', 'curve256-ud')
-CURVE_MODES = CURVE256_MODES + ('q2-curve128', 'q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed', 'q2-curve-scale', 'q2-curve-row', 'q2-point-norm')
-CURVE_VARIANTS = CURVE256_VARIANTS + ('curve128-q2', 'curve-q2', 'curve-ud', 'curve-ple-q2', 'curve-ple-ud', 'curve-iq2-q2', 'curve-ple-cache-first-q2', 'curve-routes-q2', 'curve-iq2-mixed-q2', 'curve-scale-q2', 'curve-row-q2', 'point-norm-q2')
+CURVE_MODES = CURVE256_MODES + ('q2-prefill128', 'q2-curve128', 'q2-curve', 'ud-curve', 'q2-curve-ple', 'ud-curve-ple', 'q2-curve-iq2', 'q2-curve-ple-cache-first', 'q2-curve-routes', 'q2-curve-iq2-mixed', 'q2-curve-scale', 'q2-curve-row', 'q2-point-norm')
+CURVE_VARIANTS = CURVE256_VARIANTS + ('prefill128-q2', 'curve128-q2', 'curve-q2', 'curve-ud', 'curve-ple-q2', 'curve-ple-ud', 'curve-iq2-q2', 'curve-ple-cache-first-q2', 'curve-routes-q2', 'curve-iq2-mixed-q2', 'curve-scale-q2', 'curve-row-q2', 'point-norm-q2')
 COUNTING_SOURCES = {DOWN_FIXED_CONTRACT_MODEL: DOWN_FIXED_CONTRACT_VARIANT, DOWN_FIXED_BOUNDS_MODEL: DOWN_FIXED_BOUNDS_VARIANT, HC_INJECT_RAW_Q8_MODE: HC_INJECT_RAW_Q8_VARIANT, IQ2_TABLE_LDS_MODEL: IQ2_TABLE_LDS_VARIANT, IQ2_DPP_COMMIT_MODEL: IQ2_DPP_COMMIT_VARIANT, IQ2_FIXED_BOUNDS_MODEL: IQ2_FIXED_BOUNDS_VARIANT, IQ2_HALF_SIGN_MODEL: IQ2_HALF_SIGN_VARIANT, HC_RMS_ORDINARY_MODE: HC_RMS_ORDINARY_VARIANT, 'q2-counting-legacy': 'library-norm-cycle',
                     'q2-counting-iq2': 'curve-iq2-q2',
                     'q2-counting-iq2-mixed': 'curve-iq2-mixed-q2',
@@ -431,7 +431,7 @@ def main():
             p.error('Ragged paired norm requires its isolated component mode and source')
         if args.rebuild_mmq:
             p.error('Ragged paired norm component builds its kernels directly')
-    if args.mode == 'q2-curve128' and (not args.native_curve or args.rebuild_mmq or args.point_only or args.replay_from):
+    if args.mode in ('q2-prefill128', 'q2-curve128') and (not args.native_curve or args.rebuild_mmq or args.point_only or args.replay_from):
         p.error('Curve128 requires the native full curve and pinned binaries without builds')
     if args.mode in CURVE256_MODES and (not args.native_curve or args.rebuild_mmq or args.point_only or args.replay_from):
         p.error('Curve256 requires the native full curve and pinned MMQ reuse')
@@ -768,7 +768,7 @@ def main():
         if not args.rebuild_mmq and not args.replay_from:
             p.error('Historical counting requires a full MMQ rebuild')
     if provider_mode in CURVE_MODES or args.source_variant in CURVE_VARIANTS:
-        expected = {'q2-curve128': 'curve128-q2', 'q2-curve256': 'curve256-q2', 'ud-curve256': 'curve256-ud', 'q2-curve': 'curve-q2', 'ud-curve': 'curve-ud',
+        expected = {'q2-prefill128': 'prefill128-q2', 'q2-curve128': 'curve128-q2', 'q2-curve256': 'curve256-q2', 'ud-curve256': 'curve256-ud', 'q2-curve': 'curve-q2', 'ud-curve': 'curve-ud',
                     'q2-curve-ple': 'curve-ple-q2', 'ud-curve-ple': 'curve-ple-ud',
                     'q2-curve-iq2': 'curve-iq2-q2',
                     'q2-curve-scale': 'curve-scale-q2',
@@ -779,7 +779,7 @@ def main():
                     'q2-curve-routes': 'curve-routes-q2'}.get(provider_mode)
         if args.source_variant != expected:
             p.error('Canonical curve requires its matched Q2 or UD composition')
-        if provider_mode not in ('q2-curve128', *CURVE256_MODES) and not args.rebuild_mmq and not args.replay_from:
+        if provider_mode not in ('q2-prefill128', 'q2-curve128', *CURVE256_MODES) and not args.rebuild_mmq and not args.replay_from:
             p.error('Canonical curve requires a full MMQ rebuild')
     if args.detach and args.mode not in ('q2-terminal-smoke', 'q2-terminal-full'):
         p.error('Persistent launch is limited to Terminal-Bench task runs')
@@ -934,6 +934,10 @@ def main():
                      'tools/q2-attention-capacity-phase.py',
                      'experiments/q2-attention-capacity-q2.patch',
                      'experiments/q2-attention-capacity-ud.patch',
+                     'tools/q2_full_prefill128.py',
+                     'tools/q2-full-prefill128-window.py',
+                     'tools/q2-full-prefill128-phase.py',
+                     'tools/freeze-q2-full-prefill128-plan.py',
                      'tools/q2_curve128.py',
                      'tools/q2-curve128-window.py',
                      'tools/q2-curve128-phase.py',
@@ -1781,7 +1785,7 @@ def main():
                     p.error('Curve256 core source changed')
             archive.add(ROOT/curve['core_source'], arcname='curve-core')
         if provider_mode in CURVE_MODES:
-            curve = json.loads((ROOT/('config/q2-curve128-source.json' if provider_mode == 'q2-curve128' else 'config/q2-curve256-headroom-source.json' if provider_mode in CURVE256_MODES else 'config/q2-curve-source.json')).read_text())
+            curve = json.loads((ROOT/('config/q2-curve128-source.json' if provider_mode in ('q2-prefill128', 'q2-curve128') else 'config/q2-curve256-headroom-source.json' if provider_mode in CURVE256_MODES else 'config/q2-curve-source.json')).read_text())
             key = provider_mode.split('-')[0]
             provider = curve
             if provider_mode == 'q2-curve-iq2':

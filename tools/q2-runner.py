@@ -59,7 +59,8 @@ def main():
         raise SystemExit('Native curve requires an uninstrumented canonical mode')
     if mode == 'q2-curve-scale' and not native_curve:
         raise SystemExit('Scale model comparison requires the native C canonical benchmark')
-    curve128 = mode == 'q2-curve128'
+    full_prefill128 = mode == 'q2-prefill128'
+    curve128 = full_prefill128 or mode == 'q2-curve128'
     if curve128 and (not native_curve or '--rebuild-mmq' in sys.argv[2:] or point_only or '--replay-from' in sys.argv[2:]):
         raise SystemExit('Curve128 requires the native full curve and pinned binaries without builds')
     curve256 = mode in ('q2-curve256', 'ud-curve256')
@@ -375,7 +376,7 @@ def main():
                 save()
                 try:
                     run(['python3','-B',str(ROOT/('tools/q2-curve256-session.py' if curve256 else 'tools/q2-curve-session.py')),str(binary),model_paths[0],
-                         'q2' if mode.startswith('q2-') else 'ud']+(['--native-bench', str(bench_binary)] if native_curve else [])+(['--point-only'] if point_only else [])+(['--retained-128'] if curve128 else ['--iq2-signs'] if mode=='q2-curve256' else ['--norm-ragged'] if point_norm else ['--scaled-row'] if curve_row else ['--iq2-scale'] if curve_scale else ['--iq2-mixed'] if curve_mixed else ['--profile-routes'] if curve_routes else ['--profile-ple'] if curve_profile else ['--ple-cache-first'] if curve_cache_first else ['--iq2-signs'] if curve_iq2 else []),
+                         'q2' if mode.startswith('q2-') else 'ud']+(['--native-bench', str(bench_binary)] if native_curve else [])+(['--point-only'] if point_only else [])+(['--retained-prefill'] if full_prefill128 else ['--retained-128'] if curve128 else ['--iq2-signs'] if mode=='q2-curve256' else ['--norm-ragged'] if point_norm else ['--scaled-row'] if curve_row else ['--iq2-scale'] if curve_scale else ['--iq2-mixed'] if curve_mixed else ['--profile-routes'] if curve_routes else ['--profile-ple'] if curve_profile else ['--ple-cache-first'] if curve_cache_first else ['--iq2-signs'] if curve_iq2 else []),
                         dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),18000 if curve256 else 3000)
                 finally:
                     result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()

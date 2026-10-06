@@ -1,0 +1,46 @@
+{
+  "schema": "synapse-lie.q2-curve128-disposition.v1",
+  "state": "STOPPED_AFTER_OWNER_SCOPE_CORRECTION",
+  "reason": "The user requested displaying available results and had excluded a new continuation-only comparison. Launching this curve was an assistant scope error. Non-2048 continuation timings do not measure the complete long prefill dominated by full2048 chunks.",
+  "source_checkpoint": "e4f683cf",
+  "plan_sha256": "3812a88d82bd31e5d0edb1288c67a40687222d0c240b2b60d6011fcacb16ee01",
+  "admission_sha256": "cb6a83ec2ba024ed34157964a597eff93ae15db7a54d0419d69e85ac841f06ba",
+  "release_sha256": "b9c8f3f1dd18fbc0fc200a060692b4479afcec285803e3a9916f454f19bd1da1",
+  "release_at": "2026-10-06T16:59:59.556645+00:00",
+  "result_sha256": "8fd3a408ac3bbc744d00510b8530dcacbc9e98a3a16554eb88af52207802cc96",
+  "raw_events_sha256": "1634b71343073f72ebb7d56ab8c18280e21ae1fd630fc9990ce2c0c60a97d150",
+  "primary_command_exits": [
+    0,
+    0,
+    0,
+    1
+  ],
+  "client_exit_code": 1,
+  "server_exit_code": 0,
+  "collected_artifacts": 9,
+  "completed_continuation_depths": [
+    0,
+    4096,
+    8192,
+    12288,
+    16384,
+    32768,
+    65536
+  ],
+  "completed_prefix_depths": [
+    4096,
+    8192,
+    8192,
+    12288,
+    16384,
+    32768,
+    65536
+  ],
+  "full128K_prefill_completed": false,
+  "comparable_whole_curve": false,
+  "whole_prefill_gain_claim": false,
+  "GPU_job_or_reservation": false,
+  "rerun_scheduled": false,
+  "remote_cleanup": false,
+  "retained_fixed_reference_unchanged": true
+}

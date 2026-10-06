@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Full-prefill replay preparation — 2026-10-06 UTC
+
+The earlier continuation run stops on owner correction: client/supervisor1,
+server0, nine artifacts collected. Release16:59:59.556645UTC/b9c8f3f1 retires
+1603identities/1282groups, empty KFD, original CoreCPU/fourGPU leases free and
+seven model stat tuples unchanged; mirrors agree and Core is informed.
+The owner then explicitly requests a complete-prefill test of latest optimized
+Q2 without token changes. Core freshly confirms .157/.158 non-use17:08UTC;
+Q2 handover17:09:25UTC verifies the latest release and original identities.
+New full-input replay needs its own fresh admission; no .158/.161/TB use or cleanup.
+
 ## Original-capacity curve preparation — 2026-10-06 UTC
 
 Core freshly confirms own .157/.158 non-use; its .161 AR/MTP work is separate.
