@@ -319,7 +319,8 @@ stable release is declared. Detailed validation history is in
   Selected original-weight AR/MTP restart cases now restore the exact complete
   prompt with zero prefill and matching outputs
   ([qualification](docs/development/validation/ssd-text-restart-point-gpu-2026-10-06.json));
-  original-weight scheduled-index steering remains a separate gate.
+  selected scheduled SSD cases also preserve physical indices and matching
+  AR/MTP outputs ([qualification](docs/development/validation/steering-physical-index-point-gpu-2026-10-06.json)).
 
 - Optimized C17 schema-body compilation with strict warnings. Release test
   executables now retain their assertion checks; production flags are unchanged.

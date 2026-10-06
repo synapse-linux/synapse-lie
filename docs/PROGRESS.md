@@ -1,19 +1,30 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
-## Scheduled SSD physical-index GPU gate prepared — 2026-10-06 UTC
+## Scheduled steering/cache passes selected GPU cases — 2026-10-06 UTC
 
-The optional `modern-core-steering-restart` gate has 18 host refusal/comparison
-checks and 60 campaign checks passing
-([receipt](development/validation/steering-restart-host-2026-10-06.json)). Six
-independent core processes compare scheduled cold output against an incompatible
-saved spelling and a compatible 128-token SSD prefix. Three nonzero/zero scale
-changes must apply at exact prefill/generation indices; MTP must accept a burst.
-A bounded GGUF metadata reader sizes an owned sparse direction fixture, without
-reading tensor payloads. This is no learned-vector quality or GPU qualification.
-The 83-file qualified runtime, ABI, format and product dependencies are unchanged;
-matching original-weight execution remains pending. CPU peaks 49.125 C.
-Terminal Bench remains stopped and deferred, with no standing GPU reservation.
+The unchanged qualified `20777005` runtime passes separate original-weight AR/MTP
+windows on `.161`, with six independent native processes per mode. A sparse
+nonzero 48-by-2560 fixture exercises FFN/attention changes at physical indices
+128, 273 and 279. Plans retain the fresh 272-token history, reject a divergent
+2,064-token saved spelling, and restore exactly 128 compatible SSD tokens before
+the first unapplied step. All three scheduled requests per mode produce the
+same 32 output IDs and final policy history, also equal across AR/MTP. MTP drafts
+14 and accepts 3 in every scheduled case. All twelve native processes and both
+supervisors exit 0 ([receipt](development/validation/steering-physical-index-point-gpu-2026-10-06.json)).
+Eighteen host gate and 60 campaign tests pass; the
+[host receipt](development/validation/steering-restart-host-2026-10-06.json)
+retains its original host-only scope.
+
+Both windows are collected and retired. Fresh 04:04:00 UTC closure verifies
+their exact identities absent, the original lease free then released,
+HTTP8000 unbound and router 101740 active/only KFD. CPU peaks are 64/65.5 C,
+NVMe peaks 71.85/75.85 C and whole-process thread maxima 44/44, including runtime
+helpers. CPU98/NVMe85/lower guards remain active. No new runtime, ABI, format,
+dependency, inference thread, GPU build or `.157` activity occurs. Learned DS4
+direction quality, independent graph/correction/fault oracles, vision, later
+mixed-history lookup and matched cost remain open. All six owned tasks remain
+open; Terminal Bench stays stopped/deferred and root has no standing reservation.
 
 ## SSD text reconstruction passes selected original-weight cases — 2026-10-06 UTC
 

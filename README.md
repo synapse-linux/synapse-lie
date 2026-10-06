@@ -18,7 +18,9 @@ ICU remains the Unicode set/property/conversion dependency.
 [Directional steering](docs/guides/USAGE.md#directional-steering) has shared-core
 and server/bench controls with host validation, including scheduled benchmark
 changes, HTTP creation-time plans and live updates to individual stored choices.
-Numerical GPU qualification remains pending.
+Selected original-weight AR/MTP
+[scheduled steering/cache checks](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#scheduled-steering-with-ssd)
+pass. Learned-direction quality and matched cost remain open.
 
 **Development status:** text inference is tested with Qwen3.8 Flash Next
 (Unsloth UD-Q4_K_XL) on AMD Strix Halo (`gfx1151`). The HTTP server supports

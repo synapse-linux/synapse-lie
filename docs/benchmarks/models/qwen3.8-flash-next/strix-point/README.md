@@ -593,6 +593,44 @@ tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-ssd-t
 cat run/point-ssd-text-r21/context-r21-mtp-r3-offline-validation-r1.json
 ```
 
+### Scheduled steering with SSD
+
+Separate AR/MTP windows use six independent native core processes each. A bounded
+metadata reader sizes an owned sparse 48-by-2560 nonzero direction fixture;
+this is not a learned DS4 bank. Initial scales are zero. FFN/attention change
+at physical indices 128, 273 and 279, covering prefill and generation.
+Context is 4,096, chunk 256, C1, greedy sampling, EOS ignored, one repetition,
+no warmup and RAM retention zero. SSD quota/staging are 4 GiB/512 MiB.
+
+| Scheduled case, both AR and MTP | Physical prompt | SSD-cached tokens | Physically prefilled tokens | Matching output IDs |
+| --- | ---: | ---: | ---: | ---: |
+| Cold reference, SSD off | 272 | 0 | 272 | 32 |
+| SSD with divergent 2,064-token saved spelling | 272 | 0 | 272 | 32 |
+| SSD with compatible prefix before first step | 272 | 128 | 144 | 32 |
+
+All actual step positions and final policies match within and across modes.
+MTP drafts 14 and accepts 3 in each scheduled case. All twelve native processes
+and both supervisors exit 0; model/predictor stats remain unchanged.
+CPU peaks are 64/65.5 C, NVMe 71.85/75.85 C and whole-process thread maxima 44/44,
+including runtime helpers. Fresh 04:04:00 UTC closure retires both windows,
+releases the original lease and verifies restored router 101740 as the only
+KFD owner. No new inference thread or performance gain is claimed.
+
+The [receipt](../../../../development/validation/steering-physical-index-point-gpu-2026-10-06.json)
+and [raw archive](data/rocm10-steering-physical-index-r22.tar.gz) retain source,
+exact input/output/policy witnesses, all exits and telemetry. They contain no
+model or KV payload. This qualifies the selected physical-index/cache regression;
+learned-direction quality, independent graph/correction/fault, vision, later
+mixed-history lookup and matched cost remain open.
+
+```sh
+sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+mkdir -p run/point-steering-r22
+tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-steering-physical-index-r22.tar.gz \
+  -C run/point-steering-r22
+cat run/point-steering-r22/context-r22-cross-mode-r1.json
+```
+
 ### Direct reactive core and Q8 vision gates
 
 The sealed `gfx1150` r4 and r5 builds use the same pinned ROCm 10 image,

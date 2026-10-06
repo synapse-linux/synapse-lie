@@ -46,8 +46,11 @@ an earlier cold checkpoint was captured. `--cache-capture-finish off` disables
 generation-end captures; it does not disable this prompt checkpoint. Restore
 selects the longest compatible saved history. The selected original-weight
 [SSD text-restart cases](../benchmarks/models/qwen3.8-flash-next/strix-point/README.md#ssd-text-reconstruction-across-processes)
-qualify AR/MTP reconstruction when saved tokenization is longer than fresh BPE;
-scheduled physical-index steering remains a separate gate.
+qualify AR/MTP reconstruction when saved tokenization is longer than fresh BPE.
+The selected [scheduled steering cases](../benchmarks/models/qwen3.8-flash-next/strix-point/README.md#scheduled-steering-with-ssd)
+also qualify token-key refusal of divergent spelling and restore of a compatible
+prefix up to the first unapplied physical step. Later mixed-history lookup
+remains unimplemented.
 
 ## Controls and accounting
 

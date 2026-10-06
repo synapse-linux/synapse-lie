@@ -103,12 +103,16 @@ client/server restart or machine reservation is queued in the meantime.
    explicit index for independent multi-choice controls. Both HTTP APIs accept
    copied creation-time plans and report exact application/unreached steps.
    Host tests cover cache-boundary limits, full plan identity and charged retained
-   choice lifetimes; original-weight GPU qualification remains open.
-   The dedicated scheduled SSD restart gate is prepared with 18 host gate and
-   60 campaign checks ([receipt](development/validation/steering-restart-host-2026-10-06.json)).
-   It requires exact cold/SSD physical indices, output IDs and final policy
-   histories, with a sparse nonzero fixture rather than learned DS4 directions.
-   Its matching original-weight execution remains pending.
+   choice lifetimes. Selected original-weight scheduled SSD restart cases now
+   pass in AR/MTP on the unchanged `20777005` runtime
+   ([receipt](development/validation/steering-physical-index-point-gpu-2026-10-06.json)).
+   Three FFN/attention changes apply at exact prefill/generation indices;
+   cold/SSD physical inputs, 32 output IDs and final policies match within and
+   across modes. Divergent saved spelling is refused and the compatible prefix
+   restores exactly 128 tokens. MTP accepts 3 of 14 proposals in each case.
+   Eighteen host gate and 60 campaign checks pass. The sparse nonzero fixture
+   qualifies this regression; learned-direction quality, independent graph/
+   correction/fault, vision and matched cost remain open.
    DS4's `--dir-steering-file`, `--dir-steering-ffn` and
    `--dir-steering-attn` now select fixed initial model-wide scales through the
    same core used by server and bench.
@@ -233,8 +237,10 @@ client/server restart or machine reservation is queued in the meantime.
    prefill and matching 32-token outputs; MTP accepts 21 drafts in each process.
    Twelve parser and 59 campaign host tests pass. The raw MTP wrapper exit 1
    remains retained: corrected offline validation requires the full persisted
-   prompt instead of the early checkpoint. Original-weight scheduled physical-index
-   steering remains open. The earlier ten-test
+   prompt instead of the early checkpoint. Selected original-weight scheduled
+   physical-index/cache cases now also pass
+   ([receipt](development/validation/steering-physical-index-point-gpu-2026-10-06.json));
+   broader steering quality/fault/cost remains open. The earlier ten-test
    [host receipt](development/validation/ssd-text-restart-host-2026-10-06.json)
    retains its original host-only scope.
    [Release/cache host checks](development/validation/release-cache-host-2026-10-05.json)

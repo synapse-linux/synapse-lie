@@ -355,6 +355,15 @@ use actual mixed history. This does not implement lookup of later planned mixed
 histories by replaying declared control metadata. Existing absent-plan lookup,
 state framing and numerical paths remain in use.
 
+Selected original-weight AR/MTP cases now pass on `.161`
+([receipt](validation/steering-physical-index-point-gpu-2026-10-06.json)). Three
+changes apply at indices 128/273/279; a divergent saved spelling is refused,
+while a compatible 128-token prefix restores before the first step. All three
+scheduled outputs and policies match within and across modes; MTP accepts real
+drafts. The owned sparse nonzero vector fixture qualifies this regression.
+Learned DS4 direction quality, independent graph/correction/fault oracles,
+vision, later mixed-history lookup and matched cost remain open.
+
 The native bench accepts `--dir-steering-plan`, records canonical binary32
 settings and actual results, and refuses mismatched/unfulfilled plan comparisons.
 The HTTP GET/POST `/v1/responses/{id}/steering` and

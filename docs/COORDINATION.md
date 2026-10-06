@@ -1,5 +1,26 @@
 # DS4 / synapse-lie coordination
 
+## R22 scheduled steering AR/MTP actually closed — 2026-10-06
+
+Fresh Point/DGX own non-use and separate 03:45:35 / 03:54:25 UTC global preflights
+admit two `.161` windows on the unchanged r20 bundle (`20777005`), with QA source
+`353ab973`. AR supervisor 98134 / start 12730531 and MTP supervisor 100249 /
+start 12784411 each hold the original lease device 66307 / inode 105946405.
+All six native processes per mode and both supervisors/children exit 0. They
+release at 03:53:11 / 04:03:25 UTC, respectively; 30 remote files per mode are
+collected and target/predictor stats remain unchanged.
+
+Fresh 2026-10-06T04:04:00.241474+00:00 closure verifies both exact supervisor and
+container identities retired, original lease free then released, HTTP8000
+unbound and router 101740 active/only KFD, with no foreign client or hot guard.
+[Receipt](development/validation/steering-physical-index-point-gpu-2026-10-06.json).
+CPU98/NVMe85/lower guards and GPU observation remain intact. No new build,
+tuning, installation, deployment or `.157` activity occurs. All actual handles
+are collected; root has no job/client/build/lease/waiter/reservation. This closes
+selected physical-index/cache regressions, with broader quality/fault/cost gates
+open. Terminal Bench remains stopped/deferred until modifications and matching
+qualification finish.
+
 ## R21 SSD text-restart windows retired — 2026-10-06
 
 Separate fresh admissions and the original lease device 66307 / inode 105946405
