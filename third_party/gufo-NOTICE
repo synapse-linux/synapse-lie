@@ -7,6 +7,15 @@ See THIRD_PARTY_NOTICES.md for provenance, versions and distribution boundaries;
 full imported notices are installed alongside it in third-party/.
 
 Adapted code includes:
+- Format selection/pattern construction in src/schema_format.c follows official
+  FormatPattern/JsonSchemaLexeme::Format at independently fetched immutable pin
+  f783fedb9bea2ec7de941f6da4e02f4a4596b29e (MIT, gufo-LICENSE retained).
+  C17 owns nine pinned formats, ordered IPv6 alternatives and staged schema
+  expansion including hostname maxLength253. The provider retains private
+  strings/JSON storage and typed exceptions. schema-format-edits.json records
+  three exact default-ON/OFF replacements. This preserves the original format
+  repertoire and semantics; it does not implement every external format.
+  No DS4 or sibling source/artifact is imported.
 - Numeric schema leaf control in src/schema_number.c follows official
   NumberLexeme preparation/AcceptValue and IntersectMultipleOf at independently
   fetched immutable pin f783fedb9bea2ec7de941f6da4e02f4a4596b29e (MIT,
@@ -73,8 +82,8 @@ Adapted code includes:
   schema-transform-edits.json records default-ON/OFF integration. C17 owns
   structural equality, local pointer resolution, keyword validation and schema
   conjunction/distribution/merging. Provider storage/error translation and
-  format and binary64 codec remain transitional; numeric leaf control now uses
-  the separate C17 module above. No sibling
+  binary64 codec remains transitional; format and numeric leaf control now use
+  the separate C17 modules above. No sibling
   source/artifact, DS4 checkout modification or model payload is imported.
 - llama.cpp / ggml: Copyright (c) 2023-2026 The ggml authors (MIT).
 - DS4: Copyright (c) 2026 The ds4.c authors (MIT).

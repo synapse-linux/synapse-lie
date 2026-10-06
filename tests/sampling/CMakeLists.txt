@@ -43,7 +43,7 @@ foreach(arm IN ITEMS reference candidate fallback)
     list(APPEND sources "${pristine}/src/core/sampling.cpp")
   else()
     list(REMOVE_ITEM sources "${pristine}/src/core/json_constraint.cpp" "${pristine}/src/core/json_schema_lexeme.cpp" "${pristine}/src/core/json_schema_regex.cpp")
-    list(APPEND sources "${variant}/src/core/json_constraint.cpp" "${REPO}/src/grammar.c" "${REPO}/src/grammar_builder.c" "${REPO}/src/schema_transform.c" "${REPO}/src/schema_values.c" "${REPO}/src/grammar_cache.c" "${REPO}/src/schema_memo.c" "${REPO}/src/schema_dispatch.c" "${REPO}/src/schema_visit.c" "${REPO}/src/schema_body.c" "${REPO}/src/schema_number.c" "${variant}/src/core/json_schema_lexeme.cpp" "${REPO}/src/grammar_number.c" "${variant}/src/core/json_schema_regex.cpp" "${REPO}/src/grammar_regex.c" "${REPO}/src/grammar_string.c" "${REPO}/src/grammar_vocabulary.c" "${REPO}/src/grammar_regex_compile.c" "${REPO}/src/grammar_regex_parse.c" "${REPO}/src/grammar_unicode.c" "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c" "${REPO}/src/sampling_distribution.c")
+    list(APPEND sources "${variant}/src/core/json_constraint.cpp" "${REPO}/src/grammar.c" "${REPO}/src/grammar_builder.c" "${REPO}/src/schema_transform.c" "${REPO}/src/schema_values.c" "${REPO}/src/grammar_cache.c" "${REPO}/src/schema_memo.c" "${REPO}/src/schema_dispatch.c" "${REPO}/src/schema_visit.c" "${REPO}/src/schema_body.c" "${REPO}/src/schema_number.c" "${REPO}/src/schema_format.c" "${variant}/src/core/json_schema_lexeme.cpp" "${REPO}/src/grammar_number.c" "${variant}/src/core/json_schema_regex.cpp" "${REPO}/src/grammar_regex.c" "${REPO}/src/grammar_string.c" "${REPO}/src/grammar_vocabulary.c" "${REPO}/src/grammar_regex_compile.c" "${REPO}/src/grammar_regex_parse.c" "${REPO}/src/grammar_unicode.c" "${variant}/src/core/sampling.cpp" "${REPO}/src/sampling.c" "${REPO}/src/sampling_history.c" "${REPO}/src/sampling_distribution.c")
   endif()
   add_library(${arm} STATIC ${sources})
   if(NOT arm STREQUAL "reference")
@@ -140,6 +140,9 @@ foreach(arm IN ITEMS reference candidate fallback)
   target_link_libraries(${arm}-number-probe PRIVATE ${arm})
   add_executable(${arm}-number-control-probe "${REPO}/tests/sampling/number_control.cpp")
   target_link_libraries(${arm}-number-control-probe PRIVATE ${arm})
+  add_executable(${arm}-format-probe "${REPO}/tests/sampling/format.cpp"
+    "${CMAKE_CURRENT_BINARY_DIR}/${arm}-schema-constraint.cpp")
+  target_link_libraries(${arm}-format-probe PRIVATE ${arm})
   add_executable(${arm}-grammar-probe "${REPO}/tests/sampling/grammar.cpp")
   target_link_libraries(${arm}-grammar-probe PRIVATE ${arm})
   add_executable(${arm}-distribution "${REPO}/tests/sampling/distribution.cpp")
@@ -287,6 +290,13 @@ add_test(NAME schema-number-control-reference-parity COMMAND "${CMAKE_COMMAND}"
   "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/number-control-parity"
   -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
 set_tests_properties(schema-number-control-reference-parity PROPERTIES TIMEOUT 120)
+add_test(NAME schema-format-reference-parity COMMAND "${CMAKE_COMMAND}"
+  "-DREFERENCE=$<TARGET_FILE:reference-format-probe>"
+  "-DCANDIDATE=$<TARGET_FILE:candidate-format-probe>"
+  "-DFALLBACK=$<TARGET_FILE:fallback-format-probe>"
+  "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/format-parity"
+  -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
+set_tests_properties(schema-format-reference-parity PROPERTIES TIMEOUT 180)
 
 add_test(NAME unicode-grammar-reference-parity COMMAND "${CMAKE_COMMAND}"
   "-DREFERENCE=$<TARGET_FILE:reference-unicode-probe>"

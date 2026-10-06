@@ -45,6 +45,13 @@ retain their hashes. This increment still needs a matching GPU build and gates;
 the existing `6a48da3` runtime does not include it. Binary64 serialization/parser
 implementation and private composition/model/controller remain transitional.
 
+The later 63-file format increment also moves pinned format selection/patterns
+and schema expansion to C17. Its
+[host checks](validation/c17-schema-format-host-2026-10-06.json) pass 14 Release,
+14 sanitizer and 38 pristine/ON/OFF controls with all 21 prior complete hashes
+unchanged. Matching new GPU build/gates remain pending. The binary64 codec and
+private composition/model/controller remain transitional.
+
 ## Ownership and behavior
 
 The C library owns finite greedy argmax, token-ID tie ordering, repetition /
@@ -469,7 +476,7 @@ pointer and no staging container. A separate untimed probe records zero C++
 heap allocations for selected bridge construction/acceptance/small-LCM/literal
 paths. C arithmetic workspaces are separate; this is not allocation-exact
 whole-engine qualification or a performance measurement. The codec's
-implementation, format expansion and composition/model/controller remain to
+implementation and composition/model/controller remain to
 be extracted. No worker/event/RNG, DS4 RAM/SSD layout or inference thread changes.
 
 The [host receipt](validation/c17-schema-number-host-2026-10-06.json) records
@@ -482,6 +489,35 @@ optimized C warnings remain errors. Initial failed Release/provider checks
 are preserved with their actual exit codes. A matching new GPU build and
 original-weight gates remain pending. Terminal Bench stays deferred until
 functional modifications and matching qualification finish.
+
+## Pinned string format expansion
+
+`lie/schema_format.h` adds ABI 1. Its C17 implementation selects `date`, `time`,
+`date-time`, `uuid`, `ipv4`, `ipv6`, `hostname`, `email` and `duration`, retains
+the pinned patterns and constructs IPv6 alternatives in original order.
+Construction uses bounded stack scratch without a heap or global cache.
+Pattern publication is transactional, validates input/output overlap and writes
+no NUL. Schema expansion uses the existing copied-span writer contract and
+adds hostname `maxLength:253`. Callers retire private staging on any refusal;
+no scratch view escapes. Input/error/output and budget rules are in the header.
+
+The private adapter supplies strings/JSON staging and typed errors. Three
+`schema-format-edits.json` replacements select C17 under default-ON sampling
+and preserve exact original OFF bodies. `SchemaArena` also routes conjunction
+format hooks directly through the C function. No worker/event/RNG/state layout,
+model or inference thread changes. This preserves the original format repertoire
+and limitations; it does not claim all JSON Schema formats or broader RFC coverage.
+
+The [host receipt](validation/c17-schema-format-host-2026-10-06.json) binds 89
+independent publication/capacity/budget oracles, all 29 selected writer refusals,
+exact nine-format schemas, 45 language examples, 616 prefix decisions and 81
+format conjunctions. All 21 earlier complete witnesses keep their hashes.
+Strict optimized C and all 52 C17/C++17 public headers pass. Provider inventory
+is 63 files with recipe hash/missing/drift rejection. Initial synthetic-recipe
+fixture failures are retained. Matching original-weight GPU qualification,
+private staging allocation-exact resources and matched cost remain pending.
+Binary64 codec and private composition/model/controller extraction continue.
+Terminal Bench remains deferred until functional changes and qualification finish.
 
 ## String and Unicode-DFA runtime
 

@@ -1,6 +1,27 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Pinned format expansion uses C17 — 2026-10-06 UTC
+
+The nine existing JSON Schema format patterns, ordered IPv6 alternatives and
+hostname bound now use the shared C17 core. The
+[host receipt](development/validation/c17-schema-format-host-2026-10-06.json)
+records 14 Release/14 sanitizer/38 pristine-ON-OFF checks. Patterns, 45 language
+examples, 616 prefix decisions and 81 intersections agree. All 21 earlier
+complete witness hashes remain unchanged; 89 independent C publication/capacity
+oracles and 29 writer refusals pass. The provider binds 63 owned files, and all
+52 public headers compile as C17/C++17.
+
+The synthetic selected-provider fixture initially omitted the newly required
+recipe/digest. Both actual CTest failures are retained; corrected hash/missing/
+drift controls pass without weakening verification. CPU peaks at 95 C below
+CPU98/NVMe85/lower exposed guards; GPUs stay masked for these host fixtures.
+The old original-weight runtime `6a48da3` includes neither this format port nor
+the later numeric port. Their sealed provider/application GPU qualification is
+still pending. Binary64 codec, private composition/model/controller and broader
+resources/cost/quality remain open. All six owned items remain open; Terminal
+Bench stays stopped and deferred until functional changes and qualification finish.
+
 ## Numeric schema leaf control uses C17 — 2026-10-06 UTC
 
 Ordered numeric constraint preparation, scalar acceptance, exact LCM

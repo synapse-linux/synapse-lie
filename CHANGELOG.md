@@ -7,6 +7,11 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Shared C17 JSON Schema format expansion for the nine existing formats,
+  including ordered IPv6 patterns and hostname bounds. Original/OFF patterns,
+  prefix decisions and intersections agree in host checks; matching GPU
+  qualification remains pending.
+
 - Shared C17 numeric schema control for ordered constraints, scalar acceptance,
   exact `multipleOf` representability and literal construction. Host checks
   preserve original/OFF behavior; the binary64 codec remains private and

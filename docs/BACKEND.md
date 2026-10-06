@@ -150,7 +150,8 @@ client/server restart or machine reservation is queued in the meantime.
    [witnesses](development/validation/c17-grammar-runtime-host-2026-10-05.json).
    Exact-decimal numeric policy/prefix/LCM now also use C17, with complete
    [host witnesses](development/validation/c17-grammar-number-host-2026-10-05.json).
-   JSON number representability stays in the adapter. String/UTF8/escape/surrogate
+   JSON number representability now also uses the later C17 module below.
+   String/UTF8/escape/surrogate
    predicates, whitespace and Unicode-DFA graph/query runtime now also use C17,
    with complete [host witnesses](development/validation/c17-grammar-unicode-host-2026-10-05.json).
    Vocabulary trie construction, token acceptance, iterative traversal, exact
@@ -176,8 +177,9 @@ client/server restart or machine reservation is queued in the meantime.
    Structural JSON equality, local-reference resolution, supported-key validation
    and schema conjunction/distribution/merging now use shared C17
    ([host witnesses](development/validation/c17-schema-transform-host-2026-10-05.json)).
-   Provider container views/staging and format/binary-double multipleOf leaf
-   translation remain private glue/policy. Finite-value filtering/canonicalization,
+   Provider container views/staging and the binary64 codec remain private.
+   Format and numeric leaf policies now use the later C17 modules below.
+   Finite-value filtering/canonicalization,
    JSON quoting and object/array construction now use C17 with bounded shared
    counts and independent host refusal/language tests. The compiled-schema cache now also uses C17 ordering, synchronization and
    opaque ownership, with [host witnesses](development/validation/c17-grammar-cache-host-2026-10-05.json).
@@ -199,7 +201,9 @@ client/server restart or machine reservation is queued in the meantime.
    schema preparation, scalar acceptance, LCM representability and literal
    publication now also use C17, with
    [host checks](development/validation/c17-schema-number-host-2026-10-06.json).
-   That later 60-file increment still needs a matching GPU build and gates.
+   Format selection, bounded pattern construction and schema expansion now also
+   use C17 ([host checks](development/validation/c17-schema-format-host-2026-10-06.json)).
+   The later 63-file increment still needs a matching GPU build and gates.
    [Release/cache host checks](development/validation/release-cache-host-2026-10-05.json)
    pass 79/79/35 with 20 unchanged complete witnesses. The device-free r17 provider
    builds but its application fails a strict optimized C warning; the collected

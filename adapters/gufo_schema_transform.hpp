@@ -3,6 +3,7 @@
 #ifndef LIE_GUFO_SCHEMA_TRANSFORM_HPP
 #define LIE_GUFO_SCHEMA_TRANSFORM_HPP
 #include "lie/schema_transform.h"
+#include "lie/schema_format.h"
 #include "src/core/json_schema_lexeme.hpp"
 #include <deque>
 #include <exception>
@@ -100,7 +101,10 @@ class SchemaArena {
     });
   }
   static lie_schema_status format(void *p, lie_schema_bytes text, lie_schema_node *out) noexcept {
-    return protect(p,[&](auto &a){ *out=a.store(gufo::sampling::JsonSchemaLexeme::Format(std::string(text.data,text.size))); });
+    return protect(p,[&](auto &a){
+      const auto d=a.description(); lie_schema_node result=nullptr; lie_schema_error e{};
+      a.check(lie_schema_format_expand(&d,text,&result,&e),e); *out=result;
+    });
   }
   static lie_schema_status multiple(void *p, lie_schema_node l, lie_schema_node r, lie_schema_node *out) noexcept {
     return protect(p,[&](auto &a){ *out=a.store(gufo::sampling::JsonSchemaLexeme::IntersectMultipleOf(schema_value(l),schema_value(r))); });
