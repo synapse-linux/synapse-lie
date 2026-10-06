@@ -1,5 +1,10 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [HC-up short-chain draft](docs/Q2-HC-UP-SHORT-CHAIN.md) now targets the
+saved dense-projection cost gap. Its phased256-thread variant compiles without
+scratch for ordinary and deferred normalization. Numerical and GPU timing
+qualification are pending; the retained1587.893545 PP result is unchanged.
+
 The [whole640 integrated chain](docs/Q2-IQ2-WHOLE640.md) now completes its
 original2048/TG128 trial:1576.766972 PP, −0.700713% against retained1587.893545,
 with all21 parent model files exact. The mixed component is11.08% slower.

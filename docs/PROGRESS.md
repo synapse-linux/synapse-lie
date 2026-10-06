@@ -1,5 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## HC-up short-chain prepared; no new measured gain — 2026-10-06 UTC
+
+Saved-profile reassessment isolates HC up85.327ms versus historical UD55.498ms,
+while expert gate/up and down are already competitive in those diagnostic
+traces. This is not a new fixed reference or causal attribution of its gap.
+The new original-F16 HC-up draft uses256 threads and one20-step accumulation
+chain, changing FP32 rounding deliberately. Operand phasing eliminates the
+initial draft's spills; ordinary and deferred variants compile with248 VGPR,
+24KiB LDS and zero scratch. All164 retained device bodies remain exact.
+
+A guarded component retains every finite disagreement and all timing samples,
+with100MiB rotated weights and actual timed destinations checked before reuse.
+GPU/model results are pending. Two SSM resident-tile compiler probes remain
+separate and untested. [Mechanism and scope](Q2-HC-UP-SHORT-CHAIN.md).
+
 ## Whole640 chain completed; retained parent remains faster — 2026-10-06 UTC
 
 One original model candidate measures1576.766972 PP /25.17428377 TG,

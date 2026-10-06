@@ -1,5 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## HC-up short-chain host qualification — 2026-10-06 UTC
+
+Core own non-use20:02UTC is followed by global preflight20:11:01.767820UTC,
+anchored to whole640-chain releasecb652eb5. Original Core CPU/four GPU lease
+identities are free, retired processes/groups absent, KFD empty and all seven
+model stat tuples unchanged. Host q2-hc-up-short-chain-host-r1 completes
+20:11:59UTC with39/39 Debug and39/39 ASan/UBSan; six command exits0 and all
+seven artifacts collect before plan freeze90567dfa (276 fixture hashes).
+
+The new plan admits only the synthetic ordinary/deferred HC-up short-chain
+component. It has no model arm, reference rerun, Q4, curve or cleanup. GPU
+admission still requires the new committed checkpoint and fresh global checks.
+Finite comparison failures retain all timings; unsafe failures stop device
+work. Collect and publish release before numerical/performance analysis.
+
 ## Whole640 chain collected and released — 2026-10-06 UTC
 
 Admission19:25:15.088582UTC/f1fd3964 binds checkpoint8ffbbfc0 and plan07750330.

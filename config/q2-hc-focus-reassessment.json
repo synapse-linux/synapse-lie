@@ -1,0 +1,153 @@
+{
+  "schema": "synapse-lie.q2-hc-focus-reassessment.v1",
+  "bindings": {
+    "q2_saved1571": {
+      "path": "evidence/q2-current-best-profile-r1",
+      "receipt_sha256": "3ebe2ca74f6d6e896cabea25941bae82b03d6a8fd21ec31d8bfd1f49a080497b",
+      "phase_sha256": "df1d345cecb85bf9d2235c7c170f374e6cbe9e8c74948c4355185ba69fd24504",
+      "input_sha256": "75343e606f5b815fe01f69ddc6ce50a997e2de96d8a20304a82a7f24f1180b35",
+      "binary_sha256": "05d3c316539eff6442bcb91bf5cc3dd18f25def42d39410f8cbd4b21d7044385",
+      "finished_at": "2026-10-05T14:33:12.165959+00:00",
+      "kernel_sum_ns": 1321833498
+    },
+    "ud_historical": {
+      "path": "evidence/q2-scaled-library-ud-profile-r1",
+      "receipt_sha256": "fc9bbd2b77be0362074a1e125d886a5d49ce26bd73f72f4e4ff2a3fd13c488fe",
+      "phase_sha256": "9ae22cfe3246c354b9947bf827b9ed76608a63bf483396eacfab101935556a2a",
+      "input_sha256": "75343e606f5b815fe01f69ddc6ce50a997e2de96d8a20304a82a7f24f1180b35",
+      "binary_sha256": "60cdb20243b58c62c27ea3f992e8ccbb618ae5ff40b74ee22c1d1f8b5b9f7a27",
+      "finished_at": "2026-10-03T16:14:06.708428+00:00",
+      "kernel_sum_ns": 1258871940
+    }
+  },
+  "rows": [
+    {
+      "group": "hc_down_projection",
+      "q2_ns": 89376337,
+      "ud_ns": 40902157,
+      "q2_calls": 97,
+      "ud_calls": 95,
+      "delta_ns": 48474180
+    },
+    {
+      "group": "hc_up_projection",
+      "q2_ns": 85327322,
+      "ud_ns": 55498440,
+      "q2_calls": 97,
+      "ud_calls": 94,
+      "delta_ns": 29828882
+    },
+    {
+      "group": "explicit_activation_packing",
+      "q2_ns": 25107216,
+      "ud_ns": 6916515,
+      "q2_calls": 172,
+      "ud_calls": 34,
+      "delta_ns": 18190701
+    },
+    {
+      "group": "hc_mix_epilogues",
+      "q2_ns": 39551355,
+      "ud_ns": 24933282,
+      "q2_calls": 97,
+      "ud_calls": 97,
+      "delta_ns": 14618073
+    },
+    {
+      "group": "hc_combine",
+      "q2_ns": 73714882,
+      "ud_ns": 61269555,
+      "q2_calls": 49,
+      "ud_calls": 49,
+      "delta_ns": 12445327
+    },
+    {
+      "group": "attention_projection",
+      "q2_ns": 48445659,
+      "ud_ns": 48238534,
+      "q2_calls": 12,
+      "ud_calls": 12,
+      "delta_ns": 207125
+    },
+    {
+      "group": "q8_dense_gemv",
+      "q2_ns": 3089205,
+      "ud_ns": 3133151,
+      "q2_calls": 1,
+      "ud_calls": 2,
+      "delta_ns": -43946
+    },
+    {
+      "group": "gdn_recurrence_and_epilogues",
+      "q2_ns": 111576197,
+      "ud_ns": 113064272,
+      "q2_calls": 144,
+      "ud_calls": 144,
+      "delta_ns": -1488075
+    },
+    {
+      "group": "causal_attention",
+      "q2_ns": 43391424,
+      "ud_ns": 45409013,
+      "q2_calls": 12,
+      "ud_calls": 12,
+      "delta_ns": -2017589
+    },
+    {
+      "group": "routed_gate_up",
+      "q2_ns": 239499759,
+      "ud_ns": 241982604,
+      "q2_calls": 96,
+      "ud_calls": 48,
+      "delta_ns": -2482845
+    },
+    {
+      "group": "gdn_projection_convolution",
+      "q2_ns": 160217893,
+      "ud_ns": 163133309,
+      "q2_calls": 36,
+      "ud_calls": 36,
+      "delta_ns": -2915416
+    },
+    {
+      "group": "other",
+      "q2_ns": 65063725,
+      "ud_ns": 68597675,
+      "q2_calls": 832,
+      "ud_calls": 740,
+      "delta_ns": -3533950
+    },
+    {
+      "group": "other_dense_wmma",
+      "q2_ns": 103012606,
+      "ud_ns": 110357997,
+      "q2_calls": 170,
+      "ud_calls": 172,
+      "delta_ns": -7345391
+    },
+    {
+      "group": "moe_hc_combine",
+      "q2_ns": 72901858,
+      "ud_ns": 81362140,
+      "q2_calls": 47,
+      "ud_calls": 47,
+      "delta_ns": -8460282
+    },
+    {
+      "group": "routed_down",
+      "q2_ns": 161558060,
+      "ud_ns": 194073296,
+      "q2_calls": 48,
+      "ud_calls": 48,
+      "delta_ns": -32515236
+    }
+  ],
+  "previous_reports": {
+    "config/q2-current-best-profile-results.json": "efb16d4015e3fce00af978374573b17aa4bbc3b2250007bf126eb459651b2f7f",
+    "config/q2-scaled-library-profile-results.json": "f8749c740ca2308c55b7799eb5a2666685da51dd69d07cb20c925f5314bcc2c7"
+  },
+  "scope": "Offline reclassification of saved noncontemporaneous diagnostic traces. Q2 is1571, not current1587. Matched exact2048 input, but not a new performance benchmark or causal decomposition of the fixed74.889ms gap. Generic half dense calls are not automatically HC-up; deferred up and half expert-down are explicit. Different Q2/UD formats and dispatch counts remain visible.",
+  "new_GPU_run": false,
+  "headline_comparison_changed": false,
+  "goal_met": false
+}
