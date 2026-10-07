@@ -1,5 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Owner-authorized local cleanup complete — 2026-10-07 UTC: worktree54.8→19.0GiB.
+664 verified duplicate transport archives and55 generated CMake directories
+removed;246 inactive source trees recoverable from checked capsules;231
+diagnostics losslessly compacted.4521 identical numerical files now share
+immutable data with every path/hash preserved. Final checks cover18423
+payload instances,98 saved executables/archives,208 capsules and231
+diagnostics; the original full-prefill128K reference is exact. Source and
+diagnostic recovery round trips pass. No .157/DS4/other-worktree changes,
+model run, contract change or new performance claim.
+[Receipt and recovery](LOCAL-ARTIFACT-RETENTION.md).
+
+The GLM Codex fork session now exists as `LIE · GLM5.3-Flash antirez`, thread
+`01a1173b-a1f8-7012-a112-37039d798596`. Its handoff explicitly selects the
+GLM worktree and starts a separate compatibility audit, without inheriting
+the Q2 objective, cleanup task or a GPU reservation.
+
 Owner-requested GLM fork created — 2026-10-07 UTC. The next Q2 GPU test
 closed and released all resources before checkpoint `da66cdfe`. Branch
 `feature/glm53-flash-antirez` now exists in sibling worktree

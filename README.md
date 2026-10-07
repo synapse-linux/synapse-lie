@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The local qualification worktree has been compacted54.8→19.0GiB with original
+results and qualified executables preserved. Some historical source/diagnostic
+paths are now restored on demand; see [artifact recovery](docs/LOCAL-ARTIFACT-RETENTION.md).
+
 The four-row Q2 down model candidate now has explicit non-prefill dispatch;
 prefill, including one-token tails, retains its prior implementation.
 After the owner restores performance/120 W, its unchanged original128K trial

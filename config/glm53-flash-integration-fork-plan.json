@@ -57,5 +57,12 @@
   "created_at": "2026-10-07T16:31:20.992292+00:00",
   "target_head_at_creation": "da66cdfe6d285297718ea73973f550cb61540e3d",
   "ignored_builds_and_evidence_copied": false,
-  "integration_started": false
+  "integration_started": false,
+  "codex_session": {
+    "thread_id": "01a1173b-a1f8-7012-a112-37039d798596",
+    "title": "LIE \u00b7 GLM5.3-Flash antirez",
+    "source_thread_id": "01a0f9e0-98e7-7ff2-8bd1-b4ce767f18a3",
+    "worktree_explicit_in_handoff": true,
+    "initial_task": "GLM source and contract compatibility audit; no inherited Q2 objective or cleanup"
+  }
 }

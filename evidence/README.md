@@ -4,6 +4,14 @@
 Raw evidence is ignored except for this index. Keep successes, failures and
 actual exit codes; never replace absent inference metrics with zeros.
 
+Owner-authorized local cleanup on2026-10-07 removes verified transport
+duplicates and generated build intermediates, compacts inactive source and
+diagnostic files, and shares byte-identical immutable numerical evidence via
+hard links. Original payload hashes and results remain. Some old analysis
+paths require restoration before use; follow
+[retention and recovery](../docs/LOCAL-ARTIFACT-RETENTION.md).
+The append-only journals are under `worktree-cleanup-20261007/`.
+
 - `reference-audit-r1/source-retrieval.json`: official pinned source fetches,
   including the unsuccessful vendored `LICENSE` path (curl exit 22 / HTTP 404)
   and the earlier sandbox DNS failure (git exit 128). Repository root licenses
