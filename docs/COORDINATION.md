@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+BF16 row-byte long-prefix closed — 2026-10-07 UTC: checkpoint77e4e41a/
+plan071b49e1, admission5609b5ba at04:24:06.864097.64K finishes04:25:46.965569;
+128K04:28:58.430222, four command exits0 and client/server0 per session.
+10+10 artifacts collected(bb85f5fe/88b8fba6) before04:29:33.552682 release
+570f32f14dd69e4e8cc2198995cc50d483ebbb18e224b212f1492189bdf10528.
+1858 identities/1480 groups retired, KFD empty, original CPU/four GPU leases
+unchanged/free, seven model stat tuples exact. Canonical/main/remote active/
+ready mirrors match; Core notified before analysis. No remaining Q2 job,
+client/build/handle/lease/window/waiter/reservation on .157/.161/.158/TB.
+No model rebuild, control rerun or cleanup. Further GPU work needs new admission.
+
 BF16 row-byte long-prefix preparation — 2026-10-07 UTC: fresh Core own
 non-use and globalpreflight04:21:27.223240 anchor release91b98645. Host
 q2-ple-row-bytes-long-host-r1 ends04:22:26.479409:42 Debug/42 ASan tests,

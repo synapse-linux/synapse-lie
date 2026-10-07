@@ -17,9 +17,14 @@ harness's5.33ms/token gap is not native-server headroom.
 
 The [new BF16 exact-row candidate](Q2-PLE-ROW-BYTES.md) improves the original
 32K full prefill from1402.245716 to1440.767919 token/s (+2.747%) with identical
-replies. Smaller prefixes are mixed, including regressions. Next measure only
-the new64K/128K candidate with the saved executable, original preparations
-and separate cooled sessions. Do not promote the reader globally yet.
+replies. Smaller prefixes are mixed, including regressions. The new64K/128K
+observations also regress:1369.779064/1296.437473 PP, −1.343%/−1.101% versus
+saved retained. All replies match. Preserve the reader as a closed experiment
+and keep the earlier provider; do not continue its full-curve testing.
+Next inspect bounded attention staging/selection on the actual2048-token
+shape. The ordinary greedy path already runs at temperature0; a GPU argmax
+could reduce full-logit downloads, but needs correct snapshot/logprobs and
+multi-sequence ownership before it is a usable decode optimization.
 
 The scalar Q8 instruction trial is complete: large projections are unchanged
 within noise, shared-down improves2.30% locally and gated shared-up slows3.06%.

@@ -78,14 +78,45 @@ empty KFD, original CPU/four GPU leases free and seven model stat tuples
 unchanged. Canonical/main/remote mirrors match; Core is notified before
 analysis. No cleanup or control rerun occurred.
 
-The observed32K improvement motivates two new64K/128K observations using
-this saved candidate binary and the saved native client. Each cooled session
+## Long-prefix follow-up completed
+
+The observed32K improvement motivated two new64K/128K observations using
+the saved candidate binary and saved native client. Each cooled session
 retains the original three preparations and corresponding long prefix.
-This follow-up adds no32K rerun and no control rebuild. It cannot establish
-the128K target until actual results are collected.
+There is no32K rerun, control rerun or model rebuild.
+
+| Physical input tokens | Saved Q2 PP t/s | Row-byte PP t/s | PP change | Saved Q2 TG t/s | Row-byte TG t/s |
+|---:|---:|---:|---:|---:|---:|
+|65440|1388.420346|1369.779064|−1.343%|25.992437|26.201624|
+|130925|1310.874605|1296.437473|−1.101%|25.344213|25.660359|
+
+At128K the new prefill takes100.988287 seconds versus99.876067 saved.
+The32K improvement does not generalize. Keep the retained provider as the
+default and preserve this experimental source and the modest TG observations;
+eight calls and saved controls cannot establish a stable sustained decode gain.
+This reader is not a demonstrated route to1500 PP or30 TG.
+
+All eight follow-up command exits are0, both client/server pairs exit0 and
+all eight streamed replies match the saved corresponding sessions. The20
+artifacts verify. CPU/GPU peaks are91.5/94°C at64K and95.5/101°C at128K;
+the98°C owner limit applies to CPU, and no exposed GPU limit is invented.
+System available memory stays above69.67/65.67GiB respectively. No speed
+correction for thermal/clock/cache differences is applied.
+
+[Full long-prefix results](../config/q2-ple-row-bytes-long-results.json),
+[combined PP/TG image](figures/q2-ple-row-bytes/pp-tg.png),
+[vector image](figures/q2-ple-row-bytes/pp-tg.svg) and
+[all numerical values](figures/q2-ple-row-bytes/pp-tg.csv) preserve the complete
+candidate comparison. The earlier retained graph remains unchanged. No new
+fixed2K candidate measurement is implied by this curve.
 
 The [long-prefix plan](../config/q2-ple-row-bytes-long-plan.json) `071b49e1`
 binds335 fixtures after the updated launcher passes42 Debug/42 sanitizer
 tests on .157. Before both sessions CPU must be≤60°C; the existing inclusive
 98°C stop remains. Server/client hashes and all original input bindings are
 checked before execution. No model binary will be rebuilt for this follow-up.
+
+Collection of64K`bb85f5fe` and128K`88b8fba6` precedes release
+04:29:33.552682UTC /`570f32f1`:1858 identities/1480 groups retired, empty
+KFD, original CPU/four GPU leases free and seven model stat tuples unchanged.
+All release mirrors match and Core is notified before offline analysis.

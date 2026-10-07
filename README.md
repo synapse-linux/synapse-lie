@@ -13,8 +13,12 @@ original nine requests through32K: PP1402.245716→1440.767919 (+2.747%) at32K,
 with mixed shorter-prefix results and all replies exact. Only the private
 BF16/160 descriptor changes, reading320-byte rows. Debug42/ASan42 pass; six
 model commands0 and12 artifacts collect before release91b98645. The saved
-candidate will be measured at64K/128K without rebuild or control rerun;
-the retained provider and graph are not yet replaced.
+candidate also completes64K/128K without rebuild or control rerun:
+PP1369.779064/1296.437473 regress1.343%/1.101% against saved references.
+All long replies match, eight commands0 and20 artifacts collect before
+release570f32f1. Preserve the negative candidate and its
+[complete PP/TG graph](docs/figures/q2-ple-row-bytes/pp-tg.png); the retained
+provider and graph remain unchanged.
 This track resumed with a compact scalar Q8 trial on .157: shared-down time
 improves2.30%, the large projections stay unchanged and gate/up worsens3.06%.
 All GPU output pairs are exact; a host-oracle boundary bug is diagnosed and

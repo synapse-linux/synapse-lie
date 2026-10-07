@@ -17,6 +17,14 @@ and release91b98645 closes the window before analysis. Prepare only new64K/
 128K candidate observations using saved server8d15434d; no model build, old
 control rerun or global promotion.
 
+The64K/128K follow-up now completes without any model rebuild: PP1369.779064/
+1296.437473 versus saved1388.420346/1310.874605, −1.343%/−1.101%. TG26.201624/
+25.660359 on the original eight calls is nominally+0.805%/+1.247%; it does
+not establish sustained TG128. All eight replies match, eight commands0,
+20 artifacts verified before release570f32f1. Keep the previous provider;
+the32K reader improvement did not generalize. Complete table/PNG/SVG/CSV
+are linked from the reader report, with no overwritten retained graph.
+
 The [native32K diagnostic](Q2-LONG-PROFILE.md) now completes with original
 counts and inputs. All device timestamps have zero duration, so GPU busy and
 kernel-stage claims are rejected. Valid CPU completion intervals identify
