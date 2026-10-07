@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Lossless Q8 decode layout prepared — 2026-10-07 UTC: separate exact scale
+bits and aligned code words without changing the 34-byte payload, dot or row
+reduction. Two control device functions are byte-exact to R3; candidate
+15/21 VGPR versus 14/20, zero scratch. A synthetic component covers all 65536
+scale bit patterns, allocation-end operands, every timed output and independent
+FP64 checks. Four real dense shapes use 64 calls and six equally ordered
+measured pairs. Packing time and additional resident bytes remain explicit.
+No model/prefill/quantization change or GPU result yet; fresh coordination and
+.157 fixtures are required. [Contract](Q2-DECODE-Q8-PLANAR.md).
+
 Original128K GPU attribution completed — 2026-10-07 UTC: retained R3 f8a5210c,
 native client87d856cf and original requests fcee51ef; no new numerical build.
 All176014 kernel,4187 copy and481972 API durations are positive; CSV/ROCPD
