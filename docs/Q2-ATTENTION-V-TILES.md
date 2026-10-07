@@ -130,3 +130,43 @@ capacity guard, proof that the previous combine finished reading it, ordering
 on the same stream, and rejection of speculative/last-only or narrowed-row
 scratch. No extra persistent KV or weight copy is necessary if those gates
 are established. No alias or model dispatch has been changed yet.
+
+## Original-model integration prepared
+
+The isolated model candidate now reuses the existing 200 MiB base expert
+output allocation. Its C17 contract requires prefill, exactly 2048 rows and
+max batch, the measured 24/2/256/4 attention geometry, a complete sparse mask,
+positions 28672 through 129024, and no pending expert or last-only work.
+An allocation-base identity check rejects RowScratch offsets; a byte-capacity
+check rejects insufficient storage. Decode, short prompts and the actual
+1901-token final chunk retain their original paths. No model/KV/weight bytes,
+public ABI, allocation reservation or numerical precision boundary changes.
+
+Forward calls Combine after each MoE. Combine queues its final down_e read and
+clears all three deferred-MoE flags; subsequent HC normalization reads residuals
+and scales instead. Packing, attention and the next expert producer use the
+same existing stream, so the shared buffer cannot be overwritten before its
+last reader completes. Clearing a host flag alone is not a GPU completion
+claim. All scratch producer/consumer source identities are bound in the
+[model manifest](../config/q2-attention-v-blocks-model-source.json).
+
+The new server d49ad1f8 preserves all 923 existing device functions exactly;
+its three added functions are byte-exact to the positive component. The
+333-file C17 runtime and saved MMQ archive verify unchanged. On .157, one
+focused CTest passes all 232 contract checks in Debug and again with ASan/UBSan.
+Original-input/power rejection and success/failure child-retirement fixtures
+also pass. Seven host commands exit 0, without accessing a GPU or model.
+These checks establish the guarded host contract, not model inference.
+
+The first build exits 2 because formatting sorts the dependent includes in
+the wrong order. The wrapper now explicitly preserves that order; initial
+source/patch/manifest/logs survive and the next configure/build both exit 0.
+The required shared formatting check remains exit 1 with 99 diagnostics in
+unchanged files; no changed file has a remaining diagnostic. Unrelated source
+is left intact. The model patch passes apply-check against the retained parent.
+
+Only the new candidate will run the frozen four-request native bench workload:
+130925-token complete prefill, 63 full chunks plus the real 1901-token tail,
+eight AR calls, capacity 133760, original requests/client and port 8000.
+No saved control is rebuilt or rerun. GPU admission and model performance
+remain pending at this preparation checkpoint.

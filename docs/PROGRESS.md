@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Prefill V-blocks integrated for a new model trial — 2026-10-07 UTC: bounded
+reuse of existing 200 MiB expert scratch, original one-stream last-reader
+ordering, no allocation or precision change. C17 guards reject decode, small
+rows, pending expert work, offset scratch and insufficient bytes. All 923
+old GPU functions and three measured additions verify exactly; frozen C17
+core333 files and MMQ archive unchanged. .157 CTest passes 232 guards in
+Debug and ASan/UBSan; input/power/lifetime fixtures pass, seven host commands0.
+Initial include-order build failure2 is corrected and preserved; final build0.
+Shared formatting retains99 diagnostics in unchanged files, none in changed
+files. New original130925/8 model trial awaits fresh admission; no throughput
+promotion or GPU reservation. [Integration contract](Q2-ATTENTION-V-TILES.md).
+
 Four-key V packing improves the prefill component — 2026-10-07 UTC:
 complete packing+attention means improve 2.605743% at 32K and 3.016933% at
 128K, with 6/6 and 5/6 pairs favorable. All 18 complete outputs are exact,

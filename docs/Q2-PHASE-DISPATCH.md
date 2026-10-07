@@ -80,3 +80,13 @@ and has not established a model gain. Full-context V tiling is a rejected
 prefill-only component; its numerical exactness does not justify dispatch.
 [Per-shape Q8 results](Q2-DECODE-Q8-PLANAR.md),
 [attention layout results](Q2-ATTENTION-V-TILES.md).
+
+The four-key V candidate has a separate prefill-only integration. Its C17
+contract and base-allocation check authorize reuse of inactive expert scratch
+only for the measured full-row geometry/depth interval, with all deferred
+expert flags clear. Consumers and subsequent producers stay on the original
+stream. Decode and the real short tail retain their original paths, with no
+extra persistent memory. The positive component is not a model-rate gain;
+original-model validation follows separately.
+[Guard and lifetime contract](../experiments/q2-attention-v-blocks-contract.h),
+[integration evidence](Q2-ATTENTION-V-TILES.md).

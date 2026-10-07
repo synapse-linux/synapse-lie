@@ -1,0 +1,82 @@
+{
+  "schema": "synapse-lie.q2-attention-v-blocks-model-build.v1",
+  "provider_manifest_sha256": "2fda8c2b139c23071f67bd8ea4ea853f1a8ea983852b04844550cfffe1d38f8e",
+  "provider_files_verified": 1036,
+  "core_manifest": "config/q2-curve128-source.json",
+  "core_manifest_sha256": "dbe8e6aafad31ee89bf770d8fcbecbfdfb5de7431794182f24bb8a7afcfd5005",
+  "core_files_verified": 333,
+  "core_changed_files": [],
+  "server": ".deps/build-attention-v-blocks/cmake/curve/core/synapse-lie-server",
+  "server_sha256": "d49ad1f87159c354f10bb313f7040f9edbf3a62ebc90e3bf39c12692176cc593",
+  "build_type": "RelWithDebInfo",
+  "saved_build_type": "RelWithDebInfo",
+  "mmq_archive": ".deps/build-hc-scalar-matched/cmake/hip/qwen/libgufo_qwen38_flash_next_mmq.a",
+  "mmq_archive_sha256": "5daa0088a8f461ef1908ec6bb1e1a9d1239ed1745ae81b5f49e1219f728f8d91",
+  "device_audit_sha256": "3c3b1c95a4cadde43892309220b5650f9a68e9fe764bc6b8989847fd75a82339",
+  "common_device_functions": 923,
+  "byte_exact_device_functions": 923,
+  "new_device_functions": {
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_126PackAttentionVBlocksKernelEPK15HIP_vector_typeIjLj4EEPS5_j": {
+      "sha256": "2a6d79b49e91d903810f022b332ac9d2ebaf39e812e7c8215077e5e62fecad40",
+      "bytes": 328,
+      "bundle": "4",
+      "resources": {
+        "num_vgpr": 9,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    },
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_132WmmaCausalAttentionVBlocksKernelILj4ELj16ELb1ELb0EEEvPKfS6_PK6__halfS9_PKjjPfjjj": {
+      "sha256": "dee76ca7e750049963d98e174f482403c7964dc1b920c8406d458f6edd9288a8",
+      "bytes": 27072,
+      "bundle": "4",
+      "resources": {
+        "num_vgpr": 215,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    },
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_132WmmaCausalAttentionVBlocksKernelILj4ELj16ELb1ELb1EEEvPKfS6_PK6__halfS9_PKjjPfjjj": {
+      "sha256": "eb0a780d135efb36dd725e5dd41fc4fd90f27f693180746056cc192b2efb561a",
+      "bytes": 27056,
+      "bundle": "4",
+      "resources": {
+        "num_vgpr": 223,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    }
+  },
+  "all_three_new_kernels_byte_exact_to_component": true,
+  "component_audit_sha256": "38d387f1d3e5c7ab43ee73514be08bee58381e7ccf102a933b11392d14efb175",
+  "commands": {
+    "02.json": "3d9bf87fcc64919c6acb7983e9b505dc521a72dd4049d2ae874650a796aa2bd0",
+    "03.json": "ec8999fce06520d66752d271fddc29a9532d65ad10527451ef94ad9f030ffe09",
+    "04.json": "ee9ef000f28a70e7ff5c5fef34a07e9fc9c2b1bba9387a585d407204786c9b65",
+    "05.json": "a9edc145b371e158e3cb612db049f91d49394b58d64a503f0c47ecd90f3203c1"
+  },
+  "compile_exits": [
+    0,
+    2,
+    0,
+    0
+  ],
+  "host_command_sha256": "dc4951f19a51e483c9bbab2df8f287e0c313083884ef2711b8646aa98d8825f9",
+  "host_step_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "host_contract_checks_each": 232,
+  "shared_format_exit": 1,
+  "shared_format_remaining_diagnostics": 99,
+  "shared_format_no_diagnostics_in_changed_files": true,
+  "remote_build": false,
+  "native_model_run": false,
+  "new_precision_boundary": false,
+  "additional_allocated_bytes": 0
+}
