@@ -30,11 +30,11 @@ This is a source audit of independently fetched Gufo `f783fedb`, not a GPU profi
 
 ## Practical priorities
 
-For conversation latency, live hybrid-state prefix reuse is the clearest missing
-capability: each current HTTP request creates fresh state and reprocesses all
-history. Correct reuse requires recurrent state as well as attention state,
+Live hybrid-state prefix reuse is now implemented in the shared core, including
+RAM and optional SSD checkpoints. It retains recurrent and attention state,
 model/template identity, divergence handling, bounded ownership and cancellation.
-Do not substitute a token cache for a state cache.
+The historical conversation below predates that implementation; it establishes
+the cost of its recorded cache-off runtime.
 
 For cold long prompts, first capture a separate profile of dense/MoE projection,
 index scoring/selection, attention, host prefix scans and synchronization at
@@ -64,8 +64,42 @@ own measurements, independently of the successful homogeneous batch throughput.
 
 ## Measured follow-up cost
 
-The completed [HTTP campaign](../archive/FULL-PREFILL-HTTP-RESULT.md) now confirms the missing
-cache cost on actual traffic: 99995 prompt tokens take 69.76s; the next turn
+The historical [HTTP campaign](../archive/FULL-PREFILL-HTTP-RESULT.md) records the
+cache-off cost on actual traffic: 99995 prompt tokens take 69.76s; the next turn
 with 100419 tokens takes 71.79s and processes all of them again. The added
 physical prompt length is only 424 tokens. This is one two-turn observation,
-not a twenty-turn latency distribution or a performance prediction for a future cache.
+not a twenty-turn latency distribution or a measurement of the current cache.
+
+## Long-workspace component qualification
+
+The owned provider variant keeps the original 2,048-word sparse WMMA kernel for
+short visible spans and adds a default-ON 8,192-word specialization through 1M.
+`LIE_LONG_CONTEXT_WMMA=OFF` provides a separate control; it is not the sampler-OFF
+reference. The runtime build with verified state access includes a native C17
+development client:
+
+```sh
+lie-attention-qualify --run --output-dir attention-run
+```
+
+Run only during an admitted GPU window. The output directory must be new. The
+client loads no model: it generates 13 sparse fixtures at 16K, 256K, 512K and 1M,
+including partial query groups, compact/noncompact key unions, the exact compact
+list boundary, empty selections and zero queries. A monotone key mapping
+preserves ordered K/V values and causal membership in a short-context reference.
+Complete finite float32 outputs must match bit for bit. A separate uniform-
+softmax scalar sanity check has a predeclared absolute-error bound of `1e-6`
+because the pinned kernel uses fast reciprocal math; that bound does not relax
+the complete long/short equality requirement.
+
+`attention.jsonl` binds every case to complete `.deep.f32`, `.short.f32`,
+`.blocks.u32`, `.deep-mask.u32` and `.short-mask.u32` files by SHA-256 and byte
+count. Disabled long paths must refuse deeper spans without modifying their
+sentinel output. HIP errors, partial output and cleanup failures cannot count as
+expected refusals. The Point supervisor's `modern-attention-fixture` profile
+runs without model mounts and its `attention-fixture` collector retains partial
+artifacts on failure. No Python dependency is added to the native client.
+
+This qualifies generated component behavior only. Original-weight logits,
+long-context recall, serving faults, measured memory and comparative performance
+remain separate final acceptance gates.

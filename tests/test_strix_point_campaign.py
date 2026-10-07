@@ -1228,6 +1228,7 @@ class Tests(unittest.TestCase):
             c.build()
         self.assertEqual(c.r['build_result']['state'], 'BUILT_NOT_GPU_TESTED')
     def modern_rocm10_build_fixture(self, omit_capture=False, corrupt_capture=False,
+                                   omit_attention=False, corrupt_attention=False,
                                    long_selection=True, long_receipt='match'):
         c = self.campaign()
         label = 'rocm10-point-modern-r1'
@@ -1260,14 +1261,18 @@ class Tests(unittest.TestCase):
             binary_dir = source/'build'/f'{label}-runtime'
             binary_dir.mkdir()
             names = ('synapse-lie-server','synapse-lie-bench',
-                     'synapse-lie-bench-gufo-reference','lie-hip-probe','lie-sampling-capture')
+                     'synapse-lie-bench-gufo-reference','lie-hip-probe','lie-sampling-capture','lie-attention-qualify')
             binaries = {}
             for name in names:
                 if name == 'lie-sampling-capture' and omit_capture:
                     continue
+                if name == 'lie-attention-qualify' and omit_attention:
+                    continue
                 file = binary_dir/name
                 file.write_bytes(name.encode())
                 binaries[name] = '0'*64 if name == 'lie-sampling-capture' and corrupt_capture else point.sha(file)
+                if name == 'lie-attention-qualify' and corrupt_attention:
+                    binaries[name] = '0'*64
             receipt = source/'evidence'/f'{label}-compile'/'result.json'
             receipt.parent.mkdir()
             data = {'state':'BUILT_NOT_GPU_TESTED',
@@ -1292,6 +1297,12 @@ class Tests(unittest.TestCase):
     def test_modern_build_refuses_changed_capture_artifact(self):
         with self.assertRaisesRegex(RuntimeError, 'Modern binary drift: lie-sampling-capture'):
             self.modern_rocm10_build_fixture(corrupt_capture=True)
+    def test_modern_build_refuses_missing_attention_artifact(self):
+        with self.assertRaisesRegex(RuntimeError, 'Modern binary inventory mismatch'):
+            self.modern_rocm10_build_fixture(omit_attention=True)
+    def test_modern_build_refuses_changed_attention_artifact(self):
+        with self.assertRaisesRegex(RuntimeError, 'Modern binary drift: lie-attention-qualify'):
+            self.modern_rocm10_build_fixture(corrupt_attention=True)
     def test_modern_build_long_workspace_off_is_explicit(self):
         c = self.modern_rocm10_build_fixture(long_selection=False)
         self.assertIs(c.r['build_result']['long_context_wmma'], False)

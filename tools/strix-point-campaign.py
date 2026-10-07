@@ -88,6 +88,126 @@ def capture_file(path, maximum, contents=False):
     finally:
         os.close(fd)
 
+ATTENTION_FIXTURES = (
+    (16384,4,512,False,False), (262144,4,512,False,False),
+    (262145,1,17,False,False), (262147,3,512,False,False),
+    (524288,4,512,False,False), (524289,1,17,False,False),
+    (1048576,1,32,False,False), (1048576,7,512,False,False),
+    (1048576,7,1536,False,False), (1048576,1,2051,False,False),
+    (1048576,1,2052,False,False), (1048576,3,0,True,False),
+    (1048576,7,512,False,True))
+
+def validate_attention_fixture(root, build_id, long_enabled):
+    """Full saved component outputs/masks only; never a model or timing claim."""
+    if type(long_enabled) is not bool:
+        raise ValueError('Attention workspace selection must be boolean')
+    directory = checked_path(root/'attention')
+    manifest, data = capture_file(directory/'attention.jsonl', 2**20, contents=True)
+    def unique(pairs):
+        out = {}
+        for key, value in pairs:
+            if key in out: raise RuntimeError('Duplicate attention JSON key')
+            out[key] = value
+        return out
+    def nonfinite(_): raise RuntimeError('Nonfinite attention JSON number')
+    records = [json.loads(line, object_pairs_hook=unique, parse_constant=nonfinite)
+               for line in data.decode('utf-8').splitlines()]
+    if len(records) != 15 or any(type(j) is not dict for j in records):
+        raise RuntimeError('Incomplete attention fixture records')
+    identity = records[0]
+    if (identity.get('event') != 'identity' or
+            identity.get('schema') != 'synapse-lie.attention-fixture.v1' or
+            identity.get('program') != 'lie-attention-qualify' or
+            identity.get('build_id') != build_id or
+            identity.get('source_pin') != 'f783fedb9bea2ec7de941f6da4e02f4a4596b29e' or
+            identity.get('synthetic') is not True or identity.get('component_only') is not True or
+            identity.get('model_inference') is not False or identity.get('host_fixture') is not False or
+            identity.get('long_context_wmma') is not long_enabled or
+            identity.get('classification') != 'GENERATED-COMPONENT-NOT-MODEL-INFERENCE' or
+            identity.get('encoding') != 'IEEE754-F32/U32-little-endian' or
+            type(identity.get('cases')) is not int or identity['cases'] != 13 or
+            type(identity.get('width')) is not int or identity['width'] != 6144 or
+            type(identity.get('uniform_max_abs_error_limit')) is not float or
+            identity['uniform_max_abs_error_limit'] != 1e-6):
+        raise RuntimeError('Unexpected generated GPU component identity')
+    artifacts = {'attention/attention.jsonl': manifest}; values = 0; refused = 0
+    for index, (end, rows, selections, zero_mask, zero_query) in enumerate(ATTENTION_FIXTURES):
+        j = records[index + 1]; start = end - rows; pool = start//4
+        prefix = rows*selections; tails = (end+3)//4-pool
+        short_base = 16384 if start >= 65536 else 0
+        short_start = (short_base+prefix)*4 + start%4; short_end = short_start+rows
+        deep_capacity = (end+3)//4*4; short_capacity = (short_end+3)//4*4
+        deep_pitch = ((end+3)//4+31)//32; short_pitch = ((short_end+3)//4+31)//32
+        geometry = dict(index=index, end=end, rows=rows, selections=selections,
+            deep_start=start, short_start=short_start, deep_capacity=deep_capacity,
+            short_capacity=short_capacity, deep_pitch=deep_pitch, short_pitch=short_pitch,
+            short_base=short_base, prefix_blocks=prefix, block_count=prefix+tails, values=rows*6144)
+        requested = 2*(deep_capacity+short_capacity)*512*2 + rows*(deep_pitch+short_pitch)*4 + rows*6144*16 + (prefix+tails)*4
+        if (j.get('event') != 'case' or any(type(j.get(k)) is not int or j[k] != v for k,v in geometry.items()) or
+                j.get('zero_mask') is not zero_mask or j.get('zero_query') is not zero_query or
+                j.get('uniform_oracle_applicable') is not zero_query or
+                type(j.get('uniform_max_abs_error')) not in (int,float) or
+                not math.isfinite(j['uniform_max_abs_error']) or
+                not 0 <= j['uniform_max_abs_error'] <= (1e-6 if zero_query else 0) or
+                type(j.get('requested_device_bytes')) is not int or j['requested_device_bytes'] != requested or
+                type(j.get('device_arch')) is not str or j['device_arch'].split(':')[0] != 'gfx1150' or
+                any(j.get(k) is not True for k in ('gpu_execution','short_accepted','numerical','passed','artifacts_complete')) or
+                any(type(j.get(k)) is not int or j[k] != 0 for k in ('primary_error','cleanup_error','adapter_exit_code'))):
+            raise RuntimeError('Invalid complete attention fixture case')
+        expect_refusal = not long_enabled and deep_pitch > 2048
+        if (j.get('accepted') is not (not expect_refusal) or
+                j.get('expected_refusal') is not expect_refusal or
+                j.get('output_unchanged') is not expect_refusal or
+                j.get('exact') is not (not expect_refusal) or
+                type(j.get('refusal')) is not int or j['refusal'] != (2 if expect_refusal else 0)):
+            raise RuntimeError('Unexpected attention admission/refusal')
+        raw = {}
+        shapes = (('deep_output','deep.f32',rows*6144*4), ('short_output','short.f32',rows*6144*4),
+                  ('blocks','blocks.u32',(prefix+tails)*4), ('deep_mask','deep-mask.u32',rows*deep_pitch*4),
+                  ('short_mask','short-mask.u32',rows*short_pitch*4))
+        for key, suffix, size in shapes:
+            name = f'case-{index:02d}.{suffix}'; record = j.get(key)
+            if type(record) is not dict or record.get('file') != name or type(record.get('bytes')) is not int:
+                raise RuntimeError('Unexpected attention artifact path or length')
+            witness, raw[key] = capture_file(directory/name, 2**20, contents=True)
+            if witness != {k:record.get(k) for k in ('bytes','sha256')} or witness['bytes'] != size:
+                raise RuntimeError('Attention artifact hash/length mismatch')
+            artifacts['attention/'+name] = witness
+        if not all(math.isfinite(v[0]) for v in struct.iter_unpack('<f',raw['short_output'])):
+            raise RuntimeError('Nonfinite short attention output')
+        if expect_refusal:
+            if raw['deep_output'] != b'\xff'*len(raw['deep_output']):
+                raise RuntimeError('Refused attention output was modified')
+            refused += 1
+        elif (raw['deep_output'] != raw['short_output'] or
+              not all(math.isfinite(v[0]) for v in struct.iter_unpack('<f',raw['deep_output']))):
+            raise RuntimeError('Complete attention outputs differ or are nonfinite')
+        block_ids = [i*pool//prefix for i in range(prefix)] + list(range(pool,pool+tails))
+        if raw['blocks'] != struct.pack('<'+'I'*len(block_ids),*block_ids):
+            raise RuntimeError('Unexpected monotone attention key mapping')
+        masks = [[0]*(rows*deep_pitch), [0]*(rows*short_pitch)]
+        for i, block in enumerate(block_ids[:prefix]):
+            row = i//selections
+            masks[0][row*deep_pitch+block//32] |= 1 << (block%32)
+            short_block = short_base+i
+            masks[1][row*short_pitch+short_block//32] |= 1 << (short_block%32)
+        if not zero_mask:
+            for row in range(rows):
+                masks[0][row*deep_pitch+pool//32] |= 1 << (pool%32)
+                block = short_base+prefix
+                masks[1][row*short_pitch+block//32] |= 1 << (block%32)
+        for key, mask in zip(('deep_mask','short_mask'),masks):
+            if raw[key] != struct.pack('<'+'I'*len(mask),*mask):
+                raise RuntimeError('Unexpected complete attention mask')
+        values += rows*6144
+    if records[-1] != dict(event='complete', exit_code=0, completed_cases=13):
+        raise RuntimeError('Incomplete attention terminal')
+    if {p.name for p in directory.iterdir()} != {Path(k).name for k in artifacts}:
+        raise RuntimeError('Unexpected attention directory inventory')
+    return dict(classification='GENERATED-COMPONENT-NOT-MODEL-INFERENCE', cases=13,
+                compared_values=values, expected_refusals=refused,
+                model_inference=False, artifacts=artifacts)
+
 def validate_sampling_capture(root, mode, budget, build_id):
     """Bind native rows/frontiers; probability/grammar replay is a separate gate."""
     if mode not in ('text','tools') or type(budget) is not int or not 1 <= budget <= 128:
@@ -918,7 +1038,7 @@ class Campaign:
                 result.get('checkpoint_compression') is not True):
             raise RuntimeError('Incomplete modern ROCm 10 build receipt')
         expected = {'synapse-lie-server', 'synapse-lie-bench',
-                    'synapse-lie-bench-gufo-reference', 'lie-hip-probe', 'lie-sampling-capture'}
+                    'synapse-lie-bench-gufo-reference', 'lie-hip-probe', 'lie-sampling-capture', 'lie-attention-qualify'}
         if set(result.get('binaries', {})) != expected:
             raise RuntimeError('Modern binary inventory mismatch')
         for name, digest in result['binaries'].items():
@@ -1105,6 +1225,8 @@ class Campaign:
             self.check_model_after(rows)
     def bench(self):
         profile = self.m.get('bench_profile')
+        if profile == 'modern-attention-fixture':
+            return self.modern_attention_fixture()
         if profile == 'modern-sampling-capture':
             return self.modern_sampling_capture()
         if profile == 'modern-http-depth':
@@ -1160,6 +1282,21 @@ class Campaign:
                 self.r['bench_partial'] = {'measurements_sha256': sha(self.root/'measurements.jsonl'),
                                             'bytes': (self.root/'measurements.jsonl').stat().st_size}
             self.check_model_after(rows)
+    def modern_attention_fixture(self):
+        if (self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport', 'docker') != 'docker' or
+                type(self.m.get('long_context_wmma')) is not bool or
+                type(self.m.get('runtime_build_id')) is not str or not self.m['runtime_build_id'] or
+                len(self.m['runtime_build_id']) > 128 or
+                type(self.m.get('artifacts')) is not dict or
+                'runtime/bin/lie-attention-qualify' not in self.m['artifacts'] or
+                any(k in self.m for k in ('model_plan','predictor_plan','projector_plan'))):
+            raise ValueError('Expected model-free native attention fixture settings')
+        command = ['/bundle/runtime/bin/lie-attention-qualify', '--run', '--output-dir', '/work/attention']
+        self.r['attention_command'] = command; self.record()
+        self.run_container(command, self.m['bundle'], 300)
+        result = validate_attention_fixture(self.root, self.m['runtime_build_id'], self.m['long_context_wmma'])
+        save(self.root/'attention-artifacts.json', result); self.r['attention_result'] = result
+
     def modern_sampling_capture(self):
         mode = self.m.get('capture_mode'); budget = self.m.get('capture_row_budget')
         if (self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox' or

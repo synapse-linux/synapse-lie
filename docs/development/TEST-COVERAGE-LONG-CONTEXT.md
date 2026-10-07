@@ -16,6 +16,13 @@ this corresponds to configured capacity above 262,144 tokens; 1M uses
 separate this fallback from reactive scheduling, physical work and YaRN.
 Removing the guard alone would exceed the current kernel workspaces.
 
+The owned variant now admits the actually visible span and adds an optional,
+default-ON 8,192-word sparse workspace. Its local compilation preserves the
+original short kernels; `.161` GPU acceptance is still pending. The native
+[component qualification client](PREFILL-ANALYSIS.md#long-workspace-component-qualification)
+checks complete long/short outputs through 1M without model weights. It does not
+replace the original-weight and quality gates below.
+
 The [current Point results](../benchmarks/models/qwen3.8-flash-next/strix-point/README.md)
 include served concurrency and cold prefill through near 256K. The native
 benchmark client and graphs require no Python. Selected original-weight OpenAI

@@ -70,9 +70,18 @@ implementation and integration are complete. Compile the source first; group
 required focused local CTest and ASan/UBSan checks at the end of integration,
 then qualify the integrated runtime on `.161`, run matched benchmarks and run
 Terminal Bench last. No intermediate test campaign or qualification-only client
-expansion is queued. The partial numerical attention fixture sources are saved
-locally, unbuilt and outside the CMake targets; completing that development
-client belongs to the final validation phase.
+expansion is queued. The native numerical attention fixture client is now
+integrated into the final validation phase, after functional source completion.
+Its [usage and scope](development/PREFILL-ANALYSIS.md#long-workspace-component-qualification)
+cover 13 generated cases and full saved outputs through 1M, exact long/short
+comparison, an independent uniform-softmax sanity bound and explicit disabled-
+feature refusals. The canonical Point build requires its sixth consumer artifact;
+the model-free supervisor and bounded collector preserve failures and partial
+data. Core/model numerics, public ABI, HTTP and reactive scheduling are unchanged.
+Focused native Release and unsuppressed sanitizer checks pass with the feature
+ON and OFF. Local device-hidden HIP consumers link against their exact existing
+ON/OFF providers; neither executable is run. Matching `.161` ROCm10 compilation
+and GPU acceptance remain pending; no remote job, lease or reservation is held.
 The [current roadmap](BACKEND.md#current-roadmap--2026-10-06-utc)
 separates integrated source from open acceptance gates. The owned functional
 source is integrated; at that checkpoint all 650 files match the final HOST receipt.
