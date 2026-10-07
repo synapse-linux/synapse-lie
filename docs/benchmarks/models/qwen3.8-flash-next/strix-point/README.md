@@ -258,35 +258,40 @@ synapse-lie-bench --suite core --model /path/to/model-00001-of-00004.gguf \
   --warmups 0 --repetitions 1 --timeout-ms 86400000 --progress-ms 10000
 ```
 
-## Original-weight recall: initial 8K control
+## Original-weight recall: 8K and 128K
 
-The current `90a88455`/r68 runtime passes both cold Chat SSE turns on `.161`
-with the native `long-context-recall` preset, seed 77, native RoPE, capacity
+The current `90a88455`/r68 runtime passes both cold Chat SSE turns at each size
+on `.161` with the native `long-context-recall` preset, seed 77, native RoPE, capacity
 262,144, chunk/scratch 256 and one active sequence. Prefix caching is disabled.
 Turn one retrieves the middle binding; turn two retains the full original ledger
 and retrieves the start/end bindings, whose values were absent from the first
-reply. Three calibration requests are unscored. C1 denotes one sequence;
-process thread counts were not recorded for this window.
+reply. Three calibration requests per window are unscored. C1 denotes one sequence.
 
-| Turn | Physical input tokens | Output tokens | Exact recall | Prefill seconds | Decode seconds |
-| --- | ---: | ---: | --- | ---: | ---: |
-| Middle binding | 8,190 | 38 | Pass | 30.148 | 3.663 |
-| Start/end continuation | 8,298 | 74 | Pass | 30.942 | 7.119 |
+| Target / turn | Physical input | Output | Prefill tok/s (s) | Decode tok/s (s) | TTFT s | Wall s | Recall |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| 8K / middle | 8,190 | 38 | 271.661 (30.148) | 10.375 (3.663) | 30.672 | 34.254 | Pass |
+| 8K / start/end | 8,298 | 74 | 268.181 (30.942) | 10.395 (7.119) | 31.468 | 38.509 | Pass |
+| 128K / middle | 131,070 | 38 | 238.781 (548.912) | 10.018 (3.793) | 549.447 | 553.156 | Pass |
+| 128K / start/end | 131,178 | 74 | 238.027 (551.106) | 10.033 (7.376) | 551.639 | 558.933 | Pass |
 
-The first physical input rounds down from target 8,192 to complete records.
-Outputs finish naturally below the 128-token budget. TTFT is 30.672/31.468 seconds,
-complete wall 34.254/38.509 seconds, PP 271.661/268.181 tok/s and decode
-10.375/10.395 tok/s. These distinct quality turns are not a fixed-output
-performance comparison or repeated measurements of one prompt.
+First physical inputs round down from targets 8,192/131,072 to complete records.
+Outputs finish naturally below the 128-token budget. These distinct quality
+turns are not a fixed-output performance comparison or repeated measurements
+of one prompt. Both windows verify 18 artifacts, complete saved SSE, original
+model stats and process/container/router/lease retirement. The
+[8K receipt and raw data](../../../../development/validation/recall-native-8k-ar-point-2026-10-07.json)
+retain the corrected local sealing assertion failure, without a GPU repeat;
+the [128K receipt and raw data](../../../../development/validation/recall-native-128k-ar-point-2026-10-07.json)
+retain 49 portable members. Its 1000 thermal samples peak CPU 78.75 / GPU 80 /
+NVMe 64.85 C.
 
-CPU/GPU/NVMe maxima are 72.625/73/63.85 C across 124 samples. All 18 artifacts
-hash-verify, original model stats stay unchanged and complete process/container/
-router/lease closure passes. The [receipt and portable raw data](../../../../development/validation/recall-native-8k-ar-point-2026-10-07.json)
-retain complete requests, original ledger/oracles, saved SSE and independent
-wire checks. The local sealing EOS assertion failure is retained and corrected;
-no GPU run repeats. The [recall protocol](../../../../development/protocols/LONG-CONTEXT-RECALL-GPU-PROTOCOL.md)
+The 128K prefill snapshot records 28 process threads and one active sequence.
+Management GETs return HTTP 200 during prefill; this single observation does
+not establish latency distributions, thread-role attribution or reactive speedup.
+Thread counts were not recorded in the 8K window. The
+[recall protocol](../../../../development/protocols/LONG-CONTEXT-RECALL-GPU-PROTOCOL.md)
 defines the remaining three-seed native/YaRN ladder through 1M. Other seeds,
-128K–1M inputs, YaRN/MTP quality and matched comparisons remain pending.
+near 256K–1M, YaRN/MTP quality and matched comparisons remain pending.
 
 ## Modern C17 core MTP vs AR on the GPU
 

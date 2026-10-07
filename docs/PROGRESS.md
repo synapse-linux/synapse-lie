@@ -1,6 +1,34 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Original-weight native 128K recall passes — 2026-10-07 UTC
+
+The same `90a88455`/r68 runtime passes both cold native Chat SSE turns on `.161`,
+seed 77, capacity 262144, chunk 256 and C1 with caching off. Actual inputs are
+131070/131178 tokens, outputs 38/74 with natural stops. Independently assembled saved SSE
+retrieves the middle binding, then both original start/end bindings with the
+full ledger and actual first answer retained. PP is 238.781/238.027 tok/s,
+TG is 10.018/10.033 tok/s; the [platform table](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#original-weight-recall-8k-and-128k)
+also lists full phase durations, TTFT and wall time alongside the 8K control.
+
+Controller, supervisor, helper, client, server, collector, closure and review
+exit 0. All 18 artifacts hash-verify and four original model stat identities stay
+unchanged. 1000 thermal samples peak CPU 78.75 / GPU 80 / NVMe 64.85 C.
+Lease releases at 20:41:34 UTC; strong closure at 20:43:14 verifies all four
+actual PID/start identities and whole
+container absent, two complete scans without members/unreadable entries, router
+51500 restored and original lease free. All four peers receive verified release.
+The [receipt](development/validation/recall-native-128k-ar-point-2026-10-07.json)
+binds 49 portable raw members. No GPU work repeats or acceptance changes.
+
+A contemporaneous prefill snapshot records 28 OS threads, one active sequence,
+and management GETs completed in 4.877/0.316 ms while owner dispatch is in prefill.
+This is one read-only responsiveness observation, not a thread-role census,
+latency distribution, internal-forward or concurrency speedup. Other seeds,
+near 256K–1M, YaRN/MTP, faults/resources, steering and matched cost remain open.
+All six tasks remain open; Terminal Bench stays last. Root has no remote job,
+handle, lease, window, waiter or reservation after verified closure.
+
 ## Original-weight native 8K recall control passes — 2026-10-07 UTC
 
 The current `90a88455`/r68 runtime and checkpoint `2b157729` coordinator pass

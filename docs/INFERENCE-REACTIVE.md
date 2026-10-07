@@ -234,6 +234,18 @@ and [original resource report](archive/PERFORMANCE-RESULT.md#sampled-resources-a
 Future campaigns should record process thread totals and CPU time by role where
 available alongside model-owner count, active requests and actual batch width.
 
+The current native 128K recall window on `.161` saves a contemporaneous process
+snapshot with **28 OS threads**, one active sequence and one outstanding prefill
+call (496 started / 495 returned). `/actuator/llm` and `/actuator/llm/prefill` return
+HTTP 200 in 4.877/0.316 ms while the owner remains in prefill. The
+[receipt and saved snapshot](development/validation/recall-native-128k-ar-point-2026-10-07.json)
+bind actual PID/start/cgroup, all per-TID names and CPU tick counters, and the
+later verified whole-container retirement. These two GETs demonstrate that
+management remains accessible during this workload. They are not a latency
+distribution or evidence of faster arithmetic, more model owners, batching or
+reactive speedup. The older 8K control did not save thread counts; this snapshot
+does not retrospectively supply them or attribute each runtime thread.
+
 The shared-core extraction preserves this reactive inference policy for
 direct clients and HTTP alike. `--suite core` adds one device-owner thread plus
 the benchmark consumer thread, the same two application roles as HTTP without

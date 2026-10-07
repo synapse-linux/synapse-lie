@@ -10,8 +10,9 @@ stable release is declared. Detailed validation history is in
 - Optional Strix Point recall coordination now runs the native benchmark on
   separate context/RoPE/seed cohorts through 1M, with complete continuation,
   exact-answer checking, memory admission and failed-artifact retention.
-  The first original-weight 8K AR control passes both turns; the rest of the
-  ladder remains pending. Native products remain Python-free.
+  Original-weight native 8K and 128K AR controls, seed 77, pass both cold turns
+  at each size; the rest of the ladder remains pending. Native products remain
+  Python-free.
 
 - Responses now accepts `seed`, `frequency_penalty` and `presence_penalty`
   through the shared generation profile, and retains them in completed/stored

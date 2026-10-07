@@ -350,9 +350,12 @@ none of the six items.
    now defines three seeds, profile-specific short controls and the native/YaRN
    ladder through 1M. The optional one-case supervisor route is implemented and
    checked against native-client HOST fixtures. The current r68 runtime now
-   passes the [first original-weight native 8K control](development/validation/recall-native-8k-ar-point-2026-10-07.json):
-   seed 77, both cold turns, physical 8190/8298 tokens, complete collection and
-   exact retirement. Other seeds, larger inputs, YaRN and MTP remain pending.
+   passes the [original-weight native 8K control](development/validation/recall-native-8k-ar-point-2026-10-07.json)
+   and [128K control](development/validation/recall-native-128k-ar-point-2026-10-07.json):
+   seed 77, both cold turns at each size, physical 8190/8298 and 131070/131178
+   tokens, complete collection and exact retirement. The 128K saved-wire review
+   verifies both independent answers; CPU/GPU/NVMe peaks are 78.75/80/64.85 C.
+   Other seeds, larger inputs, YaRN and MTP remain pending.
    The historical `1bff953` `.161` run completes all
    **1,048,448 physical prefill tokens and 128 output tokens**
    with explicit YaRN4 and `--ignore-eos`. The

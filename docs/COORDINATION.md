@@ -1,5 +1,28 @@
 # DS4 / synapse-lie coordination
 
+## Native 128K recall passed and retired — 2026-10-07
+
+Fresh Point/DGX/Q2/GLM current non-use declarations, explicit boot/FS/original
+lease binding and fresh global/in-lease checks precede the separate AR window
+`recall-native-131072-s77-ar-20261007-r1`. Original Q4 and qualified `90a88455`/r68
+pass both cold turns at physical 131070/131178 tokens. All 18 artifacts,
+separately assembled saved SSE, four model stats and actual exits 0 verify.
+Peaks are CPU 78.75 / GPU 80 / NVMe 64.85 C.
+
+Original lease 66308/105946405 releases at 20:41:34.767979 UTC. Strong closure at
+20:43:14.953675 verifies supervisor 39081/start 2053279, launcher 39181/start 2053369,
+observed init 39310/start 2053379 and GPU 40802/start 2062391 absent. Container
+`9938d067` and whole cgroup are absent; two complete scans find no members or
+unreadable entries. Router51500 is restored, original lease free/released,
+HTTP 8000 empty and foreign compute/guarded hot empty. All four peers receive
+verified release. The [receipt](development/validation/recall-native-128k-ar-point-2026-10-07.json)
+binds 49 raw members and the contemporaneous 28-thread management observation.
+
+Root has no remote job/build/client/handle/lease/window/waiter/reservation on
+`.161/.157/.155/.158/TB`. Local preparation near 256K is not admission. Other
+seeds, remaining native/YaRN ladder, MTP and comparisons require fresh proposals
+and admission. All six tasks remain open and Terminal Bench remains last.
+
 ## Native 8K recall control passed and retired — 2026-10-07
 
 Current own-state declarations from Point/DGX/Q2/GLM, explicit current boot/FS/

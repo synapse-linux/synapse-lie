@@ -1,0 +1,1191 @@
+{
+  "schema": "synapse-lie.original-recall-point.v1",
+  "state": "ORIGINAL_AR_NATIVE_128K_PASSED_COLLECTED_INDEPENDENT_WIRE_VERIFIED_CLOSED",
+  "at_utc": "2026-10-07T20:43:39.886587+00:00",
+  "scope": "Original-weight synthetic associative recall and continued full-history Chat SSE; one seed/native profile at the stated physical target.",
+  "runtime_source_commit": "90a884558c79ed696918e2ddfafefc3227659962",
+  "coordinator_checkpoint": "f06e79cc033f2eedea701a0d486369b1147c0f8c",
+  "bundle_manifest_sha256": "f8625ec7cbc26f61f5887bbe23b1a13d623a9e1ddbbaf1bd560b93279c95c2fb",
+  "runtime_artifacts": {
+    "runtime/bin/lie-attention-qualify": "799f2e678b759e8631132726291f5afd8f0c6ed06888d45ae6467e60e4e32009",
+    "runtime/bin/lie-hip-probe": "903eef35313990c5abcc15d98464c66d9eb925dc5d75e36145eebcb01645578b",
+    "runtime/bin/lie-sampling-capture": "0056c6408d9c66af94cafe0530fb72d9e15256e949130b74bf73b363f9c72b5b",
+    "runtime/bin/synapse-lie-bench": "f27189bb8175eca7b63ba4ab8c5887a0e1e2a7af957171183865260652ccde84",
+    "runtime/bin/synapse-lie-bench-gufo-reference": "62ad149d24fff7054f2bc076cd1935a152ead10c264aa2687de2fee5363fe6df",
+    "runtime/bin/synapse-lie-server": "ed35770da16db8dff5de3b41db5f3d09bce4ceecfc58d7f5e377d85f8668baf5"
+  },
+  "settings": {
+    "context": 262144,
+    "rope_scaling": "native",
+    "size": 131072,
+    "chunk": 256,
+    "seed": 77,
+    "request_timeout_seconds": 3600,
+    "load_timeout_seconds": 900
+  },
+  "three_unscored_calibrations": 3,
+  "quality_summary": {
+    "checks": 2,
+    "passes": 2,
+    "warmup_checks": 0,
+    "warmup_passes": 0,
+    "exact_match_rate": 1.0
+  },
+  "observations": [
+    {
+      "turn": 0,
+      "prompt_tokens": 131070,
+      "output_tokens": 38,
+      "cached_tokens": 0,
+      "exact_match": true,
+      "expected": {
+        "key_c54279302e70d172": "v_70f10cc944c8c205"
+      },
+      "actual_answer": "{\"key_c54279302e70d172\": \"v_70f10cc944c8c205\"}",
+      "finish_reason": "stop",
+      "prefill_ms": 548912.110917,
+      "decode_ms": 3793.339487,
+      "prefill_tokens_per_second": 238.781395770331,
+      "decode_tokens_per_second": 10.017558441639157,
+      "ttft_seconds": 549.447352542,
+      "wall_seconds": 553.15631307
+    },
+    {
+      "turn": 1,
+      "prompt_tokens": 131178,
+      "output_tokens": 74,
+      "cached_tokens": 0,
+      "exact_match": true,
+      "expected": {
+        "key_a3f0748249b658eb": "v_72b59558b0023930",
+        "key_b48f1446e361caa9": "v_0426f252171645de"
+      },
+      "actual_answer": "{\"key_a3f0748249b658eb\": \"v_72b59558b0023930\", \"key_b48f1446e361caa9\": \"v_0426f252171645de\"}",
+      "finish_reason": "stop",
+      "prefill_ms": 551105.841941,
+      "decode_ms": 7375.682057,
+      "prefill_tokens_per_second": 238.02687254773028,
+      "decode_tokens_per_second": 10.032970432852268,
+      "ttft_seconds": 551.639031436,
+      "wall_seconds": 558.933137222
+    }
+  ],
+  "source_model": {
+    "schema": "synapse-lie.model-source.v1",
+    "repository": "unsloth/Qwen3.8-Flash-Next-GGUF",
+    "revision": "38bb39ee97821de2c9009abb7e93950eec396e66",
+    "target": "pop@192.168.5.161",
+    "destination": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee",
+    "total_bytes": 111334654784,
+    "files": [
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "bytes": 10946624,
+        "sha256": "4448186216b3af4cc558bbce2c3213f01608f8f8b2e5267a9767971dd3ec8082",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+        "bytes": 49859583136,
+        "sha256": "3f342f1c1580473f1ee94ddd5b28206e8c07a70fa1a366f59d1d6c922919a6c9",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+        "bytes": 49376141504,
+        "sha256": "56758f40269cad5cd9b0d3d6fbae0f40f6d5be6de49e4ab392dbe83157d9cbd3",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+        "bytes": 12087983520,
+        "sha256": "753bda48b98ba4f1636134a90a967de1b2d3908a236c026e464777342e53510a",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf"
+      }
+    ],
+    "verification": "Independent official repository metadata agrees with historical SHA-256; target payloads not downloaded or hashed",
+    "metadata_receipt": "evidence/strix-point-model-metadata-r1",
+    "metadata_sha256": "1866707f788ee7c6df4b6c94c8a3d82abc7cc377bdc5f22bdd4f7707b46c144b"
+  },
+  "model_stat_unchanged": true,
+  "thermal_sample_count": 1000,
+  "peak_C_by_sensor": {
+    "nvme": 64.85,
+    "amdgpu": 80.0,
+    "k10temp": 78.75
+  },
+  "current_C1_server_thread_and_management_observation": {
+    "at_utc": "2026-10-07T20:31:40.724939+00:00",
+    "scope": "Read-only C1 server thread and management observations during the exact owned recall; not a latency or concurrency benchmark.",
+    "job": "recall-native-131072-s77-ar-20261007-r1",
+    "supervisor_identity": {
+      "pid": 39081,
+      "start_ticks": 2053279
+    },
+    "actual_GPU_identity": {
+      "pid": 40802,
+      "start_ticks": 2062391,
+      "cgroup": "0::/system.slice/docker-9938d0675ea81a05ebd51efba464a8aac25ec1716080ecd2786cd5a93fadae37.scope\n",
+      "devices": [
+        "/dev/dri/renderD128",
+        "/dev/kfd"
+      ]
+    },
+    "server_status": {
+      "Name": "synapse-lie-ser",
+      "State": "S (sleeping)",
+      "VmPeak": "205851052 kB",
+      "VmSize": "205753764 kB",
+      "VmHWM": "889516 kB",
+      "VmRSS": "565844 kB",
+      "RssAnon": "177108 kB",
+      "RssFile": "277704 kB",
+      "RssShmem": "111032 kB",
+      "Threads": "28",
+      "voluntary_ctxt_switches": "2246",
+      "nonvoluntary_ctxt_switches": "13"
+    },
+    "actual_threads": [
+      {
+        "tid": 40802,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 10,
+        "system_ticks": 3,
+        "start_ticks": 2062391
+      },
+      {
+        "tid": 40803,
+        "name": "synapse-lie-ser",
+        "state": "R",
+        "user_ticks": 52740,
+        "system_ticks": 622,
+        "start_ticks": 2062400
+      },
+      {
+        "tid": 40805,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 96,
+        "system_ticks": 3,
+        "start_ticks": 2062416
+      },
+      {
+        "tid": 40806,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 0,
+        "system_ticks": 0,
+        "start_ticks": 2062416
+      },
+      {
+        "tid": 40808,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 7,
+        "system_ticks": 9,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40809,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 6,
+        "system_ticks": 9,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40810,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 6,
+        "system_ticks": 10,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40811,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 7,
+        "system_ticks": 9,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40812,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 7,
+        "system_ticks": 9,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40813,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 7,
+        "system_ticks": 10,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40814,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 8,
+        "system_ticks": 8,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40815,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 6,
+        "system_ticks": 9,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40816,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 8,
+        "system_ticks": 8,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40817,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 8,
+        "system_ticks": 8,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40818,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 5,
+        "system_ticks": 11,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40819,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 7,
+        "system_ticks": 9,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40820,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 7,
+        "system_ticks": 9,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40821,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 7,
+        "system_ticks": 9,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40822,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 7,
+        "system_ticks": 9,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40823,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 8,
+        "system_ticks": 8,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40824,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 6,
+        "system_ticks": 10,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40825,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 7,
+        "system_ticks": 9,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40826,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 6,
+        "system_ticks": 9,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40827,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 6,
+        "system_ticks": 10,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40828,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 7,
+        "system_ticks": 9,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40829,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 6,
+        "system_ticks": 10,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40830,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 6,
+        "system_ticks": 10,
+        "start_ticks": 2062433
+      },
+      {
+        "tid": 40831,
+        "name": "synapse-lie-ser",
+        "state": "S",
+        "user_ticks": 7,
+        "system_ticks": 9,
+        "start_ticks": 2062433
+      }
+    ],
+    "management_listener": "http://127.0.0.1:37227",
+    "management_responses": [
+      {
+        "route": "/actuator/llm",
+        "http_status": 200,
+        "wall_seconds": 0.004877426999883028,
+        "body": {
+          "schema": "synapse-lie.llm.v1",
+          "ready": true,
+          "backend": {
+            "engine": "gufo-embedded-f783fedb",
+            "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+            "build_id": "rocm10-point-modern-r68-runtime",
+            "ownership": "delegated",
+            "dense_sampling": "lie-c17-dense",
+            "state": "READY",
+            "model": "qwen3.8-flash-next",
+            "synthetic": false,
+            "hardware_qualified": false,
+            "native_batching": false,
+            "native_batch_capacity": 1,
+            "tools": true,
+            "tool_streaming": "buffered-complete-turn",
+            "context_tokens": 262144,
+            "rope_scaling": "native",
+            "max_output_tokens": 4096,
+            "max_request_bytes": 8388608,
+            "max_messages": 1024,
+            "vision": false,
+            "max_images": 0,
+            "mtp": false,
+            "max_decode_output_tokens": 1,
+            "snapshot_restore": false,
+            "prefix_state": true,
+            "state_format": "ds4-kvc-payload",
+            "steering": {
+              "admitted": false,
+              "ffn": 0.0,
+              "attention": 0.0,
+              "host_vector_bytes": 0,
+              "device_vector_bytes": 0,
+              "bank_file_sha256": "",
+              "bank_scope_sha256": "",
+              "prefix_state_supported": true,
+              "scope": "model_admission_vector_data_excludes_allocator_overhead_and_workspaces"
+            },
+            "error": null
+          },
+          "cache": {
+            "kind": "ram-prefix-checkpoints",
+            "enabled": false,
+            "ssd_enabled": false,
+            "retention_policy": "ds4-time-token-byte-utility-v1",
+            "checkpoint_compression": true,
+            "checkpoint_codec": "byte-plane4-zstd1-v1",
+            "checkpoint_policy": {
+              "kind": "ds4",
+              "text_prefix": true,
+              "capture_finish": true,
+              "min_tokens": 512,
+              "cold_max_tokens": 30000,
+              "continued_interval_tokens": 10000,
+              "boundary_trim_tokens": 32,
+              "boundary_align_tokens": 2048
+            },
+            "ssd": {
+              "enabled": false,
+              "retention_policy": "lru",
+              "checkpoint_compression": false,
+              "checkpoint_codec": "byte-plane4-zstd1-v1",
+              "quota_bytes": 0,
+              "disk_bytes": 0,
+              "allocated_bytes": 0,
+              "staging_budget_bytes": 0,
+              "index_bytes": 0,
+              "index_budget_bytes": 0,
+              "staging_bytes": 0,
+              "peak_staging_bytes": 0,
+              "entries": 0,
+              "pending": 0,
+              "lookups": 0,
+              "hits": 0,
+              "misses": 0,
+              "writes": 0,
+              "evictions": 0,
+              "skipped": 0,
+              "errors": 0,
+              "cancelled": 0,
+              "read_bytes": 0,
+              "written_bytes": 0,
+              "read_ns": 0,
+              "write_ns": 0
+            },
+            "accounting": "payload, descriptors and metadata; index separately bounded; excludes allocator/driver overhead",
+            "budget_bytes": 0,
+            "retained_bytes": 0,
+            "peak_retained_bytes": 0,
+            "index_bytes": 0,
+            "index_budget_bytes": 0,
+            "lookups": 0,
+            "hits": 0,
+            "misses": 0,
+            "reused_tokens": 0,
+            "captures": 0,
+            "evictions": 0,
+            "skipped": 0,
+            "entries": 0,
+            "expanded_bytes": 0,
+            "compression_attempts": 0,
+            "compressed_captures": 0
+          },
+          "scheduler": {
+            "mode": "single-owner-reactive-ready-batch",
+            "queued": 0,
+            "active": 1,
+            "output_blocked": 0,
+            "executor": {
+              "scope": "owner_dispatch_intervals",
+              "phase": "prefill",
+              "prefill_started": 496,
+              "prefill_returned": 495,
+              "decode_started": 3,
+              "decode_returned": 3,
+              "mtp_drafted_tokens": 0,
+              "mtp_accepted_tokens": 0,
+              "decode_batches": 0,
+              "decode_batch_rows": 0,
+              "decode_single_calls": 3,
+              "cancel_during_prefill": 0,
+              "cancel_during_decode": 0
+            },
+            "max_active": 1,
+            "admission_capacity": 8,
+            "generated_tokens": 3,
+            "completed": 3,
+            "cancelled": 0,
+            "failed": 0,
+            "output_validation_errors": 0
+          },
+          "memory": null,
+          "speculation": null,
+          "throughput": null,
+          "latency": null
+        },
+        "actual_exit_code": 0
+      },
+      {
+        "route": "/actuator/llm/prefill",
+        "http_status": 200,
+        "wall_seconds": 0.0003163920009683352,
+        "body": {
+          "prefill_chunk": 256,
+          "prefill_capacity": 256,
+          "revision": 1,
+          "applies_to": "new_requests"
+        },
+        "actual_exit_code": 0
+      }
+    ],
+    "observation": {
+      "at": "2026-10-07T20:31:40.724958+00:00",
+      "kfd": [
+        {
+          "pid": 40802,
+          "start_ticks": 2062391,
+          "cgroup": "0::/system.slice/docker-9938d0675ea81a05ebd51efba464a8aac25ec1716080ecd2786cd5a93fadae37.scope\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "dri": [
+        {
+          "pid": 40802,
+          "start_ticks": 2062391,
+          "cgroup": "0::/system.slice/docker-9938d0675ea81a05ebd51efba464a8aac25ec1716080ecd2786cd5a93fadae37.scope\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "denied_fd": 366,
+      "temperatures": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "value_c": 37.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp2_input",
+          "value_c": 47.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp3_input",
+          "value_c": 37.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp1_input",
+          "value_c": 38.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp2_input",
+          "value_c": 35.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp3_input",
+          "value_c": 38.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon5/temp1_input",
+          "value_c": 77.0,
+          "limit_c": 98,
+          "guarded": false
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "value_c": 76.625,
+          "limit_c": 98,
+          "guarded": true
+        }
+      ],
+      "memory": {
+        "MemTotal": 132542644224,
+        "MemAvailable": 28257398784,
+        "SwapTotal": 21474828288,
+        "SwapFree": 21474828288
+      },
+      "kernel_kfd": [
+        40802
+      ],
+      "gpu": {
+        "gpu_busy_percent": 100,
+        "mem_info_gtt_total": 120259084288,
+        "mem_info_gtt_used": 92262899712,
+        "mem_info_vram_total": 2147483648,
+        "mem_info_vram_used": 151756800
+      }
+    },
+    "GPU_build_forward_lease_service_tuning_or_mutation": false
+  },
+  "actual_exit_codes": {
+    "controller": 0,
+    "supervisor": 0,
+    "helper": 0,
+    "native_client": 0,
+    "server": 0,
+    "collector": 0,
+    "strong_closure": 0,
+    "independent_review_seal": 0
+  },
+  "lease_release_at": "2026-10-07T20:41:34.767979+00:00",
+  "closure": {
+    "state": "WHOLE_CONTAINER_AND_EXACT_GPU_IDENTITIES_CLOSED_NO_STANDING_RESERVATION",
+    "at_utc": "2026-10-07T20:43:14.953675+00:00",
+    "boot_id": "7a966774-3424-46c3-8045-34f759ea58a1",
+    "evidence_scope": "Entire recorded container cgroup absent, all actual GPU PID/start_ticks and launcher/supervisor absent; no inferred missing-PID success",
+    "observed_container_init_PID_available": true,
+    "original_init_PID_absence_claimed": true,
+    "identities": [
+      {
+        "role": "supervisor",
+        "pid": 39081,
+        "start_ticks": 2053279,
+        "exact_identity_absent": true
+      },
+      {
+        "role": "Distrobox launcher",
+        "pid": 39181,
+        "start_ticks": 2053369,
+        "exact_identity_absent": true
+      },
+      {
+        "role": "observed container init",
+        "pid": 39310,
+        "start_ticks": 2053379,
+        "exact_identity_absent": true
+      },
+      {
+        "role": "observed native GPU owner",
+        "pid": 40802,
+        "start_ticks": 2062391,
+        "cgroup": "0::/system.slice/docker-9938d0675ea81a05ebd51efba464a8aac25ec1716080ecd2786cd5a93fadae37.scope\n",
+        "exact_identity_absent": true
+      }
+    ],
+    "whole_container_process_scans": [
+      {
+        "pass": 0,
+        "processes_checked": 379,
+        "owned_cgroup_matches": [],
+        "unreadable": [],
+        "vanished_during_read": []
+      },
+      {
+        "pass": 1,
+        "processes_checked": 379,
+        "owned_cgroup_matches": [],
+        "unreadable": [],
+        "vanished_during_read": []
+      }
+    ],
+    "container_cgroup": {
+      "path": "/sys/fs/cgroup/system.slice/docker-9938d0675ea81a05ebd51efba464a8aac25ec1716080ecd2786cd5a93fadae37.scope",
+      "exists": false,
+      "empty": true
+    },
+    "container_inspect": {
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: 9938d0675ea81a05ebd51efba464a8aac25ec1716080ecd2786cd5a93fadae37\n"
+    },
+    "label_listing": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "original_lease": {
+      "device": 66308,
+      "inode": 105946405,
+      "free_briefly": true,
+      "released": true
+    },
+    "service": {
+      "MainPID": "51500",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "http8000_listeners": [],
+    "foreign_compute_clients": [],
+    "guarded_hot": [],
+    "observation": {
+      "at": "2026-10-07T20:43:14.836780+00:00",
+      "kfd": [
+        {
+          "pid": 51500,
+          "start_ticks": 2176221,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "dri": [
+        {
+          "pid": 51500,
+          "start_ticks": 2176221,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "denied_fd": 367,
+      "temperatures": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "value_c": 38.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp2_input",
+          "value_c": 38.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp3_input",
+          "value_c": 38.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp1_input",
+          "value_c": 39.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp2_input",
+          "value_c": 36.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp3_input",
+          "value_c": 40.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon5/temp1_input",
+          "value_c": 44.0,
+          "limit_c": 98,
+          "guarded": false
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "value_c": 45.25,
+          "limit_c": 98,
+          "guarded": true
+        }
+      ],
+      "memory": {
+        "MemTotal": 132542644224,
+        "MemAvailable": 121479020544,
+        "SwapTotal": 21474828288,
+        "SwapFree": 21474828288
+      },
+      "kernel_kfd": [
+        51500
+      ],
+      "gpu": {
+        "gpu_busy_percent": 0,
+        "mem_info_gtt_total": 120259084288,
+        "mem_info_gtt_used": 18636800,
+        "mem_info_vram_total": 2147483648,
+        "mem_info_vram_used": 151183360
+      }
+    },
+    "GPU_build_run_or_service_mutation": false,
+    "standing_lease_waiter_reservation": false
+  },
+  "collection_artifacts": {
+    "manifest.json": {
+      "bytes": 6453,
+      "sha256": "aa394aea1e678f4fb472dc34d4b17b3389d2e5d5e9cd1f1093463d6560cec81f"
+    },
+    "runner.py": {
+      "bytes": 169857,
+      "sha256": "d303e7d582c93ea68521223396d91c6c7697c7156f876e72e901e8a90fa516f1"
+    },
+    "http-recall-gate.py": {
+      "bytes": 21529,
+      "sha256": "5bce29df2a6d2f9f652986bd57dc61dbc31ee554157f353124c22d5285a678a4"
+    },
+    "http-recall-settings.json": {
+      "bytes": 166,
+      "sha256": "d62468daaead67d7ebb4989d36aff8a0f646873b3b3f41decd0a43473de87af4"
+    },
+    "result.json": {
+      "bytes": 604893,
+      "sha256": "1b4537d702db44c3a6c874b5b1823e09f88dfef2852cc0e3f1212354cefbedbd"
+    },
+    "telemetry.jsonl": {
+      "bytes": 1880948,
+      "sha256": "1f17ce52d9d18b4f82386c777b6536ac9bef74eb01c5fa1ecd7da3218a05fa68"
+    },
+    "http-recall-result.json": {
+      "bytes": 2486,
+      "sha256": "12c2fc2c674980197f11bcbb6dae658cacb5dd18732362036c61471e8da26da6"
+    },
+    "measurements.jsonl": {
+      "bytes": 324613,
+      "sha256": "c482b89b123be44d21875d8c3de79820642c6b0122f4abdbb15b5b3e75095c46"
+    },
+    "requests.jsonl": {
+      "bytes": 136521,
+      "sha256": "3ed5ceb8e45947bbe98ed78de78c4905faadbcbd22888842e7ef39b9960aabcf"
+    },
+    "server.log": {
+      "bytes": 92,
+      "sha256": "f24e04913adcbcdadfc6bcbd5d822863ad4feec6cbdad533fa01f6575c7545cd"
+    },
+    "client.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "client.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout.log": {
+      "bytes": 70161,
+      "sha256": "3855a445b949bd411405eb0fd8bbb9f5e52f177b6de7bf96928ef3b419615ea4"
+    },
+    "stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "distrobox-create.log": {
+      "bytes": 311,
+      "sha256": "77ba72c7f2e7293ad6dc11393d0d422c83224694d3be2a01dfe2fb1d88c5d741"
+    },
+    "distrobox.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "distrobox.stderr.log": {
+      "bytes": 1073,
+      "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+    },
+    "http-started.marker": {
+      "bytes": 6,
+      "sha256": "b94832788cfe11aaa24a8b91d31ead8acd4e67c2ca29a324bce4fdec91004301"
+    }
+  },
+  "four_current_peer_declarations": [
+    {
+      "peer": "Point",
+      "thread": "01a0fb73-1367-7313-b771-6e721a4155bc",
+      "evidence": "Read-thread completed turn01a11801-2b52-7dd3-b499-6d44bffb5362 after exact proposal",
+      "text": "Confermo il non-uso: da questo worktree non ho job, build, client, handle, lease, finestra, waiter, prenotazione o piano su `.161`; nessun conflitto. Non uso `.157`/`.155`/`.158` e non ho avviato attivit\u00e0 remote. La proposta 128K richieder\u00e0 preflight globale e ammissione in-lease fresche."
+    },
+    {
+      "peer": "DGX",
+      "thread": "01a0fb43-105f-7bc3-98b8-84d12528db0d",
+      "evidence": "Direct delivered root message after exact proposal",
+      "text": "CURRENT OWN dgx per recall-native-131072-s77-ar-20261007-r1: nessun mio uso/conflitto su .161; nessun job, handle, build remoto, client, lease, window, waiter o reservation su .161/.158/.157/.155/TB. Attivit\u00e0 soltanto locale nel worktree dgx-spark: checkpoint6502e84f client seriale, poi helper C17 di prefetch 16MiB/lock pagine; build e quattro HOST+quattro ASan/UBSan terminati exit0, sigillo il checkpoint. Nessun SDK/modello/GPU. Dichiarazione corrente informativa, non prenotazione o concessione futura; restano i tuoi controlli fresh global/in-lease."
+    },
+    {
+      "peer": "Q2",
+      "thread": "01a0f9e0-98e7-7ff2-8bd1-b4ce767f18a3",
+      "evidence": "Direct delivered root message after exact proposal",
+      "text": "Per proposta recall-native-131072-s77-ar-20261007-r1: CURRENT OWN Q2 nessun uso/job/build/client/handle/lease/window/waiter/reservation .161; nessun conflitto. Nessun mio uso .157/.155/.158/TB. Analisi solo locale: profilo R3 .157 valido in CSV+DB, Q8 GEMV 48.26% dei kernel decode, attention/selector guidano crescita prefill. Riferimenti di throughput invariati. Release .157 esatta 20:04:00.680062 / 0a924578, strong closure 20:04:35.761148 gi\u00e0 trasmesse."
+    },
+    {
+      "peer": "GLM",
+      "thread": "01a1173b-a1f8-7012-a112-37039d798596",
+      "evidence": "Direct delivered root message after exact proposal; own .155 active unrelated",
+      "text": "CURRENT OWN GLM .161 nessun job/client/build/handle/lease/window/waiter/reservation, nessun conflitto tuo recall131072-s77 AR runtime90a/r68. .157/.158/TB nessun uso proprio. .155 attiva solo mia generation matchedClangASan f51394e9 (nativelease52:110474256), modello caricato31.637s ora forward Debug/ASan; niente perf l\u00ec. BenchGLM .157 solo preparato localmente, nessuna prenotazione. Seguir\u00e0 closureverificata .155; nuove .157 distintefresh."
+    }
+  ],
+  "raw": {
+    "path": "raw/recall-native-128k-ar-point-2026-10-07.tar.gz",
+    "bytes": 351680,
+    "sha256": "040521ec18af353b963ec2a660abe55b1715c563d225ac74e70b79d3c322c152",
+    "members": 49,
+    "inventory": [
+      {
+        "path": "job/client.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "job/client.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "job/collection.json",
+        "bytes": 9993,
+        "sha256": "a9b18aefd903a11eb1d2b2031f8a44d685085a4815fb1dd28e48502cb6101b6c"
+      },
+      {
+        "path": "job/controller-result.json",
+        "bytes": 818,
+        "sha256": "ed233d2cc27702e3a6dd02742d23f5e6f4a8aec2f5a5da5db9a3b329ba446521"
+      },
+      {
+        "path": "job/controller-stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "job/controller-stdout.log",
+        "bytes": 519379,
+        "sha256": "ed62a3b5705764b73de4c38d7a0b66c0f77b34f9e1bc99deaf7c49357499353b"
+      },
+      {
+        "path": "job/distrobox-create.log",
+        "bytes": 311,
+        "sha256": "77ba72c7f2e7293ad6dc11393d0d422c83224694d3be2a01dfe2fb1d88c5d741"
+      },
+      {
+        "path": "job/distrobox.stderr.log",
+        "bytes": 1073,
+        "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+      },
+      {
+        "path": "job/distrobox.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "job/http-recall-gate.py",
+        "bytes": 21529,
+        "sha256": "5bce29df2a6d2f9f652986bd57dc61dbc31ee554157f353124c22d5285a678a4"
+      },
+      {
+        "path": "job/http-recall-result.json",
+        "bytes": 2486,
+        "sha256": "12c2fc2c674980197f11bcbb6dae658cacb5dd18732362036c61471e8da26da6"
+      },
+      {
+        "path": "job/http-recall-settings.json",
+        "bytes": 166,
+        "sha256": "d62468daaead67d7ebb4989d36aff8a0f646873b3b3f41decd0a43473de87af4"
+      },
+      {
+        "path": "job/http-started.marker",
+        "bytes": 6,
+        "sha256": "b94832788cfe11aaa24a8b91d31ead8acd4e67c2ca29a324bce4fdec91004301"
+      },
+      {
+        "path": "job/manifest.json",
+        "bytes": 6453,
+        "sha256": "aa394aea1e678f4fb472dc34d4b17b3389d2e5d5e9cd1f1093463d6560cec81f"
+      },
+      {
+        "path": "job/measurements.jsonl",
+        "bytes": 324613,
+        "sha256": "c482b89b123be44d21875d8c3de79820642c6b0122f4abdbb15b5b3e75095c46"
+      },
+      {
+        "path": "job/plan.json",
+        "bytes": 800,
+        "sha256": "e776f64771ed93e34e871d862f591ecc594a72381a1fe8c2c99c58456829a82a"
+      },
+      {
+        "path": "job/requests.jsonl",
+        "bytes": 136521,
+        "sha256": "3ed5ceb8e45947bbe98ed78de78c4905faadbcbd22888842e7ef39b9960aabcf"
+      },
+      {
+        "path": "job/result.json",
+        "bytes": 604893,
+        "sha256": "1b4537d702db44c3a6c874b5b1823e09f88dfef2852cc0e3f1212354cefbedbd"
+      },
+      {
+        "path": "job/runner.py",
+        "bytes": 169857,
+        "sha256": "d303e7d582c93ea68521223396d91c6c7697c7156f876e72e901e8a90fa516f1"
+      },
+      {
+        "path": "job/server.log",
+        "bytes": 92,
+        "sha256": "f24e04913adcbcdadfc6bcbd5d822863ad4feec6cbdad533fa01f6575c7545cd"
+      },
+      {
+        "path": "job/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "job/stdout.log",
+        "bytes": 70161,
+        "sha256": "3855a445b949bd411405eb0fd8bbb9f5e52f177b6de7bf96928ef3b419615ea4"
+      },
+      {
+        "path": "job/telemetry.jsonl",
+        "bytes": 1880948,
+        "sha256": "1f17ce52d9d18b4f82386c777b6536ac9bef74eb01c5fa1ecd7da3218a05fa68"
+      },
+      {
+        "path": "control/recall-native-131072-s77-ar-20261007-r1-manifest.json",
+        "bytes": 6453,
+        "sha256": "aa394aea1e678f4fb472dc34d4b17b3389d2e5d5e9cd1f1093463d6560cec81f"
+      },
+      {
+        "path": "control/recall-native-131072-s77-ar-20261007-r1-settings.json",
+        "bytes": 166,
+        "sha256": "d62468daaead67d7ebb4989d36aff8a0f646873b3b3f41decd0a43473de87af4"
+      },
+      {
+        "path": "control/recall-native-131072-s77-ar-20261007-r1-readiness.json",
+        "bytes": 1601,
+        "sha256": "852d449435abd6abc297685a46ec28eaf30fd3cc551bb93eee30b17f2186d08b"
+      },
+      {
+        "path": "control/recall-native-131072-s77-ar-20261007-r1-preparation-recipes.json",
+        "bytes": 1195,
+        "sha256": "76488c5f30b740a7588ac68cf9c4d5d048ed8f326885863b525072af41199435"
+      },
+      {
+        "path": "control/recall-native-131072-s77-ar-20261007-r1-jobs-prepared.json",
+        "bytes": 5558,
+        "sha256": "14f494ae329355d5fc7ca4311871daee7cdd90774b94bed7b6653e2785871f1b"
+      },
+      {
+        "path": "control/recall-native-131072-s77-ar-20261007-r1-peer-coordination-r2.json",
+        "bytes": 3552,
+        "sha256": "1e7b51cf14aa36af5adc3ef5173d044311eb19fa382a38edcfd72746a8822881"
+      },
+      {
+        "path": "control/recall-native-131072-s77-ar-20261007-r1-closure-r1.json",
+        "bytes": 9467,
+        "sha256": "feb00e3054866c6565b2cdfa1d353672a96ae509801956197fd611973b4f08ff"
+      },
+      {
+        "path": "control/before-recall-native-131072-s77-ar-20261007-r1-fresh-r1.json",
+        "bytes": 6776,
+        "sha256": "baabf9127bd90d7a5afc54d850b372e0c4cdd6e7e0d89ffd8cb01cd9c997d60d"
+      },
+      {
+        "path": "control/before-recall-native-131072-s77-ar-20261007-r1-initial-r1.json",
+        "bytes": 6780,
+        "sha256": "e43418618726fc2606f92ee764554f459d35640de82f13cb218b36c3cb6ac6fc"
+      },
+      {
+        "path": "control/launch-recall-native-131072-s77-ar-20261007-r1.py",
+        "bytes": 3286,
+        "sha256": "54357a752730764620870c871518ef8714142874d76a17da86a891d23c0795ca"
+      },
+      {
+        "path": "control/observe-recall-native-131072-s77-ar-20261007-r1.py",
+        "bytes": 4333,
+        "sha256": "d3585f536d3e7ae31e737f1bb970ef911b71e04db9342edc1bf9ea229e0c278d"
+      },
+      {
+        "path": "control/close-recall-native-131072-s77-ar-20261007-r1-r1.py",
+        "bytes": 8174,
+        "sha256": "439f8ecaf0dd8216c724ecf4af7ad3e5ea996fa90a8768229bbfbece79188493"
+      },
+      {
+        "path": "control/prepare-recall-native-131072-s77-ar-20261007-r1-remote.py",
+        "bytes": 5269,
+        "sha256": "0ea3eade9d44d95209adfcedc764b795d8f19f2201ff432162fc6b75fb9ce3df"
+      },
+      {
+        "path": "control/observe-recall-native-131072-s77-ar-20261007-r1-runtime-r1.py",
+        "bytes": 4587,
+        "sha256": "ea942acb5328edf44a7f30c98c03a59e1c2e5dbf960d016818a05c76d0b20d96"
+      },
+      {
+        "path": "control/recall-native-131072-s77-ar-20261007-r1-runtime-observation-r1.json",
+        "bytes": 25095,
+        "sha256": "b72a12157643fa7ed88189fc89212a57acc8acf569ffd1c04b365c3e0c153765"
+      },
+      {
+        "path": "control/observe-recall-native-131072-s77-ar-20261007-r1-samples-r1.py",
+        "bytes": 2320,
+        "sha256": "e475be4d00686f77277407af491e613b775e509ac0998de5f7f6a19d8581a60c"
+      },
+      {
+        "path": "control/recall-native-131072-s77-ar-20261007-r1-interim-samples-r1.json",
+        "bytes": 3604,
+        "sha256": "b16a4b270a19310d7ed15d9a53e230d6247224283fca2bf6c923ea95b96efa84"
+      },
+      {
+        "path": "control/recall-native-131072-s77-ar-20261007-r1-live-1.json",
+        "bytes": 5746,
+        "sha256": "7e2e8b18683bb6ae5ccafaee5216af549892762946b6d84ec6c12e5371ffe3cd"
+      },
+      {
+        "path": "control/recall-native-131072-s77-ar-20261007-r1-live-2.json",
+        "bytes": 7474,
+        "sha256": "c4941321b0b87c12a7901c055aa40826de3b9da7963850249665be31df8bbb68"
+      },
+      {
+        "path": "control/recall-native-131072-s77-ar-20261007-r1-live-3.json",
+        "bytes": 7470,
+        "sha256": "f0236b1deb8d5fea670b7bd0049d0a5b480b534f12e4569e370ae4ce2b731dc8"
+      },
+      {
+        "path": "control/recall-native-131072-s77-ar-20261007-r1-live-4.json",
+        "bytes": 7472,
+        "sha256": "60fea21907fba0df4e72d734f14f2301d2d2542c0c5aa12d0aaca811dc9b85d0"
+      },
+      {
+        "path": "control/recall-native-131072-s77-ar-20261007-r1-live-5.json",
+        "bytes": 7472,
+        "sha256": "08684f1226a46eecbfc0adc53d6915e3e373d7187f12cf9d4a03404f8950f75c"
+      },
+      {
+        "path": "control/recall-native-131072-s77-ar-20261007-r1-live-6.json",
+        "bytes": 11735,
+        "sha256": "ebc32973c4e8395d8f9efb08e185125298bbb5839c9b537d74ece77c1ff1a80b"
+      },
+      {
+        "path": "recipe/seal-recall-native-131072-s77-ar-20261007-r1.py",
+        "bytes": 12139,
+        "sha256": "6e83b4c78337f8de5a236ea370e929483fa990eff9100afe5acf23fea5adf0a5"
+      },
+      {
+        "path": "source/strix-point-bench-collect.py",
+        "bytes": 15600,
+        "sha256": "0a84261dcb52c2d82ff052a788da9304e4ae7b4139c0fa2bd80794e892bc1e59"
+      },
+      {
+        "path": "source/LICENSE",
+        "bytes": 1081,
+        "sha256": "7ea461cf01583ff889f2c0705702f4e97bc1751fd96d5381895754638dc1263d"
+      }
+    ]
+  },
+  "limitations": [
+    "Does not qualify other seeds, near256K/512K/786K/1M inputs, YaRN or MTP.",
+    "Configured262144 capacity is not the measured input length.",
+    "Quality outputs are not matched fixed-output performance.",
+    "Thread snapshot and two management GETs do not establish concurrency, latency distribution or reactive speedup.",
+    "No claim of vendor or natural-language quality.",
+    "All six root roadmap items remain open; Terminal Bench remains last."
+  ],
+  "current_root_remote_jobs_handles_leases_windows_waiters_reservations": [],
+  "actual_exit_code": 0
+}

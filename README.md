@@ -22,8 +22,8 @@ The [1M results and reproduction command](docs/benchmarks/models/qwen3.8-flash-n
 include prefill, decode, durations and memory. The
 [long-context recall protocol](docs/development/protocols/LONG-CONTEXT-RECALL-GPU-PROTOCOL.md)
 defines quality checks through 1M. The
-[initial native 8K recall control](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#original-weight-recall-initial-8k-control)
-passes both cold turns on the current runtime; longer inputs, other seeds,
+[native 8K and 128K recall controls](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#original-weight-recall-8k-and-128k)
+pass both cold turns at each size on the current runtime; larger inputs, other seeds,
 YaRN/MTP and matched performance comparisons remain under qualification.
 The experimental [long-context sparse WMMA option](docs/guides/BUILD.md)
 extends the prefill workspace through 1M; its original-weight correctness and performance
