@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+IQ2 stage-pair layout preparation — 2026-10-07 UTC: Halogen's documented
+routed-expert prefill gain motivates an independent, lossless LIE weight-layout
+probe. A private BN128 body reads contiguous stage-pair planes; production
+dispatch stays unchanged. The C17 transpose/inverse test passes focused CTest
+and ASan/UBSan. Local gfx1151 compilation preserves 164/164 retained bodies'
+ISA/resources and adds one body using 153 VGPR, 25,728B LDS, no private
+scratch. The HIP whole-output/timing fixture links but has **no GPU or model
+result yet**. The fixed 128K target still needs 12.592734s removed; the sum
+of the largest recorded CPU API gaps per chunk is only 4.510309s, even before
+considering overlap. [Experiment and limits](Q2-IQ2-STAGE-LAYOUT.md).
+
 Halogen bandwidth and arena follow-up — 2026-10-07 UTC: its published
 same-engine comparison uses serial short-context35.4 token/s on its own
 4-bit dense trunk versus25.4 on a losslessly repacked UD-IQ4_XS GGUF with

@@ -502,6 +502,18 @@ target_include_directories(q2_iq2_token256_check SYSTEM PRIVATE ${HIPCUB_INCLUDE
 target_link_libraries(q2_iq2_token256_check PRIVATE
   iq2_token256_tiles iq2_mixed_tiles hip::host OpenSSL::Crypto)
 
+# Lossless IQ2 stage-pair layout screen; production dispatch is unchanged.
+add_executable(q2_iq2_stage_layout_check EXCLUDE_FROM_ALL ../../tests/q2_iq2_stage_layout.hip
+  "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip"
+  "${GUFO_SOURCE}/src/core/crypto/sha256.cpp")
+target_compile_options(q2_iq2_stage_layout_check PRIVATE
+  $<TARGET_PROPERTY:gufo_qwen38_flash_next,COMPILE_OPTIONS>)
+target_compile_definitions(q2_iq2_stage_layout_check PRIVATE QFN_ROCM_BUILD=1 ENGINE_ENABLE_HIP=1)
+target_include_directories(q2_iq2_stage_layout_check PRIVATE "${GUFO_SOURCE}" "${Q2_FIXTURE_ROOT}")
+target_include_directories(q2_iq2_stage_layout_check SYSTEM PRIVATE ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
+target_link_libraries(q2_iq2_stage_layout_check PRIVATE
+  iq2_stage_layout iq2_mixed_tiles hip::host OpenSSL::Crypto)
+
 # Whole640 producer/packing drafts; the retained provider is unchanged.
 add_executable(q2_iq2_whole640_check EXCLUDE_FROM_ALL ../../tests/q2_iq2_whole640.hip
   "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip")
