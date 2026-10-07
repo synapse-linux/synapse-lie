@@ -1,0 +1,23 @@
+{
+  "schema": "synapse-lie.q2-hc-scalar-up-mix-window-plan.v1",
+  "label": "q2-hc-scalar-isolated-component-r1",
+  "source_commit": "509ed76b93d85ce4cf2fb54c0e50095a6740caf4",
+  "previous_release": "q2-hc-scalar-native128-matched-r1/release.json",
+  "previous_release_sha256": "893459ca2d2a2f604b073f1a8e3f34631133b9b64f68a9f4948dd76479b430c8",
+  "staged_sha256": {
+    "fixture.hip": "2ac312fa48c387572767392f00a3a48df98c745552ce3850247c859bce94f0d1",
+    "kernel.inc": "232c4e2e421296d1e6b9b724ceb4dac0136d7cd0f7ec28eab6c81e42111a01f0",
+    "q2-hc-scalar-isolated-window.py": "ea3752d956d1d4f1b288a3a23a1e49edb254405408b1e0f11a13bfcc3ae06962",
+    "q2_hc_scalar_up_mix_check": "a94977da69e0ac8148ea6e43d1562455fda11ed86c4394f25ed4188311d130e6",
+    "q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "source-manifest.json": "eb12a4783802ee991f88d896b8698f7f61abc6dac68b2ae7372d0795ee850810",
+    "static-report.json": "75b78d06e44c6d3c9f904fac498c23d99a17a672661612f73a283f3e83ed9239"
+  },
+  "component_only": true,
+  "original_model_inference": false,
+  "model_access": false,
+  "remote_build": false,
+  "remote_cleanup": false,
+  "timeout_seconds": 300,
+  "scope": "One synthetic original-F16 HC scalar comparison: baseline common kernels retain RelWithDebInfo, candidate is the exact production isolated HIP object. Unchanged F32 arithmetic, guarded outputs, independent FP64 and 100 MiB rotating weights. No model access or remote build."
+}

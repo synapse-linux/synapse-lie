@@ -374,3 +374,14 @@ no precision boundary or runtime allocation is added. Build/link and changed
 HIP formatting pass; provider-wide formatting retains inherited failures.
 Runtime component/model qualification is pending; no performance promotion.
 [Source and static audit](../config/q2-hc-scalar-isolated-static.json).
+
+The isolated .157 component now passes64 complete exact replays and50
+independent FP64 checks. Complete-operation latency falls43.049672 to34.800469us
+with injection (-19.162058%) and35.915766 to34.213us without (-4.740998%);
+all five pairs favor the candidate. Both paths use the actual production
+kernel bytes. CPU supervisor and GPU component exit0;25 artifacts verify
+before release12:26:09.647555UTC/b0f1cf56, with1967 identities/1573 groups
+retired, empty KFD, five original leases free and seven model stats unchanged.
+No remote job/window remains. This qualifies the unchanged original128K
+candidate-only test; full-model throughput and inherited quality remain open.
+[Component result](../config/q2-hc-scalar-isolated-results.json).

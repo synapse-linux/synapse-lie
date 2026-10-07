@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The isolated .157 component now passes64 complete exact replays and50
+independent FP64 checks. Complete-operation latency falls43.049672 to34.800469us
+with injection (-19.162058%) and35.915766 to34.213us without (-4.740998%);
+all five pairs favor the candidate. Both paths use the actual production
+kernel bytes. CPU supervisor and GPU component exit0;25 artifacts verify
+before release12:26:09.647555UTC/b0f1cf56, with1967 identities/1573 groups
+retired, empty KFD, five original leases free and seven model stats unchanged.
+No remote job/window remains. This qualifies the unchanged original128K
+candidate-only test; full-model throughput and inherited quality remain open.
+[Component result](../config/q2-hc-scalar-isolated-results.json).
+
 Original128K HC windows released — 2026-10-07 UTC: fresh Core own non-use
 and CPU fixture/preflight checks precede each exact-plan admission. First
 source9a399a78/planddf75f28 reuses server578e3320;22 artifacts collect/hash
