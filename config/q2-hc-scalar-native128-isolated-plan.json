@@ -1,0 +1,105 @@
+{
+  "schema": "synapse-lie.q2-hc-scalar-native128-plan.v1",
+  "label": "q2-hc-scalar-native128-isolated-r1",
+  "source_commit": "539a34570f0858c2949cb709ca5b613b355276b4",
+  "runner_sha256": "d08dfb7c66cabba7f1418d6d9b9ec3c6e939ad1c23b985a1643ce5afb9011f34",
+  "order": [
+    "hc-scalar"
+  ],
+  "port": 8000,
+  "capacity": 133760,
+  "chunk": 2048,
+  "prefix_tokens": 130925,
+  "output_tokens": 8,
+  "previous_release": "q2-hc-scalar-isolated-component-r1/release.json",
+  "previous_release_sha256": "b0f1cf56a67110f0a96bc11679ada484bbe9abce70c5950c1def9d3a4c87f709",
+  "staged_sha256": {
+    "native-build.json": "c339aede6064495ea7a379f1b76fca397655f6c8aef9b19c36b167686ca51db1",
+    "provider-manifest.json": "eb12a4783802ee991f88d896b8698f7f61abc6dac68b2ae7372d0795ee850810",
+    "q2-hc-scalar-native128-isolated-window.py": "d08dfb7c66cabba7f1418d6d9b9ec3c6e939ad1c23b985a1643ce5afb9011f34",
+    "requests.jsonl": "fcee51efeebfcbd25209ba90d09064d37aead6d3b0c6bbe7a9f97f328a4f24ef",
+    "synapse-lie-server": "a4afb757bf04302f6036b7eabe8f76c7c88911d3d239d29d5ea5cb1c639e9d20"
+  },
+  "candidate_server": {
+    "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-scalar-native128-isolated-r1/synapse-lie-server",
+    "sha256": "a4afb757bf04302f6036b7eabe8f76c7c88911d3d239d29d5ea5cb1c639e9d20"
+  },
+  "client": {
+    "label": "saved native C client",
+    "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-native-row-ud-r1/build/native-bench/synapse-lie-bench",
+    "sha256": "87d856cf454d5114f93d7d4260d54b58f6e92800f70e4013a505aa16973560c9"
+  },
+  "requests": {
+    "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-scalar-native128-isolated-r1/requests.jsonl",
+    "sha256": "fcee51efeebfcbd25209ba90d09064d37aead6d3b0c6bbe7a9f97f328a4f24ef"
+  },
+  "model_stats": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "bytes": 147207127040,
+      "device": 52,
+      "inode": 3116203,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 52,
+      "inode": 3206497,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 52,
+      "inode": 3228516,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 52,
+      "inode": 3211726,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 52,
+      "inode": 3207513,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "bytes": 2786568256,
+      "device": 52,
+      "inode": 3206512,
+      "mtime_ns": 1790711824619908153,
+      "ctime_ns": 1790711826279892467
+    },
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q4.gguf",
+      "bytes": 177280286720,
+      "device": 52,
+      "inode": 3116346,
+      "mtime_ns": 1789871998360000000,
+      "ctime_ns": 1790258428459084412
+    }
+  ],
+  "saved_reference_sha256": {
+    "evidence/q2-full-prefill128-final-r1/results/full-prefill.jsonl": "34cb33c48be8d9f1782a7eb44877a43cb5b06bf55f43f38993b41c69d421d3f5",
+    "evidence/q2-full-prefill128-final-r1/results/full-prefill.requests.jsonl": "fcee51efeebfcbd25209ba90d09064d37aead6d3b0c6bbe7a9f97f328a4f24ef",
+    "config/q2-full-prefill128-results.json": "74a7d49e94d1c68bf350fa127289326520427f086d35480e8182b69723b446e6",
+    "config/q2-full-prefill128-decode-results.json": "68831086fef31f2b66a58e2a196f6c79da9480729697b2ab914bf5edd2d734ad"
+  },
+  "remote_build": false,
+  "remote_cleanup": false,
+  "run_controls": false,
+  "changed_request_bytes": false,
+  "scope": "One isolated HC candidate on exact original130925/8 after the same three preparations. Common kernel source/build RelWithDebInfo unchanged; -g0 only in scalar decode translation unit. No saved-control rebuild/rerun, changed request, reduced precision or remote cleanup. Inherited quality and sustainedTG128 remain open."
+}

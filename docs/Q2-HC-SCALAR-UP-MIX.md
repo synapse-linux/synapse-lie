@@ -1,6 +1,61 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Original-F16 scalar HC up/mix fusion
 
+## Isolated compilation: original128K result
+
+The .157 candidate preserves the original common HIP source and all918
+common numerical device-function byte streams. Two diagnostic helpers differ;
+no common size or register/scratch resource changes. Only the two scalar
+HC kernels use their separately qualified -g0 compilation. Their production
+bytes are identical to the component's kernels; weights, intermediate
+precision, allocation and stream contracts are unchanged.
+
+| Executable on the identical130925/8 input | Prefill token/s | Decode token/s |
+|---|---:|---:|
+| Saved RelWithDebInfo reference | 1310.874605 | 25.344213 |
+| Initial global Release HC, build-confounded | 1249.340740 | 25.987615 |
+| HC and common code together, matching RelWithDebInfo | 1335.257764 | 24.825466 |
+| HC in separate HIP file, common matching RelWithDebInfo | 1337.119965 | 25.914406 |
+
+The isolated candidate is2.249797% above the saved decode observation and
+4.386384% above the preceding combined-file HC observation. Its prefill is
+2.002126% above the saved observation and0.139464% above the preceding HC
+observation. This does not attribute the prefill delta to the scalar fusion:
+its full2048-row body is unchanged. No repeatability claim follows from one
+candidate observation against saved controls. Original requests, three
+preparations, capacity133760, chunk2048,64 prefill calls (63full+1901 tail),
+cache0 and eight decode calls remain unchanged. No control is rebuilt/rerun.
+
+All four response contents, token pieces, usage and finish reasons match.
+Server/client/run exit0. The isolated component also passes64 exact full
+outputs and50 independent FP64 checks with the original limits; it saves
+19.162058% injection-operation latency and4.740998% head-operation latency.
+No new precision reduction is introduced. Inherited F16 expert-output
+quality remains unqualified, and eight output calls do not establish TG128.
+The30TG/1500PP goal remains open.
+
+**Dispatch correction:** the earlier explanation that `!MatrixRows(1)` also
+excluded the single-logit head during prefill was incorrect. `Forward`
+explicitly enters `PrefillPhase(false)` around that head. The scalar fusion
+therefore excludes the prefill body, including its one-token tail, but can
+run for the final one-row head as well as ordinary decode. Its no-injection
+component covers that operation. Selecting kernels by actual operation/shape
+is more precise than treating every operation of a request as matrix prefill.
+This correction changes documentation, not the frozen source or benchmark.
+[Dispatch audit](../config/q2-hc-scalar-phase-dispatch-audit.json).
+
+CPU supervisor/input fixtures pass on .157. All30 artifacts collect/hash
+before release12:33:14.572491UTC, SHA
+34ec91fa8c10fd827a0eeaf83f39998ff6133dbc61cd6be4c2100d146de67e3e.
+The latest registry independently matches:1969 identities/1575 groups retired,
+empty KFD, all five original leases free and seven original model stats
+unchanged. No Q2 remote job, build, client, lease, window or waiter remains.
+No cleanup, model conversion, tuning, dependency or service change occurs.
+
+[Exact result](../config/q2-hc-scalar-native128-isolated-results.json),
+[PP/TG graph](figures/q2-hc-native128-isolated.png),
+[raw values](figures/q2-hc-native128-isolated.csv).
+
 **Build qualification correction:** the initial fixed/native HC executables
 were built as Release, whereas their saved controls use RelWithDebInfo.
 The compiler revision is identical but instruction scheduling and resources
@@ -110,8 +165,9 @@ qualified component. All1029 resulting source files reconstruct from the
 saved patch; the original provider is unchanged. The scalar eligibility
 requires n_tokens1, original F16 down/up matrices at2560/320/four streams,
 F32 or absent injection, F32 normalized inputs and `!MatrixRows(n_tokens)`.
-That last condition excludes the single-logit head inside a prefill phase,
-which originally uses the matrix path and its existing arithmetic.
+That condition excludes the prefill body, including one-token tails. The
+single-logit head explicitly resets the arithmetic phase and can use the
+scalar fusion; the earlier contrary explanation is corrected below.
 
 The up Dense launch is skipped only for that eligibility. The fused call
 occurs after the existing input-cache invalidations and leaves the existing

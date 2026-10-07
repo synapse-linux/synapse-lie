@@ -1,6 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Performance evidence excluding quality-reducing changes
 
+Latest isolated-compilation observation: original130925/8 now measures
+1337.119965 PP /25.914406 TG, versus saved1310.874605 /25.344213.
+The common numerical GPU instructions are exact to the saved backend, and
+all four replies match. The scalar component passes64 exact comparisons and
+50 independent FP64 checks; no new precision boundary is added. This supports
+the local arithmetic-preserving change, not inherited task-quality acceptance
+or sustained decode performance. The scalar path also covers the one-row
+head at the end of prefill; an earlier claim that it excluded that head is
+corrected. [Isolated result](Q2-HC-SCALAR-UP-MIX.md#isolated-compilation-original128k-result).
+
 The owner excludes quality-reducing optimizations from the performance goal.
 Original GGUF weights alone do not establish unchanged inference quality:
 intermediate precision, accumulation order and state representations also matter.

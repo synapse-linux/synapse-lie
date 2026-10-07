@@ -101,7 +101,7 @@ def main():
     (ROOT / 'config/q2-hc-scalar-isolated-results.json').write_text(
         json.dumps(report, indent=2, allow_nan=False) + '\n')
     with (ROOT / 'docs/figures/q2-hc-scalar-isolated-samples.csv').open('w') as out:
-        writer = csv.DictWriter(out, fieldnames=list(times[0]))
+        writer = csv.DictWriter(out, fieldnames=list(times[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(times)
     print(json.dumps({key: value for key, value in report.items()

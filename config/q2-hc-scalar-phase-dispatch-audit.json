@@ -1,0 +1,16 @@
+{
+  "schema": "synapse-lie.q2-hc-scalar-phase-dispatch-audit.v1",
+  "executor_sha256": "13b2c9d92a4dde72a61ecd977a4ea218181091c4a151c0cc4906fc74ad3ec779",
+  "anchors": {
+    "bool MatrixRows(": 87,
+    "const bool fused_scalar_projection": 1274,
+    "PrefillPhase phase(mode == ForwardMode::kPrefill)": 2126,
+    "PrefillPhase head_phase(false)": 2327
+  },
+  "body_prefill_including_one_token_tail_excludes_scalar_fusion": true,
+  "prefill_single_logit_head_includes_scalar_fusion": true,
+  "reason": "Forward explicitly enters PrefillPhase(false) around its logits head. MatrixRows is an arithmetic/shape policy, not an immutable whole-request phase.",
+  "corrects_prior_documentation": "The earlier claim that !MatrixRows excludes the single-logit head during prefill was incorrect. Frozen source and measured results remain unchanged.",
+  "no_gpu_run": true,
+  "source_changed": false
+}

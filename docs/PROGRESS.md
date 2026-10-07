@@ -1,5 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Isolated HC original128K qualification — 2026-10-07 UTC: source539a3457,
+servera4afb757 and plan5d547363 complete the unchanged130925/8 workload at
+1337.119965 PP /25.914406 TG, versus saved1310.874605 /25.344213. All four
+outputs exact; run/server/client0. Common numerical GPU instructions are
+unchanged; separate scalar compilation retains the positive64-exact/50-FP64
+component. Relative to saved observations, decode rises2.250%; prefill's
+2.002% delta is not credited to this scalar change. Eight outputs and inherited
+parent quality remain limits. Dispatch audit corrects an earlier explanation:
+the scalar branch excludes the prefill body, but can run in its single-logit
+head because that code explicitly resets PrefillPhase(false). No runtime or
+request was changed to produce this correction.30 artifacts verify before
+release12:33:14.572491UTC/34ec91fa,1969 retired identities/1575 groups, empty
+KFD, five original leases free, seven original model stats unchanged. No
+remote workload/window remains. Goal30TG/1500PP is still open.
+[Result and graph](Q2-HC-SCALAR-UP-MIX.md#isolated-compilation-original128k-result).
+
 Phase-specific HC compilation prepared — 2026-10-07 UTC: the decode-only
 up/mix kernel moves to its own HIP translation unit, with -g0 confined to
 that file. The common backend keeps the saved RelWithDebInfo build and
@@ -24,7 +40,7 @@ f2ceaa65 preserves all common function sizes/resources;907/920 are byte-exact,
 remaining13 disassemblies differ only in address literals. The new matching
 original128K run gives1335.257764 PP (+1.860068%) /24.825466 TG (-2.046807%),
 all four responses exact. This does not confirm a native128K decode gain;
-the scalar branch excludes prefill. No overall promotion or goal closure.
+the scalar branch excludes the prefill body. No overall promotion or goal closure.
 Both observations, originals and the new PP/TG graph are preserved. CPU
 fixtures, verify/run/server/client exit0 in both windows;22 then23 artifacts
 verify before releasesc8a3b677/893459ca. Final12:02:55.635711UTC release retires
@@ -64,8 +80,9 @@ and object/assembly/link pass. No new model, controls or curve are run.
 
 Scalar HC model integration is now prepared in its own1029-file provider.
 The original tested include remains exact; only scalar non-prefill F16
-eligibility skips the separate up projection. The prefill-phase guard
-preserves the different arithmetic used by its one-row final head. Existing
+eligibility skips the separate up projection. Correction: the guard excludes
+the prefill body; its final head explicitly resets the phase and can use
+the scalar fusion. Existing
 cache invalidations and ten injection partials remain. Local complete CMake
 Release/counting build, including fresh own MMQ, exits0; the patch reconstructs
 all1029 files and leaves the1028-file parent unchanged. Original-model GPU

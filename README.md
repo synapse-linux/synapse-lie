@@ -1,8 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-The next private HC candidate isolates decode compilation from the common
-prefill backend. Static instruction checks pass; GPU performance is pending.
-[Phase isolation](docs/Q2-HC-SCALAR-UP-MIX.md#phase-specific-compilation).
+The latest phase-specific HC candidate keeps the original common backend
+instructions while compiling its scalar kernel separately. The unchanged
+original128K .157 trial measures1337.119965 prefill /25.914406 decode token/s,
+versus saved1310.874605 /25.344213 (+2.002% /+2.250% observed). All four
+responses match. This is one observation with eight decode calls, not
+sustained TG128 or inherited task-quality qualification. The prefill rate
+change is not attributed to the scalar fusion. [New PP/TG graph](docs/figures/q2-hc-native128-isolated.png).
 
 The [quality-preserving performance audit](docs/Q2-QUALITY-PRESERVING-STATUS.md)
 separates exact individual changes from the retained faster lineage, whose
@@ -14,7 +18,7 @@ the fusion's performance contribution. The matching candidate now completes
 the original130925-token/eight-output input:1335.26 PP versus1310.87 (+1.86%),
 but24.83 TG versus25.34 (-2.05%), with all four replies exact. No overall
 promotion or goal closure; no saved control is rebuilt or rerun.
-[Latest native128K PP/TG graph](docs/figures/q2-hc-native128.png).
+[Previous three-build graph](docs/figures/q2-hc-native128.png).
 
 The private [scalar HC up/mix fusion](docs/Q2-HC-SCALAR-UP-MIX.md) preserves
 original F16 weights and F32 arithmetic. On the original fixed2048/tg128

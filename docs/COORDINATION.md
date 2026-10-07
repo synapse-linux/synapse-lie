@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Isolated HC native128K window released — 2026-10-07 UTC: Core own non-use,
+CPU fixture exit0 and fresh verify precede source539a3457/plan5d547363
+admission. One candidate reuses the original native client and requests;
+run/server/client exit0.30 artifacts collect/hash before final release
+12:33:14.572491UTC, SHA
+34ec91fa8c10fd827a0eeaf83f39998ff6133dbc61cd6be4c2100d146de67e3e.
+Latest registry matches;1969 identities/1575 groups retired, KFD empty,
+five original leases free, seven model stats unchanged. Core receives closure.
+No Q2 job/build/client/handle/lease/window/waiter/reservation remains on
+.157/.158/.161/TB. No reference rerun, cleanup, remote build, dependency,
+tuning, service or model change. Only offline audit/documentation follows.
+
 The isolated .157 component now passes64 complete exact replays and50
 independent FP64 checks. Complete-operation latency falls43.049672 to34.800469us
 with injection (-19.162058%) and35.915766 to34.213us without (-4.740998%);
