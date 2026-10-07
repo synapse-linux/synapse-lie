@@ -1,5 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Profiler clock diagnostic prepared — 2026-10-07 UTC: reuse the saved selector
+component72f824dc and installed rocprof script ecae3de7. Collect CSV and ROCPD
+to distinguish device timestamp validity, export format and normal process
+completion from the old invalid128K trace. No new numerical build, model run,
+benchmark reference or throughput claim. Fresh .157 CPU checks/admission are
+required before device execution. [Diagnostic scope](Q2-PROFILER-CLOCK.md).
+
 Q2_K decode padding component improves — 2026-10-07 UTC: complete native
 quantizer/four-row-down mean46.047198→45.728529us (-0.692049%), six of six
 equally ordered measured pairs.517 full-output comparisons are exact;1034
