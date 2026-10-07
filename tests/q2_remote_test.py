@@ -634,6 +634,28 @@ class RemoteGuardTests(unittest.TestCase):
                 remote.main()
             run.assert_not_called()
 
+    def test_iq2_stage_layout_is_private_component_only(self):
+        mode, variant = remote.IQ2_STAGE_LAYOUT_MODE, remote.IQ2_STAGE_LAYOUT_VARIANT
+        self.assertEqual(remote.iq2_stage_layout_source(Mock()),
+                         '.deps/gufo-q2-iq2-stage-layout')
+        self.refuse([mode, 'q2-fixture'],
+                    'IQ2 stage layout requires its private component')
+        for other in ('cpu', 'operators', 'q2-bench', 'q2-curve'):
+            self.refuse([other, 'q2-fixture', '--source-variant', variant],
+                        'IQ2 stage layout requires its private component')
+        base = [mode, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(base + [flag], 'IQ2 stage layout accepts no model')
+        self.refuse(base + ['--replay-from', 'q2-norm-fixed-model-before-r1'],
+                    'IQ2 stage layout accepts no model')
+        with patch.object(sys, 'argv', [str(path), *base]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run',
+                          side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
     def test_hc_injection_reuse_is_component_only(self):
         variant = remote.HC_REUSE_VARIANT
         for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
