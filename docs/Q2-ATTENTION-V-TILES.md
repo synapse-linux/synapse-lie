@@ -89,3 +89,44 @@ cache shortcut. The last block is padded to four rows in temporary storage
 only, with checked zero padding and no invented prompt tokens or arithmetic
 changes. Original KV operands still end at their actual allocation boundary.
 Its GPU result and model qualification are pending separate admission.
+
+## Measured four-key refinement: retain for model qualification
+
+The follow-up .157 component exits 0. All 18 full-output comparisons are
+exact and all eight independent FP64 checks pass, with the same maximum
+absolute error 4.101635e-6. Original inputs, packed values and final zero
+padding pass byte checks; outputs are finite and guards unchanged.
+
+| Shape | Original complete, ms | Four-key complete, ms | Packing, ms | Complete latency change | Improving pairs |
+|---|---:|---:|---:|---:|---:|
+| full32 | 24.050591 | 23.423894 | 0.372130 | -2.605743% | 6/6 |
+| full128 | 43.783344 | 42.462430 | 1.279226 | -3.016933% | 5/6 |
+
+The 32K kernel uses 215 VGPRs versus 231 for the control; at 128K both use
+223, with zero private scratch throughout. Two original functions remain
+byte-exact to retained R3. Static resource changes do not establish the cause
+of the observed speedup. Six equally ordered measured pairs and both warmups
+are preserved in the [complete result](../config/q2-attention-v-blocks-results.json).
+One 128K pair is slower and must remain visible.
+
+Retain this candidate for prefill-only model integration. These percentages
+apply to packing plus attention, not all prefill: the original model's
+1337.972303 PP / 26.101627 TG reference is unchanged. There is no decode
+optimization or new quantization in this experiment.
+
+CPU fixture/verify/admit/run/release all exit 0. All 36 artifacts (896298
+bytes) verify at 20:58:10 UTC before release at 20:58:42, SHA
+da5b6845eedadf900f6c66f6f147d2f99f8120c403e52c7d9d9fe101202b505d.
+Independent closure at 20:59:29 checks registry, 20 identities including the
+supervisor/groups, empty KFD, five original free leases and seven unchanged
+model stats. Core/GLM receive closure. No Q2 workload or reservation remains.
+
+Integration inspection finds an existing candidate for temporary storage:
+`Scratch::down_e` is allocated as max_batch * num_experts_used * hidden
+F32 values (200 MiB at 2048/10/2560), even when an expert path writes halves.
+Attention's packed values require about 126 MiB at the tested 128K depth.
+Reuse is only a design hypothesis: it needs an explicit prefill/geometry/byte
+capacity guard, proof that the previous combine finished reading it, ordering
+on the same stream, and rejection of speculative/last-only or narrowed-row
+scratch. No extra persistent KV or weight copy is necessary if those gates
+are established. No alias or model dispatch has been changed yet.

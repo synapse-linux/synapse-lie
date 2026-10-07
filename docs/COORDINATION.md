@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Attention V-blocks component released — 2026-10-07 UTC: source 45e84406,
+plan 3d18d648. CPU fixture/verify/admit/run/release all exit 0. Run ends
+20:57:14; all 36 artifacts/896298 bytes hash-verify at 20:58:10 before
+20:58:42 release SHA da5b6845eedadf900f6c66f6f147d2f99f8120c403e52c7d9d9fe101202b505d.
+Independent 20:59:29 closure verifies registry, 20 identities including the
+supervisor/groups retired, empty KFD, five original free leases and seven
+unchanged model stats. Core/GLM receive closure. Q2 has no job, handle,
+window, waiter or reservation on .157/.155/.161/.158/TB. Model integration
+is local investigation only; any future runtime needs fresh coordination.
+No original model access, remote build, tuning, installation or cleanup.
+
 Attention V-tiles component released — 2026-10-07 UTC: source e1f58fb9,
 plan 32c7fbed. CPU fixture/verify/admit/run/release all exit 0. Run ends
 20:50:12; all 36 artifacts/891525 bytes hash-verify at 20:51:09 before

@@ -1,5 +1,10 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The [four-key V layout](docs/Q2-ATTENTION-V-TILES.md) improves the complete
+prefill attention component by 2.61% at 32K and 3.02% at 128K, including
+packing, with exact outputs. It is retained for model qualification; no
+whole-model throughput gain or production dispatch change is claimed.
+
 New optimization work prioritizes prefill. The [planar Q8 decode component](docs/Q2-DECODE-Q8-PLANAR.md)
 retains exact vocabulary/SSM candidates separately; slower shared gated and
 attention-output shapes are not selected. No global dispatch or model-rate

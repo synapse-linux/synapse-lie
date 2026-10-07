@@ -1,6 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Current Q2 optimization assessment — 7 October 2026
 
+A new [four-key value layout](Q2-ATTENTION-V-TILES.md) is a measured positive
+prefill component: packing+attention latency -2.606%/-3.017% at 32K/128K,
+18 exact output comparisons, eight FP64 checks pass. The preceding global
+slice layout was slower and remains rejected. Next: establish bounded reuse
+of inactive expert scratch and prefill-only dispatch before the original
+model trial; retain original prompt, 2048-token chunks and saved references.
+No model-rate improvement or persistent KV change is established yet.
+
 Owner priority: focus new work on prefill, preserving original input,
 2048-token chunks and retained model comparisons. Keep any improvement that
 benefits only decode behind its decode dispatch; do not require a prefill win

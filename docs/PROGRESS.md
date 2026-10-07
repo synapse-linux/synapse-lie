@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Four-key V packing improves the prefill component — 2026-10-07 UTC:
+complete packing+attention means improve 2.605743% at 32K and 3.016933% at
+128K, with 6/6 and 5/6 pairs favorable. All 18 complete outputs are exact,
+eight FP64 checks pass, and input/padding/guards pass. Retain for prefill-only
+model qualification; no model-rate increase is claimed. Source 45e84406,
+plan 3d18d648; CPU fixture and all window commands exit 0. Collection precedes
+release da5b6845 and independent closure; no Q2 GPU reservation remains.
+Existing 200 MiB expert scratch may fit temporary V data, subject to explicit
+phase/capacity/lifetime gates; no allocation or dispatch change is made.
+[All component results](Q2-ATTENTION-V-TILES.md).
+
 Full-context V tiling rejected — 2026-10-07 UTC: the exact component passes
 18 full comparisons/eight FP64 checks but adds 23.732%/33.776% complete latency
 at 32K/128K, with all twelve measured pairs slower. Packing alone is not the
