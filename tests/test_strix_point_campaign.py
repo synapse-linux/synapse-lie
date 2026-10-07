@@ -1227,7 +1227,7 @@ class Tests(unittest.TestCase):
              patch.object(c, 'execute_container', side_effect=run):
             c.build()
         self.assertEqual(c.r['build_result']['state'], 'BUILT_NOT_GPU_TESTED')
-    def test_modern_rocm10_build_is_sealed_and_device_free(self):
+    def modern_rocm10_build_fixture(self, omit_capture=False, corrupt_capture=False):
         c = self.campaign()
         label = 'rocm10-point-modern-r1'
         commit = 'abcdef0123456789'
@@ -1257,12 +1257,14 @@ class Tests(unittest.TestCase):
             binary_dir = source/'build'/f'{label}-runtime'
             binary_dir.mkdir()
             names = ('synapse-lie-server','synapse-lie-bench',
-                     'synapse-lie-bench-gufo-reference','lie-hip-probe')
+                     'synapse-lie-bench-gufo-reference','lie-hip-probe','lie-sampling-capture')
             binaries = {}
             for name in names:
+                if name == 'lie-sampling-capture' and omit_capture:
+                    continue
                 file = binary_dir/name
                 file.write_bytes(name.encode())
-                binaries[name] = point.sha(file)
+                binaries[name] = '0'*64 if name == 'lie-sampling-capture' and corrupt_capture else point.sha(file)
             receipt = source/'evidence'/f'{label}-compile'/'result.json'
             receipt.parent.mkdir()
             receipt.write_text(json.dumps({'state':'BUILT_NOT_GPU_TESTED',
@@ -1273,7 +1275,17 @@ class Tests(unittest.TestCase):
         with patch.object(c, 'image_and_rocm', return_value=(image, None)), \
              patch.object(c, 'execute_container', side_effect=run):
             c.build()
-        self.assertEqual(c.r['build_result']['source_commit'], commit)
+        return c
+    def test_modern_rocm10_build_is_sealed_and_device_free(self):
+        c = self.modern_rocm10_build_fixture()
+        self.assertEqual(c.r['build_result']['source_commit'], 'abcdef0123456789')
+        self.assertIn('lie-sampling-capture', c.r['build_result']['binaries'])
+    def test_modern_build_refuses_missing_capture_artifact(self):
+        with self.assertRaisesRegex(RuntimeError, 'Modern binary inventory mismatch'):
+            self.modern_rocm10_build_fixture(omit_capture=True)
+    def test_modern_build_refuses_changed_capture_artifact(self):
+        with self.assertRaisesRegex(RuntimeError, 'Modern binary drift: lie-sampling-capture'):
+            self.modern_rocm10_build_fixture(corrupt_capture=True)
     def test_seccomp_override_requires_explicit_rocm10_manifest(self):
         c = self.campaign()
         bundle = self.base/'bundle'; bundle.mkdir()

@@ -30,7 +30,10 @@ The canonical Point build now links and hashes `lie-sampling-capture` alongside
 the server, native benchmark, coherent OFF reference and probe. The optional
 legacy compile helper uses the same target/hash list. This closes a packaging
 integration gap before the final build; the historical four-binary r37 receipt
-is unchanged. No HIP/GPU result is inferred from the source change.
+is unchanged. The supervisor also requires all five artifacts and checks their
+hashes; three mocked local controls accept the complete bundle and refuse a
+missing or altered capture executable. No HIP/GPU result is inferred from the
+source change.
 
 The native client additionally accepts `--tools` for six strict required-function
 sessions, preserving raw vocabulary bytes and model-neutral stop metadata.

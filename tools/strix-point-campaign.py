@@ -748,7 +748,7 @@ class Campaign:
                 result.get('checkpoint_compression') is not True):
             raise RuntimeError('Incomplete modern ROCm 10 build receipt')
         expected = {'synapse-lie-server', 'synapse-lie-bench',
-                    'synapse-lie-bench-gufo-reference', 'lie-hip-probe'}
+                    'synapse-lie-bench-gufo-reference', 'lie-hip-probe', 'lie-sampling-capture'}
         if set(result.get('binaries', {})) != expected:
             raise RuntimeError('Modern binary inventory mismatch')
         for name, digest in result['binaries'].items():
