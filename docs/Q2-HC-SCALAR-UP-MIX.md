@@ -1,6 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Original-F16 scalar HC up/mix fusion
 
+The .157 component passes64 complete exact output comparisons and50
+independent FP64 checks. With injection, completed operation time falls
+42.970453 to34.630484us (-19.408613%); without injection it falls35.839672
+to34.132219us (-4.764143%). All five measured pairs favor the candidate
+in both modes. This qualifies an original-model integration trial; model
+token/s, long-context benefit and inherited task quality remain unmeasured.
+
 This private decode component joins the native F16 HC up projection and the
 following mix/injection into one launch. The retained provider is unchanged.
 The original shape is hidden2560, low-rank320, four HC streams and ten
@@ -40,3 +47,41 @@ Original source provenance is the independently fetched Gufo pin and the
 1028-file retained provider in the [source manifest](../config/q2-hc-scalar-up-mix-source.json).
 [Static resources](../config/q2-hc-scalar-up-mix-static.json) and local compiler
 commands under evidence/q2-hc-scalar-up-mix-preparation are retained.
+
+## Completed .157 result — 7 October 2026
+
+| Complete operation | Original median us | Fused median us | Latency change |
+|---|---:|---:|---:|
+| HC up + mix + injection | 42.970453 | 34.630484 | -19.408613% |
+| HC up + mix, no injection | 35.839672 | 34.132219 | -4.764143% |
+
+Both modes use two graph warmups and five measured paired replays. All28 raw
+device event times are zero/invalid; the table uses completed wall duration,
+including synchronization, divided by64 complete graph operations. No timing
+is inferred from those invalid event values. The largest independent relative
+RMS error is2.52710553715e-7, below the unchanged2e-5 limit. Every differential
+pair is byte-exact, inputs/guards survive and deleted gate planes stay unwritten
+in the timed candidate. No precision or weight representation is reduced.
+
+The CPU supervisor's success/failure lifecycle cases, preflight and GPU
+component exit0. Local object/assembly/link and changed-file formatting pass;
+the provider-wide formatting command retains exit1 on unchanged inherited
+files, with its logs preserved. No retained provider source is edited.
+
+Fresh coordination and preflight precede admission10:47:51.889888UTC.
+The GPU process completes10:48:02.565352UTC; all11 raw artifacts collect and
+match remote hashes before release10:49:10.590347UTC. Receipt64e2f31e records
+1959 retired identities/1565 groups, empty KFD, five free original leases
+and seven unchanged model stat tuples. Peak CPU/GPU37/37C. No model access,
+remote build, service change or cleanup occurs; Core receives the release.
+No GPU job/client/handle/lease/window/waiter/reservation remains.
+
+[Audited results](../config/q2-hc-scalar-up-mix-results.json),
+[all28 timing samples](figures/q2-hc-scalar-up-mix-samples.csv),
+[frozen plan](../config/q2-hc-scalar-up-mix-plan.json),
+[offline auditor](../tools/analyze-q2-hc-scalar-up-mix.py).
+
+Next: integrate only the original scalar F16 HC eligibility into a private
+provider, preserving invalidation and injection-part ownership, then run the
+unchanged original-Q2 model comparison. Do not extrapolate the component's
+percentage to whole-model decode or count it toward the30TG goal yet.

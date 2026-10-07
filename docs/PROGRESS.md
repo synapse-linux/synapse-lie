@@ -15,6 +15,19 @@ It removes one gate-plane pass and launch at the original C1 shape. Six
 input families, independent FP64 checks and100MiB rotating-weight complete
 HIP graphs are prepared; no GPU/model result is yet claimed.
 
+The subsequent .157 component now completes:64 exact output comparisons and
+50 independent checks pass. Complete up/mix/injection time42.970453 to
+34.630484us improves19.408613%; up/mix without injection35.839672 to
+34.132219us improves4.764143%. All five measured pairs improve in each mode;
+all28 device timestamps are invalid zero, so completed graph wall duration
+is the sole timing evidence. This retains original F16/F32 precision and
+qualifies a scalar integration trial, not a model throughput gain. CPU
+supervisor lifecycle and GPU commands exit0; all11 raw artifacts verify
+before release10:49:10.590347UTC/64e2f31e, empty KFD/five leases/seven model
+stats unchanged,1959 identities/1565 groups retired. Provider-wide format
+exit1 on unchanged inherited files is preserved; changed-file formatting
+and object/assembly/link pass. No new model, controls or curve are run.
+
 
 Native Q8 SSM wave assignment rejected — 2026-10-07 UTC: the private
 [unchanged-tile candidate](Q2-SSM-WAVE-BALANCE.md) completes on .157 with72

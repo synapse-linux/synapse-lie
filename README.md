@@ -4,7 +4,9 @@ The [quality-preserving performance audit](docs/Q2-QUALITY-PRESERVING-STATUS.md)
 separates exact individual changes from the retained faster lineage, whose
 intermediate-precision changes still need task-quality qualification.
 The private [scalar HC up/mix fusion](docs/Q2-HC-SCALAR-UP-MIX.md) preserves
-original F16 weights and F32 arithmetic; GPU qualification remains pending.
+original F16 weights and F32 arithmetic. The .157 component passes64 exact
+pairs and50 independent checks while reducing complete operation time19.41%
+with injection; original-model throughput is still unmeasured.
 
 A private [native Q8 SSM wave assignment](docs/Q2-SSM-WAVE-BALANCE.md)
 passes72 exact output pairs and144 independent numerical checks on .157, but

@@ -35,3 +35,9 @@ Sources: [shared Q8](Q2-SHARED-Q8-FIXED-MODEL.md),
 [fixed and full-prefix observations](Q2-FULL-PREFILL128.md).
 New experiments must record both their own arithmetic changes and inherited
 quality limitations; an exact child cannot remove an unqualified parent change.
+
+The new [scalar HC up/mix component](Q2-HC-SCALAR-UP-MIX.md) supplies a
+quality-preserving local result:64 byte-exact comparisons,50 independent
+checks and19.408613% less operation time with injection (4.764143% without).
+It changes no weight or intermediate precision. This is measured GPU component
+performance only; original-model decode throughput remains to be measured.

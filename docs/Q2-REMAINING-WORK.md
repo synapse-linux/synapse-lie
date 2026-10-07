@@ -6,7 +6,11 @@ The owner requires performance gains without quality degradation. The
 intermediate differences explicit: retained1587/1310 observations cannot be
 reported as proven quality-preserving gains over the original reference.
 New scalar HC up/mix work retains original weights/precision and requires
-exact complete component replay before an original-model trial.
+exact complete component replay before an original-model trial. The .157
+component now passes64 exact pairs and50 independent checks; complete
+operation time improves19.41% with injection and4.76% without. Integrating
+this qualified scalar path and measuring original-model decode is the next
+concrete C1 step. These percentages are not whole-model throughput gains.
 
 The active goal is now **C1 AR decode30 token/s and complete prefill at least
 1500 token/s through the original130925-token input**. The old fixed-point UD

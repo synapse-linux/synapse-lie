@@ -1,5 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Scalar HC up/mix component released — 2026-10-07 UTC: Core explicitly
+confirms own .157/.158/TB non-use. Preflight10:47:42 verifies latestf7703956,
+empty KFD, five free original leases, seven unchanged model stats and
+CPU36.375C. CPU supervisor pass/failure cases exit0. Plan240f40db and source
+checkpoint99d095d5 admit10:47:51.889888UTC; synthetic GPU component exits0
+at10:48:02.565352. All11 raw artifacts collect/hash before verified release
+10:49:10.590347UTC, SHA
+64e2f31e194b93f604b4ec1cea5dd116af08d97b2b9572a849038b6b153fc122.
+The latest registry event matches the local receipt:1959 identities and1565
+groups retired, KFD empty, five original leases free, seven model stat tuples
+unchanged. No model access, remote build or cleanup. Core is notified; no
+Q2 job/client/handle/lease/window/waiter/reservation remains. Component
+qualification is positive; another GPU/model run needs fresh admission.
+[Result](Q2-HC-SCALAR-UP-MIX.md).
+
 Native Q8 SSM wave-balance component released — 2026-10-07 UTC: following
 Core's own explicit .157 non-use, fresh preflight10:22:59 checks release
 5a6cc85f, empty KFD, five free original leases, seven unchanged model stats
