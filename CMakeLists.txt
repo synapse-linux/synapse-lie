@@ -115,6 +115,8 @@ add_test(NAME iq2_token160_map_audit COMMAND "${Python3_EXECUTABLE}"
   "${CMAKE_CURRENT_SOURCE_DIR}/tools/q2-iq2-token160-map-audit.py")
 add_test(NAME iq2_token160_window_cpu COMMAND "${Python3_EXECUTABLE}"
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_iq2_token160_window_test.py")
+add_test(NAME iq2_token160_handover_cpu COMMAND "${Python3_EXECUTABLE}"
+  "${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_iq2_token160_handover_test.py")
 add_library(iq2_stage_layout STATIC experiments/iq2_stage_layout.c)
 target_include_directories(iq2_stage_layout PUBLIC experiments)
 target_compile_options(iq2_stage_layout PRIVATE -Wall -Wextra -Werror -Wpedantic)
