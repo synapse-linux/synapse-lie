@@ -10,14 +10,31 @@ artifacts collect before verified released74a7eaa; no Q2 remote window remains.
 The active goal needs another10.569963s off complete prefill and4.978455ms
 off each measured decode call. [Full comparison](Q2-DECODE-DOWN-ROWS.md).
 
-The next independent decode candidate stages the existing2KiB IQ2 codebook
-in workgroup LDS, preserving Q8_1 inputs, separate gate/up waves and all
-source arithmetic. Its local object/assembly compile with62 versus69 VGPR,
-2064 versus16 B LDS and no scratch. It has no GPU numerical/timing result.
-Prepare a complete native quantizer/gated-projection comparison with rotating
-weights and the saved production archive, then consider model integration.
-[Candidate](Q2-IQ2-DECODE-LDS.md). Prefill expert-chain work remains open;
-no blanket rerun of previously rejected buffer/tile variants is warranted.
+The IQ2 codebook-LDS candidate is now measured on the original model:
+1338.152114 PP /26.087829 TG, all four replies exact. Its incremental
++0.013439% PP /-0.052859% TG is effectively flat; retain the four-row reference.
+[Completed trial](Q2-IQ2-DECODE-LDS.md). Selector query LDS is also measured
+and slower; exact8x8 key tiling fails the continuous diagnostic in all24 pairs.
+Neither selector variant is integrated and neither remains a pending trial.
+[Selector evidence](Q2-SELECT-QUERY-PAIR.md).
+
+The latest [decode padding component](Q2-DECODE-DOWN-LIVE.md) preserves517
+complete outputs and passes1034 independent checks while reducing complete
+quantizer/down latency46.047198→45.728529us (-0.692049%, six of six pairs).
+Keep its bound single-file patch for phase-specific composition; original-model
+validation is pending. Its small operator saving must not be presented as the
+same percentage of whole decode or as a route that closes the4.978455ms gap.
+
+The next higher-impact investigation needs valid GPU duration attribution of
+the complete prefill. Prior128K rocprof dispatch/copy timestamps are all zero;
+host dependency intervals identify depth growth but cannot rank individual
+expert, dense and attention kernels. Current synthetic HIP events are valid,
+which does not prove rocprof timestamps are fixed. First validate the profiler
+on one bounded component; only a working attribution method justifies a new
+original-input diagnostic. Keep all profiling rates separate from the frozen
+benchmark. This is unresolved observability work, not a speedup or admission.
+Do not rerun rejected tiles/mirrors, saved throughput controls, Q4 or the full
+curve as a substitute for finding a larger removable cost.
 
 The [Q2_K scalar-down component](Q2-DECODE-DOWN-ROWS.md) now gives a
 four-row candidate with6.96% less complete quantizer/down latency; the

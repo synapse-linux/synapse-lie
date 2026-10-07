@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2 down live640 component released — 2026-10-07 UTC: source5962e2c2,
+plan21948d04, CPU fixture/verify/admit/run/release0. Run19:19:22→19:19:23;
+all36 artifacts hash-verify19:21:12 before19:23:30.657517 release SHA
+9343ed9cf3edb63074e13215c80b9905a0f44e7218059169a63c0048c4bb883a.
+Independent19:24:39 closure verifies registry, twelve retired identities/groups
+plus supervisor, empty KFD, five unchanged free leases and seven model stats.
+Core receives verified closure. No Q2 job/build/client/handle/window/waiter/
+reservation remains on .157/.155/.161/.158/TB; no future admission is granted.
+No original model access, remote build, installation, tuning or cleanup.
+
 Selector continuous key-tile diagnostic released — 2026-10-07 UTC: source
 d7996a13, plan6732c888, CPU fixture/verify/admit/run/release0. GPU run finishes
 19:00:37;36 artifacts hash-verify19:01:37 before19:02:11.310442 release SHA

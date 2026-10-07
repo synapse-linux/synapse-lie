@@ -42,7 +42,9 @@ the model benchmark and its retained references remain unchanged.
 
 A new [decode padding candidate](docs/Q2-DECODE-DOWN-LIVE.md) omits products
 whose Q8_1 activations are already zero, retaining four-row Q2_K down and the
-native quantizer. Component execution is pending; no model speedup is claimed.
+native quantizer. The complete component improves0.692% in six of six pairs,
+with517 exact comparisons and1034 independent checks. A single-file model patch
+is retained for composition; no whole-model speedup or integration is claimed.
 
 The subsequent down/SiLU fusion passes its exact component checks but adds
 no measured model gain:1332.307970 PP /25.595276 TG versus the retained

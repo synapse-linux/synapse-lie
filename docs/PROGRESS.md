@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2_K decode padding component improves — 2026-10-07 UTC: complete native
+quantizer/four-row-down mean46.047198→45.728529us (-0.692049%), six of six
+equally ordered measured pairs.517 full-output comparisons are exact;1034
+independent checks pass, including every padded code/scale and guards.
+Retain this small exact candidate; no whole-model throughput gain is claimed.
+A bound single-file model patch passes apply-check but is not applied or model
+qualified. Source5962e2c2, plan21948d04; CPU fixture/verify/admit/run/release0.
+All36 artifacts hash-verify before19:23:30.657517 release9343ed9c; fresh closure
+19:24:39 checks registry, retired processes, empty KFD, five leases and models.
+No Q2 remote workload, handle, window or reservation remains.
+[All six pairs and exactness evidence](Q2-DECODE-DOWN-LIVE.md).
+
 Q2_K decode padding candidate prepared — 2026-10-07 UTC: retain four-row down,
 native quantizer and reduction; omit the third Q2 block only for lane offsets
 whose activation columns640..767 are known zero. The fixture checks every
