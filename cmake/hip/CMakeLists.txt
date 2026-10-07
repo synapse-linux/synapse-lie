@@ -658,6 +658,16 @@ target_compile_definitions(q2_decode_q8_compact_check PRIVATE GGML_HIP_NO_VMM)
 target_include_directories(q2_decode_q8_compact_check PRIVATE "${GUFO_SOURCE}" "${Q2_FIXTURE_ROOT}" "${MMQ}")
 target_link_libraries(q2_decode_q8_compact_check PRIVATE hip::host OpenSSL::Crypto)
 
+# Private Q5 dense-decode component with equal effective Q8/Q5 synthetic weights.
+add_executable(q2_decode_q5_dense_check EXCLUDE_FROM_ALL ../../tests/q2_decode_q5_dense.hip
+  "${GUFO_SOURCE}/src/core/crypto/sha256.cpp")
+set_target_properties(q2_decode_q5_dense_check PROPERTIES HIP_STANDARD 20 CXX_STANDARD 20)
+target_compile_options(q2_decode_q5_dense_check PRIVATE
+  $<TARGET_PROPERTY:gufo_qwen38_flash_next_mmq,COMPILE_OPTIONS>)
+target_compile_definitions(q2_decode_q5_dense_check PRIVATE GGML_HIP_NO_VMM)
+target_include_directories(q2_decode_q5_dense_check PRIVATE "${GUFO_SOURCE}" "${Q2_FIXTURE_ROOT}" "${MMQ}")
+target_link_libraries(q2_decode_q5_dense_check PRIVATE hip::host OpenSSL::Crypto)
+
 # Sparse attention capacity, against the unchanged GPU fallback and FP64 formula.
 add_executable(q2_attention_capacity_check EXCLUDE_FROM_ALL ../../tests/q2_attention_capacity_gpu.hip
   "${GUFO_SOURCE}/src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip")
