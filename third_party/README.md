@@ -2,13 +2,17 @@
 # Provenance and dependency boundaries
 
 The model-neutral attention observer (`src/dispatch.c`, `lie/dispatch.h`) is
-owned MIT C17 code. `attention-dispatch-edits.json` records exact host-only hooks
+owned MIT C17 code. `attention-dispatch-edits.json` records exact host hooks and
+bounded sparse-WMMA workspace specializations
 against official Gufo pin `f783fedb9bea2ec7de941f6da4e02f4a4596b29e`; Gufo notices
-remain applicable to derived source. No device kernel, geometry/mask guard,
-weight, tensor or DS4 cache code is copied or changed by these hooks. Provider
-receipts separately bind the observer source/header, recipe and default-ON
-instrumentation option. The complete private producer/consumer variant must
-rebuild coherently; this source increment is not yet HIP/GPU qualified.
+remain applicable to derived source. The owned recipe keeps the short workspace
+and instantiates a separate 8,192-word workspace for long sparse frontiers.
+Compact selection thresholds, key order and WMMA/softmax arithmetic are retained;
+there is no weight, tensor-format or DS4-source change. Provider receipts bind
+the C17 extent policy, exact recipe, observer option and default-ON
+`LIE_LONG_CONTEXT_WMMA` selection. Complete private producers/consumers must
+rebuild coherently. The long specialization's original-weight numerical,
+resource and performance qualification remains pending.
 
 First-party runtime, tools, tests, ABI and adapter use MIT (`../LICENSE`). The
 owned dense sampler is an attributed C17 port of independently fetched official

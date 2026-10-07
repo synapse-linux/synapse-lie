@@ -73,12 +73,20 @@ before further tests and supersedes the pending sequencing question. No
 intermediate campaign is queued. Matching `.161` compilation and final original-weight gates are
 still required; the r39 numerical receipt qualifies its recorded binary only.
 
+The owned recipe subsequently adds a separately instantiated 8,192-word sparse
+WMMA workspace through 1M visible tokens. Default-ON `LIE_LONG_CONTEXT_WMMA`
+keeps the short kernel unchanged and supports an explicit OFF control. The
+receipt and Point build routes enforce the selected option in providers and
+clients. This completes the long-workspace source path; GPU numerical, quality,
+resource and performance acceptance remains in the final integrated phase.
+It changes neither reactive scheduling nor thread counts.
+
 An open qualification gate does not mean its implementation is absent:
 
 | Item | Source already integrated in this branch | Final qualification still open |
 | --- | --- | --- |
 | 3 | 1M context admission, explicit YaRN, client deadlines and native recall/continuation corpus with exact response oracles | Original-weight recall and HTTP at long context |
-| 4 | Native benchmark methods, metrics, graph generation and C17 prefill-dispatch observation | Matched Gufo/Halogen runs through 1M and C1/2/4/6/8; actual sparse dispatch and reactive cost |
+| 4 | Native benchmark methods, metrics, graph generation, C17 prefill-dispatch observation and optional long sparse-WMMA workspace | Matched Gufo/Halogen runs through 1M and C1/2/4/6/8; long-workspace correctness/resources, actual sparse dispatch and reactive cost |
 | 5 | Steering bank, model/session policies, scheduled changes and RAM/SSD identities | Learned-direction quality, graph/correction/fault/vision cases and matched cost |
 | 6 | Temperature, top-k/min-p profiles and seeded AR/MTP controls | Required-tool probabilities/transitions, actual MTP target-distribution behavior and matched cost; selected unconstrained AR probabilities pass |
 | 7 | C17 grammar/masking, history and compact speculative distributions, including buffer ownership | Original-weight numerical/fault/resource/quality and cost gates |

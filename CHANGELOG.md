@@ -7,6 +7,12 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Experimental sparse WMMA prefill workspace through 1M visible tokens, selected
+  by default-ON `LIE_LONG_CONTEXT_WMMA`. Short contexts keep their existing
+  kernel; OFF retains the 262k WMMA limit and scalar fallback. Provider/client
+  selections must match. Original-weight correctness and performance remain
+  under qualification.
+
 - C17 sparse-prefill admission distinguishes visible mask words from allocated
   row stride, preserving the numerical kernel's workspace limits. Source and
   focused host controls pass; HIP and performance qualification are pending.

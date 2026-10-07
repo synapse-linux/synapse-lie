@@ -1,6 +1,29 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Long sparse-prefill workspace implemented — 2026-10-07 UTC
+
+The owned attention recipe adds a separate 8,192-word sparse WMMA specialization
+through 1M visible tokens. Default-ON `LIE_LONG_CONTEXT_WMMA` keeps the original
+2,048-word kernel for short spans; OFF preserves its scalar fallback at deeper
+frontiers. Full allocation pitch, compact-list threshold, selected-key order and
+WMMA/softmax arithmetic are retained. Provider and Point build receipts require
+a matching typed boolean selection, including the coherent OFF-sampler control.
+Public ABI/state layouts and the reactive scheduler remain unchanged; no thread,
+stream or extra global buffer is added.
+
+Local device-hidden HIP 7.2 compilation for `gfx1150` completes the ON sampler,
+OFF sampler and disabled-feature providers. Emitted instruction sequences and
+resource fields for all three original kernels match the preceding local build.
+Both long specializations declare 54,304 shared bytes and zero private-stack or
+register-spill counts. These are compiler observations, not runtime performance.
+Focused checks cover 25 extent boundaries, provider receipt refusals and eight
+mocked development-controller controls; Release and unsuppressed sanitizers pass.
+Matching `.161` ROCm10 compilation and original-weight numerical/quality/resource
+acceptance remain pending. Final campaigns follow functional integration;
+comparative benchmarks and Terminal Bench remain last. No GPU/model run is launched
+in this source increment. Constant prefill throughput is not established.
+
 ## Sparse prefill admission correction — 2026-10-07 UTC
 
 The shared C17 dispatch policy now separates visible mask words from allocated

@@ -39,6 +39,14 @@ prefill curve.
 
 ## Three different questions
 
+The owned sparse-prefill recipe now has a separate 8,192-word WMMA workspace
+through 1M visible tokens, while short spans retain their existing kernel.
+`LIE_LONG_CONTEXT_WMMA=OFF` preserves the short-workspace/scalar-fallback control.
+This is a numerical-dispatch/workspace change; it adds no thread, callback,
+stream, scheduling barrier or reactive worker. Long-depth original-weight
+correctness and matched performance remain pending. It cannot establish a
+reactive speedup or constant end-to-end prefill by itself.
+
 1. **C1 inference:** can the same completed prefill/decode work become faster or
    use less live memory without HTTP, SSE, token rendering or slow consumers?
 2. **Concurrent inference:** can readiness/resource-driven dispatch improve true

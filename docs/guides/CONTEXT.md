@@ -75,9 +75,14 @@ Extended-context GPU tests use fresh coordinated admissions.
 Short original-weight native/YaRN2/YaRN4 gates pass at capacity 4096; they
 qualify profile integration without reaching extended physical positions.
 
-The current provider's sparse WMMA attention path handles mask sizes through
-256K. Larger masks use its existing generic causal-attention fallback;
-1M performance is not established by adding the capacity option.
+The recorded qualified runtime's sparse WMMA attention path uses a 256K workspace.
+The current source adds a separate 1M sparse workspace under default-ON
+[`LIE_LONG_CONTEXT_WMMA`](BUILD.md); short visible frontiers keep the original
+kernel. OFF retains the 256K WMMA limit and generic causal-attention fallback.
+This is separate from YaRN and configured context capacity. Original-weight
+correctness, quality and performance of the long specialization remain pending.
+The indexer and mask scan still depend on visible depth, so this change alone
+does not establish constant prefill throughput.
 Model weights, active KV/index/recurrent state, scratch buffers, driver overhead,
 RAM retention and the operating system all need memory. A larger GTT ceiling
 permits addressing more RAM but does not create RAM. Record effective GTT,

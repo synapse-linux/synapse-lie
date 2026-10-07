@@ -1,5 +1,19 @@
 # DS4 / synapse-lie coordination
 
+## Long sparse-WMMA source prepared locally — 2026-10-07
+
+Root implements the separate 1M sparse workspace under default-ON
+`LIE_LONG_CONTEXT_WMMA`, with coherent provider/Point build selection and an OFF
+control. Local HIP 7.2 cross-compilation for `gfx1150` hides devices; no model or
+resulting executable is run. Required focused extent/receipt/transport controls
+pass. The `.161` ROCm10 build and original-weight acceptance remain pending.
+This work does not alter another agent's source, work or admission. Q2 receives
+fresh root own non-use on `.157/.161/.158/TB`; no global admission is implied.
+Root has no remote job, lease, window, waiter, reservation or live remote handle.
+Final campaigns follow completion of functional implementation, then matched
+benchmarks and Terminal Bench last. The rejected r40 capture remains unlaunched;
+its stale manifest is not retried or reused as current-runtime qualification.
+
 ## Required-tool launch rejected before creation — 2026-10-07
 
 Fresh Q2/Point/DGX own non-use and global preflight at 01:52:58 UTC observe

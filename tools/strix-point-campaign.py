@@ -878,6 +878,9 @@ class Campaign:
         if actual != listed | {'SOURCE-FILES.sha256'}:
             raise ValueError('Modern source inventory incomplete')
         helper = checked_path(source/'cmake/point/Build.cmake')
+        long_context_wmma = self.m.get('long_context_wmma', True)
+        if type(long_context_wmma) is not bool:
+            raise ValueError('Modern long_context_wmma selection must be boolean')
         if sha(helper) != self.m.get('compile_helper_sha256'):
             raise ValueError('Modern compile helper drift')
         if (source/'SOURCE-COMMIT.txt').read_text().strip() != commit:
@@ -901,6 +904,7 @@ class Campaign:
                 '--env', 'ROCR_VISIBLE_DEVICES=-1', '--env', 'HIP_VISIBLE_DEVICES=-1',
                 '--entrypoint', '/usr/bin/cmake', image,
                 '-DLABEL='+label, '-DSOURCE_COMMIT='+commit,
+                '-DLIE_LONG_CONTEXT_WMMA='+('ON' if long_context_wmma else 'OFF'),
                 '-P', 'cmake/point/Build.cmake']
         self.execute_container(argv, 7200)
         receipt = checked_path(source/'evidence'/f'{label}-compile'/'result.json')
@@ -910,6 +914,7 @@ class Campaign:
                 result.get('source_commit') != commit or
                 result.get('label') != label or
                 result.get('hip_architecture') != 'gfx1150' or
+                result.get('long_context_wmma') is not long_context_wmma or
                 result.get('checkpoint_compression') is not True):
             raise RuntimeError('Incomplete modern ROCm 10 build receipt')
         expected = {'synapse-lie-server', 'synapse-lie-bench',

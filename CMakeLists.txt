@@ -12,6 +12,7 @@ option(LIE_C17_SAMPLING "Use owned C17 sampling and byte/numeric/Unicode/vocabul
 option(LIE_VISION_WEIGHT_DECODE "Decode F16/Q8 vision weights once into BF16" ON)
 option(LIE_DIRECTIONAL_STEERING "Build directional activation operators (provider gates pending)" ON)
 option(LIE_ATTENTION_DISPATCH_STATS "Record completed prefill attention dispatch in the shared C core" ON)
+option(LIE_LONG_CONTEXT_WMMA "Enable sparse WMMA workspace through 1M tokens in the owned provider variant" ON)
 option(LIE_SANITIZERS "Enable address and undefined behavior sanitizers" OFF)
 option(LIE_GUFO_HEADER_CHECK "Compile opt-in transitional Gufo adapter (object only; no link/inference)" OFF)
 option(LIE_GUFO_RUNTIME "Link explicitly selected embedded Gufo HIP runtime" OFF)
@@ -60,7 +61,8 @@ if(NOT LIE_BUILD_ID MATCHES "^[A-Za-z0-9_.-]+$")
   message(FATAL_ERROR "LIE_BUILD_ID must be an alphanumeric evidence label")
 endif()
 add_compile_definitions(LIE_MTP=$<BOOL:${LIE_MTP}> LIE_VISION=$<BOOL:${LIE_VISION}>
-  LIE_ATTENTION_DISPATCH_STATS=$<BOOL:${LIE_ATTENTION_DISPATCH_STATS}>)
+  LIE_ATTENTION_DISPATCH_STATS=$<BOOL:${LIE_ATTENTION_DISPATCH_STATS}>
+  LIE_LONG_CONTEXT_WMMA=$<BOOL:${LIE_LONG_CONTEXT_WMMA}>)
 add_compile_definitions(_POSIX_C_SOURCE=200809L LIE_BUILD_ID="${LIE_BUILD_ID}")
 add_compile_options(-Wall -Wextra -Wpedantic -Werror -fno-common)
 if(LIE_SANITIZERS)

@@ -1227,7 +1227,8 @@ class Tests(unittest.TestCase):
              patch.object(c, 'execute_container', side_effect=run):
             c.build()
         self.assertEqual(c.r['build_result']['state'], 'BUILT_NOT_GPU_TESTED')
-    def modern_rocm10_build_fixture(self, omit_capture=False, corrupt_capture=False):
+    def modern_rocm10_build_fixture(self, omit_capture=False, corrupt_capture=False,
+                                   long_selection=True, long_receipt='match'):
         c = self.campaign()
         label = 'rocm10-point-modern-r1'
         commit = 'abcdef0123456789'
@@ -1246,6 +1247,7 @@ class Tests(unittest.TestCase):
                    source_archive_sha256=point.sha(archive),
                    source_files_sha256=point.sha(inventory),
                    compile_helper_sha256=point.sha(helper))
+        c.m['long_context_wmma'] = long_selection
         image = 'sha256:'+'d'*64
         def run(argv, timeout, model_attempted=False):
             self.assertEqual(timeout, 7200)
@@ -1254,6 +1256,7 @@ class Tests(unittest.TestCase):
             self.assertEqual(argv[argv.index('--network')+1], 'none')
             self.assertEqual(argv[argv.index('--entrypoint')+1], '/usr/bin/cmake')
             self.assertIn('-DLABEL='+label, argv)
+            self.assertIn('-DLIE_LONG_CONTEXT_WMMA='+('ON' if long_selection else 'OFF'), argv)
             binary_dir = source/'build'/f'{label}-runtime'
             binary_dir.mkdir()
             names = ('synapse-lie-server','synapse-lie-bench',
@@ -1267,11 +1270,14 @@ class Tests(unittest.TestCase):
                 binaries[name] = '0'*64 if name == 'lie-sampling-capture' and corrupt_capture else point.sha(file)
             receipt = source/'evidence'/f'{label}-compile'/'result.json'
             receipt.parent.mkdir()
-            receipt.write_text(json.dumps({'state':'BUILT_NOT_GPU_TESTED',
+            data = {'state':'BUILT_NOT_GPU_TESTED',
                                            'exit_code':0,'source_commit':commit,
                                            'label':label,'hip_architecture':'gfx1150',
                                            'checkpoint_compression':True,
-                                           'binaries':binaries}))
+                                           'binaries':binaries}
+            if long_receipt != 'missing':
+                data['long_context_wmma'] = long_selection if long_receipt == 'match' else long_receipt
+            receipt.write_text(json.dumps(data))
         with patch.object(c, 'image_and_rocm', return_value=(image, None)), \
              patch.object(c, 'execute_container', side_effect=run):
             c.build()
@@ -1286,6 +1292,21 @@ class Tests(unittest.TestCase):
     def test_modern_build_refuses_changed_capture_artifact(self):
         with self.assertRaisesRegex(RuntimeError, 'Modern binary drift: lie-sampling-capture'):
             self.modern_rocm10_build_fixture(corrupt_capture=True)
+    def test_modern_build_long_workspace_off_is_explicit(self):
+        c = self.modern_rocm10_build_fixture(long_selection=False)
+        self.assertIs(c.r['build_result']['long_context_wmma'], False)
+    def test_modern_build_refuses_nonboolean_long_workspace(self):
+        with self.assertRaisesRegex(ValueError, 'selection must be boolean'):
+            self.modern_rocm10_build_fixture(long_selection='true')
+    def test_modern_build_refuses_missing_long_workspace_receipt(self):
+        with self.assertRaisesRegex(RuntimeError, 'Incomplete modern ROCm 10 build receipt'):
+            self.modern_rocm10_build_fixture(long_receipt='missing')
+    def test_modern_build_refuses_wrong_long_workspace_receipt(self):
+        with self.assertRaisesRegex(RuntimeError, 'Incomplete modern ROCm 10 build receipt'):
+            self.modern_rocm10_build_fixture(long_receipt=False)
+    def test_modern_build_refuses_nonboolean_long_workspace_receipt(self):
+        with self.assertRaisesRegex(RuntimeError, 'Incomplete modern ROCm 10 build receipt'):
+            self.modern_rocm10_build_fixture(long_receipt=1)
     def test_seccomp_override_requires_explicit_rocm10_manifest(self):
         c = self.campaign()
         bundle = self.base/'bundle'; bundle.mkdir()

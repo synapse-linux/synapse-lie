@@ -66,6 +66,15 @@ application configure command**. Rebuild the complete private providers and
 clients; the verifier rejects mismatched options, non-boolean identities or older
 observer-free receipts. The optional Point coordinator uses these same complete
 CMake provider recipes for both variants.
+Sparse WMMA prefill through 1,048,576 visible tokens is default ON in the owned
+variant (`LIE_LONG_CONTEXT_WMMA`). Short visible spans keep the existing workspace;
+long spans use a separately compiled larger workspace. To retain the 262,144-token
+WMMA limit and its scalar fallback, pass `-DLIE_LONG_CONTEXT_WMMA=OFF` to both
+provider builds and the application configure command. The receipt verifier
+rejects mismatched or missing selections. This option changes numerical dispatch;
+original-weight correctness, resource use and performance at long depths remain
+under qualification. Both comparison arms must keep this option equal unless it
+is the declared variable being measured.
 The resulting programs
 are `build/release/synapse-lie-server`, `synapse-lie-bench`,
 `synapse-lie-bench-gufo-reference`, `synapse-lie-monitor` and `synapse-lie-kvc`.
@@ -122,6 +131,7 @@ cmake --build build/core -j2
 | `LIE_C17_SAMPLING` | `ON` | Use owned C selection/history, speculative probabilities, grammar runtimes, regex syntax/assertion/expression/derivative/DFA construction and Unicode-set/input handling; OFF selects the provider control. Provider and application builds must agree. |
 | `LIE_VISION_WEIGHT_DECODE` | `ON` | Decode F16/Q8_0 projector weights once for the BF16 GPU encoder. OFF accepts BF16 dense weights only; provider and application builds must agree. |
 | `LIE_DIRECTIONAL_STEERING` | `ON` | Build experimental activation operators; requires the verified state-access provider variant and matching archive selection. Public controls/GPU qualification remain pending. |
+| `LIE_LONG_CONTEXT_WMMA` | `ON` | Enable a separate sparse-WMMA workspace through 1M visible tokens. Requires the owned source variant and matching provider/application selection. OFF retains the 262k WMMA limit and scalar fallback. Long-depth GPU qualification remains pending. |
 | `LIE_CORE_ONLY` | `OFF` | Build the engine without HTTP or provider integration. |
 | `LIE_DS4_CACHE_POLICY` | `ON` | Use progressive checkpoints and text-prefix matching by default. |
 | `LIE_DS4_RUNTIME_CACHE` | `ON` | Use DS4 model payloads for runtime checkpoints; requires KVC interchange. |

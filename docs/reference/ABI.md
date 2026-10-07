@@ -21,9 +21,16 @@ word span and the provider's workspace capacity. Zero geometry, short storage,
 excess live words and a uint32 token-frontier overflow refuse. It inspects no
 mask memory and performs no allocation, device work or synchronization. Providers
 retain pointer validity and their other geometry checks. The Point recipe uses
-this check before sparse WMMA, preserving the existing 2,048-word workspace,
-mask-row stride and numerical kernel bodies. Coherent HIP compilation and
-original-weight numerical/performance qualification of this guard are pending.
+this check before sparse WMMA. Short visible spans retain the 2,048-word
+workspace. Default-ON `LIE_LONG_CONTEXT_WMMA` admits a separate 8,192-word
+specialization through 1M tokens, with 32 local words per thread and enough shared
+union storage for wider noncompact masks. The compact-list threshold, mask-row
+stride, key order and WMMA/softmax arithmetic stay unchanged. OFF retains the
+short-workspace guard and scalar fallback at greater depths. The producer and
+consumer must agree on the receipt's typed boolean `long_context_wmma`; old or
+mismatched receipts refuse. Public ABI layouts, state formats, reactive scheduling
+and worker counts are unchanged. Original-weight numerical/quality/resource and
+performance qualification of the long specialization remains pending.
 
 Executor ABI 3 adds `rope_profile` to `lie_model_options` (20 bytes, offset 16).
 ABI 2 callers must rebuild: version and size checks reject the old structure.

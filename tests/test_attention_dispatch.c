@@ -27,6 +27,16 @@ static void sparse_mask_extents(void) {
       {260096, 2048, 4, 8192, 2048, true},
       {260096, 2049, 4, 8192, 2048, false},
       {1046528, 2048, 4, 8192, 2048, false},
+      /* Long-specialization storage: the 1M endpoint is exact, including
+       * partial words and a pitch smaller than the visible word span. */
+      {262144, 1, 4, 8192, 8192, true},
+      {524287, 1, 4, 8192, 8192, true},
+      {786431, 1, 4, 8192, 8192, true},
+      {1046528, 2048, 4, 8192, 8192, true},
+      {1048575, 1, 4, 8192, 8192, true},
+      {1048576, 1, 4, 8193, 8192, false},
+      {1048575, 1, 4, 8191, 8192, false},
+      {1048575, 1, 4, 8192, 8191, false},
       {0, 131072, 2, 4096, 2048, true},
       {0, 131073, 2, 4096, 2048, false},
       {0, 1048576, 16, 8192, 2048, true},
