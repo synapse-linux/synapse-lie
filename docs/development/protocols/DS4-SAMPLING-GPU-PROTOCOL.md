@@ -98,10 +98,11 @@ transitions, faults, quality and cost retain their separate gates.
 
 The additive owner-only `lie_sequence_decode_mtp_observed` contract now prepares
 actual MTP draw/proposal/verification witnesses, including RNG and grammar masks.
-Its ON/OFF HOST checks establish observation lifetimes and unchanged draws,
-not original-weight probabilities. The existing AR CLI below is unchanged;
-MTP capture writer/replay integration and a coherent HIP build remain required.
-No MTP GPU run is admitted by this preparation.
+Its ON/OFF HOST checks establish observation lifetimes and unchanged draws.
+The explicit MTP writer/replay below now passes HOST controls; a new coherent
+HIP build and original-weight numerical/controller gates remain required.
+The AR CLI and v1/v2 formats below remain unchanged. No MTP GPU run is admitted
+by this preparation.
 
 The same C17 client accepts `--tools` for six fresh seeded sessions with the
 same generation profiles. It renders one strict `describe_stack` function,
@@ -164,6 +165,48 @@ The receipt retains the initial supplementary-review assumptions and corrections
 This qualifies the frozen single-function AR workload at chunk 2,048; wider tool
 transitions, actual MTP execution, fault/resource/quality and cost remain separate.
 
+### Actual MTP target/proposal/verification capture
+
+After a coherent GPU build and fresh machine admission, select the original
+predictor explicitly:
+
+```sh
+lie-sampling-capture --model ORIGINAL-FIRST-SHARD --output-dir NEW-DIRECTORY \
+  --mtp-model ORIGINAL-PREDICTOR --draft-tokens 7 --tokens 128
+```
+
+Add `--tools` for the same strict required-function workload. The six generation
+profiles and seed are unchanged. The MTP budget bounds confirmed output tokens;
+tool mode requires natural EOS and a fully parsed call before completion.
+Greedy reserves one output per call and covers the host head only. GPU greedy
+verification may have no host rows; this capture does not qualify that fast path.
+Positive-temperature profiles use the admitted MTP burst, including adaptive
+shorter draft chains and final partial reservations.
+
+Schema v3 records `cycle_begin`, borrowed `sampling_trace` events and
+`cycle_complete` with the exact committed IDs/frontier and drafted/accepted
+counters. Every trace stores its raw F32 row and optional full U8 mask in
+checksummed exclusive files. Compact proposals include their ID mapping and
+exact F32 masses; RNG states use 16 hexadecimal characters. History/penalties
+describe the state at that draw. Deferred correction is identified and must
+consume no second random draw. The callback configuration is copied; needed
+borrowed data is written within the callback. A writer failure is checked after
+the numerical call returns, preserves partial evidence and is never retried.
+
+Limits are 1–128 confirmed tokens per profile, 1–7 requested drafts, 1,152
+traces per profile, 4 GiB aggregate trace payload and 128 MiB replay metadata.
+Vocabulary retains its separate 64 MiB bound. Original/C17/OFF offline programs
+reconstruct every target/proposal/verification decision, integer proposal mass,
+acceptance/residual RNG, grammar mask and complete output frontier. Independent
+long-double mass and grammar byte-walk oracles also apply. Synthetic files
+require explicit `--allow-synthetic` and remain NOT-INFERENCE.
+
+The [HOST receipt](../validation/mtp-capture-host-2026-10-07.json) records
+text/tools/128-token fixtures, complete three-program witness agreement,
+accepted/rejected/deferred branches and 22 refusal cases. It does not establish
+original-weight probability, quality or performance acceptance. Capture I/O is
+excluded from throughput comparisons.
+
 ### Point supervisor and collection
 
 The optional `.161` supervisor routes the native client with these fields in
@@ -181,7 +224,12 @@ an otherwise pinned campaign manifest:
 Use `capture_mode: "text"` for unconstrained rows, with an explicit 1–128 row
 budget. The manifest also binds the original model plan, compiled runtime build
 identity and capture executable hash, using the existing lease, thermal and
-model-stat contracts. It admits AR only, without a predictor. The supervisor
+model-stat contracts. AR admits no predictor. For MTP, set `decode_mode: "mtp"`,
+bind an explicit verified `predictor_plan` and select `mtp_draft_tokens` in 1–7
+(default 7). The retained manifest field `capture_row_budget` then bounds
+confirmed output tokens, while trace files have their separate limits above.
+The read-only predictor mount and both original weight identities are checked.
+The supervisor
 records possible model access as soon as the native manifest appears and
 preserves model identities even when the child or receipt validation fails.
 

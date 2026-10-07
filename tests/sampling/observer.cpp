@@ -146,7 +146,17 @@ static void exception_cleanup(void) {
   assert(threw && !lie_gufo::sampling_observer && !lie_gufo::sampling_observer_callback);
   assert(lie_gufo::observed_target_draw(sampler, logits) == 1);
 }
+static void copied_configuration(void) {
+  SamplerState sampler; const float logits[]{1, 2}; Saved saved;
+  lie_sampling_observer observer{LIE_SAMPLING_OBSERVER_ABI, sizeof(observer), save, &saved};
+  { lie_gufo::SamplingObservationScope scope(&observer);
+    observer.observe = nullptr; observer.context = nullptr;
+    assert(lie_gufo::observed_target_draw(sampler, logits) == 1);
+    assert(saved.calls == 1);
+  }
+  assert(!lie_gufo::sampling_observer);
+}
 int main() {
-  target(); proposal(); grammar_and_deferred(); exception_cleanup();
+  target(); proposal(); grammar_and_deferred(); exception_cleanup(); copied_configuration();
   std::puts("SAMPLING_OBSERVER_LIFETIME_RNG_MASK_PROPOSAL_RESIDUAL_PASS_HOST_NOT_INFERENCE");
 }

@@ -183,9 +183,12 @@ The next MTP numerical gate now has an additive C17 owner-only observation
 contract. Private glue captures completed target/proposal/verification draws,
 RNG, history, penalties and grammar masks without changing sampling policy,
 core scheduling or worker counts. Focused ON/OFF Release and unsuppressed
-sanitizer HOST checks pass. The native AR capture client is unchanged; an MTP
-writer/replay and newly coherent HIP build are required before this new path
-can qualify actual original-weight probabilities or controller branches.
+sanitizer HOST checks pass. Native AR wire formats stay unchanged; the explicit
+MTP writer/replay now passes grouped HOST controls across original/C17/OFF,
+including independent probability/RNG/grammar/controller oracles and negative
+fixtures ([HOST receipt](development/validation/mtp-capture-host-2026-10-07.json)).
+A newly coherent HIP build and original-weight capture are still required
+before this path qualifies actual probabilities or controller branches.
 
 An open qualification gate does not mean its implementation is absent:
 

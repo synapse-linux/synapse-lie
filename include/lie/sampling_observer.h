@@ -40,7 +40,8 @@ typedef struct {
   void *context;
 } lie_sampling_observer;
 /* Synchronous single-sequence diagnostic call on the existing device owner.
- * All row/mask/history/proposal pointers are borrowed for the callback only.
+ * The callback configuration is copied for this call. Its context must outlive
+ * the call. All row/mask/history/proposal pointers are borrowed for the callback only.
  * Copy required data there; never retain pointers, throw, destroy state or call
  * executor APIs from the callback. It cannot veto, edit or retry numerical work.
  * A writer failure is recorded by the client and checked after the call returns.

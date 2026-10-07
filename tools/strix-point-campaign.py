@@ -208,12 +208,171 @@ def validate_attention_fixture(root, build_id, long_enabled):
                 compared_values=values, expected_refusals=refused,
                 model_inference=False, artifacts=artifacts)
 
-def validate_sampling_capture(root, mode, budget, build_id):
+def validate_mtp_sampling_capture(directory, rows, identity, mode, budget, predictor, drafts, artifacts):
+    """Structural original-weight witness only; independent native replay is required."""
+    def integer(value, low, high): return type(value) is int and low <= value <= high
+    def exact(value, fields):
+        if set(value) != set(fields): raise RuntimeError('Unexpected MTP capture fields')
+    def ids(value, low, high, vocab):
+        return type(value) is list and low <= len(value) <= high and all(integer(t,0,vocab-1) for t in value)
+    tools = mode == 'tools'
+    if (identity.get('mtp_model') != predictor or identity.get('tools') is not tools or
+            any(type(identity.get(k)) is not int or identity[k] != v for k,v in
+                (('mtp_draft_tokens_requested',drafts),('observer_abi',1),('greedy_reservation',1)))):
+        raise RuntimeError('Unexpected explicit MTP capture identity')
+    at = 1; blob_bytes = 0
+    def next_event(name):
+        nonlocal at
+        if at >= len(rows) or rows[at].get('event') != name: raise RuntimeError('Incomplete or unordered MTP capture')
+        row = rows[at]; at += 1; return row
+    def blob(value, name, size):
+        nonlocal blob_bytes
+        if type(value) is not dict: raise RuntimeError('Invalid MTP blob identity')
+        exact(value, ('file','bytes','sha256'))
+        if value['file'] != name or type(value['bytes']) is not int or value['bytes'] != size:
+            raise RuntimeError('Invalid MTP blob path or length')
+        blob_bytes += size
+        if blob_bytes > 4*2**30: raise RuntimeError('MTP aggregate trace byte budget exceeded')
+        witness,_ = capture_file(directory/name, size)
+        if witness != {k:value[k] for k in ('bytes','sha256')}: raise RuntimeError('MTP blob hash or length mismatch')
+        artifacts['capture/'+name] = witness
+    vocab = None
+    if tools:
+        vocabulary = next_event('vocabulary')
+        if vocabulary.get('file') != 'vocabulary.bin' or not integer(vocabulary.get('tokens'),1,1048576):
+            raise RuntimeError('Invalid MTP vocabulary identity')
+        witness,_ = capture_file(directory/'vocabulary.bin',64*2**20)
+        if type(vocabulary.get('bytes')) is not int or witness != {k:vocabulary.get(k) for k in ('bytes','sha256')}:
+            raise RuntimeError('MTP vocabulary hash or length mismatch')
+        artifacts['capture/vocabulary.bin'] = witness; vocab = vocabulary['tokens']
+    frozen_prompt = frozen_constraint = None
+    counts=[]; cycle_counts=[]; total=0; semantic_matches=0
+    proposals_total=accepted_total=rejected_total=deferred_total=0
+    for profile,controls in enumerate(SAMPLING_CAPTURE_GENERATIONS):
+        begin = next_event('profile_begin'); tokens=begin.get('prompt_ids'); current_vocab=begin.get('vocab')
+        if (type(begin.get('profile')) is not int or begin['profile'] != profile or
+                not integer(current_vocab,1,1048576) or (vocab is not None and current_vocab != vocab) or
+                not ids(tokens,1,8192-budget,current_vocab) or
+                (frozen_prompt is not None and tokens != frozen_prompt) or core_generation(begin.get('generation')) != controls):
+            raise RuntimeError('Unexpected MTP capture profile')
+        vocab=current_vocab; frozen_prompt=tokens
+        if tools:
+            constraint=begin.get('constraint')
+            if (type(constraint) is not dict or constraint.get('format') != 'json_object' or
+                    constraint.get('required') is not True or constraint.get('parallel') is not False or
+                    constraint.get('name') != 'describe_stack' or
+                    any(type(constraint.get(k)) is not str for k in ('parameters_json','definition_json')) or
+                    (frozen_constraint is not None and constraint != frozen_constraint)):
+                raise RuntimeError('Unexpected MTP tool constraint')
+            frozen_constraint=constraint
+        output=[]; n=cycles=0; stopped=False; pending=False
+        while at < len(rows) and rows[at].get('event') == 'cycle_begin':
+            admitted=next_event('cycle_begin')
+            exact(admitted, ('event','profile','cycle','position','reservation'))
+            reservation=1 if not profile else min(drafts+1,budget-len(output))
+            if (stopped or len(output) >= budget or cycles >= budget or any(type(admitted.get(k)) is not int or admitted[k] != v
+                    for k,v in (('profile',profile),('cycle',cycles),('position',len(tokens)+len(output)),('reservation',reservation)))):
+                raise RuntimeError('Unexpected MTP cycle admission')
+            q=[]; confirmed=[]; verifications=0; rejected=False; anchor=None
+            while at < len(rows) and rows[at].get('event') == 'sampling_trace':
+                row=next_event('sampling_trace')
+                exact(row, ('event','profile','cycle','index','kind','token','accepted','deferred','rng_before','rng_after',
+                            'logit_count','raw','logit_ids','history_ids','penalties','allowed','proposal'))
+                kind=row['kind']; count=row['logit_count']; mapping=row['logit_ids']
+                if (n >= 128*9 or rejected or any(type(row.get(k)) is not int or row[k] != v for k,v in
+                        (('profile',profile),('cycle',cycles),('index',n))) or
+                        not integer(row['token'],0,vocab-1) or not integer(row['accepted'],0,1) or not integer(row['deferred'],0,1) or
+                        any(type(row[k]) is not str or not re.fullmatch('[0-9a-f]{16}',row[k]) for k in ('rng_before','rng_after')) or
+                        not ids(row['history_ids'],0,64,vocab) or type(row['penalties']) is not list or len(row['penalties']) > 256):
+                    raise RuntimeError('Unexpected MTP trace state or ordering')
+                previous=-1
+                for penalty in row['penalties']:
+                    if type(penalty) is not dict: raise RuntimeError('Invalid MTP penalty')
+                    exact(penalty, ('token','generated_count','repeated'))
+                    if (not integer(penalty['token'],previous+1,vocab-1) or
+                            not integer(penalty['generated_count'],0,135) or not integer(penalty['repeated'],0,64)):
+                        raise RuntimeError('Invalid sorted MTP penalties')
+                    previous=penalty['token']
+                if kind == 'proposal':
+                    if (not profile or anchor is None or verifications or len(q) >= reservation-1 or
+                            not integer(count,1,64) or not ids(mapping,count,count,vocab) or len(set(mapping)) != count or
+                            row['allowed'] is not None or row['accepted'] or row['deferred']):
+                        raise RuntimeError('Invalid MTP proposal phase')
+                elif kind in ('target-draw','verification'):
+                    if type(count) is not int or count != vocab or mapping != []:
+                        raise RuntimeError('Invalid MTP target geometry')
+                    if kind == 'target-draw':
+                        if anchor is not None or q or row['accepted'] or row['proposal'] is not None or bool(row['deferred']) != pending:
+                            raise RuntimeError('Invalid MTP target draw phase')
+                        anchor=row['token']; deferred_total+=row['deferred']; pending=False
+                    elif row['deferred'] or verifications >= len(q):
+                        raise RuntimeError('Invalid MTP verification phase')
+                    if tools: blob(row['allowed'],f'profile-{profile}-trace-{n}.u8',vocab)
+                    elif row['allowed'] is not None: raise RuntimeError('Unexpected unconstrained MTP mask')
+                else: raise RuntimeError('Unknown MTP observation role')
+                blob(row['raw'],f'profile-{profile}-trace-{n}.f32le',count*4)
+                proposal=row['proposal']
+                if kind in ('proposal','verification'):
+                    if type(proposal) is not dict: raise RuntimeError('Invalid captured MTP proposal')
+                    exact(proposal, ('ids','probabilities','token','probability'))
+                    support=proposal['ids']; mass=proposal['probabilities']; token=proposal['token']; p=proposal['probability']
+                    if (not ids(support,1,64,vocab) or len(set(support)) != len(support) or type(mass) is not list or len(mass) != len(support) or
+                            any(type(v) not in (int,float) or not math.isfinite(v) or not 0 <= v <= 1 for v in mass) or
+                            not integer(token,0,vocab-1) or type(p) not in (int,float) or not math.isfinite(p) or not 0 < p <= 1 or
+                            sum(mass) != 1 or token not in support or mass[support.index(token)] != p):
+                        raise RuntimeError('Invalid exact MTP proposal masses')
+                    if kind == 'proposal':
+                        if token != row['token']: raise RuntimeError('MTP proposal token differs')
+                        q.append(proposal); proposals_total+=1
+                    else:
+                        if proposal != q[verifications] or (row['accepted'] and row['token'] != token):
+                            raise RuntimeError('MTP verified proposal differs from pending chain')
+                        verifications+=1
+                        if row['accepted']: confirmed.append(row['token']); accepted_total+=1
+                        else: rejected=True; rejected_total+=1
+                n+=1
+            done=next_event('cycle_complete')
+            exact(done, ('event','profile','cycle','position','drafted','accepted','stop','output_ids'))
+            emitted=done['output_ids']
+            if (anchor is None or type(done['stop']) is not bool or not ids(emitted,0,reservation,vocab) or
+                    (not emitted and not done['stop']) or (not tools and done['stop']) or
+                    (emitted and emitted[0] != anchor) or
+                    any(type(done.get(k)) is not int or done[k] != v for k,v in
+                        (('profile',profile),('cycle',cycles),('position',len(tokens)+len(output)+len(emitted)),('drafted',len(q)),
+                         ('accepted',max(0,len(emitted)-1)))) or (q and (not verifications or (not done['stop'] and not rejected and verifications != len(q)))) or
+                    emitted[1:] != (confirmed[:len(emitted)-1] if done['stop'] else confirmed)):
+                raise RuntimeError('Incomplete MTP committed cycle frontier')
+            output.extend(emitted); stopped=done['stop']; pending=rejected and not stopped; cycles+=1
+        done=next_event('profile_complete')
+        if (any(type(done.get(k)) is not int or done[k] != v for k,v in (('profile',profile),('rows',n),('cycles',cycles))) or
+                not n or not ids(done.get('output_ids'),1,budget,vocab) or done['output_ids'] != output or
+                (tools and not stopped) or (not tools and len(output) != budget)):
+            raise RuntimeError('Incomplete MTP profile')
+        if tools:
+            call=done.get('tool_call'); args=call.get('arguments') if type(call) is dict else None
+            if (type(call) is not dict or call.get('name') != 'describe_stack' or type(args) is not dict or set(args) != {'order','size'} or
+                    args['order'] not in ('LIFO','FIFO') or not integer(args['size'],0,9)):
+                raise RuntimeError('Invalid completed MTP required function arguments')
+            semantic_matches+=int(args == {'order':'LIFO','size':3})
+        counts.append(n); cycle_counts.append(cycles); total+=n
+    terminal=next_event('complete')
+    if (at != len(rows) or set(terminal) != {'event','exit_code','profiles','rows'} or any(type(terminal.get(k)) is not int or terminal[k] != v
+            for k,v in (('exit_code',0),('profiles',6),('rows',total)))):
+        raise RuntimeError('Incomplete MTP capture aggregate')
+    return {'scope':'NATIVE_ORIGINAL_WEIGHT_CAPTURE_STRUCTURE_ONLY','mode':mode,'decode_mode':'mtp',
+            'profiles':6,'rows':total,'rows_per_profile':counts,'cycles_per_profile':cycle_counts,'trace_bytes':blob_bytes,
+            'proposals':proposals_total,'accepted_verifications':accepted_total,'rejected_verifications':rejected_total,
+            'deferred_draws':deferred_total,'artifacts':artifacts,'semantic_matches':semantic_matches if tools else None,
+            'probability_mask_MTP_quality_performance_acceptance':False}
+
+def validate_sampling_capture(root, mode, budget, build_id, decode_mode='ar', predictor=None, drafts=7):
     """Bind native rows/frontiers; probability/grammar replay is a separate gate."""
-    if mode not in ('text','tools') or type(budget) is not int or not 1 <= budget <= 128:
+    if (mode not in ('text','tools') or type(budget) is not int or not 1 <= budget <= 128 or
+            decode_mode not in ('ar','mtp') or (decode_mode == 'ar' and predictor is not None) or
+            (decode_mode == 'mtp' and (type(predictor) is not str or not predictor or type(drafts) is not int or not 1 <= drafts <= 7))):
         raise ValueError('Invalid sampling capture mode or row budget')
     directory = checked_path(root/'capture')
-    manifest, data = capture_file(directory/'capture.jsonl', 8*2**20, contents=True)
+    manifest, data = capture_file(directory/'capture.jsonl', (128 if decode_mode == 'mtp' else 8)*2**20, contents=True)
     def unique(pairs):
         result = {}
         for key, value in pairs:
@@ -228,6 +387,7 @@ def validate_sampling_capture(root, mode, budget, build_id):
         row = json.loads(line, object_pairs_hook=unique, parse_constant=nonfinite)
         if type(row) is not dict: raise RuntimeError('Invalid capture JSON object')
         rows.append(row)
+        if len(rows) > 9000: raise RuntimeError('Too many bounded capture events')
     at = 0
     def next_event(name):
         nonlocal at
@@ -238,7 +398,7 @@ def validate_sampling_capture(root, mode, budget, build_id):
     def integer(value, low, high):
         return type(value) is int and low <= value <= high
     identity = next_event('identity'); tools = mode == 'tools'
-    if (identity.get('schema') != 'synapse-lie.sampling-capture.v'+('2' if tools else '1') or
+    if (identity.get('schema') != 'synapse-lie.sampling-capture.v'+('3' if decode_mode == 'mtp' else '2' if tools else '1') or
             identity.get('program') != 'lie-sampling-capture' or
             identity.get('build_id') != build_id or identity.get('synthetic') is not False or
             identity.get('classification') != 'ORIGINAL-WEIGHT-ROW-CAPTURE' or
@@ -246,13 +406,15 @@ def validate_sampling_capture(root, mode, budget, build_id):
             identity.get('source_pin') != 'f783fedb9bea2ec7de941f6da4e02f4a4596b29e' or
             identity.get('dense_sampling') != 'lie-c17-dense' or
             identity.get('row_encoding') != 'IEEE754-F32-little-endian' or
-            identity.get('decode_mode') != 'ar' or
+            identity.get('decode_mode') != decode_mode or
             identity.get('eos_policy') != ('stop; un-emitted EOS is captured without position advance' if tools else
                                           'ignore; EOS remains an ordinary sampled token') or
             any(type(identity.get(k)) is not int or identity[k] != v for k,v in
                 (('context',8192),('prefill_chunk',2048),('profiles',6),('tokens_per_profile',budget)))):
         raise RuntimeError('Unexpected original-weight capture identity')
     artifacts = {'capture/capture.jsonl': manifest}
+    if decode_mode == 'mtp':
+        return validate_mtp_sampling_capture(directory,rows,identity,mode,budget,predictor,drafts,artifacts)
     vocabulary_tokens = None
     if tools:
         vocabulary = next_event('vocabulary')
@@ -927,7 +1089,7 @@ class Campaign:
                   '--home', str(home), '--volume', str(bundle)+':/bundle:ro',
                   '--volume', str(model)+':/model:ro', '--volume', root+':/work:rw',
                   '--additional-flags', flags, '--no-entry']
-        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-ssd-restart', 'modern-core-ssd-text-restart', 'modern-core-steering-restart', 'modern-core-steering-admission', 'modern-core-reactive-probe', 'modern-core-prefill-probe', 'modern-core-vision', 'modern-http', 'modern-http-multi', 'modern-http-depth') and self.m.get('decode_mode') == 'mtp':
+        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-ssd-restart', 'modern-core-ssd-text-restart', 'modern-core-steering-restart', 'modern-core-steering-admission', 'modern-core-reactive-probe', 'modern-core-prefill-probe', 'modern-core-vision', 'modern-http', 'modern-http-multi', 'modern-http-depth', 'modern-sampling-capture') and self.m.get('decode_mode') == 'mtp':
             predictor = checked_path(self.m['predictor_plan']['destination'])
             create[create.index('--additional-flags'):create.index('--additional-flags')] = [
                 '--volume', str(predictor)+':/mtp:ro']
@@ -1462,22 +1624,29 @@ class Campaign:
 
     def modern_sampling_capture(self):
         mode = self.m.get('capture_mode'); budget = self.m.get('capture_row_budget')
+        decode = self.m.get('decode_mode'); drafts = self.m.get('mtp_draft_tokens',7)
         if (self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox' or
-                self.m.get('decode_mode') != 'ar' or 'predictor_plan' in self.m or
+                decode not in ('ar','mtp') or (decode == 'ar' and 'predictor_plan' in self.m) or
+                (decode == 'mtp' and (type(self.m.get('predictor_plan')) is not dict or type(drafts) is not int or not 1 <= drafts <= 7)) or
                 mode not in ('text','tools') or type(budget) is not int or not 1 <= budget <= 128 or
                 type(self.m.get('runtime_build_id')) is not str or not self.m['runtime_build_id'] or
                 len(self.m['runtime_build_id']) > 128 or type(self.m.get('artifacts')) is not dict or
                 'runtime/bin/lie-sampling-capture' not in self.m.get('artifacts', {})):
-            raise ValueError('Expected bounded native AR sampling capture settings')
+            raise ValueError('Expected bounded native AR/MTP sampling capture settings')
         model, rows = self.verified_model()
+        predictor = None
+        if decode == 'mtp':
+            path,witness = self.verified_predictor(); rows.append(witness)
+            predictor = '/mtp/'+path.name
         command = ['/bundle/runtime/bin/lie-sampling-capture', '--model',
                    '/model/'+self.m['model_plan']['files'][0]['name'],
                    '--output-dir', '/work/capture', '--tokens', str(budget)]
         if mode == 'tools': command.append('--tools')
+        if predictor: command.extend(('--mtp-model',predictor,'--draft-tokens',str(drafts)))
         self.r['capture_command'] = command; self.record()
         try:
             self.run_container(command, self.m['bundle'], 1800, model)
-            result = validate_sampling_capture(self.root, mode, budget, self.m['runtime_build_id'])
+            result = validate_sampling_capture(self.root, mode, budget, self.m['runtime_build_id'],decode,predictor,drafts)
             save(self.root/'capture-artifacts.json', result)
             self.r['capture_result'] = result
         finally:

@@ -78,6 +78,105 @@ class Tests(unittest.TestCase):
         (root/'capture/capture.jsonl').write_text(''.join(json.dumps(x,separators=(',',':'))+'\n' for x in rows))
     def validate(self, root, tools=False):
         return point.validate_sampling_capture(root,'tools' if tools else 'text',8,'fixture-runtime')
+    def mtp_fixture(self, name='mtp', tools=False):
+        root,old=self.fixture(name,tools); directory=root/'capture'
+        for p in directory.glob('*.f32le'): p.unlink()
+        identity=copy.deepcopy(old[0]); identity.update(schema='synapse-lie.sampling-capture.v3',decode_mode='mtp',
+            mtp_model='/mtp/predictor.gguf',mtp_draft_tokens_requested=7,observer_abi=1,greedy_reservation=1,tools=tools)
+        rows=[identity]
+        if tools: rows.append(copy.deepcopy(old[1]))
+        total=0
+        for begin in (r for r in old if r['event']=='profile_begin'):
+            rows.append(copy.deepcopy(begin)); profile=begin['profile']; n=cycles=0; output=[]; pending=False
+            while len(output)<8:
+                limit=1 if not profile else min(8,8-len(output))
+                rows.append(dict(event='cycle_begin',profile=profile,cycle=cycles,position=2+len(output),reservation=limit))
+                stop=tools and len(output)==5; anchor=0 if stop else 3 if pending else 1
+                def trace(kind,token,accepted=0,deferred=0,proposal=None):
+                    nonlocal n
+                    data=struct.pack('<6f',-1,0,1,2,3,4); file=f'profile-{profile}-trace-{n}.f32le'
+                    (directory/file).write_bytes(data)
+                    mask=None
+                    if tools and kind!='proposal':
+                        payload=bytes([0,1,0,0,0,0]); mf=f'profile-{profile}-trace-{n}.u8'; (directory/mf).write_bytes(payload)
+                        mask=dict(file=mf,bytes=len(payload),sha256=hashlib.sha256(payload).hexdigest())
+                    rows.append(dict(event='sampling_trace',profile=profile,cycle=cycles,index=n,kind=kind,token=token,
+                        accepted=accepted,deferred=deferred,rng_before='000000000000007b',rng_after='000000000000007b',
+                        logit_count=6,raw=dict(file=file,bytes=len(data),sha256=hashlib.sha256(data).hexdigest()),
+                        logit_ids=list(range(6)) if kind=='proposal' else [],history_ids=[1,2],penalties=[],allowed=mask,proposal=proposal))
+                    n+=1
+                trace('target-draw',anchor,deferred=int(pending)); pending=False; emitted=[] if stop else [anchor]
+                drafted=accepted=0
+                if not stop and profile and limit>1:
+                    proposal=dict(ids=[2],probabilities=[1.0],token=2,probability=1.0)
+                    trace('proposal',2,proposal=proposal); drafted=1
+                    pending=cycles==0; accepted=int(not pending)
+                    trace('verification',3 if pending else 2,accepted,proposal=proposal)
+                    if accepted: emitted.append(2)
+                output.extend(emitted)
+                rows.append(dict(event='cycle_complete',profile=profile,cycle=cycles,position=2+len(output),
+                                 drafted=drafted,accepted=accepted,stop=stop,output_ids=emitted)); cycles+=1
+                if stop: break
+            done=dict(event='profile_complete',profile=profile,rows=n,cycles=cycles,output_ids=output)
+            if tools: done['tool_call']=dict(name='describe_stack',arguments={'order':'LIFO','size':3})
+            rows.append(done); total+=n
+        rows.append(dict(event='complete',exit_code=0,profiles=6,rows=total)); self.write(root,rows); return root,rows
+    def validate_mtp(self, root, tools=False):
+        return point.validate_sampling_capture(root,'tools' if tools else 'text',8,'fixture-runtime','mtp','/mtp/predictor.gguf',7)
+    def test_mtp_typed_cycles_and_partial_collection_are_not_probability_acceptance(self):
+        for tools in (False,True):
+            with self.subTest(tools=tools):
+                root,_=self.mtp_fixture('mtp-'+str(tools),tools); result=self.validate_mtp(root,tools)
+                self.assertEqual(result['decode_mode'],'mtp'); self.assertEqual(result['profiles'],6)
+                self.assertGreater(result['proposals'],0); self.assertGreater(result['accepted_verifications'],0)
+                self.assertEqual(result['rejected_verifications'],5); self.assertEqual(result['deferred_draws'],5)
+                self.assertFalse(result['probability_mask_MTP_quality_performance_acceptance'])
+                inventory=collect.sampling_capture_inventory(root)
+                self.assertEqual(inventory,result['artifacts'])
+                (root/'capture/profile-5-trace-1151.f32le').write_bytes(b'partial')
+                (root/'capture/profile-5-trace-1151.u8').touch()
+                self.assertIn('capture/profile-5-trace-1151.u8',collect.sampling_capture_inventory(root))
+    def test_mtp_capture_refuses_unbound_identity_and_invalid_controller_states(self):
+        root,rows=self.mtp_fixture()
+        mutations=[(0,'mtp_model','wrong'),(0,'observer_abi',True),(0,'mtp_draft_tokens_requested',7.),(0,'tools',0)]
+        for event,changes in (('cycle_begin',{'reservation':0,'position':99}),
+                              ('sampling_trace',{'rng_before':'7b','history_ids':[99],'penalties':[{'token':1,'generated_count':True,'repeated':0}],
+                                                 'index':True,'accepted':True}),
+                              ('cycle_complete',{'accepted':7,'position':99,'output_ids':[99]}),
+                              ('profile_complete',{'cycles':0,'rows':0,'output_ids':[True]*8})):
+            i=next(i for i,r in enumerate(rows) if r['event']==event)
+            mutations.extend((i,k,v) for k,v in changes.items())
+        proposal=next(i for i,r in enumerate(rows) if r.get('kind')=='proposal')
+        mutations.append((proposal,'proposal',dict(ids=[2],probabilities=[.5],token=2,probability=.5)))
+        for i,key,value in mutations:
+            with self.subTest(index=i,key=key):
+                changed=copy.deepcopy(rows); changed[i][key]=value; self.write(root,changed)
+                with self.assertRaises(RuntimeError): self.validate_mtp(root)
+        self.write(root,rows[:-1])
+        with self.assertRaisesRegex(RuntimeError,'unordered'): self.validate_mtp(root)
+        self.write(root,rows)
+        path=root/'capture/profile-0-trace-0.f32le'; path.write_bytes(b'corrupt')
+        with self.assertRaisesRegex(RuntimeError,'hash or length'): self.validate_mtp(root)
+    def test_mtp_capture_binds_predictor_and_checks_both_weights_after_child_failure(self):
+        root,_=self.mtp_fixture(tools=True)
+        manifest=dict(authorization='CPU fixture only',action='bench',stack='rocm10-fedora43',transport='distrobox',
+            bench_profile='modern-sampling-capture',decode_mode='mtp',capture_mode='tools',capture_row_budget=8,
+            bundle=str(self.root),artifacts={'runtime/bin/lie-sampling-capture':'0'*64},runtime_build_id='fixture-runtime',
+            model_plan={'files':[{'name':'first-shard.gguf'}]},predictor_plan={'destination':str(self.root)})
+        c=point.Campaign(root,manifest); predictor=self.root/'predictor.gguf'; witness={'path':str(predictor)}
+        with patch.object(c,'verified_model',return_value=(self.root,[])), \
+             patch.object(c,'verified_predictor',return_value=(predictor,witness)), \
+             patch.object(c,'run_container') as run,patch.object(c,'check_model_after') as after:
+            c.bench(); after.assert_called_once_with([witness]); command=run.call_args.args[0]
+            self.assertEqual(command[command.index('--mtp-model')+1],'/mtp/predictor.gguf')
+            self.assertEqual(command[command.index('--draft-tokens')+1],'7')
+        (root/'capture-artifacts.json').unlink()
+        with patch.object(c,'verified_model',return_value=(self.root,[])), \
+             patch.object(c,'verified_predictor',return_value=(predictor,witness)), \
+             patch.object(c,'run_container',side_effect=RuntimeError('owned MTP child failure')), \
+             patch.object(c,'check_model_after') as after,self.assertRaisesRegex(RuntimeError,'owned MTP child failure'):
+            c.bench()
+        after.assert_called_once_with([witness])
     def test_text_complete_structure_is_not_probability_acceptance(self):
         root,_=self.fixture(); result=self.validate(root)
         self.assertEqual(result['rows_per_profile'],[8]*6)

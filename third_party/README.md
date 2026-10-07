@@ -81,6 +81,12 @@ and adds a read-only sampler mask accessor. Its numerical functions remain the
 pinned original/verified C17 variants. `gufo_sampling_observer.hpp` only projects
 borrowed diagnostics through a C17 contract; no sibling code or new dependency
 is imported. The retained Gufo license/notice and exact source provenance apply.
+The native MTP capture writer uses this borrowed C17 contract; its offline replay
+checks the original/C17/OFF samplers plus independent mass, integer-proposal,
+residual/RNG and grammar byte-walk oracles. The copied callback configuration
+changes diagnostic lifetime only. These clients add no product dependency,
+sampling policy or model-forward implementation. Their HOST fixtures are
+explicitly separate from original-weight GPU qualification.
 
 ## Actual external dependencies
 

@@ -10,8 +10,12 @@ sites and expose a read-only mask accessor, without changing private layouts
 or sampling algorithms. The provider receipt binds the new recipe and both
 owned projection files, with an exact 122-file sampling inventory. Older
 provider receipts cannot silently qualify this path. ON/OFF Release and
-unsuppressed sanitizer HOST fixtures pass; the MTP capture writer/replay,
-matching HIP build and original-weight numerical/controller gates remain open.
+unsuppressed sanitizer HOST fixtures pass. The native MTP writer and independent
+original/C17/OFF replay also pass [HOST controls](validation/mtp-capture-host-2026-10-07.json)
+for complete probabilities, RNG, proposal/acceptance/residual/deferred decisions,
+grammar masks and committed output frontiers. Callback configuration is copied;
+context/data lifetime remains explicit. Matching HIP compilation and actual
+original-weight numerical/controller, quality/fault/resource/cost gates stay open.
 
 Current source includes exact final decimal validation, a C17 compilation
 context/bootstrap, native schema staging/string construction, the complete

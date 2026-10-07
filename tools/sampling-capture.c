@@ -1,9 +1,11 @@
 /* SPDX-License-Identifier: MIT */
 /* Numerical qualification data, not a throughput or reactive-serving benchmark.
  * The selected executor performs GPU forward. This client copies completed raw
- * rows before the ordinary AR draw; it never samples, edits logits or retries. */
+ * rows before the ordinary AR draw, or observes actual completed MTP draws.
+ * It never samples, edits logits or retries. */
 #include "lie/executor.h"
 #include "lie/output.h"
+#include "lie/sampling_observer.h"
 #include "sampling-capture-format.h"
 #include <errno.h>
 #include <fcntl.h>
@@ -45,17 +47,22 @@ static json_object *ids(const int32_t *tokens, size_t count) {
         json_object_array_add(j, json_object_new_int(tokens[i]));
     return j;
 }
-static json_object *identity(unsigned tokens, bool tools) {
+static json_object *identity(unsigned tokens, bool tools, const char *mtp, unsigned drafts) {
     json_object *j = event("identity");
-    text(j, "schema", tools ? "synapse-lie.sampling-capture.v2" : "synapse-lie.sampling-capture.v1");
+    text(j, "schema", mtp ? "synapse-lie.sampling-capture.v3" : tools ? "synapse-lie.sampling-capture.v2" : "synapse-lie.sampling-capture.v1");
     text(j, "program", "lie-sampling-capture"); text(j, "build_id", LIE_BUILD_ID);
     text(j, "engine", lie_backend_name()); text(j, "source_pin", lie_backend_source_pin());
     text(j, "dense_sampling", lie_backend_dense_sampling());
     json_object_object_add(j, "synthetic", json_object_new_boolean(lie_backend_is_synthetic()));
     text(j, "classification", lie_backend_is_synthetic() ? "NOT-INFERENCE" : "ORIGINAL-WEIGHT-ROW-CAPTURE");
-    text(j, "scope", tools ? "Strict required-function AR raw rows, vocabulary and completed calls; no MTP-controller or performance acceptance" :
+    text(j, "scope", mtp ? "Actual MTP target/proposal/verification raw rows and committed cycles; greedy host-head baseline; independent numerical replay and provenance required" : tools ? "Strict required-function AR raw rows, vocabulary and completed calls; no MTP-controller or performance acceptance" :
          "Unconstrained AR raw rows and committed tokens; no probability, MTP-controller, quality or performance acceptance");
-    text(j, "row_encoding", "IEEE754-F32-little-endian"); text(j, "decode_mode", "ar");
+    text(j, "row_encoding", "IEEE754-F32-little-endian"); text(j, "decode_mode", mtp ? "mtp" : "ar");
+    if (mtp) {
+        text(j, "mtp_model", mtp); number(j, "mtp_draft_tokens_requested", drafts);
+        number(j, "observer_abi", LIE_SAMPLING_OBSERVER_ABI); number(j, "greedy_reservation", 1);
+        json_object_object_add(j, "tools", json_object_new_boolean(tools));
+    }
     text(j, "eos_policy", tools ? "stop; un-emitted EOS is captured without position advance" :
          "ignore; EOS remains an ordinary sampled token");
     number(j, "context", CAPTURE_CONTEXT); number(j, "prefill_chunk", CAPTURE_CHUNK);
@@ -137,10 +144,10 @@ static json_object *controls(const lie_generation_options *o) {
     number(j, "top_k", (uint32_t)o->top_k); number(j, "seed", (uint64_t)o->seed);
     return j;
 }
-static bool write_row(int dir, const char *name, const float *row, size_t count, char hash[65]) {
+static bool write_blob(int dir, const char *name, const void *row, size_t bytes, char hash[65]) {
     int fd = openat(dir, name, O_WRONLY | O_CREAT | O_EXCL | O_CLOEXEC | O_NOFOLLOW, 0600);
     if (fd < 0) return false;
-    const unsigned char *data = (const unsigned char *)row; size_t bytes = count * sizeof(*row);
+    const unsigned char *data = row;
     unsigned char digest[32]; unsigned n = 0;
     bool ok = EVP_Digest(data, bytes, digest, &n, EVP_sha256(), NULL) && n == sizeof(digest);
     if (ok) ok = write_bytes(fd, data, bytes);
@@ -148,6 +155,10 @@ static bool write_row(int dir, const char *name, const float *row, size_t count,
     if (ok) for (unsigned i = 0; i < n; ++i) snprintf(hash + i * 2, 3, "%02x", digest[i]);
     return ok;
 }
+static bool write_row(int dir, const char *name, const float *row, size_t count, char hash[65]) {
+    return write_blob(dir, name, row, count * sizeof(*row), hash);
+}
+#include "sampling-capture-mtp.h"
 static bool capture(lie_model *model, const int32_t *prompt, size_t count,
                     unsigned vocab, unsigned profile, unsigned budget,
                     float *row, int dir, FILE *file, bool tools,
@@ -243,20 +254,31 @@ done:
 int main(int argc, char **argv) {
     _Static_assert(sizeof(float) == 4 && FLT_RADIX == 2 && FLT_MANT_DIG == 24,
                    "IEEE754 float32 capture required");
-    const uint32_t endian = 1; unsigned budget = 16, total_rows = 0; bool tools = false, budget_set = false;
+    const uint32_t endian = 1; unsigned budget = 16, total_rows = 0, drafts = 7;
+    bool tools = false, budget_set = false, drafts_set = false; const char *mtp = NULL;
+    uint64_t written_bytes = 0;
     if (*(const unsigned char *)&endian != 1) {
         fputs("Little-endian capture required\n", stderr); return 2;
     }
-    if (argc == 2 && !strcmp(argv[1], "--build-info")) return emit(stdout, identity(budget, false)) ? 0 : 1;
+    if (argc == 2 && !strcmp(argv[1], "--build-info")) return emit(stdout, identity(budget, false, NULL, drafts)) ? 0 : 1;
     if (argc < 5 || strcmp(argv[1], "--model") || strcmp(argv[3], "--output-dir")) goto usage;
     for (int i = 5; i < argc; ++i) {
         if (!strcmp(argv[i], "--tools") && !tools) { tools = true; continue; }
+        if (!strcmp(argv[i], "--mtp-model") && !mtp) {
+            if (++i >= argc || !*argv[i]) goto usage;
+            mtp = argv[i]; continue;
+        }
+        if (!strcmp(argv[i], "--draft-tokens") && !drafts_set) {
+            if (++i >= argc || strlen(argv[i]) != 1 || argv[i][0] < '1' || argv[i][0] > '7') goto usage;
+            drafts = (unsigned)(argv[i][0] - '0'); drafts_set = true; continue;
+        }
         if (strcmp(argv[i], "--tokens") || budget_set || ++i >= argc ||
             !*argv[i] || strspn(argv[i], "0123456789") != strlen(argv[i])) goto usage;
         char *end; errno = 0; unsigned long n = strtoul(argv[i], &end, 10);
         if (errno || *end || n < 1 || n > 128) goto usage;
         budget = (unsigned)n; budget_set = true;
     }
+    if (drafts_set && !mtp) goto usage;
     if (tools && !budget_set) budget = 128;
 #ifndef LIE_SAMPLING_CAPTURE_FIXTURE
     if (lie_backend_is_synthetic()) { fputs("Synthetic executor refused\n", stderr); return 2; }
@@ -276,8 +298,9 @@ int main(int argc, char **argv) {
     const char *question = tools ? LIE_CAPTURE_TOOL_PROMPT : "Explain how a stack works. Give short numbered steps, repeat the word stack in every step, and continue with examples. Do not add an introduction.";
     lie_chat_message message = {LIE_CHAT_USER, question, strlen(question)}; lie_chat_tool tool = tool_definition();
     const lie_chat_template input = {&message, NULL, 1, &tool, 1, 1};
-    if (!emit(file, identity(budget, tools)) || interrupted ||
-        lie_backend_open(argv[2], &options, &model, &error) != LIE_OK ||
+    if (!emit(file, identity(budget, tools, mtp, drafts)) || interrupted ||
+        (mtp ? lie_backend_open_mtp(argv[2], &options, 1, mtp, drafts, &model, &error) :
+            lie_backend_open(argv[2], &options, &model, &error)) != LIE_OK ||
         lie_model_get_info(model, &info, &error) != LIE_OK || info.abi_version != LIE_EXECUTOR_ABI ||
         !info.vocab_tokens || info.vocab_tokens > CAPTURE_VOCAB_MAX ||
         info.context_tokens != CAPTURE_CONTEXT ||
@@ -285,10 +308,20 @@ int main(int argc, char **argv) {
             lie_model_chat_tokens(model, &message, 1, prompt, CAPTURE_CONTEXT, &count, &error)) != LIE_OK ||
         !count || count + budget > CAPTURE_CONTEXT) goto done;
     for (size_t i = 0; i < count; ++i) if (prompt[i] < 0 || (unsigned)prompt[i] >= info.vocab_tokens) goto done;
-    row = malloc((size_t)info.vocab_tokens * sizeof(*row)); if (!row) goto done;
+    if (!mtp) { row = malloc((size_t)info.vocab_tokens * sizeof(*row)); if (!row) goto done; }
+    unsigned burst = 0;
+    if (mtp) {
+        lie_mtp_info capability = {LIE_MTP_ABI, sizeof(capability), 0, 0, 0};
+        if (lie_model_mtp_info(model, &capability, &error) != LIE_OK ||
+            capability.abi_version != LIE_MTP_ABI || capability.struct_bytes != sizeof(capability) ||
+            capability.max_draft_tokens != drafts || capability.max_output_tokens != drafts + 1 ||
+            capability.max_output_tokens > LIE_MTP_MAX_OUTPUT) goto done;
+        burst = capability.max_output_tokens;
+    }
     if (tools && !vocabulary(model, info.vocab_tokens, dir, file, &error)) goto done;
     for (unsigned i = 0; i < CAPTURE_PROFILES; ++i)
-        if (!capture(model, prompt, count, info.vocab_tokens, i, budget, row, dir, file, tools, &total_rows, &error)) goto done;
+        if (mtp ? !capture_mtp(model, prompt, count, info.vocab_tokens, i, budget, burst, dir, file, tools, &total_rows, &written_bytes, &error) :
+            !capture(model, prompt, count, info.vocab_tokens, i, budget, row, dir, file, tools, &total_rows, &error)) goto done;
     code = 0;
 done:
     if (model && lie_model_close(&model, &error) != LIE_OK) code = 1;
@@ -303,6 +336,6 @@ done:
     if (close(dir)) code = 1;
     return code;
 usage:
-    fputs("Usage: lie-sampling-capture --model ORIGINAL-FIRST-SHARD --output-dir NEW-DIRECTORY [--tokens 1..128] [--tools]\n", stderr);
+    fputs("Usage: lie-sampling-capture --model ORIGINAL-FIRST-SHARD --output-dir NEW-DIRECTORY [--tokens 1..128] [--tools] [--mtp-model ORIGINAL-PREDICTOR] [--draft-tokens 1..7]\n", stderr);
     return 2;
 }

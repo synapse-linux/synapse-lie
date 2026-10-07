@@ -1,6 +1,31 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Native MTP capture and independent replay passed locally — 2026-10-07 UTC
+
+The C17 capture client now accepts explicit `--mtp-model` and `--draft-tokens`
+controls. Schema v3 records actual target/proposal/verification observations,
+exact RNG frontiers, borrowed history/penalties, checksummed raw rows and grammar
+masks, and complete committed cycles. Existing AR v1/v2 field sets remain intact.
+Positive-temperature profiles exercise MTP; greedy reserves one output and is
+explicitly a host-head baseline, not GPU greedy-verification coverage.
+
+Original/C17/OFF offline replay agrees on every saved probability, proposal,
+acceptance, residual/deferred correction, RNG and output frontier. Independent
+long-double mass, integer proposal, residual-draw and byte-walk grammar oracles
+also pass. Focused Release and unsuppressed ASan/UBSan/LSan pass 11 controls
+each; text/tools/128-token fixtures and 22 MTP refusals are included. Eighteen
+optional mocked supervisor/collector controls pass. Two initial fixture failures
+are retained: disabled penalties were reported incorrectly, then a mutation
+targeted an empty array. Neither numerical algorithms nor sampling policy change.
+
+The final local group peaks at CPU 80.5 C and NVMe 32.85 C without a guard stop.
+The [HOST receipt](development/validation/mtp-capture-host-2026-10-07.json)
+binds current source and portable raw witnesses. No model, GPU or remote job
+runs. A newly coherent HIP build and original-weight MTP probability/controller
+qualification on `.161` remain required. All six roadmap items stay open;
+matched comparisons follow functional qualification and Terminal Bench is last.
+
 ## MTP numerical observation prepared locally — 2026-10-07 UTC
 
 The additive C17 `lie/sampling_observer.h` contract exposes a synchronous,

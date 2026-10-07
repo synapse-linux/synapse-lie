@@ -9,6 +9,7 @@ mask, exact RNG before/after and the actual proposal/result. A deferred target
 draw is identified explicitly and consumes no second RNG draw.
 Copy needed data inside the callback; do not retain pointers, throw, destroy
 state or reenter executor APIs. A callback cannot veto, edit or retry work.
+The callback configuration is copied for the call; its context must remain live.
 Writer failures belong to the client and are checked after numerical return.
 Invalid observer/owner/nested admission preserves the output. Unavailable
 backends and adapters without the verified state-access provider explicitly
@@ -16,8 +17,8 @@ refuse; no observer remains after failure.
 GPU greedy verification can omit host rows, so missing events cannot qualify
 those predictions. Existing executor/request/core/state layouts and reactive
 scheduling remain unchanged. Capture I/O is excluded from throughput claims.
-The new observation path has HOST checks only; original-weight acceptance must
-bind a new coherent provider/consumer build.
+The observation path and native MTP capture/replay have HOST checks only;
+original-weight acceptance must bind a new coherent provider/consumer build.
 
 Prefill ABI 1 (`lie/prefill.h`) adds tagged `lie_prefill_options` and
 `lie_prefill_info` without changing executor ABI 3, request ABI 8 or existing

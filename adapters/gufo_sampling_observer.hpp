@@ -11,12 +11,15 @@ inline thread_local bool sampling_observer_callback = false;
 class SamplingObservationScope {
 public:
   explicit SamplingObservationScope(const lie_sampling_observer *observer)
-      : previous_(sampling_observer) { sampling_observer = observer; }
+      : previous_(sampling_observer), installed_(observer ? *observer : lie_sampling_observer{}) {
+    sampling_observer = observer ? &installed_ : nullptr;
+  }
   ~SamplingObservationScope() { sampling_observer = previous_; }
   SamplingObservationScope(const SamplingObservationScope &) = delete;
   SamplingObservationScope &operator=(const SamplingObservationScope &) = delete;
 private:
   const lie_sampling_observer *previous_;
+  const lie_sampling_observer installed_;
 };
 inline void sampling_observe(lie_sampling_observation &event,
     const gufo::sampling::SamplerState &sampler) {

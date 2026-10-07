@@ -215,6 +215,24 @@ foreach(arm IN ITEMS reference candidate fallback)
     set_tests_properties(${arm}-allocation-retirement PROPERTIES TIMEOUT 90)
   endif()
 endforeach()
+set(LIE_CAPTURE_FIXTURE "" CACHE FILEPATH "Explicit native NOT-INFERENCE capture fixture for offline replay checks")
+set(LIE_CAPTURE_FILE_FIXTURE "" CACHE FILEPATH "Explicit owned capture filesystem fixture")
+if(LIE_CAPTURE_FIXTURE)
+  if(NOT EXISTS "${LIE_CAPTURE_FIXTURE}" OR NOT EXISTS "${LIE_CAPTURE_FILE_FIXTURE}")
+    message(FATAL_ERROR "Native capture and filesystem fixture executables must exist")
+  endif()
+  string(RANDOM LENGTH 12 ALPHABET 0123456789abcdef replay_run)
+  foreach(protocol IN ITEMS replay tools_replay mtp_replay)
+    add_test(NAME ${protocol}-native-capture-contract COMMAND "${CMAKE_COMMAND}"
+      "-DCAPTURE=${LIE_CAPTURE_FIXTURE}" "-DFILE_FIXTURE=${LIE_CAPTURE_FILE_FIXTURE}"
+      "-DREFERENCE=$<TARGET_FILE:reference-sampling-replay>"
+      "-DCANDIDATE=$<TARGET_FILE:candidate-sampling-replay>"
+      "-DFALLBACK=$<TARGET_FILE:fallback-sampling-replay>"
+      "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/${protocol}-capture-${replay_run}"
+      -P "${CMAKE_CURRENT_LIST_DIR}/${protocol}_contract.cmake")
+    set_tests_properties(${protocol}-native-capture-contract PROPERTIES TIMEOUT 180)
+  endforeach()
+endif()
 add_executable(candidate-number-allocation
   "${REPO}/tests/sampling/number_allocation.cpp"
   "${REPO}/tests/sampling/allocation_counter.cpp")

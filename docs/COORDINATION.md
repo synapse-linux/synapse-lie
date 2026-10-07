@@ -1,5 +1,21 @@
 # DS4 / synapse-lie coordination
 
+## Native MTP capture/replay prepared locally — 2026-10-07
+
+Root finishes C17 MTP capture and independent offline replay with grouped
+Release and unsuppressed sanitizer controls (11 each), plus 18 optional mocked
+supervisor/collector checks. Initial fixture failures and every actual exit are
+retained in the [HOST receipt](development/validation/mtp-capture-host-2026-10-07.json).
+The new binary/projection sources require a fresh coherent HIP build before
+original-weight observations. Historical r50/r53 binaries cannot qualify them.
+
+All owned local check groups are retired. This phase uses no model/GPU/remote
+operation and holds no remote lease, reservation or machine window. Root has no
+job/build/client/handle/waiter on `.161/.157/.158/TB`; peer messages report their
+own current state only. The next `.161` operation requires fresh coordination
+and original lease admission. All six roadmap items remain open; Terminal
+Bench stays last. No previous grant reserves a future window.
+
 ## MTP live/RAM/SSD prefill passed and retired — 2026-10-07
 
 Fresh explicit Point, DGX and Q2 non-use replies and separate global preflights

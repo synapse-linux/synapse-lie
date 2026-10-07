@@ -5,6 +5,7 @@
 // checks the post-filter mass rather than trusting agreement alone.
 #include "src/core/json.hpp"
 #include "src/core/sampling.hpp"
+#include "src/models/qwen38_flash_next/mtp_sampling.hpp"
 #include "../../tools/sampling-capture-format.h"
 #include <algorithm>
 #include <bit>
@@ -297,11 +298,12 @@ void residual(const SamplingDistribution &p) {
     std::printf("residual=%u rng=%llu\n", token, static_cast<unsigned long long>(actual_rng));
   }
 }
+#include "mtp_replay.hpp"
 int replay(const char *path, bool allow_synthetic) {
   FD directory(open(path, O_RDONLY | O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW));
   struct stat before{}, stat{};
   require(!fstatat(directory.fd, "capture.jsonl", &before, AT_SYMLINK_NOFOLLOW) &&
-          S_ISREG(before.st_mode) && before.st_size <= 16 * 1024 * 1024,
+          S_ISREG(before.st_mode) && before.st_size <= 128 * 1024 * 1024,
           "capture metadata file invalid or oversized");
   FD metadata(openat(directory.fd, "capture.jsonl", O_RDONLY | O_CLOEXEC | O_NOFOLLOW | O_NONBLOCK));
   require(!fstat(metadata.fd, &stat) && S_ISREG(stat.st_mode) && stat.st_size == before.st_size &&
@@ -322,6 +324,9 @@ int replay(const char *path, bool allow_synthetic) {
     auto v = gufo::json::parse(std::string_view(line.data(), bytes));
     require(!complete, "capture data after completion"); const auto kind = string(v, "event");
     if (!identity) {
+      if (kind == "identity" && string(v, "schema") == "synapse-lie.sampling-capture.v3")
+        return replay_mtp(directory.fd, file, v, allow_synthetic);
+      require(before.st_size <= 16 * 1024 * 1024, "AR capture metadata oversized");
       keys(v, {"event", "schema", "program", "build_id", "engine", "source_pin", "dense_sampling", "synthetic",
                "classification", "scope", "row_encoding", "decode_mode", "eos_policy", "context", "prefill_chunk", "profiles", "tokens_per_profile"});
       tools = string(v, "schema") == "synapse-lie.sampling-capture.v2";

@@ -792,6 +792,11 @@ if(BUILD_TESTING)
   add_test(NAME sampling-capture-native-contract COMMAND test-sampling-capture-contract
     $<TARGET_FILE:test-sampling-capture> "${CMAKE_CURRENT_BINARY_DIR}/sampling-capture-XXXXXX")
   set_tests_properties(sampling-capture-native-contract PROPERTIES TIMEOUT 60)
+  add_executable(test-sampling-capture-mtp-contract tests/test_sampling_capture_mtp.c)
+  target_link_libraries(test-sampling-capture-mtp-contract PRIVATE PkgConfig::JSON OpenSSL::Crypto m)
+  add_test(NAME sampling-capture-mtp-native-contract COMMAND test-sampling-capture-mtp-contract
+    $<TARGET_FILE:test-sampling-capture> "${CMAKE_CURRENT_BINARY_DIR}/sampling-capture-mtp-XXXXXX")
+  set_tests_properties(sampling-capture-mtp-native-contract PROPERTIES TIMEOUT 60)
   add_executable(test-synthetic-lie-bench tools/lie-bench.c tools/core-bench.c tools/state-bench.c tests/bench_executor.c)
   target_include_directories(test-synthetic-lie-bench PRIVATE include)
   target_link_libraries(test-synthetic-lie-bench PRIVATE lie_core lie_bench_native PkgConfig::JSON OpenSSL::Crypto m)

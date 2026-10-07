@@ -134,22 +134,27 @@ def sampling_capture_inventory(root):
     if directory.resolve() != directory or directory.stat().st_uid != os.getuid():
         raise RuntimeError('Unexpected private capture directory')
     paths = sorted(directory.iterdir())
-    if len(paths) > 770: raise RuntimeError('Too many native capture artifacts')
+    if len(paths) > 13826: raise RuntimeError('Too many native capture artifacts')
     result = {}
+    trace_bytes = 0
     for path in paths:
-        if path.name == 'capture.jsonl': maximum = 8*2**20
+        if path.name == 'capture.jsonl': maximum = 128*2**20
         elif path.name == 'vocabulary.bin': maximum = 64*2**20
         else:
-            match = re.fullmatch(r'profile-([0-5])-row-(0|[1-9][0-9]*)\.f32le', path.name)
-            if not match or int(match[2]) >= 128:
+            match = re.fullmatch(r'profile-([0-5])-(row|trace)-(0|[1-9][0-9]*)\.(f32le|u8)', path.name)
+            if (not match or int(match[3]) >= (128 if match[2] == 'row' else 1152) or
+                    (match[2] == 'row' and match[4] != 'f32le')):
                 raise RuntimeError('Unexpected native capture artifact path')
-            maximum = 4*1048576
+            maximum = (4 if match[4] == 'f32le' else 1)*1048576
         fd = os.open(path, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW | os.O_NONBLOCK)
         try:
             before = os.fstat(fd)
             if (not stat.S_ISREG(before.st_mode) or before.st_uid != os.getuid() or
                     not 0 <= before.st_size <= maximum):
                 raise RuntimeError('Invalid bounded native capture artifact')
+            if path.name not in ('capture.jsonl','vocabulary.bin'):
+                trace_bytes += before.st_size
+                if trace_bytes > 4*2**30: raise RuntimeError('Native capture aggregate payload budget exceeded')
             with os.fdopen(fd, 'rb', closefd=False) as stream:
                 digest = hashlib.file_digest(stream,'sha256').hexdigest()
             after = os.fstat(fd); current = path.stat()
