@@ -137,6 +137,16 @@ preserves corrected preparation/test failures. No engine ABI, scheduler, provide
 or numerical algorithm changes; a newly bound `.161` client build and actual
 original-weight live/cache runs are still required. All six items remain open.
 
+The matching r50 device-hidden `.161` build of `cb75a48f` now compiles both
+providers and all six consumers with exit 0. Source/recipe/linkage reconstruction,
+collection and strict machine closure pass in the
+[client build receipt](development/validation/prefill-probe-point-build-2026-10-07.json).
+A later host-only supervisor control isolates full input checkpoints for cache
+probes and passes 83 mocked checks; normal engine/cache defaults are unchanged.
+The compiled native client and that supervisor are bound separately. This is
+compilation and client-contract evidence; original-weight live/cache/cancel/
+fairness and broader acceptance still need fresh admission. All six items stay open.
+
 An open qualification gate does not mean its implementation is absent:
 
 | Item | Source already integrated in this branch | Final qualification still open |

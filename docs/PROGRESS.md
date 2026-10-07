@@ -1,6 +1,33 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Prefill qualification client compiled on Point — 2026-10-07 UTC
+
+The device-hidden `.161` ROCm 10 build of `cb75a48f` completes both coherent
+C17 ON/OFF providers and all six consumers with exit 0. The new native prefill
+probe is now in the compiled benchmark. All 25 compile files, four control logs
+and three linkage witnesses are collected and verified. Independent reconstruction
+matches both 1,019-file provider variants and all 41 source recipes. No model or
+GPU executable runs. CPU/GPU/NVMe peaks are 74/44/47.85 C, without a guard stop.
+
+Strict closure at 09:09:03 UTC verifies the exact supervisor/container identities
+retired, the unchanged original lease free, port 8000 empty and router 277870
+restored. An initial closure check ran before bundle sealing and refused; its
+actual exit 1 is retained. The build was not repeated. Fresh Point/DGX own-state
+replies are explicit; Q2 non-use on `.161` is inferred from its current local/
+`.157` scope, with that limitation preserved. No future machine window is reserved.
+
+The qualification supervisor now uses existing cache controls to isolate one
+complete input checkpoint in RAM/SSD probes. Intermediate/continued/final
+checkpoints can otherwise add prefill calls or evict the input snapshot. The
+DS4 format, compression and utility remain enabled; engine/server defaults and
+native code are unchanged. All 83 optional mocked controls pass locally, CPU
+peak 65 C. This later host-only runner change is separate from the frozen
+compiled source. The [build receipt](development/validation/prefill-probe-point-build-2026-10-07.json)
+binds both identities and the collected failures. Original-weight live/RAM/SSD,
+quality/fault/resources and matched performance remain open. All six roadmap
+items remain open; Terminal Bench stays last.
+
 ## Native live-prefill and cache qualification clients — 2026-10-07 UTC
 
 The C17 benchmark adds explicit functional `--prefill-probe live|ram|ssd` modes.

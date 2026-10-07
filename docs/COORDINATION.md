@@ -1,5 +1,31 @@
 # DS4 / synapse-lie coordination
 
+## Native prefill client Point build passed and retired — 2026-10-07
+
+Fresh Point/DGX own-state replies and 09:00:23 UTC global preflight precede the
+device-hidden r50 `.161` build of `cb75a48f`. Q2 non-use is an inference from its
+current local and sole `.157` scope, not an explicit per-target reply or grant;
+the evidence preserves that limitation. The original lease is independently
+acquired. Both providers and all six consumers compile/link with exit 0; no
+model or GPU executable runs. CPU/GPU/NVMe peaks are 74/44/47.85 C.
+
+Supervisor 272204/start 23263114 and init 272280/start 23263191 retire with
+container `f8941bb00da6fbb646a424b6917d604e10a27ac9f7d02df4d2a0a177f171a675`.
+Original lease 66307/105946405 releases at 09:06:28 UTC. Strict closure at
+09:09:03 verifies both exact identities and container absent, the unchanged
+lease free, HTTP8000 empty and router 277870 restored. The initial closure
+refuses before the bundle exists; its exit 1 is preserved, with no build repeated.
+All 25 compile, four control and three linkage artifacts collect and verify in
+the [build receipt](development/validation/prefill-probe-point-build-2026-10-07.json).
+
+Peers receive the verified release. Root now has no remote job/build/client/
+handle/lease/window/waiter/reservation on `.161/.157/.158/TB`, and no future
+window is acquired. Subsequent original-weight live/RAM/SSD gates require
+fresh coordination/global preflight/original lease. The later local supervisor
+cache-frontier control creates no remote operation or GPU admission. All six
+roadmap items remain open; comparative benchmarks and Terminal Bench follow
+functional qualification.
+
 ## Original-weight 32K prefill chunk parity passed and retired — 2026-10-07
 
 Fresh explicit Point, DGX and Q2 own-state replies declare no activity or plans

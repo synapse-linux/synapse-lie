@@ -60,6 +60,10 @@ class Tests(unittest.TestCase):
                 if 'synthetic' in row:
                     row['synthetic'] = False
             identity.update(context_capacity=4096, build_id='mocked-prefill-runtime')
+            if probe != 'live':
+                identity.update(cache_min_tokens=1, cache_cold_max_tokens=0,
+                                cache_continued_tokens=0, cache_trim_tokens=0,
+                                cache_align_tokens=0, cache_capture_finish=False)
         settings = {'context':identity['context_capacity'], 'chunk':identity['prefill_chunk'],
                     'users':identity['users'], 'tg':identity['output_limit'],
                     'warmups':identity['warmups'], 'repetitions':identity['repetitions']}
@@ -205,6 +209,11 @@ class Tests(unittest.TestCase):
                         self.assertEqual('--model-mtp' in command,mode=='mtp')
                         self.assertIn('--ignore-eos',command)
                         self.assertNotIn('--reactive-probe',command)
+                        for key,value in (('--kv-cache-min-tokens','1'),('--kv-cache-cold-max-tokens','0'),
+                                          ('--kv-cache-boundary-trim-tokens','0'),('--kv-cache-boundary-align-tokens','0'),
+                                          ('--kv-cache-continued-interval-tokens','0'),('--kv-cache-capture-finish','off')):
+                            if probe == 'live': self.assertNotIn(key,command)
+                            else: self.assertEqual(command[command.index(key)+1],value)
                         (c.root/'measurements.jsonl').write_text(''.join(json.dumps(row)+'\n' for row in rows))
                     with patch.object(c,'verified_model',return_value=(self.base/'model',[])), \
                          patch.object(c,'verified_predictor',return_value=(self.base/'mtp.gguf',{})), \
@@ -234,6 +243,15 @@ class Tests(unittest.TestCase):
              self.assertRaisesRegex(ValueError,'exceed'):
             c.bench()
         model.assert_not_called();run.assert_not_called()
+    def test_prefill_cache_receipts_require_controlled_full_prompt_capture(self):
+        for probe in ('ram','ssd'):
+            rows,settings,capacity,prompt=self.prefill_receipt(probe)
+            for key,value in [('checkpoint_policy','legacy'),('cache_min_tokens',True),
+                              ('cache_cold_max_tokens',30000),('cache_continued_tokens',10000),
+                              ('cache_trim_tokens',32),('cache_align_tokens',2048),('cache_capture_finish',True)]:
+                bad=copy.deepcopy(rows);bad[0][key]=value
+                with self.subTest(probe=probe,key=key),self.assertRaises(RuntimeError):
+                    self.validate_prefill_receipt(bad,probe,settings,capacity,prompt)
     def progress_fixture(self):
         settings = {'context':4096, 'chunk':2048, 'users':2, 'tg':32,
                     'warmups':1, 'repetitions':1}

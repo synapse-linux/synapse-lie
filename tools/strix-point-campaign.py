@@ -495,6 +495,12 @@ def validate_prefill_probe(rows, probe, settings, capacity, prompt):
     number(identity, 'prefill_chunk', settings['chunk'])
     number(identity, 'prefill_capacity', capacity)
     number(identity, 'users', 2 if live else 1)
+    if not live:
+        require(identity.get('checkpoint_policy') == 'ds4' and
+                identity.get('cache_capture_finish') is False, 'controlled cache capture policy')
+        number(identity, 'cache_min_tokens', 1)
+        for key in ('cache_cold_max_tokens', 'cache_continued_tokens', 'cache_trim_tokens', 'cache_align_tokens'):
+            number(identity, key, 0)
     source = events('input', 1)[0]
     require(same_ids(source.get('physical_ids'), prompt), 'complete physical input drift')
     number(source, 'prompt_tokens', len(prompt))
@@ -1578,6 +1584,13 @@ class Campaign:
             command.append('--reactive-probe')
         if prefill_probe:
             command.extend(('--prefill-probe', prefill_probe))
+            if ram_cache or ssd_cache:
+                # Qualify chunk identity against one complete prompt frontier.
+                # Trim/continued/final snapshots can split numerical calls or
+                # evict that prefix; retain DS4 format/compression and utility.
+                command.extend(('--kv-cache-min-tokens', '1', '--kv-cache-cold-max-tokens', '0',
+                                '--kv-cache-boundary-trim-tokens', '0', '--kv-cache-boundary-align-tokens', '0',
+                                '--kv-cache-continued-interval-tokens', '0', '--kv-cache-capture-finish', 'off'))
         if ssd_cache:
             command.extend(('--kv-disk-dir', '/work/kv', '--kv-disk-space-mb', '4096',
                             '--kv-disk-staging-mb', '512'))

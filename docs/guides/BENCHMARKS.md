@@ -272,6 +272,13 @@ outputs: initial cold/hot, changed cold/hot, then the initial chunk hot again.
 Full-prefix reuse and identical output IDs are required, including actual SSD
 reuse without RAM fallback. Choose cache policy and budgets that can retain the
 whole physical prompt; the probe fails instead of accepting a partial hit.
+For either cache probe, also set `--kv-cache-min-tokens 1`,
+`--kv-cache-cold-max-tokens 0`, `--kv-cache-boundary-trim-tokens 0`,
+`--kv-cache-boundary-align-tokens 0`, `--kv-cache-continued-interval-tokens 0`
+and `--kv-cache-capture-finish off`. These existing controls isolate one full
+prompt checkpoint: intermediate boundaries otherwise split a large selected
+chunk, and final snapshots can evict the saved input. DS4 framing, compression
+and retention utility remain enabled. Normal engine/server defaults are unchanged.
 MTP can be selected with an explicit predictor and is qualified separately.
 
 All three modes require greedy fixed output, at least 32 output tokens, one
@@ -279,7 +286,8 @@ repetition and no warmup, progress, graphs, vision or steering plan. They emit
 `prefill_probe` identity and complete functional witnesses. Native reports and
 the optional historical report reader refuse these files as performance input.
 The optional Point supervisor uses profile `modern-core-prefill-probe` and a
-separate manifest `prefill_probe: live|ram|ssd`. Local synthetic and mocked
+separate manifest `prefill_probe: live|ram|ssd`. The supervisor forwards and
+verifies the six controlled cache settings above. Local synthetic and mocked
 receipts qualify client contracts only; original-weight gates remain open.
 
 To measure the dense sampler on original weights, use a fixed seed and keep
