@@ -1,0 +1,87 @@
+# SPDX-License-Identifier: MIT
+# Focused qualification-tool fixtures; no provider rebuild or model forward.
+cmake_minimum_required(VERSION 3.21)
+project(lie_sampling_capture_checks LANGUAGES C CXX)
+get_filename_component(REPO "${CMAKE_CURRENT_LIST_DIR}/../.." ABSOLUTE)
+set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+option(LIE_SANITIZERS "Focused ASan/UBSan checks" OFF)
+set(LIE_REPLAY_PROVIDER_BUILD "" CACHE PATH "Existing coherent host-only reference/candidate/fallback build; read-only")
+add_compile_definitions(_POSIX_C_SOURCE=200809L LIE_BUILD_ID="sampling-capture-fixture-NOT-INFERENCE")
+add_compile_options(-Wall -Wextra -Wpedantic -Werror -UNDEBUG)
+if(LIE_SANITIZERS)
+  add_compile_options(-fsanitize=address,undefined -fno-omit-frame-pointer)
+  add_link_options(-fsanitize=address,undefined)
+endif()
+find_package(OpenSSL REQUIRED COMPONENTS Crypto)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(JSON REQUIRED IMPORTED_TARGET json-c)
+add_executable(capture-fixture "${REPO}/tools/sampling-capture.c"
+  "${REPO}/tests/sampling_capture_executor.c" "${REPO}/src/sampling.c")
+target_include_directories(capture-fixture PRIVATE "${REPO}/include")
+target_compile_definitions(capture-fixture PRIVATE LIE_SAMPLING_CAPTURE_FIXTURE=1)
+target_link_libraries(capture-fixture PRIVATE PkgConfig::JSON OpenSSL::Crypto m)
+add_executable(capture-contract "${REPO}/tests/test_sampling_capture.c")
+target_link_libraries(capture-contract PRIVATE PkgConfig::JSON OpenSSL::Crypto m)
+include(CTest)
+add_test(NAME sampling-capture-native-contract COMMAND capture-contract $<TARGET_FILE:capture-fixture>
+  "${CMAKE_CURRENT_BINARY_DIR}/format-XXXXXX")
+set_tests_properties(sampling-capture-native-contract PROPERTIES TIMEOUT 60)
+if(LIE_REPLAY_PROVIDER_BUILD)
+  include("${REPO}/cmake/provider/Source.cmake")
+  file(READ "${REPO}/third_party/gufo-source.json" manifest)
+  string(JSON original_files GET "${manifest}" files)
+  lie_verify_files("${REPO}/.deps/gufo-f783fedb" "${original_files}")
+  lie_variant_files(ON ON expected changed)
+  file(READ "${LIE_REPLAY_PROVIDER_BUILD}/variant-files.json" recorded)
+  string(JSON count LENGTH "${changed}")
+  math(EXPR last "${count}-1")
+  set(overlay "{}")
+  foreach(i RANGE 0 ${last})
+    string(JSON name MEMBER "${changed}" ${i})
+    string(JSON hash GET "${expected}" "${name}")
+    string(JSON overlay SET "${overlay}" "${name}" "\"${hash}\"")
+  endforeach()
+  # Host providers use a changed-file overlay, then the complete pinned tree.
+  # Verify the overlay and the complete mapping rather than assuming a copy.
+  lie_verify_files("${LIE_REPLAY_PROVIDER_BUILD}/variant" "${overlay}")
+  string(STRIP "${recorded}" recorded)
+  if(NOT recorded STREQUAL expected)
+    message(FATAL_ERROR "Existing host provider variant mapping differs from current recipes")
+  endif()
+  find_package(ICU REQUIRED COMPONENTS uc i18n)
+  find_package(Threads REQUIRED)
+  foreach(arm IN ITEMS reference candidate fallback)
+    if(NOT EXISTS "${LIE_REPLAY_PROVIDER_BUILD}/lib${arm}.a")
+      message(FATAL_ERROR "Missing existing coherent host sampler library: ${arm}")
+    endif()
+    add_executable(${arm}-sampling-replay "${REPO}/tests/sampling/replay.cpp")
+    if(NOT arm STREQUAL "reference")
+      target_include_directories(${arm}-sampling-replay PRIVATE "${LIE_REPLAY_PROVIDER_BUILD}/variant"
+        "${REPO}/include" "${REPO}/adapters")
+    endif()
+    target_include_directories(${arm}-sampling-replay PRIVATE "${REPO}/.deps/gufo-f783fedb")
+    if(arm STREQUAL "candidate")
+      target_compile_definitions(${arm}-sampling-replay PRIVATE LIE_C17_SAMPLING=1)
+    else()
+      target_compile_definitions(${arm}-sampling-replay PRIVATE LIE_C17_SAMPLING=0)
+    endif()
+    target_link_libraries(${arm}-sampling-replay PRIVATE "${LIE_REPLAY_PROVIDER_BUILD}/lib${arm}.a"
+      ICU::uc ICU::i18n Threads::Threads OpenSSL::Crypto m)
+  endforeach()
+  # Random suffix allows focused reruns without overwriting earlier attempts.
+  string(RANDOM LENGTH 12 ALPHABET 0123456789abcdef fixture_id)
+  add_test(NAME sampling-replay-captured-row-contract COMMAND "${CMAKE_COMMAND}"
+    "-DCAPTURE=$<TARGET_FILE:capture-fixture>"
+    "-DFILE_FIXTURE=$<TARGET_FILE:capture-contract>"
+    "-DREFERENCE=$<TARGET_FILE:reference-sampling-replay>"
+    "-DCANDIDATE=$<TARGET_FILE:candidate-sampling-replay>"
+    "-DFALLBACK=$<TARGET_FILE:fallback-sampling-replay>"
+    "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/replay-${fixture_id}"
+    -P "${REPO}/tests/sampling/replay_contract.cmake")
+  set_tests_properties(sampling-replay-captured-row-contract PROPERTIES TIMEOUT 90)
+endif()

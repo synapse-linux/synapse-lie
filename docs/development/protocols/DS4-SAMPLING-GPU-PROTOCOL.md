@@ -34,6 +34,65 @@ The supervisor refuses invalid profiles before model verification/load and
 compares the complete reported generation identity to the declared controls.
 Historical five-control result identities mean `top_k=0`, `min_p=0`.
 
+## Complete-row capture and offline probability replay
+
+`lie-sampling-capture` is a C17 development client of the existing executor ABI.
+It saves completed raw float32 logits immediately before the ordinary AR draw,
+then records the actual committed token and frontier. It does not change logits,
+sample a second token, call the reporting-logit API or alter the sampler RNG.
+Six fresh sessions cover greedy, DS4 temperature-1/min-p, top-k, combined nucleus/
+min-p, positive generated-token penalties and temperature-2/negative penalties.
+Each uses the same physical prompt and seed 123; the default is 16 rows per
+profile, with an explicit 1–128-row limit. EOS remains an ordinary sampled token
+under the explicit fixed-budget policy. No cache or HTTP worker participates.
+
+The executable is built alongside `lie-executor-bench` in an opt-in HIP runtime
+build. Its GPU command belongs to the deferred final qualification phase and
+requires fresh ownership/lease admission; preparing the client schedules no run.
+
+```sh
+build/gpu/lie-sampling-capture \
+  --model /path/to/original/first-shard.gguf \
+  --output-dir evidence/sampling-original-rows --tokens 16
+```
+
+The output is a new private directory: `capture.jsonl` binds generation settings,
+physical prompt IDs, each binary row's SHA-256 and byte count, actual outputs and
+completion. Rows use IEEE754 float32 little-endian, without JSON rounding.
+Existing destinations refuse; partial rows and failure records remain evidence.
+Storage is `profiles × rows × vocabulary × 4` bytes plus metadata: about 91 MiB
+for six 16-row profiles and a 248,320-token vocabulary. Capture is deliberately
+outside performance measurement; it adds full-row host copies and I/O.
+
+The optional host-only `tests/sampling` project builds
+`reference-sampling-replay`, `candidate-sampling-replay` and
+`fallback-sampling-replay`. All three consume the same saved data offline:
+
+```sh
+build/sampling/reference-sampling-replay --capture evidence/sampling-original-rows > reference.txt
+build/sampling/candidate-sampling-replay --capture evidence/sampling-original-rows > candidate.txt
+build/sampling/fallback-sampling-replay --capture evidence/sampling-original-rows > fallback.txt
+cmp reference.txt candidate.txt
+cmp reference.txt fallback.txt
+```
+
+They emit every retained probability, draw and RNG state, verify the captured
+live token and committed history, and compare mass against an independent full
+ranking/long-double oracle. Probability tolerance is absolute `5e-14` plus
+relative `5e-12`; candidate support must match exactly. Separate residual draws
+exercise target mass outside a unit proposal's support. These are numerical
+correction checks, not an actual MTP predictor/controller rejection. The replay
+rejects checksum/length/path drift, malformed generation identity, incomplete
+profiles and missing terminal records. Synthetic captures require explicit
+`--allow-synthetic` and print `NOT-INFERENCE`.
+
+Source and local fixtures do not establish original-weight probabilities.
+Qualification additionally requires an admitted GPU capture, pinned original
+weights/runtime provenance, actual command exits and process/lease closure.
+This tooling changes no core/executor ABI, reactive scheduling, production
+sampler or product Python dependency. Tool-mode probabilities, actual MTP
+acceptance/correction, faults, quality and cost retain their separate gates.
+
 ## Required gates
 
 | Gate | Acceptance |

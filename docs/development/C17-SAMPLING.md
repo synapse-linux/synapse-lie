@@ -4,11 +4,17 @@
 Current source includes exact final decimal validation, a C17 compilation
 context/bootstrap, native schema staging/string construction, the complete
 production schema frontend and native history/probability buffer ownership.
-The [combined HOST qualification](validation/c17-final-functional-host-2026-10-06.json)
-for `77bcdc1c` passes 98 native functional and 67 provider controls in each
-Release/sanitizer build, 68 ICU-OFF core controls and strict C17/C++17 public
-headers. All 30 complete witness groups agree across builds. Matching HIP and
-original-weight `.161` branch/fault/quality/resource/cost gates remain pending.
+The [combined HOST qualification](validation/integrated-final-host-2026-10-06.json)
+for `88d4c4e5` passes 101 native functional and 67 provider controls in each
+Release/sanitizer build, 69 ICU-OFF core controls and strict C17/C++17 public
+headers. All 30 complete witness groups agree across builds. Its
+[coherent HIP build](validation/integrated-point-hip-build-2026-10-06.json) and
+[selected AR controls](validation/integrated-point-ar-2026-10-06.json) are
+collected and closed. Broader original-weight `.161` numerical, branch, fault,
+quality, resource and cost gates remain pending. Native
+[capture/replay tooling](protocols/DS4-SAMPLING-GPU-PROTOCOL.md#complete-row-capture-and-offline-probability-replay)
+prepares full-row numerical checks; its local synthetic controls do not qualify
+GPU probabilities or MTP execution.
 Earlier receipts retain their stated frozen sources.
 See [compilation context](#compilation-context-and-bootstrap)
 and [decimal output validation](#final-decimal-output-validation), plus

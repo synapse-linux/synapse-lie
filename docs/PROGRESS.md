@@ -8,7 +8,7 @@ before further campaigns. Keep only required focused local checks during source
 changes; qualify the integrated runtime afterward, then run matched benchmarks
 and Terminal Bench last. The [current roadmap](BACKEND.md#current-roadmap--2026-10-06-utc)
 separates integrated source from open acceptance gates. The owned functional
-source is integrated; its 650 files still match the final HOST checkpoint.
+source is integrated; at that checkpoint all 650 files match the final HOST receipt.
 Open validation items are not missing implementations. The prepared r37 MTP
 manifest is not admitted or launched. No new remote campaign, lease or machine
 reservation is queued; existing coordination does not schedule a future run.
@@ -23,6 +23,30 @@ The [AR receipt](development/validation/integrated-point-ar-2026-10-06.json)
 preserves actual exits and the local observer/packaging failures. Saving these
 records repeats no test. Current MTP and broader numerical, fault, quality,
 long-context and performance gates remain open; none of the six items closes.
+
+## Native numerical qualification tooling — 2026-10-07 UTC
+
+The C17 `lie-sampling-capture` development client now records full raw logits
+before the ordinary AR draw, binding their binary hashes to committed outputs
+and fixed generation profiles. Offline pristine/C17/OFF replay emits every
+probability and draw, checks live tokens/history/RNG, compares mass with an
+independent long-double oracle and exercises forced residual correction.
+[Usage and scope](development/protocols/DS4-SAMPLING-GPU-PROTOCOL.md#complete-row-capture-and-offline-probability-replay).
+
+Focused native Release and unsuppressed ASan/UBSan/LSan checks pass 2/2 each:
+48 synthetic rows have identical complete witnesses across all three samplers;
+nine corruption/incomplete-data refusals retain actual exit 1, including named
+pipes that must refuse before any blocking read. Main-project capture linkage
+and its one focused native control also pass. The initial
+configure/build failures remain preserved: the read-only host provider is an
+overlay, and the compiler requires an explicit file deleter type. Corrected
+configuration/linking and checks exit 0. This is tooling preparation, not a
+GPU probability, MTP-controller, model-quality or performance result. Runtime
+numerics, core ABI, HTTP and reactive scheduling are unchanged. No GPU/remote
+build/run, lease or reservation is created; all six acceptance items stay open.
+[Tooling receipt](development/validation/sampling-capture-host-2026-10-07.json)
+binds source, commands, full witnesses and CPU78.25 C; all 2,307 members of the
+portable archive verify without repeating a build or test.
 
 ## Current integrated HIP build collected and closed — 2026-10-06 UTC
 

@@ -1,5 +1,16 @@
 # DS4 / synapse-lie coordination
 
+## Local numerical tooling; GPU campaigns still deferred — 2026-10-07
+
+Root prepares the native capture/offline replay needed by the final numerical
+phase. Only focused local synthetic parser/lifetime/math checks run, with GPU
+masked and CPU98/NVMe85 guards; peak CPU is 78.25 C.
+[Tooling receipt](development/validation/sampling-capture-host-2026-10-07.json).
+There is no root remote build/model/client/lease/window/waiter/reservation and
+no new GPU campaign is admitted. The prepared r37 MTP remains unlaunched.
+Original-weight probabilities, MTP controller, quality/fault/resource/cost and
+long-context gates stay open. Earlier machine closures are not future admission.
+
 ## Further campaigns deferred; completed AR released — 2026-10-06
 
 The owner's latest request puts all remaining functional implementation before

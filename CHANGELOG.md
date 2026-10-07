@@ -7,6 +7,11 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- C17 development client for complete raw-logit capture before ordinary AR
+  draws, with offline original/C17/OFF sampler replay and independent probability
+  checks. GPU numerical qualification remains deferred; product executables and
+  default tests gain no Python dependency.
+
 - Native core benchmark JSONL reports prefill attention selections, separating
   completed and unconfirmed work and distinguishing unsupported measurements
   from zero. The model-neutral C17 observer is shared with other core clients;

@@ -43,8 +43,10 @@ The build-coherence correction also covers typed observer identity and the
 canonical full-provider Point build route. Source integration, compilation and
 runtime acceptance are separate. Final
 combined local checks and current coherent `.161` private producer/consumer HIP
-compilation pass. Current source hashes match all 650 files in the final HOST
-receipt. No missing source implementation is identified in the owned functional
+compilation pass. At the integrated checkpoint, source hashes match all 650 files
+in the final HOST receipt. Later capture/replay tooling changes only development
+clients and build targets; the qualified runtime sources remain unchanged.
+No missing source implementation is identified in the owned functional
 scope; the acceptance checks in the table below remain open. Further
 original-weight functional/quality/fault gates are deferred by the current
 sequence and will require fresh admission.
@@ -221,6 +223,11 @@ none of the six items.
    drafts/acceptance. [GPU receipt](development/validation/c17-sampling-point-gpu-2026-10-05.json).
    Independent original-weight probability/tool-transition coverage and matched
    cost remain pending.
+   The native [complete-row capture and offline replay](development/protocols/DS4-SAMPLING-GPU-PROTOCOL.md#complete-row-capture-and-offline-probability-replay)
+   now prepare full probability/RNG/history witnesses and independent mathematical
+   filter/residual checks for the final phase. Current local synthetic fixtures
+   do not close the original-weight probability or MTP-controller gates; no
+   capture campaign is admitted or launched.
    [Sampling defaults](https://github.com/antirez/ds4/blob/main/docs/SERVER.md) ·
    [MTP sampling semantics](https://github.com/antirez/ds4/blob/main/docs/SPECULATIVE_DECODING.md).
 7. **C17 sampler extractions integrated; qualify the combined runtime.**
