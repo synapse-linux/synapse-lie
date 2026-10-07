@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Exact-corpus native benchmark .157 released — 2026-10-07 UTC:
+source 032323df, plan 28d9f5d6 / exe 23b53980. Verify/admit/run/release exit 0;
+three native children exit 0 and 18/18 exact points complete TG128. Run 23:27:42
+through 23:40:11. All 51 artifacts / 65212784 bytes hash-verify 23:41:22 before
+release 23:42:01 SHA 449892ca54bead103c12abbe8a76f02e5aabcfdeefedc9ecb4ddb1122a3e74e1.
+Strong 23:42:32 checks 50 retired identities/groups, empty KFD, five original
+free leases, seven reference model stats and GLM stats unchanged. Core/GLM
+receive closure. Q2 owns no job, window, waiter or reservation on any host.
+Boot 8b9cbb46 and 32 IOMMU groups remain unchanged; no reboot, remote build,
+cleanup, dependency, service or tuning action. Future GPU work needs new
+coordination. See Q2-EXACT-BENCH-RESULTS.md for the corpus and phase scope.
+
 Enabled-IOMMU chunk128 curves released — 2026-10-07 UTC: source dc37ef01,
 plan68552a5c, same server f6772a1e and native client87d856cf. CPU fixture,
 verify/admit/run/release and all six children exit0. Run22:44:07→22:56:17;

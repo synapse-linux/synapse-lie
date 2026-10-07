@@ -3,7 +3,11 @@
 [Exact corpus benchmark](docs/Q2-EXACT-BENCH.md): native `synapse-lie-bench`
 now selects exact token prefixes of *I promessi sposi*, with full 2K/4K/8K
 chunks and explicit failure for unaligned targets. Both focused CTests pass
-on .157 (Debug and ASan/UBSan). Original-model validation is tracked separately.
+on .157 (Debug and ASan/UBSan). The [complete GPU table](docs/Q2-EXACT-BENCH-RESULTS.md)
+and [PP/TG graph](docs/figures/q2-exact-bench128.png) cover 18 exact points, all TG128.
+At 128K, incremental prefill is 1008.92/1205.28/1215.65 token/s; decode 26.36/26.28/26.19.
+Larger-chunk outputs match each other but differ from 2K; quality parity is not established.
+The coordinated GPU window is released; IOMMU remains enabled.
 
 The historical [IOMMU-enabled chunk2K/4K/8K tables](docs/Q2-PREFILL-CHUNKS-RESULTS.md)
 and [PP/TG graph](docs/figures/q2-prefill-chunks128.png) are available. At the
