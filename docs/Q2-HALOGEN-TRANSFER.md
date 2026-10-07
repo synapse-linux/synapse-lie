@@ -91,6 +91,10 @@ is unlikely to recover the required5.3ms per C1 step. That is a bandwidth
 hypothesis, not a measured LIE memory-controller ceiling or a license to
 change Q2 weights. A narrower trunk must be opt-in and separately qualified
 for quality, numerical behavior and the original cold PP/C1 TG controls.
+The [bounded original-Q2 Q8 screen](Q2-DENSE-DECODE-FEASIBILITY.md) further
+rules out simple lossless per-block range packing in its four sampled tensor
+families: every sampled block requires eight code bits. A Q6 format has only
+weight-domain error evidence and no kernel or quality acceptance.
 
 ## What the original128K trace changes
 

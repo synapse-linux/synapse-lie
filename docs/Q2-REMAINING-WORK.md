@@ -71,6 +71,14 @@ requires quality and original-model numerical qualification; Halogen's rates
 cannot be credited to the retained Q2 file. Its 16K/32K prefill-arena result
 also cannot justify changing LIE's fixed2048-token comparison chunks.
 
+The new [bounded dense-Q8 screen](Q2-DENSE-DECODE-FEASIBILITY.md) counts3.897GB
+of encoded Q8 tensors and finds every sampled block requires eight code bits
+for simple lossless per-block range packing. A hypothetical Q6 cut saves at
+most0.917GB of those bytes while introducing2.26–2.62% sampled weight-domain
+RMS error; even perfect traffic removal at228GB/s covers only about4.02ms of
+the native32K step's5.27–5.35ms gap. No compressed kernel or model change is
+qualified. Keep the remaining non-Q8 decode stages in the optimization scope.
+
 ## Mechanisms to test next at the fixed long-prefix input
 
 The prefill target needs12.592734s less at130925 tokens. Prioritize a complete

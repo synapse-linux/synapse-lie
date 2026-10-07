@@ -1,0 +1,93 @@
+{
+  "schema": "synapse-lie.q2-dense-q8-requant-probe.v1",
+  "at": "2026-10-07T08:11:40.932747+00:00",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "plan_sha256": "d4790ef79e64a0dbccd21e85cf380f2e7c640bb486268104b9686e8dc592b9a4",
+  "model_stat_identity_unchanged": true,
+  "gpu_client_absent_before_after": true,
+  "max_payload_bytes": 3342336,
+  "quantizer": "symmetric signed, per-32 code maximum, F16 rounded scale, nearest-even codes",
+  "limitation": "weight-only sample, not an operator, model-output, quality, or throughput result",
+  "tensors": [
+    {
+      "name": "output.weight",
+      "tensor_bytes": 675430400,
+      "first_blocks": [
+        4964352,
+        9928704,
+        14893056
+      ],
+      "sampled_blocks": 24576,
+      "relative_rms_error": {
+        "5": 0.0467130319133368,
+        "6": 0.022620568629882622,
+        "7": 0.011281988677295447
+      },
+      "hypothetical_fixed_bytes_per_block": {
+        "5": 22,
+        "6": 26,
+        "7": 30
+      }
+    },
+    {
+      "name": "blk.0.attn_qkv.weight",
+      "tensor_bytes": 27852800,
+      "first_blocks": [
+        202752,
+        405504,
+        608256
+      ],
+      "sampled_blocks": 24576,
+      "relative_rms_error": {
+        "5": 0.05216579773455356,
+        "6": 0.025253695518067925,
+        "7": 0.012890451172588219
+      },
+      "hypothetical_fixed_bytes_per_block": {
+        "5": 22,
+        "6": 26,
+        "7": 30
+      }
+    },
+    {
+      "name": "blk.0.attn_gate.weight",
+      "tensor_bytes": 16711680,
+      "first_blocks": [
+        120832,
+        241664,
+        362496
+      ],
+      "sampled_blocks": 24576,
+      "relative_rms_error": {
+        "5": 0.04883404890140068,
+        "6": 0.02363949229983629,
+        "7": 0.011873298683168047
+      },
+      "hypothetical_fixed_bytes_per_block": {
+        "5": 22,
+        "6": 26,
+        "7": 30
+      }
+    },
+    {
+      "name": "blk.0.ssm_out.weight",
+      "tensor_bytes": 16711680,
+      "first_blocks": [
+        120832,
+        241664,
+        362496
+      ],
+      "sampled_blocks": 24576,
+      "relative_rms_error": {
+        "5": 0.053802056031341354,
+        "6": 0.026191968157407042,
+        "7": 0.013481796373040263
+      },
+      "hypothetical_fixed_bytes_per_block": {
+        "5": 22,
+        "6": 26,
+        "7": 30
+      }
+    }
+  ]
+}

@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Dense-Q8 decode representation screen — 2026-10-07 UTC: read-only .157 GGUF
+directory reports337 Q8_0 tensors /3.897GB. Four bounded tensor samples cover
+393216 Q8 blocks; every block needs eight code bits under a simple per-block
+range codec, with marginal code entropy7.54–7.65bits. Separate sampled
+Q5/Q6/Q7 requantization gives4.67–5.38% /2.26–2.62% /1.13–1.35% extra
+weight-domain RMS respectively, not logits or task quality. An ideal Q6
+full-Q8 traffic saving is at most0.917GB (~4.02ms at228GB/s), short of the
+native32K C1 step gap5.27–5.35ms even before decoder overhead. Thus no
+compressed representation is promoted; a future one needs component speed,
+full-model quality and another stage gain. Both read-only scripts run exit0,
+model stat and KFD checks pass, no GPU admission/conversion/tuning/cleanup.
+[Bounded analysis](Q2-DENSE-DECODE-FEASIBILITY.md).
+
 Original32K live-grid matched A/B complete — 2026-10-07 UTC: distinct r2
 admission07:53:44/d4790ef7 runs saved binaries A-B-B-A on the unchanged
 32711-token request. All four original preparations, sixteen prefill calls,

@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Read-only Q8 format probes — 2026-10-07 UTC: two bounded Python scripts stage
+under the project's persistent .157 `run` directory and each exits0. They
+read at most12.75MiB/3.1875MiB of four original Q8 tensors, check the full
+recorded model stat identity and KFD absence before/after, and leave model
+files unchanged. No GPU build/run, model conversion, tuning, remote cleanup,
+lease admission or reserved window occurs. This is CPU metadata/payload
+sampling, not inference; the previous Q2 GPU release d1480588 remains the
+last Q2 ownership event.
+
 Live-grid32K r2 window released — 2026-10-07 UTC: fresh CPU-only preflight
 07:53:36 and Core own .157 non-use precede exact-plan admission07:53:44/
 d4790ef7. Four saved-binary A-B-B-A arms finish COMPLETE with identical
