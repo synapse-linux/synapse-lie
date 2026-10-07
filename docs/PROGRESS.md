@@ -1,5 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Grouped selector scoring preparation — 2026-10-07 UTC: the retained provider
+and model dispatch remain unchanged. A private HIP component scores four
+adjacent query rows per resident FP16 block key while preserving the original
+four-head FP32 FMA and reduction sequence. It compares every score byte and
+every resulting top-512 mask with the retained kernel at full2048-row 32K and
+128K starts, plus final-tail and budget cases; sampled FP64 scores, guards and
+immutable inputs are checked. Local gfx1151 compilation succeeds. Assembly
+shows115 VGPRs for the original scorer and185 for grouped scoring, with zero
+private bytes in both: the extra register pressure is a reason to measure, not
+a speedup claim. Fresh .157 preflight anchors release7018e5b6, KFD empty,
+original leases free and model stats unchanged. The final .157 host capsule
+passes42 Debug and42 ASan/UBSan checks, six zero exits. A frozen component-only
+[plan](../config/q2-select-score-group4-plan.json) binds349 fixtures and the
+unaltered model reference; **GPU admission and component timing remain pending**.
+
 Exact partition selector closed — 2026-10-07 UTC: checkpointd12fa4c8/
 planf7ac47ef, admission11edfaa8 at05:02:15.597681. Three component commands0
 finish05:03:55.969861; four artifacts collect2a5a41c4 before05:06:57.034002

@@ -56,8 +56,8 @@ current `SelectScoreKernel` loads a128-value key separately for each query row,
 then reuses it across four heads. A workgroup could hold that key while scoring
 four adjacent query rows, preserving each row's FP32 FMA/reduction sequence and
 the original top-512 tie rule. This changes score scheduling, not the query
-or key data or attention budget. Check full score bits and masks at16/32K
-before any64/128K component and original full-model trial. Prior two-query
+or key data or attention budget. Compare full score bits and masks at32K and
+128K in a scoped component before any original full-model trial. Prior two-query
 key reuse in the attention consumer regressed, so it does not qualify this
 different indexer hypothesis.
 
