@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 #include "lie/executor.h"
 #include "lie/sampling_observer.h"
+#include "lie/activation_observer.h"
 #include <string.h>
 #include <stddef.h>
 _Static_assert(LIE_EXECUTOR_ABI == 3, "ABI marker");
@@ -24,5 +25,15 @@ int main(void) {
     if (lie_sequence_decode_mtp_observed(NULL, 1, NULL, &observed, &error) != LIE_UNSUPPORTED ||
         memcmp(&observed, &before, sizeof(observed)))
         return 4;
+    lie_activation_geometry geometry, original;
+    memset(&geometry, 0xa5, sizeof(geometry));
+    geometry.abi_version=LIE_ACTIVATION_OBSERVER_ABI;
+    geometry.struct_bytes=sizeof(geometry); original=geometry;
+    if (lie_model_activation_geometry(NULL, &geometry, &error) != LIE_UNSUPPORTED ||
+        memcmp(&geometry, &original, sizeof(geometry)) || !error.message[0])
+        return 5;
+    if (lie_sequence_prefill_observed(NULL, NULL, 1, NULL, &error) != LIE_UNSUPPORTED ||
+        !error.message[0])
+        return 6;
     return 0;
 }

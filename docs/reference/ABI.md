@@ -1,5 +1,32 @@
 # Experimental transitional execution ABI 3
 
+Activation-observer ABI 1 (`lie/activation_observer.h`) adds owner-only model
+geometry and `lie_sequence_prefill_observed`. The observer configuration is
+copied for one ordinary cumulative-prefix prefill call. It borrows completed
+host rows for the last physical prompt token, including a one-token tail.
+Attention rows are projected hidden-width outputs; FFN rows contain all residual
+branches. The private provider limits the host row allocation before submission.
+Callbacks cannot reenter, mutate or retry executor work, and none remains after
+return. Predictor/decode/verification rows are excluded. Unsupported providers
+refuse without changing geometry output. Partial events do not prove completed
+prefill, numerical equality, learned quality or performance.
+
+C17 capture ABI 1 (`lie/steering_capture.h`) owns bounded component/layer matrices,
+validates exact geometry/token identity and refuses duplicate or nonfinite rows.
+FFN branches are averaged. Publication requires every selected row and successful
+completion of the same physical prefix. Failure seals the collector; partial
+counts remain available for diagnostics, without publishable learning input.
+Direction ABI 1 (`lie/steering_direction.h`) owns bounded paired accumulation:
+ordered compensated FP64 target-minus-contrast sums, unit L2 normalization per
+layer and immutable binary32 output. Zero-norm layers refuse publication and
+allow more pairs; rejected pairs preserve counts and accumulated values. No
+model/platform type, device operation, HTTP dependency or thread enters either
+primitive. Requested bytes include owners and owned arrays, excluding allocator
+overhead and caller input. A file writer must encode headerless little-endian
+binary32. Existing executor/request/core layouts and DS4 payload framing are
+unchanged. HOST/sanitizer/syntax checks pass; HIP execution and learned-bank
+quality remain pending.
+
 Sampling-observer ABI 1 (`lie/sampling_observer.h`) is an additive diagnostic
 contract. `lie_sequence_decode_mtp_observed` executes the ordinary single-row
 MTP call on the device owner with a callback installed for that call only.

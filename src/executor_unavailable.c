@@ -3,6 +3,7 @@
 #include "lie/executor.h"
 #include "lie/mtp.h"
 #include "lie/sampling_observer.h"
+#include "lie/activation_observer.h"
 #include "lie/vision.h"
 #include "lie/state.h"
 #include "lie/store.h"
@@ -13,6 +14,11 @@ static lie_status unavailable(lie_error *e) {
     if (e) snprintf(e->message,sizeof(e->message),"This binary was built without the Gufo HIP adapter");
     return LIE_UNSUPPORTED;
 }
+lie_status lie_model_activation_geometry(lie_model *m UNUSED,lie_activation_geometry *out UNUSED,lie_error *e) {
+    return unavailable(e);
+}
+lie_status lie_sequence_prefill_observed(lie_sequence *s UNUSED,const int32_t *tokens UNUSED,size_t n UNUSED,
+    const lie_activation_observer *observer UNUSED,lie_error *e) { return unavailable(e); }
 const char *lie_backend_name(void) { return "unavailable"; }
 const char *lie_backend_ownership(void) { return "none"; }
 const char *lie_backend_dense_sampling(void) { return "none"; }

@@ -10,6 +10,7 @@
 #include "lie/prefill.h"
 #include "lie/mtp.h"
 #include "lie/sampling_observer.h"
+#include "lie/activation_observer.h"
 #include "lie/vision.h"
 #include "lie/state.h"
 #include "lie/store.h"
@@ -36,6 +37,7 @@
 #ifdef LIE_GUFO_STATE_ACCESS
 #include "gufo-state/access.hpp"
 #include "gufo_sampling_observer.hpp"
+#include "gufo_activation_observer.hpp"
 #endif
 
 extern "C" void lie_gufo_quiesce_or_exit(void) noexcept;
@@ -95,7 +97,8 @@ lie_status error(lie_error *e, lie_status s, const char *message) noexcept {
 }
 lie_status owner(const std::shared_ptr<Runtime> &r, lie_error *e, bool closing = false) noexcept {
 #ifdef LIE_GUFO_STATE_ACCESS
-    if(lie_gufo::sampling_observer_callback)return error(e,LIE_INVALID,"executor reentry from sampling observer");
+    if(lie_gufo::sampling_observer_callback||lie_gufo::activation_observer_callback)
+        return error(e,LIE_INVALID,"executor reentry from diagnostic observer");
 #endif
     if (r->owner != std::this_thread::get_id()) return error(e, LIE_WRONG_OWNER, "device worker ownership violation");
     if (r->failed && !closing) return error(e, LIE_BACKEND_FAILED, "model is poisoned; no retry permitted");
@@ -744,6 +747,52 @@ extern "C" lie_status lie_sequence_prefill(lie_sequence *s, const int32_t *prefi
         return s->cancelled.load() ? error(e, LIE_CANCELLED, "cancelled after completed step") : LIE_OK;
     });
 }
+extern "C" lie_status lie_model_activation_geometry(lie_model *m,lie_activation_geometry *out,lie_error *e) {
+#ifdef LIE_GUFO_STATE_ACCESS
+    if(!m||!out||out->abi_version!=LIE_ACTIVATION_OBSERVER_ABI||out->struct_bytes!=sizeof(*out))
+        return error(e,LIE_INVALID,"invalid activation geometry destination");
+    auto status=owner(m->runtime,e);if(status!=LIE_OK)return status;
+    const auto& c=m->runtime->model->config();
+    *out={LIE_ACTIVATION_OBSERVER_ABI,sizeof(*out),c.num_layers,c.hidden_size,c.hc_count,
+          LIE_ACTIVATION_ATTENTION|LIE_ACTIVATION_FFN};
+    if(e)e->message[0]=0;
+    return LIE_OK;
+#else
+    (void)m;(void)out;
+    return error(e,LIE_UNSUPPORTED,"activation observation requires the verified provider");
+#endif
+}
+extern "C" lie_status lie_sequence_prefill_observed(lie_sequence *s,const int32_t *prefix,size_t n,
+    const lie_activation_observer *observer,lie_error *e) {
+#ifdef LIE_GUFO_STATE_ACCESS
+    if(!s||!prefix||!n||!observer||observer->abi_version!=LIE_ACTIVATION_OBSERVER_ABI||
+       observer->struct_bytes!=sizeof(*observer)||!observer->observe||!observer->components||
+       (observer->components&~(LIE_ACTIVATION_ATTENTION|LIE_ACTIVATION_FFN)))
+        return error(e,LIE_INVALID,"invalid activation observer");
+    if(lie_gufo::activation_observer||lie_gufo::activation_observer_callback||
+       lie_gufo::sampling_observer||lie_gufo::sampling_observer_callback)
+        return error(e,LIE_INVALID,"nested diagnostic observation");
+    auto status=owner(s->runtime,e);if(status!=LIE_OK)return status;
+    if(n<=s->session->Tokens().size()||n>s->session->ContextSize())
+        return error(e,LIE_INVALID,"activation capture requires new prompt tokens");
+    const auto& c=s->runtime->model->config();
+    const lie_activation_geometry geometry={LIE_ACTIVATION_OBSERVER_ABI,sizeof(geometry),
+        c.num_layers,c.hidden_size,c.hc_count,LIE_ACTIVATION_ATTENTION|LIE_ACTIVATION_FFN};
+    const uint64_t values=static_cast<uint64_t>(c.hidden_size)*
+        ((observer->components&LIE_ACTIVATION_FFN)?c.hc_count:1u);
+    if(values>SIZE_MAX/sizeof(float)||values>observer->max_row_bytes/sizeof(float))
+        return error(e,LIE_RESOURCE_LIMIT,"activation observation exceeds host row budget");
+    try {
+        lie_gufo::ActivationObservationScope scope(*observer,geometry,n-1);
+        return lie_sequence_prefill(s,prefix,n,e);
+    } catch(const std::exception&) {
+        return error(e,LIE_RESOURCE_LIMIT,"cannot reserve activation observation row");
+    }
+#else
+    (void)s;(void)prefix;(void)n;(void)observer;
+    return error(e,LIE_UNSUPPORTED,"activation observation requires the verified provider");
+#endif
+}
 extern "C" lie_status lie_model_attention_dispatch_snapshot(lie_model *m,
     lie_attention_dispatch_info *out,lie_error *e) {
     if(!m||!out||out->abi_version!=LIE_ATTENTION_DISPATCH_ABI||out->struct_bytes!=sizeof(*out))
@@ -880,8 +929,9 @@ extern "C" lie_status lie_sequence_decode_mtp_observed(lie_sequence *s,uint32_t 
     if(!s||!out||!observer||observer->abi_version!=LIE_SAMPLING_OBSERVER_ABI||
        observer->struct_bytes!=sizeof(*observer)||!observer->observe)
         return error(e,LIE_INVALID,"invalid sampling observer");
-    if(lie_gufo::sampling_observer||lie_gufo::sampling_observer_callback)
-        return error(e,LIE_INVALID,"nested sampling observation");
+    if(lie_gufo::sampling_observer||lie_gufo::sampling_observer_callback||
+       lie_gufo::activation_observer||lie_gufo::activation_observer_callback)
+        return error(e,LIE_INVALID,"nested diagnostic observation");
     auto status=owner(s->runtime,e);if(status!=LIE_OK)return status;
     lie_gufo::SamplingObservationScope scope(observer);
     lie_sequence *rows[]={s};return lie_sequences_decode_mtp(rows,&limit,1,out,e);

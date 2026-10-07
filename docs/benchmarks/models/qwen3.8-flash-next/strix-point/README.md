@@ -258,7 +258,7 @@ synapse-lie-bench --suite core --model /path/to/model-00001-of-00004.gguf \
   --warmups 0 --repetitions 1 --timeout-ms 86400000 --progress-ms 10000
 ```
 
-## Original-weight recall: 8K and 128K
+## Original-weight recall: 8K, 128K and near 256K
 
 The current `90a88455`/r68 runtime passes both cold Chat SSE turns at each size
 on `.161` with the native `long-context-recall` preset, seed 77, native RoPE, capacity
@@ -273,17 +273,23 @@ reply. Three calibration requests per window are unscored. C1 denotes one sequen
 | 8K / start/end | 8,298 | 74 | 268.181 (30.942) | 10.395 (7.119) | 31.468 | 38.509 | Pass |
 | 128K / middle | 131,070 | 38 | 238.781 (548.912) | 10.018 (3.793) | 549.447 | 553.156 | Pass |
 | 128K / start/end | 131,178 | 74 | 238.027 (551.106) | 10.033 (7.376) | 551.639 | 558.933 | Pass |
+| Near 256K / middle | 261,630 | 38 | 227.420 (1150.426) | 9.655 (3.936) | 1150.974 | 1154.824 | Pass |
+| Near 256K / start/end | 261,738 | 74 | 226.864 (1153.723) | 9.661 (7.659) | 1154.265 | 1161.839 | Pass |
 
-First physical inputs round down from targets 8,192/131,072 to complete records.
+First physical inputs round down from targets 8,192/131,072/261,632 to complete records.
 Outputs finish naturally below the 128-token budget. These distinct quality
 turns are not a fixed-output performance comparison or repeated measurements
-of one prompt. Both windows verify 18 artifacts, complete saved SSE, original
+of one prompt. All three windows verify 18 artifacts each, complete saved SSE, original
 model stats and process/container/router/lease retirement. The
 [8K receipt and raw data](../../../../development/validation/recall-native-8k-ar-point-2026-10-07.json)
 retain the corrected local sealing assertion failure, without a GPU repeat;
 the [128K receipt and raw data](../../../../development/validation/recall-native-128k-ar-point-2026-10-07.json)
 retain 49 portable members. Its 1000 thermal samples peak CPU 78.75 / GPU 80 /
-NVMe 64.85 C.
+NVMe 64.85 C. The
+[near-256K receipt and raw data](../../../../development/validation/recall-native-near256k-ar-point-2026-10-07.json)
+retain 47 portable members. Its 1937 samples peak CPU 80 / GPU 81 / NVMe 67.85 C.
+The interim reader ran after the supervisor had exited and refused with exit 1;
+complete collected wire and strong closure verify independently, without a GPU repeat.
 
 The 128K prefill snapshot records 28 process threads and one active sequence.
 Management GETs return HTTP 200 during prefill; this single observation does
@@ -291,7 +297,7 @@ not establish latency distributions, thread-role attribution or reactive speedup
 Thread counts were not recorded in the 8K window. The
 [recall protocol](../../../../development/protocols/LONG-CONTEXT-RECALL-GPU-PROTOCOL.md)
 defines the remaining three-seed native/YaRN ladder through 1M. Other seeds,
-near 256K–1M, YaRN/MTP quality and matched comparisons remain pending.
+512K–1M, YaRN/MTP quality and matched comparisons remain pending.
 
 ## Modern C17 core MTP vs AR on the GPU
 

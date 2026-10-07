@@ -7,10 +7,16 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Shared C17 steering preparation now collects complete last-prompt-token
+  activations and learns normalized directions from paired target/contrast
+  prompts with explicit memory bounds. Provider capture hooks are added;
+  HOST/sanitizer checks pass. The native builder and GPU quality checks remain
+  pending. Runtime `.f32` and DS4 cache formats are unchanged.
+
 - Optional Strix Point recall coordination now runs the native benchmark on
   separate context/RoPE/seed cohorts through 1M, with complete continuation,
   exact-answer checking, memory admission and failed-artifact retention.
-  Original-weight native 8K and 128K AR controls, seed 77, pass both cold turns
+  Original-weight native 8K, 128K and near-256K AR checks, seed 77, pass both cold turns
   at each size; the rest of the ladder remains pending. Native products remain
   Python-free.
 

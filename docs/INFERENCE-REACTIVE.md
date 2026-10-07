@@ -246,6 +246,16 @@ distribution or evidence of faster arithmetic, more model owners, batching or
 reactive speedup. The older 8K control did not save thread counts; this snapshot
 does not retrospectively supply them or attribute each runtime thread.
 
+The near-256K recall window records the same 28-thread process total and one
+active sequence, with 77/76 started/returned prefill calls at its snapshot.
+Management HTTP 200 GETs complete in 1.517/0.224 ms. The
+[receipt](development/validation/recall-native-near256k-ar-point-2026-10-07.json)
+retains per-TID CPU ticks and exact process identity, without inferring thread
+roles, utilization distributions or reactive speedup from those two requests.
+The new optional activation diagnostic preserves the same device owner and
+scheduler; it adds row copies and stream waits when explicitly used. Such
+capture timings cannot substitute for ordinary inference performance.
+
 The shared-core extraction preserves this reactive inference policy for
 direct clients and HTTP alike. `--suite core` adds one device-owner thread plus
 the benchmark consumer thread, the same two application roles as HTTP without

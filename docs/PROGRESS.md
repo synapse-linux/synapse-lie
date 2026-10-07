@@ -1,6 +1,49 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Steering capture and direction learning prepared in C17 — 2026-10-07 UTC
+
+Model-neutral bounded C17 collectors now validate unique component/layer rows at
+one physical prompt token, average FFN branches and require complete successful
+prefill before publication. The learner accumulates paired target-minus-contrast
+with compensated FP64 sums and normalizes each layer to immutable binary32.
+The opt-in provider recipe captures trunk attention/FFN rows at the last prompt
+token, including one-token tails, without predictor or decode contamination.
+It preserves the existing owner and reactive scheduler; diagnostic device copies
+and waits are excluded from performance comparisons.
+
+Nine CTest checks plus the borrowed-row fixture pass in both normal and
+unsuppressed ASan/UBSan/LSan builds. Exact pinned recipe composition and ON/OFF
+adapter syntax checks pass. Four initial syntax commands fail because their
+include path and then feature macros are incomplete; corrected commands pass
+without changing source or weakening checks. The
+[HOST receipt](development/validation/steering-capture-host-2026-10-07.json)
+binds source, commands and failures. Existing ABI layouts/cache framing are
+unchanged. Native builder, coherent HIP build, original-weight captures and
+learned quality/cost remain pending; all six tasks stay open and Terminal Bench
+remains last. No new GPU window or remote build is admitted.
+
+## Original-weight native near-256K recall passes — 2026-10-07 UTC
+
+The frozen `90a88455`/r68 runtime passes both cold native Chat SSE turns on
+`.161`, seed 77, capacity 262144/chunk 256/C1/cache off. Physical inputs are
+261630/261738 tokens, outputs 38/74 with natural stops. Saved SSE independently
+retrieves the middle binding, then both original start/end bindings with the
+full ledger and actual first answer retained. PP is 227.420/226.864 tok/s,
+TG 9.655/9.661; the [same platform table](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#original-weight-recall-8k-128k-and-near-256k)
+lists all phase durations, TTFT and wall time beside 8K/128K.
+
+All actual job/client/server/collector/closure/review exits 0 and 18 collected
+artifact hashes verify; four model stats stay unchanged. 1937 thermal samples
+peak CPU 80/GPU 81/NVMe 67.85 C. Release 21:35:07 UTC and strong closure 21:39:49
+verify all four actual PID/start identities, entire container, two complete
+process scans, restored router 75008 and original lease free. All four peers
+receive verified release. The [receipt](development/validation/recall-native-near256k-ar-point-2026-10-07.json)
+binds 47 portable members, including an interim-reader exit 1 after supervisor
+retirement, with no repeated GPU work. It does not qualify new steering code,
+other seeds, YaRN/MTP or 512K–1M quality. Root remote state is empty; all six
+tasks stay open and Terminal Bench remains last.
+
 ## Original-weight native 128K recall passes — 2026-10-07 UTC
 
 The same `90a88455`/r68 runtime passes both cold native Chat SSE turns on `.161`,
@@ -8,7 +51,7 @@ seed 77, capacity 262144, chunk 256 and C1 with caching off. Actual inputs are
 131070/131178 tokens, outputs 38/74 with natural stops. Independently assembled saved SSE
 retrieves the middle binding, then both original start/end bindings with the
 full ledger and actual first answer retained. PP is 238.781/238.027 tok/s,
-TG is 10.018/10.033 tok/s; the [platform table](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#original-weight-recall-8k-and-128k)
+TG is 10.018/10.033 tok/s; the [platform table](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#original-weight-recall-8k-128k-and-near-256k)
 also lists full phase durations, TTFT and wall time alongside the 8K control.
 
 Controller, supervisor, helper, client, server, collector, closure and review

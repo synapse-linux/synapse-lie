@@ -18,6 +18,43 @@ Broader GPU qualification remains open.
 Loading a bank or advancing policy metadata is not model inference and does
 not qualify steering quality or performance.
 
+## Preparing a learned direction
+
+The shared C17 [capture](../../include/lie/steering_capture.h) and
+[direction learner](../../include/lie/steering_direction.h) accept model-derived
+geometry. The additive [observer](../../include/lie/activation_observer.h) captures
+the last physical prompt token from the existing prefill path, including a
+one-token tail. It selects ordinary trunk attention output or completed FFN
+residuals; FFN branches are averaged before learning. The predictor is excluded.
+This follows the model-dependent capture and flat-bank method described in
+[DS4's steering documentation](https://github.com/antirez/ds4/blob/main/dir-steering/README.md).
+The implementation is independent C17 code; it does not import DS4 source.
+
+For each paired target/contrast prompt, collect every selected layer and confirm
+successful completion of the full prefill. Refused, cancelled, duplicate,
+wrong-token, nonfinite or incomplete captures cannot publish learning input.
+Accumulate target-minus-contrast with compensated FP64 sums and normalize each
+layer to unit L2; final vectors are binary32. A zero layer refuses publication
+without inventing a direction. The mathematical contrast/normalization method
+and runtime file format match; bitwise equality with another extractor is not
+claimed. Encode the result as headerless little-endian `.f32` for the existing
+bank loader below. Both helpers have explicit byte/pair bounds and allocate no
+threads; no HTTP layer or model family is embedded in them.
+
+The opt-in provider recipe now contains last-prompt-token HIP row copies only
+when a diagnostic observer is supplied. It copies configuration for one call,
+limits the row allocation before submission and removes the observer on all
+returns. Rows can precede full-call completion, so clients must preserve partial
+failure evidence and separately confirm success before learning. Diagnostic
+copies, stream waits and callbacks are excluded from throughput comparisons.
+The existing inference scheduler and model kernels are retained.
+
+Nine focused CTest checks plus the private borrowed-row fixture pass in each
+normal/sanitizer build. Exact pinned recipe composition and both sampler-mode
+adapter syntax checks pass. These are HOST checks, not original activation or
+quality evidence. The native paired-prompt builder, coherent HIP compilation,
+original-weight captures, learned-bank quality and matched cost remain pending.
+
 ## Shared bank contract
 
 [`lie/steering.h`](../../include/lie/steering.h) defines independent ABI 1.
