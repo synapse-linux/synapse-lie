@@ -82,6 +82,16 @@ Focused native Release and unsuppressed sanitizer checks pass with the feature
 ON and OFF. Local device-hidden HIP consumers link against their exact existing
 ON/OFF providers; neither executable is run. Matching `.161` ROCm10 compilation
 and GPU acceptance remain pending; no remote job, lease or reservation is held.
+The final device-free `.161` build of `c2a9697f` compiles both providers and
+configures with exit0, then fails the native HIP client link with exit1 because
+the Fedora HIP driver defaults to PIE and the static provider contains non-PIC
+objects. Strict closure verifies both owned identities retired, original lease
+released and router restored. `60370fc3` selects the compatible private link mode
+and pins the package GPU target before discovery. Corrected local HIP7.2 ON/OFF
+configure/link checks pass without executing either binary; matching ROCm10 link
+and GPU gates remain open. The [closed failure and correction receipt](development/validation/point-attention-link-2026-10-07.json)
+preserves stage exits, collection/packaging failures, complete source bindings,
+telemetry and raw logs. No inference or benchmark was run.
 The [portable HOST and compilation receipt](development/validation/attention-fixture-host-2026-10-07.json)
 retains the exact source checkpoint, actual stage exits, raw outputs and archive
 hashes. It is component tooling evidence, not original-weight qualification.

@@ -1,0 +1,695 @@
+{
+  "schema": "synapse-lie.point-attention-link.v1",
+  "at_utc": "2026-10-07T04:04:02.146188+00:00",
+  "state": "FAILED_POINT_LINK_CLOSED_LOCAL_CORRECTION_COMPILED",
+  "source_commit": "60370fc3569e146eea0c11ac36d17550ae41a4f8",
+  "failed_point_source_commit": "c2a9697fbd23a25d3865dd48c472c1eb916b94f1",
+  "scope": "Failed ROCm10 final link plus corrected local HIP7.2 ON/OFF links. No GPU/model/numerical/performance acceptance.",
+  "point_actual_exit_codes": {
+    "provider": 0,
+    "reference-provider": 0,
+    "configure": 0,
+    "link": 1,
+    "supervisor": 1,
+    "container": 1,
+    "controller": 1
+  },
+  "failure": "HIP Clang on Fedora defaults to PIE, while verified static provider and frontend objects are non-PIC.",
+  "correction": "HIP Clang native qualification link explicitly selects -no-pie; HIP package GPU_TARGETS is pinned to the verified architecture before package loading.",
+  "current_point_build_verified_files": 25,
+  "reconstructed_recipe_count": 41,
+  "provider_variant_files": 1019,
+  "failed_collection_actual_exit_code": 1,
+  "collection_correction": "All25 transfer hashes verify; separate verifier binds current dispatch hashes rather than stale HOST hashes. Original failed collection record is retained.",
+  "original_lease": {
+    "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+    "device": 66307,
+    "inode": 105946405,
+    "cooperative_lie_only": true
+  },
+  "lease_released_at": "2026-10-07T03:54:24.559628+00:00",
+  "closure": {
+    "at_utc": "2026-10-07T03:57:26.099900+00:00",
+    "state": "FRESH_FAILED_BUILD_CLOSURE_NO_STANDING_RESERVATION",
+    "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+    "runner_sha256": "6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322",
+    "service": {
+      "MainPID": "242081",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "router_start_ticks": 21422100,
+    "original_lease": {
+      "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+      "device": 66307,
+      "inode": 105946405,
+      "free_briefly": true,
+      "released": true
+    },
+    "observation": {
+      "at": "2026-10-07T03:57:25.976656+00:00",
+      "kfd": [
+        {
+          "pid": 242081,
+          "start_ticks": 21422100,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "dri": [
+        {
+          "pid": 242081,
+          "start_ticks": 21422100,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "denied_fd": 373,
+      "temperatures": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "value_c": 29.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp2_input",
+          "value_c": 33.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp3_input",
+          "value_c": 29.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp1_input",
+          "value_c": 30.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp2_input",
+          "value_c": 32.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp3_input",
+          "value_c": 30.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon5/temp1_input",
+          "value_c": 36.0,
+          "limit_c": 98,
+          "guarded": false
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "value_c": 37.25,
+          "limit_c": 98,
+          "guarded": true
+        }
+      ],
+      "memory": {
+        "MemTotal": 132542648320,
+        "MemAvailable": 121360879616,
+        "SwapTotal": 21474828288,
+        "SwapFree": 20448878592
+      },
+      "kernel_kfd": [
+        242081
+      ],
+      "gpu": {
+        "gpu_busy_percent": 0,
+        "mem_info_gtt_total": 120259084288,
+        "mem_info_gtt_used": 18636800,
+        "mem_info_vram_total": 2147483648,
+        "mem_info_vram_used": 151187456
+      }
+    },
+    "foreign_compute_clients": [],
+    "guarded_hot": [],
+    "http8000_listeners": [],
+    "pinned_image": {
+      "exit_code": 0,
+      "id": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+      "stderr": ""
+    },
+    "free_disk_bytes": 566186582016,
+    "r42_bundle_present": false,
+    "GPU_build_run_or_service_mutation": false,
+    "standing_lease_waiter_reservation": false,
+    "owned_supervisor_identity_absent": true,
+    "owned_container_init_identity_recorded": true,
+    "owned_container_init_identity_absent": true,
+    "owned_container_absent": {
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: 84d91dac3717df8bd7fd9026d49ee39b5d25d0f91602f584de6138d12034b8b0\n"
+    },
+    "owned_container_listing": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  "remote_temperature_peaks_c": {
+    "nvme": 44.85,
+    "amdgpu": 45.0,
+    "k10temp": 72.625
+  },
+  "local_checks": [
+    {
+      "label": "attention-link-r2-on-configure",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/attention-link-r2-on",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_TESTING=OFF",
+        "-DLIE_GUFO_RUNTIME=ON",
+        "-DLIE_GUFO_STATE_ACCESS=ON",
+        "-DLIE_C17_SAMPLING=ON",
+        "-DLIE_LONG_CONTEXT_WMMA=ON",
+        "-DLIE_GUFO_REFERENCE_BENCH=OFF",
+        "-DLIE_HIP_ARCHITECTURE=gfx1150",
+        "-DCMAKE_HIP_COMPILER=/opt/rocm/lib/llvm/bin/clang++",
+        "-DLIE_BUILD_ID=attention-link-r2-on",
+        "-DGUFO_SOURCE=.deps/gufo-state-access-prefill-long-wmma-r1-on",
+        "-DGUFO_BUILD=build/prefill-long-wmma-r1-on"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 80.375
+      },
+      "elapsed_s": 5.101534905843437
+    },
+    {
+      "label": "attention-link-r2-on-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/attention-link-r2-on",
+        "--parallel",
+        "1",
+        "--target",
+        "lie-attention-qualify"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 37.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 37.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 73.0
+      },
+      "elapsed_s": 6.136906881816685
+    },
+    {
+      "label": "attention-link-r2-off-configure",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/attention-link-r2-off",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_TESTING=OFF",
+        "-DLIE_GUFO_RUNTIME=ON",
+        "-DLIE_GUFO_STATE_ACCESS=ON",
+        "-DLIE_C17_SAMPLING=ON",
+        "-DLIE_LONG_CONTEXT_WMMA=OFF",
+        "-DLIE_GUFO_REFERENCE_BENCH=OFF",
+        "-DLIE_HIP_ARCHITECTURE=gfx1150",
+        "-DCMAKE_HIP_COMPILER=/opt/rocm/lib/llvm/bin/clang++",
+        "-DLIE_BUILD_ID=attention-link-r2-off",
+        "-DGUFO_SOURCE=.deps/gufo-state-access-prefill-long-wmma-r1-disabled",
+        "-DGUFO_BUILD=build/prefill-long-wmma-r1-disabled"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 48.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 77.5
+      },
+      "elapsed_s": 5.133246321231127
+    },
+    {
+      "label": "attention-link-r2-off-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/attention-link-r2-off",
+        "--parallel",
+        "1",
+        "--target",
+        "lie-attention-qualify"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 48.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 71.625
+      },
+      "elapsed_s": 6.101598447188735
+    }
+  ],
+  "local_artifacts": {
+    "on": {
+      "bytes": 3737120,
+      "sha256": "7c8f6151712fd1afa0068f64da441b2e71f89b0d784d29dbdc5d798d3f0f5150",
+      "executed": false,
+      "link_mode": "non-PIE"
+    },
+    "off": {
+      "bytes": 3477136,
+      "sha256": "e1899e94d04cc0cf91823d5104fcfc45e061fdcccf4ba25da755b69a24e5fb38",
+      "executed": false,
+      "link_mode": "non-PIE"
+    }
+  },
+  "CPU_guard": "98C/NVMe85C/lower limits; GPU observe only",
+  "GPU_execution": false,
+  "model_attempted": false,
+  "remote_current_source_link_qualification": false,
+  "public_ABI_HTTP_reactive_numerical_changed": false,
+  "root_remote_job_lease_window_reservation_handle_after_closure": false,
+  "open_root_acceptance_items": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "next_gate": "Fresh current-source ROCm10 build/admission; GPU component and original-weight qualification afterward. Matched benchmarks then Terminal Bench last.",
+  "archive": {
+    "file": "raw/point-attention-link-2026-10-07.tar.gz",
+    "bytes": 2294338,
+    "sha256": "cc1a1e7a41ae6b034b99fb7a1c075c65170d1442c4b5c332c8e7c3439151d1e5",
+    "verified_members": 92,
+    "members": {
+      "evidence/context-r42-build-r1/collection.json": {
+        "bytes": 1905,
+        "sha256": "86775c5ffa0678fb3d8947c9fafac12900863d60bb74d3c9809dc608adf25714"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/build/rocm10-point-modern-r42-provider/BUILD-RECEIPT.json": {
+        "bytes": 140544,
+        "sha256": "d8c010360f25d259d15e36812709805bdd19d9c02d16da1ddd997c85121f16ce"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/build/rocm10-point-modern-r42-reference-provider/BUILD-RECEIPT.json": {
+        "bytes": 140596,
+        "sha256": "04ba5d000084a0a75545c61cbf42977602e733e034cf415c659bf3542708d691"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/collection.json": {
+        "bytes": 17141,
+        "sha256": "1b120a2136e618da5035fa88cd9f7ccb80fb7e6376235657f0d147dcd6573646"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-compile/configure.command": {
+        "bytes": 767,
+        "sha256": "d14bce5d606ff094e6d8ba5d320b8432f4eb69ac2b3bf24ba86a63f851ca1e5f"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-compile/configure.exit": {
+        "bytes": 2,
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-compile/configure.stderr": {
+        "bytes": 1608,
+        "sha256": "3cab21cf0659f9fc9a5dba1e98e43b04efd79adb684eb62cb46db5245e86b460"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-compile/configure.stdout": {
+        "bytes": 4128,
+        "sha256": "68c5ce28deacee6acc6399fe16b32aa78da1ad193ae5490175d14e39abb059e0"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-compile/link.command": {
+        "bytes": 218,
+        "sha256": "773a88a93ee6eaffbf962539b1caf004edb49de6e9cd8d48e2d318ae722256c3"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-compile/link.exit": {
+        "bytes": 2,
+        "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-compile/link.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-compile/link.stdout": {
+        "bytes": 20451,
+        "sha256": "af94a89ccf05a5c68191e37e4de1a9749fbad6673820a1cbc7887947cc86d143"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-compile/provider.command": {
+        "bytes": 288,
+        "sha256": "c3b12d9aed2eb783c1003b4ad6ce81725d92d7b84c79882d59023c2a037f030b"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-compile/provider.exit": {
+        "bytes": 2,
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-compile/provider.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-compile/provider.stdout": {
+        "bytes": 65,
+        "sha256": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-compile/reference-provider.command": {
+        "bytes": 299,
+        "sha256": "cdb1d9a5c5f881d1a3cea2dacdf3e0854bcc83a8d0a1ed76e0f1ea9062fa209f"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-compile/reference-provider.exit": {
+        "bytes": 2,
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-compile/reference-provider.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-compile/reference-provider.stdout": {
+        "bytes": 65,
+        "sha256": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-compile/result.json": {
+        "bytes": 172,
+        "sha256": "762a5ce4c96117ffa37c71eb559082704b117402bce07f9866c6e0a008d05be1"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-provider/build.log": {
+        "bytes": 9545,
+        "sha256": "cd4552a38af5c1747ff259f9f650d946def273d8fccc9cd45f08b44863a728db"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-provider/configure.log": {
+        "bytes": 3359,
+        "sha256": "d22d9be4f6fd5e7fdc185912f308ac8b25614f374868485d093e73601d8c2828"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-provider/result.json": {
+        "bytes": 140544,
+        "sha256": "d8c010360f25d259d15e36812709805bdd19d9c02d16da1ddd997c85121f16ce"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-reference-provider/build.log": {
+        "bytes": 9775,
+        "sha256": "c7ee250e651ff71dbe370a58251218233230842713c80e25e0da57fe0bc3818c"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-reference-provider/configure.log": {
+        "bytes": 3369,
+        "sha256": "1e29750ffc84eb611af3c0941a95e86356ddc6580ca578f356abd8b08fce367a"
+      },
+      "evidence/context-r42-build-r1/compile-evidence/evidence/rocm10-point-modern-r42-reference-provider/result.json": {
+        "bytes": 140596,
+        "sha256": "04ba5d000084a0a75545c61cbf42977602e733e034cf415c659bf3542708d691"
+      },
+      "evidence/context-r42-build-r1/controller-result.json": {
+        "bytes": 541,
+        "sha256": "eb2681217a95e504f1fe7831ad6bcc235c4157d9600721721c3c2dca7a898950"
+      },
+      "evidence/context-r42-build-r1/controller-stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "evidence/context-r42-build-r1/controller-stdout.log": {
+        "bytes": 127000,
+        "sha256": "78e8afbf55467bd5f51e7d361adae946a9c8a1bd5bd83c4bd3dfe2879bf795ac"
+      },
+      "evidence/context-r42-build-r1/manifest.json": {
+        "bytes": 1833,
+        "sha256": "b8aa816274339d150098b7694328445d793a7fff4a222f6e01c349b80635fd80"
+      },
+      "evidence/context-r42-build-r1/plan.json": {
+        "bytes": 523,
+        "sha256": "09a662bbf3a0be7576e1f7d91e3514aa9577cab5bd2067634980404cb932e973"
+      },
+      "evidence/context-r42-build-r1/result.json": {
+        "bytes": 152566,
+        "sha256": "d68b63aa1eb1f223c6b0b43991ca0aade7da2fee777e674a874109dd06e772c1"
+      },
+      "evidence/context-r42-build-r1/runner.py": {
+        "bytes": 134260,
+        "sha256": "3fc07d171d64d9c0d2b73efc372a05170686d3f3fe0d5b1c094e8bdd5fe2deb1"
+      },
+      "evidence/context-r42-build-r1/telemetry.jsonl": {
+        "bytes": 366157,
+        "sha256": "f777220b316844a259cd1b689e52d40f304e9ee819b6a7d0f3640f69aac9d056"
+      },
+      "evidence/context-r42-build-closure-r1.py": {
+        "bytes": 6247,
+        "sha256": "0ff79fa626db2cf69cd76fc5e18529c033399adc90a21b19adb951318906d2c8"
+      },
+      "evidence/context-r42-build-live-r1.json": {
+        "bytes": 11600,
+        "sha256": "31e0de8d2a2093de5db9b21c172344903f55063ca24f0bc06325246d868bb58f"
+      },
+      "evidence/context-r42-build-live-r1.py": {
+        "bytes": 3781,
+        "sha256": "d6df2633c76aa25ea5621ac4590b6524d0e0310c2ced1c809b479b3535997795"
+      },
+      "evidence/context-r42-build-live-r2.json": {
+        "bytes": 16568,
+        "sha256": "b8135df78a8381399da4435640603c2b57daf13d196f2579d10b3b1a5bd58aab"
+      },
+      "evidence/context-r42-build-live-r2.py": {
+        "bytes": 3781,
+        "sha256": "eda05b03816d29dc646ed7e9c6975e9bce2e570dca7c92352f05c4c2a1779305"
+      },
+      "evidence/context-r42-build-live-r3.json": {
+        "bytes": 16547,
+        "sha256": "fe0dce0074777792a57b4ec31ca7fc5fe3cee806dbe9da04448a89b599101594"
+      },
+      "evidence/context-r42-build-live-r3.py": {
+        "bytes": 3781,
+        "sha256": "477dcf0564ffe5b55b1a2a248394991a50e4d211cc593377d93cdc865481f79b"
+      },
+      "evidence/context-r42-build-live-r4.json": {
+        "bytes": 32820,
+        "sha256": "ce8fa493d90bc0e9267e0de0f3c81d2df304cfce48d4d7d535215c8f8d76a576"
+      },
+      "evidence/context-r42-build-live-r4.py": {
+        "bytes": 4077,
+        "sha256": "242b334c45e71fa084880600dbe0292f84391453069cc6786b979376978a3fe1"
+      },
+      "evidence/context-r42-build-manifest.json": {
+        "bytes": 1833,
+        "sha256": "b8aa816274339d150098b7694328445d793a7fff4a222f6e01c349b80635fd80"
+      },
+      "evidence/context-r42-failed-build-closure-r1.json": {
+        "bytes": 7690,
+        "sha256": "39fbe23c96f8435d5820d38754cab85a4faeafc6a931356a8ceb100599882c73"
+      },
+      "evidence/context-r42-failed-build-closure-r1.py": {
+        "bytes": 6259,
+        "sha256": "03fef6e4e0ceddd8527442c1f0cf2258ed0a2ca158dff717a53429b538af8796"
+      },
+      "evidence/context-r42-failed-compile-verification-r1.json": {
+        "bytes": 5098,
+        "sha256": "4b0de4eb2853214a20e660b5574eda15ef0765daa72ecced738a1e44ad6913a6"
+      },
+      "evidence/context-r42-fresh-161-r1.json": {
+        "bytes": 6808,
+        "sha256": "c4e836fdda3177ca4b000e7d8a63e70a0c24a7a1e099f28d930f4dffbd868c0f"
+      },
+      "evidence/context-r42-fresh-161-r1.py": {
+        "bytes": 4595,
+        "sha256": "e870766ab061a3c642db6123691460e72961e0538f56d8d73919d6402d51f443"
+      },
+      "evidence/context-r42-fresh-161-r2.json": {
+        "bytes": 6888,
+        "sha256": "e742c0cb8303bf9b27e9a665ac9b55469cdb527d7ef2f4a0b2967fa500cd1f03"
+      },
+      "evidence/context-r42-fresh-161-r2.py": {
+        "bytes": 4667,
+        "sha256": "447a6a1617c3124fe27f6cbec9583192063e8ac146441d17fb864c6d3dc5795c"
+      },
+      "evidence/context-r42-notes.json": {
+        "bytes": 1699,
+        "sha256": "abf84f5e7d6550b3daafdfe4b0882469acbb589ba99380ce22dabed6e6cac022"
+      },
+      "evidence/context-r42-peer-coordination.json": {
+        "bytes": 1554,
+        "sha256": "f3f383bb38f47799d906dee3b92ac5764ef72dbf0b81211087211f485b632085"
+      },
+      "evidence/context-r42-source-seal.json": {
+        "bytes": 94251,
+        "sha256": "5071f807d5d1411795f6f391bdf519b45bbb67f8116f1129251e4736cee1a379"
+      },
+      "evidence/context-r42-source-stage.json": {
+        "bytes": 98531,
+        "sha256": "033c350f6a8fa926271adebbefbbe00f537b953718c92a0820d4870c830b1641"
+      },
+      "evidence/point-attention-link-r42-package/command.log": {
+        "bytes": 1067,
+        "sha256": "960654071de3b976d1b02b069e19e9cc67bddeabadc11809928d3bdc00d8c99d"
+      },
+      "evidence/point-attention-link-r42-package/plan.json": {
+        "bytes": 908,
+        "sha256": "a82532bb3a21763306af1e7b043bbbbfd4d2b7658499c52fcbc184e3677ecd3b"
+      },
+      "evidence/point-attention-link-r42-package/result.json": {
+        "bytes": 406,
+        "sha256": "759dc710a8eb225f434628478b2790702a2c76b8149323b560d983faa9b03601"
+      },
+      "evidence/point-attention-link-r42-package/temperatures.jsonl": {
+        "bytes": 1831,
+        "sha256": "52fb0b2138d2193c889ab0e1c815f7c61c8b152211dcaddd7861233824c7c407"
+      },
+      "evidence/prepare-context-r42-source.py": {
+        "bytes": 6336,
+        "sha256": "0f4843bcd39d72f529d21aff13ce5bb7fc306b777f90e2260ba5ee6222682c6f"
+      },
+      "evidence/stage-context-r42-source.py": {
+        "bytes": 4229,
+        "sha256": "4d689a8a330dc5cf70023787ed1f3c40c9cccf11a977205a0d7e256421e66977"
+      },
+      "evidence/collect-context-r42-failed-compile.py": {
+        "bytes": 5921,
+        "sha256": "9586b1503dcad2882bf9d71bab5d0f07a5962cce7ef98f5c345dc2f9ede2485f"
+      },
+      "evidence/verify-context-r42-failed-compile-r1.py": {
+        "bytes": 4156,
+        "sha256": "3f616b9cc1bc587b63b71cb3c6d59f9d4d859f388188fef6edfccf84782d7de5"
+      },
+      "evidence/seal-point-attention-link-r42.py": {
+        "bytes": 7128,
+        "sha256": "e57e3ba3a427e829c3b18be8868e8a866b37ff2119f7b25e828ee2c3d2b4177d"
+      },
+      "source/CMakeLists.failed-c2a9697f.txt": {
+        "bytes": 59209,
+        "sha256": "57bbf35d22f367f7a7801a31235d65906cb8973ed8fc4251367e9487e53a0a7e"
+      },
+      "source/CMakeLists.corrected.txt": {
+        "bytes": 59918,
+        "sha256": "76cced156de79b5917f0cde90fb24d3996df5f962add1101097ece10b0a1e797"
+      },
+      "source/LICENSE": {
+        "bytes": 1081,
+        "sha256": "7ea461cf01583ff889f2c0705702f4e97bc1751fd96d5381895754638dc1263d"
+      },
+      "source/tools/thermal-run.py": {
+        "bytes": 5743,
+        "sha256": "17c0582bc6c6a15ba53fee2824b407cc62f46f5c3d2c6723e52317bf6f88f670"
+      },
+      "evidence/attention-link-r2-on-configure/command.log": {
+        "bytes": 3884,
+        "sha256": "c7cd5c1c528fac872dc204fc2502305b3acb2ada5d470ec14a9e088d0f54612a"
+      },
+      "evidence/attention-link-r2-on-configure/plan.json": {
+        "bytes": 1417,
+        "sha256": "d2753d0b3bcc0d2fa26069f3a2ce81aa300117e4eba3c718db85c9f84e50023b"
+      },
+      "evidence/attention-link-r2-on-configure/result.json": {
+        "bytes": 914,
+        "sha256": "4f00d6a89c72b6164676fe6f090b487d461bed74250c8d807e0f5d54ee3e5b39"
+      },
+      "evidence/attention-link-r2-on-configure/temperatures.jsonl": {
+        "bytes": 4259,
+        "sha256": "52214c7bd87b42f9715bdea89b2738d17fecedd8cd1ac96f825922cd4e0a68a6"
+      },
+      "evidence/attention-link-r2-on-build/command.log": {
+        "bytes": 2790,
+        "sha256": "b200b41010b9c4af1cf747e2a350432a35667abb8a6d4dd7192ab8f9d2170e28"
+      },
+      "evidence/attention-link-r2-on-build/plan.json": {
+        "bytes": 968,
+        "sha256": "48df0c043a5726b5437b53c0a1819476eb3773c8e7d0620231e779c3b3b4649e"
+      },
+      "evidence/attention-link-r2-on-build/result.json": {
+        "bytes": 463,
+        "sha256": "d2bf3444efdea8a16e0a758bba3b0b70f813cd7b6109d51c094d0c01bff8c22c"
+      },
+      "evidence/attention-link-r2-on-build/temperatures.jsonl": {
+        "bytes": 4866,
+        "sha256": "07a4c6fc9619c7a7b0395f5032bad2d6945922105af5cbdc257e89d3b772d51e"
+      },
+      "local/on/CMakeCache.txt": {
+        "bytes": 40980,
+        "sha256": "01fb5b4b660d464ae87132c89ba641d14be9506945d6b97ac4661be26515acf9"
+      },
+      "local/on/build.ninja": {
+        "bytes": 306629,
+        "sha256": "9695a0675ee4a0044af995568f2a469d45ba4277e7523e96f740e8bfbe6bb5db"
+      },
+      "local/on/lie-attention-qualify": {
+        "bytes": 3737120,
+        "sha256": "7c8f6151712fd1afa0068f64da441b2e71f89b0d784d29dbdc5d798d3f0f5150"
+      },
+      "evidence/attention-link-r2-off-configure/command.log": {
+        "bytes": 3885,
+        "sha256": "9d0aebbb9196919ea5b0f317c7bb40fd900e289e32500f55a93e1759cff8c979"
+      },
+      "evidence/attention-link-r2-off-configure/plan.json": {
+        "bytes": 1432,
+        "sha256": "69fe862dfb32fa2a59c2fd91a4d1d3823d677becbd55735287371283abd827a8"
+      },
+      "evidence/attention-link-r2-off-configure/result.json": {
+        "bytes": 927,
+        "sha256": "46d5da9e0e92d7998de8629c6fbc5df6e52b30091df025cd1458faa87f42c425"
+      },
+      "evidence/attention-link-r2-off-configure/temperatures.jsonl": {
+        "bytes": 4259,
+        "sha256": "bcdafb906bab21fd93e2c0e7532572783c6e5c22636dd66ccc209558106efa3b"
+      },
+      "evidence/attention-link-r2-off-build/command.log": {
+        "bytes": 2790,
+        "sha256": "b200b41010b9c4af1cf747e2a350432a35667abb8a6d4dd7192ab8f9d2170e28"
+      },
+      "evidence/attention-link-r2-off-build/plan.json": {
+        "bytes": 969,
+        "sha256": "b7e7089d3fc3103542fa60812d4342aad9c0a21d6a5dd5d17d74d52d6b09ccf2"
+      },
+      "evidence/attention-link-r2-off-build/result.json": {
+        "bytes": 466,
+        "sha256": "fc1c101be9f9aaa74263138f15d304db2b69cbff3d6ca4d36a1f6f39b75ea98a"
+      },
+      "evidence/attention-link-r2-off-build/temperatures.jsonl": {
+        "bytes": 4868,
+        "sha256": "6208bca4adcaf54ee2bc68e4ce2f890af5cff5e2de3fb7b2a32ffcb9ac40f4de"
+      },
+      "local/off/CMakeCache.txt": {
+        "bytes": 40999,
+        "sha256": "1b7292ff4d22fd5cd4536c54294b791840be3a04c9a68968b63e38fbd260fa65"
+      },
+      "local/off/build.ninja": {
+        "bytes": 307045,
+        "sha256": "7dd46f3028d51c40e3265be4d6d3831a0e69b303a21c261793c419cf56644372"
+      },
+      "local/off/lie-attention-qualify": {
+        "bytes": 3477136,
+        "sha256": "e1899e94d04cc0cf91823d5104fcfc45e061fdcccf4ba25da755b69a24e5fb38"
+      }
+    }
+  }
+}

@@ -1,5 +1,24 @@
 # DS4 / synapse-lie coordination
 
+## Current-source final build failed and retired — 2026-10-07
+
+Fresh Q2/Point/DGX own non-use and global preflight at 03:48:40 UTC precede
+the device-free `.161` r42 build of `c2a9697f`. Both providers and configure exit0;
+native attention's HIP link exits1 because of incompatible default PIE mode.
+No model or LIE GPU program runs. Supervisor236364/start21390774 and container
+init236438/start21390873 are retired. Original lease66307/105946405 releases at
+03:54:24 UTC; strict closure at 03:57:26 verifies it free, HTTP8000 empty and
+router242081 restored as the sole compute client. All 25 compile artifacts and
+four control/telemetry files are collected and hashes verified.
+
+The local `60370fc3` link/package-target correction passes HIP7.2 ON/OFF links
+with devices hidden and no binary execution. The [portable receipt](development/validation/point-attention-link-2026-10-07.json)
+preserves the remote link1, stale observer-hash collection1 and initial missing-
+telemetry packaging1, together with corrected offline verification and actual
+closure. Matching `.161` compilation and final GPU gates remain pending. Root
+holds no remote job, lease, window, waiter, reservation or handle. A later run
+needs fresh admission; the failed source/campaign is never replayed unchanged.
+
 ## Long sparse-WMMA source prepared locally — 2026-10-07
 
 Root implements the separate 1M sparse workspace under default-ON
