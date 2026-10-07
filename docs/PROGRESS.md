@@ -50,6 +50,13 @@ retired, KFD empty, five original leases free, seven model stats unchanged.
 No old control, Q4 or full curve is rerun. All samples and a fixed-point graph
 are retained in[the result](Q2-HC-SCALAR-UP-MIX.md).
 
+Native32K HC staging now binds the same1029-file provider to the unchanged
+333-file retained C17 core/adapter; local configure/build exits0 and the own
+qualified MMQ archive is reused by hash. One new native server and the saved
+client will replay the original three preparations and32711-token/eight-output
+request at capacity133760/chunk2048. No prompt/output-budget change or control
+rerun is planned. Native GPU timing/output qualification remains pending.
+
 
 Native Q8 SSM wave assignment rejected — 2026-10-07 UTC: the private
 [unchanged-tile candidate](Q2-SSM-WAVE-BALANCE.md) completes on .157 with72

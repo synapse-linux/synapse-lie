@@ -163,3 +163,21 @@ All1960 identities/1566 groups are retired, KFD is empty, five original leases
 free and seven original model stat tuples unchanged. Peak CPU70.375C/GPU77C.
 Core receives the verified handover. No Q2 model job/client/handle/lease/window/
 waiter/reservation remains; no remote build, dependency, tuning or cleanup occurs.
+
+## Native32K preparation
+
+The same1029-file provider now builds against the exact333-file frozen C17
+core/adapter of the retained133760-capacity curve. The new private CMake
+selection verifies both inventories and excludes other experimental providers.
+The previously qualified own MMQ archive is hash-bound and reused unchanged;
+no retained server or client is rebuilt. Local configure/build exit0.
+[Native build](../config/q2-hc-scalar-native-build.json).
+
+One new native32K server is planned on loopback port8000 with the saved
+synapse-lie-bench87d856cf. The four serialized requests remain exactly
+200e66bd: three original preparations then32711 physical tokens, sixteen
+prefill calls (full2048 intermediates), zero cached tokens and eight decode
+calls. This is the original native depth point, not TG128 or a new full curve.
+The runner preserves both child exit codes even on failure; CPU fixtures
+check owned child retirement and reject altered requests/cache/call counts
+using private ephemeral ports. Original128K observations remain unchanged.

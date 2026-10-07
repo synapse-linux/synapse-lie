@@ -6,3 +6,6 @@
 __pycache__/
 *.pyc
 /docs/figures/.mpl-cache/
+
+# Frozen private native-core source used by qualification CMake.
+/curve-core
