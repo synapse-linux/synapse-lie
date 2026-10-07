@@ -1,0 +1,23 @@
+{
+  "schema": "synapse-lie.q2-q5-overlay-window-plan.v1",
+  "label": "q2-q5-overlay-converter-r1",
+  "at": "2026-10-07T09:37:45.198266+00:00",
+  "source_commit": "d409f416",
+  "previous_release": "q2-decode-q5-component-r2/release.json",
+  "previous_release_sha256": "6e6a7bc62d447edb7031cfa2b88f35680143c284be9e1f5f243435858671d940",
+  "staged_sha256": {
+    "q2_q5_overlay_conversion": "71728dd6b6e7ce2720eea4dba7e0139dddd828f5ee7acfdb002887c87038e042",
+    "q2-q5-overlay-window.py": "0068ff73929109c649b937cea253e77219aeeb4a77e16c525387403c5836286a",
+    "q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "source-manifest.json": "f0e61dcecbdeae017b20f10343739d1ebf344aeed1d4934c01ed4e6c18f10fea",
+    "overlay.patch": "13fccb68dcf7c7e2f4a661e50f865822cc5b1f9233167e93e857be3b6f620e94",
+    "fixture.hip": "152d51ce2de934585c2e9c1377bbd23693ff20665be412a81d782685b98f510e"
+  },
+  "component_only": true,
+  "original_model_inference": false,
+  "model_access": false,
+  "remote_build": false,
+  "remote_cleanup": false,
+  "timeout_seconds": 300,
+  "scope": "One guarded synthetic gfx1151 Q8_0-to-Q5_0 in-memory conversion and Q5_0/Q8_1 decode oracle. No original model access, model conversion, service, remote build, tuning or cleanup."
+}
