@@ -24,11 +24,20 @@ sandbox fails because LSan cannot operate under its tracing restriction; the
 same binaries/tests pass outside that restriction with leak detection enabled.
 All failed command exits remain in the
 [HOST receipt](development/validation/steering-build-host-2026-10-07.json).
-Only the two routine build directories are reused. No GPU/model run or remote
-build is admitted. Coherent HIP compilation, original captures, learned quality,
-wider runtime/fault/resource and matched cost remain open. All six root tasks
-remain open; Terminal Bench remains last. Root owns no remote job, GPU handle,
-lease, window, waiter or reservation.
+Only the two routine local build directories are reused. The matching
+`4c703b3d`/r70 device-hidden ROCm10 build now passes both complete providers and
+all seven consumers. Collected commands bind the native builder, learner and
+collector to C17 objects and the primary provider. All 32 collected artifacts
+verify; independent reconstruction checks 43 recipes, 342 replacements, 1019
+pinned files and ten owned steering files per provider. CPU/NVMe peaks are
+75.125/50.85 C. The original lease releases at 23:01:02 UTC; strong closure at
+23:06:24 verifies exact process identities, the whole container/cgroup absent,
+two complete scans, restored router and unchanged original lease free. The
+[HIP build receipt](development/validation/steering-build-point-build-2026-10-07.json)
+binds the seven binaries and portable raw evidence. No GPU/model executable runs.
+Original captures, learned quality, wider runtime/fault/resource and matched
+cost remain open. All six root tasks remain open; Terminal Bench remains last.
+Root owns no remote job, GPU handle, lease, window, waiter or reservation.
 
 ## Steering capture and direction learning prepared in C17 — 2026-10-07 UTC
 

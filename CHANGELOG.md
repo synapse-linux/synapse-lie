@@ -13,7 +13,7 @@ stable release is declared. Detailed validation history is in
   HOST/sanitizer checks pass. Native C17 `lie-steering-build` now reads paired
   prompt files, retains raw captures and physical token IDs, and publishes
   DS4-compatible `.f32` banks only after complete successful learning.
-  Input/format/failure and sanitizer checks pass; coherent HIP compilation,
+  Input/format/failure and sanitizer checks and coherent HIP compilation pass;
   original-weight capture and learned quality remain pending. Runtime `.f32`
   and DS4 cache formats are unchanged.
 

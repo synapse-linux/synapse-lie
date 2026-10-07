@@ -114,8 +114,11 @@ output bounds. Twelve mocked build-coordination checks require the new consumer
 and refuse missing or changed artifacts. The
 [HOST receipt](validation/steering-build-host-2026-10-07.json) retains failures and
 portable raw artifacts. CPU fixtures are explicitly `NOT-INFERENCE`; the new
-production target still requires coherent HIP compilation and original-weight
-activation/parity/learned-quality qualification on `.161`.
+production target now passes the matching
+[coherent HIP build](validation/steering-build-point-build-2026-10-07.json) on `.161`,
+including both complete providers and all seven consumers. Collected commands
+verify the builder and both shared helpers as C17 with the primary-provider link.
+Original-weight activation/parity/learned-quality qualification remains open.
 
 ## Shared bank contract
 

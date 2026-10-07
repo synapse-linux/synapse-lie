@@ -34,6 +34,11 @@ The authoritative preparation result requires process exit 0 and a terminal
 `complete` journal event; captured rows alone do not authorize learning. Callback
 I/O errors are checked after executor completion and never mutate its numerical
 return status. No model/platform type enters the client or shared helpers.
+The matching `4c703b3d`/r70
+[HIP build](../development/validation/steering-build-point-build-2026-10-07.json)
+verifies C17 builder/collector/learner objects and their primary-provider linkage
+alongside both full providers. It does not execute these APIs on original weights;
+activation and learned-quality qualification remain open.
 
 Sampling-observer ABI 1 (`lie/sampling_observer.h`) is an additive diagnostic
 contract. `lie_sequence_decode_mtp_observed` executes the ordinary single-row

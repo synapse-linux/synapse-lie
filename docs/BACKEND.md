@@ -13,7 +13,7 @@ learning from real workloads; do not let the prototype define the final limits.
 
 ## Current roadmap — 2026-10-07 UTC
 
-The current `90a88455`/r68 runtime passes the complete unchanged AR and MTP
+The frozen `90a88455`/r68 runtime passes the complete unchanged AR and MTP
 workloads: 71 tool-transition checks and five baseline controls in each mode.
 All three sampling
 profiles cover Chat and Responses JSON/SSE; twelve reversed-result continuations,
@@ -73,6 +73,13 @@ model-quality failures retain their original source identities and outcomes.
 Wider tool acceptance, steering quality, long-context recall/HTTP,
 fault/resource gates, matched comparisons and Terminal Bench remain open.
 Terminal Bench stays last.
+
+The newer `4c703b3d`/r70 source adds the native C17 paired-prompt steering builder.
+Its [coherent HIP build](development/validation/steering-build-point-build-2026-10-07.json)
+passes both complete providers and seven consumers, including the actual builder
+linked to the primary provider. Original activations and learned direction
+quality remain unqualified. Earlier tool/recall results retain their frozen r68
+identity and do not automatically qualify this later runtime.
 
 Strix Point integration is merged into `develop` at `30598a3`; current context
 and OpenAI work remains on `feature/context-million-openai`. Recorded GPU
@@ -430,7 +437,10 @@ none of the six items.
    resources. Four native CTest checks pass normally and with unsuppressed
    sanitizers; twelve mocked build checks require its seventh consumer artifact
    ([HOST receipt](development/validation/steering-build-host-2026-10-07.json)).
-   Coherent HIP compilation and original activations remain pending;
+   The matching `4c703b3d`/r70
+   [coherent HIP build](development/validation/steering-build-point-build-2026-10-07.json)
+   passes both full providers and all seven consumers. Actual C17 builder/core
+   objects and the primary-provider link verify. Original activations remain pending;
    learned-direction quality, independent graph/
    correction/fault, vision and matched cost remain open.
    Separate `modern-core-steering-admission` windows now qualify original-model

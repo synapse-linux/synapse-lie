@@ -1,5 +1,26 @@
 # DS4 / synapse-lie coordination
 
+## Native steering builder HIP build verified and retired — 2026-10-07
+
+Fresh explicit own-state replies from Point, DGX, Q2 and the separate GLM thread,
+same-boot/filesystem observations and the original lease protocol precede the
+device-hidden `4c703b3d`/r70 build on `.161`. Both complete providers and seven
+consumers pass with controller/supervisor/child exit 0. Four terminal, 25 compile
+and three Ninja artifacts hash-verify; independent reconstruction verifies the
+pinned source, 43 recipes and actual C17 builder/core objects and primary link.
+No model or GPU executable runs. CPU/GPU/NVMe peaks are 75.125/46/50.85 C.
+
+The original lease 66308/105946405 releases at 23:01:02.356287 UTC. Strong closure
+at 23:06:24.352120 verifies supervisor 75751/start2981269 and observed init
+75824/start2981355 retired, the exact container and whole cgroup absent, two
+complete process scans empty, router 81497 restored, port 8000 empty and the
+unchanged lease free. All four peer owners receive verified release. The
+[receipt](development/validation/steering-build-point-build-2026-10-07.json)
+preserves portable raw evidence. Original captures and learned quality need a
+separate fresh proposal/admission. All six root tasks remain open and Terminal
+Bench remains last. Root owns no remote job, lease, window, waiter or reservation;
+there is no future grant.
+
 ## Native near-256K recall passed and retired — 2026-10-07
 
 After the verified 128K closure, all four current non-use declarations and fresh

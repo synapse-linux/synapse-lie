@@ -1,6 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Provenance and dependency boundaries
 
+The native paired-prompt builder, activation observer, collector and direction
+learner are owned MIT C17 code. `activation-observer-edits.json` records four
+exact diagnostic hooks against the independently pinned official Gufo executor;
+the generated upstream source retains Gufo's notices. The private bridge keeps
+upstream/device types inside the adapter. It copies only selected last-token
+trunk rows for explicit diagnostic prefill calls. No DS4 source or sibling
+workspace artifact is imported. The
+[matching HIP build](../docs/development/validation/steering-build-point-build-2026-10-07.json)
+binds the recipe, ten owned steering files, both full providers and seven
+consumers. Original activation/learned-quality execution remains unqualified.
+
 The model-neutral attention observer (`src/dispatch.c`, `lie/dispatch.h`) is
 owned MIT C17 code. `attention-dispatch-edits.json` records exact host hooks and
 bounded sparse-WMMA workspace specializations
