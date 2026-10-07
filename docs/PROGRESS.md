@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Phase-specific HC compilation prepared — 2026-10-07 UTC: the decode-only
+up/mix kernel moves to its own HIP translation unit, with -g0 confined to
+that file. The common backend keeps the saved RelWithDebInfo build and
+original kernel source. Static audit finds918/920 common device functions
+byte-exact; the two differences are diagnostic helpers, with no common
+size/resource changes. Both fused kernels exactly match the first measured
+component and the production objects linked into the new fixture. The
+executor and its prefill-phase exclusion remain byte-identical to the parent;
+no precision boundary or runtime allocation is added. Build/link and changed
+HIP formatting pass; provider-wide formatting retains inherited failures.
+Runtime component/model qualification is pending; no performance promotion.
+[Source and static audit](../config/q2-hc-scalar-isolated-static.json).
+
 Original128K HC and build correction — 2026-10-07 UTC: initial saved HC
 Release server578e3320 completes the unchanged130925/8 input at1249.340740 PP
 and25.987615 TG, all four responses exact. The offline audit discovers the

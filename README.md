@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The next private HC candidate isolates decode compilation from the common
+prefill backend. Static instruction checks pass; GPU performance is pending.
+[Phase isolation](docs/Q2-HC-SCALAR-UP-MIX.md#phase-specific-compilation).
+
 The [quality-preserving performance audit](docs/Q2-QUALITY-PRESERVING-STATUS.md)
 separates exact individual changes from the retained faster lineage, whose
 intermediate-precision changes still need task-quality qualification.

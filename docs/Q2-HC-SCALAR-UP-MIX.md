@@ -21,7 +21,8 @@ independent FP64 checks. With injection, completed operation time falls
 42.970453 to34.630484us (-19.408613%); without injection it falls35.839672
 to34.132219us (-4.764143%). All five measured pairs favor the candidate
 in both modes. This qualified the original-model integration below.
-Native128K benefit and inherited task quality remain unmeasured.
+Native128K results below do not confirm a decode gain; inherited task quality
+remains unqualified.
 
 This private decode component joins the native F16 HC up projection and the
 following mix/injection into one launch. The retained provider is unchanged.
@@ -358,3 +359,18 @@ remains. No remote build, dependency installation, tuning or cleanup.
 [exact-value CSV](figures/q2-hc-native128.csv),
 [matching result](../config/q2-hc-scalar-native128-matched-results.json),
 [matching plan](../config/q2-hc-scalar-native128-matched-plan.json).
+
+## Phase-specific compilation
+
+Phase-specific HC compilation prepared — 2026-10-07 UTC: the decode-only
+up/mix kernel moves to its own HIP translation unit, with -g0 confined to
+that file. The common backend keeps the saved RelWithDebInfo build and
+original kernel source. Static audit finds918/920 common device functions
+byte-exact; the two differences are diagnostic helpers, with no common
+size/resource changes. Both fused kernels exactly match the first measured
+component and the production objects linked into the new fixture. The
+executor and its prefill-phase exclusion remain byte-identical to the parent;
+no precision boundary or runtime allocation is added. Build/link and changed
+HIP formatting pass; provider-wide formatting retains inherited failures.
+Runtime component/model qualification is pending; no performance promotion.
+[Source and static audit](../config/q2-hc-scalar-isolated-static.json).
