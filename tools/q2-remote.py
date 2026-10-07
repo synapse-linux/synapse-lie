@@ -270,6 +270,8 @@ def collection_receipt(archive):
     # as small cases: 1,106,304,168 bytes in the first complete archive.
     limits = {DECODE_Q8_COMPACT_MODE: 1024**3, SELECT_LIVE_GRID_MODE: 2*1024**3, SELECT_QUERY_PAIR_MODE: 2*1024**3, DECODE_Q8_ROWS4_MODE: 1024**3, HC_DIRECT_WEIGHT_MODE: 3 * 1024**3, SSM_RESIDENT_MODE: 3 * 1024**3, HC_SHORT_CHAIN_MODE: 512 * 1024**2, IQ2_WHOLE640_CHAIN_MODE: 1024**3, HC_OWNER_MODE: 2 * 1024**3, HC_REUSE_MODE: 2 * 1024**3, **{mode: 8 * 1024**3 for mode in EXPERT_CACHE_MODES}, **{mode: 4 * 1024**3 for mode in SHARED_DOWN_MODES}, HALF_FIXED_WIDTH_MODE: 4 * 1024**3, HALF_CONSUMER_EIGHT_MODE: 4 * 1024**3, SSM_ROW_GROUP_MODE: 8 * 1024**3, **{mode: 8 * 1024**3 for mode in SSM_FOLLOWUP_MODES}, DOWN_REGISTER_SCATTER_MODE: 8 * 1024**3, DOWN_HALF_VECTOR_MODE: 8 * 1024**3, DOWN_HALF_PAIR_MODE: 8 * 1024**3, DOWN_HALF_STORAGE_MODE: 8 * 1024**3, DOWN_LIVE_STAGE_MODE: 8 * 1024**3, DOWN_OUTPUT_REUSE_MODE: 4 * 1024**3, IQ2_WIDE_PAIR_MODE: 4 * 1024**3, IQ2_FOUR_WAVE_MODE: 4 * 1024**3, IQ2_LANE_COMMIT_MODE: 2 * 1024**3, IQ2_SLICE_COMMIT_MODE: 2 * 1024**3, Q8_MIRROR_MODE: 6 * 1024**3, IQ2_SIGN_MASK_MODE: 2 * 1024**3, IQ2_FUSED_GRID_MODE: 2 * 1024**3, SCALED_WAVE_PACK_MODE: 2 * 1024**3, SCALED_EXPERT_ORDER_MODE: 2 * 1024**3, COMPACT_EXPERT_CHAIN_MODE: 4 * 1024**3, PRODUCER_Q8_MODE: 6 * 1024**3, SHARED_Q8_PAIR_MODE: 4 * 1024**3, Q8_ALIGNED_PAIR_MODE: 6 * 1024**3, Q8_K16_PHASES_MODE: 6 * 1024**3, DOWN_RAW_PREFETCH_MODE: 2 * 1024**3, IQ2_RAW_PREFETCH_MODE: 2 * 1024**3, SSM_ROW128_MODE: 4 * 1024**3, Q8_HALFPAIR_MODE: 2 * 1024**3, IQ2_HALFSTAGE_MODE: 2 * 1024**3, **{mode: 384000000 for mode in MIXED_TILE_MODES}, 'iq2-live-epilogue-check': 384000000, 'q2-ple-first-access': 384000000, 'q2-terminal-full': 2 * 1024**3, 'hc-norm-ragged-bench': 1120000000, 'shared-q8-producer-check': 384000000}
     limit = limits.get(receipt.get('mode'), 128000000)
+    if receipt.get('mode') == 'q2-prefill128' and receipt.get('profile_prefix32k') is True:
+        limit = 2 * 1024**3
     if sum(member.size for member in members) > limit:
         raise ValueError('Oversized collection')
     return receipt
@@ -327,7 +329,13 @@ def main():
     p.add_argument('--existing-collection', action='store_true',
                    help='Validate/extract an already downloaded collection; no SSH or overwriting results')
     p.add_argument('--prefill-only-depth', type=int, choices=(65536,131072))
+    p.add_argument('--profile-prefix32k', action='store_true',
+                   help='Profile the saved complete 32K prefix; diagnostic only, no rebuild')
     args = p.parse_args()
+    if args.profile_prefix32k and (args.mode != 'q2-prefill128' or not args.native_curve
+            or args.source_variant != 'prefill128-q2' or args.prefill_only_depth is not None
+            or args.rebuild_mmq or args.point_only or args.replay_from or args.detach):
+        p.error('Prefix32K profiling requires only the saved native Q2 prefill provider')
     if args.prefill_only_depth is not None and (args.mode != 'q2-prefill128' or not args.native_curve):
         p.error('Saved prefill depth requires the matched native full-prefill mode')
     if args.mode == HC_REUSE_MODE or args.source_variant == HC_REUSE_VARIANT:
@@ -1005,6 +1013,10 @@ def main():
                      'tools/q2-full-prefill128-recovery-phase.py',
                      'tools/freeze-q2-full-prefill128-recovery-plan.py',
                      'tools/q2_full_prefill128.py',
+                     'tools/q2_long_profile.py',
+                     'tools/q2-long-profile-window.py',
+                     'tools/q2-long-profile-phase.py',
+                     'tools/freeze-q2-long-profile-plan.py',
                      'tools/q2_select_live_grid_model.py',
                      'tools/prepare-q2-select-live-grid-model.py',
                      'tools/q2-select-live-grid-model-phase.py',
@@ -2035,7 +2047,7 @@ def main():
         '  if path.is_absolute() or ".." in path.parts or not (item.isdir() or item.isfile()): raise ValueError("unsafe member")',
         '  if item.size>' + repr(source_data_limits(args.mode)) + '.get(item.name,16000000): raise ValueError("oversized source file")',
         '  archive.extract(item,root,filter="data")',
-        'os.execv(sys.executable,[sys.executable,str(root/"tools/q2-runner.py"),' + repr(args.mode) + (',' + repr('--rebuild-mmq') if args.rebuild_mmq else '') + (',' + repr('--native-curve') if args.native_curve else '') + (',' + repr('--prefill-only-depth') + ',' + repr(str(args.prefill_only_depth)) if args.prefill_only_depth else '') + (',' + repr('--point-only') if args.point_only else '') + (',' + repr('--replay-from') + ',' + repr(args.replay_from) if args.replay_from else '') + '])',
+        'os.execv(sys.executable,[sys.executable,str(root/"tools/q2-runner.py"),' + repr(args.mode) + (',' + repr('--rebuild-mmq') if args.rebuild_mmq else '') + (',' + repr('--native-curve') if args.native_curve else '') + (',' + repr('--prefill-only-depth') + ',' + repr(str(args.prefill_only_depth)) if args.prefill_only_depth else '') + (',' + repr('--profile-prefix32k') if args.profile_prefix32k else '') + (',' + repr('--point-only') if args.point_only else '') + (',' + repr('--replay-from') + ',' + repr(args.replay_from) if args.replay_from else '') + '])',
     ])
     if args.detach:
         lines = script.splitlines()
@@ -2049,7 +2061,7 @@ def main():
         script = '\n'.join(lines)
     argv = ['ssh', '-F', '/dev/null', '-o', 'BatchMode=yes', HOST,
             'python3 -c ' + shlex.quote(script)]
-    result = {'mode': args.mode, 'source_variant': args.source_variant, 'source_path': source, 'rebuild_mmq': args.rebuild_mmq, 'native_curve': args.native_curve, 'point_only': args.point_only, 'prefill_only_depth': args.prefill_only_depth, 'label': args.label, 'remote': dest,
+    result = {'mode': args.mode, 'source_variant': args.source_variant, 'source_path': source, 'rebuild_mmq': args.rebuild_mmq, 'native_curve': args.native_curve, 'point_only': args.point_only, 'prefill_only_depth': args.prefill_only_depth, 'profile_prefix32k': args.profile_prefix32k, 'label': args.label, 'remote': dest,
               'capsule_sha256': hashlib.sha256(capsule.read_bytes()).hexdigest(),
               'detached': args.detach, 'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
     with capsule.open('rb') as inp, (out/'remote.log').open('wb') as log:

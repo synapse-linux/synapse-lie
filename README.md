@@ -1,6 +1,10 @@
 <!-- SPDX-License-Identifier: MIT -->
 
 The owner now prioritizes [prefill and decode through 128K](docs/Q2-DECODE-128K.md).
+The active target is C1 AR30 token/s and complete prefill1500 token/s through
+the unchanged130925-token input. A focused32K kernel/API profile is prepared
+on the saved native server/client binaries to attribute long-context costs;
+instrumented rates cannot replace the saved throughput references.
 This track resumed with a compact scalar Q8 trial on .157: shared-down time
 improves2.30%, the large projections stay unchanged and gate/up worsens3.06%.
 All GPU output pairs are exact; a host-oracle boundary bug is diagnosed and

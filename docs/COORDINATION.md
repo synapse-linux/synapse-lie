@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Long-prefix diagnostic preparation — 2026-10-07 UTC: fresh Core own non-use
+and globalpreflight03:44:47 bind GPU release4a7c9768 plus CPUfixd80c7d2a.
+Original leases/models unchanged, KFD empty and recorded processes retired.
+Host q2-long-profile-host-r1 ends03:45:36.937094 with40 Debug/40 sanitizer
+checks, six zero exits; seven artifacts collect (archive da51fd5b). The next
+plan permits only saved-server kernel/HIP/copy attribution for original
+preparations plus32711-token prefix. No rebuild, control throughput rerun,
+full curve, cleanup or reservation on .161/.158/TB. GPU work requires the new
+checkpoint and fresh window admission; Core's separate .161 work is independent.
+
 Q8 compact component closure — 2026-10-07 UTC: checkpoint8f818b74 /planee23acb9,
 admissiond4accb9b02:56:52.066589. New component ends02:57:16.983024 with exits
 0/0/1; all four artifacts collect before02:57:50.129640 release4a7c9768d22ade5458adb6fe0fedf5eeb17bb91072f0260ccb723404c84439c5.

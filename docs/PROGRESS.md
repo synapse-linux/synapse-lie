@@ -1,5 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Active C1 decode30 / full-prefill1500 goal — 2026-10-07 UTC
+
+Preserve the old fixed-point pause while pursuing the new active target through
+the original130925-token input. Retained128K is1310.874605 PP /25.344213 TG
+(original eight output calls, not TG128). PP needs12.592734 seconds less than
+the99.876067-second saved measurement. No new model gain is claimed.
+
+Prepare one diagnostic on retained server9993fdce and native bench87d856cf:
+original three preparations plus exact32711-token prefix, capacity133760,
+chunk2048, C1 AR and no prefix hits. Kernel/HIP/copy tracing attributes growing
+selection/attention time and C1 synchronization; no model/provider rebuild,
+input mutation, control timing rerun or full curve. New guards reject modified
+input/count/cache contracts. The .157 host cohort passes40 Debug and40 sanitizer
+checks with six zero exits, then collects seven artifacts. Fresh committed-plan
+admission remains required before GPU work. [Priority](Q2-REMAINING-WORK.md).
+
 ## Resume decode/128K work after an unjustified stop — 2026-10-07 UTC
 
 Core's own deferred campaigns did not pause Q2. Resume the owner's decode and

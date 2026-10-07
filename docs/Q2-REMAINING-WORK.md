@@ -1,7 +1,29 @@
 <!-- SPDX-License-Identifier: MIT -->
-# Current Q2 optimization assessment — 6 October 2026
+# Current Q2 optimization assessment — 7 October 2026
 
-The priority remains the original fixed comparison: **1587.893545 PP versus
+The active goal is now **C1 AR decode30 token/s and complete prefill at least
+1500 token/s through the original130925-token input**. The old fixed-point UD
+parity objective is paused, not completed. Preserve its reference below, but
+do not prioritize it over the new long-context goal or replace the long-prefix
+measurement with a2048-token continuation. The retained128K observation is
+1310.874605 PP /25.344213 TG; TG is the original eight output calls, not TG128.
+Prefill must fall from99.876067s to at most87.283333s, a12.592734s saving.
+
+The next diagnostic reuses the saved server/client binaries, original three
+preparations and exact32711-token prefix (15 full2048 chunks and1991 final
+tokens), capacity133760 and zero prefix hits. Kernel/HIP/copy traces attribute
+the growing selection/attention cost and C1 host/device gaps. Profiling adds
+overhead: its rates cannot replace archived unprofiled throughput. No full
+curve, reference rebuild or new token recipe is part of this diagnostic.
+
+The scalar Q8 instruction trial is complete: large projections are unchanged
+within noise, shared-down improves2.30% locally and gated shared-up slows3.06%.
+There is no new model-level speedup. Multi-request batching and reactive
+responsiveness are separate from the C1 goal; they cannot count as30 token/s.
+
+## Historical fixed-point assessment (paused)
+
+The preserved original fixed comparison is **1587.893545 PP versus
 UD1685.777092 PP**. Closing it requires **74.889015 ms**, or5.806435% less
 prefill time /6.164365% more throughput. Original exact2048 input,128 outputs,
 127 timed decode calls, capacity9216 and all saved controls remain fixed.

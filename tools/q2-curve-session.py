@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import socket
+import shutil
 import subprocess
 import sys
 import time
@@ -38,10 +39,11 @@ def main():
     prefill_depth = None
     if flags[:1] == ['--prefill-only-depth']:
         prefill_depth, flags = int(flags[1]), flags[2:]
-    if flags not in ([], ['--profile-ple'], ['--iq2-signs'], ['--ple-cache-first'], ['--profile-routes'], ['--iq2-mixed'], ['--iq2-scale'], ['--scaled-row'], ['--norm-ragged'], ['--retained-128'], ['--retained-prefill'], ['--live-grid-prefill']):
+    if flags not in ([], ['--profile-ple'], ['--iq2-signs'], ['--ple-cache-first'], ['--profile-routes'], ['--iq2-mixed'], ['--iq2-scale'], ['--scaled-row'], ['--norm-ragged'], ['--retained-128'], ['--retained-prefill'], ['--live-grid-prefill'], ['--profile-prefix32k']):
         raise ValueError('Unknown diagnostic flags')
     live_grid = flags == ['--live-grid-prefill']
-    full_prefill = live_grid or flags == ['--retained-prefill']
+    profile_prefix32k = flags == ['--profile-prefix32k']
+    full_prefill = profile_prefix32k or live_grid or flags == ['--retained-prefill']
     if prefill_depth is not None and (not full_prefill or prefill_depth not in (65536,131072)):
         raise ValueError('Only saved unfinished full-prefill depths may be selected')
     retained128 = full_prefill or flags == ['--retained-128']
@@ -94,6 +96,15 @@ def main():
         '--kv-cache-capture-finish', 'on']
     receipt['server_argv'] = server_argv
     receipt['server_binary_sha256'] = hashlib.sha256(Path(binary).read_bytes()).hexdigest()
+    if profile_prefix32k:
+        from q2_long_profile import profiler_argv
+        profiler = shutil.which('rocprofv3') or '/opt/rocm/bin/rocprofv3'
+        if not Path(profiler).is_file():
+            raise RuntimeError('Installed rocprofv3 unavailable')
+        server_argv = profiler_argv(profiler, result/'profile', server_argv)
+        receipt.update(profiler_argv=server_argv, profiler_sha256=hashlib.sha256(Path(profiler).read_bytes()).hexdigest(),
+                       instrumentation='rocprofv3-kernel-hip-memory-copy', headline_eligible=False,
+                       provider_experiment='retained-prefix32k-diagnostic')
     save()
     server = client = None
     try:
@@ -132,6 +143,8 @@ def main():
                 from q2_full_prefill128 import client_argv as full_argv
                 if live_grid:
                     from q2_select_live_grid_model import client_argv as full_argv
+                if profile_prefix32k:
+                    from q2_long_profile import client_argv as full_argv
                 argv = full_argv(ROOT, native_bench, result/'full-prefill.jsonl', depth=prefill_depth)
                 receipt['workload'] = 'Exact saved full-prefix requests; no continuation measurements'
             command = dict(argv=argv, started_ns=time.monotonic_ns())
@@ -149,6 +162,8 @@ def main():
                 from q2_full_prefill128 import validate_result
                 if live_grid:
                     from q2_select_live_grid_model import validate_result
+                if profile_prefix32k:
+                    from q2_long_profile import validate_result
                 receipt['full_prefill_validation'] = validate_result(ROOT, result/'full-prefill.jsonl', depth=prefill_depth)
             if native_bench is not None:
                 with urllib.request.urlopen(f'http://127.0.0.1:{management}/actuator/llm', timeout=5) as response:
@@ -160,7 +175,8 @@ def main():
                 receipt['client_binary_sha256_after'] = hashlib.sha256(native_bench.read_bytes()).hexdigest()
                 if receipt['client_binary_sha256_after'] != receipt['client_binary_sha256']:
                     raise RuntimeError('Native benchmark binary changed')
-            receipt['state'] = ('CANONICAL_ROUTE_PROFILE_COMPLETE_NOT_BENCHMARK' if routes else
+            receipt['state'] = ('PREFIX32K_PROFILE_COMPLETE_NOT_BENCHMARK' if profile_prefix32k else
+                                'CANONICAL_ROUTE_PROFILE_COMPLETE_NOT_BENCHMARK' if routes else
                                 'CANONICAL_PLE_PROFILE_COMPLETE_NOT_BENCHMARK' if profile else
                                 'CANONICAL_WORKLOAD_MEASURED_NOT_PARITY_VERDICT')
     except Exception as error:

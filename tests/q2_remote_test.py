@@ -21,6 +21,55 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_prefix32k_profile_preserves_original_bytes_and_validates_counts(self):
+        import q2_long_profile as profile
+        root = path.parents[1]
+        corpus, selected = profile.inputs(root)
+        self.assertEqual([c['expected_prompt_tokens'] for _, c, _ in selected], [13, 3513, 2055, 32711])
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)/'profile.jsonl'
+            argv = profile.client_argv(root, Path('/bench'), output)
+            options = dict(zip(argv[1::2], argv[2::2]))
+            raw = corpus.read_bytes().splitlines(keepends=True)
+            self.assertEqual(Path(options['--requests']).read_bytes(), b''.join(raw[i] for i, _, _ in selected))
+            self.assertEqual(options['--context-capacity'], '133760')
+            samples = [dict(event='sample', case=c['id'], request=c['body'],
+                           usage=dict(prompt_tokens=c['expected_prompt_tokens']),
+                           server_timings=dict(valid=True, scope='synchronous_executor_calls', decode_mode='ar',
+                               mtp_drafted_tokens=0, mtp_accepted_tokens=0, ssd_cached_tokens=0,
+                               cached_tokens=0, prefill_tokens=c['expected_prompt_tokens'],
+                               prefill_calls=(c['expected_prompt_tokens']+2047)//2048, prefill_ms=1))
+                       for _, c, _ in selected]
+            def save():
+                output.write_text(''.join(json.dumps(x)+'\n' for x in
+                                         [*samples, dict(event='complete', exit_code=0)]))
+            save()
+            self.assertFalse(profile.validate_result(root, output)['headline_eligible'])
+            samples[-1]['server_timings']['cached_tokens'] = 2048
+            save()
+            with self.assertRaisesRegex(ValueError, 'complete uncached'):
+                profile.validate_result(root, output)
+            samples[-1]['server_timings']['cached_tokens'] = 0
+            samples[-1]['server_timings']['prefill_calls'] = 17
+            save()
+            with self.assertRaisesRegex(ValueError, 'complete uncached'):
+                profile.validate_result(root, output)
+            with self.assertRaises(ValueError):
+                profile.client_argv(root, Path('/bench'), output, depth=65536)
+
+    def test_prefix32k_profile_cannot_rebuild_or_change_workload(self):
+        args = ['q2-prefill128', 'q2-fixture', '--source-variant', 'prefill128-q2',
+                '--native-curve', '--profile-prefix32k']
+        for extra in (['--prefill-only-depth','65536'], ['--point-only'], ['--rebuild-mmq'], ['--detach']):
+            self.refuse(args+extra, 'Prefix32K profiling requires')
+        self.refuse(['cpu','q2-fixture','--profile-prefix32k'], 'Prefix32K profiling requires')
+        with patch.object(sys,'argv',[str(path),*args]), \
+             patch.object(Path,'mkdir',side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess,'run',side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError,'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
     def test_live_grid_reuse_receipt_supports_existing_postflight(self):
         import q2_select_live_grid_model as grid
         with tempfile.TemporaryDirectory() as temporary:
