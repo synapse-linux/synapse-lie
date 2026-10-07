@@ -129,3 +129,14 @@ artifacts on failure. No Python dependency is added to the native client.
 This qualifies generated component behavior only. Original-weight logits,
 long-context recall, serving faults, measured memory and comparative performance
 remain separate final acceptance gates.
+
+The current `120e2fce` ROCm10 build on `.161` now passes all 13 generated
+cases with the feature ON: complete long/short outputs compare bit for bit
+across 270,336 finite values. Offline review verifies every saved mask, ordered
+key mapping and artifact, and independently checks both zero-query outputs
+against exact rational uniform means under the predeclared bound. CPU peaks at
+37.125 C; the run is collected and strictly closed, with the router restored.
+The [component receipt](validation/attention-fixture-point-2026-10-07.json)
+retains all raw outputs, source/build identities, telemetry and actual exits.
+No model weights are loaded. The disabled-feature GPU control, full model,
+indexer, faults and matched performance remain separate open gates.

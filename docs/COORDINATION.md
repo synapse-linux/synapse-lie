@@ -1,5 +1,27 @@
 # DS4 / synapse-lie coordination
 
+## Generated attention component passed and retired — 2026-10-07
+
+Fresh Q2/Point/DGX own non-use and global preflight at 04:22:09 UTC precede
+the `.161` r44 generated component qualification of the exact r43 bundle.
+All 13 cases through 1M pass, with 270,336 complete float values matching bit
+for bit. No model, original-weight forward or performance run is involved.
+Supervisor249179/start21590987 and container init249253/start21591080 retire;
+the original lease66307/105946405 releases at 04:22:36 UTC. Fresh strict closure
+at 04:23:11 verifies both exact identities and container absent, the original
+lease free and unchanged, HTTP8000 empty and router249393 restored as the sole
+compute client. All 73 collected files and 107 portable archive members verify.
+CPU peaks at 37.125 C under the unchanged CPU/NVMe guards.
+
+The [component receipt](development/validation/attention-fixture-point-2026-10-07.json)
+preserves complete outputs/masks/key order, independent rational zero-query
+review, actual exits and the initial local observer preparation1 before SSH.
+Peers receive verified release. Root holds no remote job, lease, window,
+waiter, reservation or handle; no future window is reserved. Full model,
+indexer, quality, faults, resources and comparative performance remain open.
+The model-free component is distinct from the rejected old required-tool
+capture and does not replay that stale manifest.
+
 ## Corrected current-source final build passed and retired — 2026-10-07
 
 Fresh Q2/Point/DGX own non-use and global preflight at 04:08:30 UTC precede

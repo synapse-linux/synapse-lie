@@ -184,13 +184,18 @@ none of the six items.
    PP, TG, TTFT, resources and correctly scaled graphs. Profile the prefill
    decline above 256K and separate batching from reactive responsiveness.
    [Pinned-source dispatch analysis](development/validation/long-context-sparse-dispatch-source-2026-10-06.json)
-   identifies a 2,048-word sparse-WMMA limit: configured capacity above
+   identifies the preceding provider's 2,048-word sparse-WMMA limit: configured capacity above
    262,144 tokens can select the per-token fallback even at shallower
    visible depth. The C17 observer and native core report now capture actual
    matrix/scalar, dense/sparse selections, with confirmed/unconfirmed work and
    explicit unsupported views. Focused host checks and exact source recipes
-   pass; coherent current HIP compilation also passes. Actual GPU selections and
-   matched observer cost remain deferred. Capture actual dispatch before attributing
+   pass; coherent current HIP compilation also passes. The current policy
+   separates visible frontier from allocation pitch and adds a default-ON
+   8,192-word specialization through 1M. Its 13 generated `.161` GPU cases
+   pass complete bitwise output comparison and independent offline review
+   ([component receipt](development/validation/attention-fixture-point-2026-10-07.json)).
+   Original-weight GPU dispatch and matched observer cost remain open.
+   Capture actual dispatch before attributing
    timings to
    reactive scheduling; this finding is not measured causality or a
    constant-prefill guarantee.

@@ -83,7 +83,8 @@ data. Core/model numerics, public ABI, HTTP and reactive scheduling are unchange
 Focused native Release and unsuppressed sanitizer checks pass with the feature
 ON and OFF. Local device-hidden HIP consumers link against their exact existing
 ON/OFF providers; neither executable is run. Matching `.161` ROCm10 compilation
-now passes in the corrected r43 build below; GPU acceptance remains pending.
+now passes in the corrected r43 build below; original-weight GPU acceptance
+remains pending. The generated attention component passes in r44 below.
 No remote job, lease or reservation is held.
 The final device-free `.161` build of `c2a9697f` compiles both providers and
 configures with exit0, then fails the native HIP client link with exit1 because
@@ -107,6 +108,19 @@ The [coherent ROCm10 build receipt](development/validation/integrated-point-atte
 preserves actual exits, raw logs, telemetry and artifact hashes. Matching
 compilation is complete; GPU numerical, quality, fault, resource and performance
 gates remain open. No model or LIE GPU program is executed by this build.
+The same compiled native attention client then passes all 13 generated `.161`
+r44 cases through 1M: 270,336 finite values match the unchanged short kernel
+bit for bit. All 73 collected files verify; independent offline review checks
+full masks/key order and 86,016 zero-query output values against exact rational
+uniform means under the predeclared bound. CPU/GPU peaks are 37.125/36 C.
+The [component GPU receipt](development/validation/attention-fixture-point-2026-10-07.json)
+retains 107 verified archive members. Lease release at 04:22:36 UTC and strict
+closure at 04:23:11 verify both owned identities/container retired, original
+lease free and unchanged, HTTP8000 empty and router249393 restored. The first
+observer preparation exits1 locally before SSH; its corrected read-only check
+passes. No GPU test is repeated and no model is loaded. This completes generated
+component parity only; indexer, original-weight, disabled-feature GPU, fault,
+resource, quality and comparative performance gates remain open.
 The [portable HOST and compilation receipt](development/validation/attention-fixture-host-2026-10-07.json)
 retains the exact source checkpoint, actual stage exits, raw outputs and archive
 hashes. It is component tooling evidence, not original-weight qualification.
