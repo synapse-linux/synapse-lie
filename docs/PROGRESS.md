@@ -1,12 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-Owner-requested GLM fork ready — 2026-10-07 UTC. The next Q2 GPU test
-has collected evidence and released its window; checkpoint this branch and
-create `feature/glm53-flash-antirez` in a separate persistent worktree from
-that exact checkpoint. R3 predates the request and does not satisfy the trigger.
-The existing .157 `GLM-5.3-Flash-Q2.gguf` is observed by stat only; no tensor
-layout, inference compatibility, model conversion or GLM GPU run is claimed.
-[Recorded fork plan](../config/glm53-flash-integration-fork-plan.json).
+Owner-requested GLM fork created — 2026-10-07 UTC. The next Q2 GPU test
+closed and released all resources before checkpoint `da66cdfe`. Branch
+`feature/glm53-flash-antirez` now exists in sibling worktree
+`../glm53-flash-antirez`, derived from that exact Q2 checkpoint. Ignored
+build/evidence directories were not copied. The existing .157
+`GLM-5.3-Flash-Q2.gguf` is observed by stat only; integration has not started.
+No model conversion, inference-compatibility claim or GLM GPU reservation.
+[Recorded fork receipt](../config/glm53-flash-integration-fork-plan.json).
 
 IQ2 scalar LDS component preparation now links a private fixture against the
 saved MMQ archive, without rebuilding the control. It tests complete native

@@ -1,6 +1,6 @@
 {
   "schema": "synapse-lie.glm53-flash-integration-fork-plan.v1",
-  "state": "READY_FOR_POST_TEST_CHECKPOINT_AND_FORK",
+  "state": "CREATED",
   "requested_at": "2026-10-07",
   "owner_request": "alla chiusura del prossimo test, crea un fork da questo ramo per l'integrazione di glm5.3-flash con compressione antirez gia presente in .157",
   "source_branch": "feature/antirez-compat-audit",
@@ -43,7 +43,7 @@
     "Creating the worktree does not authorize a concurrent GPU run; future GLM tests need their own coordination.",
     "Creating the worktree does not establish GLM inference compatibility."
   ],
-  "fork_created": false,
+  "fork_created": true,
   "trigger_satisfied": {
     "test": "q2-iq2-decode-lds-component-r1",
     "command_exit_code": 0,
@@ -52,5 +52,10 @@
     "collected_artifacts": 38,
     "all_sha256_verified": true,
     "registry_matches": true
-  }
+  },
+  "fork_source_commit": "da66cdfe6d285297718ea73973f550cb61540e3d",
+  "created_at": "2026-10-07T16:31:20.992292+00:00",
+  "target_head_at_creation": "da66cdfe6d285297718ea73973f550cb61540e3d",
+  "ignored_builds_and_evidence_copied": false,
+  "integration_started": false
 }
