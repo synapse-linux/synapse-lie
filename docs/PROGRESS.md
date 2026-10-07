@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+IQ2 token256 host qualification — 2026-10-07 UTC: fresh read-only .157
+preflight confirms the latest Q2 release, no KFD client, 1898 retired process
+identities, 1513 retired groups, seven unchanged model stat identities and five
+free original leases. The new launcher is component-only and binds the private
+provider inventory. The .157 host cohort passes43/43 Debug and43/43
+ASan/UBSan tests; all six commands exit0 and seven artifacts collect. Frozen
+plan41f872d1 names only one guarded gate/up GPU comparison. There has been no
+GPU admission, remote GPU build, original-model inference or performance
+result. [Protocol and scope](COORDINATION.md),
+[source and component gate](Q2-HALOGEN-TRANSFER.md).
+
 Halogen token-side IQ2 probe preparation — 2026-10-07 UTC: a private provider
 and C17 route map pair 128-token descriptors within each expert into a
 256-token tile. All 48 saved routing layers and 18 boundary cases have exact

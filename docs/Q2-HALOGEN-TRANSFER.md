@@ -79,6 +79,10 @@ manifest, assembly analysis and isolated patch are in
 `../config/q2-iq2-token256-probe-static.json` and
 `../experiments/q2-iq2-token256-probe.patch`. A coordinated GPU component
 comparison is the next gate; no model run follows from this preparation.
+The .157 CPU host gate now passes 43 Debug and 43 ASan/UBSan checks with all
+six command exits zero. Its collected capsule and
+`../config/q2-iq2-token256-plan.json` bind the pending component; this host
+result does not admit a GPU run.
 
 The [Halogen benchmark conditions](https://github.com/peonist-ai/halogen-flash-server#measured)
 identify its measured rows as the older w4b checkpoint: the 0.14.1 prefill

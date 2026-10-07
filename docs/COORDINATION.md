@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+IQ2 token256 component preparation — 2026-10-07 UTC: Core reports no own
+.157 use, job, build, client, lease, window or reservation. Read-only
+preflight06:16:54.865534 anchors previous releasec087ce07, checks1898 retired
+identities/1513 groups, empty KFD, seven unchanged model stat identities and
+the original CPU/four GPU leases free. Host
+`q2-iq2-token256-host-r1` finishes06:17:59.719454 with43/43 Debug and43/43
+ASan/UBSan checks; all six commands exit0 and seven artifacts collect with
+archive493390e1. Plan41f872d1 binds20 tested fixture files and one new private
+IQ2 gate/up component only. No GPU admission, remote GPU build, model access,
+cleanup or window reservation has occurred. A fresh exact-plan admission is
+still required before the component runs; collect and release before analysis.
+
 Grouped selector scoring closed — 2026-10-07 UTC: checkpoint e825dff3,
 plan119bc361, admissionfc82491d at05:38:24.506912. Host-r1/r2 both pass
 42 Debug/42 ASan/UBSan checks; all component build/test exits0 and four
