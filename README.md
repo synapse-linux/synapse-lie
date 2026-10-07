@@ -33,6 +33,11 @@ All four replies are exact, but the incremental change is effectively flat;
 keep four-row down as the reference. The new candidate is not promoted.
 [Latest PP/TG comparison](docs/figures/q2-iq2-decode-lds-native128.png).
 
+The separate [selector query-LDS component](docs/Q2-SELECT-QUERY-PAIR.md)
+is numerically exact but increases complete operator latency62–91%; it is not
+integrated. An exact key-layout candidate is prepared for its own component
+test, including packing cost. This provides no new model throughput result.
+
 The subsequent down/SiLU fusion passes its exact component checks but adds
 no measured model gain:1332.307970 PP /25.595276 TG versus the retained
 isolated up/mix1337.119965 /25.914406. Keep the up/mix candidate.

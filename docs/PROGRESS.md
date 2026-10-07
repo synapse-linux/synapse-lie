@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Selector query LDS rejected — 2026-10-07 UTC: .157 component exits0 with
+48/48 exact output pairs and48/48 independent checks. Complete score/top-k
+latency increases62.31%,91.34%,86.58% on the same32K/full128K/tail128K internal
+slices. No model integration or throughput claim. All35 artifacts hash-verify
+before18:32:55.912809 release6b0d4d02; independent registry/retirement/KFD/
+five-lease/seven-model-stat closure passes. The next separate key-layout trial
+is locally compiled and its .157 CPU runner fixture passes; exact8x8 F16 tile
+packing is inside the component timer, with original arithmetic and top-k.
+Scoring uses the same115VGPR/84SGPR and no spill; GPU result remains pending.
+[Component evidence](Q2-SELECT-QUERY-PAIR.md).
+
 Single-query selector LDS component prepared — 2026-10-07 UTC: stage the
 original512 FP32 query values per key workgroup, preserving score arithmetic
 and original top-k. This differs from prior multi-query experiments. Retained

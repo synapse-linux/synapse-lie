@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Selector query LDS component released — 2026-10-07 UTC: source da31ffbc,
+plan7634d2a0; CPU fixture/verify/admit/run/release exit0. Run18:28:41→18:28:44;
+all35 artifacts hash-verify18:30:31 before18:32:55.912809 release SHA
+6b0d4d028408ba4d583bdee71827a368888d88078e0a07c91d737ec3b456c21c.
+Fresh18:33:09 closure verifies registry, nine retired identities/groups plus
+the supervisor, empty KFD, five unchanged free leases and seven model stats.
+No original model access, remote build, installation, tuning or cleanup.
+No Q2 GPU job/window/reservation remains. A separate key-layout component is
+staged persistently and CPU-fixture checked; this grants no GPU admission.
+
 IQ2 scalar LDS original128K model released — 2026-10-07 UTC: source5548600e,
 plan d74a1f28 and server30fdc4f6; CPU fixture/verify/admit/run/release0.
 Admitted18:02:37, run18:02:44→18:04:40, server/client0. All38 artifacts

@@ -1,5 +1,34 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The single-query LDS trial below completes on .157 at18:28:44 UTC,
+2026-10-07. All48 complete score/mask comparisons and48 independent FP64/
+CPU top-k checks pass; actual exit0. Completed score-plus-mark wall means
+over the five alternating pairs are:
+
+| Same internal selector slice | Original, us | Query LDS, us | Latency change |
+|---|---:|---:|---:|
+| Last full32K slice | 1047.9396 | 1700.8782 | +62.3069% |
+| Last full128K slice | 2868.9106 | 5489.4646 | +91.3432% |
+| Last128K tail slice | 2260.2874 | 4217.1506 | +86.5759% |
+
+All individual samples and valid HIP-event durations remain in
+[`q2-select-query-lds-results.json`](../config/q2-select-query-lds-results.json).
+The candidate is slower and is not composed into a model. Collection verifies
+35 artifacts before18:32:55.912809 release6b0d4d02; independent closure verifies
+the epoch registry, empty KFD, five free leases and unchanged model stats.
+
+The next isolated candidate changes only key layout to8-key by8-feature tiles.
+An exact uint4 packing pass is included in the complete score-plus-mark timer.
+Original FP32 queries, F16 key bits and score/reduction/top-k order remain.
+The synthetic fixture checks every packed half and unused sentinel, along with
+the same full outputs and independent checks. Its scratch is8560640 bytes;
+no persistent executor buffer or model dispatch is changed. Static compilation
+keeps115VGPR/84SGPR and zero LDS/scratch for scoring, matching the original
+resource counts. Invoked original score/mark functions are byte-exact to the
+retained model. Source/static manifests are
+`config/q2-select-key-tile-{source,static}.json`. Compilation and the .157 CPU
+runner fixture have passed; GPU execution still requires fresh admission.
+
 A separate single-query LDS component is prepared on2026-10-07. It retains
 one original score per thread and cooperatively stages the same4x128 FP32
 query values into2048bytes of workgroup storage. Every four-FMA partial,

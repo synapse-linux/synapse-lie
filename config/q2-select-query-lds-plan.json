@@ -1,0 +1,30 @@
+{
+  "schema": "synapse-lie.q2-select-query-lds-window-plan.v1",
+  "label": "q2-select-query-lds-component-r1",
+  "source_commit": "da31ffbc2584e23bd7a15cb600c29ed09213f52a",
+  "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+  "component_only": true,
+  "model_access": false,
+  "remote_build": false,
+  "remote_cleanup": false,
+  "timeout_seconds": 300,
+  "previous_release": "q2-iq2-decode-lds-native128-r1/release.json",
+  "previous_release_sha256": "0d852d5fe4a0cebcb2139e20c891d67aa4fa71f06dd51375f7ee443c99925e25",
+  "staged_sha256": {
+    "candidate.inc": "2494cd8ab8b5519a2a0afcedba0f7c08697081bfdc90f19ee4198b85ba38f488",
+    "fixture.hip": "22954fa9594794c055bf6b35f9d30870e6a538446b5f30d74767011ff965f8db",
+    "q2-decode-down-rows-native128-performance-window.py": "6f280e0896a77a1b008234dc32daf86b2392691dc3329afcd4bdc1fafe391551",
+    "q2-select-query-lds-window.py": "8a7e91c58f2c6fdec761f26d188e4bbd0b9899163f1768c248fa00ac0bcffbae",
+    "q2_select_query_lds_check": "174ae1a3c9b140a43438783914a409916db5481db5efa00b5ebd2824a31dab0b",
+    "q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "record-command.py": "8edc5d226b02722e1802f741f51e84ccbbbad66ec9d03cea39f6f286dfbdeadc",
+    "source-manifest.json": "408565b35211368e6356fbb3658b9bc304785ef593f33d760df438f308ae4931",
+    "static-manifest.json": "cf219509cba4c3f0ae07b88e5030e8a37f686c2c9d2244bc4a6fd162baec7f62"
+  },
+  "cpu_check_sha256": {
+    "cpu-test-command.json": "691a95dd6568dec405f8a9dc75c88866477a677af41e51820af89da7dfe5d065",
+    "cpu-test.stdout": "b6322ae5c8adbecf44dedd1c2ba480bedde00aeabd61e1b85dad2f298204f492",
+    "cpu-test.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "scope": "Exact original FP32 selector query staging in2KiB LDS; original score+topk and original32K/128K internal512row slices plus originaltail365. Synthetic operator only, no model workload/input change. Two warmups+five alternating measurements; exact whole outputs, FP64 and CPU topk checks."
+}
