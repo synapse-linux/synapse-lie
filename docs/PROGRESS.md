@@ -1,6 +1,25 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## MTP numerical observation prepared locally — 2026-10-07 UTC
+
+The additive C17 `lie/sampling_observer.h` contract exposes a synchronous,
+owner-only observed MTP call. Private adapter glue projects completed target
+draws, compact proposals and target verification, including exact RNG frontiers,
+penalties, history and the current grammar mask. Callbacks borrow data only for
+their duration, cannot veto numerical work and are removed on every return.
+The ordinary call has no installed observer; no thread or HTTP option is added.
+
+Release and unsuppressed ASan/UBSan/LSan pass six focused controls each for
+ON/OFF draw equivalence, borrowed lifetimes, masks, proposal/residual/deferred
+draws, ABI linkage and provider provenance. The initial sandboxed sanitizer
+run exits 8 because LeakSanitizer cannot inspect processes under ptrace; that
+failure is retained. This is HOST-NOT-INFERENCE preparation. The AR capture
+client remains unchanged; its MTP writer/replay and a new coherent HIP build
+are still required before original-weight probability/controller acceptance.
+The [HOST receipt](development/validation/sampling-observer-host-2026-10-07.json)
+binds exact source, actual exits, completed witnesses and portable raw evidence.
+
 ## MTP live prefill and RAM/SSD parity passed on Point — 2026-10-07 UTC
 
 The current r50 runtime passes original Q4/Q8 MTP probes with 8,192 input

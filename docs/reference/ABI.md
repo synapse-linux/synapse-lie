@@ -1,5 +1,24 @@
 # Experimental transitional execution ABI 3
 
+Sampling-observer ABI 1 (`lie/sampling_observer.h`) is an additive diagnostic
+contract. `lie_sequence_decode_mtp_observed` executes the ordinary single-row
+MTP call on the device owner with a callback installed for that call only.
+Each completed target draw, compact proposal or target verification borrows
+raw logits, compact ID mapping, history, generated-token penalties, grammar
+mask, exact RNG before/after and the actual proposal/result. A deferred target
+draw is identified explicitly and consumes no second RNG draw.
+Copy needed data inside the callback; do not retain pointers, throw, destroy
+state or reenter executor APIs. A callback cannot veto, edit or retry work.
+Writer failures belong to the client and are checked after numerical return.
+Invalid observer/owner/nested admission preserves the output. Unavailable
+backends and adapters without the verified state-access provider explicitly
+refuse; no observer remains after failure.
+GPU greedy verification can omit host rows, so missing events cannot qualify
+those predictions. Existing executor/request/core/state layouts and reactive
+scheduling remain unchanged. Capture I/O is excluded from throughput claims.
+The new observation path has HOST checks only; original-weight acceptance must
+bind a new coherent provider/consumer build.
+
 Prefill ABI 1 (`lie/prefill.h`) adds tagged `lie_prefill_options` and
 `lie_prefill_info` without changing executor ABI 3, request ABI 8 or existing
 core/job-info layouts. Initialize both structures before use. The additive

@@ -19,6 +19,10 @@ Each closure checks exact supervisor/client/init and container absence, no
 foreign compute, no guarded hot sensor and port 8000 empty. Peers receive
 verified closure. Root has no remote job/build/client/handle/lease/window/waiter/
 reservation on `.161/.157/.158/TB`. Further gates need fresh admission.
+The subsequent owner-only sampling-observer source has HOST checks only and
+creates no remote operation or reservation. An observed MTP GPU gate must bind
+a newly coherent provider/consumer build and repeat fresh admission; the r53
+receipt continues to qualify its recorded runtime only.
 
 ## Original RAM/SSD prefill cache passed and retired — 2026-10-07
 

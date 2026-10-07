@@ -1,5 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 #include "lie/executor.h"
+#include "lie/sampling_observer.h"
+#include <string.h>
 #include <stddef.h>
 _Static_assert(LIE_EXECUTOR_ABI == 3, "ABI marker");
 _Static_assert(sizeof(lie_model_options) == 20, "versioned profile options layout");
@@ -17,5 +19,10 @@ int main(void) {
         return 2;
     if (lie_model_token_is_stop(NULL, -1, NULL, NULL) != LIE_UNSUPPORTED)
         return 3;
+    lie_mtp_outcome observed, before;
+    memset(&observed, 0x5a, sizeof(observed)); before = observed;
+    if (lie_sequence_decode_mtp_observed(NULL, 1, NULL, &observed, &error) != LIE_UNSUPPORTED ||
+        memcmp(&observed, &before, sizeof(observed)))
+        return 4;
     return 0;
 }

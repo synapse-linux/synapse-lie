@@ -1,6 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 # C17 sampling and grammar runtime
 
+The owner-only [sampling observer](../reference/ABI.md) now supplies the missing
+numerical witnesses for actual MTP-controller qualification: completed target
+draws, compact proposals, target verification, RNG frontiers and grammar masks.
+The adapter projects borrowed data through `lie/sampling_observer.h`; upstream
+types remain private. Five exact edits wrap the three existing engine call
+sites and expose a read-only mask accessor, without changing private layouts
+or sampling algorithms. The provider receipt binds the new recipe and both
+owned projection files, with an exact 122-file sampling inventory. Older
+provider receipts cannot silently qualify this path. ON/OFF Release and
+unsuppressed sanitizer HOST fixtures pass; the MTP capture writer/replay,
+matching HIP build and original-weight numerical/controller gates remain open.
+
 Current source includes exact final decimal validation, a C17 compilation
 context/bootstrap, native schema staging/string construction, the complete
 production schema frontend and native history/probability buffer ownership.

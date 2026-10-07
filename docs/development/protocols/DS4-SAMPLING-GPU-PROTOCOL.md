@@ -96,6 +96,13 @@ transitions, faults, quality and cost retain their separate gates.
 
 ### Required-function rows
 
+The additive owner-only `lie_sequence_decode_mtp_observed` contract now prepares
+actual MTP draw/proposal/verification witnesses, including RNG and grammar masks.
+Its ON/OFF HOST checks establish observation lifetimes and unchanged draws,
+not original-weight probabilities. The existing AR CLI below is unchanged;
+MTP capture writer/replay integration and a coherent HIP build remain required.
+No MTP GPU run is admitted by this preparation.
+
 The same C17 client accepts `--tools` for six fresh seeded sessions with the
 same generation profiles. It renders one strict `describe_stack` function,
 requires exactly one call and disables parallel calls. Its frozen schema admits

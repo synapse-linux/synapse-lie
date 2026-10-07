@@ -9,6 +9,7 @@
 #include "lie/executor.h"
 #include "lie/prefill.h"
 #include "lie/mtp.h"
+#include "lie/sampling_observer.h"
 #include "lie/vision.h"
 #include "lie/state.h"
 #include "lie/store.h"
@@ -34,6 +35,7 @@
 #include <unistd.h>
 #ifdef LIE_GUFO_STATE_ACCESS
 #include "gufo-state/access.hpp"
+#include "gufo_sampling_observer.hpp"
 #endif
 
 extern "C" void lie_gufo_quiesce_or_exit(void) noexcept;
@@ -92,6 +94,9 @@ lie_status error(lie_error *e, lie_status s, const char *message) noexcept {
     return s;
 }
 lie_status owner(const std::shared_ptr<Runtime> &r, lie_error *e, bool closing = false) noexcept {
+#ifdef LIE_GUFO_STATE_ACCESS
+    if(lie_gufo::sampling_observer_callback)return error(e,LIE_INVALID,"executor reentry from sampling observer");
+#endif
     if (r->owner != std::this_thread::get_id()) return error(e, LIE_WRONG_OWNER, "device worker ownership violation");
     if (r->failed && !closing) return error(e, LIE_BACKEND_FAILED, "model is poisoned; no retry permitted");
     return LIE_OK;
@@ -864,6 +869,22 @@ extern "C" lie_status lie_sequences_decode_mtp(lie_sequence *const *rows,const u
     });
     if(status!=LIE_OK)for(size_t i=0;i<n;++i){out[i]={};out[i].status=status;}
     return status;
+}
+extern "C" lie_status lie_sequence_decode_mtp_observed(lie_sequence *s,uint32_t limit,
+    const lie_sampling_observer *observer,lie_mtp_outcome *out,lie_error *e) {
+#ifdef LIE_GUFO_STATE_ACCESS
+    if(!s||!out||!observer||observer->abi_version!=LIE_SAMPLING_OBSERVER_ABI||
+       observer->struct_bytes!=sizeof(*observer)||!observer->observe)
+        return error(e,LIE_INVALID,"invalid sampling observer");
+    if(lie_gufo::sampling_observer||lie_gufo::sampling_observer_callback)
+        return error(e,LIE_INVALID,"nested sampling observation");
+    auto status=owner(s->runtime,e);if(status!=LIE_OK)return status;
+    lie_gufo::SamplingObservationScope scope(observer);
+    lie_sequence *rows[]={s};return lie_sequences_decode_mtp(rows,&limit,1,out,e);
+#else
+    (void)s;(void)limit;(void)observer;(void)out;
+    return error(e,LIE_UNSUPPORTED,"sampling observation requires the verified provider");
+#endif
 }
 extern "C" lie_status lie_sequence_logits(lie_sequence *s, float *out, size_t capacity, size_t *required, lie_error *e) {
     if (!s || !required || (!out && capacity)) return error(e, LIE_INVALID, "invalid logit destination");

@@ -76,6 +76,12 @@ resource snapshots are LIE contracts, not a DS4 serializer or executor port.
 It uses existing pthread/OpenSSL dependencies without creating runtime threads;
 no DS4 source, artifact, model or qualified evidence is modified or imported.
 
+The sampling-observer recipe wraps three existing pinned Gufo engine call sites
+and adds a read-only sampler mask accessor. Its numerical functions remain the
+pinned original/verified C17 variants. `gufo_sampling_observer.hpp` only projects
+borrowed diagnostics through a C17 contract; no sibling code or new dependency
+is imported. The retained Gufo license/notice and exact source provenance apply.
+
 ## Actual external dependencies
 
 | Component | Observed version/pin | License / use |

@@ -62,6 +62,12 @@ foreach(arm IN ITEMS reference candidate fallback)
     target_compile_definitions(${arm} PUBLIC LIE_TEST_BIAS=1)
   endif()
   target_link_libraries(${arm} PUBLIC ICU::uc ICU::i18n Threads::Threads m)
+  if(NOT arm STREQUAL "reference")
+    add_executable(${arm}-sampling-observer "${REPO}/tests/sampling/observer.cpp")
+    target_link_libraries(${arm}-sampling-observer PRIVATE ${arm})
+    add_test(NAME ${arm}-sampling-observer COMMAND ${arm}-sampling-observer)
+    set_tests_properties(${arm}-sampling-observer PROPERTIES TIMEOUT 30)
+  endif()
   # Test-only copy exposes the local compiler helper without editing upstream
   # or production visibility. Linking this object supplies constraint symbols;
   # the original constraint object in the static archive is not extracted.

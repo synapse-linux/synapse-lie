@@ -179,6 +179,14 @@ This qualifies selected greedy live/cache behavior at PP8192/TG32, not broader
 MTP probability/filter/grammar, quality/fault/resources or matched performance.
 All six roadmap items remain open; no remote window is reserved.
 
+The next MTP numerical gate now has an additive C17 owner-only observation
+contract. Private glue captures completed target/proposal/verification draws,
+RNG, history, penalties and grammar masks without changing sampling policy,
+core scheduling or worker counts. Focused ON/OFF Release and unsuppressed
+sanitizer HOST checks pass. The native AR capture client is unchanged; an MTP
+writer/replay and newly coherent HIP build are required before this new path
+can qualify actual original-weight probabilities or controller branches.
+
 An open qualification gate does not mean its implementation is absent:
 
 | Item | Source already integrated in this branch | Final qualification still open |
