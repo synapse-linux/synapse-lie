@@ -1,5 +1,19 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Native Q8 SSM wave-balance component released — 2026-10-07 UTC: following
+Core's own explicit .157 non-use, fresh preflight10:22:59 checks release
+5a6cc85f, empty KFD, five free original leases, seven unchanged model stats
+and CPU37.375C. CPU supervisor success/failure tests pass; plan98e7cf1e and
+checkpointabd983fd admit10:23:18.954294UTC. The sole synthetic GPU component
+exits0 at10:23:43.227229; all11 raw artifacts collect/hash before release
+10:25:05.089864UTC, SHA
+f7703956a2bbddc82549e4a75605631dd50d00115be018b80a9eab9fa1181806.
+The latest registry event matches the collected receipt:1958 identities and
+1564 groups retired, KFD empty, five original leases free and seven unchanged
+model stat tuples. No model access, remote build or cleanup. Core is notified;
+no Q2 GPU job/client/handle/lease/window/waiter/reservation remains. Offline
+analysis rejects the slower candidate. [Result](Q2-SSM-WAVE-BALANCE.md).
+
 Q5 shared-down original-model window released — 2026-10-07 UTC: after Core's
 explicit .157 non-use, fresh preflight09:54:36 verified previous release
 1296c307, empty KFD, five free original leases, seven unchanged model stat

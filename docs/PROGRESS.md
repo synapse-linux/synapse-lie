@@ -1,11 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-Native Q8 SSM wave assignment prepared — 2026-10-07 UTC: the private
-[unchanged-tile candidate](Q2-SSM-WAVE-BALANCE.md) reduces logical LDS operand
-reads20% while keeping original Q8/F16 arithmetic and convolution. Local
-gfx1151 compilation has zero spill; VGPR rises220→237 and LDS stays48KiB.
-The complete guarded SSM fixture builds; no GPU or model gain is claimed.
-The lossy Q5 track stays closed.
+Native Q8 SSM wave assignment rejected — 2026-10-07 UTC: the private
+[unchanged-tile candidate](Q2-SSM-WAVE-BALANCE.md) completes on .157 with72
+exact whole-output pairs and144 passing independent FP64 checks. Median
+projection/convolution time rises4918.818333→5677.352667us (+15.421068%),
+despite20% fewer logical LDS operand reads. Local resources are220→237VGPR,
+48KiB LDS and zero spill; the test does not isolate the cause of regression.
+Eleven raw artifacts collect/hash before10:25:05UTC release f7703956, KFD
+empty, five leases free and seven model stats unchanged. No model trial or
+promotion follows. The lossy Q5 track stays closed.
 
 Original antirez Q2 has no native Q5 — 2026-10-07 UTC: the retained GGUF
 header inventory lists337 `Q8_0`,96 `IQ2_XXS`,48 `Q2_K` and zero Q5 tensors.

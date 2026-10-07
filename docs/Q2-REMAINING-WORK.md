@@ -138,6 +138,10 @@ replace either the fixed reference or the saved native-curve UD values.
    an expanded permanent weight mirror. Register/LDS resources must be checked
    before one new model trial. Aligned-pair loaders, mirrors, row-group4,
    compact-LDS and pingpong variants are completed negatives, not new work.
+   The unchanged BM256/BN128 wave-balance trial is now also closed:
+   WM4/WN2 reduces logical LDS operand reads20%, but complete SSM component
+   latency increases15.421% with all72 outputs exact. It provides no model
+   gain and does not justify another wave-grid permutation by itself.
 2. **A complete HC buffer-pass removal.** The saved combine/norm/injection
    region costs186.168ms. Remove an active read/write pass while preserving
    ten-expert reduction order, residual contributions and last-reader ownership.

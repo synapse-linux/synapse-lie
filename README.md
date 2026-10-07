@@ -1,8 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
 A private [native Q8 SSM wave assignment](docs/Q2-SSM-WAVE-BALANCE.md)
-now compiles at unchanged tile size and arithmetic. It reduces logical LDS
-operand reads, but needs a coordinated GPU measurement before any promotion.
+passes72 exact output pairs and144 independent numerical checks on .157, but
+complete-operator latency grows15.42%. Keep the retained provider; this
+experiment contributes no model throughput gain.
 
 The owner now prioritizes [prefill and decode through 128K](docs/Q2-DECODE-128K.md).
 The active target is C1 AR30 token/s and complete prefill1500 token/s through
