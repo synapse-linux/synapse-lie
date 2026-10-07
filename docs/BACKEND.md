@@ -147,6 +147,17 @@ The compiled native client and that supervisor are bound separately. This is
 compilation and client-contract evidence; original-weight live/cache/cancel/
 fairness and broader acceptance still need fresh admission. All six items stay open.
 
+The r50 runtime subsequently passes original Q4 AR PP32768/TG32/C2 live
+selection with fixed context 65,536/capacity 32,768. Active/queued choices remain
+2,048/revision 1 and 32,768/revision 2 while the core returns to 2,048/revision 3.
+Complete peer output matches the cold baseline and fresh post-cancellation
+output. Withheld-credit peer progress, borrowed-output stability and actual
+zero-output cancellation during prefill pass. The
+[live functional receipt](development/validation/prefill-live-original-point-2026-10-07.json)
+binds actual exits, sampled resources, independent review and strict closure.
+RAM/SSD/MTP, broader quality/fault/resource and matched performance gates remain
+open; this selected functional pass does not establish a throughput gain.
+
 An open qualification gate does not mean its implementation is absent:
 
 | Item | Source already integrated in this branch | Final qualification still open |

@@ -1,5 +1,29 @@
 # DS4 / synapse-lie coordination
 
+## Original-weight live prefill passed and retired — 2026-10-07
+
+Fresh explicit Point/DGX own-state replies and the 09:23:46 UTC global preflight
+precede r51 admission. Q2 non-use on `.161` is inferred from its current local
+work and sole declared `.157` scope; it is not an explicit per-target reply or
+grant. The evidence preserves that limitation. The runner acquires original
+lease 66307/105946405 separately and repeats resource/thermal admission.
+
+The original Q4 AR PP32768/TG32/C2 live probe passes on the r50 runtime with
+controller/supervisor/native exits 0. Full peer, baseline and post-cancellation
+output IDs match; in-flight selection, immutable admitted choices, withheld
+credit, borrowed-output stability and zero-output prefill cancellation pass.
+The [functional receipt](development/validation/prefill-live-original-point-2026-10-07.json)
+retains complete measurements, all 11 collected artifacts and independent review.
+
+Supervisor 278745/start 23408329, its client, init 279058/start 23408459 and
+container `bc0fb6c0b8f937c8124683f2d4e1f239d1a5433a5622083da1e71fefc206aed7`
+retire. Lease releases at 09:32:08 UTC; strict closure at 09:32:55 verifies all
+exact identities absent, unchanged lease free, HTTP8000 empty and router 280054
+restored. Peers receive verified closure. Root holds no remote job/build/client/
+handle/lease/window/waiter/reservation on `.161/.157/.158/TB`. RAM/SSD/MTP and
+other original-weight gates need fresh admission. All six roadmap items remain
+open; matched benchmarks and Terminal Bench follow functional qualification.
+
 ## Native prefill client Point build passed and retired — 2026-10-07
 
 Fresh Point/DGX own-state replies and 09:00:23 UTC global preflight precede the

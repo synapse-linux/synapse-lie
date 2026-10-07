@@ -42,6 +42,13 @@ A subsequent PP32768/TG32 comparison also passes exact greedy parity at chunks
 ([32K receipt](../development/validation/prefill-original-32k-point-2026-10-07.json)).
 Live changes with active/queued jobs, cache,
 cancellation/fairness and broader correctness/resource/performance remain pending.
+The later r50 native AR PP32768/TG32/C2 probe passes an actual in-flight setter,
+immutable active/queued selections, full peer output against the baseline,
+withheld-credit peer progress and borrowed-output stability. Cancellation during
+prefill retires with zero output and a fresh complete request matches the baseline
+([live Point receipt](../development/validation/prefill-live-original-point-2026-10-07.json)).
+RAM/SSD/MTP and broader quality/fault/resource/performance acceptance remain open;
+the selected functional pass does not change the ABI or qualify throughput.
 See [configuration](../guides/USAGE.md#context-and-concurrency) and
 [cache identity](STATE.md).
 

@@ -1,6 +1,27 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Original-weight live prefill passed on Point — 2026-10-07 UTC
+
+The r50 runtime passes the native AR probe with a 32,768-token prompt, 32-token
+output, two concurrent requests, context 65,536 and reserved capacity 32,768.
+An actual in-flight prefill call keeps the active request's chunk 2,048 and the
+queued peer's chunk 32,768 while the core selection changes twice. The active
+and peer requests complete 16 and one prefill calls respectively. All 32 peer
+output IDs match the cold baseline and the fresh request after cancellation.
+The peer finishes while the other request holds a borrowed output and has no
+credit. Cancellation during prefill retires without output or failed requests.
+
+Controller, supervisor and native client exit 0. Independent saved-data review
+and collection of all 11 remote artifacts pass. Sampled CPU/GPU/NVMe peaks are
+79/85/62.85 C; peak GTT is 110,823,370,752 bytes. Strict closure at 09:32:55 UTC
+verifies all owned process/container identities absent, the original lease free,
+port 8000 empty and router 280054 restored. The
+[functional receipt](development/validation/prefill-live-original-point-2026-10-07.json)
+binds the complete witnesses and portable raw evidence. RAM/SSD, MTP and broader
+quality/fault/resource/performance gates remain open. All six roadmap items
+remain open; matched benchmarks follow qualification and Terminal Bench is last.
+
 ## Prefill qualification client compiled on Point — 2026-10-07 UTC
 
 The device-hidden `.161` ROCm 10 build of `cb75a48f` completes both coherent
