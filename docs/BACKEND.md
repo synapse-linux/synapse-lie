@@ -23,8 +23,10 @@ grammar permits the second call and allows natural EOS after the first. The
 model-layer prompt now adds the missing JSON format guidance, following the
 pinned upstream constrained-request behavior for both text and vision. This
 correction has [grouped HOST checks](development/validation/tool-prompt-guidance-host-2026-10-07.json)
-and needs a new coherent HIP build and the same frozen original-weight
-question; it does not establish that the quality miss is fixed. Before wider tool acceptance,
+and a [coherent device-hidden HIP build](development/validation/tool-prompt-guidance-point-build-2026-10-07.json)
+of both providers and all six consumers at `acfb9d26`. The same frozen
+original-weight question still needs qualification; compilation does not establish
+that the quality miss is fixed. Before wider tool acceptance,
 steering quality, long-context recall/HTTP, fault/resource gates, matched
 comparisons and Terminal Bench remain open. Terminal Bench stays last.
 

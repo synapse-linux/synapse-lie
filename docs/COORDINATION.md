@@ -1,5 +1,31 @@
 # DS4 / synapse-lie coordination
 
+## Corrected tool prompt Point build retired — 2026-10-07
+
+The first r62 read-only preflight exits1 before staging/build because `.161`
+has rebooted. Boot `7a966774-3424-46c3-8045-34f759ea58a1` retains filesystem UUID
+`720d3f3a-db4b-4287-bf9c-77cc76bcb7cb` and original lock inode `105946405`/uid1000;
+mount device changes from 66307 to 66308. No lock is replaced or unlinked.
+Point/DGX/Q2 acknowledge this identity correction and declare their current
+`.161` non-use; fresh global/in-lease checks precede the acfb9d26 build.
+The canonical deadline is 7,200 seconds, corrected before admission from the
+initial 1,800-second proposal. Devices/network are hidden and no model runs.
+
+Both providers and all six consumers finish with controller/supervisor/child
+exit0. All 32 collected artifacts verify. Lease66308/105946405 releases at
+15:12:21.694566 UTC. Strong closure at 15:14:50.593440 verifies supervisor
+3891/start169682, observed init3964/start169772, container `6a310673` and its
+entire recorded cgroup absent; two complete process scans find no members or
+unreadable entries. Router9672 is active, original lease free/released, HTTP8000
+empty and no foreign compute or guarded hot sensor is observed. Peaks are
+CPU74.5/GPU46/NVMe55.85 C. Peers receive the verified release.
+
+The [build receipt](development/validation/tool-prompt-guidance-point-build-2026-10-07.json)
+grants no model qualification or future window. Root has no remote job/build/
+client/handle/lease/window/waiter/reservation on `.161/.157/.158/TB`. The unchanged
+original two-call question and subsequent AR/MTP checks need new bound manifests
+and fresh admission. All six items stay open; Terminal Bench remains last.
+
 ## Strict tool prompt correction qualified locally — 2026-10-07
 
 Root corrects the model-layer JSON format guidance without numerical, ABI or

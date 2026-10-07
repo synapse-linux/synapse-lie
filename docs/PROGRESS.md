@@ -1,6 +1,26 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Corrected tool prompt compiled on Point and build closed — 2026-10-07 UTC
+
+The coherent `.161` ROCm10 build of `acfb9d26` passes both complete private
+providers and all six consumers. Independent reconstruction verifies 1,019
+pinned upstream files, 42 recipes and 338 replacements; collected compiler
+commands verify C17 ON/OFF flags and consumer linkage. All 32 compile/control/
+coherence files verify. The model-layer correction is compiled, with no model
+or GPU executable run and no performance or quality acceptance claimed.
+
+The initial read-only preflight refuses a changed mount device after reboot.
+The same filesystem UUID and original lock inode are preserved; fresh peer
+declarations and boot-bound global/in-lease checks precede the build. Peaks are
+CPU74.5/GPU46/NVMe55.85 C. The lease releases at 15:12:21 UTC; 15:14:50 closure
+verifies actual supervisor/init identities, container and recorded cgroup absent,
+two complete process scans empty, original lease free/released and router restored.
+The [build receipt](development/validation/tool-prompt-guidance-point-build-2026-10-07.json)
+retains source, exits, initial refusal and portable raw evidence. The original
+two-call quality miss remains unresolved. All six items stay open; no root
+remote job or reservation remains and Terminal Bench stays last.
+
 ## Constrained tool prompt alignment passed on HOST — 2026-10-07 UTC
 
 Diagnosis finds a concrete missing upstream behavior: the sampler accepts JSON

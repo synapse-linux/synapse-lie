@@ -806,7 +806,9 @@ system message; their content, offsets and ownership are preserved. Exact
 rendered bytes remain the text-prefix cache key, including this guidance.
 No public structure, scheduler thread or numerical algorithm changes. Raw
 tokenization remains distinct. Original-weight acceptance of the corrected
-prompt policy requires a newly bound HIP runtime.
+prompt policy remains open; both providers and all six consumers now have a
+[coherent device-hidden HIP build](../development/validation/tool-prompt-guidance-point-build-2026-10-07.json)
+at `acfb9d26`, without model execution or changes to public layouts.
 No tool code executes here. Exact-session snapshots remain absent;
 MTP uses its separate admitted contract. Native decode batching uses the additive contract below.
 An owned or selectively ported renderer must preserve the applicable, separately

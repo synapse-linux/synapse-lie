@@ -191,6 +191,9 @@ vision after image attachment; no numerical implementation is substituted. Upstr
 provenance/notices remain applicable. Pi is an optional external client, using its
 standard OpenAI provider and normal JSON configuration; no extension or Pi source
 is bundled/modified. Tool-frame tests and CPU/Pi fixtures are not model qualification.
+The corrected guidance now compiles in both private HIP providers and all six
+consumers ([build receipt](../docs/development/validation/tool-prompt-guidance-point-build-2026-10-07.json));
+this device-hidden build does not qualify original-weight tool behavior.
 
 ## Archived private Q2 experiment
 
