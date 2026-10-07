@@ -1,5 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+HC down/SiLU component prepared — 2026-10-07 UTC: separate HIP kernel
+preserves original F16/F32 arithmetic,16-wave reduction and scalar scale
+boundary; original fixture/control/consumer instructions match saved native
+servera4afb757. Local build/link/format pass. One guarded100/200MiB complete
+component is prepared; no GPU admission or model gain yet.
+[Scope](Q2-HC-DOWN-SILU.md).
+
 Isolated HC original128K qualification — 2026-10-07 UTC: source539a3457,
 servera4afb757 and plan5d547363 complete the unchanged130925/8 workload at
 1337.119965 PP /25.914406 TG, versus saved1310.874605 /25.344213. All four
