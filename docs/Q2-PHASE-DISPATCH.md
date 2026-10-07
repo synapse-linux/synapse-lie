@@ -6,6 +6,13 @@ contract. Prefill, autoregressive decode and speculative verification are
 distinct. Reuse the same model, session state, KV and stream; switching kernels
 does not require loading another engine or duplicating weights.
 
+A candidate that helps only one phase can remain enabled for that phase while
+the other phase uses its retained implementation. Qualification should record
+both rates independently; a prefill regression is not compensated by a decode
+gain when both targets must be met. The final combined executable still needs
+its own measurement because shared allocations, compilation or resource use
+can affect an otherwise unchanged phase.
+
 The retained isolated HC provider already applies this rule. Forward enters
 PrefillPhase(mode == kPrefill); MatrixRows returns true during the entire
 prefill body, even for a one-token final chunk. Scalar HC up/mix additionally
@@ -18,6 +25,22 @@ use the qualified single-row, no-injection HC operation after a prefill too.
 This is a separate operation from the matrix body. Do not infer whole-request
 phase from row count alone, and do not disable a qualified head optimization
 merely because the request has a long prompt.
+
+The new four-row Q2_K down candidate follows the same policy. Its executor
+guard requires `!prefill_phase`, a non-tiled operation, one input token, ten
+expert slots, one expert per slot, 2560 output rows, 768 stored / 640 logical
+input columns and 512 experts. The entire prefill body keeps its prior branch,
+including a final one-token chunk. Unsupported shapes and formats fall back.
+Single-token speculative verification with the same operation geometry can
+also take this path; this does not qualify multi-token verification or MTP as
+a whole. No new weight or intermediate storage quantization is introduced.
+
+The component reduces complete-operation latency by 6.96%, with small observed
+rounding differences; full-model performance and task quality are separate
+gates. All 922 common compiled GPU functions remain byte-identical to the
+retained isolated HC binary. The new function matches the measured component.
+[Dispatch patch](../experiments/q2-decode-down-rows-model.patch),
+[component and model evaluation](Q2-DECODE-DOWN-ROWS.md).
 
 Compiler settings also need isolation: scalar HC resides in a separate HIP
 translation unit. Its -g0 setting does not change the common backend's

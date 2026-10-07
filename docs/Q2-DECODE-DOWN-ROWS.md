@@ -1,6 +1,25 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Reuse native Q2_K decode inputs across more output rows
 
+## Original 128K model trial: completion unverified
+
+The phase-scoped candidate is built and staged as server f8a5210c, source
+60439e4d. CPU input/lifetime fixtures and preflight both exit 0. The original
+130925-token/eight-output workload, preceded by the same three preparation
+requests, is admitted at 2026-10-07 14:15:23.824379 UTC under plan 6e7ed1e3.
+Capacity 133760, chunk 2048, saved native client, zero cached tokens and
+port 8000 are unchanged. Only the candidate is run.
+
+The run transport subsequently exits 255 with connection timeout/broken pipe;
+two read-only follow-ups exit 255 with No route to host. The remote command
+exit, outputs, throughput and release are not yet available locally. The
+transport error does not establish a model or numerical failure. Keep the
+window outstanding and recover its existing evidence before any new run.
+No model gain, quality acceptance or GPU release is claimed.
+
+[Frozen plan](../config/q2-decode-down-rows-native128-plan.json),
+[phase selection](Q2-PHASE-DISPATCH.md).
+
 ## Completed component: retain four rows for model evaluation
 
 | Rows per wave | Median complete cycle us | Change versus two rows |

@@ -1,5 +1,19 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Outstanding Q2 original128K window — 2026-10-07 14:29 UTC:
+CPU fixture and verify exit 0 at 14:10:01.321352 UTC. Source 60439e4d,
+server f8a5210c and plan 6e7ed1e3 admit q2-decode-down-rows-native128-r1
+at 14:15:23.824379 UTC after fresh checks and Core own non-use. Predecessor
+is component release 9954b78f. The admitted original-input candidate run
+starts, but its SSH handle 89903 later exits 255 (connection timeout/broken
+pipe). Two read-only SSH connections exit 255 with No route to host.
+Remote run exit, child retirement, artifact collection and release remain
+unverified. The window must remain outstanding; no new admission or GPU-free
+claim follows from losing SSH. Core is notified. On restored access inspect
+the existing persistent run directory, collect/hash completed or failed
+evidence and use its existing release helper only after its checks pass.
+No new run, cleanup, remote build, service, dependency or tuning action occurs.
+
 Q2_K decode row reuse completed — 2026-10-07 UTC: four rows reduce the
 native-quantizer/down component49.809156 to46.342375us (-6.960128%);
 eight rows regress31.706143%. All five measured rotations agree. Keep four

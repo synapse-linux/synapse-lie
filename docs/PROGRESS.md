@@ -1,5 +1,19 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2 phase-specific model trial outstanding — 2026-10-07 14:29 UTC:
+source 60439e4d and server f8a5210c select the measured four-row Q2_K down
+kernel only outside prefill at its qualified scalar shape. All 922 common
+GPU functions remain exact. CPU fixture and verify exit 0; plan 6e7ed1e3
+admits at 14:15:23.824379 UTC with the original 130925/8 request sequence.
+The run SSH connection later exits 255 (connection timeout/broken pipe);
+two read-only follow-ups exit 255 with No route to host. The remote command,
+children, result and release cannot yet be verified. This is a transport
+failure, not evidence of a numerical failure or a slower/faster candidate.
+Do not start another GPU run or declare the window released. Recover the
+existing result, collect/hash artifacts, then verify closure on reconnection.
+No control rerun or source/model change occurs.
+[Dispatch](Q2-PHASE-DISPATCH.md), [trial](Q2-DECODE-DOWN-ROWS.md).
+
 Q2_K decode row reuse completed — 2026-10-07 UTC: four rows reduce the
 native-quantizer/down component49.809156 to46.342375us (-6.960128%);
 eight rows regress31.706143%. All five measured rotations agree. Keep four
