@@ -90,8 +90,58 @@ Source and local fixtures do not establish original-weight probabilities.
 Qualification additionally requires an admitted GPU capture, pinned original
 weights/runtime provenance, actual command exits and process/lease closure.
 This tooling changes no core/executor ABI, reactive scheduling, production
-sampler or product Python dependency. Tool-mode probabilities, actual MTP
-acceptance/correction, faults, quality and cost retain their separate gates.
+sampler or product Python dependency. The required-function mode below prepares
+tool probability evidence; actual MTP acceptance/correction, broader tool
+transitions, faults, quality and cost retain their separate gates.
+
+### Required-function rows
+
+The same C17 client accepts `--tools` for six fresh seeded sessions with the
+same generation profiles. It renders one strict `describe_stack` function,
+requires exactly one call and disables parallel calls. Its frozen schema admits
+`order` (`LIFO` or `FIFO`) and integer `size` from 0 through 9; the user prompt
+requests `LIFO` and 3. A structured-answer constraint makes this workload
+call-only, without free prose before or after the call. The ordinary shared-core
+output validator checks the entire completed call; no function is executed.
+
+```sh
+build/gpu/lie-sampling-capture \
+  --model /path/to/original/first-shard.gguf \
+  --output-dir evidence/sampling-required-functions --tools
+```
+
+Here `--tokens` is a maximum **row** budget, including the final EOS row; the
+default is 128. Natural EOS is required after a valid call. A budget exhausted
+before EOS fails and preserves partial evidence. EOS advances no physical
+position and emits no token. The executor does not expose the sampled EOS ID:
+the replay verifies that its draw belongs to the captured stop-token set and
+that the live stop occurs at the same completed frontier, rather than claiming
+an observed live EOS identity.
+
+The version-2 manifest binds `vocabulary.bin`, raw row hashes, physical prompt
+and committed IDs, emitted/stop flags, generation/constraint identity and parsed
+call arguments. Vocabulary encoding is the eight-byte `LIEVOC01` magic, a
+little-endian u32 count, then per-token u32 byte length, u32 stop flag (0 or 1)
+and exact raw bytes. Limits are 1,048,576 tokens, 32,768 bytes per piece and
+64 MiB overall; empty pieces, split UTF-8 and embedded NUL remain representable
+in the vocabulary. Completed tool output is separately bounded at 32,768 bytes
+and rejects embedded NUL. The owner-only, model-neutral
+`lie_model_token_is_stop` accessor performs no forward or sampler mutation.
+
+The existing three replay executables automatically recognize this format.
+They reconstruct the grammar from the bound constraint and vocabulary, check
+**every** token against a separate byte-by-byte membership walk, then compare
+the complete mask, filtered probability mass, committed draws and history.
+The independent long-double oracle excludes disallowed tokens before ranking.
+The replay also assembles the captured pieces and independently validates the
+call name, schema and saved arguments. `semantic_match` reports whether the
+model chose the requested `LIFO` and 3; schema validity is not a quality score.
+
+This is deferred qualification tooling. Local synthetic fixtures do not prove
+original-weight tool probabilities, result correlation, free-prose/parallel
+behavior, MTP controller branches, faults or performance. The new accessor and
+client require a matching final HIP build before an admitted GPU capture.
+Version-1 unconstrained captures and their complete witnesses remain compatible.
 
 ## Required gates
 

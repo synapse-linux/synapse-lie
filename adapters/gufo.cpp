@@ -439,6 +439,17 @@ extern "C" lie_status lie_model_chat_tokens(lie_model *m, const lie_chat_message
     const lie_chat_template input{messages,nullptr,count,nullptr,0,0};
     return lie_model_chat_tokens_ex(m,&input,out,capacity,required,e);
 }
+extern "C" lie_status lie_model_token_is_stop(lie_model *m, int32_t token,
+    uint32_t *out, lie_error *e) {
+    if (!m || !out || token < 0)
+        return error(e, LIE_INVALID, "invalid token/stop destination");
+    return guarded(m->runtime, e, [&] {
+        if (static_cast<uint32_t>(token) >= m->runtime->model->VocabSize())
+            return error(e, LIE_INVALID, "token out of vocabulary");
+        *out = m->runtime->model->IsStopToken(token) ? 1u : 0u;
+        return LIE_OK;
+    });
+}
 extern "C" lie_status lie_model_chat_tokens_ex(lie_model *m, const lie_chat_template *input,
     int32_t *out, size_t capacity, size_t *required, lie_error *e) {
     if (!m || !input || !required || (!out && capacity))

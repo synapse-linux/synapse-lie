@@ -3,6 +3,8 @@
 cmake_minimum_required(VERSION 3.21)
 project(lie_sampling_capture_checks LANGUAGES C CXX)
 get_filename_component(REPO "${CMAKE_CURRENT_LIST_DIR}/../.." ABSOLUTE)
+include("${REPO}/cmake/provider/Source.cmake")
+lie_verify_binary64_vendor("${REPO}")
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
@@ -21,9 +23,17 @@ find_package(OpenSSL REQUIRED COMPONENTS Crypto)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(JSON REQUIRED IMPORTED_TARGET json-c)
 add_executable(capture-fixture "${REPO}/tools/sampling-capture.c"
-  "${REPO}/tests/sampling_capture_executor.c" "${REPO}/src/sampling.c")
-target_include_directories(capture-fixture PRIVATE "${REPO}/include")
+  "${REPO}/tests/sampling_capture_executor.c" "${REPO}/src/sampling.c"
+  "${REPO}/src/output_json.c" "${REPO}/src/output_schema.c" "${REPO}/src/models/qwen_output.c"
+  "${REPO}/src/text.c" "${REPO}/src/binary64.c" "${REPO}/src/grammar_number.c"
+  "${REPO}/src/schema_integer.c" "${REPO}/src/schema_transform.c")
+target_include_directories(capture-fixture PRIVATE "${REPO}/include" "${REPO}/third_party/ryu")
 target_compile_definitions(capture-fixture PRIVATE LIE_SAMPLING_CAPTURE_FIXTURE=1)
+# The output validator uses only the standalone integer comparator; unrelated
+# schema compiler entry points in that same C object are not fixture consumers.
+# The production client links the complete lie_core/lie_sampling dependency set.
+target_compile_options(capture-fixture PRIVATE -ffunction-sections -fdata-sections)
+target_link_options(capture-fixture PRIVATE -Wl,--gc-sections)
 target_link_libraries(capture-fixture PRIVATE PkgConfig::JSON OpenSSL::Crypto m)
 add_executable(capture-contract "${REPO}/tests/test_sampling_capture.c")
 target_link_libraries(capture-contract PRIVATE PkgConfig::JSON OpenSSL::Crypto m)
@@ -84,4 +94,13 @@ if(LIE_REPLAY_PROVIDER_BUILD)
     "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/replay-${fixture_id}"
     -P "${REPO}/tests/sampling/replay_contract.cmake")
   set_tests_properties(sampling-replay-captured-row-contract PROPERTIES TIMEOUT 90)
+  add_test(NAME sampling-replay-required-tool-contract COMMAND "${CMAKE_COMMAND}"
+    "-DCAPTURE=$<TARGET_FILE:capture-fixture>"
+    "-DFILE_FIXTURE=$<TARGET_FILE:capture-contract>"
+    "-DREFERENCE=$<TARGET_FILE:reference-sampling-replay>"
+    "-DCANDIDATE=$<TARGET_FILE:candidate-sampling-replay>"
+    "-DFALLBACK=$<TARGET_FILE:fallback-sampling-replay>"
+    "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/tools-replay-${fixture_id}"
+    -P "${REPO}/tests/sampling/tools_replay_contract.cmake")
+  set_tests_properties(sampling-replay-required-tool-contract PROPERTIES TIMEOUT 90)
 endif()

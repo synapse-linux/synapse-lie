@@ -153,6 +153,9 @@ lie_status lie_model_tokenize(lie_model *, const char *utf8, size_t bytes,
                               int32_t *out, size_t capacity, size_t *required, lie_error *);
 lie_status lie_model_token_text(lie_model *, int32_t token, char *out, size_t capacity,
                                 size_t *required, lie_error *);
+/* Owner-only vocabulary metadata; no model forward or sampler mutation.
+ * Success copies exactly 0 or 1. Invalid tokens/destinations refuse. */
+lie_status lie_model_token_is_stop(lie_model *, int32_t token, uint32_t *out, lie_error *);
 /* Bounded text-only Qwen rendering, thinking disabled; caller owns token buffer.
  * BUFFER_SMALL reports required physical tokens without creating/mutating a session. */
 lie_status lie_model_chat_tokens(lie_model *, const lie_chat_message *, size_t count,

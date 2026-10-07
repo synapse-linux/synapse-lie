@@ -1,5 +1,21 @@
 # DS4 / synapse-lie coordination
 
+## Required-tool capture preparation; no remote campaign — 2026-10-07
+
+Root completes the native required-function/vocabulary/stop capture and offline
+full-mask/probability replay preparation. Only focused local synthetic controls
+run: Release3/3, unsuppressed ASan/UBSan/LSan3/3, main-project1/1; CPU79 C,
+GPU masked/observed only, CPU98/NVMe85/lower guards unchanged. The
+[receipt](development/validation/sampling-tools-host-2026-10-07.json) retains
+the two initial link failures, corrected exits and unchanged text witnesses.
+All 2,339 raw archive members independently verify. The new host metadata entry
+and client still need matching final HIP compilation and original-weight gates.
+Root holds no remote job/client/build/lease/window/waiter/reservation or live
+handle on `.161/.157/.158/TB`. Prepared r37 MTP remains unadmitted/unlaunched;
+no campaign is queued. Numerical/quality/fault/resource/cost and all six root
+items stay open. Benchmarks follow final functional qualification; Terminal
+Bench stays last. This local checkpoint grants no future machine admission.
+
 ## Local numerical tooling; GPU campaigns still deferred — 2026-10-07
 
 Root prepares the native capture/offline replay needed by the final numerical

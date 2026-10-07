@@ -625,6 +625,12 @@ checks full borrowed-byte stability during this bounded wait and cancellation.
   is raw bytes, not NUL-terminated and not necessarily complete UTF-8. HTTP must
   assemble UTF-8 without reordering tokens; the current HTTP path does so with
   a shared streaming/nonstream replacement decoder.
+- `lie_model_token_is_stop` adds owner-only vocabulary metadata without changing
+  executor ABI 3 layouts. It validates the model, destination and token range,
+  then copies exactly 0 or 1. Refusal leaves the destination unchanged. It calls
+  no forward/device operation and does not touch sampler history or RNG. The
+  selected adapter keeps upstream stop-token types private; raw pieces still
+  use `lie_model_token_text`.
 - Prefill takes a cumulative physical prefix, verifies the existing frontier,
   token ranges, context and configured delta before Sync. It cannot truncate a
   recurrent state by merely shortening a token list.

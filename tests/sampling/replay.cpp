@@ -5,6 +5,7 @@
 // checks the post-filter mass rather than trusting agreement alone.
 #include "src/core/json.hpp"
 #include "src/core/sampling.hpp"
+#include "../../tools/sampling-capture-format.h"
 #include <algorithm>
 #include <bit>
 #include <cerrno>
@@ -114,17 +115,118 @@ std::vector<float> row_file(int directory, const Value &metadata, unsigned profi
   for (float value : result) require(std::isfinite(value), "capture raw row nonfinite");
   return result;
 }
+using Piece = ConstraintVocabulary::Piece;
+std::vector<Piece> vocabulary_file(int directory, const Value &metadata) {
+  keys(metadata, {"event", "file", "sha256", "bytes", "tokens"});
+  const size_t bytes = integer(metadata, "bytes", LIE_CAPTURE_VOCAB_BYTES_MAX);
+  const size_t count = integer(metadata, "tokens", max_vocab);
+  require(count && bytes >= 12 && string(metadata, "file") == LIE_CAPTURE_VOCAB_FILE,
+          "capture vocabulary path/length invalid");
+  struct stat before{}, after{};
+  require(!fstatat(directory, LIE_CAPTURE_VOCAB_FILE, &before, AT_SYMLINK_NOFOLLOW) &&
+          S_ISREG(before.st_mode) && before.st_size == static_cast<off_t>(bytes),
+          "capture vocabulary is not a complete regular file");
+  FD file(openat(directory, LIE_CAPTURE_VOCAB_FILE, O_RDONLY | O_CLOEXEC | O_NOFOLLOW | O_NONBLOCK));
+  require(!fstat(file.fd, &after) && S_ISREG(after.st_mode) && after.st_size == before.st_size &&
+          after.st_ino == before.st_ino && after.st_dev == before.st_dev,
+          "capture vocabulary is not a complete regular file");
+  std::vector<unsigned char> data(bytes);
+  for (size_t at = 0; at < bytes;) {
+    const ssize_t n = read(file.fd, data.data() + at, bytes - at);
+    if (n < 0 && errno == EINTR) continue;
+    require(n > 0, "capture vocabulary read failed"); at += static_cast<size_t>(n);
+  }
+  require(!fstat(file.fd, &after) && after.st_size == before.st_size,
+          "capture vocabulary changed during read");
+  unsigned char digest[32]; unsigned n = 0; char hash[65];
+  require(EVP_Digest(data.data(), bytes, digest, &n, EVP_sha256(), nullptr) && n == 32,
+          "capture vocabulary digest failed");
+  for (unsigned i = 0; i < n; ++i) std::snprintf(hash + i * 2, 3, "%02x", digest[i]);
+  require(string(metadata, "sha256") == hash, "capture vocabulary SHA256 mismatch");
+  require(!std::memcmp(data.data(), LIE_CAPTURE_VOCAB_MAGIC, 8), "capture vocabulary magic mismatch");
+  size_t at = 8;
+  auto word = [&] {
+    require(at <= bytes && bytes - at >= 4, "capture vocabulary record truncated");
+    const uint32_t value = data[at] | (uint32_t(data[at + 1]) << 8) |
+        (uint32_t(data[at + 2]) << 16) | (uint32_t(data[at + 3]) << 24); at += 4; return value;
+  };
+  require(word() == count, "capture vocabulary count mismatch");
+  std::vector<Piece> result; result.reserve(count); bool has_stop = false;
+  for (size_t token = 0; token < count; ++token) {
+    const size_t length = word(); const uint32_t stop = word();
+    require(length <= LIE_CAPTURE_PIECE_BYTES_MAX && length <= bytes - at && stop <= 1,
+            "capture vocabulary piece/stop invalid");
+    result.push_back({std::string(reinterpret_cast<const char *>(data.data() + at), length), stop != 0});
+    at += length; has_stop |= stop != 0;
+  }
+  require(at == bytes && has_stop, "capture vocabulary trailing data or no stop token");
+  return result;
+}
+std::shared_ptr<const TokenConstraint> tool_constraint(const Value &metadata,
+                                                     const std::vector<Piece> &pieces) {
+  keys(metadata, {"format", "required", "parallel", "name", "parameters_json", "definition_json"});
+  require(string(metadata, "format") == "json_object" && boolean(metadata, "required") &&
+          !boolean(metadata, "parallel") && string(metadata, "name") == LIE_CAPTURE_TOOL_NAME &&
+          string(metadata, "parameters_json") == LIE_CAPTURE_TOOL_PARAMETERS &&
+          string(metadata, "definition_json") == LIE_CAPTURE_TOOL_DEFINITION,
+          "capture frozen tool constraint mismatch");
+  auto constraint = std::make_shared<TokenConstraint>();
+  constraint->grammar = JsonConstraint::WithTools(JsonConstraint::Object(),
+      {{LIE_CAPTURE_TOOL_NAME, JsonConstraint::Compile(gufo::json::parse(LIE_CAPTURE_TOOL_PARAMETERS), true)}}, true, false);
+  constraint->vocabulary = std::make_shared<ConstraintVocabulary>(pieces.size(),
+      [&pieces](uint32_t token) { return pieces.at(token); });
+  return constraint;
+}
+std::vector<uint8_t> direct_allowed(const JsonConstraint &grammar,
+                                   const JsonConstraint::State &state,
+                                   const std::vector<Piece> &pieces) {
+  // Independent byte-by-byte membership for every token, without using the
+  // production vocabulary trie, mask cache, canonicalization or Accept helper.
+  // The frozen format binds a nonparallel required call with a structured
+  // answer: in this mode only stop tokens are allowed once the call completes.
+  const bool complete = grammar.Complete(state); std::vector<uint8_t> mask(pieces.size());
+  for (size_t token = 0; token < pieces.size(); ++token) {
+    const auto &piece = pieces[token];
+    if (complete) { mask[token] = piece.stop; continue; }
+    if (piece.stop || piece.text.empty()) continue;
+    auto next = state;
+    for (unsigned char byte : piece.text) {
+      next = grammar.Advance(next, byte); if (next.empty()) break;
+    }
+    mask[token] = !next.empty();
+  }
+  return mask;
+}
+void completed_tool(const Value &metadata, const std::string &output) {
+  constexpr std::string_view begin = "<tool_call>", end = "</tool_call>";
+  require(output.starts_with(begin) && output.ends_with(end) && output.size() > begin.size() + end.size(),
+          "captured required call framing invalid");
+  auto call = gufo::json::parse(std::string_view(output).substr(begin.size(), output.size() - begin.size() - end.size()));
+  keys(call, {"name", "arguments"}); keys(metadata, {"name", "arguments"});
+  require(string(call, "name") == LIE_CAPTURE_TOOL_NAME && string(metadata, "name") == LIE_CAPTURE_TOOL_NAME,
+          "captured required call name invalid");
+  const auto &arguments = field(call, "arguments"), &saved = field(metadata, "arguments");
+  keys(arguments, {"order", "size"}); keys(saved, {"order", "size"});
+  const auto order = string(arguments, "order"); const auto size = integer(arguments, "size", 9);
+  require((order == "LIFO" || order == "FIFO") && string(saved, "order") == order &&
+          integer(saved, "size", 9) == size, "captured required call arguments/schema mismatch");
+  std::printf("tool=%s order=%s size=%zu semantic_match=%d\n", LIE_CAPTURE_TOOL_NAME, order.c_str(), size,
+              order == "LIFO" && size == 3);
+}
 struct Mass { TokenId token; long double value; };
 std::vector<Mass> math_distribution(std::span<const float> row, const SamplingConfig &c,
-                                  const std::vector<uint32_t> &generated) {
+                                  const std::vector<uint32_t> &generated,
+                                  std::span<const uint8_t> allowed = {}) {
   std::vector<Mass> ranked; ranked.reserve(row.size());
   // Independent full ranking and long-double arithmetic. No production heap,
   // candidate-selection, normalization, history or sampling helper is called.
   for (size_t i = 0; i < row.size(); ++i) {
+    if (!allowed.empty() && !allowed[i]) continue;
     long double value = row[i]; value -= static_cast<long double>(c.frequency_penalty) * generated[i];
     if (generated[i]) value -= c.presence_penalty;
     ranked.push_back({static_cast<TokenId>(i), value});
   }
+  require(!ranked.empty(), "independent oracle has no allowed finite token");
   std::sort(ranked.begin(), ranked.end(), [](Mass a, Mass b) {
     return a.value == b.value ? a.token < b.token : a.value > b.value;
   });
@@ -208,10 +310,12 @@ int replay(const char *path, bool allow_synthetic) {
   FILE *file = fdopen(metadata.fd, "r"); require(file, "metadata stream open failed"); metadata.fd = -1;
   std::unique_ptr<FILE, CloseFile> stream(file);
   std::vector<char> line(max_line + 2);
-  bool identity = false, complete = false; unsigned profile = 0, step = 0, budget = 0, row_count = 0;
+  bool identity = false, complete = false, tools = false, stopped = false;
+  unsigned profile = 0, step = 0, budget = 0, row_count = 0;
   size_t vocab = 0; std::vector<TokenId> prompt, accepted; std::vector<uint32_t> generated;
   std::unique_ptr<SamplerState> sampler; uint64_t expected_rng = 123;
   SamplingConfig current;
+  std::vector<Piece> pieces; JsonConstraint::State grammar_state; std::string output;
   while (std::fgets(line.data(), static_cast<int>(line.size()), file)) {
     const size_t bytes = std::strlen(line.data());
     require(bytes && bytes <= max_line && line[bytes - 1] == '\n', "capture JSON line oversized, truncated or contains NUL");
@@ -220,7 +324,8 @@ int replay(const char *path, bool allow_synthetic) {
     if (!identity) {
       keys(v, {"event", "schema", "program", "build_id", "engine", "source_pin", "dense_sampling", "synthetic",
                "classification", "scope", "row_encoding", "decode_mode", "eos_policy", "context", "prefill_chunk", "profiles", "tokens_per_profile"});
-      require(kind == "identity" && string(v, "schema") == "synapse-lie.sampling-capture.v1" &&
+      tools = string(v, "schema") == "synapse-lie.sampling-capture.v2";
+      require(kind == "identity" && (tools || string(v, "schema") == "synapse-lie.sampling-capture.v1") &&
               string(v, "program") == "lie-sampling-capture" && integer(v, "profiles", 6) == 6 &&
               string(v, "row_encoding") == "IEEE754-F32-little-endian" && string(v, "decode_mode") == "ar" &&
               integer(v, "context", 8192) == 8192 && integer(v, "prefill_chunk", 2048) == 2048,
@@ -229,47 +334,89 @@ int replay(const char *path, bool allow_synthetic) {
       require(!synthetic || allow_synthetic, "synthetic capture requires explicit --allow-synthetic");
       require(string(v, "classification") == (synthetic ? "NOT-INFERENCE" : "ORIGINAL-WEIGHT-ROW-CAPTURE"),
               "capture classification mismatch");
-      require(string(v, "eos_policy") == "ignore; EOS remains an ordinary sampled token", "capture EOS policy mismatch");
+      require(string(v, "eos_policy") == (tools ? "stop; un-emitted EOS is captured without position advance" :
+          "ignore; EOS remains an ordinary sampled token"), "capture EOS policy mismatch");
       budget = static_cast<unsigned>(integer(v, "tokens_per_profile", 128)); require(budget, "empty capture budget");
-      std::printf("classification=%s scope=unconstrained-AR-filter/draw/residual;not-MTP-controller/quality/performance\n",
-                  synthetic ? "NOT-INFERENCE" : "CAPTURE-DECLARED-ORIGINAL-WEIGHTS-REQUIRE-SUPERVISOR-PROVENANCE");
+      std::printf("classification=%s scope=%s\n",
+                  synthetic ? "NOT-INFERENCE" : "CAPTURE-DECLARED-ORIGINAL-WEIGHTS-REQUIRE-SUPERVISOR-PROVENANCE",
+                  tools ? "required-function-AR-mask/filter/draw/complete-call;not-MTP-controller/performance" :
+                  "unconstrained-AR-filter/draw/residual;not-MTP-controller/quality/performance");
       identity = true; continue;
     }
-    if (kind == "profile_begin") {
-      keys(v, {"event", "profile", "name", "vocab", "generation", "prompt_ids"});
+    if (kind == "vocabulary") {
+      require(tools && pieces.empty() && profile == 0 && !sampler, "capture vocabulary ordering invalid");
+      pieces = vocabulary_file(directory.fd, v);
+      std::printf("vocabulary=%zu sha256=%s\n", pieces.size(), string(v, "sha256").c_str());
+    } else if (kind == "profile_begin") {
+      if (tools) keys(v, {"event", "profile", "name", "vocab", "generation", "prompt_ids", "constraint"});
+      else keys(v, {"event", "profile", "name", "vocab", "generation", "prompt_ids"});
       require(!sampler && profile < 6 && integer(v, "profile", 5) == profile, "capture profile ordering invalid");
       const char *names[] = {"greedy", "ds4-temperature1-minp", "top-k", "nucleus-minp",
                              "generated-penalties", "temperature2-negative-penalties"};
       require(string(v, "name") == names[profile], "capture profile name mismatch");
       vocab = integer(v, "vocab", max_vocab); require(vocab, "empty capture vocabulary");
       current = config(field(v, "generation"), profile); prompt = tokens(v, "prompt_ids", 8192 - budget, vocab);
+      if (tools) {
+        require(vocab == pieces.size(), "capture required vocabulary missing or inconsistent");
+        current.constraint = tool_constraint(field(v, "constraint"), pieces);
+        grammar_state = current.constraint->grammar->Start(); output.clear();
+      }
       sampler = std::make_unique<SamplerState>(current, prompt); generated.assign(vocab, 0);
-      accepted.clear(); step = 0; expected_rng = 123;
+      accepted.clear(); step = 0; expected_rng = 123; stopped = false;
     } else if (kind == "row") {
-      keys(v, {"event", "profile", "step", "file", "sha256", "bytes", "token", "position"});
-      require(sampler && step < budget && integer(v, "profile", 5) == profile && integer(v, "step", 127) == step &&
-              integer(v, "position", 8192) == prompt.size() + step + 1, "capture row frontier invalid");
+      if (tools) keys(v, {"event", "profile", "step", "file", "sha256", "bytes", "token", "position", "emitted", "stop"});
+      else keys(v, {"event", "profile", "step", "file", "sha256", "bytes", "token", "position"});
+      const bool terminal = tools && boolean(v, "stop");
+      const size_t emitted = tools ? integer(v, "emitted", 1) : 1;
+      require(sampler && !stopped && step < budget && terminal != bool(emitted) &&
+              integer(v, "profile", 5) == profile && integer(v, "step", 127) == step &&
+              integer(v, "position", 8192) == prompt.size() + accepted.size() + emitted,
+              "capture row frontier invalid");
       auto logits = row_file(directory.fd, v, profile, step, vocab);
+      std::vector<uint8_t> allowed;
+      if (tools) {
+        allowed = direct_allowed(*current.constraint->grammar, grammar_state, pieces);
+        require(*current.constraint->Allowed(grammar_state) == allowed, "independent full token mask differs");
+      }
       const auto distribution = sampler->Distribution(logits);
-      check_mass(distribution, math_distribution(logits, current, generated), vocab);
+      check_mass(distribution, math_distribution(logits, current, generated, allowed), vocab);
       std::printf("profile=%u step=%u sha256=%s\n", profile, step, string(v, "sha256").c_str());
+      if (tools) { std::fputs("allowed=", stdout); for (auto bit : allowed) std::printf("%u", unsigned(bit)); std::putchar('\n'); }
       for (auto p : distribution.entries()) std::printf("p=%u:%a\n", p.token, p.value);
       const auto independent = draw(distribution.entries(), expected_rng), actual = sampler->Sample(logits);
-      const auto live = integer(v, "token", vocab - 1);
-      require(actual == independent && actual == live && sampler->rng_state() == expected_rng,
+      require(actual == independent && sampler->rng_state() == expected_rng,
               "captured live token, replay draw or independent RNG differs");
+      if (terminal) require(field(v, "token").is_null() && actual < pieces.size() && pieces[actual].stop &&
+          current.constraint->grammar->Complete(grammar_state), "captured premature or malformed stop");
+      else require(actual == integer(v, "token", vocab - 1), "captured live token, replay draw or independent RNG differs");
       std::printf("draw=%u rng=%llu\n", actual, static_cast<unsigned long long>(sampler->rng_state()));
-      residual(distribution); sampler->Accept(actual); ++generated[actual]; accepted.push_back(actual);
+      residual(distribution);
+      if (terminal) stopped = true;
+      else {
+        if (tools) {
+          const auto &piece = pieces.at(actual);
+          require(!piece.stop && !piece.text.empty() && piece.text.find('\0') == std::string::npos &&
+              piece.text.size() <= LIE_CAPTURE_OUTPUT_BYTES_MAX - output.size(), "captured emitted tool piece invalid");
+          output += piece.text;
+          for (unsigned char byte : piece.text) grammar_state = current.constraint->grammar->Advance(grammar_state, byte);
+          require(!grammar_state.empty(), "captured emitted tool token breaks independent grammar state");
+        }
+        sampler->Accept(actual); ++generated[actual]; accepted.push_back(actual);
+      }
       ++step; ++row_count;
     } else if (kind == "profile_complete") {
-      keys(v, {"event", "profile", "rows", "output_ids"});
-      require(sampler && step == budget && integer(v, "profile", 5) == profile && integer(v, "rows", 128) == budget &&
+      if (tools) keys(v, {"event", "profile", "rows", "output_ids", "tool_call"});
+      else keys(v, {"event", "profile", "rows", "output_ids"});
+      require(sampler && (tools ? stopped && step <= budget : step == budget) &&
+              integer(v, "profile", 5) == profile && integer(v, "rows", 128) == step &&
               tokens(v, "output_ids", budget, vocab) == accepted, "capture completed profile mismatch");
+      if (tools) completed_tool(field(v, "tool_call"), output);
       sampler.reset(); ++profile;
     } else if (kind == "complete") {
       keys(v, {"event", "exit_code", "profiles", "rows"});
       require(!sampler && profile == 6 && integer(v, "exit_code", 0) == 0 && integer(v, "profiles", 6) == 6 &&
-              integer(v, "rows", 768) == row_count && row_count == 6 * budget, "capture incomplete aggregate");
+              integer(v, "rows", 768) == row_count && (tools ? row_count <= 6 * budget : row_count == 6 * budget),
+              "capture incomplete aggregate");
       complete = true;
     } else throw std::runtime_error("capture failure or unknown event; no acceptance");
   }

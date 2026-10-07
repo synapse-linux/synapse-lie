@@ -26,6 +26,30 @@ long-context and performance gates remain open; none of the six items closes.
 
 ## Native numerical qualification tooling — 2026-10-07 UTC
 
+The native client additionally accepts `--tools` for six strict required-function
+sessions, preserving raw vocabulary bytes and model-neutral stop metadata.
+The shared C17 output validator admits only the entire completed call; it executes
+no function. Offline original/C17/OFF replay compares every grammar-mask bit,
+full probability mass, history/draws, natural-stop frontiers and saved call
+arguments, using independent byte membership and long-double mass oracles.
+The sampled live EOS ID is not exposed by the executor: replay checks the stop
+class and exact unadvanced frontier, not a recorded live EOS identity.
+
+Focused Release and unsuppressed ASan/UBSan/LSan controls pass 3/3 each, plus
+1/1 main-project linkage/format control. All 36 synthetic tool rows have identical
+304-line witnesses across arms/builds; the 48 unconstrained rows keep their
+preceding complete witness unchanged. Ten additional refusals cover policy,
+premature stop, saved arguments, vocabulary hash/length/FIFO/symlink/stop flag/
+piece bounds and missing completion. Two initial focused link failures remain
+preserved; corrected dependencies link the exact integer/transform helpers and
+the main client uses the full core. CPU peaks at 79 C, GPU masked/observed only.
+The [required-tool receipt](development/validation/sampling-tools-host-2026-10-07.json)
+and portable raw archive verify all 2,339 members without another test/build.
+The additive owner-only accessor changes no executor ABI layout, numerical
+algorithm, HTTP behavior or reactive scheduling. Matching final HIP compilation
+and original-weight tool probabilities, MTP branches, wider transitions,
+quality/fault/resource/cost gates remain open; no GPU campaign or lease is queued.
+
 The C17 `lie-sampling-capture` development client now records full raw logits
 before the ordinary AR draw, binding their binary hashes to committed outputs
 and fixed generation profiles. Offline pristine/C17/OFF replay emits every

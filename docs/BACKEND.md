@@ -44,8 +44,10 @@ canonical full-provider Point build route. Source integration, compilation and
 runtime acceptance are separate. Final
 combined local checks and current coherent `.161` private producer/consumer HIP
 compilation pass. At the integrated checkpoint, source hashes match all 650 files
-in the final HOST receipt. Later capture/replay tooling changes only development
-clients and build targets; the qualified runtime sources remain unchanged.
+in the final HOST receipt. Later capture/replay tooling adds development clients,
+build targets and an owner-only stop-token metadata accessor. Executor ABI
+layouts, HTTP/reactive scheduling and numerical algorithms remain unchanged;
+the new accessor/client still need matching final HIP compilation and qualification.
 No missing source implementation is identified in the owned functional
 scope; the acceptance checks in the table below remain open. Further
 original-weight functional/quality/fault gates are deferred by the current
@@ -225,7 +227,12 @@ none of the six items.
    cost remain pending.
    The native [complete-row capture and offline replay](development/protocols/DS4-SAMPLING-GPU-PROTOCOL.md#complete-row-capture-and-offline-probability-replay)
    now prepare full probability/RNG/history witnesses and independent mathematical
-   filter/residual checks for the final phase. Current local synthetic fixtures
+   filter/residual checks for the final phase. The required-function capture
+   also binds the complete vocabulary, masks, natural-stop frontier and validated
+   call arguments. Three private samplers and independent byte membership/
+   long-double mass oracles agree in local fixtures
+   ([tooling receipt](development/validation/sampling-tools-host-2026-10-07.json)).
+   Current local synthetic fixtures
    do not close the original-weight probability or MTP-controller gates; no
    capture campaign is admitted or launched.
    [Sampling defaults](https://github.com/antirez/ds4/blob/main/docs/SERVER.md) ·
