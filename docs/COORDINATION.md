@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Live-grid32K A/B preparation — 2026-10-07 UTC: Core confirms no own .157
+job/build/client/lease/window/reservation; it is working only on .161. A
+read-only .157 preflight07:40:10 anchors latest release2ac6b4de, with1941
+retired identities/1547 groups absent, empty KFD, five leases free and seven
+model stat tuples unchanged. The frozen A-B-B-A original32K plan02997d8d
+reuses saved retained/candidate server binaries and the native C client; no
+GPU build, new input or model change. Local syntax and saved-artifact parser
+checks pass, including rejection of changed requests and cached tokens. Its
+three files stage to the .157 run directory; remote CPU-only `verify` exits0
+at07:44:58. No GPU admission, client or model access has occurred. The next
+step requires a new exact-plan lease admission before the pair; collect all
+new evidence and release before analysis or Core handover.
+
 IQ2 stage-layout r2 window released — 2026-10-07 UTC: after the parser guard
 fix, fresh read-only preflight07:25:14 anchors release2f2bfa77, KFD empty,
 1930 retired identities/1538 groups, five original leases free and seven

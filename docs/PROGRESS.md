@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Original32K live-grid A/B prepared — 2026-10-07 UTC: a same-session A-B-B-A
+replay will resolve whether the former10.7% model regression survives under
+matched conditions. It uses the exact original32711-token prompt after its
+three preparation requests, saved binaries, capacity133760/chunk2048/C1 AR
+and no prefix hits. Core non-use and .157 read-only preflight pass; staged
+runner CPU-only verify exits0. No GPU admission or new rate yet.
+[Scope and gates](Q2-SELECT-LIVE-GRID.md), [coordination](COORDINATION.md).
+
 Halogen transfer recheck — 2026-10-07 UTC: public release notes identify the
 0.14.1 routed-expert kernel and the 0.12.0 sparse indexer as the two most
 relevant numerical leads; neither implementation is published. Its 0.12.1

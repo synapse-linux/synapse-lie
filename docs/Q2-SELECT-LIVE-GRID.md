@@ -122,3 +122,29 @@ The receipt is corrected for future launches. A regression test exercises the
 existing postflight's archive-path/hash contract with private files. Fresh
 .157 HOST39+39 passes, seven artifacts collect, and its seven additional
 process identities/six groups are confirmed retired at22:20:25.329174UTC.
+
+## Matched original-32K replay prepared — 2026-10-07 UTC
+
+The separate-session32K model regression coincided with a median reported GPU
+clock of2439.5MHz for the candidate versus2648MHz for the saved retained arm.
+That is a confound, not a correction to either recorded rate. A bounded A-B-B-A
+replay uses the **same original32711-token case**, preceded each time by the
+same three original preparation requests. It reuses the saved retained server
+`9993fdce`, live-grid server`b608798b` and native C client`87d856cf` without
+rebuilding. Capacity133760, chunk2048, C1 AR, zero prefix-cache hits, the
+original output budget and the model bytes are fixed. The four fresh servers
+start only after CPU cooldown to60°C; two-second clock/temperature
+telemetry is retained with every arm. This is one diagnostic comparison at32K,
+not a new curve or a128K gain claim.
+
+The [frozen plan](../config/q2-select-live-grid-pair-plan.json) binds the exact
+selected request hash`200e66bd` and prior release`2ac6b4de`. The runner
+validates its own hash, both binaries, client, requests, original model stat
+tuples, retired process groups, empty KFD, five original leases and the latest
+registry event. Its saved-result parser accepts the original four-case replay
+and rejects a changed request or cached-token count in offline tests. Fresh
+Core non-use and read-only .157 preflight at07:40:10 confirm1941 retired
+identities,1547 groups, seven unchanged model files, five free leases and empty
+KFD. The staged runner's remote `verify` exits0 at07:44:58 with no GPU
+admission. A fresh explicit window admission, run, artifact collection and
+release are still needed before interpreting the pair.
