@@ -35,14 +35,11 @@ The [original-weight OpenAI control gates](docs/benchmarks/models/qwen3.8-flash-
 pass 37 checks in both AR and MTP on Strix Point, including tools, automatic
 output budgets and retained Responses lifecycle. The corrected integer validator
 also passes [66 additional JSON/SSE checks in each mode](docs/development/validation/output-schema-integer-point-gpu-2026-10-06.json).
-The receipts identify the tested runtime and limits. The corrected Chat runtime
-passes [14 original-weight transition checks](docs/development/validation/tool-transitions-ar-point-r4-2026-10-07.json),
-including reversed-result correlation in JSON and streaming. The wider gate
-then finds a Responses parser refusal of the supplied `seed`; remaining
-Responses, sampling-profile and MTP checks remain required.
-The parser correction passes [local parser and HTTP checks](docs/development/validation/responses-generation-controls-host-2026-10-07.json)
-and a [matching HIP build](docs/development/validation/responses-generation-controls-point-build-2026-10-07.json).
-Original-weight checks of the updated runtime remain pending.
+The receipts identify the tested runtime and limits. The current runtime also
+passes [71 original-weight AR transition checks](docs/development/validation/tool-transitions-ar-point-r5-2026-10-07.json):
+Chat and Responses JSON/streaming, greedy/DS4/filtered sampling, multiple calls,
+reversed-result correlation, stored stream replay and invalid-history refusal.
+The equivalent wider MTP gate remains pending.
 
 The unchanged [Terminal Bench Core-19 smoke](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#terminal-bench-core-19)
 passes 1/1 task on Strix Point. The full 19-task evaluation is deferred until

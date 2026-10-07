@@ -11,15 +11,17 @@ stable release is declared. Detailed validation history is in
   through the shared generation profile, and retains them in completed/stored
   response objects. Seeds are integers in 0..9223372036854775807; penalties
   use the same finite -2..2 range as Chat. Null and invalid types/ranges are
-  refused. Local parser, HTTP and sanitizer checks and coherent HIP compilation
-  pass; new-runtime original-weight acceptance remains pending.
+  refused. Local parser, HTTP and sanitizer checks, coherent HIP compilation
+  and the 71-check original-weight AR tool gate pass. The equivalent MTP gate
+  remains pending.
 
 - Tool results received in a different order now have a shared C17 correlation
   view based on their call IDs. The model binding renders each complete group
   in call order while preserving the received history and image ownership.
   Local Release, sanitizer checks and coherent HIP compilation pass. Original
-  greedy Chat JSON/streaming checks preserve distinct values when results arrive
-  in reverse order; wider Responses and MTP acceptance remains pending.
+  Chat and Responses JSON/streaming checks preserve distinct values when results
+  arrive in reverse order across greedy, DS4 and filtered sampling. Wider MTP
+  acceptance remains pending.
 
 - Strict function calls now receive model-layer JSON format guidance matching
   the constrained sampler, for text and image prompts. The pinned Qwen renderer

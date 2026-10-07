@@ -1,5 +1,29 @@
 # DS4 / synapse-lie coordination
 
+## Complete AR tool-transition window passed and retired — 2026-10-07
+
+Fresh declarations from Point/DGX/Q2 and separate GLM plus global/in-lease checks
+precede r69 AR on `.161`. The unchanged workload passes 71 new checks and five
+baseline controls on the `90a88455`/r68 runtime. All 15 artifacts and independent
+complete-wire review verify. Controller/supervisor/helper/server/collector exit0;
+four original-model stat identities are unchanged. Peaks CPU/GPU/NVMe:
+73.125/74/64.85 C.
+
+Original lease66308/105946405 releases at 18:08:46.710446 UTC. Strong closure at
+18:10:40.928739 verifies supervisor28691/start1236276, launcher28790/start1236370,
+observed init28902/start1236379 and GPU29930/start1240452 absent. Container
+`43fe9d47` and whole cgroup are absent; two complete process scans find no members
+or unreadable entries. Router31873 is restored, original lease free/released,
+HTTP8000 empty and no foreign compute or guarded hot sensor. All four peers
+receive the verified release.
+
+The [AR receipt](development/validation/tool-transitions-ar-point-r5-2026-10-07.json)
+qualifies this frozen workload and runtime only. Root has no remote job/build/
+client/handle/lease/window/waiter/reservation on `.161/.157/.158/.155/TB`.
+The r69 MTP job is prepared but unadmitted; its original-weight run requires
+separately fresh coordination and global/in-lease checks. No future window is
+reserved. All six tasks remain open; Terminal Bench stays last.
+
 ## Responses generation controls Point build retired — 2026-10-07
 
 Fresh Point/DGX/Q2 and separate GLM own-state declarations plus global/in-lease

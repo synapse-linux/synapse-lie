@@ -215,7 +215,9 @@ is unchanged. Eight Release and eight unsuppressed sanitizer parser/HTTP
 fixture checks pass ([HOST receipt](../docs/development/validation/responses-generation-controls-host-2026-10-07.json)).
 The [matching coherent HIP build](../docs/development/validation/responses-generation-controls-point-build-2026-10-07.json)
 binds both unchanged numerical providers and the corrected C17 parser/server
-objects. Original-weight checks of this runtime remain required.
+objects. The [original-weight AR gate](../docs/development/validation/tool-transitions-ar-point-r5-2026-10-07.json)
+passes the unchanged 71 transitions and five baseline controls. The equivalent
+MTP gate and broader qualification remain required.
 
 ## Archived private Q2 experiment
 

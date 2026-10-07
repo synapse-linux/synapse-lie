@@ -897,7 +897,10 @@ include the original failed checking request, both Responses input forms,
 positive boundaries, invalid types/ranges and native AR/MTP stored-object
 fixtures. The [matching HIP build](../development/validation/responses-generation-controls-point-build-2026-10-07.json)
 verifies actual C17 parser/server objects and their primary server linkage.
-Original-weight new-runtime acceptance remains pending.
+The [current original-weight AR gate](../development/validation/tool-transitions-ar-point-r5-2026-10-07.json)
+passes all 71 frozen transitions across greedy, DS4 and filtered profiles.
+Collected Responses retain seed and filters. Equivalent MTP and wider acceptance
+remain pending; no public layout or generation algorithm changes.
 
 ## Additive completed batch contract
 

@@ -1,6 +1,25 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Complete AR tool-transition gate passes on original weights — 2026-10-07 UTC
+
+The `90a88455`/r68 runtime passes all 71 frozen new HTTP checks and five baseline
+controls on `.161`. Greedy, DS4 and filtered profiles pass Chat/Responses JSON
+and SSE, twelve reversed-result continuations, eight refusals without executor
+work and three byte-identical stored stream replays. Independent collected-wire
+review also verifies retained Response seed/filters and actual AR counters.
+
+Controller/supervisor/helper/server/collector/closure exit0; all 15 artifacts
+verify and four original-model stat identities remain unchanged. Peaks are
+CPU73.125/GPU74/NVMe64.85 C. Original lease releases at 18:08:46 UTC; strong closure
+at 18:10:40 verifies all four actual identities and the whole container cgroup
+absent, two complete process scans empty, router31873 restored and lease free.
+All four peers receive the verified release. The
+[AR receipt](development/validation/tool-transitions-ar-point-r5-2026-10-07.json)
+preserves complete wire and portable raw evidence. MTP is prepared but unadmitted;
+its equivalent gate, wider quality/fault/resources, comparisons and Terminal Bench
+remain required. All six tasks stay open; Terminal Bench stays last.
+
 ## Responses generation controls compiled on Point — 2026-10-07 UTC
 
 The `90a88455`/r68 ROCm10 build passes both full private providers and all six

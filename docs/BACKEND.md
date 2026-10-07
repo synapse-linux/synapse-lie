@@ -13,14 +13,23 @@ learning from real workloads; do not let the prototype define the final limits.
 
 ## Current roadmap — 2026-10-07 UTC
 
-The corrected `64fa7c2a`/r65 runtime passes the unchanged greedy Chat two-call
+The current `90a88455`/r68 runtime passes the complete unchanged AR workload:
+71 tool-transition checks and five baseline controls. All three sampling
+profiles cover Chat and Responses JSON/SSE; twelve reversed-result continuations,
+eight refusals before model work and three byte-identical journal replays pass.
+An independent review checks the collected wire and retained Response controls
+([AR receipt](development/validation/tool-transitions-ar-point-r5-2026-10-07.json)).
+All actual process exits and verified closure pass. The matching MTP job is
+prepared only; its equivalent workload needs separately fresh admission.
+
+The earlier `64fa7c2a`/r65 runtime passes the unchanged greedy Chat two-call
 and reversed-results questions in JSON and SSE: alpha137/beta941 remains
 correct when results arrive in reverse order. Fourteen new checks and five
 baseline controls pass. The next Responses request fails with HTTP400 because
 the parser excludes its supplied `seed`; 56 new checks remain unexecuted.
-The [current failed AR receipt](development/validation/tool-transitions-ar-point-r4-2026-10-07.json)
+The [earlier failed AR receipt](development/validation/tool-transitions-ar-point-r4-2026-10-07.json)
 retains both observations, actual exits and verified machine closure. This is
-a protocol refusal; broader Responses and AR/MTP acceptance remains open.
+a protocol refusal at that recorded source; the new AR pass does not relabel it.
 The Responses parser now normalizes seed and frequency/presence penalties into
 the existing shared generation profile and retains their original values in
 response objects. Signed seed overflow is refused in both APIs. Eight grouped
@@ -31,7 +40,8 @@ These fixtures are not model inference. The matching `90a88455`/r68
 [coherent HIP build](development/validation/responses-generation-controls-point-build-2026-10-07.json)
 passes both full providers and six consumers; collected commands bind the
 Chat/Responses parsers and server controls to C17 objects and the primary server.
-The unchanged original-weight AR/MTP workload remains required. The prepared r66
+The unchanged original-weight AR workload now passes, as above; MTP remains
+required. The prepared r66
 MTP manifest is stale after this source change and remains unlaunched.
 The [earlier swapped-value failure](development/validation/tool-transitions-ar-point-r3-2026-10-07.json)
 remains historical evidence. The

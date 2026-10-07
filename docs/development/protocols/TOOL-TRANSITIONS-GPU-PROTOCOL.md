@@ -98,3 +98,12 @@ request receives HTTP400: `seed` is missing from the Responses parser allowlist
 and normalization. One check fails, 56 are unexecuted, and MTP is unadmitted.
 This protocol refusal and the earlier model-quality failures retain their
 separate source identities. The workload and acceptance remain unchanged.
+
+The [Responses-corrected AR gate](../validation/tool-transitions-ar-point-r5-2026-10-07.json)
+passes all 71 unchanged new checks and five baseline controls on the matching
+`90a88455`/r68 runtime. Independent collected-wire review covers 48 ordinary
+requests, twelve reversed-result continuations, eight refusals before forward
+and three exact journal replays. Supplied seed and filters are retained.
+All actual exits and verified whole-container retirement pass. This qualifies
+the frozen AR workload; the separately admitted equivalent MTP gate and broader
+quality/fault/resource/performance acceptance remain required.
