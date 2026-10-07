@@ -17,7 +17,12 @@ preserves sources, executable identities, actual exits and all 36 verified
 portable archive members.
 The first source check guessed the base recipe count incorrectly and retains
 actual exit1; the corrected check binds the full recorded set, including KVC.
-Matching coherent HIP compilation and original-weight/quality/performance
+Local HIP 7.2 cross-compilation for `gfx1150` now builds both complete providers
+and links all five consumers, with all four stage exits0 and CPU peak80 C.
+Devices are hidden and no resulting executable or model is run.
+The [local compilation receipt](development/validation/prefill-visible-mask-local-hip-2026-10-07.json)
+binds the source, libraries, artifacts and 88 archived log/source members.
+Matching `.161` ROCm10 compilation and original-weight/quality/performance
 acceptance remain pending. Preserve the frozen r38 original-policy comparator;
 rebuilding both comparison arms with this guard cannot measure its benefit.
 
@@ -26,14 +31,16 @@ review before process creation, citing a newer decode/prefill optimization
 priority with qualification on standby. No model, GPU job, lease, router change
 or remote handle was started. r40/r41 plans are local and now also predate this
 guard correction; they must not be launched as current-runtime qualification.
-Priority clarification is pending; no rejection bypass or retry occurs. The
-already sealed r39 receipt remains historical evidence for its exact binary.
+The owner's visible instruction now confirms implementation before further test
+campaigns, resolving the sequencing question. No rejection bypass or retry
+occurs. The already sealed r39 receipt remains historical evidence for its exact binary.
 All six acceptance items remain open; benchmarks and Terminal Bench stay last.
 
 ## Current sequence: implementation, qualification, benchmarks, eval
 
-The owner again requests completing all remaining functional implementation
-before further campaigns. Keep only required focused local checks during source
+The owner's latest instruction again defers tests until all remaining functional
+implementation is complete. No intermediate GPU, quality, benchmark, Terminal
+Bench or full-suite campaign is queued. Keep only required focused local checks during source
 changes; qualify the integrated runtime afterward, then run matched benchmarks
 and Terminal Bench last. The [current roadmap](BACKEND.md#current-roadmap--2026-10-06-utc)
 separates integrated source from open acceptance gates. The owned functional

@@ -12,15 +12,20 @@ Root holds no remote job, lease, reservation or live handle on `.161/.157/.158/T
 
 Subsequent work is local only: the C17 visible-mask-span policy and its owned
 source recipe, with focused Release/sanitizer controls and source composition.
-No kernel body or reactive scheduler changes. Coherent HIP build, GPU numerical
-and performance gates are pending; r40/r41 manifests predate this new guard and
+No kernel body or reactive scheduler changes. Local device-hidden HIP 7.2
+cross-compilation for `gfx1150` now builds both providers and links five consumers
+without executing a GPU program or loading a model. Matching `.161` ROCm10
+compilation, GPU numerical and performance gates are pending; r40/r41 manifests predate this new guard and
 are unadmitted. There is no indirect retry or bypass of the review rejection.
-The priority question remains pending; earlier preflights grant no future window.
+The owner's visible instruction confirms implementation before test campaigns;
+the priority question is superseded. Earlier preflights grant no future window.
 
 ## Current sequencing and closure — 2026-10-07
 
-Further test campaigns remain deferred until the remaining functional source
-is complete. Only focused local checks accompany corrections; final integrated
+The owner explicitly repeats that further tests wait until all remaining
+functional implementation is complete. No intermediate GPU, quality, benchmark,
+Terminal Bench or full-suite campaign is queued. Only focused local checks
+accompany corrections; final integrated
 GPU qualification precedes matched benchmarks, with Terminal Bench last.
 Root has no queued or active remote job, lease, reservation or live handle.
 
@@ -36,8 +41,9 @@ The [sealed AR numerical receipt](development/validation/sampling-original-ar-po
 preserves 96 raw rows, all six Release/sanitizer executable identities and
 complete original/C17/OFF witnesses. All 191 archive members verify; packaging
 starts no inference, build or test. Functional implementation in the owned queue
-is complete after `229b1e13`; final required-tool and MTP acceptance may now
-proceed through fresh coordination. Earlier unused plans grant no admission.
+is integrated after `229b1e13`; the later visible-mask guard is now compiled
+locally. Required-tool and MTP acceptance remain in the deferred final phase,
+under fresh coordination. Earlier unused plans grant no admission.
 
 ## Native capture supervisor prepared locally — 2026-10-07
 

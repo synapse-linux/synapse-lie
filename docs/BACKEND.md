@@ -61,11 +61,16 @@ All six items remain open until their separate acceptance evidence is collected.
 
 The subsequent C17 sparse-prefill admission correction uses the actually visible
 mask extent while retaining its allocated stride and the existing workspace
-limit. Only focused local policy checks and exact source composition pass so far;
-the current HIP artifacts predate this guard. The prepared r40 GPU capture was
+limit. Focused local policy checks, exact source composition and local HIP 7.2
+cross-compilation for `gfx1150` now pass. Both full providers and all five
+consumers compile/link with exit0, with devices hidden and no model execution
+([local compilation receipt](development/validation/prefill-visible-mask-local-hip-2026-10-07.json)).
+The `.161` ROCm10 artifacts still predate this guard. The prepared r40 GPU capture was
 rejected by automatic approval review before launch, citing an optimization/
 qualification priority conflict. r40/r41 remain unadmitted and stale after this
-source change. Fresh coherent compilation and final original-weight gates are
+source change. The owner's latest visible instruction confirms implementation
+before further tests and supersedes the pending sequencing question. No
+intermediate campaign is queued. Matching `.161` compilation and final original-weight gates are
 still required; the r39 numerical receipt qualifies its recorded binary only.
 
 An open qualification gate does not mean its implementation is absent:
