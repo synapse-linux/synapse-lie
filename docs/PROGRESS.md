@@ -57,6 +57,21 @@ client will replay the original three preparations and32711-token/eight-output
 request at capacity133760/chunk2048. No prompt/output-budget change or control
 rerun is planned. Native GPU timing/output qualification remains pending.
 
+Native32K now completes on source6c5bd9bc/server578e3320 and saved native
+client87d856cf:32711 input tokens,16 original prefill chunks, eight output
+calls and zero cached tokens. Decode26.825569 improves2.19%/2.18% versus
+same-sequence saved26.250492/26.253731; prefill1419.137366 regresses0.52%/0.26%
+against1426.532712/1422.901121. Earlier full-curve1402.245716/26.234155 remains
+separate with its different preceding sequence. All four responses/streamed
+token pieces, usage and finish reasons match both controls. CPU contract and
+owned-child pass/failure tests, verify, server and client exit0. All15 artifacts
+verify before release11:25:23.218979UTC/f57e3961:1962 identities/1568 groups
+retired, KFD empty, five original leases free, seven model stats unchanged.
+Initial offline analyzer exit1 is a tuple/list serialization comparison,
+retained and corrected without changing values/tolerances or rerunning GPU.
+Native128K and sustained long-depth TG128 remain open; no new quality loss
+or whole-goal closure is claimed.
+
 
 Native Q8 SSM wave assignment rejected — 2026-10-07 UTC: the private
 [unchanged-tile candidate](Q2-SSM-WAVE-BALANCE.md) completes on .157 with72

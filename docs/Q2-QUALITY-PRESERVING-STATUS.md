@@ -46,5 +46,9 @@ trial measures26.24707057 decode versus saved25.12414406 (+4.469512%), with
 all21 saved parent files and nine internal replays byte-exact. This is a
 quality-preserving measured increment relative to that parent on this workload.
 It does not qualify the inherited earlier numerical changes. Prefill in the
-same new run is1571.380247 versus saved1587.893545 (-1.039950%); no new native
-long-context result is yet available and both binaries remain retained.
+same new run is1571.380247 versus saved1587.893545 (-1.039950%). The native32K
+follow-up now reaches26.825569 decode versus same-sequence saved26.250492 /
+26.253731 (+2.19%/+2.18%), with all four streamed responses/token sequences
+exact. Its prefill1419.137366 versus1426.532712/1422.901121 regresses0.52%/0.26%.
+These are eight output calls, not sustained TG128; native128K remains open.
+Both binaries and all earlier references remain retained.

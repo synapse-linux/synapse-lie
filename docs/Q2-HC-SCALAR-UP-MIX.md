@@ -5,14 +5,16 @@ The subsequent original-model .157 trial improves fixed-point C1 decode
 from25.12414406 to26.24707057 token/s (+4.469512%), with all21 parent model
 files byte-exact and nine internal replays exact. Prefill measures1571.380247
 versus saved1587.893545 (-1.039950%). Retain both binaries; this is a measured
-decode candidate, not a new long-context curve or a30TG/1500PP goal closure.
+decode candidate, not a30TG/1500PP goal closure. The subsequent native32K
+case below reaches26.825569 token/s with exact responses, about2.18% above
+both saved controls using its same original request sequence.
 
 The .157 component passes64 complete exact output comparisons and50
 independent FP64 checks. With injection, completed operation time falls
 42.970453 to34.630484us (-19.408613%); without injection it falls35.839672
 to34.132219us (-4.764143%). All five measured pairs favor the candidate
 in both modes. This qualified the original-model integration below.
-Native long-context benefit and inherited task quality remain unmeasured.
+Native128K benefit and inherited task quality remain unmeasured.
 
 This private decode component joins the native F16 HC up projection and the
 following mix/injection into one launch. The retained provider is unchanged.
@@ -181,3 +183,51 @@ calls. This is the original native depth point, not TG128 or a new full curve.
 The runner preserves both child exit codes even on failure; CPU fixtures
 check owned child retirement and reject altered requests/cache/call counts
 using private ephemeral ports. Original128K observations remain unchanged.
+
+## Completed native32K result — 7 October 2026
+
+The same four serialized requests complete with zero cached tokens,
+32711 physical tokens, fifteen full2048 chunks plus1991 final tokens and
+eight output/decode calls. Server/client exit0; response content, streamed
+token pieces, usage and finish reasons match both same-sequence saved
+controls in all four cases. This is a native C17 HTTP/worker/adapter result,
+separate from the direct2048/tg128 measurement above.
+
+| Saved or new observation at32K | Prefill token/s | Decode token/s | Request sequence |
+|---|---:|---:|---|
+| Original retained full curve, unchanged | 1402.245716 | 26.234155 | Earlier complete prefix sequence |
+| Retained A1, saved | 1426.532712 | 26.250492 | Three preparations then original32K |
+| Retained A2, saved | 1422.901121 | 26.253731 | Three preparations then original32K |
+| New scalar HC | 1419.137366 | 26.825569 | Same three preparations then original32K |
+
+Against A1/A2, native decode improves2.190726%/2.178118%; prefill regresses
+0.518414%/0.264513%. Against the older full-curve observation the rates are
+nominally+1.204614% PP/+2.254364% TG, but its preceding sequence differs.
+Keep every reference separate: no replacement baseline, new aggregation or
+new control run. The new point is one observation and eight output calls,
+not sustained TG128 or proof of the128K target. It demonstrates that part of
+the decode benefit survives the native graph path and longer context.
+
+The numerical core, sampling, chunking and original request bytes are fixed;
+this adds no precision reduction. Native reply equality is narrower evidence
+than the21 full input/token/logit files in the direct trial and does not
+qualify inherited parent task quality. Keep both providers for the observed
+prefill/decode tradeoff. The next depth test should reuse this exact native
+binary and the saved130925-token request; do not rebuild it to expand depth.
+
+All15 artifacts collect and match remote SHA-256 before release
+11:25:23.218979UTC, SHA
+f57e3961aec8b3242b671b872a560144bdb0c96a32894162a9b3aa35f1a5fc3d.
+The release/registry retire1962 identities/1568 groups, with KFD empty,
+all five original leases free and seven original model stat tuples unchanged.
+Sampled peak CPU86.375C/GPU87C. Core receives the handover; no Q2 job/client/
+handle/lease/window/waiter/reservation remains. No remote build or cleanup.
+
+The first offline audit exits1 because tuple token pieces in the in-memory
+validator were compared with their JSON-list serialization. Only container
+normalization is corrected; values, requests and tolerances are unchanged.
+The original failure is retained under evidence/q2-hc-scalar-native-preparation,
+and the corrected audit exits0 without rerunning inference.
+[Full result](../config/q2-hc-scalar-native32-results.json),
+[frozen plan](../config/q2-hc-scalar-native32-plan.json),
+[offline audit](../tools/analyze-q2-hc-scalar-native32.py).

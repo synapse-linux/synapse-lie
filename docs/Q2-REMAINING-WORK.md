@@ -12,9 +12,13 @@ operation time improves19.41% with injection and4.76% without. The subsequent
 original2048/tg128 model reaches26.24707057 decode (+4.469512% versus saved
 25.12414406), with all21 parent files and nine internal replays exact. Its
 prefill1571.380247 is1.039950% below saved1587.893545; retain both binaries.
-The next C1 step is the same provider on the original native32K workload,
-followed by long-context validation. No new native128K rate or independent
-parent-quality qualification is implied by this fixed-point decode gain.
+The same provider now reaches26.825569 TG on the original native32K workload,
+versus saved26.250492/26.253731 using the same sequence (+2.19%/+2.18%). All
+four responses/token sequences match. Native PP1419.137366 regresses0.52% /
+0.26% against those controls; the earlier full-curve1402.245716 remains visible
+with its different preceding sequence. Reuse this native binary for the
+original130925-token request next; do not infer sustained TG128, native128K
+rates or independent parent-quality qualification from the eight-output32K case.
 
 The active goal is now **C1 AR decode30 token/s and complete prefill at least
 1500 token/s through the original130925-token input**. The old fixed-point UD

@@ -7,7 +7,10 @@ The private [scalar HC up/mix fusion](docs/Q2-HC-SCALAR-UP-MIX.md) preserves
 original F16 weights and F32 arithmetic. On the original fixed2048/tg128
 model comparison, decode rises25.1241 to26.2471 token/s (+4.47%), with all21
 parent token/logit files exact. Prefill measures1571.38 versus saved1587.89
-(-1.04%); both binaries remain. Native long-context benefit is still unmeasured.
+(-1.04%); both binaries remain. On the original native32K/eight-output case,
+decode reaches26.8256 token/s versus saved26.2505/26.2537 (+2.18–2.19%),
+with all four original responses exact. Prefill1419.14 is0.26–0.52% below the
+same-sequence saved controls. New128K and sustained long-depth TG128 remain open.
 
 A private [native Q8 SSM wave assignment](docs/Q2-SSM-WAVE-BALANCE.md)
 passes72 exact output pairs and144 independent numerical checks on .157, but

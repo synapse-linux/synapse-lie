@@ -1,5 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Native32K scalar HC window released — 2026-10-07 UTC: fresh Core own
+.157/.158/TB non-use precedes CPU contract/lifetime fixture pass and verify
+11:21:46.449723UTC. Source6c5bd9bc/server578e3320 and plan4ce1d478 admit
+11:22:47.671447UTC against releasef409048c. One new server with saved native
+client replays the original three preparations and32711-token/eight-output
+request on port8000. Server/client exit0; all15 raw artifacts collect/hash
+before release11:25:23.218979UTC, SHA
+f57e3961aec8b3242b671b872a560144bdb0c96a32894162a9b3aa35f1a5fc3d.
+Latest registry matches local receipt:1962 identities/1568 groups retired,
+empty KFD, all five original leases free and seven model stat tuples unchanged.
+Core receives closure; no Q2 job/client/handle/lease/window/waiter/reservation
+remains. No control rerun, remote build, dependency, tuning or cleanup.
+Offline audit preserves and fixes a tuple/list container mismatch without
+another inference run. [Result](Q2-HC-SCALAR-UP-MIX.md).
+
 Scalar HC original-model window released — 2026-10-07 UTC: Core again
 explicitly confirms own .157/.158/TB non-use. CPU supervisor success/failure
 cases pass and preflight11:01:34 verifies latest64e2f31e, empty KFD, five free
