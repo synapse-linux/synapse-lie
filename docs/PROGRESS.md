@@ -1,6 +1,34 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Original-weight prefill chunk parity through 8K — 2026-10-07 UTC
+
+The current r45 runtime passes three original-weight `.161` arms with the same
+8,192 physical input tokens and 32 confirmed greedy output tokens. Selected
+chunks 2,048/4,096/8,192 use the same 8,192 scratch reservation, 16K context and
+one active sequence. All output IDs match exactly; completed prefill calls are
+4/2/1. Native input/admitted-job witnesses and completed attention-dispatch
+accounting agree, with no geometry or mask-pitch refusals. RAM/SSD cache and
+MTP are disabled for this parity comparison.
+
+All controller, supervisor and native exits are 0. Thirty-three collected remote
+files verify, and all four model stat witnesses remain unchanged throughout
+the three windows. Maximum sampled GTT is 90,031,493,120 bytes in each arm;
+CPU/GPU/NVMe peaks across the runs are 67.5/71/65.85 C. These are sampled resource
+observations, not exact allocator accounting or a general fit guarantee.
+Each original lease is released, own processes/containers retire and the router
+is restored. The final strict closure completes at 07:39:39 UTC.
+
+The [functional receipt](development/validation/prefill-original-point-2026-10-07.json)
+preserves full token IDs, raw progress/dispatch/thermal data, actual exits,
+source/runtime bindings and the initial sandbox SSH255. It also distinguishes
+an initial live-observer display error from actual terminal status; the observer
+was corrected without repeating inference. This is selected functional parity,
+not a benchmark or full chunk qualification. Original-weight 16K/32K chunks,
+live changes with queued/active jobs, cache identities, cancellation/fairness,
+faults and comparative performance remain open. All six roadmap items stay open;
+Terminal Bench follows the remaining qualification and matched benchmarks.
+
 ## Larger-chunk qualification supervisor — 2026-10-07 UTC
 
 The optional Point campaign supervisor now admits the engine's complete

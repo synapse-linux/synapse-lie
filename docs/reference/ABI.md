@@ -34,7 +34,11 @@ bench explicitly refuses this shared-core namespace operation.
 Larger reservations use the verified provider's `Model::PrefillCapacity`;
 the original unmodified provider explicitly refuses reservations above 2,048.
 All numerical providers and consumers must rebuild coherently after this change.
-GPU correctness, resource cost and comparative performance remain pending.
+The coherent r45 provider now passes selected original-weight PP8192/TG32
+greedy output parity at chunks 2048/4096/8192 and fixed reservation 8192
+([Point receipt](../development/validation/prefill-original-point-2026-10-07.json)).
+Original-weight 16K/32K chunks, live changes with active/queued jobs, cache,
+cancellation/fairness and broader correctness/resource/performance remain pending.
 See [configuration](../guides/USAGE.md#context-and-concurrency) and
 [cache identity](STATE.md).
 

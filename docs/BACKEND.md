@@ -113,6 +113,13 @@ native direct/core benchmarks record the reservation and actual chunk. Defaults
 remain 2,048 with unchanged existing public layouts and scheduler thread counts.
 These later provider changes require a fresh coherent build and original-weight
 qualification; the preceding r43/r44 receipts do not qualify larger chunks.
+The matching r45 build now passes selected original-weight PP8192/TG32 parity
+at chunks 2048/4096/8192 and fixed capacity 8192/context 16384/C1. All 32 output IDs
+are identical, completed prefill calls are 4/2/1 and native dispatch accounting
+has no geometry/mask-pitch refusal
+([functional receipt](development/validation/prefill-original-point-2026-10-07.json)).
+This does not qualify 16K/32K chunks, live changes, cache/cancel/fairness, broader
+quality/fault/resource behavior or matched performance; those gates remain open.
 
 An open qualification gate does not mean its implementation is absent:
 

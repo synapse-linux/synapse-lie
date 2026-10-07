@@ -1,5 +1,30 @@
 # DS4 / synapse-lie coordination
 
+## Original-weight prefill chunk parity passed and retired — 2026-10-07
+
+The new r48 plan binds the unchanged r45 native runtime to the locally checked
+supervisor at `b4eee89e`. Fresh Point/DGX own-state, Q2's released/offline-only
+scope and the 07:29:03 UTC global preflight precede the first `.161` arm. Q2's
+non-use of `.161` remains a declared-scope inference, not an explicit per-target
+reply or grant. Every arm obtains the original lease separately. Subsequent
+strict closure observations precede the next fresh in-lease admission.
+
+All three PP8192/TG32 AR arms pass, with chunks 2048/4096/8192 at fixed capacity
+8192, identical confirmed output IDs and completed prefill calls 4/2/1. Each
+controller/supervisor/native child exits 0. Lease releases occur at 07:31:26,
+07:35:23 and 07:38:46 UTC; fresh strict closures at 07:33:01, 07:36:04 and
+07:39:39 verify the respective exact supervisor/container identities absent,
+the original 66307/105946405 lease unchanged/free, HTTP8000 empty and the named
+router restored. The last router PID is 267315. All 33 remote files collect and
+hash-verify; offline complete token/dispatch review exits 0 in the
+[functional receipt](development/validation/prefill-original-point-2026-10-07.json).
+Peers receive verified releases. Root holds no remote job, lease, window,
+waiter, reservation or handle on `.161/.157/.158/TB`. No future window is held.
+
+Original-weight 16K/32K chunks, live setter/queued-job/cache/cancellation/fairness
+and remaining numerical/quality/fault/resource gates require fresh admission.
+Comparative benchmarks follow those gates; Terminal Bench remains last.
+
 ## Current-runtime MTP HTTP controls passed and retired — 2026-10-07
 
 Fresh Point/DGX own-state replies, Q2's fresh released/offline-only scope and
