@@ -217,7 +217,7 @@ Neither changes the current C1 or cold-prefill priority ranking. The numerical
 engine source remains unpublished in this repository; these are algorithm
 leads to test in LIE, not code to import.
 
-## Smaller private expert tile, prepared but unmeasured
+## Smaller private expert tile, tested and rejected
 
 Halogen's 0.14.1 note gives an algorithm-family lead, not a kernel to port.
 The failed 256-token LIE tile spent 242 VGPR and 42,112 bytes of LDS. A private
@@ -234,13 +234,31 @@ retained 128/64-row map. The saved 48-layer original 2K routing contains
 3,512 private 160-row descriptors; these select 508,126 of 983,040 *real*
 routed rows (51.69%) across 991 expert/layer pairs. An independent coverage
 audit verifies every padded 16-row unit exactly once for all 48 layers and 18
-edge shapes; its failed-capacity paths leave outputs unchanged. The guarded
-HIP whole-output fixture compiles locally, but has **not** run on a GPU. No
-original-weight model or long-context request was rerun, so no prefill gain is
-claimed. [Map audit](../config/q2-iq2-token160-map-audit.json),
+edge shapes; its failed-capacity paths leave outputs unchanged.
+
+The `.157` component window then completed under the original five leases.
+It produced 15 exact route maps, 51 guarded byte-exact whole-output replays
+over three rotating synthetic weight sets, and 84 interleaved timing records.
+All HIP event durations were invalid zero, so the figures below use five
+completed host-wall samples per arm after two warmups. Both arms use the same
+2048-token shape and routing.
+
+| Gate/up routing | Retained 128/64 median µs | Private 160 median µs | Candidate time change |
+| --- | ---: | ---: | ---: |
+| Saved layer 0 | 5215.455 | 5205.038 | −0.200% |
+| Saved layer 3 | 4155.780 | 4194.422 | +0.930% |
+| Saved layer 22 | 5478.589 | 5542.897 | +1.174% |
+
+Two of three saved-routing layers regress, and the third difference is small.
+This fails the component gate. Production dispatch remains on 128/64; no
+original-weight model or long-context request was rerun, and no PP/TG gain is
+claimed. The release receipt at 2026-10-07 08:36:43 UTC has SHA-256
+`b937ad6c4238092a63f534db9851349b6e713b71f716f3d4466ddeb55eb0a7d6`:
+empty KFD, five original leases free, seven model stat identities unchanged,
+and no remote cleanup. [Complete component samples](../config/q2-iq2-token160-component-results.json),
+[map audit](../config/q2-iq2-token160-map-audit.json),
 [static resources](../config/q2-iq2-token160-probe-static.json) and
-[private patch](../experiments/q2-iq2-token160-probe.patch) preserve the gate.
-The next decision is a coordinated, original-routing component comparison
-with exact complete gate/up output and rotated weights. Only a clear component
-win would justify a complete expert-chain and fixed original-request model
-test; neither would replace the retained benchmark control.
+[private patch](../experiments/q2-iq2-token160-probe.patch) preserve the result.
+The original 128K prefill and C1 decode goals remain unmet. Given these
+negative larger-tile results, another token-width change needs a stronger
+mechanism than encoded-weight reuse alone.

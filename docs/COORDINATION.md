@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+IQ2 token160 component released — 2026-10-07 UTC: after Core's explicit .157
+non-use, fresh preflight08:35:33 checks the previous r2 release d1480588,
+empty KFD, five free original leases, seven unchanged model stat tuples and
+CPU37.875C. Frozen component plan a7fb3d30 and source checkpoint3bf426a0
+admit08:36:09. The synthetic HIP component exits0 after 51 exact guarded
+whole-output replays and84 interleaved timings; no model access or remote
+build. Release08:36:43.923700/b937ad6c verifies the owned process retired,
+KFD empty, five leases free, seven unchanged models and no remote cleanup.
+The five raw remote hashes match local evidence; Core receives the handover.
+Offline analysis rejects the 160 tile on two of three saved routing layers.
+No Q2 job, client, handle, lease, window, waiter or reservation remains on
+.157. Another GPU operation requires fresh coordination.
+
 Read-only Q8 format probes — 2026-10-07 UTC: two bounded Python scripts stage
 under the project's persistent .157 `run` directory and each exits0. They
 read at most12.75MiB/3.1875MiB of four original Q8 tensors, check the full
