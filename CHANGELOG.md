@@ -12,6 +12,7 @@ stable release is declared. Detailed validation history is in
   metadata. Offline original/C17/OFF replay checks complete masks, probabilities
   and calls. GPU numerical qualification remains deferred; product executables
   and default tests gain no Python dependency.
+  Point ROCm build receipts also bind the capture executable to its runtime.
 
 - Native core benchmark JSONL reports prefill attention selections, separating
   completed and unconfirmed work and distinguishing unsupported measurements

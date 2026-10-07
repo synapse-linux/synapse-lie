@@ -26,6 +26,12 @@ long-context and performance gates remain open; none of the six items closes.
 
 ## Native numerical qualification tooling — 2026-10-07 UTC
 
+The canonical Point build now links and hashes `lie-sampling-capture` alongside
+the server, native benchmark, coherent OFF reference and probe. The optional
+legacy compile helper uses the same target/hash list. This closes a packaging
+integration gap before the final build; the historical four-binary r37 receipt
+is unchanged. No HIP/GPU result is inferred from the source change.
+
 The native client additionally accepts `--tools` for six strict required-function
 sessions, preserving raw vocabulary bytes and model-neutral stop metadata.
 The shared C17 output validator admits only the entire completed call; it executes

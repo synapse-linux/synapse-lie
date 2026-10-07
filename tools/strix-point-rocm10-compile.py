@@ -78,11 +78,10 @@ def main():
                           '-DGUFO_SOURCE='+str(ROOT/'.deps'/('gufo-state-access-'+LIBRARY_LABEL)),
                           '-DGUFO_BUILD='+str(ROOT/'build'/LIBRARY_LABEL),
                           '-DGUFO_REFERENCE_BUILD='+str(ROOT/'build'/reference_label)])
-        run('link', ['cmake', '--build', 'build/'+LINK_LABEL, '--parallel', '1',
-                     '--target', 'synapse-lie-server', 'synapse-lie-bench',
-                     'synapse-lie-bench-gufo-reference', 'lie-hip-probe'])
         binaries = ('synapse-lie-server', 'synapse-lie-bench',
-                    'synapse-lie-bench-gufo-reference', 'lie-hip-probe')
+                    'synapse-lie-bench-gufo-reference', 'lie-hip-probe', 'lie-sampling-capture')
+        run('link', ['cmake', '--build', 'build/'+LINK_LABEL, '--parallel', '1',
+                     '--target', *binaries])
         record['binaries'] = {name: sha(ROOT/'build'/LINK_LABEL/name) for name in binaries}
         record['state'] = 'BUILT_NOT_GPU_TESTED'
         record['exit_code'] = 0

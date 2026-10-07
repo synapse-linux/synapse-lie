@@ -88,13 +88,13 @@ run_stage(configure
   "-DGUFO_SOURCE=${root}/.deps/gufo-state-access-${provider}"
   "-DGUFO_BUILD=${root}/build/${provider}"
   "-DGUFO_REFERENCE_BUILD=${root}/build/${reference_provider}")
+set(point_binaries synapse-lie-server synapse-lie-bench
+  synapse-lie-bench-gufo-reference lie-hip-probe lie-sampling-capture)
 run_stage(link
   "${CMAKE_COMMAND}" --build "${root}/build/${runtime}" --parallel 1
-  --target synapse-lie-server synapse-lie-bench
-  synapse-lie-bench-gufo-reference lie-hip-probe)
+  --target ${point_binaries})
 set(binaries "{}")
-foreach(name IN ITEMS synapse-lie-server synapse-lie-bench
-    synapse-lie-bench-gufo-reference lie-hip-probe)
+foreach(name IN LISTS point_binaries)
   file(SHA256 "${root}/build/${runtime}/${name}" hash)
   string(JSON binaries SET "${binaries}" "${name}" "\"${hash}\"")
 endforeach()
