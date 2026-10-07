@@ -1,6 +1,27 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Native recall campaign prepared; original weights pending — 2026-10-07 UTC
+
+The optional `modern-http-recall` route starts a separately bound server and
+native C benchmark for one cold, two-turn corpus. It records actual server
+context/RoPE/chunk, complete request history, physical calibration, independent
+seeded answer checks and partial/final artifacts. Quality misses retain both
+turns and actual exit1; transport/timeouts and cleanup failures stay separate.
+Explicit GTT/RAM budgets are required for 512K/1M-capacity windows. The
+[protocol](development/protocols/LONG-CONTEXT-RECALL-GPU-PROTOCOL.md) defines the
+ladder and three distinct seeds, with short controls for each RoPE profile.
+
+HOST checks use mocked ownership and synthetic loopback responses, including
+the real native C client: 18 grouped checks pass normally and with unsuppressed
+ASan/UBSan/LSan; the native recall CTest passes in both builds and 87 existing
+supervisor checks pass. The [HOST receipt](development/validation/recall-campaign-host-2026-10-07.json)
+binds 67 portable raw members. These do not qualify GPU/model behavior. The initial
+stale-build target exit2 and coordinator/native metadata mismatch exit1 are
+preserved. No production C/C++/HIP source, ABI, scheduling, state format or
+metrics contract changes; no remote window is admitted or reserved. All six
+tasks remain open and Terminal Bench remains last.
+
 ## Complete MTP tool-transition gate passes on original weights — 2026-10-07 UTC
 
 The same `90a88455`/r68 runtime passes 71 frozen new checks and five baseline

@@ -1,0 +1,419 @@
+{
+  "schema": "synapse-lie.recall-campaign-host.v1",
+  "classification": "HOST_CHECKING_CODE_AND_NATIVE_HTTP_FIXTURES_NOT_MODEL_INFERENCE",
+  "state": "HOST_PASSED_GPU_PENDING",
+  "at_utc": "2026-10-07T19:39:08.207188+00:00",
+  "worktree_parent_commit": "6cb219ab93fbff3b72c62395010c5002f2fa6932",
+  "native_source_base": "90a884558c79ed696918e2ddfafefc3227659962",
+  "native_source_delta": [],
+  "checker_sources": {
+    "tools/strix-point-campaign.py": "d303e7d582c93ea68521223396d91c6c7697c7156f876e72e901e8a90fa516f1",
+    "tools/strix-point-http-recall-gate.py": "5bce29df2a6d2f9f652986bd57dc61dbc31ee554157f353124c22d5285a678a4",
+    "tests/test_strix_point_http_recall.py": "617c0b1b01ccd66d94001b3f6af63dbcb598e522a49ce2056a4db8c04175ed0f",
+    "docs/development/protocols/LONG-CONTEXT-RECALL-GPU-PROTOCOL.md": "a1646e7b38fb7d6e28066ea38cbd94de26439a5a11329ed11a8a9f7e94dce032"
+  },
+  "checks": [
+    {
+      "scope": "final coordinator and real native C wire fixtures",
+      "log": "checks-native-r3.log",
+      "grouped_tests": 18,
+      "actual_exit_code": 0
+    },
+    {
+      "scope": "same native C fixtures with unsuppressed ASan/UBSan/LSan",
+      "log": "checks-native-asan-r1.log",
+      "grouped_tests": 18,
+      "actual_exit_code": 0
+    },
+    {
+      "scope": "existing supervisor regression",
+      "log": "campaign-regression-r2.log",
+      "grouped_tests": 87,
+      "actual_exit_code": 0
+    }
+  ],
+  "native_ctest": {
+    "normal_checks": 1,
+    "sanitizer_checks": 1,
+    "actual_exit_codes": [
+      0,
+      0
+    ]
+  },
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leak_detection": true,
+    "suppressions": false
+  },
+  "native_binaries_not_bundled": {
+    "normal": "c02b6ff0741d34f7020a854298061a04d5bde9441c0b2f72d6c6aab456c016e5",
+    "asan_ubsan": "94c884edbf71c9cc345b8ce6e560ea02d653987640cbd82627b0e58df650c301"
+  },
+  "expected_native_fixture_exits": {
+    "correct_answers": 0,
+    "wrong_first_answer_second_turn_retained": 1
+  },
+  "preserved_failures": [
+    {
+      "actual_exit_code": 2,
+      "path": "host/native-build-r1/result.json",
+      "cause": "Native bench linked successfully; initial stale Makefile lacked the newly generated recall test target. Next focused target invocation succeeds."
+    },
+    {
+      "actual_exit_code": 1,
+      "path": "host/checks-native-r1.log",
+      "cause": "Coordinator used incorrect corpus metadata names. Real native client exported both complete corpora with expected exits0/1. Coordinator/fixtures corrected to unchanged native schema; original questions and oracles unchanged."
+    }
+  ],
+  "raw": {
+    "path": "raw/recall-campaign-host-2026-10-07.tar.gz",
+    "bytes": 91967,
+    "sha256": "9eef60d18f2a74977caf64974a76d22a9aa39328435da2e2ea9c30f82d643435",
+    "members": 67,
+    "inventory": [
+      {
+        "path": "host/campaign-regression-r1.log",
+        "bytes": 186,
+        "sha256": "94be5c8a32520dc06c256425ee1b4fcdf4dc36740d09fda8205e3df54d015008"
+      },
+      {
+        "path": "host/campaign-regression-r2.log",
+        "bytes": 186,
+        "sha256": "e67b60d366806031331fd76e721432b1704745733b3fa02c0d4df059a9d4cc26"
+      },
+      {
+        "path": "host/checks-native-asan-r1.log",
+        "bytes": 117,
+        "sha256": "f9a7ad7a582d1f316ddb0a47a68b62a4e7340c3a5adf20404bb69891f8eeb487"
+      },
+      {
+        "path": "host/checks-native-r1.log",
+        "bytes": 2377,
+        "sha256": "863c0c1eae95fe4993cf1ae306db38c4494b6228133d891ed3fa5c9d18fbf8e7"
+      },
+      {
+        "path": "host/checks-native-r2.log",
+        "bytes": 117,
+        "sha256": "0e22437086fa1a942c2ffc32ce883fd42084501353d5ae490237bb55c07aae84"
+      },
+      {
+        "path": "host/checks-native-r3.log",
+        "bytes": 117,
+        "sha256": "385ba67b47225728f6011bdf761ac9ca2ee52d8e21524fa1226ac5825eb9914a"
+      },
+      {
+        "path": "host/checks-r1.log",
+        "bytes": 115,
+        "sha256": "3e22fab1b3114babdc36e0460ef16652ca43f42d69582ef67453ce9fa40e4d63"
+      },
+      {
+        "path": "host/native-asan-build-r1/command.log",
+        "bytes": 8195,
+        "sha256": "12cdfd86ed74beeea3d536f2006d7f948b902adbe08fb8f7ba5d8c41be1e2ab2"
+      },
+      {
+        "path": "host/native-asan-build-r1/plan.json",
+        "bytes": 1020,
+        "sha256": "c831a2f7f1557d56ba71056655c864972c2aeb93f67b26c2a94c27f51a8af47f"
+      },
+      {
+        "path": "host/native-asan-build-r1/result.json",
+        "bytes": 511,
+        "sha256": "3456c425762c06d75ce27eeb4651317294fa22efd867bd81ec978088a1cca37b"
+      },
+      {
+        "path": "host/native-asan-build-r1/temperatures.jsonl",
+        "bytes": 3672,
+        "sha256": "30ccce039fc2f39b3dd2894e709b7a79b2dd7a4cc5423e614f68416a74ce7db6"
+      },
+      {
+        "path": "host/native-asan-ctest-r1.log",
+        "bytes": 301,
+        "sha256": "d4ab1cce1813e5ee02e75cc8254af80e66f9ddaa77293e83403706b5341fea8d"
+      },
+      {
+        "path": "host/native-build-r1/command.log",
+        "bytes": 7972,
+        "sha256": "6c72015c8de8a126a2ecf1ffef419d587f6065d30653514813f66e482a7ccc63"
+      },
+      {
+        "path": "host/native-build-r1/plan.json",
+        "bytes": 987,
+        "sha256": "7b6ce417176aebe91b171adaeab681ee3e3e8393a2c56895c0e140641f82988a"
+      },
+      {
+        "path": "host/native-build-r1/result.json",
+        "bytes": 478,
+        "sha256": "8df2292879ba30d9fbeb0e02777c5d73df1f3cf8d0a880531e25a36bcf837e57"
+      },
+      {
+        "path": "host/native-build-r1/temperatures.jsonl",
+        "bytes": 3065,
+        "sha256": "0d11904d370ef88dac99482ce53d2b8d997dc5040d390939648dbcd5e1f258ef"
+      },
+      {
+        "path": "host/native-build-r2/command.log",
+        "bytes": 284,
+        "sha256": "f8e3c3471547ab911e4ea4839789172b56a31c2b28da730ca5de66166088295b"
+      },
+      {
+        "path": "host/native-build-r2/plan.json",
+        "bytes": 962,
+        "sha256": "68b3a7860d06b12c5eebc0c2e7892b28c914b2e4050138c1ad3594dea7934a42"
+      },
+      {
+        "path": "host/native-build-r2/result.json",
+        "bytes": 456,
+        "sha256": "e794173f8e567c391493cacd23c3b5d6097d3043a5eb9c7c4511dc222fbea153"
+      },
+      {
+        "path": "host/native-build-r2/temperatures.jsonl",
+        "bytes": 1842,
+        "sha256": "67619c68debd3db5a45912dbc9714a65015f937297ad483e9aa4022c4af5dd31"
+      },
+      {
+        "path": "host/native-ctest-r1.log",
+        "bytes": 300,
+        "sha256": "272848fe0ca27c65c4837e21ba8258f4acec5938973bb8278daab242cfe5486e"
+      },
+      {
+        "path": "host/native-wire-asan-r1/passed/client.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "host/native-wire-asan-r1/passed/client.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "host/native-wire-asan-r1/passed/fixture-wire.json",
+        "bytes": 22806,
+        "sha256": "e846b567d78db8fe85b6ecc8f98cc5ea7b5748048c97f7d120faaea5b4a8578b"
+      },
+      {
+        "path": "host/native-wire-asan-r1/passed/measurements.jsonl",
+        "bytes": 35791,
+        "sha256": "3d0aa83d45043e24a806aa3729b8470c28251cdc27df7694ce4c9aa4a12b38bb"
+      },
+      {
+        "path": "host/native-wire-asan-r1/passed/requests.jsonl",
+        "bytes": 9754,
+        "sha256": "340541a473b9f050dd27b80c8176b5e4caed6e496e1a70b40ba73f7c090ff48d"
+      },
+      {
+        "path": "host/native-wire-asan-r1/quality-failed/client.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "host/native-wire-asan-r1/quality-failed/client.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "host/native-wire-asan-r1/quality-failed/fixture-wire.json",
+        "bytes": 22812,
+        "sha256": "b6bb29788b71b203f688e37898ce520009e4775ab28a084a69fab324763b0aed"
+      },
+      {
+        "path": "host/native-wire-asan-r1/quality-failed/measurements.jsonl",
+        "bytes": 35918,
+        "sha256": "aae26885be3bd09ae0c7a9ab02512a3323840145a84aad29faed001cbea803b8"
+      },
+      {
+        "path": "host/native-wire-asan-r1/quality-failed/requests.jsonl",
+        "bytes": 9754,
+        "sha256": "340541a473b9f050dd27b80c8176b5e4caed6e496e1a70b40ba73f7c090ff48d"
+      },
+      {
+        "path": "host/native-wire-r1/passed/client.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "host/native-wire-r1/passed/client.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "host/native-wire-r1/passed/fixture-wire.json",
+        "bytes": 22805,
+        "sha256": "6e369a8e7fe7c269571986729600baa73ad4ce82585990fd2f92fc58f9cbfc2c"
+      },
+      {
+        "path": "host/native-wire-r1/passed/measurements.jsonl",
+        "bytes": 35794,
+        "sha256": "5b3b6a3d5b58ad252fdc9c60e7e5239ec0a3cb77a7a98aa99adfb67b1394f950"
+      },
+      {
+        "path": "host/native-wire-r1/passed/requests.jsonl",
+        "bytes": 9754,
+        "sha256": "340541a473b9f050dd27b80c8176b5e4caed6e496e1a70b40ba73f7c090ff48d"
+      },
+      {
+        "path": "host/native-wire-r1/quality-failed/client.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "host/native-wire-r1/quality-failed/client.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "host/native-wire-r1/quality-failed/fixture-wire.json",
+        "bytes": 22811,
+        "sha256": "e70c26d0b2704ce85627c07962f13ebbc14a391298ce649d2e959877bb1bb98b"
+      },
+      {
+        "path": "host/native-wire-r1/quality-failed/measurements.jsonl",
+        "bytes": 35882,
+        "sha256": "34bdca58a15847d6ead2a1b318823bb31c58f05f5edddaf58010e25b520fdf68"
+      },
+      {
+        "path": "host/native-wire-r1/quality-failed/requests.jsonl",
+        "bytes": 9754,
+        "sha256": "340541a473b9f050dd27b80c8176b5e4caed6e496e1a70b40ba73f7c090ff48d"
+      },
+      {
+        "path": "host/native-wire-r2/passed/client.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "host/native-wire-r2/passed/client.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "host/native-wire-r2/passed/fixture-wire.json",
+        "bytes": 22805,
+        "sha256": "63486eae06dbd2c2e6fd18e3d7403b19b7a341946c38480837a38231a7229dab"
+      },
+      {
+        "path": "host/native-wire-r2/passed/measurements.jsonl",
+        "bytes": 35828,
+        "sha256": "b3e08d3aa49998c766d0d4432ca84c581f610a78467850d956e33fd1e3bf370c"
+      },
+      {
+        "path": "host/native-wire-r2/passed/requests.jsonl",
+        "bytes": 9754,
+        "sha256": "340541a473b9f050dd27b80c8176b5e4caed6e496e1a70b40ba73f7c090ff48d"
+      },
+      {
+        "path": "host/native-wire-r2/quality-failed/client.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "host/native-wire-r2/quality-failed/client.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "host/native-wire-r2/quality-failed/fixture-wire.json",
+        "bytes": 22811,
+        "sha256": "d03bc9de7de124e63abe0c8a47be054282065d15ca09ccac29213f4553bdd6f9"
+      },
+      {
+        "path": "host/native-wire-r2/quality-failed/measurements.jsonl",
+        "bytes": 35894,
+        "sha256": "a3a38496f1c4b47a6745d1d331b6b755992b2bafb9d9dead4a90ad80aefa218c"
+      },
+      {
+        "path": "host/native-wire-r2/quality-failed/requests.jsonl",
+        "bytes": 9754,
+        "sha256": "340541a473b9f050dd27b80c8176b5e4caed6e496e1a70b40ba73f7c090ff48d"
+      },
+      {
+        "path": "host/native-wire-r3/passed/client.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "host/native-wire-r3/passed/client.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "host/native-wire-r3/passed/fixture-wire.json",
+        "bytes": 22805,
+        "sha256": "7ac6e8fdba9fe81e4969734339cf3edaa7aa53a0eed2149cb1c295963d07b272"
+      },
+      {
+        "path": "host/native-wire-r3/passed/measurements.jsonl",
+        "bytes": 35828,
+        "sha256": "3d5d4748e64055930ca4aaec6a588b87d00b104170cd18f6175debfa0adf9cb5"
+      },
+      {
+        "path": "host/native-wire-r3/passed/requests.jsonl",
+        "bytes": 9754,
+        "sha256": "340541a473b9f050dd27b80c8176b5e4caed6e496e1a70b40ba73f7c090ff48d"
+      },
+      {
+        "path": "host/native-wire-r3/quality-failed/client.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "host/native-wire-r3/quality-failed/client.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "host/native-wire-r3/quality-failed/fixture-wire.json",
+        "bytes": 22811,
+        "sha256": "d1a9089abc3d04d84a48feb7ca952770d795406d4c09f77b112383c6edeea0c3"
+      },
+      {
+        "path": "host/native-wire-r3/quality-failed/measurements.jsonl",
+        "bytes": 35917,
+        "sha256": "5491aecb144d2725eb974bae10ff50516c14cb463f1cf12208c39ee6ff237a99"
+      },
+      {
+        "path": "host/native-wire-r3/quality-failed/requests.jsonl",
+        "bytes": 9754,
+        "sha256": "340541a473b9f050dd27b80c8176b5e4caed6e496e1a70b40ba73f7c090ff48d"
+      },
+      {
+        "path": "source/tools/strix-point-campaign.py",
+        "bytes": 169857,
+        "sha256": "d303e7d582c93ea68521223396d91c6c7697c7156f876e72e901e8a90fa516f1"
+      },
+      {
+        "path": "source/tools/strix-point-http-recall-gate.py",
+        "bytes": 21529,
+        "sha256": "5bce29df2a6d2f9f652986bd57dc61dbc31ee554157f353124c22d5285a678a4"
+      },
+      {
+        "path": "source/tests/test_strix_point_http_recall.py",
+        "bytes": 26140,
+        "sha256": "617c0b1b01ccd66d94001b3f6af63dbcb598e522a49ce2056a4db8c04175ed0f"
+      },
+      {
+        "path": "source/docs/development/protocols/LONG-CONTEXT-RECALL-GPU-PROTOCOL.md",
+        "bytes": 6358,
+        "sha256": "a1646e7b38fb7d6e28066ea38cbd94de26439a5a11329ed11a8a9f7e94dce032"
+      },
+      {
+        "path": "source/LICENSE",
+        "bytes": 1081,
+        "sha256": "7ea461cf01583ff889f2c0705702f4e97bc1751fd96d5381895754638dc1263d"
+      },
+      {
+        "path": "recipe/seal-http-recall-campaign-host-20261007-r1.py",
+        "bytes": 5969,
+        "sha256": "f31fa23ec191940040d79239427c09072bd34cbb8f4fc8cf2b56f7231b71940e"
+      }
+    ]
+  },
+  "scope_limits": [
+    "Synthetic counters/replies are not tokenization, GPU, model quality or performance evidence.",
+    "No production ABI, model/kernel, reactive, state-format or metrics changes.",
+    "No model forward/hash, remote build, GPU job, lease or window admission.",
+    "Optional development Python coordinator; native products/default tests unchanged."
+  ],
+  "actual_exit_code": 0
+}

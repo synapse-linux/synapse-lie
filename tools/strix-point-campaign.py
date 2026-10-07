@@ -8,6 +8,7 @@ No host install, tuning, foreign signals or automatic retries.
 import datetime
 import fcntl
 import hashlib
+import importlib.util
 import json
 import math
 import os
@@ -1117,7 +1118,7 @@ class Campaign:
                   '--home', str(home), '--volume', str(bundle)+':/bundle:ro',
                   '--volume', str(model)+':/model:ro', '--volume', root+':/work:rw',
                   '--additional-flags', flags, '--no-entry']
-        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-ssd-restart', 'modern-core-ssd-text-restart', 'modern-core-steering-restart', 'modern-core-steering-admission', 'modern-core-reactive-probe', 'modern-core-prefill-probe', 'modern-core-vision', 'modern-http', 'modern-http-multi', 'modern-http-depth', 'modern-sampling-capture') and self.m.get('decode_mode') == 'mtp':
+        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-ssd-restart', 'modern-core-ssd-text-restart', 'modern-core-steering-restart', 'modern-core-steering-admission', 'modern-core-reactive-probe', 'modern-core-prefill-probe', 'modern-core-vision', 'modern-http', 'modern-http-multi', 'modern-http-depth', 'modern-http-recall', 'modern-sampling-capture') and self.m.get('decode_mode') == 'mtp':
             predictor = checked_path(self.m['predictor_plan']['destination'])
             create[create.index('--additional-flags'):create.index('--additional-flags')] = [
                 '--volume', str(predictor)+':/mtp:ro']
@@ -1585,6 +1586,8 @@ class Campaign:
             return self.modern_sampling_capture()
         if profile == 'modern-http-depth':
             return self.modern_http_depth_gate()
+        if profile == 'modern-http-recall':
+            return self.modern_http_recall_gate()
         if profile == 'modern-http-multi':
             return self.modern_http_multi_gate()
         if profile == 'modern-http':
@@ -2195,6 +2198,70 @@ class Campaign:
             if (self.root/'measurements.jsonl').exists():
                 self.r['bench_partial'] = {'measurements_sha256': sha(self.root/'measurements.jsonl'),
                                            'bytes': (self.root/'measurements.jsonl').stat().st_size}
+            self.check_model_after(rows)
+    def modern_http_recall_gate(self):
+        if self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox':
+            raise ValueError('Modern HTTP recall requires ROCm 10 Distrobox')
+        mode = self.m.get('decode_mode')
+        if mode not in ('ar', 'mtp') or (mode == 'ar' and 'predictor_plan' in self.m):
+            raise ValueError('Invalid recall decode mode or unexpected AR predictor')
+        helper = checked_path(self.root/'http-recall-gate.py')
+        config_file = checked_path(self.root/'http-recall-settings.json')
+        if (sha(helper) != self.m.get('http_recall_gate_sha256') or
+                sha(config_file) != self.m.get('http_recall_settings_sha256')):
+            raise ValueError('HTTP recall helper or settings drift')
+        spec = importlib.util.spec_from_file_location('lie_http_recall_gate', helper)
+        gate = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(gate)
+        config = gate.settings(gate.strict_json(config_file.read_text()))
+        if config != self.m.get('http_recall'):
+            raise ValueError('HTTP recall settings differ from the manifest')
+        if config['context'] >= 524288 and self.memory_admission is None:
+            raise ValueError('Large-context recall requires an explicit GTT/RAM admission budget')
+        model, rows = self.verified_model()
+        predictor = None
+        if mode == 'mtp':
+            predictor, witness = self.verified_predictor()
+            rows.append(witness)
+        command = ['/usr/bin/python3', '-B', '/work/http-recall-gate.py',
+                   '--mode', mode, '--settings', '/work/http-recall-settings.json',
+                   '--model', '/model/'+self.m['model_plan']['files'][0]['name'],
+                   '--server', '/bundle/runtime/bin/synapse-lie-server',
+                   '--client', '/bundle/runtime/bin/synapse-lie-bench']
+        if predictor:
+            command += ['--predictor', '/mtp/'+predictor.name]
+        self.r['bench_command'] = command
+        self.r['http_recall_settings'] = config
+        self.r['http_recall_container_timeout_seconds'] = gate.container_timeout(config)
+        self.record()
+        try:
+            self.run_container(command, self.m['bundle'], gate.container_timeout(config), model)
+            result = gate.strict_json((self.root/'http-recall-result.json').read_text())
+            measurements = gate.json_lines(self.root/'measurements.jsonl', 32*1024*1024)
+            cases = gate.json_lines(self.root/'requests.jsonl', 8*1024*1024)
+            proof = gate.validate(measurements, cases, config, mode)
+            if (result.get('schema') != 'synapse-lie.point-http-recall-original.v1' or
+                    result.get('state') != 'PASSED' or proof['state'] != 'PASSED' or
+                    type(result.get('client_exit_code')) is not int or result['client_exit_code'] != 0 or
+                    result.get('server_exit_code') not in (0, -15) or
+                    result.get('cleanup_errors') != [] or result.get('mode') != mode or
+                    result.get('settings') != config or
+                    any(result.get(key) != value for key, value in proof.items()) or
+                    result.get('measurements_sha256') != sha(self.root/'measurements.jsonl') or
+                    result.get('requests_sha256') != sha(self.root/'requests.jsonl')):
+                raise RuntimeError('Incomplete original-weight HTTP recall qualification')
+            self.r['bench_result'] = {'profile': 'modern-http-recall', 'mode': mode,
+                                     'settings': config, **proof,
+                                     'measurements_sha256': result['measurements_sha256'],
+                                     'requests_sha256': result['requests_sha256'],
+                                     'result_sha256': sha(self.root/'http-recall-result.json')}
+        finally:
+            partial = {}
+            for name in ('http-recall-result.json', 'measurements.jsonl', 'requests.jsonl'):
+                path = self.root/name
+                if path.is_file() and not path.is_symlink():
+                    partial[name] = {'sha256': sha(path), 'bytes': path.stat().st_size}
+            self.r['http_recall_partial'] = partial
             self.check_model_after(rows)
     def modern_http_multi_gate(self):
         if self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox':

@@ -19,8 +19,10 @@ Explicit [YaRN profiles](docs/guides/CONTEXT.md) extend the configured limit to
 1,048,576 tokens. Strix Point completes **1,048,448 physical prefill tokens and
 128 output tokens** with the native core bench's explicit fixed-token EOS policy.
 The [1M results and reproduction command](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#physical-1m-context-and-fixed-generation)
-include prefill, decode, durations and memory. Long-context recall quality and
-matched performance comparisons remain under qualification.
+include prefill, decode, durations and memory. The
+[long-context recall protocol](docs/development/protocols/LONG-CONTEXT-RECALL-GPU-PROTOCOL.md)
+defines quality checks through 1M; original-weight recall and matched performance
+comparisons remain under qualification.
 The experimental [long-context sparse WMMA option](docs/guides/BUILD.md)
 extends the prefill workspace through 1M; its original-weight correctness and performance
 qualification remain pending.

@@ -7,6 +7,11 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Optional Strix Point recall coordination now runs the native benchmark on
+  separate context/RoPE/seed cohorts through 1M, with complete continuation,
+  exact-answer checking, memory admission and failed-artifact retention.
+  Original-weight qualification remains pending; native products remain Python-free.
+
 - Responses now accepts `seed`, `frequency_penalty` and `presence_penalty`
   through the shared generation profile, and retains them in completed/stored
   response objects. Seeds are integers in 0..9223372036854775807; penalties

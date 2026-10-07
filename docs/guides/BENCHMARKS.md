@@ -464,6 +464,11 @@ and warmup counts. A wrong answer preserves all remaining samples and ends with
 Timing reports refuse failed quality runs. Source/client fixtures are separate
 from original-weight recall qualification, which remains pending.
 
+The [Strix Point recall protocol](../development/protocols/LONG-CONTEXT-RECALL-GPU-PROTOCOL.md)
+defines the native/YaRN ladder through 1M, three corpus seeds, memory admission
+and an optional one-case GPU coordinator. It preserves failed answers and
+actual exits; it adds no Python dependency to this benchmark or its graphs.
+
 ## Prepared HTTP multi-user cohorts
 
 Use a running server with prefix caching enabled and at least eight active

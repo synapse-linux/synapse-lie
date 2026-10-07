@@ -345,8 +345,13 @@ none of the six items.
    [Full-run startup](development/validation/terminal-full-point-start-2026-10-05.json) ·
    [Operator stop and closure](development/validation/terminal-full-stopped-point-2026-10-05.json).
    [Current GPU receipt](development/validation/c17-finite-cache-point-gpu-2026-10-05.json).
-3. **1M source integrated; qualify recall and long-context HTTP.** The declared `1bff953` `.161`
-   run completes all **1,048,448 physical prefill tokens and 128 output tokens**
+3. **1M source integrated; qualify recall and long-context HTTP.**
+   The [recall protocol](development/protocols/LONG-CONTEXT-RECALL-GPU-PROTOCOL.md)
+   now defines three seeds, profile-specific short controls and the native/YaRN
+   ladder through 1M. The optional one-case supervisor route is implemented and
+   checked against native-client HOST fixtures; original-weight recall is pending.
+   The historical `1bff953` `.161` run completes all
+   **1,048,448 physical prefill tokens and 128 output tokens**
    with explicit YaRN4 and `--ignore-eos`. The
    [capacity/function receipt](development/validation/physical1m-fixed-point-gpu-2026-10-05.json)
    verifies actual retirement, collection, model identities and service/lease
