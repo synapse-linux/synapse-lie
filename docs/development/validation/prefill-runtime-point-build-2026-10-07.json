@@ -1,0 +1,753 @@
+{
+  "schema": "synapse-lie.prefill-runtime-point-build.v1",
+  "at_utc": "2026-10-07T05:42:59.811404+00:00",
+  "state": "BUILT_NOT_GPU_TESTED_COLLECTED_VERIFIED_CLOSED",
+  "classification": "CURRENT_SOURCE_COHERENT_ROCM10_BUILD_NOT_GPU_INFERENCE_QUALIFICATION",
+  "source_commit": "2ec9798bf00f774fdaf3d9150ba79712dd88feaf",
+  "code_checkpoint": "d6431db85d3119e112ffd01c557aaacd6d7c2714",
+  "host_receipt": {
+    "path": "docs/development/validation/prefill-runtime-local-2026-10-07.json",
+    "bytes": 148674,
+    "sha256": "bf32fa8d3fd84160dc3a691bfef0fd4536083d441cc3bbfb404900512a4e02db"
+  },
+  "source_archive_sha256": "8c3e311dc9fd4aeeace907d7e0d1291565584028efbe45d15afdec26f419150e",
+  "source_inventory_sha256": "dc74e82b87ec4133f0a14d13839c79ce60c130962b04c2393439e022f7548eb1",
+  "tracked_compiler_files": 699,
+  "independently_pinned_gufo_files": 1019,
+  "complete_recipes": 41,
+  "complete_recipe_replacements": 333,
+  "private_C17_ON_OFF_coherent": true,
+  "binary_consumers": [
+    "lie-attention-qualify",
+    "lie-hip-probe",
+    "lie-sampling-capture",
+    "synapse-lie-bench",
+    "synapse-lie-bench-gufo-reference",
+    "synapse-lie-server"
+  ],
+  "build_stages": {
+    "provider": 0,
+    "reference-provider": 0,
+    "configure": 0,
+    "link": 0
+  },
+  "controller_exit_code": 0,
+  "supervisor_exit_code": 0,
+  "child_exit_code": 0,
+  "supervisor_identity": {
+    "pid": 251275,
+    "start_ticks": 22021849
+  },
+  "container_init_identity": {
+    "pid": 251350,
+    "start_ticks": 22021942
+  },
+  "bundle": {
+    "bundle": "/home/pop/workspace/synapse-lie/rocm10-fedora-161/bundle-modern-r45",
+    "bundle_sha256": "21bfff745f3a8283d7f9f29982ff3139b3aef9a9beabb445495df8abc98a9e10",
+    "metadata": {
+      "schema": "synapse-lie.point-bundle.v1",
+      "source_commit": "2ec9798bf00f774fdaf3d9150ba79712dd88feaf",
+      "image": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+      "compile_receipt_sha256": "9c480a84cf739204965204a83496bb7ee3a7f08064e0582ca4478511dd495dbd",
+      "artifacts": {
+        "runtime/bin/lie-attention-qualify": "5de67e60a34eda1a555a7b0aad254de5a28e96f8bde3725dc67e4dc931e8b318",
+        "runtime/bin/lie-hip-probe": "184c9592fe99071b7cceb087eb0659e0c702b6800adc0f69a59ede84febd03d9",
+        "runtime/bin/lie-sampling-capture": "4c6feb40ab7ce1829efa9cab393cbdee63dabfd7a85fa61c1da9936e42148179",
+        "runtime/bin/synapse-lie-bench": "8e2ca0b1d75bebf0c83e534a245a7b7f5280a2e603ffab1dca941eb4e349db3e",
+        "runtime/bin/synapse-lie-bench-gufo-reference": "55176922bab2286915aa6c2bf998cbe42127327611a89a708f039534efc0d931",
+        "runtime/bin/synapse-lie-server": "e06bd471c322f3eef315e8d545f38b54a2f129671a0ba0784b39179cc66e294d"
+      },
+      "runtime_libraries": "pinned ROCm10 image",
+      "scope": "BUILT_NOT_GPU_TESTED"
+    }
+  },
+  "lease": {
+    "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+    "device": 66307,
+    "inode": 105946405,
+    "cooperative_lie_only": true
+  },
+  "lease_released_at_utc": "2026-10-07T05:39:33.065780+00:00",
+  "fresh_closure": {
+    "at_utc": "2026-10-07T05:41:48.794401+00:00",
+    "state": "FRESH_SUCCESSFUL_BUILD_CLOSURE_NO_STANDING_RESERVATION",
+    "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+    "runner_sha256": "6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322",
+    "service": {
+      "MainPID": "256980",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "router_start_ticks": 22052952,
+    "original_lease": {
+      "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+      "device": 66307,
+      "inode": 105946405,
+      "free_briefly": true,
+      "released": true
+    },
+    "observation": {
+      "at": "2026-10-07T05:41:48.724313+00:00",
+      "kfd": [
+        {
+          "pid": 256980,
+          "start_ticks": 22052952,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "dri": [
+        {
+          "pid": 256980,
+          "start_ticks": 22052952,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "denied_fd": 382,
+      "temperatures": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "value_c": 29.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp2_input",
+          "value_c": 34.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp3_input",
+          "value_c": 29.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp1_input",
+          "value_c": 30.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp2_input",
+          "value_c": 30.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp3_input",
+          "value_c": 30.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon5/temp1_input",
+          "value_c": 37.0,
+          "limit_c": 98,
+          "guarded": false
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "value_c": 37.5,
+          "limit_c": 98,
+          "guarded": true
+        }
+      ],
+      "memory": {
+        "MemTotal": 132542648320,
+        "MemAvailable": 121228480512,
+        "SwapTotal": 21474828288,
+        "SwapFree": 20449615872
+      },
+      "kernel_kfd": [
+        256980
+      ],
+      "gpu": {
+        "gpu_busy_percent": 0,
+        "mem_info_gtt_total": 120259084288,
+        "mem_info_gtt_used": 18636800,
+        "mem_info_vram_total": 2147483648,
+        "mem_info_vram_used": 151191552
+      }
+    },
+    "foreign_compute_clients": [],
+    "guarded_hot": [],
+    "http8000_listeners": [],
+    "pinned_image": {
+      "exit_code": 0,
+      "id": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+      "stderr": ""
+    },
+    "free_disk_bytes": 564561657856,
+    "r45_bundle_present": true,
+    "GPU_build_run_or_service_mutation": false,
+    "standing_lease_waiter_reservation": false,
+    "owned_supervisor_identity_absent": true,
+    "owned_container_init_identity_recorded": true,
+    "owned_container_init_identity_absent": true,
+    "owned_container_absent": {
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: e7433e8d9b4e473945215c19765939a29a388400bac488426266c661cfe4cc25\n"
+    },
+    "owned_container_listing": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  "maximum_observed_temperature_c": {
+    "nvme": 47.85,
+    "amdgpu": 45.0,
+    "k10temp": 73.875
+  },
+  "telemetry_samples": 270,
+  "thermal_policy": "CPU98/NVMe85/lower limits guarded; GPU observed only; no tuning",
+  "GPU_device_access_in_compiler": false,
+  "model_attempted": false,
+  "installation_tuning_conversion_deployment_publication": false,
+  "no_standing_root_job_lease_waiter_window_reservation_handle_after_closure": true,
+  "next_gate": "Fresh .161 admission for original-weight prefill parity, resource fit and remaining functional/quality/fault gates; matched benchmarks then TerminalBench last.",
+  "open_task_numbers": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "goal_complete": false,
+  "portable_raw_archive": {
+    "path": "raw/prefill-runtime-point-build-2026-10-07.tar.gz",
+    "bytes": 894344,
+    "sha256": "2172e05cc7124c793e67b258bfeb5cd867056837f4c17097b01eaba12098a3fd",
+    "members": 128
+  },
+  "raw_artifacts": {
+    "evidence/context-r45-build-r1/coherence-evidence/build/rocm10-point-modern-r45-provider/build.ninja": {
+      "bytes": 122033,
+      "sha256": "9aff6efb62ed288f33b8ee6704c3bc1a2e5b4bae4942bc037495e06c532c24a4"
+    },
+    "evidence/context-r45-build-r1/coherence-evidence/build/rocm10-point-modern-r45-reference-provider/build.ninja": {
+      "bytes": 124193,
+      "sha256": "17c9192851ba51daaea75b6c6861107ff42fe291f1a91e3d7d92e93058334250"
+    },
+    "evidence/context-r45-build-r1/coherence-evidence/build/rocm10-point-modern-r45-runtime/build.ninja": {
+      "bytes": 249146,
+      "sha256": "2e6be0bd1231667d75656156da941d9c6ad560b9eaec565e731857a569345291"
+    },
+    "evidence/context-r45-build-r1/coherence-evidence/collection.json": {
+      "bytes": 23827,
+      "sha256": "2bed757b7b869536b18ce4e558499d03e9d16af34adb8c0c6a64b21da8ab140e"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/build/rocm10-point-modern-r45-provider/BUILD-RECEIPT.json": {
+      "bytes": 140544,
+      "sha256": "6ad31722dca5922718d84a605b78daae6e01383461e8c936f256c1ab083bd41e"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/build/rocm10-point-modern-r45-reference-provider/BUILD-RECEIPT.json": {
+      "bytes": 140596,
+      "sha256": "986efb996b12eef5055ebd328c0d54d736888211c03628dfd1cafe6732f99ee0"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/collection.json": {
+      "bytes": 17259,
+      "sha256": "1b6bf7575447df110b3336fa6b80976eba99c059764acc31826c3684cde03d32"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-compile/configure.command": {
+      "bytes": 767,
+      "sha256": "af74d96866d0281f4eaba22a16dd4194f3fe86a15808e209a89f81afbbf1ff8d"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-compile/configure.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-compile/configure.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-compile/configure.stdout": {
+      "bytes": 4128,
+      "sha256": "0a5ccf793cb7101d8a2452e73a709bb4ef4c41f78522d34e547d285ea9d5cc04"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-compile/link.command": {
+      "bytes": 218,
+      "sha256": "c5c9af176ce4854d959ea3efd99981608176efc8570bc82c53f1d646c7a1f89b"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-compile/link.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-compile/link.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-compile/link.stdout": {
+      "bytes": 12853,
+      "sha256": "35a06e919c96015c87d08451474fe28d76848a34c4de17df8a79c3a9d68d7bd3"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-compile/provider.command": {
+      "bytes": 288,
+      "sha256": "6ad171427143ea48b83832d5781ee3491f6aaf57392b75a14863a4251c7b22a9"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-compile/provider.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-compile/provider.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-compile/provider.stdout": {
+      "bytes": 65,
+      "sha256": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-compile/reference-provider.command": {
+      "bytes": 299,
+      "sha256": "d33da4fd58fa9d78113675e146de32fefef26b6a7c46f483bf541cba7d694072"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-compile/reference-provider.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-compile/reference-provider.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-compile/reference-provider.stdout": {
+      "bytes": 65,
+      "sha256": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-compile/result.json": {
+      "bytes": 1397,
+      "sha256": "9c480a84cf739204965204a83496bb7ee3a7f08064e0582ca4478511dd495dbd"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-provider/build.log": {
+      "bytes": 9545,
+      "sha256": "89774a0917f9464bd48c2804931bba1e3722fe83fafa7295801a50c72fa6a612"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-provider/configure.log": {
+      "bytes": 3359,
+      "sha256": "5a4828b4ac2e48bd2c39805f620c898054cf4bb93ee7c777a8ffd5bfd8cdb30b"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-provider/result.json": {
+      "bytes": 140544,
+      "sha256": "6ad31722dca5922718d84a605b78daae6e01383461e8c936f256c1ab083bd41e"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-reference-provider/build.log": {
+      "bytes": 9775,
+      "sha256": "274339912e69806ededa427a37455b136fa5250f1488016ee2c2966ec72ea6c9"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-reference-provider/configure.log": {
+      "bytes": 3369,
+      "sha256": "0e18efc275cf0a43ac12908397a7bf469f0b6ac8e25583226dc105a2228812a0"
+    },
+    "evidence/context-r45-build-r1/compile-evidence/evidence/rocm10-point-modern-r45-reference-provider/result.json": {
+      "bytes": 140596,
+      "sha256": "986efb996b12eef5055ebd328c0d54d736888211c03628dfd1cafe6732f99ee0"
+    },
+    "evidence/context-r45-build-r1/compile-verification-r1/result.json": {
+      "bytes": 6139,
+      "sha256": "b3a5a308fe2a763bd77279f61d77ecd69f65431d12ccd7d15f60d0a5a672a003"
+    },
+    "evidence/context-r45-build-r1/control-collection.json": {
+      "bytes": 2826,
+      "sha256": "058a93094822404c43470e8a3018d655b64508d9c9ab459b7a6b84eb414af0ec"
+    },
+    "evidence/context-r45-build-r1/controller-result.json": {
+      "bytes": 216,
+      "sha256": "3e7d6e25f464e7a2042be34a253baa21ffbc82cf5e1ffe68c4e04a19bec5fe59"
+    },
+    "evidence/context-r45-build-r1/result.json": {
+      "bytes": 152901,
+      "sha256": "25b7ed4362d5676d445dde02b94c2bbf2b492e6f7d64ebe3d68d97abccf86b53"
+    },
+    "evidence/context-r45-build-r1/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r45-build-r1/stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r45-build-r1/telemetry.jsonl": {
+      "bytes": 363520,
+      "sha256": "f4076951b789fa75d13a121ab64339b9e73882ecf2ea83512a64a449fbc98343"
+    },
+    "evidence/context-r45-build-closure-r1.json": {
+      "bytes": 7694,
+      "sha256": "7dc0c79ed91e97fd65fcd440d3200b1d3c96c657df805b6ea3637481cc74d2c0"
+    },
+    "evidence/context-r45-build-closure-r1.py": {
+      "bytes": 6247,
+      "sha256": "6833c3985707beb80625f68099ccdf7f7c21ccb14e32a658ad2bc7a9d61f3901"
+    },
+    "evidence/context-r45-build-launch.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r45-build-launch.stdout": {
+      "bytes": 127393,
+      "sha256": "936e9e85021d6b418bbe6df829fe52c2fcbb190275ceb25641c0da41abd0b5f5"
+    },
+    "evidence/context-r45-build-live-r1.json": {
+      "bytes": 11573,
+      "sha256": "8259e7abc976ecd58661d798bac590698bb33e573a45cfb2c089260b8abd49d4"
+    },
+    "evidence/context-r45-build-live-r1.py": {
+      "bytes": 3781,
+      "sha256": "7134797aea6239ddeb6a8a2954bc8cb24b4f29f0271ba156c0fb1d9ed6fd4f12"
+    },
+    "evidence/context-r45-build-live-r2.json": {
+      "bytes": 11618,
+      "sha256": "058b89f4aaa9d725af6ba576683f356f2cb3d00ecb4cc262f12e0c07e5e1b94d"
+    },
+    "evidence/context-r45-build-live-r2.py": {
+      "bytes": 3781,
+      "sha256": "563aecd6b128afbb561182f943a54203c9ee8566ac83d843476968356574fa85"
+    },
+    "evidence/context-r45-build-live-r3.json": {
+      "bytes": 16555,
+      "sha256": "abc0d80b74ad9771fc7e715a784b7c5ac31b45652a23b3fe2dd6e651b0317527"
+    },
+    "evidence/context-r45-build-live-r3.py": {
+      "bytes": 3781,
+      "sha256": "12f4b09af2bb5b88f2506aee502c63e06819eb69d99598c82a8cd57f2fe35d01"
+    },
+    "evidence/context-r45-build-manifest.json": {
+      "bytes": 2308,
+      "sha256": "b409819b2bff6e869f21ecd525c344e8ed73bd2e24cb91486a2a60060c85a43a"
+    },
+    "evidence/context-r45-bundle-result.json": {
+      "bytes": 1600,
+      "sha256": "7b4ac9007e91426ebe26e2856ac5c5c23b2ad2a4050c1ad3e1ec7acebdd6bd24"
+    },
+    "evidence/context-r45-fresh-161-r1.json": {
+      "bytes": 6888,
+      "sha256": "36c39e5ddd754e2c2bb220c50eacfaed27145196f7124d5e787c85a730831cc2"
+    },
+    "evidence/context-r45-fresh-161-r1.py": {
+      "bytes": 4667,
+      "sha256": "eb6a16adf75cdca63f5ef7fd7e9f60d9d6d37df9359a5177bd62798f11c96120"
+    },
+    "evidence/context-r45-fresh-161-r2.json": {
+      "bytes": 6888,
+      "sha256": "d9347694fc02e17ef8445e269e356ebd6e26e289b731ed9349ba342d64cac170"
+    },
+    "evidence/context-r45-fresh-161-r2.py": {
+      "bytes": 4667,
+      "sha256": "434d1e212166e571e0b1c304f9cb7efbd6f9074636bb7df50a58a6b707c66015"
+    },
+    "evidence/context-r45-job-prepared.json": {
+      "bytes": 649,
+      "sha256": "7a0cfb1eb02fb6c3afde02431da542bb19eac5624bb7bc9c8bed71a41e3333ec"
+    },
+    "evidence/context-r45-job-prepared.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r45-job-prepared.stdout": {
+      "bytes": 485,
+      "sha256": "351db8c2159cc74ea7137172e90ff3118236b256213c97785746910fbe4bc886"
+    },
+    "evidence/context-r45-peer-coordination.json": {
+      "bytes": 2408,
+      "sha256": "5fdc3b81ce0ab37e635a9fdf17f7accfc8c2ec738d8efd9779e4b1efa5d41021"
+    },
+    "evidence/context-r45-prepare-remote.py": {
+      "bytes": 218460,
+      "sha256": "37e4bc5ba2de5862e47cf91dbdeb15b5bb71c1f4e67d7f19efe4525c83e128bd"
+    },
+    "evidence/context-r45-source-preparation-failure-r1.json": {
+      "bytes": 663,
+      "sha256": "b387c4d4a0615622dd52e4440f2059dd239b1b845a90f9ce3736bfe519079bec"
+    },
+    "evidence/context-r45-source-seal.json": {
+      "bytes": 226750,
+      "sha256": "b8dcdfd4a503b27e3e8095f30cfeea41c3f5655ec52137aa5a979c899311b364"
+    },
+    "evidence/context-r45-source-stage.json": {
+      "bytes": 233286,
+      "sha256": "71c9e59a5ade74030b52a7322458f1cb49e47a304dd154bb7f5583c0f67d7590"
+    },
+    "evidence/prepare-context-r45-source.py": {
+      "bytes": 6840,
+      "sha256": "c1cfd29f02cca08c7af6abe9d41e0fbc8471705f4d59e460a4e33c6dbdd8acdb"
+    },
+    "evidence/stage-context-r45-source.py": {
+      "bytes": 4208,
+      "sha256": "22330c83062c605fdff7bf543add6e578637bbe21fe0652ccfab8628b9db8018"
+    },
+    "evidence/collect-context-r45-coherence.py": {
+      "bytes": 6796,
+      "sha256": "eb205f839a52a289b5346391fd80aa20b6112be88ff4e52fce93ea0ecde4d92e"
+    },
+    "evidence/collect-context-r45-compile.py": {
+      "bytes": 6224,
+      "sha256": "175b5eb25004aa74c3b957b134ac83cd076a9004fe1bce93fabcb3e8966dd9d0"
+    },
+    "evidence/collect-context-r45-control.py": {
+      "bytes": 2752,
+      "sha256": "5fe1955692ef447f9f955b090bdb2004f5a61943df236954538dbe5a9ea1892b"
+    },
+    "evidence/seal-context-r45-bundle.py": {
+      "bytes": 2543,
+      "sha256": "b49ff9039d640ceb905d4d1a64141f53d761edaf2ca530b10f7db57ae1f3256a"
+    },
+    "evidence/verify-context-r45-compile.py": {
+      "bytes": 8010,
+      "sha256": "bebfb616d1156f0fac98233440eb9106ffdc3c07655b6790dee1a8cabcba849b"
+    },
+    "evidence/seal-prefill-runtime-point-r45.py": {
+      "bytes": 8187,
+      "sha256": "f029fd49e572f3f6bcd8695c2e3f9a50811b72343b29934f633cadbd0b823a74"
+    },
+    "docs/development/validation/prefill-runtime-local-2026-10-07.json": {
+      "bytes": 148674,
+      "sha256": "bf32fa8d3fd84160dc3a691bfef0fd4536083d441cc3bbfb404900512a4e02db"
+    },
+    "evidence/context-source-modern-r45/SOURCE-FILES.sha256": {
+      "bytes": 201728,
+      "sha256": "dc74e82b87ec4133f0a14d13839c79ce60c130962b04c2393439e022f7548eb1"
+    },
+    "CMakeLists.txt": {
+      "bytes": 61008,
+      "sha256": "17b5ca0413f842823657ba206dbddfe646d2c3b6aeac4b92382b745174f84828"
+    },
+    "cmake/point/Build.cmake": {
+      "bytes": 6388,
+      "sha256": "013a03325dbdde6cd88429cf5ea50c738a197af8801e5f52df9d7c7e336e2344"
+    },
+    "cmake/provider/Build.cmake": {
+      "bytes": 20004,
+      "sha256": "2825995c4709e582bd22f2017c39e60edfd7592d1375f0a91cc56140c2b69b6e"
+    },
+    "cmake/provider/Source.cmake": {
+      "bytes": 6300,
+      "sha256": "08bb3764211b85c3fb466bcfbbeb4d751274765418a8104f0327fc7542d1ee3f"
+    },
+    "cmake/gufo-runtime/CMakeLists.txt": {
+      "bytes": 6698,
+      "sha256": "cd273fa5b6277c751f8725747447c8e3974d16c4cf6910f6b2ce49cc45471a78"
+    },
+    "third_party/gufo-source.json": {
+      "bytes": 120375,
+      "sha256": "8891dc1d32fdebbeba4a0fe13e3a13c5a9d7cdb95483c6b0edec7897a074db51"
+    },
+    "include/lie/prefill.h": {
+      "bytes": 1364,
+      "sha256": "926ad3334ef151ae97be015ebe6646a647c25d3959589c0cc3c8a9f6b4e9e6fc"
+    },
+    "include/lie/core.h": {
+      "bytes": 12978,
+      "sha256": "aafaaf1343d46494b5220451175f1cc4a6996fc52fd4152913b412244a467df0"
+    },
+    "src/worker.c": {
+      "bytes": 85879,
+      "sha256": "e6a584f4b1c1c64418611e3681680497ec1bc1ef2fd469cdb2752c90939be11a"
+    },
+    "src/core_input.c": {
+      "bytes": 11009,
+      "sha256": "d25d56525b11ee3b9dd822b0c01a2afb7603623b8ddee050c89c5e8e3e4a0f61"
+    },
+    "src/server.c": {
+      "bytes": 115453,
+      "sha256": "4f5784a0835a620127092fb28bd3bb61312afa1bd25d9245b31edbe71a72a78d"
+    },
+    "adapters/gufo.cpp": {
+      "bytes": 63452,
+      "sha256": "d4f95dd0deb76ab77524a92a54731d59f890304d699273c3a9d78988ef88a842"
+    },
+    "adapters/gufo-state/access.hpp": {
+      "bytes": 17042,
+      "sha256": "a3f9b8f8fabd74cdd1b31622eda6ac7bdf97ff1c70d047827103010aaa088c3e"
+    },
+    "tools/core-bench.c": {
+      "bytes": 52053,
+      "sha256": "57a408fddf47eaaae4e3de537719f85bb56f9bdc87464b53acdb93a2f1955ca9"
+    },
+    "tools/lie-bench.c": {
+      "bytes": 23440,
+      "sha256": "d89380dc2d5b298eecb9f37aa1296bf02b9152e5637b41e4fa184a2a187b0df7"
+    },
+    "adapters/gufo-state/access-edits.json": {
+      "bytes": 1064,
+      "sha256": "03d0c630dddf0eb4310b99265a95235150b2974b2fc1409c4670068625f9f5e0"
+    },
+    "adapters/gufo-state/sampling-edits.json": {
+      "bytes": 3118,
+      "sha256": "601cab9d75b421a7594935d1aeab4e1022e93795f39016e9d08929eabf1c8420"
+    },
+    "adapters/gufo-state/dense-sampling-edits.json": {
+      "bytes": 13097,
+      "sha256": "b64b16d475b24beeb06609ea28b13411f71a9ce562d242a9566fe85c281ba037"
+    },
+    "adapters/gufo-state/history-sampling-edits.json": {
+      "bytes": 10763,
+      "sha256": "7487f5b2b087e54b64ee564131870daad4441572aa80d2440c2476080c631608"
+    },
+    "adapters/gufo-state/distribution-sampling-edits.json": {
+      "bytes": 42741,
+      "sha256": "2dc06f4ba2ff2fa9b021baff1dcd133ad582d0246bf46340208beeab7fcded16"
+    },
+    "adapters/gufo-state/grammar-runtime-edits.json": {
+      "bytes": 35619,
+      "sha256": "19562a5dcf5dcb7a3dfc83a96e77aafce299eafe9f2d5b6c12c41be9dff1d83f"
+    },
+    "adapters/gufo-state/schema-transform-edits.json": {
+      "bytes": 23987,
+      "sha256": "20e1e08b9e32f1dea9c47d1c633f66fcdb812ddeb6f58bcfb7135c970ee70bdc"
+    },
+    "adapters/gufo-state/schema-values-edits.json": {
+      "bytes": 22633,
+      "sha256": "806ec9cbb2fba33f6035ecb0d6a2fc52c140c7140139eec4f77ab1374267b199"
+    },
+    "adapters/gufo-state/grammar-cache-edits.json": {
+      "bytes": 2028,
+      "sha256": "720f1224864c1578dc2b24fc31b201c53ee5be6b1301642d5e12ef50dcc23d1a"
+    },
+    "adapters/gufo-state/schema-memo-edits.json": {
+      "bytes": 1493,
+      "sha256": "f7f63dc22c9440c2d6494bd0c66a35840b18f8a7c2510e4844f7a40bda9bc9a9"
+    },
+    "adapters/gufo-state/schema-dispatch-edits.json": {
+      "bytes": 8013,
+      "sha256": "1de8f9f42297d2729b5f33c5f81544fad6c2d3f363b73f216e3fab14f9b4ce23"
+    },
+    "adapters/gufo-state/schema-visit-edits.json": {
+      "bytes": 1895,
+      "sha256": "953820e1cec74385cbaa85c8b030d704aa34fce32c3a4d48aefd640bd38c6ae3"
+    },
+    "adapters/gufo-state/schema-body-edits.json": {
+      "bytes": 17225,
+      "sha256": "81e480c38bc8be1c8be26fe28c42fb3b8bbe24c560ee58d989d464126fbe5c11"
+    },
+    "adapters/gufo-state/grammar-number-edits.json": {
+      "bytes": 28470,
+      "sha256": "c76e23a22ef21232c641d1acb54bbe3589f3681a3675ce74da6159e612ad7635"
+    },
+    "adapters/gufo-state/grammar-regex-edits.json": {
+      "bytes": 10101,
+      "sha256": "a951736f465f7a4937c1b16f4af2a9c39c7aacb8d0813647e913e3fca1549b50"
+    },
+    "adapters/gufo-state/grammar-string-edits.json": {
+      "bytes": 28740,
+      "sha256": "0486e534da0ce05a36a994c684bf75fd9d4bfe8f3048edf79ecdcbb52f319cbd"
+    },
+    "adapters/gufo-state/schema-format-edits.json": {
+      "bytes": 6117,
+      "sha256": "41913b8a3bbb6ca642b0b1ec67d0755f86fa194fa085bceaedf79a0746cd7c01"
+    },
+    "adapters/gufo-state/composition-cache-edits.json": {
+      "bytes": 4094,
+      "sha256": "cdef8e99979427b5c08a4a8d09735d9dbb36cdab1e2410daa334f1a22ba22d07"
+    },
+    "adapters/gufo-state/composition-edits.json": {
+      "bytes": 16284,
+      "sha256": "5ea111fdffa9fb1e7478eee5ff49117e20d167394e2a8160e243dfbefb09f44f"
+    },
+    "adapters/gufo-state/binary64-edits.json": {
+      "bytes": 2099,
+      "sha256": "de9dc1fac361945103126a16e95f3ac70f3e7907314a8487bd448fcf71f851a2"
+    },
+    "adapters/gufo-state/json-parser-edits.json": {
+      "bytes": 1292,
+      "sha256": "1d0bf207909416e9cfe42232d8c14a29de101ac2a6283bcb717ed97b9d7ccaeb"
+    },
+    "adapters/gufo-state/json-value-edits.json": {
+      "bytes": 619,
+      "sha256": "e1bbbb2b0fff9dadd2c2553779656b9943c356642f78d04b6a35d8fb834bc7fe"
+    },
+    "adapters/gufo-state/grammar-lexeme-edits.json": {
+      "bytes": 13043,
+      "sha256": "286907bf2635722595d709bc763bfe6f72e4350a156c2bb1b62d22a464474817"
+    },
+    "adapters/gufo-state/grammar-vocabulary-edits.json": {
+      "bytes": 15114,
+      "sha256": "ef713c9363bbb6c66b34f2aaeb44ba56f7795d6b08cf397323bd9ac254e71885"
+    },
+    "adapters/gufo-state/grammar-state-edits.json": {
+      "bytes": 818,
+      "sha256": "a40bb8e5029ba492a2de6032c153a13877ceaf87274575a1d430773bc8041bc5"
+    },
+    "adapters/gufo-state/grammar-compiler-edits.json": {
+      "bytes": 25351,
+      "sha256": "9a7f03b9166a61d0282a258debed3e1b47c6136b3dff844b9b37d41c10febfe0"
+    },
+    "adapters/gufo-state/grammar-parser-edits.json": {
+      "bytes": 24003,
+      "sha256": "8c46d45a4203a8ba63ef41ed408d2696ae915dafe1d925230c73c07895b66d3a"
+    },
+    "adapters/gufo-state/vision-weight-edits.json": {
+      "bytes": 2803,
+      "sha256": "fd361ff9a1fd8c53a3777fbe85b5fcce5941ac5a68430b68e211c0dc19c1a70a"
+    },
+    "adapters/gufo-state/context-edits.json": {
+      "bytes": 10102,
+      "sha256": "7d77526ae7982104005eda8c8fc1aa348753a1a55986295a5b78e3999216d778"
+    },
+    "adapters/gufo-state/steering-edits.json": {
+      "bytes": 18547,
+      "sha256": "223a28d0891acaa9f814d620255618db53f9a86bfb255f07e51efe2ba0189bf3"
+    },
+    "adapters/gufo-state/schema-root-edits.json": {
+      "bytes": 2704,
+      "sha256": "66c8e31588e224335d0f709237072f7a882cded20cd0e45476fdbca34c7037d5"
+    },
+    "adapters/gufo-state/grammar-storage-edits.json": {
+      "bytes": 2696,
+      "sha256": "d192455c7c1535ae45c58b07606df48cd299eeb9bfbfc7bb4bbbdcd85d62e3a4"
+    },
+    "adapters/gufo-state/schema-store-edits.json": {
+      "bytes": 1249,
+      "sha256": "b9ad40b586270260877ee53beddeca440db17397ea47e76176b62916ac157ee1"
+    },
+    "adapters/gufo-state/schema-compile-edits.json": {
+      "bytes": 3345,
+      "sha256": "f5b7e58a459754c51cc3aeaa18fc79f66a7924dd788495940bd503fe79321dd5"
+    },
+    "adapters/gufo-state/schema-integer-edits.json": {
+      "bytes": 1165,
+      "sha256": "2fd5b11d2cb320d0d59c00314e57d32428cb37ad6ef49467c001569867f64482"
+    },
+    "adapters/gufo-state/schema-compiler-edits.json": {
+      "bytes": 10147,
+      "sha256": "90a218406286e7af01dad6875175d4af113a6d94afd16b4fc4d4cb4c0bf25e3b"
+    },
+    "adapters/gufo-state/schema-string-edits.json": {
+      "bytes": 2980,
+      "sha256": "e4316bb559a18b4583a9f6402279349c701006fd03f3c45a76a48454db9a28ce"
+    },
+    "adapters/gufo-state/schema-frontend-edits.json": {
+      "bytes": 2229,
+      "sha256": "cbab5024648cc989a83ecb7b7db54f40e93f2c7c66b6fa85d282214de07b27b8"
+    },
+    "adapters/gufo-state/sampling-storage-edits.json": {
+      "bytes": 8282,
+      "sha256": "7ea90ed30920868d8e16bb2bdd40ab948e51e3a39eb85c591cec0b1a22e30e84"
+    },
+    "adapters/gufo-state/attention-dispatch-edits.json": {
+      "bytes": 9350,
+      "sha256": "6f93995b8b8e3bab6ffea31068d526996b6b70fe9a0594d76f77de06f12c6e66"
+    },
+    "adapters/gufo-state/kvc-edits.json": {
+      "bytes": 5057,
+      "sha256": "b2e21ebf720d79b05d9c80fa2f422f1d7798d99ea64119db77a746f5d12353a0"
+    }
+  }
+}

@@ -22,7 +22,7 @@ The [1M results and reproduction command](docs/benchmarks/models/qwen3.8-flash-n
 include prefill, decode, durations and memory. Long-context recall quality and
 matched performance comparisons remain under qualification.
 The experimental [long-context sparse WMMA option](docs/guides/BUILD.md)
-extends the prefill workspace through 1M; its GPU correctness and performance
+extends the prefill workspace through 1M; its original-weight correctness and performance
 qualification remain pending.
 Experimental [MTP](docs/development/MTP.md) and
 [vision](docs/development/VISION.md) share model-neutral C core contracts and

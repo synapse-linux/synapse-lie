@@ -1,11 +1,27 @@
 # DS4 / synapse-lie coordination
 
+## Current prefill Point build passed and retired — 2026-10-07
+
+Fresh peer own-state and global preflight at 05:32:52 UTC precede the device-free
+`.161` r45 build of `2ec9798b`, binding prefill code `d6431db8`. Both providers,
+all six consumer links and the controller/supervisor/container finish with exit 0.
+No model or LIE GPU executable runs. The original lease releases at 05:39:33 UTC;
+strict closure at 05:41:48 verifies the exact supervisor and container identities
+absent, lease free and unchanged, HTTP8000 empty and the named router restored.
+CPU peaks at 73.875 C with no thermal stop. The
+[build receipt](development/validation/prefill-runtime-point-build-2026-10-07.json)
+retains all compile, coherence and closure artifacts, including the local source
+preparation failure and its correction. Peers receive verified release. Root
+holds no remote job, lease, window, waiter, reservation or handle. Original-weight
+numerical/quality/fault/resource gates require separate fresh admission;
+comparative benchmarks and Terminal Bench remain last.
+
 ## Shared-engine prefill implementation — 2026-10-07
 
 The owner's live-chunk request resumes local source development. The new shared
 C17 control and bounded provider reservation supersede the r43/r44 runtime for
-this feature. No r45 manifest, remote build/run, waiter, lease or GPU window is
-created or reserved. Old required-tool plans remain unlaunched. Matching remote
+this feature. That local increment created no remote manifest, build/run,
+waiter, lease or GPU window. Old required-tool plans remain unlaunched. Matching remote
 compilation and original-weight qualification require new identities and fresh
 coordinated admission after functional integration and local checks.
 

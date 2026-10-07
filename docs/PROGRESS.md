@@ -18,8 +18,8 @@ controls, MTP/vision composition and report consistency pass 26/26 in Release
 and 26/26 with unsuppressed ASan/UBSan/LSan. Both changed public headers compile
 as strict C17/C++17, existing core layouts remain identical, and all 41 guarded
 recipes compose from 1,019 independently verified pinned source files. Local CPU
-peaks at 77.5 C under the 98 C guard; no model or GPU executable runs. No remote
-job, lease, window or reservation is created. The preceding r43 build and r44
+peaks at 77.5 C under the 98 C guard; no model or GPU executable runs. That local
+increment created no remote job, lease, window or reservation. The preceding r43 build and r44
 generated GPU attention receipt retain their exact scope; neither qualifies
 larger chunks. Current-source GPU numerical/resource/fairness acceptance remains
 in the final integrated phase; comparative performance and Terminal Bench follow.
@@ -31,6 +31,13 @@ targets also build. HIP compilation peaks at CPU 82.875 C without a thermal stop
 The [local validation receipt](development/validation/prefill-runtime-local-2026-10-07.json)
 binds checkpoint `d6431db8`, exact sources and independently verified archive
 members, retains the two initial test failures and records the remaining GPU gates.
+
+Matching `.161` ROCm 10 compilation now passes for both coherent providers and
+all six consumers. The [Point build receipt](development/validation/prefill-runtime-point-build-2026-10-07.json)
+binds `2ec9798b` to the unchanged `d6431db8` code, complete recipe reconstruction,
+actual exits and verified process/container/lease closure. CPU peaks at 73.875 C;
+the container has no GPU devices and no model executes. Larger-chunk numerical,
+memory, cache, cancellation, fairness and performance acceptance remains open.
 
 ## Long sparse-prefill workspace implemented — 2026-10-07 UTC
 

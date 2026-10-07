@@ -11,7 +11,7 @@ acceptable as an **explicit transitional implementation**, not something to
 rename and claim as an owned backend. Do not require a big-bang rewrite before
 learning from real workloads; do not let the prototype define the final limits.
 
-## Current roadmap — 2026-10-06 UTC
+## Current roadmap — 2026-10-07 UTC
 
 Strix Point integration is merged into `develop` at `30598a3`; current context
 and OpenAI work remains on `feature/context-million-openai`. Recorded GPU
@@ -62,6 +62,13 @@ phase is complete; the acceptance checks below remain open for final integrated
 qualification, with fresh admission for each remote window.
 Comparative performance follows those gates; Terminal Bench stays last.
 All six items remain open until their separate acceptance evidence is collected.
+
+The live prefill controls at `d6431db8` now have grouped local Release/sanitizer
+checks and matching coherent `.161` ROCm 10 compilation of both providers and
+all six consumers. The [current prefill build receipt](development/validation/prefill-runtime-point-build-2026-10-07.json)
+binds source, artifacts and verified machine release. This supersedes earlier
+build identities for the new feature; original-weight chunk parity, memory,
+cache, cancellation, fairness and performance still require final acceptance.
 
 The subsequent C17 sparse-prefill admission correction uses the actually visible
 mask extent while retaining its allocated stride and the existing workspace
