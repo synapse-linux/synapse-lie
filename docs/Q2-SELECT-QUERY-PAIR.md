@@ -1,5 +1,36 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The continuous key-layout diagnostic resolves the timing concern on2026-10-07.
+All167 device functions match the preceding component byte-for-byte; only
+host submission/measurement changes. Eight alternating pairs give each arm
+four first and four second positions, without CPU checks between launches.
+Each timed result has a distinct guarded output and is checked after completion.
+The complete candidate still includes exact key packing plus score and top-k.
+
+| Same internal selector slice | Original GPU mean, us | Tiled GPU mean, us | Latency change | Faster candidate pairs |
+|---|---:|---:|---:|---:|
+| Last full32K slice | 606.1998 | 628.9444 | +3.7520% | 0/8 |
+| Last full128K slice | 2115.5610 | 2200.6186 | +4.0206% | 0/8 |
+| Last128K tail slice | 1567.4000 | 1660.8173 | +5.9600% | 0/8 |
+
+All60 complete field comparisons and60 independent checks pass, including
+packed half bits, unused sentinels, guards and unchanged inputs. Actual exit0;
+all48 timed HIP events are valid. Every raw duration and complete batch wall
+time is retained in
+[`q2-select-key-tile-steady-results.json`](../config/q2-select-key-tile-steady-results.json).
+These GPU durations are not substituted for the earlier isolated completed-wall
+measurements or the frozen model benchmark. All24 pairs regress, so reject this
+key-layout implementation without an original-model rerun. The earlier favorable
+aggregate latency does not establish a gain. Original model dispatch remains.
+
+Source d7996a13, plan6732c888, binary72f824dc. CPU fixture/verify/admit/run/release
+all exit0; GPU run19:00:33→19:00:37 UTC. All36 artifacts hash-verify19:01:37
+before19:02:11.310442 release SHA
+da169b69563c872822ba792ea6126f3e7662229d567f90724dd02af8b9a2af4a.
+Fresh19:02:48 closure verifies the registry, eleven retired identities/groups
+plus supervisor, empty KFD, five free leases and seven unchanged model stats.
+No model access, remote build, tuning, installation or cleanup occurred.
+
 The8x8 key-layout component completes on .157 at18:49:16 UTC with48 exact
 score/mask comparisons and48 independent checks, including all packed half
 bits and unused sentinels. Its five-pair completed-wall means are907.9252→

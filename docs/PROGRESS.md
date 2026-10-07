@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Selector key tiles rejected after continuous diagnostic — 2026-10-07 UTC:
+all167 device functions match the earlier component; equally ordered continuous
+launches retain/check every output. All60 field comparisons and60 independent
+checks pass. GPU mean latency is606.1998→628.9444us at32K (+3.7520%),
+2115.5610→2200.6186us at128K (+4.0206%),1567.4000→1660.8173us on the128K
+tail (+5.9600%). All24 candidate/control pairs regress, with packing included.
+The preceding isolated mean improvement is not confirmed; no model integration
+or throughput claim. No saved model reference is rebuilt/rerun/changed.
+CPU fixture/verify/admit/run/release0;36 artifacts verify before19:02:11.310442
+release da169b69, fresh closure19:02:48 checks registry/retirement/KFD/leases/
+model stats. No Q2 remote work or reservation remains; source/results retained.
+[Evidence and all durations](Q2-SELECT-QUERY-PAIR.md).
+
 Selector key tiles numerically exact — 2026-10-07 UTC: .157 component exits0,
 48 exact pairs and48 independent checks. Completed-wall means show+0.98%
 latency at32K and-5.71%/-8.25% at full/tail128K, but execution-order variation

@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Selector continuous key-tile diagnostic released — 2026-10-07 UTC: source
+d7996a13, plan6732c888, CPU fixture/verify/admit/run/release0. GPU run finishes
+19:00:37;36 artifacts hash-verify19:01:37 before19:02:11.310442 release SHA
+da169b69563c872822ba792ea6126f3e7662229d567f90724dd02af8b9a2af4a.
+Independent19:02:48 closure checks registry, eleven retired identities/groups
+plus supervisor, empty KFD, five unchanged free leases and seven model stats.
+Core receives verified closure. No Q2 job, build, client, handle, window, waiter
+or reservation remains on .157/.155/.161/.158/TB; no future admission follows.
+No model access, remote build, dependency, service, tuning or cleanup action.
+
 Selector key tiles released — 2026-10-07 UTC: sourcebe128ea3, plane0513fd1,
 CPU fixture/verify/admit/run/release0. Run18:49:13→18:49:16; all35 artifacts
 verify18:51:19 before18:51:57.988613 release SHA

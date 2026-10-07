@@ -35,8 +35,10 @@ keep four-row down as the reference. The new candidate is not promoted.
 
 The separate [selector query-LDS component](docs/Q2-SELECT-QUERY-PAIR.md)
 is numerically exact but increases complete operator latency62–91%; it is not
-integrated. An exact key-layout candidate is prepared for its own component
-test, including packing cost. This provides no new model throughput result.
+integrated. Exact key tiling also regresses3.75–5.96% in the subsequent continuous
+diagnostic, including packing, with all24 equally ordered pairs slower. The
+earlier favorable isolated mean is not confirmed. Neither candidate is integrated;
+the model benchmark and its retained references remain unchanged.
 
 The subsequent down/SiLU fusion passes its exact component checks but adds
 no measured model gain:1332.307970 PP /25.595276 TG versus the retained
