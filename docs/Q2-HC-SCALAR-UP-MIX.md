@@ -85,3 +85,30 @@ Next: integrate only the original scalar F16 HC eligibility into a private
 provider, preserving invalidation and injection-part ownership, then run the
 unchanged original-Q2 model comparison. Do not extrapolate the component's
 percentage to whole-model decode or count it toward the30TG goal yet.
+
+## Private model integration prepared
+
+The [integration generator](../tools/prepare-q2-hc-scalar-model.py) copies the
+retained1028-file provider and changes only executor.cpp, kernels.hpp,
+kernels.hip.cpp and one new include. The include is byte-identical to the
+qualified component. All1029 resulting source files reconstruct from the
+saved patch; the original provider is unchanged. The scalar eligibility
+requires n_tokens1, original F16 down/up matrices at2560/320/four streams,
+F32 or absent injection, F32 normalized inputs and `!MatrixRows(n_tokens)`.
+That last condition excludes the single-logit head inside a prefill phase,
+which originally uses the matrix path and its existing arithmetic.
+
+The up Dense launch is skipped only for that eligibility. The fused call
+occurs after the existing input-cache invalidations and leaves the existing
+ten-part injection bookkeeping intact. No allocation, stream, model state,
+C ABI or metrics change is introduced. Existing wide-prefill optimizations
+and their inherited task-quality limitation remain as documented.
+
+The complete original CMake Release target, including its own unchanged MMQ,
+builds locally with the frozen counting harness; configure/build exit0.
+Executor object relocation references the new launcher. No retained control
+is rebuilt. [Source](../config/q2-hc-scalar-model-source.json),
+[build identities](../config/q2-hc-scalar-model-build.json).
+The next .157 window admits only this new original-Q22048/tg128 process,
+one warmup and three measured sessions, using saved parent/control results.
+The model result is pending; component speed is not model throughput.

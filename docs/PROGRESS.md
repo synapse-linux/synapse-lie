@@ -28,6 +28,15 @@ stats unchanged,1959 identities/1565 groups retired. Provider-wide format
 exit1 on unchanged inherited files is preserved; changed-file formatting
 and object/assembly/link pass. No new model, controls or curve are run.
 
+Scalar HC model integration is now prepared in its own1029-file provider.
+The original tested include remains exact; only scalar non-prefill F16
+eligibility skips the separate up projection. The prefill-phase guard
+preserves the different arithmetic used by its one-row final head. Existing
+cache invalidations and ten injection partials remain. Local complete CMake
+Release/counting build, including fresh own MMQ, exits0; the patch reconstructs
+all1029 files and leaves the1028-file parent unchanged. Original-model GPU
+performance and exact replay remain pending.
+
 
 Native Q8 SSM wave assignment rejected — 2026-10-07 UTC: the private
 [unchanged-tile candidate](Q2-SSM-WAVE-BALANCE.md) completes on .157 with72

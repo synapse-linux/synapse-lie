@@ -1,0 +1,18 @@
+{
+  "schema": "synapse-lie.q2-hc-scalar-model-build.v1",
+  "source_manifest_sha256": "db615337c240cf880a872e71101990d73bd475b3dafb2f85d93b5c646fb27061",
+  "binary": ".deps/build-hc-scalar-counting-lie/cmake/hip/q2_model",
+  "binary_sha256": "b036d33b3bb599f586d51ddeada0b951e53134ca7a9ec6dcf99f9061b867827b",
+  "cmake_build_type": "Release",
+  "counting_harness_sha256": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+  "counting_manifest_sha256": "153c953edbfe47e14e4469fe25d45d20a7bf44021742b648973b2d1589474aae",
+  "configure_and_build_exits": [
+    0,
+    0
+  ],
+  "reconstructed_files": 1029,
+  "parent_files_unchanged": 1028,
+  "full_own_candidate_mmq_build": true,
+  "remote_build": false,
+  "commands_sha256": "9fa6cbcd10442ee60e86b2f92577af37a3c6386489fb48d6d8d2501e67a1e6d6"
+}
