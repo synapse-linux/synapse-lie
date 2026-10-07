@@ -2,9 +2,11 @@
 
 The owner now prioritizes [prefill and decode through 128K](docs/Q2-DECODE-128K.md).
 The active target is C1 AR30 token/s and complete prefill1500 token/s through
-the unchanged130925-token input. A focused32K kernel/API profile completed
-on the saved native server/client binaries to attribute long-context costs;
-instrumented rates cannot replace the saved throughput references.
+the unchanged130925-token input. Focused32K and complete original128K API
+profiles completed on the saved native server/client binaries. The128K trace
+shows48 score/mark query slices and12 attention kernels per scored chunk;
+invalid device timestamps prevent kernel-time attribution. Instrumented rates
+cannot replace the saved throughput references.
 The [four-query indexer scoring trial](docs/Q2-REMAINING-WORK.md) has exact
 score/mask output but regresses component time2.15x at32K and4.09x at128K;
 it is not integrated. Routed-expert work remains the leading prefill target.

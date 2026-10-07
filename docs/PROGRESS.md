@@ -1,5 +1,32 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Halogen bandwidth and arena follow-up — 2026-10-07 UTC: its published
+same-engine comparison uses serial short-context35.4 token/s on its own
+4-bit dense trunk versus25.4 on a losslessly repacked UD-IQ4_XS GGUF with
+8-bit dense layers; Halogen attributes this to about2GB extra weight traffic
+per token. LIE's large Q8 decode components already read roughly222–228GB/s
+of logical weight traffic. This is a stronger C1 decode lead than another
+Q8 instruction shuffle, but changing weight precision is not lossless and
+would need opt-in quality and original-input gates. Halogen also reports a
+roughly9% prefill cost from halving its arena at262K; its arena does not map
+to LIE's fixed2048-token chunks. Its own1517PP at131K and GGUF served
+1465PP at32K are distinct controls. No LIE numerical source, weights or throughput
+changed. [Comparison and limits](Q2-HALOGEN-TRANSFER.md).
+
+Original128K launch census — 2026-10-07 UTC: the existing hash-verified trace
+also binds valid submission identities/grid dimensions, despite invalid GPU
+durations. It shows3024 score/mark slice pairs,768 full-attention kernels and
+6144 IQ2 gate/up launches across the unchanged64-chunk prefill. The former
+selector extrapolation applied a one-query decode component to multi-query
+prefill slices, so neither its old8.36ms estimate nor a32.93ms multiplication
+is a valid prefill saving. Capacity-sized scoring
+dispatches contain about50% logically inactive threads, but the previously
+tested bounded-grid model candidate regressed at32K under different clocks;
+neither dispatch count nor component timing is a128K speedup. The repeated
+score arithmetic and complete expert chain remain separate possible larger
+mechanisms. [Exact census](../config/q2-long-profile128-results.json),
+[interpretation](Q2-LONG-PROFILE.md).
+
 Original128K critical-path diagnostic closed — 2026-10-07 UTC: the unchanged
 130925-token request completes with four primary command exits0 and native
 client exit0. The profile matches all95 embedding calls: the original three

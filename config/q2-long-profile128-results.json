@@ -38,6 +38,16 @@
       "full_attention_completion_intervals_ms": 321.211166,
       "linear_completion_intervals_except_first_two_ms": 892.553383,
       "ple_layer1_completion_interval_ms": 92.371416,
+      "launch_counts": {
+        "SelectScoreKernel": 0,
+        "SelectMarkKernel": 0,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 0,
+      "score_useful_cells_from_original_positions": 0,
+      "score_possible_live_grid_threads": 0,
       "largest_cpu_api_gaps": [
         {
           "start": 1920634652290239,
@@ -112,6 +122,16 @@
       "full_attention_completion_intervals_ms": 385.829501,
       "linear_completion_intervals_except_first_two_ms": 892.443434,
       "ple_layer1_completion_interval_ms": 94.491407,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 18849792,
+      "score_possible_live_grid_threads": 22020096,
       "largest_cpu_api_gaps": [
         {
           "start": 1920635992969579,
@@ -186,6 +206,16 @@
       "full_attention_completion_intervals_ms": 412.01977,
       "linear_completion_intervals_except_first_two_ms": 888.362833,
       "ple_layer1_completion_interval_ms": 116.84084,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 31451136,
+      "score_possible_live_grid_threads": 34603008,
       "largest_cpu_api_gaps": [
         {
           "start": 1920637399883838,
@@ -260,6 +290,16 @@
       "full_attention_completion_intervals_ms": 420.910665,
       "linear_completion_intervals_except_first_two_ms": 890.981916,
       "ple_layer1_completion_interval_ms": 99.203254,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 44034048,
+      "score_possible_live_grid_threads": 47185920,
       "largest_cpu_api_gaps": [
         {
           "start": 1920638851457112,
@@ -334,6 +374,16 @@
       "full_attention_completion_intervals_ms": 425.042542,
       "linear_completion_intervals_except_first_two_ms": 885.650511,
       "ple_layer1_completion_interval_ms": 96.815751,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 56616960,
+      "score_possible_live_grid_threads": 59768832,
       "largest_cpu_api_gaps": [
         {
           "start": 1920640296660625,
@@ -408,6 +458,16 @@
       "full_attention_completion_intervals_ms": 436.29842199999996,
       "linear_completion_intervals_except_first_two_ms": 885.206919,
       "ple_layer1_completion_interval_ms": 122.513261,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 69199872,
+      "score_possible_live_grid_threads": 72351744,
       "largest_cpu_api_gaps": [
         {
           "start": 1920641743243116,
@@ -482,6 +542,16 @@
       "full_attention_completion_intervals_ms": 442.16369,
       "linear_completion_intervals_except_first_two_ms": 887.318411,
       "ple_layer1_completion_interval_ms": 112.632843,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 81782784,
+      "score_possible_live_grid_threads": 84934656,
       "largest_cpu_api_gaps": [
         {
           "start": 1920643225667534,
@@ -556,6 +626,16 @@
       "full_attention_completion_intervals_ms": 447.261117,
       "linear_completion_intervals_except_first_two_ms": 886.9125280000001,
       "ple_layer1_completion_interval_ms": 108.396504,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 94365696,
+      "score_possible_live_grid_threads": 97517568,
       "largest_cpu_api_gaps": [
         {
           "start": 1920644706519965,
@@ -630,6 +710,16 @@
       "full_attention_completion_intervals_ms": 449.98888999999997,
       "linear_completion_intervals_except_first_two_ms": 889.602308,
       "ple_layer1_completion_interval_ms": 112.424339,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 106948608,
+      "score_possible_live_grid_threads": 110100480,
       "largest_cpu_api_gaps": [
         {
           "start": 1920646188185191,
@@ -704,6 +794,16 @@
       "full_attention_completion_intervals_ms": 454.042558,
       "linear_completion_intervals_except_first_two_ms": 889.697459,
       "ple_layer1_completion_interval_ms": 110.242593,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 119531520,
+      "score_possible_live_grid_threads": 122683392,
       "largest_cpu_api_gaps": [
         {
           "start": 1920647678687942,
@@ -778,6 +878,16 @@
       "full_attention_completion_intervals_ms": 457.20449,
       "linear_completion_intervals_except_first_two_ms": 890.674216,
       "ple_layer1_completion_interval_ms": 106.625526,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 132114432,
+      "score_possible_live_grid_threads": 135266304,
       "largest_cpu_api_gaps": [
         {
           "start": 1920649171250434,
@@ -852,6 +962,16 @@
       "full_attention_completion_intervals_ms": 458.861941,
       "linear_completion_intervals_except_first_two_ms": 889.877449,
       "ple_layer1_completion_interval_ms": 154.100206,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 144697344,
+      "score_possible_live_grid_threads": 147849216,
       "largest_cpu_api_gaps": [
         {
           "start": 1920650664784376,
@@ -926,6 +1046,16 @@
       "full_attention_completion_intervals_ms": 466.838211,
       "linear_completion_intervals_except_first_two_ms": 890.52278,
       "ple_layer1_completion_interval_ms": 106.298376,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 157280256,
+      "score_possible_live_grid_threads": 160432128,
       "largest_cpu_api_gaps": [
         {
           "start": 1920652206822866,
@@ -1000,6 +1130,16 @@
       "full_attention_completion_intervals_ms": 469.78251,
       "linear_completion_intervals_except_first_two_ms": 892.922307,
       "ple_layer1_completion_interval_ms": 107.442894,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 169863168,
+      "score_possible_live_grid_threads": 173015040,
       "largest_cpu_api_gaps": [
         {
           "start": 1920653709773476,
@@ -1074,6 +1214,16 @@
       "full_attention_completion_intervals_ms": 473.07417799999996,
       "linear_completion_intervals_except_first_two_ms": 891.631929,
       "ple_layer1_completion_interval_ms": 115.873605,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 182446080,
+      "score_possible_live_grid_threads": 185597952,
       "largest_cpu_api_gaps": [
         {
           "start": 1920655219756614,
@@ -1148,6 +1298,16 @@
       "full_attention_completion_intervals_ms": 477.261671,
       "linear_completion_intervals_except_first_two_ms": 896.095038,
       "ple_layer1_completion_interval_ms": 96.532925,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 195028992,
+      "score_possible_live_grid_threads": 198180864,
       "largest_cpu_api_gaps": [
         {
           "start": 1920656739499213,
@@ -1222,6 +1382,16 @@
       "full_attention_completion_intervals_ms": 480.330957,
       "linear_completion_intervals_except_first_two_ms": 894.544566,
       "ple_layer1_completion_interval_ms": 102.233464,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 207611904,
+      "score_possible_live_grid_threads": 210763776,
       "largest_cpu_api_gaps": [
         {
           "start": 1920658248850805,
@@ -1296,6 +1466,16 @@
       "full_attention_completion_intervals_ms": 480.824326,
       "linear_completion_intervals_except_first_two_ms": 896.603551,
       "ple_layer1_completion_interval_ms": 111.876901,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 220194816,
+      "score_possible_live_grid_threads": 223346688,
       "largest_cpu_api_gaps": [
         {
           "start": 1920659766140080,
@@ -1370,6 +1550,16 @@
       "full_attention_completion_intervals_ms": 489.360728,
       "linear_completion_intervals_except_first_two_ms": 897.171078,
       "ple_layer1_completion_interval_ms": 105.365326,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 232777728,
+      "score_possible_live_grid_threads": 235929600,
       "largest_cpu_api_gaps": [
         {
           "start": 1920661295580188,
@@ -1444,6 +1634,16 @@
       "full_attention_completion_intervals_ms": 489.802675,
       "linear_completion_intervals_except_first_two_ms": 898.126479,
       "ple_layer1_completion_interval_ms": 103.757152,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 245360640,
+      "score_possible_live_grid_threads": 248512512,
       "largest_cpu_api_gaps": [
         {
           "start": 1920662827473814,
@@ -1518,6 +1718,16 @@
       "full_attention_completion_intervals_ms": 496.039942,
       "linear_completion_intervals_except_first_two_ms": 899.675099,
       "ple_layer1_completion_interval_ms": 111.204601,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 257943552,
+      "score_possible_live_grid_threads": 261095424,
       "largest_cpu_api_gaps": [
         {
           "start": 1920664359836435,
@@ -1592,6 +1802,16 @@
       "full_attention_completion_intervals_ms": 496.39401399999997,
       "linear_completion_intervals_except_first_two_ms": 901.247239,
       "ple_layer1_completion_interval_ms": 105.390407,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 270526464,
+      "score_possible_live_grid_threads": 273678336,
       "largest_cpu_api_gaps": [
         {
           "start": 1920665906591745,
@@ -1666,6 +1886,16 @@
       "full_attention_completion_intervals_ms": 500.86330300000003,
       "linear_completion_intervals_except_first_two_ms": 901.201073,
       "ple_layer1_completion_interval_ms": 103.460722,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 283109376,
+      "score_possible_live_grid_threads": 286261248,
       "largest_cpu_api_gaps": [
         {
           "start": 1920667450409297,
@@ -1740,6 +1970,16 @@
       "full_attention_completion_intervals_ms": 500.353037,
       "linear_completion_intervals_except_first_two_ms": 898.648322,
       "ple_layer1_completion_interval_ms": 154.831655,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 295692288,
+      "score_possible_live_grid_threads": 298844160,
       "largest_cpu_api_gaps": [
         {
           "start": 1920668996122514,
@@ -1814,6 +2054,16 @@
       "full_attention_completion_intervals_ms": 505.573063,
       "linear_completion_intervals_except_first_two_ms": 901.373798,
       "ple_layer1_completion_interval_ms": 107.945847,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 308275200,
+      "score_possible_live_grid_threads": 311427072,
       "largest_cpu_api_gaps": [
         {
           "start": 1920670590283064,
@@ -1888,6 +2138,16 @@
       "full_attention_completion_intervals_ms": 508.899329,
       "linear_completion_intervals_except_first_two_ms": 902.63673,
       "ple_layer1_completion_interval_ms": 101.652405,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 320858112,
+      "score_possible_live_grid_threads": 324009984,
       "largest_cpu_api_gaps": [
         {
           "start": 1920672146071981,
@@ -1962,6 +2222,16 @@
       "full_attention_completion_intervals_ms": 511.611212,
       "linear_completion_intervals_except_first_two_ms": 902.042574,
       "ple_layer1_completion_interval_ms": 102.715476,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 333441024,
+      "score_possible_live_grid_threads": 336592896,
       "largest_cpu_api_gaps": [
         {
           "start": 1920673700488676,
@@ -2036,6 +2306,16 @@
       "full_attention_completion_intervals_ms": 512.632432,
       "linear_completion_intervals_except_first_two_ms": 899.986281,
       "ple_layer1_completion_interval_ms": 108.389236,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 346023936,
+      "score_possible_live_grid_threads": 349175808,
       "largest_cpu_api_gaps": [
         {
           "start": 1920675257735389,
@@ -2110,6 +2390,16 @@
       "full_attention_completion_intervals_ms": 512.236924,
       "linear_completion_intervals_except_first_two_ms": 902.840787,
       "ple_layer1_completion_interval_ms": 110.667341,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 358606848,
+      "score_possible_live_grid_threads": 361758720,
       "largest_cpu_api_gaps": [
         {
           "start": 1920676819960028,
@@ -2184,6 +2474,16 @@
       "full_attention_completion_intervals_ms": 515.30723,
       "linear_completion_intervals_except_first_two_ms": 901.764553,
       "ple_layer1_completion_interval_ms": 111.941465,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 371189760,
+      "score_possible_live_grid_threads": 374341632,
       "largest_cpu_api_gaps": [
         {
           "start": 1920678387044718,
@@ -2258,6 +2558,16 @@
       "full_attention_completion_intervals_ms": 518.25168,
       "linear_completion_intervals_except_first_two_ms": 901.899202,
       "ple_layer1_completion_interval_ms": 112.348685,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 383772672,
+      "score_possible_live_grid_threads": 386924544,
       "largest_cpu_api_gaps": [
         {
           "start": 1920679958020057,
@@ -2332,6 +2642,16 @@
       "full_attention_completion_intervals_ms": 522.242689,
       "linear_completion_intervals_except_first_two_ms": 904.045827,
       "ple_layer1_completion_interval_ms": 110.276254,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 396355584,
+      "score_possible_live_grid_threads": 399507456,
       "largest_cpu_api_gaps": [
         {
           "start": 1920681531969449,
@@ -2406,6 +2726,16 @@
       "full_attention_completion_intervals_ms": 539.54099,
       "linear_completion_intervals_except_first_two_ms": 903.931286,
       "ple_layer1_completion_interval_ms": 98.872768,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 408938496,
+      "score_possible_live_grid_threads": 412090368,
       "largest_cpu_api_gaps": [
         {
           "start": 1920683110806291,
@@ -2480,6 +2810,16 @@
       "full_attention_completion_intervals_ms": 542.4354109999999,
       "linear_completion_intervals_except_first_two_ms": 904.523944,
       "ple_layer1_completion_interval_ms": 108.296952,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 421521408,
+      "score_possible_live_grid_threads": 424673280,
       "largest_cpu_api_gaps": [
         {
           "start": 1920684695878305,
@@ -2554,6 +2894,16 @@
       "full_attention_completion_intervals_ms": 543.251294,
       "linear_completion_intervals_except_first_two_ms": 898.884806,
       "ple_layer1_completion_interval_ms": 150.36668,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 434104320,
+      "score_possible_live_grid_threads": 437256192,
       "largest_cpu_api_gaps": [
         {
           "start": 1920686294192402,
@@ -2628,6 +2978,16 @@
       "full_attention_completion_intervals_ms": 547.185414,
       "linear_completion_intervals_except_first_two_ms": 901.688612,
       "ple_layer1_completion_interval_ms": 101.128976,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 446687232,
+      "score_possible_live_grid_threads": 449839104,
       "largest_cpu_api_gaps": [
         {
           "start": 1920687928379572,
@@ -2702,6 +3062,16 @@
       "full_attention_completion_intervals_ms": 550.862882,
       "linear_completion_intervals_except_first_two_ms": 901.553042,
       "ple_layer1_completion_interval_ms": 100.686699,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 459270144,
+      "score_possible_live_grid_threads": 462422016,
       "largest_cpu_api_gaps": [
         {
           "start": 1920689520806012,
@@ -2776,6 +3146,16 @@
       "full_attention_completion_intervals_ms": 553.055623,
       "linear_completion_intervals_except_first_two_ms": 902.3493540000001,
       "ple_layer1_completion_interval_ms": 100.374448,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 471853056,
+      "score_possible_live_grid_threads": 475004928,
       "largest_cpu_api_gaps": [
         {
           "start": 1920691116124220,
@@ -2850,6 +3230,16 @@
       "full_attention_completion_intervals_ms": 553.353517,
       "linear_completion_intervals_except_first_two_ms": 901.911401,
       "ple_layer1_completion_interval_ms": 102.658475,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 484435968,
+      "score_possible_live_grid_threads": 487587840,
       "largest_cpu_api_gaps": [
         {
           "start": 1920692713782890,
@@ -2924,6 +3314,16 @@
       "full_attention_completion_intervals_ms": 555.343013,
       "linear_completion_intervals_except_first_two_ms": 901.782611,
       "ple_layer1_completion_interval_ms": 97.335765,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 497018880,
+      "score_possible_live_grid_threads": 500170752,
       "largest_cpu_api_gaps": [
         {
           "start": 1920694315149283,
@@ -2998,6 +3398,16 @@
       "full_attention_completion_intervals_ms": 560.152539,
       "linear_completion_intervals_except_first_two_ms": 902.2069740000001,
       "ple_layer1_completion_interval_ms": 101.660434,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 509601792,
+      "score_possible_live_grid_threads": 512753664,
       "largest_cpu_api_gaps": [
         {
           "start": 1920695912206187,
@@ -3072,6 +3482,16 @@
       "full_attention_completion_intervals_ms": 558.239187,
       "linear_completion_intervals_except_first_two_ms": 903.034455,
       "ple_layer1_completion_interval_ms": 102.079262,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 522184704,
+      "score_possible_live_grid_threads": 525336576,
       "largest_cpu_api_gaps": [
         {
           "start": 1920697517456256,
@@ -3146,6 +3566,16 @@
       "full_attention_completion_intervals_ms": 561.847029,
       "linear_completion_intervals_except_first_two_ms": 900.685305,
       "ple_layer1_completion_interval_ms": 104.141444,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 534767616,
+      "score_possible_live_grid_threads": 537919488,
       "largest_cpu_api_gaps": [
         {
           "start": 1920699123915891,
@@ -3220,6 +3650,16 @@
       "full_attention_completion_intervals_ms": 561.943479,
       "linear_completion_intervals_except_first_two_ms": 902.125079,
       "ple_layer1_completion_interval_ms": 98.417986,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 547350528,
+      "score_possible_live_grid_threads": 550502400,
       "largest_cpu_api_gaps": [
         {
           "start": 1920700733136956,
@@ -3294,6 +3734,16 @@
       "full_attention_completion_intervals_ms": 565.028973,
       "linear_completion_intervals_except_first_two_ms": 903.956414,
       "ple_layer1_completion_interval_ms": 102.389865,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 559933440,
+      "score_possible_live_grid_threads": 563085312,
       "largest_cpu_api_gaps": [
         {
           "start": 1920702338040131,
@@ -3368,6 +3818,16 @@
       "full_attention_completion_intervals_ms": 565.695101,
       "linear_completion_intervals_except_first_two_ms": 901.719927,
       "ple_layer1_completion_interval_ms": 144.30181,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 572516352,
+      "score_possible_live_grid_threads": 575668224,
       "largest_cpu_api_gaps": [
         {
           "start": 1920703951836273,
@@ -3442,6 +3902,16 @@
       "full_attention_completion_intervals_ms": 564.319471,
       "linear_completion_intervals_except_first_two_ms": 899.319222,
       "ple_layer1_completion_interval_ms": 169.220127,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 585099264,
+      "score_possible_live_grid_threads": 588251136,
       "largest_cpu_api_gaps": [
         {
           "start": 1920705606402301,
@@ -3516,6 +3986,16 @@
       "full_attention_completion_intervals_ms": 575.435419,
       "linear_completion_intervals_except_first_two_ms": 905.472175,
       "ple_layer1_completion_interval_ms": 72.991007,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 597682176,
+      "score_possible_live_grid_threads": 600834048,
       "largest_cpu_api_gaps": [
         {
           "start": 1920707282570857,
@@ -3590,6 +4070,16 @@
       "full_attention_completion_intervals_ms": 574.5726559999999,
       "linear_completion_intervals_except_first_two_ms": 906.739133,
       "ple_layer1_completion_interval_ms": 74.70317,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 610265088,
+      "score_possible_live_grid_threads": 613416960,
       "largest_cpu_api_gaps": [
         {
           "start": 1920708879278558,
@@ -3664,6 +4154,16 @@
       "full_attention_completion_intervals_ms": 577.216574,
       "linear_completion_intervals_except_first_two_ms": 906.245532,
       "ple_layer1_completion_interval_ms": 73.841204,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 622848000,
+      "score_possible_live_grid_threads": 625999872,
       "largest_cpu_api_gaps": [
         {
           "start": 1920710478185675,
@@ -3738,6 +4238,16 @@
       "full_attention_completion_intervals_ms": 579.651099,
       "linear_completion_intervals_except_first_two_ms": 903.208632,
       "ple_layer1_completion_interval_ms": 75.524956,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 635430912,
+      "score_possible_live_grid_threads": 638582784,
       "largest_cpu_api_gaps": [
         {
           "start": 1920712078800961,
@@ -3812,6 +4322,16 @@
       "full_attention_completion_intervals_ms": 583.105787,
       "linear_completion_intervals_except_first_two_ms": 905.1630279999999,
       "ple_layer1_completion_interval_ms": 75.268315,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 648013824,
+      "score_possible_live_grid_threads": 651165696,
       "largest_cpu_api_gaps": [
         {
           "start": 1920713680728079,
@@ -3886,6 +4406,16 @@
       "full_attention_completion_intervals_ms": 585.350034,
       "linear_completion_intervals_except_first_two_ms": 907.024933,
       "ple_layer1_completion_interval_ms": 73.724618,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 660596736,
+      "score_possible_live_grid_threads": 663748608,
       "largest_cpu_api_gaps": [
         {
           "start": 1920715288478090,
@@ -3960,6 +4490,16 @@
       "full_attention_completion_intervals_ms": 587.860954,
       "linear_completion_intervals_except_first_two_ms": 905.777324,
       "ple_layer1_completion_interval_ms": 75.479939,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 673179648,
+      "score_possible_live_grid_threads": 676331520,
       "largest_cpu_api_gaps": [
         {
           "start": 1920716897615720,
@@ -4034,6 +4574,16 @@
       "full_attention_completion_intervals_ms": 589.137774,
       "linear_completion_intervals_except_first_two_ms": 907.885447,
       "ple_layer1_completion_interval_ms": 75.677054,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 685762560,
+      "score_possible_live_grid_threads": 688914432,
       "largest_cpu_api_gaps": [
         {
           "start": 1920718510144422,
@@ -4108,6 +4658,16 @@
       "full_attention_completion_intervals_ms": 594.517444,
       "linear_completion_intervals_except_first_two_ms": 907.450644,
       "ple_layer1_completion_interval_ms": 75.061802,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 698345472,
+      "score_possible_live_grid_threads": 701497344,
       "largest_cpu_api_gaps": [
         {
           "start": 1920720127114688,
@@ -4182,6 +4742,16 @@
       "full_attention_completion_intervals_ms": 591.600542,
       "linear_completion_intervals_except_first_two_ms": 905.92801,
       "ple_layer1_completion_interval_ms": 104.340226,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 710928384,
+      "score_possible_live_grid_threads": 714080256,
       "largest_cpu_api_gaps": [
         {
           "start": 1920721747370689,
@@ -4256,6 +4826,16 @@
       "full_attention_completion_intervals_ms": 596.384749,
       "linear_completion_intervals_except_first_two_ms": 907.54013,
       "ple_layer1_completion_interval_ms": 75.142361,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 723511296,
+      "score_possible_live_grid_threads": 726663168,
       "largest_cpu_api_gaps": [
         {
           "start": 1920723392799198,
@@ -4330,6 +4910,16 @@
       "full_attention_completion_intervals_ms": 598.289758,
       "linear_completion_intervals_except_first_two_ms": 907.762558,
       "ple_layer1_completion_interval_ms": 73.005091,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 736094208,
+      "score_possible_live_grid_threads": 739246080,
       "largest_cpu_api_gaps": [
         {
           "start": 1920725015823827,
@@ -4404,6 +4994,16 @@
       "full_attention_completion_intervals_ms": 599.871494,
       "linear_completion_intervals_except_first_two_ms": 910.289333,
       "ple_layer1_completion_interval_ms": 75.702226,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 748677120,
+      "score_possible_live_grid_threads": 751828992,
       "largest_cpu_api_gaps": [
         {
           "start": 1920726638690639,
@@ -4478,6 +5078,16 @@
       "full_attention_completion_intervals_ms": 602.678772,
       "linear_completion_intervals_except_first_two_ms": 909.948584,
       "ple_layer1_completion_interval_ms": 75.067793,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 761260032,
+      "score_possible_live_grid_threads": 764411904,
       "largest_cpu_api_gaps": [
         {
           "start": 1920728268716537,
@@ -4552,6 +5162,16 @@
       "full_attention_completion_intervals_ms": 603.990945,
       "linear_completion_intervals_except_first_two_ms": 907.467851,
       "ple_layer1_completion_interval_ms": 75.179771,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 773842944,
+      "score_possible_live_grid_threads": 776994816,
       "largest_cpu_api_gaps": [
         {
           "start": 1920729902742190,
@@ -4626,6 +5246,16 @@
       "full_attention_completion_intervals_ms": 608.048173,
       "linear_completion_intervals_except_first_two_ms": 907.662161,
       "ple_layer1_completion_interval_ms": 75.94923,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 48
+      },
+      "score_capacity_dispatched_threads": 824180736,
+      "score_useful_cells_from_original_positions": 786425856,
+      "score_possible_live_grid_threads": 789577728,
       "largest_cpu_api_gaps": [
         {
           "start": 1920731533230551,
@@ -4700,6 +5330,16 @@
       "full_attention_completion_intervals_ms": 584.948108,
       "linear_completion_intervals_except_first_two_ms": 918.007683,
       "ple_layer1_completion_interval_ms": 71.723389,
+      "launch_counts": {
+        "SelectScoreKernel": 48,
+        "SelectMarkKernel": 48,
+        "WmmaCausalAttentionKernel": 12,
+        "RoutedIq2FixedBoundsKernel": 96,
+        "RoutedQ2HalfStorageKernel": 0
+      },
+      "score_capacity_dispatched_threads": 765023232,
+      "score_useful_cells_from_original_positions": 741238872,
+      "score_possible_live_grid_threads": 744357888,
       "largest_cpu_api_gaps": [
         {
           "start": 1920733165907080,
@@ -4804,6 +5444,19 @@
       "mean_ple_layer1_boundary_ms": 76.5869465625
     }
   ],
+  "launch_census": {
+    "total": {
+      "SelectScoreKernel": 3024,
+      "SelectMarkKernel": 3024,
+      "WmmaCausalAttentionKernel": 768,
+      "RoutedIq2FixedBoundsKernel": 6144,
+      "RoutedQ2HalfStorageKernel": 3024
+    },
+    "score_capacity_dispatched_threads": 51864228864,
+    "score_useful_cells_from_original_positions": 25705336920,
+    "score_possible_live_grid_threads": 25903890432,
+    "scope": "Submission counts and grid dimensions only; invalid GPU durations do not measure cost. The possible live grid is a previously tested negative/inconclusive model candidate, not a new speed claim."
+  },
   "decode": [
     {
       "token": 0,

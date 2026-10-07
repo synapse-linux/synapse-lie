@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import sqlite3
 import statistics
+from bisect import bisect_left
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = ROOT/'evidence/q2-long-profile128-r1/results'
@@ -39,6 +40,7 @@ def main():
             SELECT s.string,r.start,r.end,e.stack_id,r.tid FROM rocpd_region r
             JOIN rocpd_string s ON s.id=r.name_id JOIN rocpd_event e ON e.id=r.event_id''')]
         by_stack = {x['stack']: x for x in cpu}
+        assert len(by_stack) == len(cpu), 'CPU API stack IDs must be unique'
         embeds = [dict(tokens=n, stack=st) for n,st in db.execute('''
             SELECT k.grid_size_x/k.workgroup_size_x,e.stack_id
             FROM rocpd_kernel_dispatch k JOIN rocpd_info_kernel_symbol s ON s.id=k.kernel_id
@@ -48,6 +50,28 @@ def main():
         for table in ('rocpd_kernel_dispatch', 'rocpd_memory_copy'):
             total, invalid = db.execute(f'SELECT COUNT(*),SUM(end<=start) FROM {table}').fetchone()
             durations[table] = dict(total=total, invalid_duration=invalid)
+        # Kernel timestamps have zero duration, but their launch/API identities
+        # and grid sizes are valid. Count submitted work without assigning time.
+        launch_rows = db.execute('''
+            SELECT s.display_name,e.stack_id,k.grid_size_x,k.grid_size_y,
+                   k.workgroup_size_x FROM rocpd_kernel_dispatch k
+            JOIN rocpd_info_kernel_symbol s ON s.id=k.kernel_id
+            JOIN rocpd_event e ON e.id=k.event_id
+            WHERE s.display_name LIKE '%SelectScoreKernel%'
+               OR s.display_name LIKE '%SelectMarkKernel%'
+               OR s.display_name LIKE '%WmmaCausalAttentionKernel%'
+               OR s.display_name LIKE '%RoutedIq2FixedBoundsKernel%'
+               OR s.display_name LIKE '%RoutedQ2HalfStorageKernel%'
+        ''').fetchall()
+    categories = ('SelectScoreKernel', 'SelectMarkKernel',
+                  'WmmaCausalAttentionKernel', 'RoutedIq2FixedBoundsKernel',
+                  'RoutedQ2HalfStorageKernel')
+    launches = sorted((dict(category=next(c for c in categories if c in name),
+                            start=by_stack[stack]['start'], tid=by_stack[stack]['tid'],
+                            grid_x=gx, grid_y=gy, workgroup_x=wx)
+                       for name,stack,gx,gy,wx in launch_rows),
+                      key=lambda x:x['start'])
+    launch_starts = [x['start'] for x in launches]
     preparation = [13,1,2048,1465,1,2048,7]+[1]*16
     expected = preparation+[2048]*63+[1901]+[1]*8
     assert [x['tokens'] for x in embeds] == expected
@@ -61,6 +85,28 @@ def main():
         low, high, tid = first['start'], embeds[index+1]['api']['start'], first['tid']
         window = sorted((x for x in cpu if x['tid'] == tid and low <= x['start'] < high),
                         key=lambda x: x['start'])
+        relevant = [x for x in launches[bisect_left(launch_starts,low):
+                                     bisect_left(launch_starts,high)] if x['tid'] == tid]
+        counts = {c:sum(x['category'] == c for x in relevant) for c in categories}
+        scores = [x for x in relevant if x['category'] == 'SelectScoreKernel']
+        marks = [x for x in relevant if x['category'] == 'SelectMarkKernel']
+        assert counts['WmmaCausalAttentionKernel'] == 12
+        assert len(scores) == len(marks) == (0 if index == start else 48)
+        assert all(x['grid_y'] == 131 and x['workgroup_x'] == 256 for x in scores)
+        if scores:
+            expected_rows = [min(512,embeds[index]['tokens']-t0)
+                             for t0 in (0,512,1024,1536)] * 12
+            assert [x['grid_x']//256 for x in scores] == expected_rows
+        capacity_threads = sum(x['grid_x']*x['grid_y'] for x in scores)
+        useful_score_cells = 0
+        possible_live_grid_threads = 0
+        for score_i,launch in enumerate(scores):
+            t0 = (score_i % 4)*512
+            n = launch['grid_x']//256
+            positions = [((index-start)*2048+t0+t+1)//4 for t in range(n)]
+            useful_score_cells += sum(p if p > 512 else 0 for p in positions)
+            max_visible = positions[-1]
+            possible_live_grid_threads += n*((max_visible+255)//256)*256
         waits = [x for x in window if x['name'] == 'hipEventSynchronize']
         assert len(waits) == 48
         completed = next(x for x in window if x['name'] == 'hipStreamSynchronize'
@@ -83,6 +129,10 @@ def main():
             linear_completion_intervals_except_first_two_ms=sum(t for i,t in enumerate(segments)
                                                                  if i%4 != 3 and i > 1),
             ple_layer1_completion_interval_ms=segments[1],
+            launch_counts=counts,
+            score_capacity_dispatched_threads=capacity_threads,
+            score_useful_cells_from_original_positions=useful_score_cells,
+            score_possible_live_grid_threads=possible_live_grid_threads,
             largest_cpu_api_gaps=sorted(gaps,key=lambda x:x['ms'],reverse=True)[:2],
             layer_completion_intervals_ms=segments))
     decode = []
@@ -110,6 +160,15 @@ def main():
                 x['full_attention_completion_intervals_ms'] for x in rows),
             mean_ple_layer1_boundary_ms=statistics.mean(
                 x['ple_layer1_completion_interval_ms'] for x in rows)))
+    launch_census = dict(
+        total={c:sum(x['launch_counts'][c] for x in prefill) for c in categories},
+        score_capacity_dispatched_threads=sum(x['score_capacity_dispatched_threads']
+                                              for x in prefill),
+        score_useful_cells_from_original_positions=sum(
+            x['score_useful_cells_from_original_positions'] for x in prefill),
+        score_possible_live_grid_threads=sum(x['score_possible_live_grid_threads']
+                                             for x in prefill),
+        scope='Submission counts and grid dimensions only; invalid GPU durations do not measure cost. The possible live grid is a previously tested negative/inconclusive model candidate, not a new speed claim.')
     result = dict(schema='synapse-lie.q2-long-profile128.v1',
         database=str(database.relative_to(ROOT)), database_sha256=sha(database),
         receipt_sha256=sha(BASE/'result.json'), release_sha256=sha(release),
@@ -121,13 +180,15 @@ def main():
         device_durations_usable=all(v['total'] > 0 and v['invalid_duration'] == 0
                                     for v in durations.values()),
         matched_embed_calls=len(embeds), prefill=prefill, quartiles=quartiles,
+        launch_census=launch_census,
         decode=decode,
         attribution_limit='Completion intervals include previous-layer MoE/shared work and current attention/HC work. HIP waits include device work and are not removable CPU overhead. Instrumented time cannot replace saved unprofiled 128K rates.',
         next='Rank actual late-context boundary growth and PLE readiness before selecting a complete-chain or attention candidate; keep original inputs and controls.')
     output = ROOT/'config/q2-long-profile128-results.json'
     output.write_text(json.dumps(result,indent=2,allow_nan=False)+'\n')
     print(json.dumps({k:result[k] for k in ('state','device_duration_validation',
-                                             'matched_embed_calls','server_exit_code','quartiles')},indent=2))
+                                             'matched_embed_calls','server_exit_code',
+                                             'quartiles','launch_census')},indent=2))
 
 
 if __name__ == '__main__':

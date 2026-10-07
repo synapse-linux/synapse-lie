@@ -55,6 +55,19 @@ within noise, shared-down improves2.30% locally and gated shared-up slows3.06%.
 There is no new model-level speedup. Multi-request batching and reactive
 responsiveness are separate from the C1 goal; they cannot count as30 token/s.
 
+Halogen's same-engine short-context serial comparison gives a useful decode
+mechanism:35.4 token/s on its 4-bit dense checkpoint versus25.4 on a
+losslessly repacked UD-IQ4_XS GGUF with 8-bit dense layers. It attributes the
+gap to about2GB extra weights read per token. LIE's large Q8 GEMV components
+already complete near222–228GB/s of logical traffic, so repeating scalar
+instruction reductions has a weak chance of saving the required5.3ms per
+native32K C1 step. The next C1 investigation should first account for actual
+weight bytes and completed per-family time at unchanged32K and long-depth
+inputs. Reducing Q8 precision is a distinct, opt-in model representation and
+requires quality and original-model numerical qualification; Halogen's rates
+cannot be credited to the retained Q2 file. Its 16K/32K prefill-arena result
+also cannot justify changing LIE's fixed2048-token comparison chunks.
+
 ## Mechanisms to test next at the fixed long-prefix input
 
 The prefill target needs12.592734s less at130925 tokens. Prioritize a complete
@@ -75,13 +88,14 @@ The candidate raises VGPR use115→185 and removes parallel query workgroups.
 Keep the original scorer; this design cannot justify a full-model trial.
 The still-open higher-impact route is the complete routed-expert chain above.
 
-The completed128K partition-selector component saves10.889us per2048-row
-selection launch. Even multiplying that by12 full-attention layers and all64
-prefill chunks gives only about8.36ms, far below the required12.59s. This is
-an intentionally generous illustration, not a measured model attribution;
-selection dispatch and chunk depths vary. Deep selector work may still help
-one-row decode, whose shape needs its own measurement, but it cannot be the
-main route to the full-prefill target.
+The completed128K partition-selector component saves10.889us per **one-row
+decode** selection. The original128K trace submits48 score/mark slices per
+scored chunk,3024 across63 chunks, each with up to512 query rows. The earlier
+8.36ms prefill extrapolation and a revised32.93ms multiplication are both
+invalid because the component and trace have different row shapes. There is
+no measured prefill saving from this component. Deep selector work may still
+help one-row decode, but the existing evidence cannot count toward the
+12.59s full-prefill gap.
 
 ## Historical fixed-point assessment (paused)
 

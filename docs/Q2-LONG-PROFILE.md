@@ -115,6 +115,38 @@ completion-to-next-submission gaps are about0.096–0.107ms. These eight output
 calls do not qualify sustained TG128. The saved unprofiled128K observation
 remains1310.874605 PP and25.344213 TG on eight outputs.
 
+The launch/API identities remain usable even though device durations are not.
+The first2048-token chunk stays below the sparse-selection budget. Each of the
+next63 chunks submits **48 score and48 mark launches** (four512-row query
+slices in each of12 attention layers), while all64 chunks submit12 WMMA
+attention launches each. Expert gate/up submits96 launches per chunk.
+
+| Original128K prefill launch family | Count |
+|---|---:|
+| SelectScoreKernel / SelectMarkKernel |3024 / 3024|
+| WmmaCausalAttentionKernel |768|
+| RoutedIq2FixedBoundsKernel |6144|
+| RoutedQ2HalfStorageKernel |3024 (full chunks; final tail takes another route)|
+
+Every score launch uses the capacity-sized131-block second grid dimension,
+including early chunks with far fewer visible blocks. This submits51.864
+billion score threads across the original request; the source's causal guards
+leave25.705 billion score cells eligible for arithmetic. These are *logical
+dispatch counts*, not device time or measured bandwidth. The previously
+tested live-grid candidate could roughly halve those dispatched threads, but
+its original32K model trial fell10.731% in PP with lower observed GPU clocks;
+it remains unqualified and cannot be claimed as a128K saving.
+
+The previous8.36ms selector extrapolation was invalid: its10.889µs component
+gain was measured for **one decode query**, while each of these prefill
+score/mark calls handles up to512 query rows. Multiplying that one-row value
+by either768 attention layers or3024 score/mark slices does not predict a
+prefill saving. The trace establishes the launch count, not a selector
+optimization's completed time. The repeated score **arithmetic** is a
+separate candidate family, but the tested two-query and four-query
+register-reuse designs were slower. A new design must preserve enough query
+parallelism and prove its complete model effect.
+
 [All64 chunk records, eight output intervals and validity checks](../config/q2-long-profile128-results.json).
 The [Halogen comparison](Q2-HALOGEN-TRANSFER.md) uses these observations to
 rank testable mechanisms without substituting its different checkpoint or

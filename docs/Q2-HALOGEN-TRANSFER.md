@@ -15,11 +15,13 @@ benchmark, so its rates are not LIE controls.
 | Published clue | LIE evidence | Decision |
 | --- | --- | --- |
 | Halogen 0.14.1 changes its routed-expert prefill kernel. Its own 131,072-token prefill moves from 1,390 to 1,517 token/s, with rounding-level numerical differences. | The saved LIE 2,048-token profile attributes 401.058 ms of 1,321.833 ms kernel time to routed IQ2 gate/up and Q2 down. This older profile is a ranking aid, not a 128K attribution. | Highest-priority algorithm family. Qualify a complete expert-chain change on original routing and arithmetic; do not infer its speed from Halogen's result. |
-| Halogen 0.12.0 parallelizes sparse-index selection for one-row decode and reuses block keys in prefill scoring. Its published improvement is largest at 262K–1M. | LIE has a partition-selector component with exact output and 22.429% lower 128K selector latency, but its generous full-prefill extrapolation is only about 8.36 ms against 12.593 seconds needed. Four-query key reuse was exact but 2.15–4.09 times slower. | Index selection can be tested separately for long-context decode. Neither result closes the prefill goal; keep the current scorer. |
+| Halogen 0.12.0 parallelizes sparse-index selection for one-row decode and reuses block keys in prefill scoring. Its published improvement is largest at 262K–1M. | LIE has a partition-selector component with exact output and 22.429% lower 128K **one-row** selector latency. The original128K trace has3024 prefill score/mark slices of up to512 rows each; the one-row gain cannot be extrapolated to them. Four-query key reuse was exact but 2.15–4.09 times slower. | Test decode selection separately from full prefill. No prefill saving from the partition component has been established; keep the current scorer. |
 | Halogen ships a shape-tuned matrix plan. | LIE already has shape-specific native kernels and a hipBLASLt HC-down comparison. All seven tested library alternatives changed numerical outputs; the selected native route remains the qualified one. Dense Q8/F16 is 293.227 ms in the older 2K profile. | Tune an active Q8 shape only with a matched operator and original-model numerical gate. Do not substitute the Halogen plan or claim its result. |
 | Halogen's prompt cache avoids repeated prefill on follow-up turns; the 0.12.1 release removed a redundant DeltaNet replay during cold capture. | The LIE target is one complete cold request with zero cached tokens and its original capture policy. LIE's saved long diagnostic has no attributed second recurrence pass. | Audit capture cost only if an actual duplicate pass is found. Cache-hit TTFT cannot count toward cold prefill throughput. |
 | Halogen's reported serial greedy decode is 37.6 token/s at 1.5K and 34.1 at 32K; larger served rates use MTP and sometimes prompt lookup. | LIE's 128K record has only eight output calls, so its 25.344 token/s is not a sustained TG128 measure. The native C1 completion-to-next-submission gap is 0.092–0.097 ms, leaving numerical execution as the likely major cost. | Compare serial C1 with serial C1. MTP, lookup and batching may improve serving separately; they do not establish the 30 token/s C1 goal. |
+| On the same Halogen engine and machine, its own 4-bit dense trunk reached 35.4 serial token/s at short context while a losslessly repacked UD-IQ4_XS GGUF with 8-bit dense layers reached 25.4; Halogen attributes the difference to about 2 GB more weight traffic per token. | LIE's retained large Q8 decode projections read roughly 222–228 GB/s of logical weights in isolated tests; an older whole-step profile assigned about 49% of decode device time to dense Q8 GEMV. These are different models/inputs from Halogen's matched pair. | Treat dense weight bytes as the leading C1 decode hypothesis. Reordering Q8 instructions cannot remove those bytes; a narrower representation would need a separate quality contract and original-model gates, since it is not lossless for the current Q8 weights. |
 | Halogen 0.15.2 optionally keeps its compressed trunk unpacked in memory, using about 5.5 GiB extra for faster long prompts. | LIE already tested a persistent 5,348,130,816-byte Q8 mirror: exact outputs, but original 2K prefill fell 2.165%. The representation, packing and kernels differ. | Do not repeat an unconditional mirror. A new residency design needs an identified consumer and a whole-model win. |
+| Halogen's 32K prefill arena is about 9% faster than its 16K arena at a 262K served prompt, with a larger memory footprint. | LIE's retained benchmark uses 2048-token model chunks and its own scratch layout; `HALOGEN_MAX_TOK` is not an equivalent setting. | Inspect LIE's actual expert/attention tile occupancy before considering an arena or chunk change. Preserve the fixed 2048-token benchmark as the comparison control. |
 | Halogen 0.15.3 reports faster prompts of every length, and 0.16.1 reports faster decode, especially with concurrent conversations. The changelog does not expose the numerical kernel implementation or a matched C1 rate for these changes. | LIE's serial C1 target and concurrency/reactive measurements are separate. | Treat the release notes as attribution leads, not measured transferable gains. |
 
 Halogen's 131K uplift is 9.137% in rate. Applying that percentage to LIE's
@@ -34,6 +36,20 @@ The saved native 32K serial decode interval is 38.606–38.681 ms per step;
 Its observed host completion-to-next-submission gap is under 0.10 ms, so
 reactive wakeups alone cannot supply that reduction.
 
+Halogen's 1517 token/s at131K is from its own checkpoint and engine-side cold
+prefill, not a generic rate for every GGUF it serves. Its same-session
+UD-IQ4_XS GGUF comparison reports served prefill1465 token/s at32K against
+1499 for its own w4b checkpoint; the prompt and configuration also differ
+from LIE's saved request. This comparison isolates an important mechanism:
+Halogen says the 8-bit dense GGUF trunk reads about2GB more per decode token
+than its own 4-bit trunk, reducing serial short-context decode from35.4 to
+25.4 token/s on the same engine. LIE's large Q8 GEMV component is already
+near222–228GB/s in logical weight traffic, so eliminating instructions alone
+is unlikely to recover the required5.3ms per C1 step. That is a bandwidth
+hypothesis, not a measured LIE memory-controller ceiling or a license to
+change Q2 weights. A narrower trunk must be opt-in and separately qualified
+for quality, numerical behavior and the original cold PP/C1 TG controls.
+
 ## What the original128K trace changes
 
 The [completed 130925-token diagnostic](Q2-LONG-PROFILE.md) matches all64
@@ -44,9 +60,10 @@ the twelve boundaries shows a similar depth trend. These host boundaries
 include previous-layer MoE/shared and current-layer attention/HC; all GPU
 event durations are invalid zero. They nominate the complete full-attention
 chain for one bounded test, but cannot assign154ms/chunk solely to selection,
-scoring, V loads or memory traffic. The qualified partition selector's
-generous full-prefill extrapolation remains just8.36ms. The tested four-query
-score reuse and V staging candidates regress or have no clear gain. Repeating
+scoring, V loads or memory traffic. The partition-selector component covers
+one decode query; its10.889µs gain cannot be multiplied by the prefill's
+3024 multi-query slices. The tested four-query score reuse and V staging
+candidates regress or have no clear gain. Repeating
 either cannot plausibly close the12.59s gap.
 
 The depth-dependent part of those boundaries is about5.40s if every later
