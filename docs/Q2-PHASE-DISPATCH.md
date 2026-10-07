@@ -42,12 +42,14 @@ retained isolated HC binary. The new function matches the measured component.
 [Dispatch patch](../experiments/q2-decode-down-rows-model.patch),
 [component and model evaluation](Q2-DECODE-DOWN-ROWS.md).
 
-The recovered model trial keeps this dispatch but runs after a power outage.
-Post-run readback is APU balanced/85 W versus the last saved live
-performance/120 W state. Its 992.706649 PP /25.632191 TG and four exact
-responses remain recorded; no gain or kernel-caused prefill regression can
-be isolated from this comparison. Phase dispatch cannot equalize host power
-conditions. The retained HC observation remains1337.119965 /25.914406.
+The first recovered model trial runs at differing post-reboot power conditions
+and records992.706649 PP /25.632191 TG. After the owner restores performance,
+the unchanged executable reaches1337.972303 /26.101627, versus retained
+HC1337.119965 /25.914406. All four replies match and performance120 W/fans
+verify before/after. Preserve the small positive decode observation; eight
+calls do not establish sustained TG128 or inherited task quality. Phase
+dispatch cannot equalize host power conditions, and the large R2→R3 prefill
+recovery must not be attributed to the decode-only kernel.
 
 Compiler settings also need isolation: scalar HC resides in a separate HIP
 translation unit. Its -g0 setting does not change the common backend's

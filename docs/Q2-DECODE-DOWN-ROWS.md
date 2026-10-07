@@ -1,6 +1,48 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Reuse native Q2_K decode inputs across more output rows
 
+## Unchanged candidate after owner-restored performance mode
+
+The owner restores performance mode and readback verifies120 W. R3 reuses
+the same f8a5210c server,87d856cf native client and fcee51ef four-request
+sequence. There is no rebuild or reference rerun. Mode and all three fan
+curves are checked before and after inference; both observations pass.
+
+| Original128K observation | Prefill token/s | Prefill ms | Decode token/s | Eight decode calls ms |
+|---|---:|---:|---:|---:|
+| Saved unprofiled reference |1310.874605|99876.067130|25.344213|315.653915|
+| Retained isolated HC up/mix |1337.119965|97915.672036|25.914406|308.708599|
+| Same four-row candidate, R2 before mode restoration |992.706649|131886.897497|25.632191|312.107537|
+| Same four-row candidate, R3 performance verified |1337.972303|97853.296131|26.101627|306.494308|
+
+Relative to retained HC, R3 observes+0.063744% PP and+0.722457% TG. Preserve
+the small decode gain for later composition; this single observation does not
+establish sustained TG128 or settle inherited task quality. All four replies
+and token pieces match the reference. The entire prefill body remains on its
+retained dispatch, including the1901-token tail after63 full2048 chunks.
+
+Compared with R2, measured PP recovers34.780230% and TG1.831430%. Both runs
+share the executable and input; power conditions and run order differ.
+Do not credit the large prefill recovery to the four-row kernel or isolate a
+power-only causal fraction. No rate is corrected for clock or power.
+
+R3 has51 busy>=80% samples, mean GPU clock2658.90MHz and busy97.08%, versus
+retained HC's51 samples at2661.86MHz and96.98%. CPU/GPU peaks91.25/94 C
+are close to the saved91.875/94 C. These observations remove the conspicuous
+low-power discrepancy, without replacing an independent causal experiment.
+The goal still requires at least10.569963s less complete prefill time and
+4.978455ms less per measured decode call.
+
+Run/server/client exit0. All36 raw artifacts collect/hash before verified
+release15:54:31.040199 UTC, SHA d74a7eaa. Four current-boot identities/groups
+retire, KFD is empty, five original leases are free and seven model stat tuples
+are unchanged. The persistent epoch registry matches; no window remains.
+
+[Audited result](../config/q2-decode-down-rows-native128-performance-results.json),
+[PP/TG image](figures/q2-decode-down-rows-native128-performance.png),
+[exact CSV](figures/q2-decode-down-rows-native128-performance.csv),
+[frozen plan](../config/q2-decode-down-rows-native128-performance-plan.json).
+
 ## Recovered original 128K trial: power conditions differ
 
 The same executable f8a5210c completes on the rebooted .157 at

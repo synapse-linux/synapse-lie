@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2 R3 performance-mode window released — 2026-10-07 UTC: plan14e6cfdc
+admits15:49:58.347419, run15:50:26.104246→15:52:21.535857 exits0. All36
+artifacts collect/hash before release15:54:31.040199, SHA
+d74a7eaa1455150d074458b3254603b4ca6d521beb45ba5b654117990cfde05a.
+The persistent current-boot epoch registry matches. Four recorded identities
+and groups are retired, KFD empty, five unchanged leases free and seven model
+stats unchanged. Power/fan readbacks before/after pass; owner-restored mode,
+no agent tuning. Core receives closure; no Q2 job/lease/window/reservation
+remains on .157/.161/.158/TB. IQ2 codebook-LDS is local source/compilation only;
+no further GPU work is admitted or reserved by that preparation.
+
 The owner restores .157 performance mode. Fresh read-only observation confirms
 the same boot, performance/120 W, retained fan curves, inactive ComfyUI,
 empty KFD and latest epoch release d9840546. Core explicitly reports own

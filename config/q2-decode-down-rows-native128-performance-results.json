@@ -1,0 +1,141 @@
+{
+  "schema": "synapse-lie.q2-decode-down-rows-native128-results.v1",
+  "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+  "recovery_after_owner_reported_power_outage": true,
+  "interrupted_predecessor_sha256": "858d0f6c1e3d26811bcdfc85206dd7ab8070a78d0a5c072c53699d747868f037",
+  "source_commit": "2e4207cf5e03e86249074c2f3e538b1121dc26db",
+  "plan_sha256": "14e6cfdca8ea70dd9106c80c13d2f35aace872e56bdcc0fe724f8f3a7d08fa67",
+  "server_sha256": "f8a5210cc0b2244a8767b6d98042d61f412fc137ba03d410853f3a5104fa781b",
+  "build_manifest_sha256": "6f9720ac5d78a51796c6ab7d41e1aa1d9890c9e7a025da5bcfacdb4277a8eb46",
+  "client_sha256": "87d856cf454d5114f93d7d4260d54b58f6e92800f70e4013a505aa16973560c9",
+  "request_sha256": "fcee51efeebfcbd25209ba90d09064d37aead6d3b0c6bbe7a9f97f328a4f24ef",
+  "tokens": 130925,
+  "prefill_calls": 64,
+  "full_chunks": 63,
+  "tail_tokens": 1901,
+  "cached_tokens": 0,
+  "output_tokens": 8,
+  "decode_calls": 8,
+  "all_four_outputs_exact": true,
+  "new": {
+    "prefill_ms": 97853.296131,
+    "prefill_tps": 1337.9723031989197,
+    "decode_ms": 306.494308,
+    "decode_tps": 26.101626657288527
+  },
+  "saved_unprofiled": {
+    "path": "evidence/q2-full-prefill128-final-r1/results/full-prefill.jsonl",
+    "sha256": "34cb33c48be8d9f1782a7eb44877a43cb5b06bf55f43f38993b41c69d421d3f5",
+    "prefill_ms": 99876.06713,
+    "prefill_tps": 1310.874604519482,
+    "decode_ms": 315.653915,
+    "decode_tps": 25.34421282245145
+  },
+  "prefill_change_percent": 2.0671465131762545,
+  "decode_change_percent": 2.988508028018577,
+  "target_prefill_ms": 87283.33333333333,
+  "new_prefill_excess_ms": 10569.962797666667,
+  "new_decode_ms_per_call": 38.3117885,
+  "target_decode_ms_per_call": 33.333333333333336,
+  "new_telemetry": {
+    "path": "evidence/q2-decode-down-rows-native128-r3/results/00-down-rows.telemetry.jsonl",
+    "sha256": "c68357e7c1bfb57db08e965e25d599a59771d33912d5308c1efd2a9baa917fc6",
+    "sample_count": 52,
+    "gpu_busy_ge80_samples": 51,
+    "active_clock_mean_mhz": 2658.901960784314,
+    "active_clock_median_mhz": 2655,
+    "active_gpu_busy_mean_percent": 97.07843137254902,
+    "sampled_peak_cpu_mc": 91250,
+    "sampled_peak_gpu_mc": 94000
+  },
+  "saved_telemetry": {
+    "path": "evidence/q2-full-prefill128-final-r1/results/telemetry.jsonl",
+    "sha256": "9736b2896cfd53979745b0bad02e1ff97c5cc8133864a0173f21303f559aeeef",
+    "sample_count": 66,
+    "gpu_busy_ge80_samples": 52,
+    "active_clock_mean_mhz": 2625.019230769231,
+    "active_clock_median_mhz": 2632.0,
+    "active_gpu_busy_mean_percent": 95.63461538461539,
+    "sampled_peak_cpu_mc": 97500,
+    "sampled_peak_gpu_mc": 99000
+  },
+  "server_exit_code": 0,
+  "client_exit_code": 0,
+  "artifact_count": 36,
+  "release_at": "2026-10-07T15:54:31.040199+00:00",
+  "release_sha256": "d74a7eaa1455150d074458b3254603b4ca6d521beb45ba5b654117990cfde05a",
+  "retired_identities": 4,
+  "retired_groups": 4,
+  "controls_rebuilt_or_rerun": false,
+  "candidate_rebuilt_for_depth": false,
+  "candidate_common_flags_match_control": true,
+  "new_file_compile_options": "-std=gnu++17;-fPIC;-DGGML_HIP_NO_VMM;-Wno-unused-value",
+  "build_modes_match": true,
+  "build_type": "RelWithDebInfo",
+  "new_precision_reduction": false,
+  "sustained_tg128_measured": false,
+  "independent_parent_quality_qualified": false,
+  "goal_met": false,
+  "limits": [
+    "Same candidate and input after owner-restored performance mode; controls are saved observations, not new paired runs.",
+    "Performance/120 W and qualified fans verified before and after; no frequency or power normalization.",
+    "R2/R3 also differ in run order and elapsed time after reboot, so the ratio does not isolate the effect of power alone.",
+    "Eight native output calls are not sustained TG128.",
+    "Exact replies do not settle component rounding differences or inherited task quality.",
+    "Active clock/busy samples describe correlation, not causality."
+  ],
+  "saved_isolated_up_mix": {
+    "path": "config/q2-hc-scalar-native128-isolated-results.json",
+    "sha256": "7bc2a479f4a8f082934e4b1eacceb9330564e318d0afa9e64524592e09adf632",
+    "prefill_ms": 97915.672036,
+    "prefill_tps": 1337.1199653500175,
+    "decode_ms": 308.708599,
+    "decode_tps": 25.91440609660504
+  },
+  "incremental_prefill_change_percent": 0.06374430649376261,
+  "incremental_decode_change_percent": 0.722457462407422,
+  "power_observation": {
+    "before": {
+      "path": "evidence/q2-decode-down-rows-native128-r3/results/power-before.json",
+      "sha256": "2e2cf72c4e41fc23e1484e5abe9edb08b8e7b84e17b8f19f16dcea4d723e7b98",
+      "at": "2026-10-07T15:50:26.282878+00:00",
+      "apu_power_mode": "performance",
+      "tdp_watts": 120,
+      "fan_curves_verified": true
+    },
+    "after": {
+      "path": "evidence/q2-decode-down-rows-native128-r3/results/power-after.json",
+      "sha256": "477a01d4f1c31007321a801c98539a3a2e8f46ca7579fad0f4b02d5fea1eea81",
+      "at": "2026-10-07T15:52:21.523718+00:00",
+      "apu_power_mode": "performance",
+      "tdp_watts": 120,
+      "fan_curves_verified": true
+    }
+  },
+  "owner_restored_performance_mode": true,
+  "agent_tuning": false,
+  "candidate_promoted": false,
+  "retained_telemetry": {
+    "path": "evidence/q2-hc-scalar-native128-isolated-r1/results/00-hc-scalar.telemetry.jsonl",
+    "sha256": "bb528807118cade785fbcb4ae79ee49f2b3f3c91428f2778ca59225ad7b0a0cd",
+    "sample_count": 52,
+    "gpu_busy_ge80_samples": 51,
+    "active_clock_mean_mhz": 2661.8627450980393,
+    "active_clock_median_mhz": 2657,
+    "active_gpu_busy_mean_percent": 96.98039215686275,
+    "sampled_peak_cpu_mc": 91875,
+    "sampled_peak_gpu_mc": 94000
+  },
+  "same_candidate_balanced_observation": {
+    "path": "config/q2-decode-down-rows-native128-recovery-results.json",
+    "sha256": "442cea09968c976e4132b95600a45f2f21fc4fd64ea201024e0a32c4a10e16ef",
+    "prefill_ms": 131886.897497,
+    "prefill_tps": 992.7066485355615,
+    "decode_ms": 312.107537,
+    "decode_tps": 25.632190997040873
+  },
+  "change_vs_balanced_percent": {
+    "prefill_tps": 34.780229907062,
+    "decode_tps": 1.8314300962483099
+  }
+}

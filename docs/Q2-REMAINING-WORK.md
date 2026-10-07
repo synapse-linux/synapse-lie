@@ -1,23 +1,31 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Current Q2 optimization assessment — 7 October 2026
 
-The first four-row Q2 model trial was interrupted by an owner-reported power
-outage. All 37 surviving artifacts verify, with no throughput samples.
-It is terminal as ABORTED_HOST_REBOOT; original command exits are unknown.
-The frozen launcher passes an offline source/address review with no new pool
-reservation or geometry discrepancy; this does not qualify runtime safety or
-performance. Host access is restored and ComfyUI stopped with owner permission.
-The next action is a separate fresh admission on persistent boot-qualified
-coordination, using the same executable and original input without a rebuild.
-[Recovered trial](Q2-DECODE-DOWN-ROWS.md).
+The unchanged four-row Q2 candidate now completes after the owner restores
+performance/120 W:1337.972303 PP /26.101627 TG on original130925/8, versus
+retained HC1337.119965 /25.914406 (+0.064% /+0.722% observed). All four
+replies match. The earlier low-power post-reboot sample remains separate;
+its recovery is not a kernel speedup. Power/fans verify before/after. All36
+artifacts collect before verified released74a7eaa; no Q2 remote window remains.
+The active goal needs another10.569963s off complete prefill and4.978455ms
+off each measured decode call. [Full comparison](Q2-DECODE-DOWN-ROWS.md).
+
+The next independent decode candidate stages the existing2KiB IQ2 codebook
+in workgroup LDS, preserving Q8_1 inputs, separate gate/up waves and all
+source arithmetic. Its local object/assembly compile with62 versus69 VGPR,
+2064 versus16 B LDS and no scratch. It has no GPU numerical/timing result.
+Prepare a complete native quantizer/gated-projection comparison with rotating
+weights and the saved production archive, then consider model integration.
+[Candidate](Q2-IQ2-DECODE-LDS.md). Prefill expert-chain work remains open;
+no blanket rerun of previously rejected buffer/tile variants is warranted.
 
 The [Q2_K scalar-down component](Q2-DECODE-DOWN-ROWS.md) now gives a
 four-row candidate with6.96% less complete quantizer/down latency; the
 eight-row version is31.71% slower. All1359 independent checks pass, while
 898/906 exact replays differ by small finite values. Preserve exit1 and the
-successful timings. Next qualify only the new four-row model composition on
-the original input, without rerunning old controls or changing prefill.
-No whole-model speed or quality acceptance follows from this component.
+successful timings. Its original-input model observation is recorded above;
+do not extrapolate the component's6.96% saving to whole-model decode or
+claim independent quality acceptance.
 
 Latest isolated HC qualification: original130925/8 is1337.119965 PP /
 25.914406 TG, versus saved1310.874605 /25.344213; all four outputs exact.

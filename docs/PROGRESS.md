@@ -1,5 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2 performance-mode follow-up complete — 2026-10-07 UTC: plan14e6cfdc,
+source2e4207cf and unchanged serverf8a5210c complete the original130925/8
+request sequence at1337.972303 PP /26.101627 TG. All four replies are exact;
+performance120 W and fan curves verify before/after. Retained HC is
+1337.119965 /25.914406: observed+0.063744% PP /+0.722457% TG, with eight
+decode calls only. CPU/GPU peaks91.25/94 C; no thermal stop. The owner made
+the APU change; no agent tuning, model/input change or control rebuild/rerun.
+Run/server/client exit0; all36 artifacts verify before15:54:31.040199 UTC
+released74a7eaa. Four current-boot identities/groups retired, KFD empty,
+five leases free, seven model stats unchanged, persistent registry matches.
+Core receives closure; no Q2 remote window remains. Goal/quality remain open.
+[Result and graph](Q2-DECODE-DOWN-ROWS.md).
+
+Independent local preparation extracts the retained IQ2 scalar gate/up and
+stages its original2KiB codebook once per64-thread workgroup. Local HIP object
+and assembly compile; VGPR69→62, LDS16→2064 B, no scratch, one extra barrier.
+No GPU numerical/performance result, production dispatch or speedup claim.
+[Draft and next complete-component gate](Q2-IQ2-DECODE-LDS.md).
+
 The owner restores APU performance on .157 — 2026-10-07 UTC. Read-only
 readback verifies performance/120 W and the retained fan curves; the agent
 does not execute a tuning command. ComfyUI stays inactive. The R3 runner

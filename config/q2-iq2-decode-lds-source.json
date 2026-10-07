@@ -1,0 +1,22 @@
+{
+  "schema": "synapse-lie.q2-iq2-decode-lds-source.v1",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "parent_manifest": "config/q2-hc-scalar-isolated-source.json",
+  "parent_manifest_sha256": "eb12a4783802ee991f88d896b8698f7f61abc6dac68b2ae7372d0795ee850810",
+  "inputs": {
+    ".deps/gufo-q2-hc-scalar-isolated-run/src/models/qwen38_flash_next/kernels/rocm/mmq/mmvq.hip.cpp": "f868ab8ae8fb55a520aed7eaf695fa8197db1ce322f9906559ed45fa9bff166a",
+    ".deps/gufo-q2-hc-scalar-isolated-run/src/models/qwen38_flash_next/kernels/rocm/mmq/vecdotq.hpp": "afae2dcc0f6a4ece74842d9cb39d1fd6e5d947a1eb01c5015eb9c5d7028f1dd0"
+  },
+  "candidate": "experiments/q2-iq2-decode-lds.inc",
+  "candidate_sha256": "b30166347856d86179a15ed6c9297c78b1b588402f023c280b0d24795e5851d5",
+  "generator_sha256": "b75a08fb6c33643c0671ac9d327783909cff72ccf7e9d3dd6b27a10e9de3d515",
+  "mechanism": "Stage the existing 256-entry IQ2 codebook once per 64-thread workgroup.",
+  "extra_lds_bytes": 2048,
+  "extra_workgroup_barriers": 1,
+  "rows_per_projection": 2,
+  "gate_up_separate_waves": true,
+  "quantization_changed": false,
+  "prefill_changed": false,
+  "model_dispatch_changed": false,
+  "gpu_run": false
+}

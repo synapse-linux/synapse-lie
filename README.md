@@ -2,22 +2,26 @@
 
 The four-row Q2 down model candidate now has explicit non-prefill dispatch;
 prefill, including one-token tails, retains its prior implementation.
-Its recovered original 128K trial completes at 992.706649 prefill /25.632191
-decode token/s, with all four replies exact. Post-run APU readback is
-balanced/85 W versus the last saved live performance/120 W state. This runtime
-difference prevents attributing the observed regression to the candidate.
-The earlier 1337.119965 /25.914406 comparator remains; no candidate promotion.
+After the owner restores performance/120 W, its unchanged original128K trial
+completes at1337.972303 prefill /26.101627 decode token/s, with all four
+replies exact. Compared with retained HC1337.119965 /25.914406, this observes
++0.064% PP /+0.722% TG. The earlier balanced85 W observation remains separate.
+Mode and fan curves verify before/after; inherited quality and sustained TG128
+remain open. The1500PP/30TG goal is not met.
 The first trial's power-outage failure is preserved. Coordination is now
 persistent and boot-qualified; ComfyUI remains stopped with owner approval.
 [Phase selection](docs/Q2-PHASE-DISPATCH.md),
 [recovered trial and power diagnosis](docs/Q2-DECODE-DOWN-ROWS.md),
-[measured PP/TG graph](docs/figures/q2-decode-down-rows-native128-recovery.png).
+[measured PP/TG graph](docs/figures/q2-decode-down-rows-native128-performance.png).
 
 A new [scalar Q2_K down candidate](docs/Q2-DECODE-DOWN-ROWS.md) reduces its
 complete quantizer/projection component time6.96%, with no new quantization.
 Independent operator checks pass; small byte differences remain. It is retained
-for model evaluation; its recovered model trial has differing power conditions,
-and establishes no performance gain or task-quality acceptance.
+for composition after the small positive decode observation; this is not
+independent task-quality acceptance or a sustained-decode measurement.
+
+A private [IQ2 decode codebook-LDS draft](docs/Q2-IQ2-DECODE-LDS.md) compiles
+with unchanged weight/input formats. It has no GPU result or model dispatch.
 
 The subsequent down/SiLU fusion passes its exact component checks but adds
 no measured model gain:1332.307970 PP /25.595276 TG versus the retained
