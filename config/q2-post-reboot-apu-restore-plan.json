@@ -1,6 +1,6 @@
 {
   "schema": "synapse-lie.q2-post-reboot-apu-restore-plan.v1",
-  "state": "PREPARED_NOT_AUTHORIZED",
+  "state": "SUPERSEDED_OWNER_RESTORED_READBACK_VERIFIED",
   "prepared_at": "2026-10-07T15:25:17.589613+00:00",
   "host": "192.168.5.157",
   "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
@@ -73,5 +73,16 @@
     "controls_rebuilt_or_rerun": false,
     "new_quantization": false,
     "new_admission_required": true
+  },
+  "resolution": {
+    "owner_message": "ho rimesso performance",
+    "agent_apu_command_executed": false,
+    "owner_command_unknown": true,
+    "readback_path": "evidence/q2-decode-down-rows-native128-r3/owner-restored-power.json",
+    "readback_sha256": "f92ebaefbc7dd9715248860503479da0ded6c1b20eea8a37c44ffe6c9a5a379c",
+    "readback_at": "2026-10-07T15:46:15.617389+00:00",
+    "apu_power_mode": "performance",
+    "tdp_watts": 120,
+    "confirmation_no_longer_needed": true
   }
 }

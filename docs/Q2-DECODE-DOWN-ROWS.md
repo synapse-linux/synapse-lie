@@ -36,13 +36,13 @@ field was intentionally left balanced, and the installed fan-only helper does
 not apply that field. Thus the fan change did not make performance mode
 persistent across reboots. ComfyUI is inactive, as explicitly authorized.
 
-The runtime-only restoration plan specifies `sudo -n /usr/bin/axb35-ctl set
-apu performance`, followed by mode/TDP/fan/config readback under fresh
-coordination. It remains **prepared, not authorized or executed**: repository
-policy prohibits tuning and the existing hardware exception was fan-only.
-No startup change or higher custom power limit is proposed. After authorization
-and readback, repeat only this existing candidate with the unchanged workload.
-Do not rebuild or rerun the saved controls.
+The owner subsequently reports restoring performance mode. Read-only .157
+readback confirms performance/120 W and unchanged fan curves; the agent
+executes no tuning command. The earlier restoration request is resolved by
+the owner's action. The R3 follow-up reuses this existing candidate and the
+unchanged workload, with mode/fan checks before and after the trial. Its
+CPU fixtures pass on .157; a fresh GPU admission is still required. Saved
+controls are neither rebuilt nor rerun.
 
 Run/server/client exits are0. All32 raw artifacts verify before the
 15:15:21.705147 UTC release d9840546; two current-boot identities/groups

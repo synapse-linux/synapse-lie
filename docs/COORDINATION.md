@@ -1,5 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The owner restores .157 performance mode. Fresh read-only observation confirms
+the same boot, performance/120 W, retained fan curves, inactive ComfyUI,
+empty KFD and latest epoch release d9840546. Core explicitly reports own
+non-use/no plans on .157. R3 preparation and .157 CPU fixtures complete;
+the unchanged f8a5210c server/client/request awaits its fresh verification and
+admission. This owner action requires no agent tuning or service mutation.
+
 Q2 recovered model window released — 2026-10-07 15:15 UTC: current-boot
 plan f2c9542e admits at15:07:43.440022 UTC; unchanged candidate f8a5210c
 and original requests complete at15:10:37.141097 UTC. Run and both children

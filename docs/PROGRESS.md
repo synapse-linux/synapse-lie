@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The owner restores APU performance on .157 — 2026-10-07 UTC. Read-only
+readback verifies performance/120 W and the retained fan curves; the agent
+does not execute a tuning command. ComfyUI stays inactive. The R3 runner
+now checks power/fans at verification, admission and before/after inference.
+Its .157 CPU fixtures pass original-input rejection, six invalid power/fan
+receipts and owned success/failure child retirement. The unchanged f8a5210c
+executable and original130925/8 requests are staged for fresh admission.
+No result from this follow-up is claimed by its CPU preparation.
+[Preparation](../config/q2-decode-down-rows-native128-performance-preparation.json).
+
 Q2 recovered original128K trial — 2026-10-07 UTC: unchanged server f8a5210c,
 client 87d856cf and request fcee51ef complete at 992.706649 PP /25.632191 TG.
 All four responses match; run/server/client exit 0. The original 130925/8,
