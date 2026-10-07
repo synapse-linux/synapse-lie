@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Attention V staging preparation — 2026-10-07 UTC: fresh Core own non-use and
+global preflight04:47:11 anchor570f32f1. Host-r1 finishes04:48:19 with42 Debug
+and42 ASan/UBSan checks, six exits0; seven artifacts collected(dd2bfbff).
+Plana72cf63b binds339 fixtures for one new component comparing the two existing
+WMMA V-loading schedules on2048-row shapes at16/32/64/128K, plus untimed tails.
+Synthetic masks and sampled FP64 checks are component evidence only. Retained
+provider and model dispatch stay unchanged. No saved model/control replay or
+.161/.158/TB use. Fresh admission remains required before remote GPU build/run.
+
+
 BF16 row-byte long-prefix closed — 2026-10-07 UTC: checkpoint77e4e41a/
 plan071b49e1, admission5609b5ba at04:24:06.864097.64K finishes04:25:46.965569;
 128K04:28:58.430222, four command exits0 and client/server0 per session.
