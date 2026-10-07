@@ -72,7 +72,7 @@ def main():
     receipt = dict(state='STARTING', variant=variant, commands=[], started_ns=time.monotonic_ns(),
                    instrumentation='routing-counts' if routes else 'ple-forward' if profile else None,
                    point_only=point_only,
-                   provider_experiment='ple-row-bytes-prefill-through32K' if row_bytes else 'select-live-grid-prefill-through32K' if live_grid else 'iq2-fixed-bounds-full-prefill128' if full_prefill else 'iq2-fixed-bounds-retained128' if retained128 else 'norm-ragged' if norm_ragged else 'scaled-row-reuse' if row_reuse else 'iq2-scale-reuse' if scale else 'iq2-mixed-ordered' if mixed else
+                   provider_experiment=('ple-row-bytes-prefill-'+str(prefill_depth) if prefill_depth else 'ple-row-bytes-prefill-through32K') if row_bytes else 'select-live-grid-prefill-through32K' if live_grid else 'iq2-fixed-bounds-full-prefill128' if full_prefill else 'iq2-fixed-bounds-retained128' if retained128 else 'norm-ragged' if norm_ragged else 'scaled-row-reuse' if row_reuse else 'iq2-scale-reuse' if scale else 'iq2-mixed-ordered' if mixed else
                                        'ple-cache-first-ordered' if cache_first else
                                        'iq2-signs-ordered' if iq2_signs else None)
     if native_bench is not None:

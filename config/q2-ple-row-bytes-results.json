@@ -1,0 +1,294 @@
+{
+  "schema": "synapse-lie.q2-ple-row-bytes-results.v1",
+  "plan_sha256": "56c1948c39e48fdf5ce8d64b7c53fdaacd0e1681f0460ccacc7eb03206c1948c",
+  "release_sha256": "91b986454fd6249ac605b9fb8bbe3108166e60ea9c002f6f502c7ee3b5b0ed8f",
+  "result_sha256": "e8bb3d3364bd0b05606c77a2fabc51bc58d58f5d0caa8c9a38d257cb54508da1",
+  "samples_sha256": "af21fd8299b0fa0018aa2423f5baebd08b0830f664c23a58f3e8c2ce795ff124",
+  "server_binary_sha256": "8d15434df7f4c1ad72fde7d3b9a15c7ea93c5b6272e8a20a91bb5ba6b4a707eb",
+  "reference_samples_sha256": "81ce7234e946b4cf0f85b374207f4f61b502484f05a69651e69213fd86e7d1c7",
+  "commands": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "launcher_exit_code": 0,
+  "verified_artifacts": 12,
+  "validation": {
+    "all_saved_inputs_exact": true,
+    "context_capacity": 133760,
+    "chunk_size": 2048,
+    "preparation_and_prefix_history_exact": true,
+    "samples": 9,
+    "full_prefixes": [
+      {
+        "case": "original-4-prefix-4096",
+        "depth": 4096,
+        "tokens": 4088,
+        "calls": 2,
+        "prefill_ms": 2874.837473,
+        "prefill_tps": 1421.9934303743507
+      },
+      {
+        "case": "original-6-prefix-8192",
+        "depth": 8192,
+        "tokens": 8138,
+        "calls": 4,
+        "prefill_ms": 5615.941763,
+        "prefill_tps": 1449.089100890664
+      },
+      {
+        "case": "original-8-prefix-8192",
+        "depth": 8192,
+        "tokens": 8177,
+        "calls": 4,
+        "prefill_ms": 5440.224024,
+        "prefill_tps": 1503.0631025352054
+      },
+      {
+        "case": "original-10-prefix-12288",
+        "depth": 12288,
+        "tokens": 12242,
+        "calls": 6,
+        "prefill_ms": 8471.062662,
+        "prefill_tps": 1445.1551698367073
+      },
+      {
+        "case": "original-12-prefix-16384",
+        "depth": 16384,
+        "tokens": 16317,
+        "calls": 8,
+        "prefill_ms": 11424.793485,
+        "prefill_tps": 1428.209623344452
+      },
+      {
+        "case": "original-14-prefix-32768",
+        "depth": 32768,
+        "tokens": 32711,
+        "calls": 16,
+        "prefill_ms": 22703.864777,
+        "prefill_tps": 1440.767918646946
+      }
+    ]
+  },
+  "rows": [
+    {
+      "case": "original-4-prefix-4096",
+      "depth": 4096,
+      "attempt": 0,
+      "tokens": 4088,
+      "calls": 2,
+      "full_chunks": 1,
+      "tail": 2040,
+      "parent_pp": 1512.809054178176,
+      "candidate_pp": 1421.9934303743507,
+      "pp_change_percent": -6.003112127932109,
+      "parent_prefill_ms": 2702.257756,
+      "candidate_prefill_ms": 2874.837473,
+      "parent_tg": 26.471406951143297,
+      "candidate_tg": 25.1237255550547,
+      "tg_change_percent": -5.091083366199345,
+      "parent_decode_ms": 302.212875,
+      "candidate_decode_ms": 318.424112,
+      "decode_calls": 8,
+      "candidate_wall_seconds": 3.309502184,
+      "candidate_cache_capture_ms": 43.433573,
+      "cached_tokens": 0,
+      "archived_ud_pp": 1262.9795923018212,
+      "reply_exact": true
+    },
+    {
+      "case": "original-6-prefix-8192",
+      "depth": 8192,
+      "attempt": 0,
+      "tokens": 8138,
+      "calls": 4,
+      "full_chunks": 3,
+      "tail": 1994,
+      "parent_pp": 1511.2030238647355,
+      "candidate_pp": 1449.089100890664,
+      "pp_change_percent": -4.1102301936388415,
+      "parent_prefill_ms": 5385.113629,
+      "candidate_prefill_ms": 5615.941763,
+      "parent_tg": 26.39049009980392,
+      "candidate_tg": 25.94232571542668,
+      "tg_change_percent": -1.698204098076106,
+      "parent_decode_ms": 303.139501,
+      "candidate_decode_ms": 308.376361,
+      "decode_calls": 8,
+      "candidate_wall_seconds": 6.079685912,
+      "candidate_cache_capture_ms": 76.045133,
+      "cached_tokens": 0,
+      "archived_ud_pp": 1480.6408869476302,
+      "reply_exact": true
+    },
+    {
+      "case": "original-8-prefix-8192",
+      "depth": 8192,
+      "attempt": 1,
+      "tokens": 8177,
+      "calls": 4,
+      "full_chunks": 3,
+      "tail": 2033,
+      "parent_pp": 1476.050828812676,
+      "candidate_pp": 1503.0631025352054,
+      "pp_change_percent": 1.830036824968806,
+      "parent_prefill_ms": 5539.782127,
+      "candidate_prefill_ms": 5440.224024,
+      "parent_tg": 26.26807205186376,
+      "candidate_tg": 25.755994705353046,
+      "tg_change_percent": -1.9494287418569067,
+      "parent_decode_ms": 304.552233,
+      "candidate_decode_ms": 310.607301,
+      "decode_calls": 8,
+      "candidate_wall_seconds": 5.905817744,
+      "candidate_cache_capture_ms": 81.821679,
+      "cached_tokens": 0,
+      "archived_ud_pp": 1493.937128205338,
+      "reply_exact": true
+    },
+    {
+      "case": "original-10-prefix-12288",
+      "depth": 12288,
+      "attempt": 0,
+      "tokens": 12242,
+      "calls": 6,
+      "full_chunks": 5,
+      "tail": 2002,
+      "parent_pp": 1445.1247664857897,
+      "candidate_pp": 1445.1551698367073,
+      "pp_change_percent": 0.002103856471258325,
+      "parent_prefill_ms": 8471.240881,
+      "candidate_prefill_ms": 8471.062662,
+      "parent_tg": 26.328680653949398,
+      "candidate_tg": 26.364030967269866,
+      "tg_change_percent": 0.1342654187085568,
+      "parent_decode_ms": 303.851154,
+      "candidate_decode_ms": 303.443734,
+      "decode_calls": 8,
+      "candidate_wall_seconds": 9.002273361,
+      "candidate_cache_capture_ms": 145.680902,
+      "cached_tokens": 0,
+      "archived_ud_pp": 1453.1183276792024,
+      "reply_exact": true
+    },
+    {
+      "case": "original-12-prefix-16384",
+      "depth": 16384,
+      "attempt": 0,
+      "tokens": 16317,
+      "calls": 8,
+      "full_chunks": 7,
+      "tail": 1981,
+      "parent_pp": 1435.3537746836585,
+      "candidate_pp": 1428.209623344452,
+      "pp_change_percent": -0.4977275613310628,
+      "parent_prefill_ms": 11367.929139,
+      "candidate_prefill_ms": 11424.793485,
+      "parent_tg": 26.334428098302826,
+      "candidate_tg": 26.624232255318613,
+      "tg_change_percent": 1.1004763647571414,
+      "parent_decode_ms": 303.784839,
+      "candidate_decode_ms": 300.478148,
+      "decode_calls": 8,
+      "candidate_wall_seconds": 11.981704799,
+      "candidate_cache_capture_ms": 172.771602,
+      "cached_tokens": 0,
+      "archived_ud_pp": 1439.3069338108921,
+      "reply_exact": true
+    },
+    {
+      "case": "original-14-prefix-32768",
+      "depth": 32768,
+      "attempt": 0,
+      "tokens": 32711,
+      "calls": 16,
+      "full_chunks": 15,
+      "tail": 1991,
+      "parent_pp": 1402.2457164097352,
+      "candidate_pp": 1440.767918646946,
+      "pp_change_percent": 2.7471791702699644,
+      "parent_prefill_ms": 23327.580621,
+      "candidate_prefill_ms": 22703.864777,
+      "parent_tg": 26.234155426831332,
+      "candidate_tg": 26.48339521575876,
+      "tg_change_percent": 0.9500583680788877,
+      "parent_decode_ms": 304.945971,
+      "candidate_decode_ms": 302.076072,
+      "decode_calls": 8,
+      "candidate_wall_seconds": 23.416423605,
+      "candidate_cache_capture_ms": 320.726,
+      "cached_tokens": 0,
+      "archived_ud_pp": 1391.617247614827,
+      "reply_exact": true
+    }
+  ],
+  "quality": [
+    {
+      "case": "original-0-calibration-overhead-0",
+      "streamed_pieces_and_reply_exact": true
+    },
+    {
+      "case": "original-1-calibration-probe-0",
+      "streamed_pieces_and_reply_exact": true
+    },
+    {
+      "case": "original-2-warmup-0",
+      "streamed_pieces_and_reply_exact": true
+    },
+    {
+      "case": "original-4-prefix-4096",
+      "streamed_pieces_and_reply_exact": true
+    },
+    {
+      "case": "original-6-prefix-8192",
+      "streamed_pieces_and_reply_exact": true
+    },
+    {
+      "case": "original-8-prefix-8192",
+      "streamed_pieces_and_reply_exact": true
+    },
+    {
+      "case": "original-10-prefix-12288",
+      "streamed_pieces_and_reply_exact": true
+    },
+    {
+      "case": "original-12-prefix-16384",
+      "streamed_pieces_and_reply_exact": true
+    },
+    {
+      "case": "original-14-prefix-32768",
+      "streamed_pieces_and_reply_exact": true
+    }
+  ],
+  "all_streamed_replies_exact": true,
+  "telemetry": {
+    "samples": 39,
+    "scope": "whole model session including startup",
+    "thermal_peaks_c": {
+      "amdgpu": 93.0,
+      "k10temp": 91.75
+    },
+    "sampled_gpu_clock_mhz": {
+      "min": 621,
+      "max": 2752
+    },
+    "memory": {
+      "min_available_bytes": 71056723968,
+      "max_anonymous_bytes": 5092728832,
+      "max_cached_bytes": 57447256064,
+      "first_cached_bytes": 57362460672,
+      "last_cached_bytes": 48867405824
+    },
+    "limitation": "System memory includes the loaded model and prior reclaimable cache; it does not isolate the reader. Runner /proc counters describe the session controller, not the GPU server, and are not server I/O evidence."
+  },
+  "native_client_reused": true,
+  "retained_mmq_reused": true,
+  "controls_rebuilt_or_rerun": false,
+  "reactive_changed": false,
+  "public_ABI_or_state_changed": false,
+  "promoted": false,
+  "limits": "One observation per original prefix, same original preparation/history through32K. Saved control is not contemporaneous. Eight decode calls do not establish TG128. Greedy reply agreement is not an independent model-quality assessment. Buffered page-cache behavior differs intentionally; no memory-isolated speedup claim. The full128K goal is not established by this32K candidate."
+}

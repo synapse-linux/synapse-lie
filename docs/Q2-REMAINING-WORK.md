@@ -9,12 +9,17 @@ measurement with a2048-token continuation. The retained128K observation is
 1310.874605 PP /25.344213 TG; TG is the original eight output calls, not TG128.
 Prefill must fall from99.876067s to at most87.283333s, a12.592734s saving.
 
-The next diagnostic reuses the saved server/client binaries, original three
-preparations and exact32711-token prefix (15 full2048 chunks and1991 final
-tokens), capacity133760 and zero prefix hits. Kernel/HIP/copy traces attribute
-the growing selection/attention cost and C1 host/device gaps. Profiling adds
-overhead: its rates cannot replace archived unprofiled throughput. No full
-curve, reference rebuild or new token recipe is part of this diagnostic.
+The [completed native32K diagnostic](Q2-LONG-PROFILE.md) rejects all zero
+GPU timestamps and uses valid CPU intervals only. It identifies45–70ms gaps
+before PLE uploads and depth-dependent attention-completion intervals. Warm
+C1 completion-to-next-submission gaps are only0.092–0.097ms; the older direct
+harness's5.33ms/token gap is not native-server headroom.
+
+The [new BF16 exact-row candidate](Q2-PLE-ROW-BYTES.md) improves the original
+32K full prefill from1402.245716 to1440.767919 token/s (+2.747%) with identical
+replies. Smaller prefixes are mixed, including regressions. Next measure only
+the new64K/128K candidate with the saved executable, original preparations
+and separate cooled sessions. Do not promote the reader globally yet.
 
 The scalar Q8 instruction trial is complete: large projections are unchanged
 within noise, shared-down improves2.30% locally and gated shared-up slows3.06%.
@@ -71,10 +76,10 @@ Two separate objectives follow the fixed-point priority. For 256K, first
 qualify the [attention capacity draft](Q2-ATTENTION-CAPACITY.md) against the
 actual required capacity and visible span, without padding prompts or adding
 unrequested context headroom. It has compilation and host checks, but no GPU
-result. For decode, reactive scheduling has more trace headroom than prefill:
-79.980 ms between kernels across 15 decode calls versus 5.090 ms in prefill.
-Those gaps are not all removable CPU overhead and are not a speedup promise.
-No new GPU run is scheduled by this recap.
+result. Historical direct-harness gaps were79.980ms across15 decode calls
+versus5.090ms in prefill. The new native measurement above supersedes their
+use as a claim about native C1 reactive headroom. Concurrent throughput,
+request responsiveness and single-stream token latency remain separate.
 
 ## Why the last attempts were too small
 

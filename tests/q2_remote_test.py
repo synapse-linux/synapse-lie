@@ -21,6 +21,28 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_row_bytes_long_prefix_reuses_original_preparation_and_tail(self):
+        import q2_ple_row_bytes_model as model
+        from q2_full_prefill128 import inputs
+        root=path.parents[1]
+        for depth, tokens in ((65536,65440),(131072,130925)):
+            original, manifest, cases=inputs(root,depth)
+            self.assertEqual(model.inputs(root,depth),list(zip(cases,manifest['cases'])))
+            self.assertEqual([c['expected_prompt_tokens'] for c in cases],[13,3513,2055,tokens])
+            with tempfile.TemporaryDirectory() as temporary:
+                output=Path(temporary)/'samples.jsonl'
+                argv=model.client_argv(root,Path('/saved-bench'),output,depth)
+                self.assertIn('133760',argv)
+                selected={c['id'] for c in cases}
+                expected=b''.join(line for line in original.read_bytes().splitlines(keepends=True)
+                                  if json.loads(line)['id'] in selected)
+                self.assertEqual(output.with_suffix('.requests.jsonl').read_bytes(),expected)
+        with self.assertRaises(ValueError):
+            model.inputs(root,32768)
+        with tempfile.TemporaryDirectory() as temporary:
+            with self.assertRaises(FileNotFoundError):
+                model.verify_server(Path(temporary))
+
     def test_row_bytes_candidate_preserves_native_inputs_and_rejects_rebuild(self):
         import q2_ple_row_bytes_model as model
         from q2_select_live_grid_model import inputs

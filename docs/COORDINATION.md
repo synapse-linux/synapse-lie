@@ -1,5 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+BF16 row-byte long-prefix preparation — 2026-10-07 UTC: fresh Core own
+non-use and globalpreflight04:21:27.223240 anchor release91b98645. Host
+q2-ple-row-bytes-long-host-r1 ends04:22:26.479409:42 Debug/42 ASan tests,
+six zero exits and seven artifacts collected(d553c6d9). Plan071b49e1 binds335
+fixtures and the exact candidate/server receipt for new64K/128K observations
+only, with original preparations and cold-start CPU≤60°C. No model build,
+old control rerun or .161/.158/TB reservation. Fresh admission still required.
+
+BF16 exact-row model closed — 2026-10-07 UTC: checkpointddbba575/plan56c1948c,
+admission7161cdc2 at04:14:06.178829. Six model commands0, client/server0,
+finish04:17:28.124558; all12 artifacts collected(fddea32e) before release
+04:17:50.486075 /91b986454fd6249ac605b9fb8bbe3108166e60ea9c002f6f502c7ee3b5b0ed8f.
+1837 identities/1466 groups retired, KFD empty, original CPU/four GPU leases
+unchanged/free and seven model stat tuples exact. All release mirrors match;
+Core notified before analysis. New64K/128K follow-up requires a separate tested
+plan/admission and reuses this candidate binary. No .161/.158/TB use or cleanup.
+
 BF16 exact-row preparation — 2026-10-07 UTC: globalpreflight04:08:29 anchors
 releasecb2b68d9,1821 identities/1454 groups retired, KFD empty, original CPU/
 four GPU leases free and seven model stat tuples unchanged. Host-r1 finishes

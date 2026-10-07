@@ -336,7 +336,7 @@ def main():
             or args.source_variant != 'prefill128-q2' or args.prefill_only_depth is not None
             or args.rebuild_mmq or args.point_only or args.replay_from or args.detach):
         p.error('Prefix32K profiling requires only the saved native Q2 prefill provider')
-    if args.prefill_only_depth is not None and (args.mode != 'q2-prefill128' or not args.native_curve):
+    if args.prefill_only_depth is not None and (args.mode not in ('q2-prefill128', 'q2-prefill-ple-row-bytes') or not args.native_curve):
         p.error('Saved prefill depth requires the matched native full-prefill mode')
     if args.mode == HC_REUSE_MODE or args.source_variant == HC_REUSE_VARIANT:
         if args.mode != HC_REUSE_MODE or args.source_variant != HC_REUSE_VARIANT:
@@ -977,6 +977,9 @@ def main():
     capsule = out / 'source.tar.gz'
     with tarfile.open(capsule, 'w:gz') as archive:
         for name in ('experiments/q2-ple-row-bytes-ngram.cpp',
+                     'tools/q2-ple-row-bytes-long-phase.py',
+                     'tools/q2-ple-row-bytes-long-window.py',
+                     'tools/freeze-q2-ple-row-bytes-long-plan.py',
                      'experiments/q2-ple-row-bytes.patch',
                      'tools/prepare-q2-ple-row-bytes.py',
                      'tools/q2_ple_row_bytes_model.py',

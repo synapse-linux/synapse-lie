@@ -69,9 +69,10 @@ def main():
             any(flag in sys.argv[2:] for flag in ('--prefill-only-depth', '--rebuild-mmq', '--point-only', '--replay-from'))):
         raise SystemExit('Prefix32K profiling requires only the saved native Q2 prefill provider')
     prefill_depth = int(sys.argv[sys.argv.index('--prefill-only-depth')+1]) if '--prefill-only-depth' in sys.argv else None
-    if prefill_depth is not None and (not full_prefill128 or not native_curve or prefill_depth not in (65536,131072)):
+    if prefill_depth is not None and (not (full_prefill128 or row_bytes) or not native_curve or prefill_depth not in (65536,131072)):
         raise SystemExit('Saved prefill depth requires the matched native full-prefill mode')
-    curve128 = full_prefill128 or mode == 'q2-curve128'
+    row_replay = row_bytes and prefill_depth is not None
+    curve128 = row_replay or full_prefill128 or mode == 'q2-curve128'
     if curve128 and (not native_curve or '--rebuild-mmq' in sys.argv[2:] or point_only or '--replay-from' in sys.argv[2:]):
         raise SystemExit('Curve128 requires the native full curve and pinned binaries without builds')
     curve256 = mode in ('q2-curve256', 'ud-curve256')
@@ -306,7 +307,7 @@ def main():
                                     receipt_sha256=pins['receipt_sha256'], original_build_unchanged=True)
             reuse_args=['-DQ2_MMQ_ARCHIVE='+str(copied)]
             save()
-        if row_bytes:
+        if row_bytes and not row_replay:
             from q2_ple_row_bytes_model import reuse_mmq
             archive, result['mmq_reuse'] = reuse_mmq(ROOT)
             reuse_args = ['-DQ2_MMQ_ARCHIVE='+str(archive), '-DQ2_CURVE_PLE_ROW_BYTES=ON']
@@ -318,6 +319,8 @@ def main():
             save()
         if curve128:
             from q2_curve128 import verify_server
+            if row_replay:
+                from q2_ple_row_bytes_model import verify_server
             reused_curve_binary, result['curve_server_reuse'] = verify_server(ROOT)
             save()
         if native_cpu:

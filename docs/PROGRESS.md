@@ -8,8 +8,14 @@ BF16/160 row while retaining cache capacity, workers, ordering and arithmetic.
 Debug42/ASan42 pass on .157 (six zero exits, seven artifacts collected).
 Plan56c1948c binds332 fixtures for one new original nine-request native trial
 through32711 tokens, with saved client/MMQ/control evidence reused. No model
-gain or128K result is claimed before measurement; buffered file-cache memory
-is an explicit part of the candidate.
+gain or128K result was claimed before measurement; buffered file-cache memory
+is an explicit part of the candidate. The model now completes:32K
+PP1402.245716→1440.767919 (+2.747%), TG26.234155→26.483395 on the original
+eight decode calls. Shorter-prefix results are mixed, with regressions at4K
+and the first8K attempt; all nine replies match. Six exits0/12 artifacts verify
+and release91b98645 closes the window before analysis. Prepare only new64K/
+128K candidate observations using saved server8d15434d; no model build, old
+control rerun or global promotion.
 
 The [native32K diagnostic](Q2-LONG-PROFILE.md) now completes with original
 counts and inputs. All device timestamps have zero duration, so GPU busy and

@@ -59,8 +59,36 @@ def reuse_mmq(root):
                         controls_rebuilt_or_rerun=False)
 
 
-def inputs(root):
-    _, manifest, cases = saved_inputs(root)
+def verify_server(root):
+    pins = json.loads((root/'config/q2-ple-row-bytes-binaries.json').read_text())
+    if pins['schema'] != 'synapse-lie.q2-ple-row-bytes-binaries.v1' or pins['context_capacity'] != 133760:
+        raise ValueError('Invalid row-byte binary contract')
+    if sha(root/MANIFEST) != pins['source_manifest_sha256']:
+        raise ValueError('Row-byte binary source manifest changed')
+    previous = root.parent/pins['label']
+    receipt_path = previous/'results/result.json'
+    if sha(receipt_path) != pins['receipt_sha256']:
+        raise ValueError('Row-byte build receipt changed')
+    receipt = json.loads(receipt_path.read_text())
+    if (not receipt.get('finished_at') or any(c['exit_code'] for c in receipt['commands']) or
+            receipt['mode'] != 'q2-prefill-ple-row-bytes'):
+        raise ValueError('Row-byte model qualification incomplete')
+    binary = previous/pins['binary']
+    if sha(binary) != pins['binary_sha256'] or receipt['binary_sha256_after'] != pins['binary_sha256']:
+        raise ValueError('Row-byte server binary changed')
+    for directory in (root, previous):
+        verify_provider(directory, directory/'source')
+    core = json.loads((root/'config/q2-curve128-source.json').read_text())['core_files']
+    for directory in (root/'curve-core', previous/'curve-core'):
+        if {p.relative_to(directory).as_posix(): sha(p) for p in directory.rglob('*') if p.is_file()} != core:
+            raise ValueError('Row-byte core source differs')
+    return binary, dict(pins, no_build=True)
+
+
+def inputs(root, depth=None):
+    _, manifest, cases = saved_inputs(root, depth)
+    if depth is not None:
+        return list(zip(cases, manifest['cases']))
     selected = [(c,b) for c,b in zip(cases, manifest['cases'])
                 if b['phase'] != 'prefix' or b['depth'] <= 32768]
     if len(selected) != 9 or [b['historical_index'] for _,b in selected] != [0,1,2,4,6,8,10,12,14]:
@@ -69,29 +97,25 @@ def inputs(root):
 
 
 def client_argv(root, binary, output, depth=None):
-    if depth is not None:
-        raise ValueError('Row-byte trial has one frozen prefix history through32K')
     corpus = output.with_suffix('.requests.jsonl')
     # Write the original serialized records verbatim, retaining preparation,
     # both original8K attempts, request settings and natural final tails.
     original, _, _ = saved_inputs(root)
-    selected = {c['id'] for c,_ in inputs(root)}
+    selected = {c['id'] for c,_ in inputs(root, depth)}
     payload = b''.join(line for line in original.read_bytes().splitlines(keepends=True)
                        if json.loads(line)['id'] in selected)
     with corpus.open('xb') as stream:
         stream.write(payload)
     return [str(binary), '--suite', 'http', '--url', 'http://127.0.0.1:8000/v1',
-        '--model', 'bench', '--output', str(output), '--server-label', 'ple-row-bytes-full-prefill32',
+        '--model', 'bench', '--output', str(output), '--server-label', 'ple-row-bytes-full-prefill'+str(depth//1024 if depth else 32),
         '--server-kv-cache', 'on', '--requests', str(corpus), '--context-capacity', '133760',
         '--rope-scaling', 'native', '--warmups', '0', '--repetitions', '1', '--timeout', '1800']
 
 
 def validate_result(root, path, depth=None):
-    if depth is not None:
-        raise ValueError('Unexpected ple-row-bytes depth override')
     events = [json.loads(line) for line in path.read_text().splitlines()]
     samples = [e for e in events if e['event'] == 'sample']
-    selected = inputs(root)
+    selected = inputs(root, depth)
     if events[-1].get('event') != 'complete' or events[-1].get('exit_code') != 0 or len(samples) != len(selected):
         raise ValueError('Row-byte original-prefix replay incomplete')
     prefixes = []
