@@ -440,7 +440,12 @@ none of the six items.
    The matching `4c703b3d`/r70
    [coherent HIP build](development/validation/steering-build-point-build-2026-10-07.json)
    passes both full providers and all seven consumers. Actual C17 builder/core
-   objects and the primary-provider link verify. Original activations remain pending;
+   objects and the primary-provider link verify. The separately
+   [bounded capture gate](development/STEERING.md#original-weight-capture-gate)
+   now has eighteen Debug/eighteen sanitizer HOST checks and 89 supervisor checks
+   ([receipt](development/validation/steering-build-gate-host-2026-10-07.json));
+   its independent raw-row oracle refuses incomplete captures and forged banks.
+   Original activations remain pending;
    learned-direction quality, independent graph/
    correction/fault, vision and matched cost remain open.
    Separate `modern-core-steering-admission` windows now qualify original-model

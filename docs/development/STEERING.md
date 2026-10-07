@@ -120,6 +120,57 @@ including both complete providers and all seven consumers. Collected commands
 verify the builder and both shared helpers as C17 with the primary-provider link.
 Original-weight activation/parity/learned-quality qualification remains open.
 
+## Original-weight capture gate
+
+The optional development coordinator selects `bench_profile: "modern-steering-build"`.
+Stage the SHA-bound `tools/strix-point-steering-build-gate.py` as
+`steering-build-gate.py` in an exclusive persistent job directory, alongside
+`target-prompts.txt` and `contrast-prompts.txt`. Bind their exact bytes/SHA-256 as
+`steering_build_inputs`, the helper SHA as `steering_build_gate_sha256` and the
+compiled `runtime_build_id`/`runtime_source_pin`. The complete `steering_build`
+settings object is:
+
+```json
+{
+  "context": 8192,
+  "prefill_chunk": 256,
+  "components": "both",
+  "rope": "native",
+  "prompt_format": "chat",
+  "max_pairs": 8,
+  "max_host_bytes": 268435456,
+  "max_output_bytes": 67108864,
+  "timeout_seconds": 1200
+}
+```
+
+This bounded gate admits at most 32 pairs, an 8K context and 64 MiB of outputs.
+It runs the native C17 builder directly on the existing owner, with no decode,
+predictor, HTTP server or extra inference thread. Fresh `.161` peer/boot/lease/
+thermal/model admission is still required. Dataset/helper drift, invalid settings
+and existing capture directories refuse before model verification. Model stats
+are checked after native success or failure; partial journals retain their hash.
+
+Acceptance requires the actual native exit 0 and complete successful per-prompt
+prefill, unique layer/component rows, exact token positions, contiguous raw
+offsets, finite LE-F32 values and final `complete`. The reviewer independently
+averages FFN branches, rounds means to F32, uses `math.fsum` for paired contrasts
+and `math.hypot` for per-layer normalization. Compare each published coordinate
+with relative tolerance 2e-6/absolute 2e-8 and each layer's norm within 1e-6.
+These fixed bounds allow binary32 rounding; a matching file hash alone is not an
+oracle. Preserve source copies, full physical IDs, raw rows, banks, native and
+container exits, model stats and exact closure. Report observed one-token tails;
+ordinary captures do not qualify tails absent from the actual inputs.
+
+Python is optional development coordination/oracle code. The builder, learner,
+collector and default products/build/tests remain native and Python-free.
+Eighteen HOST checks pass with both Debug and unsuppressed ASan/UBSan/LSan C17
+fixtures; 89 existing supervisor checks pass. The
+[HOST receipt](validation/steering-build-gate-host-2026-10-07.json) binds commands
+and preserves the initial fixture setup failure. These fixtures are not original
+weights. Even a passing original capture gate leaves held-out steering quality,
+generation parity, graph/correction/fault/vision and matched cost open.
+
 ## Shared bank contract
 
 [`lie/steering.h`](../../include/lie/steering.h) defines independent ABI 1.

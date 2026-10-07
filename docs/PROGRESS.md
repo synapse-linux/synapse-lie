@@ -1,6 +1,27 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Native steering capture qualification path prepared — 2026-10-07 UTC
+
+`modern-steering-build` now runs the native builder directly through the owned
+`.161` campaign path. Admission binds settings, prompt bytes, reviewer and runtime;
+predictors, helper/data drift and existing outputs refuse. Actual process success
+and complete prefill/row metadata are required. An independent raw-row oracle
+recomputes branch means, target-minus-contrast and unit-L2 directions, rejecting
+self-consistent forged banks. Model stats and partial hashes remain recorded on
+failure; no retry, HTTP server or extra inference owner is added.
+
+Eighteen checking-code tests pass with each Debug and unsuppressed ASan/UBSan/LSan
+C17 fixture; 89 supervisor checks pass. The initial fixture omits its required
+authorization field; actual exit 1 and original source are retained before fixing
+that setup. The [HOST receipt](development/validation/steering-build-gate-host-2026-10-07.json)
+and [bounded protocol](development/STEERING.md#original-weight-capture-gate) separate
+these synthetic fixtures from original inference. Existing C17/numerical/ABI and
+state sources remain unchanged; runtime `4c703b3d`/r70 remains the frozen build.
+No new GPU/model window is admitted. Original captures and held-out learned
+quality remain required. All six root tasks stay open; Terminal Bench remains
+last. Root owns no remote job, handle, lease, window, waiter or reservation.
+
 ## Native C17 paired-prompt steering builder integrated — 2026-10-07 UTC
 
 `lie-steering-build` composes the existing model-neutral observer, collector and

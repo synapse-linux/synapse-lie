@@ -1,5 +1,21 @@
 # DS4 / synapse-lie coordination
 
+## Native steering capture gate prepared locally — 2026-10-07
+
+The optional `modern-steering-build` route runs the native C17 client directly
+with bounded SHA-bound settings/datasets and the already compiled r70 runtime.
+The independent reviewer checks complete actual prefill/rows/raw bytes and
+reconstructs both normalized banks. Eighteen Debug/eighteen unsuppressed sanitizer
+HOST checks and 89 supervisor checks pass. The initial fixture authorization
+setup failure is retained in the
+[HOST receipt](development/validation/steering-build-gate-host-2026-10-07.json).
+Only the two existing local C17 fixture builds are used. No original-weight
+capture, model/GPU run, remote build or new admission is performed. A future
+original capture needs a fresh specific proposal to all four peer owners and
+fresh boot/filesystem/global/in-lease observations. Root owns no remote job,
+handle, lease, window, waiter or reservation; all six tasks remain open and
+Terminal Bench remains last.
+
 ## Native steering builder HIP build verified and retired — 2026-10-07
 
 Fresh explicit own-state replies from Point, DGX, Q2 and the separate GLM thread,

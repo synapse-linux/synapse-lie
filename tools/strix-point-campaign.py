@@ -1164,7 +1164,8 @@ class Campaign:
                 if not self.r['model_attempted'] and ((self.root/'measurements.jsonl').exists() or
                                                       (self.root/'http-started.marker').exists() or
                                                       (self.root/'restart-started.marker').exists() or
-                                                      (self.root/'capture/capture.jsonl').exists()):
+                                                      (self.root/'capture/capture.jsonl').exists() or
+                                                      (self.root/'steering-build/build.jsonl').exists()):
                     self.r['model_attempted'] = True
                     self.record()
                 self.sample()
@@ -1174,7 +1175,8 @@ class Campaign:
             if not self.r['model_attempted'] and ((self.root/'measurements.jsonl').exists() or
                                                   (self.root/'http-started.marker').exists() or
                                                   (self.root/'restart-started.marker').exists() or
-                                                  (self.root/'capture/capture.jsonl').exists()):
+                                                  (self.root/'capture/capture.jsonl').exists() or
+                                                  (self.root/'steering-build/build.jsonl').exists()):
                 self.r['model_attempted'] = True
             # Do not close a GPU window until the kernel has retired its owner.
             self.wait_owned_gpu_retirement()
@@ -1580,6 +1582,8 @@ class Campaign:
             self.check_model_after(rows)
     def bench(self):
         profile = self.m.get('bench_profile')
+        if profile == 'modern-steering-build':
+            return self.modern_steering_build()
         if profile == 'modern-attention-fixture':
             return self.modern_attention_fixture()
         if profile == 'modern-sampling-capture':
@@ -2500,6 +2504,45 @@ class Campaign:
             if (self.root/'steering-restart-result.json').exists():
                 self.r['steering_restart_partial'] = {'result_sha256': sha(self.root/'steering-restart-result.json')}
             self.check_model_after(rows)
+    def modern_steering_build(self):
+        if (self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox' or
+                any(key in self.m for key in ('decode_mode', 'predictor_plan', 'projector_plan')) or
+                type(self.m.get('runtime_build_id')) is not str or not self.m['runtime_build_id'] or
+                type(self.m.get('runtime_source_pin')) is not str or not self.m['runtime_source_pin'] or
+                'runtime/bin/lie-steering-build' not in self.m.get('artifacts', {})):
+            raise ValueError('Expected explicit original-weight prefill-only steering builder')
+        helper = checked_path(self.root/'steering-build-gate.py')
+        if sha(helper) != self.m.get('steering_build_gate_sha256'):
+            raise ValueError('Steering builder review helper drift')
+        spec = importlib.util.spec_from_file_location('lie_steering_build_gate', helper)
+        gate = importlib.util.module_from_spec(spec); spec.loader.exec_module(gate)
+        settings = gate.validate_settings(self.m.get('steering_build'))
+        sources, pairs = gate.input_pair(self.root, settings['max_pairs'])
+        if sources != self.m.get('steering_build_inputs'):
+            raise ValueError('Steering dataset differs from admitted source hashes/lengths')
+        output = self.root/'steering-build'
+        if output.exists() or output.is_symlink():
+            raise ValueError('Refusing steering capture replay or existing output directory')
+        model, rows = self.verified_model()
+        model_path = '/model/'+self.m['model_plan']['files'][0]['name']
+        command = ['/bundle/runtime/bin/lie-steering-build', '--model', model_path,
+                   '--target-prompts', '/work/target-prompts.txt', '--contrast-prompts', '/work/contrast-prompts.txt',
+                   '--output-dir', '/work/steering-build']
+        for key, value in settings.items():
+            if key != 'timeout_seconds': command.extend(('--'+key.replace('_','-'), str(value)))
+        self.r['steering_build_command'] = command; self.record()
+        try:
+            self.run_container(command, self.m['bundle'], settings['timeout_seconds'], model)
+            result = gate.validate(output, settings, sources, pairs, self.r.get('child_exit_code'),
+                                   self.m['runtime_build_id'], self.m['runtime_source_pin'], model_path)
+            save(self.root/'steering-build-review.json', result)
+            self.r['steering_build_result'] = result
+        finally:
+            journal = output/'build.jsonl'
+            if journal.is_file() and not journal.is_symlink():
+                self.r['steering_build_partial'] = {'journal_sha256': sha(journal), 'journal_bytes': journal.stat().st_size}
+            self.check_model_after(rows)
+
     def modern_steering_admission_gate(self):
         if self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox':
             raise ValueError('Modern steering admission requires ROCm 10 Distrobox')
