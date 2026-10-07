@@ -191,8 +191,12 @@ The matching device-hidden ROCm 10 build of `c6625f09` now compiles both
 coherent ON/OFF providers and all six consumers. Collection, independent source
 reconstruction and strict machine closure pass in the
 [build receipt](development/validation/mtp-capture-point-build-2026-10-07.json).
-Original-weight capture and independent replay remain required before this path
-qualifies actual probabilities or controller branches.
+The [selected original-weight text qualification](development/validation/sampling-mtp-text-point-2026-10-07.json)
+now captures six 16-token Q4/Q8 profiles and replays all 192 observations across
+original/C17/OFF Release and sanitizer programs. Actual proposal, acceptance,
+residual/deferred RNG and committed frontiers match independent oracles.
+Greedy covers the host head only. Required-tool MTP masks, wider quality/fault/
+resources and matched cost remain open; this capture establishes no speedup.
 
 An open qualification gate does not mean its implementation is absent:
 

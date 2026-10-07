@@ -1,5 +1,23 @@
 # DS4 / synapse-lie coordination
 
+## Original MTP text capture passed and retired — 2026-10-07
+
+Fresh explicit Point/DGX/Q2 own-state declarations and a global preflight
+precede r57 original Q4/Q8 capture on `.161`. The six 16-token profiles complete
+with native/controller/supervisor exit 0. All 203 files collect and verify;
+original/C17/OFF Release and unsuppressed sanitizer witnesses agree in the
+[numerical receipt](development/validation/sampling-mtp-text-point-2026-10-07.json).
+
+Original lease 66307/105946405 releases at 12:06:53 UTC. Strict closure at
+12:08:08 verifies supervisor 294714/start 24370683, observed container init
+294924/start 24370810 and container 8220220a absent, port 8000 empty, original
+lease free and router 295733 active. Init identity comes from an exact live
+observer; the legacy Distrobox supervisor omits init fields and generic
+collector absent(-1) flags are not used as evidence. Model/predictor stats stay
+unchanged. No root remote process/client/lease/window/waiter/reservation remains;
+peers receive the release. Next admission requires fresh coordination. All six
+items remain open; matched comparisons precede Terminal Bench, which stays last.
+
 ## Native MTP capture Point build verified and retired — 2026-10-07
 
 Fresh Point/DGX/Q2 own-state non-use replies and two global preflights precede

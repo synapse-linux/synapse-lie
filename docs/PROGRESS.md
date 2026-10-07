@@ -1,6 +1,26 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Original-weight MTP numerical replay passed on Point — 2026-10-07 UTC
+
+The r56 runtime captures six frozen original Q4/Q8 text profiles on `.161`,
+with 16 confirmed tokens each. All 192 target/proposal/verification observations
+replay identically in original/C17/OFF Release and unsuppressed ASan/UBSan/LSan:
+78 proposals, 43 accepted verifications, 18 rejections and 18 deferred draws.
+Independent mass, integer proposal, acceptance/residual RNG and full committed
+frontier checks pass. Greedy covers the host head only; capture I/O is outside
+performance measurement. Required-tool MTP masks, wider quality/fault/resources,
+long-context recall and matched cost remain open.
+
+All 203 files collect and verify. Strict closure at 12:08:08 UTC binds the
+observed init identity, retires the exact processes/container, verifies the
+unchanged original lease free and restores the router. Sampled CPU/GPU/NVMe
+peaks are 58.375/56/62.85 C; local sanitizer replay peaks at CPU 88.375 C,
+without a guard stop. A failed source-path lookup and a supplementary review's
+incorrect role spelling are retained; native capture/replay pass without reruns.
+The [numerical receipt](development/validation/sampling-mtp-text-point-2026-10-07.json)
+includes portable raw evidence. All six items remain open; Terminal Bench last.
+
 ## Native MTP capture client compiled on Point — 2026-10-07 UTC
 
 The device-hidden `.161` ROCm 10 build of `c6625f09` completes both coherent

@@ -207,6 +207,12 @@ accepted/rejected/deferred branches and 22 refusal cases. It does not establish
 original-weight probability, quality or performance acceptance. Capture I/O is
 excluded from throughput comparisons.
 
+The [selected original-weight text receipt](../validation/sampling-mtp-text-point-2026-10-07.json)
+now binds six 16-token Q4/Q8 profiles and 192 actual observations. Complete
+original/C17/OFF Release and sanitizer mass/RNG/controller witnesses match.
+Greedy remains a host-head baseline; required-tool MTP masks, broader quality,
+fault/resources and matched cost retain their separate gates.
+
 ### Point supervisor and collection
 
 The optional `.161` supervisor routes the native client with these fields in

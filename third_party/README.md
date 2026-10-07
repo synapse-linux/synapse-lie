@@ -90,6 +90,9 @@ explicitly separate from original-weight GPU qualification.
 The [matching Point compilation receipt](../docs/development/validation/mtp-capture-point-build-2026-10-07.json)
 binds the 42 exact recipes, both complete provider variants and all six linked
 consumers. Compilation does not establish original-weight numerical acceptance.
+The [subsequent selected text receipt](../docs/development/validation/sampling-mtp-text-point-2026-10-07.json)
+binds actual Q4/Q8 MTP observations and complete original/C17/OFF numerical
+replays. Required-tool MTP and broader qualification remain separate.
 
 ## Actual external dependencies
 
