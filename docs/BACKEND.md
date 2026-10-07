@@ -118,8 +118,12 @@ at chunks 2048/4096/8192 and fixed capacity 8192/context 16384/C1. All 32 output
 are identical, completed prefill calls are 4/2/1 and native dispatch accounting
 has no geometry/mask-pitch refusal
 ([functional receipt](development/validation/prefill-original-point-2026-10-07.json)).
-This does not qualify 16K/32K chunks, live changes, cache/cancel/fairness, broader
-quality/fault/resource behavior or matched performance; those gates remain open.
+The subsequent PP32768/TG32 comparison passes exact greedy parity at chunks
+2048/16384/32768 with fixed capacity 32,768/context 65,536/C1, completed calls 16/2/1
+and no geometry/mask-pitch refusal
+([32K functional receipt](development/validation/prefill-original-32k-point-2026-10-07.json)).
+These selected configurations do not qualify live changes, cache/cancel/fairness,
+broader quality/fault/resource behavior or matched performance; those gates remain open.
 
 An open qualification gate does not mean its implementation is absent:
 

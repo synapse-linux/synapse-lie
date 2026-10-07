@@ -37,7 +37,10 @@ All numerical providers and consumers must rebuild coherently after this change.
 The coherent r45 provider now passes selected original-weight PP8192/TG32
 greedy output parity at chunks 2048/4096/8192 and fixed reservation 8192
 ([Point receipt](../development/validation/prefill-original-point-2026-10-07.json)).
-Original-weight 16K/32K chunks, live changes with active/queued jobs, cache,
+A subsequent PP32768/TG32 comparison also passes exact greedy parity at chunks
+2048/16384/32768 with fixed capacity 32,768/context 65,536/C1
+([32K receipt](../development/validation/prefill-original-32k-point-2026-10-07.json)).
+Live changes with active/queued jobs, cache,
 cancellation/fairness and broader correctness/resource/performance remain pending.
 See [configuration](../guides/USAGE.md#context-and-concurrency) and
 [cache identity](STATE.md).

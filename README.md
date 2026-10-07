@@ -155,7 +155,8 @@ concurrency, RAM/SSD cache settings and troubleshooting.
 `--prefill-capacity N` at startup to change the chunk live through the shared
 engine or the [management endpoint](docs/guides/USAGE.md#context-and-concurrency).
 Requests already admitted retain their chunk. The default remains 2,048 tokens;
-larger reservations require more scratch and are awaiting GPU qualification.
+larger reservations require more scratch. See the [qualification status](docs/BACKEND.md)
+for tested configurations and remaining acceptance gates.
 
 ## Benchmarks
 

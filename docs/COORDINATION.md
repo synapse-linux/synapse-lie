@@ -1,29 +1,31 @@
 # DS4 / synapse-lie coordination
 
-## Original-weight prefill chunk parity passed and retired — 2026-10-07
+## Original-weight 32K prefill chunk parity passed and retired — 2026-10-07
 
-The new r48 plan binds the unchanged r45 native runtime to the locally checked
-supervisor at `b4eee89e`. Fresh Point/DGX own-state, Q2's released/offline-only
-scope and the 07:29:03 UTC global preflight precede the first `.161` arm. Q2's
-non-use of `.161` remains a declared-scope inference, not an explicit per-target
-reply or grant. Every arm obtains the original lease separately. Subsequent
-strict closure observations precede the next fresh in-lease admission.
+Fresh explicit Point, DGX and Q2 own-state replies declare no activity or plans
+on `.161`. The read-only 07:51:40 UTC global preflight precedes r49's first
+admission. Each arm obtains the original lease separately; strict closures
+precede each subsequent fresh in-lease admission. No future window is reserved.
 
-All three PP8192/TG32 AR arms pass, with chunks 2048/4096/8192 at fixed capacity
-8192, identical confirmed output IDs and completed prefill calls 4/2/1. Each
-controller/supervisor/native child exits 0. Lease releases occur at 07:31:26,
-07:35:23 and 07:38:46 UTC; fresh strict closures at 07:33:01, 07:36:04 and
-07:39:39 verify the respective exact supervisor/container identities absent,
-the original 66307/105946405 lease unchanged/free, HTTP8000 empty and the named
-router restored. The last router PID is 267315. All 33 remote files collect and
-hash-verify; offline complete token/dispatch review exits 0 in the
-[functional receipt](development/validation/prefill-original-point-2026-10-07.json).
-Peers receive verified releases. Root holds no remote job, lease, window,
-waiter, reservation or handle on `.161/.157/.158/TB`. No future window is held.
+All PP32768/TG32 AR arms pass at chunks 2048/16384/32768, fixed capacity 32,768,
+context 65,536 and C1. Complete 32-token greedy output IDs match; completed
+prefill calls are 16/2/1. Controller, supervisor and native exits are 0. All 33
+remote files collect and hash-verify; the independent offline review also exits 0.
+The [32K functional receipt](development/validation/prefill-original-32k-point-2026-10-07.json)
+binds exact processes, containers, model witnesses, runtime and complete raw data.
+The preceding [8K receipt](development/validation/prefill-original-point-2026-10-07.json)
+remains historical evidence for its exact configurations.
 
-Original-weight 16K/32K chunks, live setter/queued-job/cache/cancellation/fairness
-and remaining numerical/quality/fault/resource gates require fresh admission.
-Comparative benchmarks follow those gates; Terminal Bench remains last.
+Lease releases occur at 07:54:44, 07:57:58 and 08:01:11 UTC; strict closures at
+07:55:03, 07:58:38 and 08:01:37 verify the respective exact supervisor/init/container
+identities absent, original 66307/105946405 lease unchanged/free, port 8000 empty
+and the router restored. The final router PID is 271653. Peers receive verified
+releases. Root holds no remote job, lease, window, waiter, reservation or handle
+on `.161/.157/.158/TB`. The portable proof is sealed and independently verified.
+
+Live setter/queued-job/cache/cancellation/fairness and broader numerical,
+quality/fault/resource gates require fresh admission. Comparative benchmarks
+follow qualification; Terminal Bench remains last. All six roadmap items remain open.
 
 ## Current-runtime MTP HTTP controls passed and retired — 2026-10-07
 
