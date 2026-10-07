@@ -23,8 +23,10 @@ preserves their identities, emitted device code and actual exits. Local CPU peak
 at 84.5 C under the 98 C guard; no thermal stop occurs.
 Focused checks cover 25 extent boundaries, provider receipt refusals and eight
 mocked development-controller controls; Release and unsuppressed sanitizers pass.
-Matching `.161` ROCm10 compilation and original-weight numerical/quality/resource
-acceptance remain pending. Final campaigns follow functional integration;
+Matching `.161` ROCm10 compilation now passes in the
+[coherent build receipt](development/validation/integrated-point-attention-hip-build-2026-10-07.json);
+original-weight numerical/quality/resource acceptance remains pending.
+Final campaigns follow functional integration;
 comparative benchmarks and Terminal Bench remain last. No GPU/model run is launched
 in this source increment. Constant prefill throughput is not established.
 
@@ -49,8 +51,8 @@ and links all five consumers, with all four stage exits0 and CPU peak80 C.
 Devices are hidden and no resulting executable or model is run.
 The [local compilation receipt](development/validation/prefill-visible-mask-local-hip-2026-10-07.json)
 binds the source, libraries, artifacts and 88 archived log/source members.
-Matching `.161` ROCm10 compilation and original-weight/quality/performance
-acceptance remain pending. Preserve the frozen r38 original-policy comparator;
+Matching `.161` ROCm10 compilation now passes; original-weight/quality/performance
+acceptance remains pending. Preserve the frozen r38 original-policy comparator;
 rebuilding both comparison arms with this guard cannot measure its benefit.
 
 The prepared r40 required-tool GPU capture was rejected by automatic approval
@@ -81,17 +83,30 @@ data. Core/model numerics, public ABI, HTTP and reactive scheduling are unchange
 Focused native Release and unsuppressed sanitizer checks pass with the feature
 ON and OFF. Local device-hidden HIP consumers link against their exact existing
 ON/OFF providers; neither executable is run. Matching `.161` ROCm10 compilation
-and GPU acceptance remain pending; no remote job, lease or reservation is held.
+now passes in the corrected r43 build below; GPU acceptance remains pending.
+No remote job, lease or reservation is held.
 The final device-free `.161` build of `c2a9697f` compiles both providers and
 configures with exit0, then fails the native HIP client link with exit1 because
 the Fedora HIP driver defaults to PIE and the static provider contains non-PIC
 objects. Strict closure verifies both owned identities retired, original lease
 released and router restored. `60370fc3` selects the compatible private link mode
 and pins the package GPU target before discovery. Corrected local HIP7.2 ON/OFF
-configure/link checks pass without executing either binary; matching ROCm10 link
-and GPU gates remain open. The [closed failure and correction receipt](development/validation/point-attention-link-2026-10-07.json)
+configure/link checks pass without executing either binary. The following r43
+build completes matching ROCm10 linkage; GPU gates remain open.
+The [closed failure and correction receipt](development/validation/point-attention-link-2026-10-07.json)
 preserves stage exits, collection/packaging failures, complete source bindings,
 telemetry and raw logs. No inference or benchmark was run.
+The corrected device-free `.161` r43 build of `120e2fce` now completes both
+providers, configure and all six consumer links with exit0. Independent offline
+verification reconstructs all 41 recipes and binds both complete provider
+inventories, C17 ON/OFF linkage and the native HIP attention client. Collection
+and fresh strict closure pass; original lease66307/105946405 releases at
+04:13:45 UTC and closure at 04:18:03 verifies the owned identities/container
+retired, HTTP8000 empty and router248523 restored. Remote CPU peaks at 73.75 C.
+The [coherent ROCm10 build receipt](development/validation/integrated-point-attention-hip-build-2026-10-07.json)
+preserves actual exits, raw logs, telemetry and artifact hashes. Matching
+compilation is complete; GPU numerical, quality, fault, resource and performance
+gates remain open. No model or LIE GPU program is executed by this build.
 The [portable HOST and compilation receipt](development/validation/attention-fixture-host-2026-10-07.json)
 retains the exact source checkpoint, actual stage exits, raw outputs and archive
 hashes. It is component tooling evidence, not original-weight qualification.

@@ -1,5 +1,24 @@
 # DS4 / synapse-lie coordination
 
+## Corrected current-source final build passed and retired — 2026-10-07
+
+Fresh Q2/Point/DGX own non-use and global preflight at 04:08:30 UTC precede
+the device-free `.161` r43 build of `120e2fce`. Both providers, configure,
+all six consumer links, controller, supervisor and container finish with exit0.
+No model or LIE GPU program runs. Supervisor242843/start21506959 and container
+init242913/start21507051 are retired. Original lease66307/105946405 releases at
+04:13:45 UTC; strict closure at 04:18:03 verifies it free and unchanged,
+HTTP8000 empty and router248523 restored as the sole compute client. All four
+control/telemetry, 25 compile and three coherence artifacts collect and verify.
+Remote CPU peaks at 73.75 C under the unchanged CPU/NVMe guards.
+
+The [coherent build receipt](development/validation/integrated-point-attention-hip-build-2026-10-07.json)
+binds all 41 independently reconstructed recipes, complete providers and the six
+consumer identities. Matching compilation is complete; final GPU acceptance
+remains separate and open. Root holds no remote job, lease, window, waiter,
+reservation or handle. Peers receive the verified closure; it grants no future
+window. A later component/model run requires fresh admission.
+
 ## Current-source final build failed and retired — 2026-10-07
 
 Fresh Q2/Point/DGX own non-use and global preflight at 03:48:40 UTC precede
