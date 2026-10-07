@@ -1,6 +1,30 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Shared C17 tool-result correlation passes locally — 2026-10-07 UTC
+
+`lie_chat_tool_result_order` builds a bounded, allocation-free render index from
+actual call IDs. Complete contiguous tool-result groups follow their assistant
+call order; borrowed input and all other message positions remain unchanged.
+Invalid, incomplete, duplicate or mismatched groups leave the output untouched.
+The text/vision model binding moves complete owned messages only after validation
+and reserve, after attaching images at their original indices and before guidance.
+The pinned Qwen renderer, numerical source, reactive threads and state formats
+are unchanged. Full rendered bytes remain the text-prefix cache identity.
+
+Six focused Release and six unsuppressed ASan/UBSan/LSan checks pass. A separate
+protocol-free, ICU-OFF C17 core build and correlation check also pass. The
+formatter regression demonstrates the former collision between different valid
+ID/value associations and verifies its removal, equivalent arrival-order
+rendering, unchanged ordinary formatting and preserved image storage/offsets.
+These are HOST fixtures, not model inference. The
+[HOST receipt](development/validation/tool-result-correlation-host-2026-10-07.json)
+preserves commands, exits and source identities. A new coherent HIP build and
+unchanged original-weight AR/MTP workload are required. The r63 failure remains
+unresolved on GPU; its prepared MTP manifest is now stale and remains unlaunched.
+No root remote job or reservation is created. All six tasks remain open;
+matched comparisons follow functional acceptance and Terminal Bench stays last.
+
 ## Parallel calls pass; reversed result correlation fails on Point — 2026-10-07 UTC
 
 The corrected `acfb9d26`/r62 runtime passes the unchanged original-weight greedy

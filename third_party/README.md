@@ -197,8 +197,12 @@ this device-hidden build does not qualify original-weight tool behavior.
 The subsequent [original-weight AR observation](../docs/development/validation/tool-transitions-ar-point-r3-2026-10-07.json)
 passes the selected two-call question but fails its reversed-results follow-up.
 The pinned renderer omits call IDs and emits results in received order;
-preserving correlation in LIE's model binding remains pending. Upstream source
-and the frozen client workload remain unchanged.
+first-party `src/chat_history.c` now builds an ID-correlated render index without
+JSON, model or transport dependencies. LIE's model binding applies it to whole
+owned messages after image attachment, without changing upstream source or the
+frozen client workload. Local core/formatter Release and sanitizer checks pass
+([HOST receipt](../docs/development/validation/tool-result-correlation-host-2026-10-07.json));
+a new coherent HIP build and original-weight AR/MTP checks remain required.
 
 ## Archived private Q2 experiment
 

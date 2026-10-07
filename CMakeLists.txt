@@ -172,11 +172,19 @@ if(BUILD_TESTING)
 endif()
 add_library(lie_weight_decode STATIC src/weight_decode.c)
 target_include_directories(lie_weight_decode PUBLIC include)
+add_library(lie_chat_history STATIC src/chat_history.c)
+target_include_directories(lie_chat_history PUBLIC include)
+if(BUILD_TESTING)
+  add_executable(test-chat-history tests/test_chat_history.c)
+  target_compile_options(test-chat-history PRIVATE -UNDEBUG)
+  target_link_libraries(test-chat-history PRIVATE lie_chat_history)
+  add_test(NAME chat-tool-result-order-core COMMAND test-chat-history)
+endif()
 add_library(lie_core STATIC src/worker.c src/core_input.c src/core_events.c src/generation.c src/records.c src/choices.c
   src/output_json.c src/output_schema.c src/models/qwen_output.c src/text.c src/prefix_cache.c)
 target_include_directories(lie_core PUBLIC include)
 target_compile_definitions(lie_core PUBLIC LIE_DS4_CACHE_POLICY=$<BOOL:${LIE_DS4_CACHE_POLICY}>)
-target_link_libraries(lie_core PUBLIC lie_dispatch lie_rope lie_sampling lie_steering_state lie_weight_decode lie_vision lie_store lie_state lie_inference lie_flow Threads::Threads m)
+target_link_libraries(lie_core PUBLIC lie_chat_history lie_dispatch lie_rope lie_sampling lie_steering_state lie_weight_decode lie_vision lie_store lie_state lie_inference lie_flow Threads::Threads m)
 if(BUILD_TESTING)
   add_executable(test-context-profile tests/test_context_profile.c tests/fake_executor.c)
   target_compile_options(test-context-profile PRIVATE -UNDEBUG)
@@ -591,7 +599,7 @@ if(LIE_GUFO_RUNTIME)
   target_compile_features(lie_gufo PRIVATE cxx_std_20)
   # State-access headers also expose the private C17 sampling bridge headers.
   target_include_directories(lie_gufo PRIVATE include adapters "${GUFO_SOURCE}")
-  target_link_libraries(lie_gufo PUBLIC lie_rope lie_vision lie_steering_state lie_dispatch
+  target_link_libraries(lie_gufo PUBLIC lie_chat_history lie_rope lie_vision lie_steering_state lie_dispatch
     lie_qwen_state lie_store
     "-Wl,--start-group"
     "${GUFO_BUILD}/src/models/qwen38_flash_next/libgufo_qwen38_flash_next.a"

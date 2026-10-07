@@ -28,8 +28,15 @@ in the model prompt is now an identified functional correction; neither the
 question nor acceptance criteria change. JSON format guidance already has
 [grouped HOST checks](development/validation/tool-prompt-guidance-host-2026-10-07.json)
 and a [coherent HIP build](development/validation/tool-prompt-guidance-point-build-2026-10-07.json).
-Result correlation needs its own source correction and grouped HOST/HIP/original
-weight checks. Wider tool acceptance, steering quality, long-context recall/HTTP,
+Result correlation now has a shared C17 index view, applied by the model binding
+after original-index image attachment and before rendering or strict guidance.
+It preserves borrowed history and complete message/image ownership, refuses
+invalid groups without changing output, and adds no instructions or answers.
+Six focused Release and six unsuppressed sanitizer checks pass in the
+[HOST receipt](development/validation/tool-result-correlation-host-2026-10-07.json).
+A new coherent HIP build and unchanged original-weight AR/MTP checks are still
+required; the r63 model-quality failure remains historical evidence.
+Wider tool acceptance, steering quality, long-context recall/HTTP,
 fault/resource gates, matched comparisons and Terminal Bench remain open.
 Terminal Bench stays last.
 
@@ -80,7 +87,7 @@ closure pass without a model or GPU test. Original-weight qualification remains 
 The final unavailable-backend stop metadata export is corrected at `229b1e13`,
 with focused Release and sanitizer linkage checks. That source audit was followed
 by the newly identified model-prompt result-correlation defect above. Its source
-correction remains open; the acceptance checks below remain open for final integrated
+correction passes local checks; its HIP/original-weight acceptance and the checks below remain open for final integrated
 qualification, with fresh admission for each remote window.
 Comparative performance follows those gates; Terminal Bench stays last.
 All six items remain open until their separate acceptance evidence is collected.

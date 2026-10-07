@@ -1,5 +1,17 @@
 # DS4 / synapse-lie coordination
 
+## Result-correlation source correction checked locally; no remote admission — 2026-10-07
+
+The shared C17 render-index helper and text/vision model binding pass six focused
+Release and six unsuppressed sanitizer HOST checks
+([receipt](development/validation/tool-result-correlation-host-2026-10-07.json)).
+No model/GPU/remote operation runs. The r62 native bundle predates this source
+correction and cannot qualify it; a new coherent provider/consumer build and
+unchanged original-weight AR/MTP checks require fresh coordination and admission.
+The r63 prepared MTP manifest is stale and remains unlaunched. Root has no
+remote job/client/build/handle/lease/window/waiter/reservation on `.161/.157/.158/TB`.
+All six items remain open and Terminal Bench stays last.
+
 ## Corrected prompt AR tool gate failed at result correlation and retired — 2026-10-07
 
 Fresh Point/DGX/Q2 own-state declarations and global/in-lease checks precede

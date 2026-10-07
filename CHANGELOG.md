@@ -7,6 +7,12 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Tool results received in a different order now have a shared C17 correlation
+  view based on their call IDs. The model binding renders each complete group
+  in call order while preserving the received history and image ownership.
+  Local Release and sanitizer checks pass; HIP compilation and original-weight
+  acceptance of this correction remain pending.
+
 - Strict function calls now receive model-layer JSON format guidance matching
   the constrained sampler, for text and image prompts. The pinned Qwen renderer
   and ordinary text formatting are preserved. HOST checks pass; a new coherent

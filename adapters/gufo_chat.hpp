@@ -2,17 +2,38 @@
 #ifndef LIE_GUFO_CHAT_HPP
 #define LIE_GUFO_CHAT_HPP
 #include "lie/executor.h"
+#include "lie/chat_history.h"
 #include "src/core/json.hpp"
 #include "src/models/qwen/chat_template.hpp"
 #include <cstring>
+#include <array>
 #include <optional>
 #include <string>
+#include <type_traits>
 #include <vector>
 namespace lie_gufo {
 struct Chat {
     std::vector<gufo::tokenization::ChatMessage> messages;
     std::vector<gufo::tokenization::ChatTool> tools;
 };
+// Qwen's pinned template omits call IDs. Apply the shared C17 correlation
+// view after attaching images by original message index, before rendering.
+inline bool order_tool_results(Chat &chat, const lie_chat_template &input) {
+    std::array<size_t, LIE_CHAT_MAX_MESSAGES> order;
+    if (chat.messages.size() != input.count ||
+        !lie_chat_tool_result_order(&input, order.data(), order.size())) return false;
+    bool changed = false;
+    for (size_t i = 0; i < input.count; ++i) changed |= order[i] != i;
+    if (!changed) return true;
+    using gufo::tokenization::ChatMessage;
+    static_assert(std::is_nothrow_move_constructible_v<ChatMessage>);
+    std::vector<ChatMessage> messages;
+    messages.reserve(input.count); // Allocation precedes any move.
+    for (size_t i = 0; i < input.count; ++i)
+        messages.push_back(std::move(chat.messages[order[i]]));
+    chat.messages.swap(messages);
+    return true;
+}
 // The constrained sampler consumes JSON call frames, while the pinned Qwen
 // template describes XML calls. Align their formats before tokenization, as
 // upstream ConstrainChatRequest does. This guides syntax, never requested

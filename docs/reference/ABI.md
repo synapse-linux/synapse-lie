@@ -814,8 +814,18 @@ reversed-results continuation swaps values
 ([qualification](../development/validation/tool-transitions-ar-point-r3-2026-10-07.json)).
 LIE retains actual IDs in the owned history and adapter messages; the pinned
 renderer emits only tool content in received order. Model-prompt correlation
-handling remains an identified correction. Public call-ID contracts and the
-frozen checking questions remain unchanged.
+now uses the additive `lie_chat_tool_result_order` C17 helper in `lie/chat_history.h`.
+It accepts borrowed history and a nonoverlapping caller-owned index buffer;
+capacity must cover all messages. It reorders only complete contiguous result
+groups by actual call ID, preserving all other positions and input storage.
+Strings remain readable and NUL-terminated for the call. Invalid history or
+insufficient capacity leaves the entire output buffer untouched. The helper
+performs no allocation, JSON, model, transport, thread or GPU operation and is
+available in the protocol-free C core build. The adapter reserves storage before
+nothrow moves of complete messages; image attachment precedes the permutation.
+[HOST checks](../development/validation/tool-result-correlation-host-2026-10-07.json)
+pass; matching HIP and original-weight acceptance remain open. Public call-ID
+contracts, structure layouts and the frozen checking questions remain unchanged.
 No tool code executes here. Exact-session snapshots remain absent;
 MTP uses its separate admitted contract. Native decode batching uses the additive contract below.
 An owned or selectively ported renderer must preserve the applicable, separately
