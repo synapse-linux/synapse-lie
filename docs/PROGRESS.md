@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Exact native prompt correction: raw Promessi sposi corpus, exact physical token
+prefixes and full 2048/4096/8192 chunks replace approximate prompt fitting.
+On .157, focused Debug and ASan/UBSan/LSan CTest cohorts pass 23 CLI cases each.
+The GPU-linked candidate reuses all923 retained device functions byte-exact;
+real-model curves remain separately pending. See [contract](Q2-EXACT-BENCH.md).
+Historical unaligned HTTP tables are preserved, not treated as this experiment.
+IOMMU remains enabled; no reboot or remote cleanup.
+
 Enabled-IOMMU chunk curves completed — 2026-10-07 UTC: same candidate
 server f6772a1e and saved native client, all original eleven requests per arm,
 no request padding and no KV/SSD prefix reuse. At130925 tokens: chunk2048

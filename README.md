@@ -1,10 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-[Complete IOMMU-enabled chunk2K/4K/8K tables](docs/Q2-PREFILL-CHUNKS-RESULTS.md)
+[Exact corpus benchmark](docs/Q2-EXACT-BENCH.md): native `synapse-lie-bench`
+now selects exact token prefixes of *I promessi sposi*, with full 2K/4K/8K
+chunks and explicit failure for unaligned targets. Both focused CTests pass
+on .157 (Debug and ASan/UBSan). Original-model validation is tracked separately.
+
+The historical [IOMMU-enabled chunk2K/4K/8K tables](docs/Q2-PREFILL-CHUNKS-RESULTS.md)
 and [PP/TG graph](docs/figures/q2-prefill-chunks128.png) are available. At the
 original130925-token prompt, prefill measures1302.02/1265.10/1232.32 token/s;
 decode25.80/25.55/26.02. Larger chunks do not provide a general prefill gain,
-so2048 remains the default. All4K replies match2K; one short8K reply differs.
+so2048 remains the default. These unaligned HTTP prompts do not satisfy the
+owner's requested exact-grid comparison. All4K replies match2K; one short8K reply differs.
 The [IOMMU-off experiment](docs/Q2-IOMMU.md) remains deferred: no boot change
 or reboot occurred. The owner receives the tables before any restart.
 
