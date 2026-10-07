@@ -107,3 +107,12 @@ and three exact journal replays. Supplied seed and filters are retained.
 All actual exits and verified whole-container retirement pass. This qualifies
 the frozen AR workload; the separately admitted equivalent MTP gate and broader
 quality/fault/resource/performance acceptance remain required.
+
+The [matching MTP gate](../validation/tool-transitions-mtp-point-r2-2026-10-07.json)
+subsequently passes the same 71 new checks and five baseline controls with
+original Q4/Q8 weights. Independent wire review also confirms 362 actual
+Chat draft tokens and 230 accepted tokens. All 15 artifacts verify and all
+process/collector/closure exits are0. The initial local review ordering error
+(missing still-pending closure receipt, exit1) is preserved; the unchanged
+review passes0 after closure, without repeating GPU work. This qualifies the
+frozen MTP workload; broader quality/fault/resources and matched cost remain open.

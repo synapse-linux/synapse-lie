@@ -1,6 +1,27 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Complete MTP tool-transition gate passes on original weights — 2026-10-07 UTC
+
+The same `90a88455`/r68 runtime passes 71 frozen new checks and five baseline
+controls with original Q4/Q8 MTP on `.161`. Independent complete-wire review
+verifies 48 ordinary requests, twelve reversed-result continuations, eight
+refusals before executor work and three exact stored-stream replays. Actual Chat
+counters record 362 drafted and 230 accepted tokens. No fast GPU greedy claim
+or performance conclusion follows from this functional workload.
+
+Controller/supervisor/helper/server/collector/closure exit0; all 15 artifacts
+verify and all five original-model stat identities remain unchanged. Peaks:
+CPU73.5/GPU75/NVMe65.85 C. Lease releases at 18:38:51 UTC; strong closure at
+18:44:36 verifies all four actual process identities and entire container cgroup
+absent, two complete scans empty, router35665 restored and the original lease
+free. All four peers receive the release. The
+[MTP receipt](development/validation/tool-transitions-mtp-point-r2-2026-10-07.json)
+retains portable raw evidence and a local checking-order exit1: the review
+started before the closure receipt existed, then passed unchanged after closure.
+No GPU test repeats. Wider quality/fault/resource gates and matched comparisons
+remain required; all six tasks stay open and Terminal Bench stays last.
+
 ## Complete AR tool-transition gate passes on original weights — 2026-10-07 UTC
 
 The `90a88455`/r68 runtime passes all 71 frozen new HTTP checks and five baseline

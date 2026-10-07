@@ -216,8 +216,11 @@ fixture checks pass ([HOST receipt](../docs/development/validation/responses-gen
 The [matching coherent HIP build](../docs/development/validation/responses-generation-controls-point-build-2026-10-07.json)
 binds both unchanged numerical providers and the corrected C17 parser/server
 objects. The [original-weight AR gate](../docs/development/validation/tool-transitions-ar-point-r5-2026-10-07.json)
-passes the unchanged 71 transitions and five baseline controls. The equivalent
-MTP gate and broader qualification remain required.
+passes the unchanged 71 transitions and five baseline controls. The
+[matching MTP gate](../docs/development/validation/tool-transitions-mtp-point-r2-2026-10-07.json)
+also passes with actual draft activity and unchanged original Q4/Q8 files.
+Broader qualification remains required; these checks do not change provenance
+or establish executor ownership.
 
 ## Archived private Q2 experiment
 

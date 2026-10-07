@@ -13,14 +13,19 @@ learning from real workloads; do not let the prototype define the final limits.
 
 ## Current roadmap — 2026-10-07 UTC
 
-The current `90a88455`/r68 runtime passes the complete unchanged AR workload:
-71 tool-transition checks and five baseline controls. All three sampling
+The current `90a88455`/r68 runtime passes the complete unchanged AR and MTP
+workloads: 71 tool-transition checks and five baseline controls in each mode.
+All three sampling
 profiles cover Chat and Responses JSON/SSE; twelve reversed-result continuations,
 eight refusals before model work and three byte-identical journal replays pass.
 An independent review checks the collected wire and retained Response controls
-([AR receipt](development/validation/tool-transitions-ar-point-r5-2026-10-07.json)).
-All actual process exits and verified closure pass. The matching MTP job is
-prepared only; its equivalent workload needs separately fresh admission.
+([AR receipt](development/validation/tool-transitions-ar-point-r5-2026-10-07.json),
+[MTP receipt](development/validation/tool-transitions-mtp-point-r2-2026-10-07.json)).
+All actual process exits and verified closures pass. MTP records 362 actual
+Chat draft tokens and 230 accepted tokens; an enabled flag alone is not the
+evidence. A local review started before its closure receipt existed; exit1 is
+retained and the same review subsequently passes0, without repeating GPU work.
+These selected gates do not qualify wider quality, faults/resources or cost.
 
 The earlier `64fa7c2a`/r65 runtime passes the unchanged greedy Chat two-call
 and reversed-results questions in JSON and SSE: alpha137/beta941 remains
@@ -40,8 +45,7 @@ These fixtures are not model inference. The matching `90a88455`/r68
 [coherent HIP build](development/validation/responses-generation-controls-point-build-2026-10-07.json)
 passes both full providers and six consumers; collected commands bind the
 Chat/Responses parsers and server controls to C17 objects and the primary server.
-The unchanged original-weight AR workload now passes, as above; MTP remains
-required. The prepared r66
+The unchanged original-weight AR and MTP workloads now pass, as above. The prepared r66
 MTP manifest is stale after this source change and remains unlaunched.
 The [earlier swapped-value failure](development/validation/tool-transitions-ar-point-r3-2026-10-07.json)
 remains historical evidence. The

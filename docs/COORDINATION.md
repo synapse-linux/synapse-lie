@@ -1,5 +1,30 @@
 # DS4 / synapse-lie coordination
 
+## Complete MTP tool-transition window passed and retired — 2026-10-07
+
+New Point/DGX/Q2 and separate GLM own-state declarations plus fresh global/
+in-lease checks precede r69 MTP on `.161`. The unchanged 71-check workload and
+five baseline controls pass on the original Q4/Q8 files and `90a88455`/r68
+runtime. All 15 artifacts and independent wire/draft checks pass; all actual
+process/collector exits0, all five model stats unchanged. Peaks CPU/GPU/NVMe:
+73.5/75/65.85 C.
+
+Original lease66308/105946405 releases at 18:38:51.762308 UTC. Strong closure at
+18:44:36.270371 verifies supervisor32237/start1413359, launcher32335/start1413446,
+observed init32446/start1413490 and actual GPU33962/start1422783 absent. Container
+`70e889d3` and its whole cgroup are absent; two complete scans find no members
+or unreadable entries. Router35665 is restored, original lease free/released,
+HTTP8000 empty and no foreign compute or guarded hot sensor. All four peers
+receive the verified release.
+
+A local review begins before the yielded closure helper finishes and exits1
+for its missing receipt. That checking error is preserved; after the same closure
+handle returns0, the unchanged local review passes0. No GPU work repeats.
+The [MTP receipt](development/validation/tool-transitions-mtp-point-r2-2026-10-07.json)
+qualifies this workload only. Root has no remote job/build/client/handle/lease/
+window/waiter/reservation on `.161/.157/.158/.155/TB`. Further windows require
+fresh coordination/admission. All six tasks stay open; Terminal Bench stays last.
+
 ## Complete AR tool-transition window passed and retired — 2026-10-07
 
 Fresh declarations from Point/DGX/Q2 and separate GLM plus global/in-lease checks

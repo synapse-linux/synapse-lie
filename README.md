@@ -36,10 +36,13 @@ pass 37 checks in both AR and MTP on Strix Point, including tools, automatic
 output budgets and retained Responses lifecycle. The corrected integer validator
 also passes [66 additional JSON/SSE checks in each mode](docs/development/validation/output-schema-integer-point-gpu-2026-10-06.json).
 The receipts identify the tested runtime and limits. The current runtime also
-passes [71 original-weight AR transition checks](docs/development/validation/tool-transitions-ar-point-r5-2026-10-07.json):
+passes 71 original-weight transition checks in
+[AR](docs/development/validation/tool-transitions-ar-point-r5-2026-10-07.json) and
+[MTP](docs/development/validation/tool-transitions-mtp-point-r2-2026-10-07.json):
 Chat and Responses JSON/streaming, greedy/DS4/filtered sampling, multiple calls,
 reversed-result correlation, stored stream replay and invalid-history refusal.
-The equivalent wider MTP gate remains pending.
+Each run also passes five baseline controls. Wider quality and performance
+qualification remain pending.
 
 The unchanged [Terminal Bench Core-19 smoke](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#terminal-bench-core-19)
 passes 1/1 task on Strix Point. The full 19-task evaluation is deferred until
