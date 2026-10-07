@@ -1,6 +1,30 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Correlation correction compiled on Point and build closed — 2026-10-07 UTC
+
+The `64fa7c2a`/r65 coherent `.161` ROCm10 build finishes both complete private
+providers and all six consumers with controller/supervisor/child exit0.
+Independent reconstruction verifies 1,019 pinned upstream files, 42 recipes,
+338 replacements and 122 owned provider inputs per variant. All 32 collected
+compile/control/coherence artifacts verify. The actual compiler commands show
+`src/chat_history.c` built as C17 and its shared library linked into server,
+bench and capture. No numerical source, reactive threads or state formats change;
+no model or GPU executable runs during compilation.
+
+Fresh Point/DGX/Q2 declarations and global/in-lease checks precede the build.
+CPU/GPU/NVMe peaks are 74.375/46/49.85 C. The original lease66308/105946405
+releases at 16:49:06 UTC. Strong closure at 16:54:50 verifies the actual
+supervisor/init identities, container and entire recorded cgroup absent; two
+complete process scans find no members or unreadable entries. The lease is
+unchanged/free/released, router18900 restored and HTTP8000 empty. Peers receive
+the verified release. The [build receipt](development/validation/tool-result-correlation-point-build-2026-10-07.json)
+binds source, all six binary hashes, actual exits and portable raw evidence.
+The unchanged original-weight AR/MTP workload remains required; the r63 failure
+is not relabeled as fixed. Its prepared MTP manifest stays stale and unlaunched.
+Root has no remote job or reservation. All six tasks remain open; matched
+comparisons follow functional acceptance and Terminal Bench stays last.
+
 ## Shared C17 tool-result correlation passes locally — 2026-10-07 UTC
 
 `lie_chat_tool_result_order` builds a bounded, allocation-free render index from

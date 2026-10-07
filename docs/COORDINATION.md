@@ -1,5 +1,29 @@
 # DS4 / synapse-lie coordination
 
+## Correlation correction Point build retired — 2026-10-07
+
+Fresh Point/DGX/Q2 own-state declarations, current boot identity and global/
+in-lease checks precede the `64fa7c2a`/r65 build. Both complete private providers
+and all six consumers finish with controller/supervisor/child exit0. Devices
+and network are hidden; no model or GPU executable runs. All 32 collected
+compile/control/coherence artifacts verify, including shared C17 correlation
+compilation and its server/bench/capture linkage.
+
+The original lease66308/105946405 releases at 16:49:06.629233 UTC. Strong closure
+at 16:54:50.900189 verifies supervisor13226/start750220, observed init13300/
+start750293, container `51f7ed85` and its entire recorded cgroup absent. Two
+complete process scans of 383 entries each find no members or unreadable entries.
+Router18900 is active and the sole observed KFD owner, original lease free and
+released, HTTP8000 empty; no foreign compute or guarded hot sensor is observed.
+CPU/GPU/NVMe peaks are 74.375/46/49.85 C. Peers receive the verified release.
+
+The [build receipt](development/validation/tool-result-correlation-point-build-2026-10-07.json)
+grants no original-weight qualification or future window. Root has no remote
+job/build/client/handle/lease/window/waiter/reservation on `.161/.157/.158/TB`.
+New AR/MTP manifests must bind this corrected bundle and the unchanged workload,
+with fresh coordination/admission. The r63 prepared MTP manifest remains stale
+and unlaunched. All six tasks stay open; Terminal Bench remains last.
+
 ## Result-correlation source correction checked locally; no remote admission — 2026-10-07
 
 The shared C17 render-index helper and text/vision model binding pass six focused

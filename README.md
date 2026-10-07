@@ -38,7 +38,8 @@ also passes [66 additional JSON/SSE checks in each mode](docs/development/valida
 The receipts identify the tested runtime and limits. Wider function transitions
 remain under qualification. The reversed-result correlation correction passes
 [local core and formatter checks](docs/development/validation/tool-result-correlation-host-2026-10-07.json);
-the corrected runtime still requires a coherent HIP build and original-weight checks.
+the corrected runtime also has a [verified HIP build](docs/development/validation/tool-result-correlation-point-build-2026-10-07.json).
+Original-weight AR/MTP checks remain required.
 
 The unchanged [Terminal Bench Core-19 smoke](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#terminal-bench-core-19)
 passes 1/1 task on Strix Point. The full 19-task evaluation is deferred until

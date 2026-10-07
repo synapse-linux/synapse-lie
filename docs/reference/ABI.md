@@ -824,7 +824,9 @@ performs no allocation, JSON, model, transport, thread or GPU operation and is
 available in the protocol-free C core build. The adapter reserves storage before
 nothrow moves of complete messages; image attachment precedes the permutation.
 [HOST checks](../development/validation/tool-result-correlation-host-2026-10-07.json)
-pass; matching HIP and original-weight acceptance remain open. Public call-ID
+pass; the [matching HIP build](../development/validation/tool-result-correlation-point-build-2026-10-07.json)
+verifies C17 compilation and linkage into the server, bench and capture clients.
+Original-weight acceptance remains open. Public call-ID
 contracts, structure layouts and the frozen checking questions remain unchanged.
 No tool code executes here. Exact-session snapshots remain absent;
 MTP uses its separate admitted contract. Native decode batching uses the additive contract below.

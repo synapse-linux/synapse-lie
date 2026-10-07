@@ -202,7 +202,10 @@ JSON, model or transport dependencies. LIE's model binding applies it to whole
 owned messages after image attachment, without changing upstream source or the
 frozen client workload. Local core/formatter Release and sanitizer checks pass
 ([HOST receipt](../docs/development/validation/tool-result-correlation-host-2026-10-07.json));
-a new coherent HIP build and original-weight AR/MTP checks remain required.
+the matching `64fa7c2a` [coherent HIP build](../docs/development/validation/tool-result-correlation-point-build-2026-10-07.json)
+passes both providers and all six consumers, including verified C17 helper
+linkage. Original-weight AR/MTP checks remain required; this build does not
+resolve the recorded model-quality failure.
 
 ## Archived private Q2 experiment
 

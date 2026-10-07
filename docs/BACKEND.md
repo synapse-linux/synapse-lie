@@ -34,8 +34,11 @@ It preserves borrowed history and complete message/image ownership, refuses
 invalid groups without changing output, and adds no instructions or answers.
 Six focused Release and six unsuppressed sanitizer checks pass in the
 [HOST receipt](development/validation/tool-result-correlation-host-2026-10-07.json).
-A new coherent HIP build and unchanged original-weight AR/MTP checks are still
-required; the r63 model-quality failure remains historical evidence.
+The matching `64fa7c2a` [coherent HIP build](development/validation/tool-result-correlation-point-build-2026-10-07.json)
+passes both complete private providers and all six consumers. Collected compiler
+commands verify the C17 helper and its linkage into server, bench and capture.
+Unchanged original-weight AR/MTP checks remain required; the r63 model-quality
+failure remains historical evidence.
 Wider tool acceptance, steering quality, long-context recall/HTTP,
 fault/resource gates, matched comparisons and Terminal Bench remain open.
 Terminal Bench stays last.
@@ -87,7 +90,8 @@ closure pass without a model or GPU test. Original-weight qualification remains 
 The final unavailable-backend stop metadata export is corrected at `229b1e13`,
 with focused Release and sanitizer linkage checks. That source audit was followed
 by the newly identified model-prompt result-correlation defect above. Its source
-correction passes local checks; its HIP/original-weight acceptance and the checks below remain open for final integrated
+correction passes local checks and matching coherent HIP compilation;
+its original-weight acceptance and the checks below remain open for final integrated
 qualification, with fresh admission for each remote window.
 Comparative performance follows those gates; Terminal Bench stays last.
 All six items remain open until their separate acceptance evidence is collected.
