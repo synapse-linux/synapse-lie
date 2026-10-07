@@ -260,21 +260,34 @@ static void sampling_filters_http(const char *api) {
                       ",\"top_k\":18446744073709551615", ",\"top_k\":1.0",
                       ",\"top_k\":true", ",\"top_k\":null",
                       ",\"min_p\":-0.01", ",\"min_p\":1.01",
-                      ",\"min_p\":true", ",\"min_p\":null"};
+                      ",\"min_p\":true", ",\"min_p\":null",
+                      ",\"seed\":-1", ",\"seed\":1.0", ",\"seed\":true",
+                      ",\"seed\":null", ",\"seed\":9223372036854775808",
+                      ",\"frequency_penalty\":null", ",\"frequency_penalty\":2.01",
+                      ",\"presence_penalty\":null", ",\"presence_penalty\":-2.01"};
   for (size_t endpoint = 0; endpoint < 2; ++endpoint) {
     char body[1024];
-    snprintf(body, sizeof(body), "%s,\"top_k\":5,\"min_p\":0.05}", prefixes[endpoint]);
+    snprintf(body, sizeof(body), "%s,\"top_k\":5,\"min_p\":0.05,\"seed\":123,"
+             "\"frequency_penalty\":-1,\"presence_penalty\":1.5}", prefixes[endpoint]);
     json_object *j = json_transfer(api, paths[endpoint], "POST", body, 200);
     if (endpoint == 1) {
       require(json_object_get_int(field(j, "top_k")) == 5 &&
-                  json_object_get_double(field(j, "min_p")) == .05,
-              "response sampling filter echo");
+                  json_object_get_double(field(j, "min_p")) == .05 &&
+                  json_object_is_type(field(j, "seed"),json_type_int) &&
+                  json_object_get_int64(field(j, "seed")) == 123 &&
+                  json_object_get_double(field(j, "frequency_penalty")) == -1 &&
+                  json_object_get_double(field(j, "presence_penalty")) == 1.5,
+              "response sampling controls echo");
       char retained[256];
       snprintf(retained, sizeof(retained), "/responses/%s", json_object_get_string(field(j, "id")));
       json_object *stored = json_transfer(api, retained, "GET", NULL, 200);
       require(json_object_get_int(field(stored, "top_k")) == 5 &&
-                  json_object_get_double(field(stored, "min_p")) == .05,
-              "stored response sampling filters");
+                  json_object_get_double(field(stored, "min_p")) == .05 &&
+                  json_object_is_type(field(stored, "seed"),json_type_int) &&
+                  json_object_get_int64(field(stored, "seed")) == 123 &&
+                  json_object_get_double(field(stored, "frequency_penalty")) == -1 &&
+                  json_object_get_double(field(stored, "presence_penalty")) == 1.5,
+              "stored response sampling controls");
       json_object_put(stored);
       stored = json_transfer(api, retained, "DELETE", NULL, 200);
       json_object_put(stored);

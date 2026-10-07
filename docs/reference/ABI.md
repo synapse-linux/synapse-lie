@@ -885,6 +885,18 @@ prefill chunk. Ordinary benchmark callers may retain the default greedy sampler
 without calling the additive entry point. Invalid configuration closes only the
 new sequence; backend/close failure still poisons the runtime.
 
+Both HTTP parsers normalize `seed` and frequency/presence penalties into this
+existing configuration. A supplied seed must be an integer in 0..INT64_MAX;
+an omitted seed retains the internal -1 default. Signed overflow, null and
+noninteger values are refused. Penalties remain finite numbers in -2..2;
+normalization preserves explicit null for strict refusal. Responses retains
+these supplied controls in its completed and stored objects. No layout,
+sampler algorithm, cache/state format or thread-count change is introduced.
+The [parser and HTTP HOST checks](../development/validation/responses-generation-controls-host-2026-10-07.json)
+include the original failed checking request, both Responses input forms,
+positive boundaries, invalid types/ranges and native AR/MTP stored-object
+fixtures. Original-weight new-runtime acceptance remains pending.
+
 ## Additive completed batch contract
 
 `lie_backend_open_batch(path, options, width, ...)` explicitly admits width 1..8

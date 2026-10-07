@@ -21,6 +21,15 @@ the parser excludes its supplied `seed`; 56 new checks remain unexecuted.
 The [current failed AR receipt](development/validation/tool-transitions-ar-point-r4-2026-10-07.json)
 retains both observations, actual exits and verified machine closure. This is
 a protocol refusal; broader Responses and AR/MTP acceptance remains open.
+The Responses parser now normalizes seed and frequency/presence penalties into
+the existing shared generation profile and retains their original values in
+response objects. Signed seed overflow is refused in both APIs. Eight grouped
+Release and eight unsuppressed sanitizer checks pass, including the unchanged
+failed request, strict negative controls and native AR/MTP HTTP fixtures
+([HOST receipt](development/validation/responses-generation-controls-host-2026-10-07.json)).
+These fixtures are not model inference; new coherent HIP compilation and the
+unchanged original-weight AR/MTP workload remain required. The prepared r66
+MTP manifest is stale after this source change and remains unlaunched.
 The [earlier swapped-value failure](development/validation/tool-transitions-ar-point-r3-2026-10-07.json)
 remains historical evidence. The
 [earlier one-call failure](development/validation/tool-transitions-ar-point-r2-2026-10-07.json)

@@ -7,6 +7,13 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Responses now accepts `seed`, `frequency_penalty` and `presence_penalty`
+  through the shared generation profile, and retains them in completed/stored
+  response objects. Seeds are integers in 0..9223372036854775807; penalties
+  use the same finite -2..2 range as Chat. Null and invalid types/ranges are
+  refused. Local parser, HTTP and sanitizer checks pass; new-runtime GPU
+  acceptance remains pending.
+
 - Tool results received in a different order now have a shared C17 correlation
   view based on their call IDs. The model binding renders each complete group
   in call order while preserving the received history and image ownership.

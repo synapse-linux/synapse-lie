@@ -92,7 +92,8 @@ bool lie_chat_parse(const char *body, size_t bytes, const char *model_id,
     out->generation.top_k = (int32_t)json_object_get_int64(v);
   }
   if (json_object_object_get_ex(root, "seed", &v)) {
-    if (!json_object_is_type(v, json_type_int) || json_object_get_int64(v) < 0)
+    if (!json_object_is_type(v, json_type_int) || json_object_get_int64(v) < 0 ||
+        json_object_get_uint64(v) > INT64_MAX)
       goto fail;
     out->generation.seed = json_object_get_int64(v);
   }

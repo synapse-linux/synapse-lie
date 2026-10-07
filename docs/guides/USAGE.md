@@ -343,8 +343,15 @@ curl http://127.0.0.1:8000/v1/chat/completions \
   -d '{"model":"qwen3.8-flash-next","messages":[{"role":"user","content":"Hello!"}],"temperature":1,"top_p":1,"top_k":0,"min_p":0.05,"seed":123,"max_tokens":128}'
 ```
 
-Responses uses the same candidate filters and retains supplied values in stored
-response objects. Top-k limits candidate count; min-p drops candidates below
+Both APIs also accept `seed` (integer 0..9223372036854775807) and
+`frequency_penalty`/`presence_penalty` (finite numbers in -2..2). An omitted seed
+uses the engine default; omitted penalties are zero. Null, other types and
+out-of-range values are errors. Responses retains supplied filters, seed and
+penalties in completed and stored objects. The seed makes sampling repeatable
+within the qualified runtime and model; it does not promise equality across
+different models or decoding implementations.
+
+Top-k limits candidate count; min-p drops candidates below
 its fraction of the highest retained probability. These controls use the shared
 core; original-weight qualification of this new client exposure is pending.
 

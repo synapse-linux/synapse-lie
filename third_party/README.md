@@ -208,6 +208,12 @@ linkage. The later [original AR observation](../docs/development/validation/tool
 passes the fixed reversed-result Chat JSON/SSE checks. It stops at a separate
 Responses parser refusal of `seed`; wider AR/MTP acceptance remains required.
 The earlier model-quality failures remain unchanged historical evidence.
+The separate Responses parser correction is first-party C17 normalization of
+seed and penalties through the existing shared generation contract; stored
+response options preserve supplied values. Upstream numerical/template source
+is unchanged. Eight Release and eight unsuppressed sanitizer parser/HTTP
+fixture checks pass ([HOST receipt](../docs/development/validation/responses-generation-controls-host-2026-10-07.json));
+the changed HTTP source still requires coherent HIP and original-weight gates.
 
 ## Archived private Q2 experiment
 

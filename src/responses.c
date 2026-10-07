@@ -153,6 +153,9 @@ bool lie_responses_parse_history(const char *body, size_t bytes,
                                  "top_p",
                                  "top_k",
                                  "min_p",
+                                 "seed",
+                                 "frequency_penalty",
+                                 "presence_penalty",
                                  "stream",
                                  "store",
                                  "text",
@@ -184,14 +187,17 @@ bool lie_responses_parse_history(const char *body, size_t bytes,
   }
   bool background = v && json_object_get_boolean(v);
   const char *keys[] = {"model",       "temperature", "top_p", "top_k", "min_p",
+                        "seed",        "frequency_penalty", "presence_penalty",
                         "stream",      "store",       "parallel_tool_calls",
                         "metadata",    "user",        "safety_identifier",
                         "service_tier", "dir_steering_plan"};
   for (size_t i = 0; i < sizeof(keys) / sizeof(*keys); ++i)
-    /* Candidate filters have the same strict types as the chat contract;
+    /* Candidate filters, seeds and penalties use the chat contract's types;
      * preserve explicit null so that normalization cannot silently disable them. */
     if (json_object_object_get_ex(root, keys[i], &v) &&
         (v || !strcmp(keys[i], "top_k") || !strcmp(keys[i], "min_p") ||
+         !strcmp(keys[i], "seed") || !strcmp(keys[i], "frequency_penalty") ||
+         !strcmp(keys[i], "presence_penalty") ||
          !strcmp(keys[i], "dir_steering_plan")))
       json_object_object_add(chat, keys[i], json_object_get(v));
   if ((v = get(root, "instructions"))) {

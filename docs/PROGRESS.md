@@ -1,6 +1,28 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Responses generation controls pass local parser and HTTP checks — 2026-10-07 UTC
+
+Responses now admits and normalizes seed and frequency/presence penalties
+through the existing C17 Chat parser and shared generation configuration.
+Completed/stored response objects retain the supplied controls. Both APIs
+refuse supplied seeds outside signed 64-bit nonnegative range, preventing
+unsigned JSON integers from silently saturating. Defaults and all numerical
+algorithms, reactive threads, public layouts and state formats stay unchanged.
+
+Eight grouped Release and eight unsuppressed ASan/UBSan/LSan checks pass.
+Coverage includes the exact r66 HTTP400 request, both Responses input forms,
+seed zero/INT64_MAX, penalty bounds, explicit-null/type/range refusals and native
+HTTP AR/MTP fixture retention. These CPU fixtures use private loopback ports
+and owned children; they do not qualify model inference. An initial checking
+fixture incorrectly reads `strict` outside the nested function definition;
+its actual CTest exit8, original source and binary are preserved before fixing
+that check. The [HOST receipt](development/validation/responses-generation-controls-host-2026-10-07.json)
+binds commands, source and all outcomes. New coherent HIP compilation and
+unchanged original-weight AR/MTP checks remain required. The r66 MTP preparation
+is stale and unlaunched. No root remote job or reservation remains; all six
+tasks stay open, comparative benchmarks follow and Terminal Bench stays last.
+
 ## Original Chat correlation passes; Responses seed refusal blocks the gate — 2026-10-07 UTC
 
 The `64fa7c2a`/r65 runtime passes 14 new original-weight AR checks and five

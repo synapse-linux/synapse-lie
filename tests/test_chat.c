@@ -47,6 +47,65 @@ static void sampling_filters(void) {
         }
     }
 }
+static void seeded_generation_controls(void) {
+    const char *prefixes[] = {
+        "{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}]",
+        "{\"model\":\"m\",\"input\":\"x\"",
+        "{\"model\":\"m\",\"input\":[{\"role\":\"user\",\"content\":\"x\"}]"
+    };
+    const char *valid[] = {
+        "", ",\"seed\":0,\"frequency_penalty\":-2,\"presence_penalty\":2",
+        ",\"seed\":123,\"frequency_penalty\":-1,\"presence_penalty\":1.5",
+        ",\"seed\":9223372036854775807,\"frequency_penalty\":0.25,\"presence_penalty\":-0.5"
+    };
+    const int64_t seeds[] = {-1, 0, 123, INT64_MAX};
+    const double frequency[] = {0, -2, -1, .25}, presence[] = {0, 2, 1.5, -.5};
+    const char *invalid[] = {
+        ",\"seed\":-1", ",\"seed\":1.0", ",\"seed\":true",
+        ",\"seed\":null", ",\"seed\":\"123\"", ",\"seed\":9223372036854775808",
+        ",\"seed\":18446744073709551615", ",\"seed\":1e999",
+        ",\"frequency_penalty\":null", ",\"frequency_penalty\":true",
+        ",\"frequency_penalty\":\"1\"", ",\"frequency_penalty\":-2.01",
+        ",\"frequency_penalty\":2.01", ",\"frequency_penalty\":1e999",
+        ",\"presence_penalty\":null", ",\"presence_penalty\":false",
+        ",\"presence_penalty\":\"1\"", ",\"presence_penalty\":-2.01",
+        ",\"presence_penalty\":2.01", ",\"presence_penalty\":1e999"
+    };
+    for (size_t api=0;api<sizeof(prefixes)/sizeof(*prefixes);++api) {
+        bool (*parse)(const char *,size_t,const char *,lie_chat_request *,char *) =
+            api ? lie_responses_parse : lie_chat_parse;
+        for (size_t i=0;i<sizeof(valid)/sizeof(*valid);++i) {
+            char body[512], error[256]; lie_chat_request r;
+            int n=snprintf(body,sizeof(body),"%s%s}",prefixes[api],valid[i]);
+            assert(n>0 && (size_t)n<sizeof(body));
+            assert(parse(body,(size_t)n,"m",&r,error));
+            assert(!error[0] && r.count==1 && !strcmp(r.messages[0].content,"x"));
+            assert(r.generation.seed==seeds[i]);
+            assert(r.generation.frequency_penalty==frequency[i]);
+            assert(r.generation.presence_penalty==presence[i]);
+            if (api && i) {
+                json_object *original=NULL, *value=NULL;
+                assert(json_object_object_get_ex(r.json_owner,"lie_response",&original));
+                assert(json_object_object_get_ex(original,"seed",&value));
+                assert(json_object_is_type(value,json_type_int));
+                assert(json_object_get_int64(value)==seeds[i]);
+                assert(json_object_object_get_ex(original,"frequency_penalty",&value));
+                assert(json_object_get_double(value)==frequency[i]);
+                assert(json_object_object_get_ex(original,"presence_penalty",&value));
+                assert(json_object_get_double(value)==presence[i]);
+            }
+            lie_chat_free(&r);
+        }
+        for (size_t i=0;i<sizeof(invalid)/sizeof(*invalid);++i) {
+            char body[512], error[256]; lie_chat_request r;
+            int n=snprintf(body,sizeof(body),"%s%s}",prefixes[api],invalid[i]);
+            assert(n>0 && (size_t)n<sizeof(body));
+            assert(!parse(body,(size_t)n,"m",&r,error));
+            assert(error[0] && !r.count && !r.json_owner);
+            lie_chat_free(&r);
+        }
+    }
+}
 static void automatic_output_limits(void) {
     const char *prefixes[] = {
         "{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}]",
@@ -75,6 +134,7 @@ static void automatic_output_limits(void) {
 }
 int main(void) {
     sampling_filters();
+    seeded_generation_controls();
     automatic_output_limits();
     lie_chat_request r; char error[256];
     const char *sampling="{\"model\":\"m\",\"messages\":[{\"role\":\"user\",\"content\":\"x\"}],\"temperature\":0.7,\"top_p\":0.8,\"frequency_penalty\":-1,\"presence_penalty\":1.5,\"seed\":42}";

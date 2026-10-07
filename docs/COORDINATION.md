@@ -1,5 +1,19 @@
 # DS4 / synapse-lie coordination
 
+## Responses generation normalization checked locally; no remote admission — 2026-10-07
+
+The Responses seed/penalty correction and shared signed-seed refusal pass
+eight grouped Release and eight unsuppressed sanitizer checks, including
+native AR/MTP HTTP fixtures on private ephemeral loopback ports
+([HOST receipt](development/validation/responses-generation-controls-host-2026-10-07.json)).
+The initial checking-fixture exit8 is retained separately. No model/GPU/remote
+operation occurs; all local handles are terminal. The r66 AR outcome keeps its
+recorded source identity, and its prepared MTP manifest is now stale/unlaunched.
+Further GPU gates require a new committed source, matching coherent HIP bundle,
+fresh current coordination and global/in-lease admission. Root has no remote
+job/build/client/handle/lease/window/waiter/reservation on `.161/.157/.158/TB`.
+All six tasks remain open and Terminal Bench stays last.
+
 ## Correlated AR tool window failed at Responses seed and retired — 2026-10-07
 
 Fresh Point/DGX/Q2 and separate GLM own-state non-use declarations plus global/

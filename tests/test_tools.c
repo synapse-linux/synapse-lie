@@ -18,7 +18,41 @@ static void bad(lie_tool_policy *p,const char *text,bool complete) {
     json_object *m=NULL; char error[256];
     assert(!lie_tool_reply(p,text,strlen(text),complete,"id",&m,error)); assert(!m && error[0]);
 }
+static void seeded_responses_tools(void) {
+    /* Original r66 HTTP400 request, reproduced as a parser-only regression.
+     * The question, tool schema, profile and seed are unchanged. */
+    const char *body =
+        "{\"model\":\"qwen3.8-flash-next\",\"store\":false,\"seed\":123,"
+        "\"temperature\":0,\"top_p\":1,\"top_k\":0,\"min_p\":0,"
+        "\"tools\":[{\"name\":\"get_value\","
+        "\"description\":\"Get the independent integer value for the selected key.\","
+        "\"strict\":true,\"parameters\":{\"type\":\"object\","
+        "\"properties\":{\"key\":{\"type\":\"string\",\"enum\":[\"alpha\",\"beta\"]}},"
+        "\"required\":[\"key\"],\"additionalProperties\":false},\"type\":\"function\"}],"
+        "\"max_output_tokens\":512,\"tool_choice\":\"auto\",\"parallel_tool_calls\":true,"
+        "\"input\":\"Do not call any function. Reply with only READY.\",\"stream\":false}";
+    lie_chat_request r; char error[256];
+    assert(lie_responses_parse(body,strlen(body),"qwen3.8-flash-next",&r,error));
+    assert(!error[0] && r.count==1 && r.tool_count==1 && !r.store && !r.stream);
+    assert(r.generation.seed==123 && r.generation.temperature==0 && r.generation.top_p==1);
+    assert(r.generation.top_k==0 && r.generation.min_p==0 && r.max_tokens==512);
+    assert(r.tool_choice==LIE_TOOLS_AUTO && r.parallel_tools);
+    assert(!strcmp(r.tools[0].name,"get_value"));
+    assert(!strcmp(r.messages[0].content,"Do not call any function. Reply with only READY."));
+    json_object *original=field(r.json_owner,"lie_response");
+    bool ok=false;
+    json_object *definition=lie_json_parse(r.tools[0].definition_json,
+                                         strlen(r.tools[0].definition_json),&ok);
+    assert(ok);
+    json_object *function=field(definition,"function");
+    assert(json_object_is_type(field(function,"strict"),json_type_boolean));
+    assert(json_object_get_boolean(field(function,"strict")));json_object_put(definition);
+    json_object *expected=lie_json_parse(body,strlen(body),&ok);
+    assert(ok && json_object_equal(original,expected));json_object_put(expected);
+    lie_chat_free(&r);
+}
 int main(void) {
+    seeded_responses_tools();
     const char *user="[{\"role\":\"user\",\"content\":\"edit it\"}]";
     lie_chat_request allowed;
     assert(parse(user,",\"tool_choice\":{\"type\":\"allowed_tools\",\"allowed_tools\":{\"mode\":\"required\",\"tools\":[{\"type\":\"function\",\"function\":{\"name\":\"edit\"}}]}}",&allowed));
