@@ -1,5 +1,28 @@
 # DS4 / synapse-lie coordination
 
+## Current native near-256K recall window — 2026-10-07, in progress
+
+After the verified 128K closure below, root separately admits
+`recall-native-261632-s77-ar-20261007-r1` on `.161`. All four peers explicitly
+declare current non-use after the complete new boot/FS/original-lease proposal.
+Fresh global preflight at 20:54:51 UTC passes; the supervisor repeats in-lease
+admission. It holds the unchanged lease 66308/105946405 on FD3, with actual
+supervisor 51956/start 2258329 and observed init 52183/start 2258458 in container
+`f0d9d25a`. Controller 43052 is confirmed live. All four peers receive admission.
+At 20:56:58 UTC the actual native GPU owner is 53274/start 2263244 in that
+container; all three calibrations are complete and the first long turn is in
+progress. Server API/management use private ports 33847/53243. This is actual
+original-weight startup and ongoing work, not a completed recall result.
+
+The frozen `90a88455`/r68 runtime and checkpoint `c928b395` use AR, seed 77,
+native capacity 262144, target 261632, chunk/scratch 256, C1 and cache off.
+Two turns and three unscored calibrations are bounded by 3600 seconds per
+request and 18990 seconds per container. The GTT estimate is 100 GiB, minimum
+available RAM 1 GiB; host GTT remains 112 GiB. CPU 98 C and NVMe 85 C guards
+remain active; GPU temperature is observed. Actual longer-input counts and
+quality are pending. Root owns no work on `.157/.155/.158/TB` and no future
+window is reserved. All six tasks remain open; Terminal Bench stays last.
+
 ## Native 128K recall passed and retired — 2026-10-07
 
 Fresh Point/DGX/Q2/GLM current non-use declarations, explicit boot/FS/original
