@@ -17,6 +17,15 @@ transport error does not establish a model or numerical failure. Keep the
 window outstanding and recover its existing evidence before any new run.
 No model gain, quality acceptance or GPU release is claimed.
 
+The subsequent offline [launch review](../config/q2-decode-down-launch-review.json)
+checks the frozen source/ELF and finds one shared original MMQ context entry,
+unchanged quantizer/consumer dimensions and the same 11520-byte pool request.
+The reviewed grid singly owns all 25600 F32 outputs; valid expert IDs address
+the original 330301440-byte Q2_K tensor. The original RAII pool release remains.
+These source and address-domain checks found no integration discrepancy;
+they cannot establish runtime GPU health, the cause of lost connectivity or
+model performance. No measured source or binary was changed.
+
 [Frozen plan](../config/q2-decode-down-rows-native128-plan.json),
 [phase selection](Q2-PHASE-DISPATCH.md).
 

@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2 offline launch review — 2026-10-07 UTC: a fresh .157 read-only connection
+still exits 255 with No route to host. Core independently reports no .157
+observations or workload. The frozen source/ELF review finds the original
+shared MMQ context, identical argument dimensions, unchanged 11520-byte pool
+reservation and complete single-owner coverage of 25600 output elements.
+No measured source/binary changes; this cannot qualify runtime GPU health or
+explain the transport loss. Existing model execution and release remain
+unverified. [Reproducible review](../config/q2-decode-down-launch-review.json).
+
 Q2 phase-specific model trial outstanding — 2026-10-07 14:29 UTC:
 source 60439e4d and server f8a5210c select the measured four-row Q2_K down
 kernel only outside prefill at its qualified scalar shape. All 922 common

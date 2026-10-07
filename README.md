@@ -5,6 +5,8 @@ prefill, including one-token tails, retains its prior implementation.
 Its original 128K trial was admitted on .157 at 2026-10-07 14:15:23 UTC,
 but the SSH transport subsequently timed out. Completion and window release
 are unverified; no new model throughput result is available.
+An offline review found no launch-geometry or pool-reservation discrepancy;
+the existing remote trial still needs to be recovered.
 [Phase selection](docs/Q2-PHASE-DISPATCH.md),
 [pending trial](docs/Q2-DECODE-DOWN-ROWS.md).
 
