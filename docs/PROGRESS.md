@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Exact Q8 SSM stage layout prepared locally — 2026-10-07 UTC:
+a temporary 42.5 MiB layout preserves every original code/scale bit and the
+retained matrix/convolution arithmetic. Every candidate timing will include
+packing, with six balanced measured pairs and unchanged independent checks.
+Object/assembly/link succeed; both actual controls are byte-exact to R3.
+Consumer 219 versus 220 VGPR, unchanged 48 KiB LDS, zero private scratch.
+No GPU/CPU runtime test, model integration or performance claim yet. Q2 has
+no remote ownership; separate GLM .157 work precedes any new admission.
+[Mechanism and bounded qualification](Q2-SSM-STAGE-Q8.md).
+
 Prefill V-blocks model trial closed without a gain — 2026-10-07 UTC:
 original 130925-token complete prefill measures 1332.109243 token/s versus
 saved R3 1337.972303 (-0.438205%); eight-call TG 26.037992 versus 26.101627

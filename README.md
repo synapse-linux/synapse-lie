@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The next [prefill SSM candidate](docs/Q2-SSM-STAGE-Q8.md) packs the original Q8
+bytes into contiguous operand stages, charging packing on every call. Local
+compilation and control identity checks pass; GPU performance remains unmeasured.
+
 The [four-key V layout model trial](docs/Q2-ATTENTION-V-TILES.md) measures
 1332.109243 prefill / 26.037992 decode token/s on the original 130925/8 input,
 versus retained 1337.972303 / 26.101627 (-0.438% PP / -0.244% TG). All four

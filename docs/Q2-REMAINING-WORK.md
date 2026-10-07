@@ -8,6 +8,14 @@ not a measured model gain. Keep R3 and preserve the positive component
 separately. Bounded expert-scratch reuse and its 232 Debug/ASan contract
 checks are complete; no pending model trial or GPU reservation remains.
 
+The next distinct prefill candidate is [transient Q8 SSM staging](Q2-SSM-STAGE-Q8.md):
+pack the original 34-byte blocks into contiguous operand planes, then retain
+the complete projection/convolution arithmetic. Packing is charged on every
+call; temporary storage is 42.5 MiB, with no persistent weight mirror. Local
+compilation and both control identities pass; device output and performance
+remain unmeasured. GLM's separately coordinated .157 work takes precedence
+until its collection and strong closure, followed by a fresh Q2 plan.
+
 Owner priority: focus new work on prefill, preserving original input,
 2048-token chunks and retained model comparisons. Keep any improvement that
 benefits only decode behind its decode dispatch; do not require a prefill win
