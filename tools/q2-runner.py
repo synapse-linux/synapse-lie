@@ -65,9 +65,11 @@ def main():
         raise SystemExit('Live-grid prefill requires saved native client and retained MMQ reuse')
     full_prefill128 = mode == 'q2-prefill128'
     profile_prefix32k = '--profile-prefix32k' in sys.argv[2:]
-    if profile_prefix32k and (not full_prefill128 or not native_curve or
+    profile_prefix128k = '--profile-prefix128k' in sys.argv[2:]
+    if (profile_prefix32k or profile_prefix128k) and (not full_prefill128 or not native_curve or
+            (profile_prefix32k and profile_prefix128k) or
             any(flag in sys.argv[2:] for flag in ('--prefill-only-depth', '--rebuild-mmq', '--point-only', '--replay-from'))):
-        raise SystemExit('Prefix32K profiling requires only the saved native Q2 prefill provider')
+        raise SystemExit('Prefix profiling requires only one saved native Q2 prefill depth')
     prefill_depth = int(sys.argv[sys.argv.index('--prefill-only-depth')+1]) if '--prefill-only-depth' in sys.argv else None
     if prefill_depth is not None and (not (full_prefill128 or row_bytes) or not native_curve or prefill_depth not in (65536,131072)):
         raise SystemExit('Saved prefill depth requires the matched native full-prefill mode')
@@ -224,7 +226,7 @@ def main():
             result['oracle_replay_data'] = verify_oracle_replay(ROOT, staged=True)
             save()
         if model_mode:
-            if profile_mode or profile_prefix32k:
+            if profile_mode or profile_prefix32k or profile_prefix128k:
                 profiler=shutil.which('rocprofv3')
                 if profiler is None and Path('/opt/rocm/bin/rocprofv3').is_file(): profiler='/opt/rocm/bin/rocprofv3'
                 if profiler is None: raise RuntimeError('Installed rocprofv3 unavailable; no dependency installation attempted')
@@ -232,6 +234,9 @@ def main():
             if profile_prefix32k:
                 result.update(headline_eligible=False, diagnostic_only=True, profile_prefix32k=True,
                               timed_scope='Original preparation and complete32711-token prefix; kernel/API profile, not wall throughput')
+            if profile_prefix128k:
+                result.update(headline_eligible=False, diagnostic_only=True, profile_prefix128k=True,
+                              timed_scope='Original preparation and complete130925-token prefix; kernel/API profile, not wall throughput')
             inventory=json.loads((ROOT/'config/models-157.inventory.json').read_text())['files']
             if mode.startswith('q2-'):
                 selected=[f for f in inventory if f['path'].endswith('/Qwen3.8-Flash-Next-Q2.gguf')]
@@ -403,7 +408,7 @@ def main():
                 save()
                 try:
                     run(['python3','-B',str(ROOT/('tools/q2-curve256-session.py' if curve256 else 'tools/q2-curve-session.py')),str(binary),model_paths[0],
-                         'q2' if mode.startswith('q2-') else 'ud']+(['--native-bench', str(bench_binary)] if native_curve else [])+(['--point-only'] if point_only else [])+(['--prefill-only-depth',str(prefill_depth)] if prefill_depth else [])+(['--ple-row-bytes-prefill'] if row_bytes else ['--profile-prefix32k'] if profile_prefix32k else ['--live-grid-prefill'] if live_grid else ['--retained-prefill'] if full_prefill128 else ['--retained-128'] if curve128 else ['--iq2-signs'] if mode=='q2-curve256' else ['--norm-ragged'] if point_norm else ['--scaled-row'] if curve_row else ['--iq2-scale'] if curve_scale else ['--iq2-mixed'] if curve_mixed else ['--profile-routes'] if curve_routes else ['--profile-ple'] if curve_profile else ['--ple-cache-first'] if curve_cache_first else ['--iq2-signs'] if curve_iq2 else []),
+                         'q2' if mode.startswith('q2-') else 'ud']+(['--native-bench', str(bench_binary)] if native_curve else [])+(['--point-only'] if point_only else [])+(['--prefill-only-depth',str(prefill_depth)] if prefill_depth else [])+(['--ple-row-bytes-prefill'] if row_bytes else ['--profile-prefix32k'] if profile_prefix32k else ['--profile-prefix128k'] if profile_prefix128k else ['--live-grid-prefill'] if live_grid else ['--retained-prefill'] if full_prefill128 else ['--retained-128'] if curve128 else ['--iq2-signs'] if mode=='q2-curve256' else ['--norm-ragged'] if point_norm else ['--scaled-row'] if curve_row else ['--iq2-scale'] if curve_scale else ['--iq2-mixed'] if curve_mixed else ['--profile-routes'] if curve_routes else ['--profile-ple'] if curve_profile else ['--ple-cache-first'] if curve_cache_first else ['--iq2-signs'] if curve_iq2 else []),
                         dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),18000 if curve256 else 3000)
                 finally:
                     result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()
@@ -495,6 +500,7 @@ def main():
         if terminal_run: result['state']='TERMINAL_ENDPOINT_PROBE_COMPLETE_NOT_TASK_SCORE' if mode.endswith('probe') else 'TERMINAL_BENCH_COMMAND_COMPLETE_INSPECT_REWARDS'
         if profile_mode: result['state']='DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK'
         if profile_prefix32k: result['state']='PREFIX32K_PROFILE_COMPLETE_NOT_BENCHMARK'
+        if profile_prefix128k: result['state']='PREFIX128K_PROFILE_COMPLETE_NOT_BENCHMARK'
         if routing_mode: result['state']='DIAGNOSTIC_ROUTING_COMPLETE_NOT_WALL_BENCHMARK'
         if ple_mode: result['state']='PLE_DIAGNOSTIC_COMPLETE_NOT_PERFORMANCE_VERDICT'
         if io_mode: result['state']='PLE_ROW_IO_COMPLETE_NO_MODEL_FORWARD'

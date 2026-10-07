@@ -365,11 +365,14 @@ def main():
     p.add_argument('--prefill-only-depth', type=int, choices=(65536,131072))
     p.add_argument('--profile-prefix32k', action='store_true',
                    help='Profile the saved complete 32K prefix; diagnostic only, no rebuild')
+    p.add_argument('--profile-prefix128k', action='store_true',
+                   help='Profile the saved complete 128K prefix; diagnostic only, no rebuild')
     args = p.parse_args()
-    if args.profile_prefix32k and (args.mode != 'q2-prefill128' or not args.native_curve
+    if (args.profile_prefix32k or args.profile_prefix128k) and (args.mode != 'q2-prefill128' or not args.native_curve
             or args.source_variant != 'prefill128-q2' or args.prefill_only_depth is not None
-            or args.rebuild_mmq or args.point_only or args.replay_from or args.detach):
-        p.error('Prefix32K profiling requires only the saved native Q2 prefill provider')
+            or args.rebuild_mmq or args.point_only or args.replay_from or args.detach
+            or (args.profile_prefix32k and args.profile_prefix128k)):
+        p.error('Prefix profiling requires only one saved native Q2 prefill depth')
     if args.prefill_only_depth is not None and (args.mode not in ('q2-prefill128', 'q2-prefill-ple-row-bytes') or not args.native_curve):
         p.error('Saved prefill depth requires the matched native full-prefill mode')
     if args.mode == HC_REUSE_MODE or args.source_variant == HC_REUSE_VARIANT:
@@ -1063,6 +1066,12 @@ def main():
                      'tools/freeze-q2-full-prefill128-recovery-plan.py',
                      'tools/q2_full_prefill128.py',
                      'tools/q2_long_profile.py',
+                     'tools/q2_long_profile128.py',
+                     'tools/q2-long-profile128-phase.py',
+                     'tools/q2-long-profile128-window.py',
+                     'tools/q2-long-profile128-preflight.py',
+                     'tools/freeze-q2-long-profile128-plan.py',
+                     'tools/analyze-q2-long-profile128.py',
                      'tools/q2-long-profile-window.py',
                      'tools/q2-long-profile-phase.py',
                      'tools/freeze-q2-long-profile-plan.py',
@@ -2119,7 +2128,7 @@ def main():
         '  if path.is_absolute() or ".." in path.parts or not (item.isdir() or item.isfile()): raise ValueError("unsafe member")',
         '  if item.size>' + repr(source_data_limits(args.mode)) + '.get(item.name,16000000): raise ValueError("oversized source file")',
         '  archive.extract(item,root,filter="data")',
-        'os.execv(sys.executable,[sys.executable,str(root/"tools/q2-runner.py"),' + repr(args.mode) + (',' + repr('--rebuild-mmq') if args.rebuild_mmq else '') + (',' + repr('--native-curve') if args.native_curve else '') + (',' + repr('--prefill-only-depth') + ',' + repr(str(args.prefill_only_depth)) if args.prefill_only_depth else '') + (',' + repr('--profile-prefix32k') if args.profile_prefix32k else '') + (',' + repr('--point-only') if args.point_only else '') + (',' + repr('--replay-from') + ',' + repr(args.replay_from) if args.replay_from else '') + '])',
+        'os.execv(sys.executable,[sys.executable,str(root/"tools/q2-runner.py"),' + repr(args.mode) + (',' + repr('--rebuild-mmq') if args.rebuild_mmq else '') + (',' + repr('--native-curve') if args.native_curve else '') + (',' + repr('--prefill-only-depth') + ',' + repr(str(args.prefill_only_depth)) if args.prefill_only_depth else '') + (',' + repr('--profile-prefix32k') if args.profile_prefix32k else '') + (',' + repr('--profile-prefix128k') if args.profile_prefix128k else '') + (',' + repr('--point-only') if args.point_only else '') + (',' + repr('--replay-from') + ',' + repr(args.replay_from) if args.replay_from else '') + '])',
     ])
     if args.detach:
         lines = script.splitlines()

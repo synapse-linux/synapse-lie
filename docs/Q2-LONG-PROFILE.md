@@ -49,6 +49,27 @@ descriptor could read only row bytes, preserving cache capacity, order and
 values. Its memory/storage effects and complete-model result must be measured;
 no cache eviction, model mutation, tuning or throughput gain is assumed.
 
+## Exact 128K follow-up prepared — 7 October 2026
+
+The row-sized reader improves the original32K request but regresses at64K
+and128K, so it is not a route to the current1500-token/s target. The next
+diagnostic applies this same profiler/host-boundary method to the saved
+**130925-token** request, without changing a prompt, intermediate chunk or
+benchmark control. It keeps the original three preparations, capacity133760,
+63 full2048-token chunks plus the1901-token tail, C1 AR and eight outputs.
+The server and native benchmark binaries are reused; profiler timings remain
+ineligible as PP/TG results.
+
+The new input validator checks exact serialized request bytes, token counts,
+64 prefill calls, zero cached tokens and the original backend timer scope.
+Existing32K analysis still reproduces exactly. The .157 CPU-only gate passes
+43 Debug and43 ASan/UBSan checks; the collected host capsule and
+[frozen plan](../config/q2-long-profile128-plan.json) bind one model diagnostic.
+Fresh GPU admission and collection are pending. The [128K analyzer](../tools/analyze-q2-long-profile128.py)
+will report actual per-chunk host completion intervals and four depth quarters,
+while rejecting zero GPU event durations as kernel timings. It cannot isolate
+individual kernels from a previous-layer/current-layer completion boundary.
+
 All four primary commands and the native client exit0. After completed requests,
 rocprofv3 flushes its database on SIGTERM; its chained handler fails to retire
 within30s, and the existing supervisor kills its owned server (exit−9).

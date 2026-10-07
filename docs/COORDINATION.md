@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Original128K profile preparation — 2026-10-07 UTC: Core explicitly reports
+no own .157 job/build/client/lease/window/reservation or plan. Read-only
+preflight06:36:51.824511 confirms latest releasef2b163b6, empty KFD, seven
+unchanged model stats and original CPU/four GPU leases free. The .157
+CPU-only cohort `q2-long-profile128-host-r1` finishes06:38:00.451044 with
+43/43 Debug and43/43 ASan/UBSan checks; six exits0 and seven artifacts
+collect as archivef3f23d1e. Planbb41342b names one saved-binary profiler
+run on the original130925-token request. **No GPU admission, remote GPU build,
+model access or reservation has occurred** in this preparation; fresh exact
+registry and lease admission is required. No remote cleanup is planned.
+
 IQ2 token256 window released — 2026-10-07 UTC: frozen plan41f872d1 and
 checkpoint5263e680 admitted06:21:46.686734 with mirror147f1c8c. The sole
 private component ends06:23:05.091371, three commands0, no model access.

@@ -56,7 +56,7 @@ class RemoteGuardTests(unittest.TestCase):
         args=['q2-prefill-ple-row-bytes','q2-fixture','--source-variant','prefill-ple-row-bytes-q2']
         self.refuse(args,'Live-grid prefill requires')
         self.refuse(args+['--native-curve','--rebuild-mmq'],'Live-grid prefill requires')
-        self.refuse(args+['--native-curve','--profile-prefix32k'],'Prefix32K profiling requires')
+        self.refuse(args+['--native-curve','--profile-prefix32k'],'Prefix profiling requires')
         with patch.object(sys,'argv',[str(path),*args,'--native-curve']), \
              patch.object(Path,'mkdir',side_effect=RuntimeError('staging reached')), \
              patch.object(remote.subprocess,'run',side_effect=AssertionError('No process')) as run:
@@ -104,8 +104,60 @@ class RemoteGuardTests(unittest.TestCase):
         args = ['q2-prefill128', 'q2-fixture', '--source-variant', 'prefill128-q2',
                 '--native-curve', '--profile-prefix32k']
         for extra in (['--prefill-only-depth','65536'], ['--point-only'], ['--rebuild-mmq'], ['--detach']):
-            self.refuse(args+extra, 'Prefix32K profiling requires')
-        self.refuse(['cpu','q2-fixture','--profile-prefix32k'], 'Prefix32K profiling requires')
+            self.refuse(args+extra, 'Prefix profiling requires')
+        self.refuse(['cpu','q2-fixture','--profile-prefix32k'], 'Prefix profiling requires')
+        with patch.object(sys,'argv',[str(path),*args]), \
+             patch.object(Path,'mkdir',side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess,'run',side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError,'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_prefix128k_profile_keeps_original_complete_request(self):
+        import q2_long_profile128 as profile
+        root = path.parents[1]
+        corpus, selected = profile.inputs(root)
+        self.assertEqual([c['expected_prompt_tokens'] for _, c, _ in selected],
+                         [13, 3513, 2055, 130925])
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)/'profile.jsonl'
+            argv = profile.client_argv(root, Path('/bench'), output)
+            options = dict(zip(argv[1::2], argv[2::2]))
+            raw = corpus.read_bytes().splitlines(keepends=True)
+            self.assertEqual(Path(options['--requests']).read_bytes(),
+                             b''.join(raw[i] for i, _, _ in selected))
+            self.assertEqual(options['--context-capacity'], '133760')
+            self.assertEqual(options['--server-label'],
+                             'diagnostic-retained-prefix128k-not-throughput')
+            self.assertEqual(profile.profiler_argv('/profiler', Path(temporary), ['/server'])[-2:],
+                             ['--', '/server'])
+            samples = [dict(event='sample', case=c['id'], request=c['body'],
+                            usage=dict(prompt_tokens=c['expected_prompt_tokens']),
+                            server_timings=dict(valid=True, scope='synchronous_executor_calls',
+                                decode_mode='ar', mtp_drafted_tokens=0, mtp_accepted_tokens=0,
+                                ssd_cached_tokens=0, cached_tokens=0,
+                                prefill_tokens=c['expected_prompt_tokens'],
+                                prefill_calls=(c['expected_prompt_tokens']+2047)//2048,
+                                prefill_ms=1)) for _, c, _ in selected]
+            def save():
+                output.write_text(''.join(json.dumps(x)+'\n' for x in
+                                          [*samples, dict(event='complete', exit_code=0)]))
+            save()
+            checked = profile.validate_result(root, output)
+            self.assertEqual((checked['physical_tokens'], checked['cached_tokens']),
+                             (130925, 0))
+            samples[-1]['server_timings']['prefill_calls'] = 65
+            save()
+            with self.assertRaisesRegex(ValueError, 'complete uncached'):
+                profile.validate_result(root, output)
+
+    def test_prefix128k_profile_rejects_other_modes_and_overrides(self):
+        args = ['q2-prefill128', 'q2-fixture', '--source-variant', 'prefill128-q2',
+                '--native-curve', '--profile-prefix128k']
+        for extra in (['--prefill-only-depth','131072'], ['--profile-prefix32k'],
+                      ['--point-only'], ['--rebuild-mmq'], ['--detach']):
+            self.refuse(args+extra, 'Prefix profiling requires')
+        self.refuse(['cpu','q2-fixture','--profile-prefix128k'], 'Prefix profiling requires')
         with patch.object(sys,'argv',[str(path),*args]), \
              patch.object(Path,'mkdir',side_effect=RuntimeError('staging reached')), \
              patch.object(remote.subprocess,'run',side_effect=AssertionError('No process')) as run:

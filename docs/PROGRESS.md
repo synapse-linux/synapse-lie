@@ -1,5 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Original128K critical-path preparation — 2026-10-07 UTC: the retained
+rocprofv3 diagnostic now accepts only the exact saved130925-token request
+after its original three preparations. Capacity133760,64 prefill calls
+(63 full2048 chunks and1901 tail), C1 AR output8, zero prefix hits, saved
+server/client binaries and model inputs are fixed. The existing32K analyzer
+still replays unchanged. Fresh .157 read-only preflight06:36:51 checks the
+latest Q2 releasef2b163b6, empty KFD,1909 retired identities/1522 groups,
+seven unchanged model stats and five free original leases; Core reports no
+own .157 use. The CPU-only host cohort finishes06:38:00 with43/43 Debug and
+43/43 ASan/UBSan tests, six zero exits and seven collected artifacts
+f3f23d1e. Frozen planbb41342b binds one **instrumented original-model**
+diagnostic, no rebuild or throughput promotion. GPU admission,128K trace
+and attribution are still pending. [Prior32K limitations](Q2-LONG-PROFILE.md),
+[frozen plan](../config/q2-long-profile128-plan.json).
+
 IQ2 token256 component closed — 2026-10-07 UTC: exact-plan GPU admission
 147f1c8c followed the43/43 Debug and43/43 ASan/UBSan host gate. The only
 .157 component ends06:23:05.091371 with three zero command exits and no model
