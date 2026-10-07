@@ -40,6 +40,18 @@ quality: sampled Q5/Q6 re-quantization already adds 4.67–5.38% /
 2.26–2.62% weight-domain RMS error. Keep the original Q8 path until an
 independent quality gate and the unchanged native C1 comparison pass.
 
+Halogen's current v2 checkpoint assigns 4-bit weights to most of the model,
+6-bit to mixing layers and 8-bit to draft-head projections; that is a
+checkpoint-specific precision map, not a direct conversion rule for the
+original Q2 GGUF. Its earlier w4b quality sidecar calibrated non-expert tensors
+against activation statistics and promoted twelve sensitive attention-output
+projections to 8-bit. The analogous LIE decision needs real activation and
+logit evidence by tensor family. The retained LIE artifacts contain Q8 weight
+samples but no saved dense-layer activation vectors; the current device upload,
+single-row dense dispatch and stacked-Q8 path also have no Q5 production arm.
+The private Q5 speed result therefore warrants a bounded activation-capture
+and selective-quality gate before any opt-in in-memory representation trial.
+
 Halogen's 0.12.0 sparse-index selection saves large amounts at 262K–1M,
 where its old decode path was serial in context length. LIE's byte-exact
 one-query selector improvement did not translate into a material matched
