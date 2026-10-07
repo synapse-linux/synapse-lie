@@ -66,9 +66,13 @@ already complete near222–228GB/s of logical traffic, so repeating scalar
 instruction reductions has a weak chance of saving the required5.3ms per
 native32K C1 step. The next C1 investigation should first account for actual
 weight bytes and completed per-family time at unchanged32K and long-depth
-inputs. Reducing Q8 precision is a distinct, opt-in model representation and
-requires quality and original-model numerical qualification; Halogen's rates
-cannot be credited to the retained Q2 file. Its 16K/32K prefill-arena result
+inputs. The original antirez Q2 file has no native Q5 tensors. The later
+[lossy shared-down Q5 overlay trial](Q2-DENSE-DECODE-FEASIBILITY.md) improves
+exact2048 direct decode only0.0975% while changing final logits7.7198% RMS;
+it is rejected. The owner's performance tally excludes quality-reducing
+re-quantization. Subsequent C1 work stays on the original Q8/IQ2/Q2_K
+representations. Halogen's rates cannot be credited to the retained Q2 file.
+Its 16K/32K prefill-arena result
 also cannot justify changing LIE's fixed2048-token comparison chunks.
 
 The new [bounded dense-Q8 screen](Q2-DENSE-DECODE-FEASIBILITY.md) counts3.897GB
