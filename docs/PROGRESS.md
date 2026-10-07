@@ -65,11 +65,15 @@ All six acceptance items remain open; benchmarks and Terminal Bench stay last.
 
 ## Current sequence: implementation, qualification, benchmarks, eval
 
-The owner's latest instruction again defers tests until all remaining functional
-implementation is complete. No intermediate GPU, quality, benchmark, Terminal
-Bench or full-suite campaign is queued. Keep only required focused local checks during source
-changes; qualify the integrated runtime afterward, then run matched benchmarks
-and Terminal Bench last. The [current roadmap](BACKEND.md#current-roadmap--2026-10-06-utc)
+The owner's latest instruction defers further tests until all remaining functional
+implementation and integration are complete. Compile the source first; group
+required focused local CTest and ASan/UBSan checks at the end of integration,
+then qualify the integrated runtime on `.161`, run matched benchmarks and run
+Terminal Bench last. No intermediate test campaign or qualification-only client
+expansion is queued. The partial numerical attention fixture sources are saved
+locally, unbuilt and outside the CMake targets; completing that development
+client belongs to the final validation phase.
+The [current roadmap](BACKEND.md#current-roadmap--2026-10-06-utc)
 separates integrated source from open acceptance gates. The owned functional
 source is integrated; at that checkpoint all 650 files match the final HOST receipt.
 Open validation items are not missing implementations. The prepared r37 MTP

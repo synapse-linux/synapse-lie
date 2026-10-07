@@ -29,8 +29,12 @@ Item 1 records completed qualification. The active queue is items 2–7 below.
 The owner confirms this order: finish functional implementation, qualify the
 combined runtime, run the comparative benchmarks, then run Terminal Bench
 (item 2) last. Do not alternate component changes with full test campaigns.
-Required focused local checks accompany source corrections; new GPU, quality,
-performance and full-suite campaigns wait for the integrated implementation.
+Complete and compile the remaining functional changes before running further
+tests. Group the required focused local CTest and ASan/UBSan checks at the end
+of that integration, then qualify the combined runtime on `.161`, run matched
+benchmarks and run Terminal Bench last. Qualification-only client preparation
+belongs to that final validation phase; do not turn it into another intermediate
+implementation campaign.
 GPU qualification uses `.161` with fresh admission. The owner's latest request
 defers further GPU/test campaigns until all remaining functional implementation
 is finished. The prepared r37 MTP manifest has not been admitted or launched;
