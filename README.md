@@ -17,10 +17,11 @@ by2.4–3.7% on three saved routing layers. The retained128/64-token path stays
 active; no model inference or LIE throughput gain is claimed for this probe.
 The [private dense-Q5 decode gate](docs/Q2-DENSE-DECODE-FEASIBILITY.md) cuts
 synthetic one-token component time21–35%. A decode-only in-memory overlay is
-prepared with original Q8 retained for prefill. Its `.157` guarded conversion
-and independent decoder oracle pass, with3.1859% synthetic Q8-to-Q5 weight
-RMS; original-model quality, C1 throughput and long-prefill gain remain
-unmeasured for that arm. [Raw evidence hashes](config/q2-q5-overlay-converter-results.json).
+prepared with original Q8 retained for prefill, but the original antirez Q2
+GGUF contains no Q5 tensors. Its exact2048 original-model `shared-down` trial
+shows only+0.0975% direct decode rate with7.7198% final-logit RMS change.
+Reject this lossy overlay and keep the native Q8 path. No native32K C1 or
+long-prefill gain is established. [Paired result](config/q2-q5-model-shared-down-results.json).
 An independent [lossless IQ2 stage-pair layout probe](docs/Q2-IQ2-STAGE-LAYOUT.md)
 passes local byte, static ISA and .157 GPU numerical checks. Its saved-routing
 gate/up time is flat or slower, so production dispatch remains unchanged and

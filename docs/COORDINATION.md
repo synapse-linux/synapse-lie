@@ -1,5 +1,19 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q5 shared-down original-model window released — 2026-10-07 UTC: after Core's
+explicit .157 non-use, fresh preflight09:54:36 verified previous release
+1296c307, empty KFD, five free original leases, seven unchanged model stat
+tuples and CPU36.375C. Exact plan693b60c0 admitted09:54:55. The original
+Q2 exact2048 Q8 and opt-in Q5 arms each exit0, with21 model artifacts each;
+all42 artifact hashes match local copies before release. Release09:59:15/
+5a6cc85f records1,957 retired process identities/1,563 groups, empty KFD,
+five original leases free, seven original model stat tuples unchanged and no
+remote cleanup. The latest registry receipt matches the release bytes; Core
+was notified. No Q2 job, client, handle, lease, window, waiter or reservation
+remains on .157. The offline result rejects the lossy Q5 overlay; future GPU
+work needs a new coordinated admission.
+[Result](../config/q2-q5-model-shared-down-results.json).
+
 IQ2 token160 append-only handover correction — 2026-10-07 UTC: the terminal
 release b937ad6c recorded counts, rather than the full retired process and
 group inventories required by subsequent preflights. It remains unchanged.

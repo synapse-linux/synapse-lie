@@ -134,7 +134,7 @@ separating quantization error from decoder arithmetic. Any opt-in model arm
 then needs original-input numerical/task-quality and native C1 measurements
 before production dispatch changes.
 
-## Decode-only overlay: conversion qualified, model qualification pending
+## Decode-only overlay: original-model trial rejects shared-down Q5
 
 The next private provider variant keeps every original Q8_0 device tensor for
 the unchanged batched prefill path. At load it can additionally encode Q5_0
@@ -158,8 +158,31 @@ by 1.513e-7 relative RMS. The latter measures decoder arithmetic against its
 *quantized* operands, not preservation of original-model logits. The
 [result and raw evidence hashes](../config/q2-q5-overlay-converter-results.json)
 record empty KFD, five free original leases, seven unchanged model stat tuples
-and no remote cleanup at release. This is not an original-model performance or
-quality result. Next, run one family at a time on the unchanged exact-2048
-input and compare complete saved logits and native C1 timings before
-considering the combined arm. The 128K cold prefill target remains separately
-unproven.
+and no remote cleanup at release. That fixture is not an original-model
+performance or quality result.
+
+The [read-only GGUF header inventory](../config/q2-context-header-audit.json)
+confirms that the original antirez Q2 checkpoint contains **no Q5 tensors**:
+337 tensors are `Q8_0`, 96 are `IQ2_XXS` and 48 are `Q2_K`. This Q5 overlay
+was a private, lossy re-quantization of selected original `Q8_0` weights in
+device memory, not support for an existing format in the original model.
+
+A coordinated original-model `shared-down` trial uses the unchanged exact
+2048-token counting input, context 9216, chunk 2048, greedy output 128 and
+127 timed decode calls in both arms. The same frozen binary runs default Q8
+then opt-in Q5, each with one warmup and three measured sessions. Both arms
+exit 0 and reproduce the saved physical input hash. Q8 median decode is
+25.611559 calls/s; Q5 median is 25.636525, a **0.0975%** rate change. All
+four prefill-logit arrays and generated 128-token sequences are byte-identical
+between arms. Final logits differ by **7.7198% relative RMS** in every
+session. This is insufficient for the 30 token/s C1 target and does not
+establish task quality; the direct-executor 2K result is also not a native
+32K C1 measurement. The original Q8 production path remains selected.
+[Full samples, numerical checks and raw hashes](../config/q2-q5-model-shared-down-results.json).
+
+The model window released at 09:59:15 UTC with two command exits 0, 42 saved
+model files verified before release, empty KFD, five original leases free,
+seven original model stat tuples unchanged and no remote cleanup. Further
+lossy Q5 overlay trials are stopped. The decode track returns to the native
+`Q8_0`, `IQ2_XXS` and `Q2_K` paths; the complete 128K cold prefill target
+remains unproven.

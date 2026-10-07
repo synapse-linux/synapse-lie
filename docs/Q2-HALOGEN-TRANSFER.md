@@ -40,6 +40,14 @@ quality: sampled Q5/Q6 re-quantization already adds 4.67–5.38% /
 2.26–2.62% weight-domain RMS error. Keep the original Q8 path until an
 independent quality gate and the unchanged native C1 comparison pass.
 
+The later original-model test resolves this hypothesis for the first selected
+family: the antirez Q2 GGUF has **zero native Q5 tensors**, and an opt-in
+`shared-down` Q8-to-Q5 overlay changes final logits by7.7198% relative RMS
+while improving exact2048 direct decode rate only0.0975%. The synthetic
+component result did not transfer to a useful whole-model gain. The overlay
+is rejected; subsequent decode work stays on the original Q8/IQ2/Q2_K
+representations. [Paired model evidence](../config/q2-q5-model-shared-down-results.json).
+
 Halogen's current v2 checkpoint assigns 4-bit weights to most of the model,
 6-bit to mixing layers and 8-bit to draft-head projections; that is a
 checkpoint-specific precision map, not a direct conversion rule for the

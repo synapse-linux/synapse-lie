@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Original antirez Q2 has no native Q5 — 2026-10-07 UTC: the retained GGUF
+header inventory lists337 `Q8_0`,96 `IQ2_XXS`,48 `Q2_K` and zero Q5 tensors.
+The private Q5 overlay was a lossy in-memory conversion of original Q8, not
+original model support. A paired exact2048 direct-executor `shared-down`
+model trial on .157 exits0 in both arms. Median TG is25.611559 Q8 versus
+25.636525 Q5 calls/s (+0.0975%); all128 generated tokens and prefill logits
+match, but final logits differ7.7198% relative RMS. The candidate is rejected
+and no further Q5 overlay work is planned. The window released09:59:15UTC:
+KFD empty, five leases free, seven model stats unchanged, no cleanup.
+[Full result](../config/q2-q5-model-shared-down-results.json),
+[scope](Q2-DENSE-DECODE-FEASIBILITY.md).
+
 Private decode-only Q5 converter passes — 2026-10-07 UTC: the coordinated
 `.157` synthetic 257×2560 Q8-to-Q5 guarded GPU fixture exits0. Weight RMS
 against original Q8 is3.1859%; independent quantized-operand decode oracle
