@@ -1,0 +1,205 @@
+{
+  "schema": "synapse-lie.q2-select-partition-results.v1",
+  "plan_sha256": "f7ac47ef34dcd38c9e4b8cad3661607084534ba655365c455bc9fa0e13863c29",
+  "release_sha256": "7018e5b6cbc3eb2e4fc515400b092c6a5b774791187fe8132e70f027ddc0fc5f",
+  "component_receipt_sha256": "04809f46beca878295d69cb9b2c46ebccc8e64257c9030d96bc2c4f8238e430f",
+  "archive_sha256": "2a5a41c4e01d09192c765022020d199c4b41363f39efe063190ad9dd252d2aae",
+  "command_exits": [
+    0,
+    0,
+    0
+  ],
+  "cases": 16,
+  "events": {
+    "partition_pair": 56,
+    "partition_timing": 88,
+    "complete": 1
+  },
+  "all_masks_exact": true,
+  "all_complete_cpu_sort_oracles_pass": true,
+  "input_hashes_and_guards_pass": true,
+  "valid_gpu_event_count": 0,
+  "timings": [
+    {
+      "name": "decode32",
+      "complete": 8178,
+      "retained": {
+        "samples_us": [
+          25.07,
+          25.249,
+          25.559,
+          25.38,
+          25.459,
+          25.759,
+          25.639,
+          25.959,
+          25.249
+        ],
+        "median_us": 25.459,
+        "range_us": [
+          25.07,
+          25.959
+        ]
+      },
+      "partition": {
+        "samples_us": [
+          39.139,
+          39.839,
+          39.76,
+          63.179,
+          40.399,
+          39.489000000000004,
+          39.249,
+          38.979,
+          39.269
+        ],
+        "median_us": 39.489000000000004,
+        "range_us": [
+          38.979,
+          63.179
+        ]
+      },
+      "time_change_percent": 55.1082132055462
+    },
+    {
+      "name": "decode64",
+      "complete": 16360,
+      "retained": {
+        "samples_us": [
+          32.119,
+          33.269,
+          33.319,
+          33.169000000000004,
+          33.869,
+          33.619,
+          33.189,
+          33.97,
+          31.609
+        ],
+        "median_us": 33.269,
+        "range_us": [
+          31.609,
+          33.97
+        ]
+      },
+      "partition": {
+        "samples_us": [
+          38.1,
+          37.639,
+          38.519,
+          38.549,
+          38.619,
+          38.499,
+          38.379,
+          38.729,
+          37.029
+        ],
+        "median_us": 38.499,
+        "range_us": [
+          37.029,
+          38.729
+        ]
+      },
+      "time_change_percent": 15.720340256695442
+    },
+    {
+      "name": "decode128",
+      "complete": 32731,
+      "retained": {
+        "samples_us": [
+          48.189,
+          47.919000000000004,
+          48.529,
+          48.549,
+          49.599000000000004,
+          49.499,
+          50.589,
+          50.248,
+          47.659
+        ],
+        "median_us": 48.549,
+        "range_us": [
+          47.659,
+          50.589
+        ]
+      },
+      "partition": {
+        "samples_us": [
+          36.929,
+          37.459,
+          36.779,
+          37.069,
+          38.569,
+          37.759,
+          38.189,
+          38.979,
+          37.660000000000004
+        ],
+        "median_us": 37.660000000000004,
+        "range_us": [
+          36.779,
+          38.979
+        ]
+      },
+      "time_change_percent": -22.428886279840977
+    },
+    {
+      "name": "ties128",
+      "complete": 32731,
+      "retained": {
+        "samples_us": [
+          137.607,
+          138.77700000000002,
+          137.937,
+          138.337,
+          138.387,
+          138.467,
+          139.80700000000002,
+          138.77700000000002,
+          138.167
+        ],
+        "median_us": 138.387,
+        "range_us": [
+          137.607,
+          139.80700000000002
+        ]
+      },
+      "partition": {
+        "samples_us": [
+          64.419,
+          63.498000000000005,
+          63.959,
+          63.678000000000004,
+          64.979,
+          63.979,
+          63.848,
+          64.419,
+          63.818
+        ],
+        "median_us": 63.959,
+        "range_us": [
+          63.498000000000005,
+          64.979
+        ]
+      },
+      "time_change_percent": -53.782508472616655
+    }
+  ],
+  "scratch_bytes": 36864,
+  "model_run": false,
+  "provider_promoted": false,
+  "headline_eligible": false,
+  "decision": "Retain the long-context candidate. Partition improves128K, regresses32K/64K. No unconditional dispatch; whole-model benefit remains unmeasured.",
+  "integration_requirements": [
+    "Use a bounded deep-context dispatch; captured graphs must observe the live device position.",
+    "Account for36864 scratch bytes and their last reader in the owned model/executor lifetime.",
+    "Keep existing prefill selector and original2048-token chunks.",
+    "Measure complete original native requests before adoption; reuse saved controls."
+  ],
+  "limits": [
+    "Synthetic score rows, not original-model attention scores or token throughput.",
+    "Completed host wall time includes HIP graph dispatch and completion; GPU events remain zero.",
+    "Kernel percentage cannot be applied to the whole decode step.",
+    "Every timed output and the complete host rank/tie mask were checked before overwrite."
+  ]
+}

@@ -24,8 +24,14 @@ and keep the earlier provider; do not continue its full-curve testing.
 The complete2048-row attention staging component is closed: exact outputs,
 no convincing latency benefit, no model trial. The new C1 partition selector
 keeps local top512 candidates across nine4096-block slices before an exact
-merge;36KiB bounded scratch and lower-index ties. Its host gate passes; GPU
-qualification is pending. This does not alter prefill chunking or ranking. The ordinary greedy path already runs at temperature0; a GPU argmax
+merge;36KiB bounded scratch and lower-index ties. The .157 GPU component
+passes all56 full-mask/CPU-sort pairs. Its128K median latency falls48.549 to
+37.660us(-22.429%);32K/64K regress55.108%/15.720%. Preserve it for a bounded
+deep-only integration with live GPU position, scratch ownership and an original
+native-model trial. It is not a measured token-rate gain. Attention staging
+and selector results do not close the1500PP/30TG goal. The next larger prefill
+mechanism remains active expert-chain or dense projection operand reuse.
+This does not alter prefill chunking or ranking. The ordinary greedy path already runs at temperature0; a GPU argmax
 could reduce full-logit downloads, but needs correct snapshot/logprobs and
 multi-sequence ownership before it is a usable decode optimization.
 

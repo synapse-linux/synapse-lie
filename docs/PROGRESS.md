@@ -1,5 +1,32 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Exact partition selector closed — 2026-10-07 UTC: checkpointd12fa4c8/
+planf7ac47ef, admission11edfaa8 at05:02:15.597681. Three component commands0
+finish05:03:55.969861; four artifacts collect2a5a41c4 before05:06:57.034002
+release7018e5b6cbc3eb2e4fc515400b092c6a5b774791187fe8132e70f027ddc0fc5f.
+1880 IDs/1498 groups retired, KFD empty, original CPU/four GPU leases free,
+seven model stats unchanged. Canonical/main/remote mirrors exact; Core notified
+before analysis. No remote job/build/client/window/lease/handle/waiter/reservation
+remains on .157/.161/.158/TB and no cleanup occurred.
+
+All56 full masks match both the retained kernel and independent CPU sort;
+16 cases include ties, sparse boundaries, clipped windows and subnormals.
+All88 GPU event durations remain invalid; completed HIP-graph wall times apply.
+
+| Synthetic C1 selector case | Retained median us | Partition median us | Time change |
+|---|---:|---:|---:|
+|32K |25.459|39.489|+55.108%|
+|64K |33.269|38.499|+15.720%|
+|128K |48.549|37.660|-22.429%|
+|128K, all equal scores |138.387|63.959|-53.783%|
+
+Preserve the36KiB candidate for deep contexts. It is not a whole-model decode
+speedup or an unconditional default. Integration needs live-position dispatch
+compatible with HIP graph reuse and explicit scratch lifetime/accounting.
+Complete original native inputs still gate adoption; saved controls remain
+unchanged. [All samples and checks](../config/q2-select-partition-results.json).
+
+
 Attention V staging closed — 2026-10-07 UTC: checkpoint3fa26c59/plana72cf63b,
 admission6c4631f4. Component0/0/0 finishes04:50:29.871938; four artifacts
 collect42390a04 before04:50:51.277229 release7c5193f944c7e135e678b48bc62e2517d2c913c80e6215f4817a25f03ee7042b.
