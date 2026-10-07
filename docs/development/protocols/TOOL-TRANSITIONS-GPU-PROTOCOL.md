@@ -78,3 +78,8 @@ prove the checking code and failure retention only. Original-weight acceptance
 requires coherent bound runtime/model provenance, current peer coordination,
 fresh global and in-lease admission, actual exits, collected hashes and exact
 process/container/lease retirement. No preparation reserves a future window.
+
+The first [original AR run](../validation/tool-transitions-ar-point-r2-2026-10-07.json)
+fails `greedy_chat_parallel_json` after four new checks: the fixed two-key
+question produces only `alpha`. All subsequent checks are unexecuted, and MTP
+is unadmitted. This failure does not change the workload or acceptance criteria.

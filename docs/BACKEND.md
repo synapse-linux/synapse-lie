@@ -13,6 +13,15 @@ learning from real workloads; do not let the prototype define the final limits.
 
 ## Current roadmap — 2026-10-07 UTC
 
+The wider original-weight HTTP tool gate now fails its frozen greedy two-call
+question: the requested `alpha` and `beta` calls produce only `alpha`. Four new
+checks and five baseline controls pass before the failure; 66 new checks are
+unexecuted. The [failed AR receipt](development/validation/tool-transitions-ar-point-r2-2026-10-07.json)
+retains the complete wire, original exits and verified machine closure. MTP is
+prepared but unadmitted. Diagnose the miss before claiming wider tool acceptance;
+steering quality, long-context recall/HTTP, fault/resource gates, matched
+comparisons and Terminal Bench remain open. Terminal Bench stays last.
+
 Strix Point integration is merged into `develop` at `30598a3`; current context
 and OpenAI work remains on `feature/context-million-openai`. Recorded GPU
 results belong to their stated source and binary identities. They do not

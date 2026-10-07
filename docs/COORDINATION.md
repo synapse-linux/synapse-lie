@@ -1,5 +1,24 @@
 # DS4 / synapse-lie coordination
 
+## Wider AR tool gate failed and retired — 2026-10-07
+
+Fresh Point/DGX/Q2 own-state declarations and global/in-lease preflights precede
+r60 AR on `.161`. The frozen two-call question fails; controller/supervisor/
+helper exit1 and server exit0 are preserved in the
+[failed receipt](development/validation/tool-transitions-ar-point-r2-2026-10-07.json).
+All 15 remote files collect and verify. The original lease 66307/105946405
+releases at 13:51:53 UTC. Strong closure at 13:59:00 verifies supervisor
+306760/start24997357, launcher 306864/start24997433, observed init
+306973/start24997481 and native GPU owner 308209/start25003915 absent. Container
+`d61d2eaf` and its full recorded cgroup are absent, and two complete process
+scans find no members. Router 308644 is active, lease unchanged/free, HTTP8000
+empty; no foreign compute or guarded hot sensor is observed.
+
+Peers receive the verified release. MTP remains prepared but unadmitted; no
+retry or second run is launched. Root holds no remote job/client/handle/lease/
+window/waiter/reservation on `.161/.157/.158/TB`. Closure grants no future
+admission. All six items remain open; Terminal Bench stays last.
+
 ## Wider tool transition qualification prepared locally — 2026-10-07
 
 Root finishes the optional final-phase 71-check HTTP client with 121 grouped

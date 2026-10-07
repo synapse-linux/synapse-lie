@@ -1,6 +1,26 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Wider original-weight AR tool gate failed on Point — 2026-10-07 UTC
+
+The unchanged r56 native runtime with the qualified r59 HTTP client fails
+`greedy_chat_parallel_json`: the fixed question requests `get_value` for both
+`alpha` and `beta`, but the valid HTTP200 response contains only `alpha`.
+Four new checks pass, including prose before a function in JSON/SSE; five
+baseline controls pass. One new check fails and 66 are unexecuted. The client
+classifies this as `model_quality`; the model/template/grammar cause is still
+unresolved. `parallel_tool_calls:true` permits multiple calls; it does not itself
+require two. The question and acceptance criteria remain unchanged.
+
+Controller/supervisor/helper exit1, while the owned server exits0. All 15 remote
+files collect and hash-verify. CPU/GPU/NVMe peaks are 56.75/61/62.85 C without a
+guard stop. At 13:59:00 UTC, exact supervisor/launcher/observed-init/GPU identities,
+the container and its entire cgroup are absent; two complete process scans find
+no members. The original lease is free and router restored. MTP is prepared but
+never admitted or run. The [failed receipt](development/validation/tool-transitions-ar-point-r2-2026-10-07.json)
+preserves the wire, provenance, actual exits and closure. No native source
+changes, benchmark, Terminal Bench or repeated GPU run. All six items stay open.
+
 ## Wider function transition client prepared on HOST — 2026-10-07 UTC
 
 The optional final-phase HTTP client now declares 71 checks across Chat/Responses,
