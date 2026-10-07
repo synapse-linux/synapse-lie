@@ -1,12 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Original-F16 scalar HC up/mix fusion
 
+The subsequent original-model .157 trial improves fixed-point C1 decode
+from25.12414406 to26.24707057 token/s (+4.469512%), with all21 parent model
+files byte-exact and nine internal replays exact. Prefill measures1571.380247
+versus saved1587.893545 (-1.039950%). Retain both binaries; this is a measured
+decode candidate, not a new long-context curve or a30TG/1500PP goal closure.
+
 The .157 component passes64 complete exact output comparisons and50
 independent FP64 checks. With injection, completed operation time falls
 42.970453 to34.630484us (-19.408613%); without injection it falls35.839672
 to34.132219us (-4.764143%). All five measured pairs favor the candidate
-in both modes. This qualifies an original-model integration trial; model
-token/s, long-context benefit and inherited task quality remain unmeasured.
+in both modes. This qualified the original-model integration below.
+Native long-context benefit and inherited task quality remain unmeasured.
 
 This private decode component joins the native F16 HC up projection and the
 following mix/injection into one launch. The retained provider is unchanged.
@@ -81,12 +87,11 @@ No GPU job/client/handle/lease/window/waiter/reservation remains.
 [frozen plan](../config/q2-hc-scalar-up-mix-plan.json),
 [offline auditor](../tools/analyze-q2-hc-scalar-up-mix.py).
 
-Next: integrate only the original scalar F16 HC eligibility into a private
-provider, preserving invalidation and injection-part ownership, then run the
-unchanged original-Q2 model comparison. Do not extrapolate the component's
-percentage to whole-model decode or count it toward the30TG goal yet.
+The component gate admitted the private integration and unchanged original-Q2
+model comparison below. Its percentage must not be extrapolated to whole-model
+decode or counted directly toward the30TG goal.
 
-## Private model integration prepared
+## Private model integration
 
 The [integration generator](../tools/prepare-q2-hc-scalar-model.py) copies the
 retained1028-file provider and changes only executor.cpp, kernels.hpp,
@@ -109,6 +114,52 @@ builds locally with the frozen counting harness; configure/build exit0.
 Executor object relocation references the new launcher. No retained control
 is rebuilt. [Source](../config/q2-hc-scalar-model-source.json),
 [build identities](../config/q2-hc-scalar-model-build.json).
-The next .157 window admits only this new original-Q22048/tg128 process,
+The next .157 window admitted only this new original-Q22048/tg128 process,
 one warmup and three measured sessions, using saved parent/control results.
-The model result is pending; component speed is not model throughput.
+
+## Completed original-model result — 7 October 2026
+
+| Original fixed2048/tg128 | Prefill token/s | Decode token/s |
+|---|---:|---:|
+| Fixed Q2, saved | 1443.672867 | 25.09595499 |
+| Retained IQ2 fixed bounds, saved | 1587.893545 | 25.12414406 |
+| New scalar HC, warmup | 1574.392732 | 26.24295711 |
+| New scalar HC, measurement1 | 1571.380247 | 26.26203910 |
+| New scalar HC, measurement2 | 1570.364534 | 26.24707057 |
+| New scalar HC, measurement3 | 1571.871662 | 26.23981297 |
+| New scalar HC, original median aggregation | 1571.380247 | 26.24707057 |
+| Fixed UD, saved | 1685.777092 | 24.34174251 |
+
+Capacity9216, chunk2048, physical input2048 and127 timed decode calls remain
+unchanged. No historical control was rebuilt or rerun. All21 saved parent
+inputs/tokens/logits match byte-for-byte, including arithmetic/counting smoke
+and the fixed prompt; all nine internal output/frontier replays are exact.
+Resident model bytes43,156,012,544 and deferred scratch7,946,240 are unchanged.
+The candidate adds no precision boundary. These results establish no added
+numerical difference on this workload; the parent's earlier intermediate
+changes still need independent task-quality qualification.
+
+All three decode samples exceed the saved parent's range. The observed
+increase is4.469512%, not the component's19.408613%. Prefill regresses1.039950%
+in this observation even though the optimized branch excludes prefill. Do
+not erase that result, assume its cause, add separate percentage gains or
+replace the retained best-prefill binary. Historical, noncontemporaneous
+controls limit causal attribution. The next useful test is native C1 at the
+unchanged32K input and then the original long-prefix scope, after staging
+this exact provider; the full129K target remains unmeasured for this candidate.
+
+![Fixed-point prefill and decode](figures/q2-hc-scalar-model.png)
+
+[PNG](figures/q2-hc-scalar-model.png), [SVG](figures/q2-hc-scalar-model.svg),
+[all parent/candidate warmup and measured samples](figures/q2-hc-scalar-model-samples.csv),
+[audited model result](../config/q2-hc-scalar-model-results.json),
+[frozen model plan](../config/q2-hc-scalar-model-plan.json).
+
+CPU supervisor success/failure cases and preflight pass before admission
+11:02:21.339035UTC. The only model command exits0 at11:04:00.937607UTC;
+34 artifacts collect and verify before release11:05:14.110896UTC, SHA
+f409048c74ef54a1bcc7714bbadeb973204700bfded7ef2994d73054cb602272.
+All1960 identities/1566 groups are retired, KFD is empty, five original leases
+free and seven original model stat tuples unchanged. Peak CPU70.375C/GPU77C.
+Core receives the verified handover. No Q2 model job/client/handle/lease/window/
+waiter/reservation remains; no remote build, dependency, tuning or cleanup occurs.

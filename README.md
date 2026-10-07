@@ -4,9 +4,10 @@ The [quality-preserving performance audit](docs/Q2-QUALITY-PRESERVING-STATUS.md)
 separates exact individual changes from the retained faster lineage, whose
 intermediate-precision changes still need task-quality qualification.
 The private [scalar HC up/mix fusion](docs/Q2-HC-SCALAR-UP-MIX.md) preserves
-original F16 weights and F32 arithmetic. The .157 component passes64 exact
-pairs and50 independent checks while reducing complete operation time19.41%
-with injection; original-model throughput is still unmeasured.
+original F16 weights and F32 arithmetic. On the original fixed2048/tg128
+model comparison, decode rises25.1241 to26.2471 token/s (+4.47%), with all21
+parent token/logit files exact. Prefill measures1571.38 versus saved1587.89
+(-1.04%); both binaries remain. Native long-context benefit is still unmeasured.
 
 A private [native Q8 SSM wave assignment](docs/Q2-SSM-WAVE-BALANCE.md)
 passes72 exact output pairs and144 independent numerical checks on .157, but

@@ -1,5 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Scalar HC original-model window released — 2026-10-07 UTC: Core again
+explicitly confirms own .157/.158/TB non-use. CPU supervisor success/failure
+cases pass and preflight11:01:34 verifies latest64e2f31e, empty KFD, five free
+original leases, seven unchanged model stats and CPU37.75C. Source2814b8ba
+and planc787bde8 admit11:02:21.339035UTC. The only new original2048/tg128
+candidate completes exit0 at11:04:00.937607UTC. All34 raw artifacts collect
+and match remote hashes before release11:05:14.110896UTC, SHA
+f409048c74ef54a1bcc7714bbadeb973204700bfded7ef2994d73054cb602272.
+Latest registry event matches local receipt:1960 identities/1566 groups
+retired, KFD empty, five free original leases, seven original model stat
+tuples unchanged. No control rerun, remote build, dependency, tuning or
+cleanup. Core receives closure; no Q2 job/client/handle/lease/window/waiter/
+reservation remains. Offline analysis finds exact model replay and a decode
+gain, with the observed prefill regression retained. [Result](Q2-HC-SCALAR-UP-MIX.md).
+
 Scalar HC up/mix component released — 2026-10-07 UTC: Core explicitly
 confirms own .157/.158/TB non-use. Preflight10:47:42 verifies latestf7703956,
 empty KFD, five free original leases, seven unchanged model stats and

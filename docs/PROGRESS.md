@@ -37,6 +37,19 @@ Release/counting build, including fresh own MMQ, exits0; the patch reconstructs
 all1029 files and leaves the1028-file parent unchanged. Original-model GPU
 performance and exact replay remain pending.
 
+The .157 original-model trial now completes on source2814b8ba: fixed2048/tg128
+decode26.24707057 versus saved25.12414406, observed+4.469512%. All21 parent
+input/token/logit files and nine internal replays are exact. The same run's
+prefill1571.380247 versus1587.893545 is-1.039950%; retain both binaries and
+the unexplained historical-comparison regression. No new precision boundary,
+allocation or stream change; original weights and byte-exact component include.
+This closes the scalar model trial, not native long-context or inherited
+task-quality qualification. CPU/preflight/model commands exit0,34 artifacts
+verify before11:05:14.110896UTC releasef409048c:1960 identities/1566 groups
+retired, KFD empty, five original leases free, seven model stats unchanged.
+No old control, Q4 or full curve is rerun. All samples and a fixed-point graph
+are retained in[the result](Q2-HC-SCALAR-UP-MIX.md).
+
 
 Native Q8 SSM wave assignment rejected — 2026-10-07 UTC: the private
 [unchanged-tile candidate](Q2-SSM-WAVE-BALANCE.md) completes on .157 with72

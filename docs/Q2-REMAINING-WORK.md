@@ -8,9 +8,13 @@ reported as proven quality-preserving gains over the original reference.
 New scalar HC up/mix work retains original weights/precision and requires
 exact complete component replay before an original-model trial. The .157
 component now passes64 exact pairs and50 independent checks; complete
-operation time improves19.41% with injection and4.76% without. Integrating
-this qualified scalar path and measuring original-model decode is the next
-concrete C1 step. These percentages are not whole-model throughput gains.
+operation time improves19.41% with injection and4.76% without. The subsequent
+original2048/tg128 model reaches26.24707057 decode (+4.469512% versus saved
+25.12414406), with all21 parent files and nine internal replays exact. Its
+prefill1571.380247 is1.039950% below saved1587.893545; retain both binaries.
+The next C1 step is the same provider on the original native32K workload,
+followed by long-context validation. No new native128K rate or independent
+parent-quality qualification is implied by this fixed-point decode gain.
 
 The active goal is now **C1 AR decode30 token/s and complete prefill at least
 1500 token/s through the original130925-token input**. The old fixed-point UD

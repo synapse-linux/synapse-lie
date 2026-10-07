@@ -24,9 +24,11 @@ Some individual changes do have exact differential replay evidence:
 | IQ2 live-stage composition vs four-lane parent | 1509.852296 to1511.097261 | +0.082456% | All21 parent files exact. Overlapping timing ranges and inherited numerical differences remain. |
 
 These gains must not be added or treated as an end-to-end quality acceptance.
-The current fixed decode25.12414406 versus original25.09595499 is essentially
-unchanged; no material C1 decode improvement at preserved original quality
-is established. The30TG/1500-long-prefill goal remains open.
+The previously retained fixed decode25.12414406 versus original25.09595499
+was essentially unchanged. The subsequent exact HC scalar change below now
+provides a measured C1 gain relative to that retained parent; it does not
+remove the parent's inherited quality qualification gap.
+The30TG/1500-long-prefill goal remains open.
 
 Sources: [shared Q8](Q2-SHARED-Q8-FIXED-MODEL.md),
 [raw prefetch](Q2-IQ2-RAW-PREFETCH.md),
@@ -39,5 +41,10 @@ quality limitations; an exact child cannot remove an unqualified parent change.
 The new [scalar HC up/mix component](Q2-HC-SCALAR-UP-MIX.md) supplies a
 quality-preserving local result:64 byte-exact comparisons,50 independent
 checks and19.408613% less operation time with injection (4.764143% without).
-It changes no weight or intermediate precision. This is measured GPU component
-performance only; original-model decode throughput remains to be measured.
+It changes no weight or intermediate precision. Its subsequent original-model
+trial measures26.24707057 decode versus saved25.12414406 (+4.469512%), with
+all21 saved parent files and nine internal replays byte-exact. This is a
+quality-preserving measured increment relative to that parent on this workload.
+It does not qualify the inherited earlier numerical changes. Prefill in the
+same new run is1571.380247 versus saved1587.893545 (-1.039950%); no new native
+long-context result is yet available and both binaries remain retained.
