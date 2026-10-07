@@ -4,7 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 
-MODES = ('q2-prefill-live-grid', 'q2-prefill128', 'q2-curve128', 'q2-curve256', 'ud-curve256', 'q2-curve-iq2', 'q2-curve-scale', 'q2-curve-row', 'q2-point-norm', 'ud-curve')
+MODES = ('q2-prefill-ple-row-bytes', 'q2-prefill-live-grid', 'q2-prefill128', 'q2-curve128', 'q2-curve256', 'ud-curve256', 'q2-curve-iq2', 'q2-curve-scale', 'q2-curve-row', 'q2-point-norm', 'ud-curve')
 POINT_MODES = ('q2-curve256', 'ud-curve256', 'q2-curve-iq2', 'q2-point-norm', 'ud-curve')
 DEPTHS = '0,4096,8192,12288,16384,32768,65536,131072'
 MANIFEST = 'config/q2-native-bench-source.json'
@@ -41,7 +41,7 @@ def client_argv(binary, output, graphs, label, *, point_only=False):
 
 
 def check_backend(info, variant):
-    build = {'live-grid': 'q2-canonical-prefill-live-grid', 'retained128': 'q2-canonical-curve-retained256',
+    build = {'ple-row-bytes': 'q2-canonical-prefill-ple-row-bytes', 'live-grid': 'q2-canonical-prefill-live-grid', 'retained128': 'q2-canonical-curve-retained256',
              'ordered': 'q2-canonical-curve-iq2-signs',
              'norm': 'q2-canonical-point-norm-ragged',
              'scale': 'q2-canonical-curve-iq2-scale-reuse',

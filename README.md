@@ -8,6 +8,11 @@ instrumented rates cannot replace the saved throughput references.
 The [completed diagnostic](docs/Q2-LONG-PROFILE.md) finds invalid zero device
 timestamps but usable CPU API intervals:45–70ms prefill gaps before PLE uploads,
 and only0.092–0.097ms between warm C1 completions and subsequent submissions.
+A [BF16 row-sized reader trial](docs/Q2-PLE-ROW-BYTES.md) now follows that
+diagnostic. Only the private BF16/160 descriptor changes: each cache miss
+requests320 bytes instead of an aligned4096/8192-byte window. The .157 host
+gate passes42 Debug and42 sanitizer tests. Model performance remains pending;
+the trial retains the original nine requests through32K and saved comparisons.
 This track resumed with a compact scalar Q8 trial on .157: shared-down time
 improves2.30%, the large projections stay unchanged and gate/up worsens3.06%.
 All GPU output pairs are exact; a host-oracle boundary bug is diagnosed and

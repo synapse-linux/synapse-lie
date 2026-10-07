@@ -182,6 +182,17 @@ add_executable(test_ngram ${GUFO_SOURCE}/tests/models/qwen38_flash_next/ngram_te
   ${GUFO_SOURCE}/src/models/qwen38_flash_next/ngram.cpp)
 target_link_libraries(test_ngram PRIVATE q2_host Threads::Threads)
 add_test(NAME ngram COMMAND test_ngram)
+add_executable(test_q2_ple_row_bytes tests/q2_ple_row_bytes.cpp
+  experiments/q2-ple-row-bytes-ngram.cpp)
+target_link_libraries(test_q2_ple_row_bytes PRIVATE q2_host Threads::Threads)
+target_link_options(test_q2_ple_row_bytes PRIVATE -Wl,--wrap=pread)
+target_compile_options(test_q2_ple_row_bytes PRIVATE -Wall -Wextra -Werror -Wpedantic)
+add_test(NAME q2_ple_row_bytes COMMAND test_q2_ple_row_bytes)
+add_executable(test_q2_ple_row_bytes_upstream
+  ${GUFO_SOURCE}/tests/models/qwen38_flash_next/ngram_test.cpp
+  experiments/q2-ple-row-bytes-ngram.cpp)
+target_link_libraries(test_q2_ple_row_bytes_upstream PRIVATE q2_host Threads::Threads)
+add_test(NAME q2_ple_row_bytes_upstream COMMAND test_q2_ple_row_bytes_upstream)
 option(Q2_PLE_CACHE_FIRST_CHECKS "Check PLE resident rows against colliding misses" OFF)
 if(Q2_PLE_CACHE_FIRST_CHECKS)
   set(GUFO_PLE_CONTROL_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/ple-control-source"

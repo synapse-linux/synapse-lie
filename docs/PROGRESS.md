@@ -2,6 +2,15 @@
 
 ## Active C1 decode30 / full-prefill1500 goal — 2026-10-07 UTC
 
+The [new BF16 row-sized reader](Q2-PLE-ROW-BYTES.md) changes only
+`ngram.cpp` in the retained1028-file provider. It requests320 bytes for a
+BF16/160 row while retaining cache capacity, workers, ordering and arithmetic.
+Debug42/ASan42 pass on .157 (six zero exits, seven artifacts collected).
+Plan56c1948c binds332 fixtures for one new original nine-request native trial
+through32711 tokens, with saved client/MMQ/control evidence reused. No model
+gain or128K result is claimed before measurement; buffered file-cache memory
+is an explicit part of the candidate.
+
 The [native32K diagnostic](Q2-LONG-PROFILE.md) now completes with original
 counts and inputs. All device timestamps have zero duration, so GPU busy and
 kernel-stage claims are rejected. Valid CPU completion intervals identify

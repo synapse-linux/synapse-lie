@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+BF16 exact-row preparation — 2026-10-07 UTC: globalpreflight04:08:29 anchors
+releasecb2b68d9,1821 identities/1454 groups retired, KFD empty, original CPU/
+four GPU leases free and seven model stat tuples unchanged. Host-r1 finishes
+04:09:20.350377 with42 Debug/42 sanitizer checks and six zero exits; seven
+artifacts collected (archive403d308b). Plan56c1948c binds332 fixtures for one
+new server with saved MMQ/client and original nine requests through32K.
+No old control or full curve rerun, no cleanup, no .161/.158/TB reservation.
+Checkpoint and fresh admission are still required before remote GPU build/run.
+
 Long-prefix diagnostic closed — 2026-10-07 UTC: admissiona10f6c03 at03:46:54,
 checkpointb97e4904/plan33078372. Four primary commands finish0 at03:48:47.737487;
 the client completes and profiler flushes SQL, but the owned server requires

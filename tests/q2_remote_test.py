@@ -21,6 +21,27 @@ spec.loader.exec_module(remote)
 
 
 class RemoteGuardTests(unittest.TestCase):
+    def test_row_bytes_candidate_preserves_native_inputs_and_rejects_rebuild(self):
+        import q2_ple_row_bytes_model as model
+        from q2_select_live_grid_model import inputs
+        root=path.parents[1]
+        self.assertEqual(model.inputs(root),inputs(root))
+        source=json.loads((root/model.MANIFEST).read_text())
+        base=json.loads((root/source['parent_manifest']).read_text())['variants']['iq2-fixed-bounds']['files']
+        self.assertEqual({n for n in base if base[n]!=source['files'][n]},
+                         {'src/models/qwen38_flash_next/ngram.cpp'})
+        self.assertEqual(model.sha(root/source['fixture']),source['files']['src/models/qwen38_flash_next/ngram.cpp'])
+        args=['q2-prefill-ple-row-bytes','q2-fixture','--source-variant','prefill-ple-row-bytes-q2']
+        self.refuse(args,'Live-grid prefill requires')
+        self.refuse(args+['--native-curve','--rebuild-mmq'],'Live-grid prefill requires')
+        self.refuse(args+['--native-curve','--profile-prefix32k'],'Prefix32K profiling requires')
+        with patch.object(sys,'argv',[str(path),*args,'--native-curve']), \
+             patch.object(Path,'mkdir',side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess,'run',side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError,'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
     def test_prefix32k_profile_preserves_original_bytes_and_validates_counts(self):
         import q2_long_profile as profile
         root = path.parents[1]

@@ -39,11 +39,12 @@ def main():
     prefill_depth = None
     if flags[:1] == ['--prefill-only-depth']:
         prefill_depth, flags = int(flags[1]), flags[2:]
-    if flags not in ([], ['--profile-ple'], ['--iq2-signs'], ['--ple-cache-first'], ['--profile-routes'], ['--iq2-mixed'], ['--iq2-scale'], ['--scaled-row'], ['--norm-ragged'], ['--retained-128'], ['--retained-prefill'], ['--live-grid-prefill'], ['--profile-prefix32k']):
+    if flags not in ([], ['--profile-ple'], ['--iq2-signs'], ['--ple-cache-first'], ['--profile-routes'], ['--iq2-mixed'], ['--iq2-scale'], ['--scaled-row'], ['--norm-ragged'], ['--retained-128'], ['--retained-prefill'], ['--live-grid-prefill'], ['--profile-prefix32k'], ['--ple-row-bytes-prefill']):
         raise ValueError('Unknown diagnostic flags')
+    row_bytes = flags == ['--ple-row-bytes-prefill']
     live_grid = flags == ['--live-grid-prefill']
     profile_prefix32k = flags == ['--profile-prefix32k']
-    full_prefill = profile_prefix32k or live_grid or flags == ['--retained-prefill']
+    full_prefill = row_bytes or profile_prefix32k or live_grid or flags == ['--retained-prefill']
     if prefill_depth is not None and (not full_prefill or prefill_depth not in (65536,131072)):
         raise ValueError('Only saved unfinished full-prefill depths may be selected')
     retained128 = full_prefill or flags == ['--retained-128']
@@ -71,13 +72,13 @@ def main():
     receipt = dict(state='STARTING', variant=variant, commands=[], started_ns=time.monotonic_ns(),
                    instrumentation='routing-counts' if routes else 'ple-forward' if profile else None,
                    point_only=point_only,
-                   provider_experiment='select-live-grid-prefill-through32K' if live_grid else 'iq2-fixed-bounds-full-prefill128' if full_prefill else 'iq2-fixed-bounds-retained128' if retained128 else 'norm-ragged' if norm_ragged else 'scaled-row-reuse' if row_reuse else 'iq2-scale-reuse' if scale else 'iq2-mixed-ordered' if mixed else
+                   provider_experiment='ple-row-bytes-prefill-through32K' if row_bytes else 'select-live-grid-prefill-through32K' if live_grid else 'iq2-fixed-bounds-full-prefill128' if full_prefill else 'iq2-fixed-bounds-retained128' if retained128 else 'norm-ragged' if norm_ragged else 'scaled-row-reuse' if row_reuse else 'iq2-scale-reuse' if scale else 'iq2-mixed-ordered' if mixed else
                                        'ple-cache-first-ordered' if cache_first else
                                        'iq2-signs-ordered' if iq2_signs else None)
     if native_bench is not None:
         receipt['client_driver'] = 'synapse-lie-bench-native-C'
         receipt['client_binary_sha256'] = hashlib.sha256(native_bench.read_bytes()).hexdigest()
-        native_variant = 'live-grid' if live_grid else 'retained128' if retained128 else 'norm' if norm_ragged else 'row' if row_reuse else 'scale' if scale else 'ordered' if iq2_signs else 'ud'
+        native_variant = 'ple-row-bytes' if row_bytes else 'live-grid' if live_grid else 'retained128' if retained128 else 'norm' if norm_ragged else 'row' if row_reuse else 'scale' if scale else 'ordered' if iq2_signs else 'ud'
     def save():
         (result/'curve-session.json').write_text(json.dumps(receipt, indent=2)+'\n')
     with socket.socket() as sock:
@@ -143,6 +144,8 @@ def main():
                 from q2_full_prefill128 import client_argv as full_argv
                 if live_grid:
                     from q2_select_live_grid_model import client_argv as full_argv
+                if row_bytes:
+                    from q2_ple_row_bytes_model import client_argv as full_argv
                 if profile_prefix32k:
                     from q2_long_profile import client_argv as full_argv
                 argv = full_argv(ROOT, native_bench, result/'full-prefill.jsonl', depth=prefill_depth)
@@ -162,6 +165,8 @@ def main():
                 from q2_full_prefill128 import validate_result
                 if live_grid:
                     from q2_select_live_grid_model import validate_result
+                if row_bytes:
+                    from q2_ple_row_bytes_model import validate_result
                 if profile_prefix32k:
                     from q2_long_profile import validate_result
                 receipt['full_prefill_validation'] = validate_result(ROOT, result/'full-prefill.jsonl', depth=prefill_depth)
