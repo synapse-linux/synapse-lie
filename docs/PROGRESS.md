@@ -37,14 +37,21 @@ Corrected checks pass; peak local CPU52.75 C.
 This closes a source gap before further campaigns; all six acceptance items
 remain open and the implementation-first sequence remains in force.
 
-The previously started r39 AR capture is finished, collected and strictly closed.
-Its 96 original-weight rows have matching full probability/history/RNG witnesses
-in original/C17/OFF Release and sanitizer replay; broader tool/MTP/fault/quality/
-resource/cost gates remain open. Raw rows, complete outputs, actual exits and
-the two local provenance/log-label failures remain under `evidence/context-r39-*`.
-No capture or Release replay was repeated to correct the local log-label check.
-There is no active remote job, lease or reservation. These saved results do not
-queue another campaign or change the deferred order.
+The r39 AR capture is finished, collected and strictly closed. Its 96
+original-weight rows pass full probability/history/RNG comparison in original/
+C17/OFF Release and unsuppressed sanitizer replay, with independent mass and
+forced unit-proposal residual oracles. All six complete 1,442-line witnesses
+match. [Original-weight AR receipt](development/validation/sampling-original-ar-point-2026-10-07.json)
+binds all raw rows, six replay executables, exact source snapshots and 191
+verified archive members. It preserves both local provenance/log-label failures;
+the Release wrapper exit1 remains distinct from its three native exits0 and
+saved-output verification0. No capture or Release replay is repeated.
+GPU-run CPU/GPU/NVMe peaks are 56.875/56/61.85 C; offline sanitizer CPU peaks
+at 91.875 C. Required tools, actual MTP controller, faults, quality, resources
+and cost remain separate open gates. Functional source is complete for the
+owned queue after the unavailable accessor fix; subsequent runs belong to the
+final integrated phase and require fresh admission. There is no active remote
+job, lease or reservation. Benchmarks and Terminal Bench stay afterward.
 
 The optional Point supervisor now routes the C17 capture client directly and
 collects native raw data, including partial/uncommitted failure rows. Its bounded

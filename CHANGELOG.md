@@ -13,7 +13,8 @@ stable release is declared. Detailed validation history is in
 - C17 development client for complete raw-logit capture before ordinary AR
   draws, including strict required-function calls, bound vocabulary and stop
   metadata. Offline original/C17/OFF replay checks complete masks, probabilities
-  and calls. GPU numerical qualification remains deferred; product executables
+  and calls. Selected original-weight AR probabilities now pass; required-tool
+  and MTP numerical qualification remain open. Product executables
   and default tests gain no Python dependency.
   Point ROCm build receipts also bind the capture executable to its runtime.
   The optional Point supervisor executes and collects native text/tool captures,

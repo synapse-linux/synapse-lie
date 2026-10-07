@@ -51,10 +51,11 @@ the matching device-free r38 HIP build now links the new accessor/client along
 with the four existing consumers. Its [receipt](development/validation/integrated-point-capture-hip-build-2026-10-07.json)
 binds the exact source and all five artifacts; collection and strict machine
 closure pass without a model or GPU test. Original-weight qualification remains open.
-No missing source implementation is identified in the owned functional
-scope; the acceptance checks in the table below remain open. Further
-original-weight functional/quality/fault gates are deferred by the current
-sequence and will require fresh admission.
+The final unavailable-backend stop metadata export is corrected at `229b1e13`,
+with focused Release and sanitizer linkage checks. No further missing source
+implementation is identified in the owned functional scope. The implementation
+phase is complete; the acceptance checks below remain open for final integrated
+qualification, with fresh admission for each remote window.
 Comparative performance follows those gates; Terminal Bench stays last.
 All six items remain open until their separate acceptance evidence is collected.
 
@@ -65,7 +66,7 @@ An open qualification gate does not mean its implementation is absent:
 | 3 | 1M context admission, explicit YaRN, client deadlines and native recall/continuation corpus with exact response oracles | Original-weight recall and HTTP at long context |
 | 4 | Native benchmark methods, metrics, graph generation and C17 prefill-dispatch observation | Matched Gufo/Halogen runs through 1M and C1/2/4/6/8; actual sparse dispatch and reactive cost |
 | 5 | Steering bank, model/session policies, scheduled changes and RAM/SSD identities | Learned-direction quality, graph/correction/fault/vision cases and matched cost |
-| 6 | Temperature, top-k/min-p profiles and seeded AR/MTP controls | Independent original-weight probabilities, tool transitions and matched cost |
+| 6 | Temperature, top-k/min-p profiles and seeded AR/MTP controls | Required-tool probabilities/transitions, actual MTP target-distribution behavior and matched cost; selected unconstrained AR probabilities pass |
 | 7 | C17 grammar/masking, history and compact speculative distributions, including buffer ownership | Original-weight numerical/fault/resource/quality and cost gates |
 
 The integrated checkpoint `88d4c4e5` passes native functional 101/101 and complete
@@ -235,9 +236,13 @@ none of the six items.
    call arguments. Three private samplers and independent byte membership/
    long-double mass oracles agree in local fixtures
    ([tooling receipt](development/validation/sampling-tools-host-2026-10-07.json)).
-   Current local synthetic fixtures
-   do not close the original-weight probability or MTP-controller gates; no
-   capture campaign is admitted or launched.
+   The final r39 original-weight AR capture now passes 96 rows across the six
+   frozen profiles in original/C17/OFF Release and sanitizer replay. Full
+   probability/history/RNG witnesses match, with independent mass and forced
+   residual checks. [AR numerical receipt](development/validation/sampling-original-ar-point-2026-10-07.json).
+   This covers unconstrained AR only; required tools, actual MTP-controller
+   branches, wider transitions and cost remain open. The run is collected and
+   strictly closed; no subsequent window is admitted or reserved.
    The optional Point supervisor now executes the native capture under the same
    owned window and collects bounded raw rows, including failed partial evidence.
    Fifteen focused transport/receipt and seven ownership/build regression controls

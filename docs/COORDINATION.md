@@ -15,6 +15,13 @@ corrected locally with one Release and one sanitizer ABI control, without model
 or GPU use. [Focused receipt](development/validation/executor-stop-host-2026-10-07.json).
 Any later remote run needs fresh admission; this closure grants none.
 
+The [sealed AR numerical receipt](development/validation/sampling-original-ar-point-2026-10-07.json)
+preserves 96 raw rows, all six Release/sanitizer executable identities and
+complete original/C17/OFF witnesses. All 191 archive members verify; packaging
+starts no inference, build or test. Functional implementation in the owned queue
+is complete after `229b1e13`; final required-tool and MTP acceptance may now
+proceed through fresh coordination. Earlier unused plans grant no admission.
+
 ## Native capture supervisor prepared locally — 2026-10-07
 
 Root closes the final capture orchestration gap in owned development tools:
