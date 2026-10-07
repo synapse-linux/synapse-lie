@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Long-prefix diagnostic closed — 2026-10-07 UTC: admissiona10f6c03 at03:46:54,
+checkpointb97e4904/plan33078372. Four primary commands finish0 at03:48:47.737487;
+the client completes and profiler flushes SQL, but the owned server requires
+the existing30s shutdown kill (exit−9). All11 artifacts collect (archivee2d07308)
+before release03:49:52.464972/cb2b68d917657404da7d011b0788cd8defdb10b5add1178e4466abc769f8d6f5.
+1821 identities/1454 groups retired; KFD empty, original Core CPU/four GPU
+leases unchanged/free, seven model stat tuples exact. Main/remote canonical,
+active and ready mirrors match; Core notified before offline analysis. No job,
+handle, window, reservation, waiter, restart or cleanup remains on .157/.161/
+.158/TB. Further GPU work requires a new tested plan and fresh admission.
+
 Long-prefix diagnostic preparation — 2026-10-07 UTC: fresh Core own non-use
 and globalpreflight03:44:47 bind GPU release4a7c9768 plus CPUfixd80c7d2a.
 Original leases/models unchanged, KFD empty and recorded processes retired.

@@ -2,6 +2,15 @@
 
 ## Active C1 decode30 / full-prefill1500 goal — 2026-10-07 UTC
 
+The [native32K diagnostic](Q2-LONG-PROFILE.md) now completes with original
+counts and inputs. All device timestamps have zero duration, so GPU busy and
+kernel-stage claims are rejected. Valid CPU completion intervals identify
+depth-dependent attention and45–70ms late-chunk gaps before the20MiB PLE
+upload. Warm C1 completion-to-next-submission gaps are only0.092–0.097ms;
+the old5.33ms direct-harness gap cannot be assigned to this server. No model
+throughput gain is claimed. Eleven artifacts collect before releasecb2b68d9;
+profiler-induced shutdown−9 is preserved separately from four command exits0.
+
 Preserve the old fixed-point pause while pursuing the new active target through
 the original130925-token input. Retained128K is1310.874605 PP /25.344213 TG
 (original eight output calls, not TG128). PP needs12.592734 seconds less than
