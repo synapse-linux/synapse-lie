@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2_K decode padding candidate prepared — 2026-10-07 UTC: retain four-row down,
+native quantizer and reduction; omit the third Q2 block only for lane offsets
+whose activation columns640..767 are known zero. The fixture checks every
+padded code/scale and complete outputs, including negative IDs and ragged rows.
+Five common device bodies are byte-exact to the saved R3 model; new kernel
+2880 bytes/80VGPR versus2928/78, zero scratch. Timings will include quantization
+and64 varying-ID graph calls, with six equally ordered measured rounds.
+No prefill, model dispatch or quantization change; GPU outcome is pending.
+[Contract and qualification scope](Q2-DECODE-DOWN-LIVE.md).
+
 Selector key tiles rejected after continuous diagnostic — 2026-10-07 UTC:
 all167 device functions match the earlier component; equally ordered continuous
 launches retain/check every output. All60 field comparisons and60 independent

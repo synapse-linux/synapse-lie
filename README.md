@@ -40,6 +40,10 @@ diagnostic, including packing, with all24 equally ordered pairs slower. The
 earlier favorable isolated mean is not confirmed. Neither candidate is integrated;
 the model benchmark and its retained references remain unchanged.
 
+A new [decode padding candidate](docs/Q2-DECODE-DOWN-LIVE.md) omits products
+whose Q8_1 activations are already zero, retaining four-row Q2_K down and the
+native quantizer. Component execution is pending; no model speedup is claimed.
+
 The subsequent down/SiLU fusion passes its exact component checks but adds
 no measured model gain:1332.307970 PP /25.595276 TG versus the retained
 isolated up/mix1337.119965 /25.914406. Keep the up/mix candidate.
