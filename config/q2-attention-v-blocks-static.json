@@ -1,0 +1,61 @@
+{
+  "schema": "synapse-lie.q2-attention-v-blocks-static.v1",
+  "binary_sha256": "059061ab562dd744a028a40bbcf86920197ffd8958328b919179a363c8ed5523",
+  "device_audit_sha256": "2b358cb0bc217923bce651293e14c7ed5ad6872e8a942d2bbf5c16c447f90da1",
+  "common_functions": 2,
+  "exact_common_functions": 2,
+  "changed_functions": [],
+  "kernels": {
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_126PackAttentionVBlocksKernelEPK15HIP_vector_typeIjLj4EEPS5_j": {
+      "sha256": "2a6d79b49e91d903810f022b332ac9d2ebaf39e812e7c8215077e5e62fecad40",
+      "bytes": 328,
+      "bundle": "0",
+      "resources": {
+        "num_vgpr": 9,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    },
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_132WmmaCausalAttentionVBlocksKernelILj4ELj16ELb1ELb1EEEvPKfS6_PK6__halfS9_PKjjPfjjj": {
+      "sha256": "eb0a780d135efb36dd725e5dd41fc4fd90f27f693180746056cc192b2efb561a",
+      "bytes": 27056,
+      "bundle": "0",
+      "resources": {
+        "num_vgpr": 223,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    },
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_132WmmaCausalAttentionVBlocksKernelILj4ELj16ELb1ELb0EEEvPKfS6_PK6__halfS9_PKjjPfjjj": {
+      "sha256": "dee76ca7e750049963d98e174f482403c7964dc1b920c8406d458f6edd9288a8",
+      "bytes": 27072,
+      "bundle": "0",
+      "resources": {
+        "num_vgpr": 215,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    },
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_125WmmaCausalAttentionKernelILj4ELj16ELb1ELb1EEEvPKfS6_PK6__halfS9_PKjjPfjjj": {
+      "sha256": "662e737cdcd04973b61ead8094331363e7662218544d7832138dae4bd41f46cf",
+      "bytes": 27016,
+      "bundle": "0",
+      "resources": {
+        "num_vgpr": 223,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    },
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_125WmmaCausalAttentionKernelILj4ELj16ELb1ELb0EEEvPKfS6_PK6__halfS9_PKjjPfjjj": {
+      "sha256": "4eef903fe59998102fb9824c6e54e67dc3e111f14d8e2f378e3bd15f6e42c7fb",
+      "bytes": 27028,
+      "bundle": "0",
+      "resources": {
+        "num_vgpr": 231,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    }
+  },
+  "gpu_run": false
+}

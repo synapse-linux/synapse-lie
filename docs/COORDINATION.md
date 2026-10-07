@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Attention V-tiles component released — 2026-10-07 UTC: source e1f58fb9,
+plan 32c7fbed. CPU fixture/verify/admit/run/release all exit 0. Run ends
+20:50:12; all 36 artifacts/891525 bytes hash-verify at 20:51:09 before
+20:51:33 release SHA 2a4264681b27fa1fd4277d00393e1239c1631ea9e85a4132ef61eeb0605e5e34.
+Independent 20:52:41 closure verifies registry, 19 identities including the
+supervisor/groups retired, empty KFD, five original free leases and seven
+unchanged model stats. Core/GLM receive closure. No Q2 job, window, waiter
+or reservation remains. A local four-key refinement grants no admission.
+No original model access, remote build, tuning, installation or cleanup.
+
 Planar Q8 component released — 2026-10-07 UTC: source 2e5c6b15, plan
 c5f65754. CPU fixture/verify/admit/run/release all exit 0. All 36 artifacts
 (817727 bytes) verify at 20:34:04 UTC before release 20:38:30, SHA

@@ -51,3 +51,41 @@ prioritizes prefill; beneficial decode-only changes remain retained separately.
 [device audit](../config/q2-attention-v-tiles-static.json),
 [candidate](../experiments/q2-attention-v-tiles.inc),
 [fixture](../tests/q2_attention_v_tiles.hip).
+
+## Measured full-context layout: rejected
+
+The .157 component exits 0, with all 18 full-output pairs exact and all eight
+independent FP64 checks passing (maximum absolute error 4.101635e-6).
+Every packed/input byte and guard check passes. Six measured pairs per depth
+all regress, in both run orders. HIP event intervals are positive.
+
+| Shape | Original complete, ms | Packed complete, ms | Packing, ms | Candidate attention alone, ms | Complete latency change |
+|---|---:|---:|---:|---:|---:|
+| full32 | 23.878620 | 29.545492 | 0.505534 | 29.039958 | +23.731992% |
+| full128 | 42.893054 | 57.380795 | 1.546260 | 55.834536 | +33.776427% |
+
+These are component arithmetic means, not new model throughput references.
+The packing-free consumer is also slower, so copy overhead alone does not
+explain the result. No model integration or full-model trial follows.
+[All warmup/measured pairs](../config/q2-attention-v-tiles-results.json).
+
+Source e1f58fb9 and plan 32c7fbed; CPU fixture/verify/admit/run/release all 0.
+All 36 artifacts (891525 bytes) verify at 20:51:09 UTC before release at
+20:51:33, SHA 2a4264681b27fa1fd4277d00393e1239c1631ea9e85a4132ef61eeb0605e5e34.
+Independent 20:52:41 closure checks registry, 19 identities including the
+supervisor/groups, KFD, five leases and seven model stats. Core/GLM receive
+closure; no Q2 reservation remains.
+
+## Bounded four-key refinement
+
+A distinct follow-up keeps the four keys of each sparse selection block
+together: `[four-key block][KV head][slice16][key in block][16]`. It preserves
+128-byte slice segments without placing each dimension slice an entire
+context apart. Improved cache/page locality is a hypothesis, not a measured
+cause of the earlier regression.
+
+The full-context copy remains inside the timer; this is not an incremental
+cache shortcut. The last block is padded to four rows in temporary storage
+only, with checked zero padding and no invented prompt tokens or arithmetic
+changes. Original KV operands still end at their actual allocation boundary.
+Its GPU result and model qualification are pending separate admission.

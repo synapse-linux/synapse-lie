@@ -71,3 +71,12 @@ tested row domain. Keep decode and unsupported tails on their retained paths.
 [Source dispatch audit](../config/q2-hc-scalar-phase-dispatch-audit.json),
 [isolated HC measurements](Q2-HC-SCALAR-UP-MIX.md),
 [down/SiLU model result](Q2-HC-DOWN-SILU.md).
+
+The owner now prioritizes new prefill experiments while retaining any useful
+decode-only result independently. The planar Q8 component retains exact
+vocabulary/SSM candidates (2.425%/0.344% less consumer time), but its attention
+output and shared gated shapes regress. It is not a global kernel replacement
+and has not established a model gain. Full-context V tiling is a rejected
+prefill-only component; its numerical exactness does not justify dispatch.
+[Per-shape Q8 results](Q2-DECODE-Q8-PLANAR.md),
+[attention layout results](Q2-ATTENTION-V-TILES.md).

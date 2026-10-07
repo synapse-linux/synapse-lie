@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Full-context V tiling rejected — 2026-10-07 UTC: the exact component passes
+18 full comparisons/eight FP64 checks but adds 23.732%/33.776% complete latency
+at 32K/128K, with all twelve measured pairs slower. Packing alone is not the
+cause: consumer time also rises. No model run or production change. All 36
+artifacts verify before release 2a426468 and independent closure; no Q2 GPU
+reservation remains. A local refinement packs within each four-key selection
+block while preserving arithmetic and counting packing.
+[Evidence and follow-up](Q2-ATTENTION-V-TILES.md).
+
 Prefill value-layout component prepared — 2026-10-07 UTC: exact temporary
 16-dimension V slices seek contiguous reads across selected keys, with full
 packing cost inside each timed attention cycle. Original sorted masks, QK,
