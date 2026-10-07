@@ -1,0 +1,36 @@
+{
+  "schema": "synapse-lie.q2-profiler-clock-window-plan.v1",
+  "label": "q2-profiler-clock-component-r1",
+  "source_commit": "59574df649be1daa899756a71ab68a4e3f2dc81b",
+  "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+  "component_only": true,
+  "model_access": false,
+  "remote_build": false,
+  "remote_cleanup": false,
+  "timeout_seconds": 300,
+  "previous_release": "q2-decode-down-live-component-r1/release.json",
+  "previous_release_sha256": "9343ed9cf3edb63074e13215c80b9905a0f44e7218059169a63c0048c4bb883a",
+  "staged_sha256": {
+    "candidate.inc": "846826d838539faef0c608e15830057e2d8057b328bbebc9aecc7a23fd28495a",
+    "fixture.hip": "abc4d75fe6c716235ec565dd61752fb0a1950e489ff2864e02b268febf7a5983",
+    "q2-decode-down-rows-native128-performance-window.py": "6f280e0896a77a1b008234dc32daf86b2392691dc3329afcd4bdc1fafe391551",
+    "q2-profiler-clock-window.py": "bc79c94c97c2eac89c5d8639970c1436359bd01f3ec60f52a0426a22cc7013b7",
+    "q2_select_key_tile.hip": "aeb7c91084384752858071249fa7ba6cf8527a55a348b22b5ad743df33d888c0",
+    "q2_select_key_tile_steady_check": "72f824dcfdcfedb89c8f986f3f6b95d83e6f0918880d525253ccb902c1a888a8",
+    "q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "record-command.py": "191b123e2da01803fe7ceec1bea74ad90a057f7d1b8f9cf05b99122d66a4e189",
+    "source-manifest.json": "4ae2f5ebcfa75a74cc2337b32aa0d73f1ade552fdce6f083109015faf276b81d"
+  },
+  "cpu_check_sha256": {
+    "cpu-test-command.json": "717c96dbca4d598dc42ef1ea40dc5a99691a6b830594ade5c15f31908e053b82",
+    "cpu-test.stdout": "199e2dfe68eb833859017a787581c2b5eb53d76b882eaaf2d26a41d4fc3b374d",
+    "cpu-test.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "scope": "One diagnostic of installed rocprof timestamp validity using unchanged selector component72f824dc and its48 HIP event intervals. Collect CSV and ROCPD; normal finite process termination. No new kernel build, model, throughput ranking, reference/input/chunk change, installation, tuning or remote cleanup.",
+  "profile_only": true,
+  "headline_eligible": false,
+  "profiler": {
+    "path": "/opt/rocm/bin/rocprofv3",
+    "sha256": "ecae3de73277b3c095b6c2fc1368e84241ea0a664f187ec3d983a5ea056d2efc"
+  }
+}

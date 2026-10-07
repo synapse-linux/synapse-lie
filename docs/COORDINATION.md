@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Profiler clock component released — 2026-10-07 UTC: source59574df6,
+planed37fbee, CPU fixture/verify/admit/run/release0. Run19:41:24→19:41:27;
+all40 artifacts hash-verify19:43:13 before19:46:33.202617 release SHA
+5543ce61e54686ce58e98f6cd8ac4acee3b9bc061a943c98e0c1046e0a92c578.
+Independent19:47:53 closure checks registry, thirteen retired identities/groups
+plus supervisor, empty KFD, five free leases and seven unchanged model stats.
+Core receives closure. No Q2 GPU job/window/reservation remains. Preparation of
+a separate original128K profiling window is not admission or a standing grant.
+
 Q2 down live640 component released — 2026-10-07 UTC: source5962e2c2,
 plan21948d04, CPU fixture/verify/admit/run/release0. Run19:19:22→19:19:23;
 all36 artifacts hash-verify19:21:12 before19:23:30.657517 release SHA

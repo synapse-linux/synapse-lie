@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+GPU timestamps validated on finite component — 2026-10-07 UTC: rocprof and
+fixture exit0;1472 kernel,469 copy and3037 HIP API durations are all positive.
+CSV/ROCPD kernel ID/timestamp tuples and copy timestamps match exactly;48 HIP
+event intervals are positive,60 field comparisons and60 independent checks pass.
+All40 artifacts verify before19:46:33.202617 release5543ce61; independent
+closure19:47:53 passes. This does not prove the cause of previous zero times or
+HTTP server shutdown behavior. A separate unchanged original128K/R3 diagnostic
+is prepared with both exporters, no new model build or throughput reference.
+[Diagnostic result and model scope](Q2-PROFILER-CLOCK.md).
+
 Profiler clock diagnostic prepared — 2026-10-07 UTC: reuse the saved selector
 component72f824dc and installed rocprof script ecae3de7. Collect CSV and ROCPD
 to distinguish device timestamp validity, export format and normal process

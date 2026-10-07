@@ -33,3 +33,29 @@ unsafe-error completion, timeout retirement and release semantics on .157.
 [CPU fixture](../tests/q2_profiler_clock_window_test.py).
 At preparation there is no GPU result or reservation; a fresh admission is
 required. The30TG/1500PP model objective remains unchanged and unachieved.
+
+## Completed finite-process diagnostic
+
+On2026-10-07 the fixture and profiler exit0 normally. All1472 kernel dispatches,
+469 copies and3037 HIP API records have positive durations and nonzero
+correlation IDs. Every CSV kernel dispatch ID/start/end tuple matches ROCPD;
+all copy timestamp pairs also match. All48 HIP event intervals are positive.
+The underlying component retains60 exact field comparisons and60 independent
+checks. No numerical or benchmark reference changes follow from profiling it.
+[Bound result](../config/q2-profiler-clock-results.json).
+
+The current-boot instrumentation is usable for this finite process. This does
+not identify the earlier failure's cause or prove that the model HTTP server
+will terminate cleanly under profiling. Both require separate evidence.
+All40 artifacts hash-verify before19:46:33.202617 release5543ce61; independent
+closure19:47:53 verifies registry, retired identities/groups and supervisor,
+empty KFD, five free leases and seven unchanged model stats.
+
+The next distinct diagnostic reuses retained R3 server f8a5210c and native
+client87d856cf with the exact original three preparations and130925/8 request.
+Capacity133760, chunk2048, zero cached tokens, C1 AR and port8000 remain.
+It collects CSV plus ROCPD, records actual server/client exit codes separately,
+and excludes instrumented rates from benchmark eligibility. No new model or
+numerical build, throughput-control rerun, full curve or source change is
+required. Source binding: `config/q2-native128-profile-source.json`.
+At this point its CPU fixture/admission and complete model trace remain pending.

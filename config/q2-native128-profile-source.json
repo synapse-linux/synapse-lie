@@ -1,0 +1,14 @@
+{
+  "schema": "synapse-lie.q2-native128-profile-source.v1",
+  "runner_sha256": "fadf40de9ef661cfab2e703c3219224269724148483dbf4e51aa91caf0702c73",
+  "cpu_fixture_sha256": "cb7cb0c8c3112223d2b383667fbb7a0e76874d07158c47d9efbe5555a67c7abc",
+  "requests_sha256": "fcee51efeebfcbd25209ba90d09064d37aead6d3b0c6bbe7a9f97f328a4f24ef",
+  "server_sha256": "f8a5210cc0b2244a8767b6d98042d61f412fc137ba03d410853f3a5104fa781b",
+  "client_sha256": "87d856cf454d5114f93d7d4260d54b58f6e92800f70e4013a505aa16973560c9",
+  "clock_qualification_sha256": "d6313f6ce791cb6daef9163e365fcecb5d9178c97def815f1fd1014d742048a7",
+  "new_build": false,
+  "model_changed": false,
+  "benchmark_reference_changed": false,
+  "profile_only": true,
+  "headline_eligible": false
+}
