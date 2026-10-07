@@ -86,3 +86,33 @@ part of this experiment. Any later model selection is decode-only at the
 qualified shape; other phases and shapes keep the retained path.
 
 [Bound source and static resources](../config/q2-decode-down-rows-source.json).
+
+## Private original-model integration prepared
+
+The1032-file provider derives from retained isolated HC up/mix. It adds the
+measured four-row body in a separate HIP file and selects it only outside
+prefill for one input token, ten slots, one expert per slot, Q2_K down with
+2560 outputs,640 logical/768 stored inputs and512 experts. The entire prefill
+body, including one-token tails, retains its old branch. Other shapes/formats
+fall through to the retained executor. A one-token verification operation
+with identical geometry also qualifies; this is an operation/shape guard,
+not a claim to have qualified the whole speculative pipeline.
+
+The wrapper uses the same original MMQ context, pool allocation of11520 bytes,
+input quantizer, padded pitch1024, stream and allocation lifetime as the
+existing entry. It adds no persistent tensor or new stream. The existing
+MMQ archive is reused without rebuild. All333 frozen C17/core files and all
+1032 provider files verify. All922 existing device functions remain byte-exact,
+and the sole new four-row function is byte-exact to the measured component:
+78 VGPR, no scratch. Common RelWithDebInfo settings remain unchanged.
+
+Configure/build and added HIP formatting pass. A single added declaration's
+indentation is corrected before the final build and source binding. The shared
+provider formatting check retains exit1 on inherited files; its output remains
+preserved. Native input/lifetime fixtures and the unchanged130925/8 .157 trial
+follow under a separate admission. No model throughput or task-quality result
+is established by compilation. Component rounding differences remain explicit.
+
+[Source](../config/q2-decode-down-rows-model-source.json),
+[build and instruction audit](../config/q2-decode-down-rows-build.json),
+[reconstruction generator](../tools/prepare-q2-decode-down-rows-model.py).
