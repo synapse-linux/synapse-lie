@@ -1,5 +1,19 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+IQ2 LDS original128K model trial complete — 2026-10-07 UTC: checkpoint5548600e,
+server30fdc4f6 and original native130925/8 request sequence measure
+1338.152114 PP /26.087829 TG. Retained down-rows remains1337.972303 /26.101627;
+incremental+0.013439% PP /-0.052859% TG is effectively flat. All four outputs
+and token pieces match both saved original and R3. No control rebuild/rerun,
+new precision reduction or benchmark change. Keep down-rows as reference;
+LDS is not promoted. The1500PP/30TG goal and sustained TG128 remain unmet.
+CPU fixture/verify/admit/run/release/server/client exit0;38 artifacts verify
+before release18:08:03.238385UTC SHA0d852d5f. Fresh closure verifies eight
+retired identities/groups, KFD empty, five leases free, seven model stats and
+registry. Mode120W/fans match before/after; CPU90.625C/GPU92C sampled peaks.
+No remote Q2 workload, window or reservation remains.
+[Result and graph](Q2-IQ2-DECODE-LDS.md).
+
 IQ2 scalar LDS model prepared — 2026-10-07 UTC. Private provider derives from
 the retained four-row Q2 down provider and adds only non-prefill scalar gate/up.
 Original Q8_1 producer and2880-byte pool reservation are unchanged; no new

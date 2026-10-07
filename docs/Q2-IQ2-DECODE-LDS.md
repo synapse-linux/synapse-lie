@@ -1,5 +1,44 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+# IQ2 scalar LDS: component gain does not transfer to the model
+
+The original128K model trial completes on .157 on2026-10-07. The candidate
+adds IQ2 LDS only to scalar decode, on top of the retained four-row Q2 down.
+Use the saved native C benchmark, all four unchanged requests,130925 input
+tokens,63 full2048-token chunks plus the1901-token tail, capacity133760,
+zero cached tokens and eight AR calls. Controls are neither rebuilt nor rerun.
+
+| Original128K observation | Full prefill ms | PP token/s | Eight decode calls ms | TG calls/s |
+|---|---:|---:|---:|---:|
+| Saved original Q2 |99876.067130|1310.874605|315.653915|25.344213|
+| Isolated HC |97915.672036|1337.119965|308.708599|25.914406|
+| Retained four-row down |97853.296131|1337.972303|306.494308|26.101627|
+| New IQ2 LDS candidate |97840.147349|1338.152114|306.656405|26.087829|
+
+The incremental result is PP+0.013439% /TG-0.052859%, effectively flat.
+The component's mean5.96% saving did not yield a model gain. Keep four-row
+down as the reference; do not promote LDS or repeat the context curve.
+All four replies and token pieces remain exact against the original and R3.
+This is eight measured AR calls, not sustained TG128 or independent task quality.
+The1500PP/30TG goal remains unmet. Prefill kernels are unchanged, so its tiny
+variation is not attributed to this decode-only change.
+
+Performance/120 W and fan curves verify before/after; sampled peaks are
+CPU90.625C/GPU92C. CPU fixtures, verify/admit/run/release and both children
+exit0. All38 artifacts hash-verify before18:08:03.238385UTC release,
+SHA`0d852d5fe4a0cebcb2139e20c891d67aa4fa71f06dd51375f7ee443c99925e25`.
+Independent closure18:08:32 verifies the registry, eight retired identities
+and groups, empty KFD, five free original leases and seven unchanged models.
+No Q2 remote workload/window/reservation remains. No remote cleanup occurred.
+
+![Original128K PP and TG](figures/q2-iq2-decode-lds-native128.png)
+
+[Exact values](figures/q2-iq2-decode-lds-native128.csv),
+[audited result](../config/q2-iq2-decode-lds-native128-results.json),
+[frozen plan](../config/q2-iq2-decode-lds-native128-plan.json).
+
+## Model integration and component provenance
+
 Model integration prepared on2026-10-07: the private provider composes LDS
 gate/up with the retained four-row Q2 down provider. Dispatch requires
 `!prefill_phase`, one token, ten selected experts, IQ2_XXS,640rows,2560columns
@@ -15,8 +54,9 @@ strict comparison exit1 is retained, not interpreted as a numerical failure.
 Build/source/relocation receipts are under
 `evidence/q2-iq2-decode-lds-model-preparation/` and
 `config/q2-iq2-decode-lds-{model-source,build}.json`.
-Original130925/8 model timing and task-quality qualification remain pending.
-# Stage the existing IQ2 codebook for scalar decode
+The model timing above is complete; independent task quality remains open.
+
+## Earlier scalar component
 
 The scalar component completed on .157 on 2026-10-07, exit 0. All 906 full
 output comparisons are exact and all 1359 independent FP64 checks pass.
@@ -35,9 +75,9 @@ Each arm retains 64 distinct outputs, with two warmups and five timed rounds.
 | Arithmetic mean | 53.585203 | 52.752550 | 50.391713 | -5.960% |
 
 Four of five pairs improve, but timing varies substantially and one regresses.
-Retain the candidate for a separate model trial; these component timings do
+These component timings justified the subsequent model trial above, but did
 not establish a token-rate improvement, sustained decode or model quality.
-No production dispatch, prefill implementation or quantization changes.
+The component itself changed no production dispatch, prefill or quantization.
 The fixture covers ragged rows, inactive IDs, tiny/zero/cancellation inputs;
 per-repetition failure filenames cannot overwrite earlier comparisons.
 

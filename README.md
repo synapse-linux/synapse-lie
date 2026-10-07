@@ -27,10 +27,11 @@ independent task-quality acceptance or a sustained-decode measurement.
 A private [IQ2 decode codebook-LDS component](docs/Q2-IQ2-DECODE-LDS.md)
 passes 906 exact output comparisons and 1359 independent checks on .157.
 Four of five component pairs improve, with variable timing; all five rounds
-are reported. Its private model candidate now selects LDS only for one-token
-non-prefill IQ2 gate/up. All923 existing GPU functions remain byte-exact;
-the new kernel matches the measured component except for a verified codebook
-address relocation. Original128K model measurement remains pending.
+are reported. Its original128K model trial completes at1338.152114 PP /
+26.087829 TG, versus1337.972303 /26.101627 for retained four-row down.
+All four replies are exact, but the incremental change is effectively flat;
+keep four-row down as the reference. The new candidate is not promoted.
+[Latest PP/TG comparison](docs/figures/q2-iq2-decode-lds-native128.png).
 
 The subsequent down/SiLU fusion passes its exact component checks but adds
 no measured model gain:1332.307970 PP /25.595276 TG versus the retained

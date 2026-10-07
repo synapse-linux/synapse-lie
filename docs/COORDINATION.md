@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+IQ2 scalar LDS original128K model released — 2026-10-07 UTC: source5548600e,
+plan d74a1f28 and server30fdc4f6; CPU fixture/verify/admit/run/release0.
+Admitted18:02:37, run18:02:44→18:04:40, server/client0. All38 artifacts
+hash-verify18:07:26 before18:08:03.238385 release, SHA
+0d852d5fe4a0cebcb2139e20c891d67aa4fa71f06dd51375f7ee443c99925e25.
+Independent18:08:32 closure verifies persistent current-boot registry,
+eight identities/groups retired, KFD empty, five original leases free and
+seven unchanged model stats. Performance120W/fans match before/after.
+Core/GLM receive closure. No Q2 remote job/window/waiter/reservation remains;
+further preparation is local only and grants no future admission.
+No remote cleanup, build, service change, tuning or model conversion occurred.
+
 IQ2 scalar LDS component released — 2026-10-07 UTC: plan6d025486,
 source d61b1395, .157 CPU fixture/verify/admit/run/release exit0. Admitted
 16:24:40 UTC; component finishes16:24:58.892422. All38 files verify locally
