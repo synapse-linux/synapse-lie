@@ -125,6 +125,18 @@ and no geometry/mask-pitch refusal
 These selected configurations do not qualify live changes, cache/cancel/fairness,
 broader quality/fault/resource behavior or matched performance; those gates remain open.
 
+The native C17 benchmark now provides explicit `--prefill-probe live|ram|ssd`
+qualification clients for those remaining gates. Full physical input/output,
+in-flight owner counters, immutable queued choices, credit/cancellation recovery
+and five cache-namespace stages are saved. Performance report readers refuse
+these functional identities. Focused native Release and unsuppressed sanitizer
+checks pass 5/5 each; six AR/MTP synthetic probes, fourteen CLI refusals and a
+deliberate failed prefill are retained. All 82 optional mocked supervisor checks
+pass. The [HOST receipt](development/validation/prefill-probe-host-2026-10-07.json)
+preserves corrected preparation/test failures. No engine ABI, scheduler, provider
+or numerical algorithm changes; a newly bound `.161` client build and actual
+original-weight live/cache runs are still required. All six items remain open.
+
 An open qualification gate does not mean its implementation is absent:
 
 | Item | Source already integrated in this branch | Final qualification still open |

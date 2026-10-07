@@ -455,6 +455,163 @@ def validate_core_progress(path, jobs, settings):
             'final_samples': len(final), 'partial_prefill_job_observations': partial_prefill,
             'inflight_prefill_observations': inflight_prefill, 'stderr_sha256': sha(path)}
 
+def validate_prefill_probe(rows, probe, settings, capacity, prompt):
+    """Bind complete native functional witnesses; never normalize as throughput."""
+    def require(ok, message):
+        if not ok:
+            raise RuntimeError('Prefill probe: ' + message)
+    def number(row, key, expected=None, minimum=0):
+        value = row.get(key)
+        require(type(value) is int and value >= minimum and
+                (expected is None or value == expected), 'invalid ' + key)
+        return value
+    def events(name, count):
+        selected = [row for row in rows if row.get('event') == name]
+        require(len(selected) == count, 'incomplete ' + name)
+        return selected
+    def choice(value, chunk, revision):
+        require(type(value) is dict, 'missing admitted selection')
+        number(value, 'chunk_tokens', chunk)
+        number(value, 'capacity_tokens', capacity)
+        number(value, 'revision', revision)
+    def same_ids(value, expected):
+        return type(value) is list and len(value) == len(expected) and all(
+            type(token) is int and token == wanted for token, wanted in zip(value, expected))
+    live, disk = probe == 'live', probe == 'ssd'
+    require(probe in ('live', 'ram', 'ssd') and type(rows) is list and rows and
+            all(type(row) is dict for row in rows) and
+            rows[-1] == {'event': 'complete', 'exit_code': 0} and
+            type(rows[-1].get('exit_code')) is int, 'completion')
+    events('complete', 1)
+    identity = events('identity', 1)[0]
+    require(identity.get('synthetic') is False and identity.get('prefill_probe') == probe and
+            identity.get('execution') == 'shared-reactive-core' and
+            identity.get('schema') == 'synapse-lie.core-bench.v1' and
+            identity.get('mode') in ('ar', 'mtp') and
+            identity.get('eos_policy') == 'ignore' and
+            identity.get('input_kind') == 'physical-tokens' and
+            identity.get('cache_policy') == ('off' if live else probe), 'original native identity')
+    number(identity, 'context_capacity', settings['context'])
+    number(identity, 'prefill_chunk', settings['chunk'])
+    number(identity, 'prefill_capacity', capacity)
+    number(identity, 'users', 2 if live else 1)
+    source = events('input', 1)[0]
+    require(same_ids(source.get('physical_ids'), prompt), 'complete physical input drift')
+    number(source, 'prompt_tokens', len(prompt))
+    physical_sha = hashlib.sha256(b''.join(token.to_bytes(4, 'little', signed=True)
+                                           for token in prompt)).hexdigest()
+    require(source.get('physical_ids_sha256') == physical_sha, 'physical input hash')
+    complete = events('prefill_probe_complete', 1)[0]
+    require(complete.get('mode') == probe and complete.get('synthetic') is False, 'probe mode')
+    number(complete, 'prompt_tokens', len(prompt))
+    number(complete, 'output_tokens', settings['tg'])
+    output = complete.get('baseline_output_ids')
+    require(type(output) is list and len(output) == settings['tg'] and
+            all(type(token) is int and 0 <= token <= 2147483647 for token in output),
+            'complete bounded output IDs')
+    jobs, samples = events('job', 2 if live else 5), events('sample', 2 if live else 5)
+    for step, job in enumerate(jobs):
+        changed = not live and step in (2, 3)
+        chunk = capacity if changed else settings['chunk']
+        revision = (3 if step else 1) if live else (3 if step >= 4 else 2 if changed else 1)
+        number(job, 'rep', step)
+        number(job, 'warmup', 0)
+        number(job, 'user', 0)
+        number(job, 'prompt_tokens', len(prompt))
+        number(job, 'output_tokens', settings['tg'])
+        require(same_ids(job.get('output_ids'), output) and job.get('finish') == 'length',
+                'full confirmed greedy output drift')
+        drafted = number(job, 'mtp_drafted_tokens')
+        accepted = number(job, 'mtp_accepted_tokens')
+        require(accepted <= drafted and
+                (identity.get('mode') != 'ar' or drafted == accepted == 0),
+                'invalid saved job MTP counts')
+        number(job, 'prefill_chunk', chunk)
+        number(job, 'prefill_capacity', capacity)
+        number(job, 'prefill_revision', revision)
+        hot = not live and step in (1, 3, 4)
+        number(job, 'prefill_tokens', 0 if hot else len(prompt))
+        number(job, 'cached_tokens', len(prompt) if hot else 0)
+        number(job, 'ssd_cached_tokens', len(prompt) if hot and disk else 0)
+        number(job, 'prefill_calls', 0 if hot else (len(prompt) + chunk - 1) // chunk)
+        number(samples[step], 'rep', step)
+        number(samples[step], 'warmup', 0)
+        number(samples[step], 'users', 1)
+        number(samples[step], 'output_tokens', settings['tg'])
+    if live:
+        transition = events('prefill_transition', 1)[0]
+        require(transition.get('same_owner_call_observed') is True and
+                transition.get('immutable_admissions') is True, 'in-flight queue witness')
+        number(transition, 'queued_after_changes', minimum=1)
+        started = number(transition, 'prefill_started_before', minimum=1)
+        returned = number(transition, 'prefill_returned_before')
+        require(started == returned + 1, 'owner call not in flight')
+        number(transition, 'prefill_started_after', started)
+        number(transition, 'prefill_returned_after', returned)
+        choice(transition.get('initial_core'), settings['chunk'], 1)
+        choice(transition.get('active_job'), settings['chunk'], 1)
+        choice(transition.get('queued_job'), capacity, 2)
+        choice(transition.get('current_core'), settings['chunk'], 3)
+        retired = events('prefill_live_result', 1)[0]
+        choice(retired.get('active_job'), settings['chunk'], 1)
+        choice(retired.get('peer_job'), capacity, 2)
+        number(retired, 'active_prefill_calls', (len(prompt) + settings['chunk'] - 1) // settings['chunk'])
+        number(retired, 'peer_prefill_calls', (len(prompt) + capacity - 1) // capacity)
+        number(retired, 'peer_prompt_tokens', len(prompt))
+        number(retired, 'peer_output_tokens', settings['tg'])
+        require(retired.get('complete_peer_output_equal') is True and
+                same_ids(retired.get('peer_output_ids'), output), 'peer output differs from baseline')
+        reactive = events('reactive', 1)[0]
+        require(reactive.get('synthetic') is False and
+                reactive.get('scope') == 'direct-c-core-held-loan-peer-cancel', 'credit/loan scope')
+        held = number(reactive, 'held_output_tokens', minimum=1)
+        require(held < settings['tg'], 'held job was not blocked')
+        number(reactive, 'held_borrowed_tokens', minimum=1)
+        number(reactive, 'held_output_blocked', 1)
+        number(reactive, 'peer_output_tokens', settings['tg'])
+        number(reactive, 'completed_delta', 1)
+        number(reactive, 'cancelled_delta', 1)
+        # MTP verifies/drafts through its own executor calls rather than AR
+        # row batching; actual accepted tokens below prove that mode executes.
+        number(reactive, 'decode_batches_delta', minimum=1 if identity['mode'] == 'ar' else 0)
+        drafted = number(reactive, 'mtp_drafted_delta')
+        accepted = number(reactive, 'mtp_accepted_delta')
+        require(accepted <= drafted and
+                (accepted > 0 if identity.get('mode') == 'mtp' else drafted == accepted == 0),
+                'reactive MTP mode did not execute as requested')
+        cancel = events('prefill_cancel', 1)[0]
+        require(cancel.get('same_owner_call_observed') is True and cancel.get('retired') is True,
+                'actual prefill cancellation')
+        number(cancel, 'cancel_during_prefill_delta', 1)
+        number(cancel, 'cancelled_delta', 1)
+        number(cancel, 'failed_delta', 0)
+        number(cancel, 'output_tokens', 0)
+    else:
+        stages = ('initial-cold', 'initial-hot', 'changed-cold', 'changed-hot', 'initial-restored-hot')
+        for step, record in enumerate(events('prefill_cache_step', 5)):
+            require(record.get('stage') == stages[step] and record.get('storage') == probe and
+                    record.get('verified') is True, 'cache namespace stage')
+            for key in ('cached_tokens', 'ssd_cached_tokens', 'prefill_calls'):
+                number(record, key, jobs[step][key])
+            number(record, 'step', step)
+            number(record, 'ssd_errors', 0)
+            number(record, 'ssd_pending', 0)
+            choice(record.get('selection'), jobs[step]['prefill_chunk'], jobs[step]['prefill_revision'])
+            if disk:
+                number(record, 'ssd_writes', minimum=1)
+        if disk:
+            drained = events('ssd_drained', 1)[0]
+            number(drained, 'writes', minimum=2)
+            number(drained, 'errors', 0)
+            number(drained, 'pending', 0)
+    return {'scope': 'complete native functional witnesses, not performance or broader quality',
+            'probe': probe, 'jobs': len(jobs), 'samples': len(samples),
+            'physical_input_ids_sha256': physical_sha, 'confirmed_output_ids': output,
+            'initial_chunk_tokens': settings['chunk'], 'capacity_tokens': capacity,
+            'native_inflight_and_credit_cancel_verified': live,
+            'cache_namespace_steps_verified': 0 if live else 5}
+
+
 def vision_fixture_png():
     """An owned 224x224 white canvas with a central red square."""
     width = height = 224
@@ -764,7 +921,7 @@ class Campaign:
                   '--home', str(home), '--volume', str(bundle)+':/bundle:ro',
                   '--volume', str(model)+':/model:ro', '--volume', root+':/work:rw',
                   '--additional-flags', flags, '--no-entry']
-        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-ssd-restart', 'modern-core-ssd-text-restart', 'modern-core-steering-restart', 'modern-core-steering-admission', 'modern-core-reactive-probe', 'modern-core-vision', 'modern-http', 'modern-http-multi', 'modern-http-depth') and self.m.get('decode_mode') == 'mtp':
+        if self.m.get('bench_profile') in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-ssd-restart', 'modern-core-ssd-text-restart', 'modern-core-steering-restart', 'modern-core-steering-admission', 'modern-core-reactive-probe', 'modern-core-prefill-probe', 'modern-core-vision', 'modern-http', 'modern-http-multi', 'modern-http-depth') and self.m.get('decode_mode') == 'mtp':
             predictor = checked_path(self.m['predictor_plan']['destination'])
             create[create.index('--additional-flags'):create.index('--additional-flags')] = [
                 '--volume', str(predictor)+':/mtp:ro']
@@ -1245,7 +1402,7 @@ class Campaign:
             return self.modern_steering_admission_gate()
         if profile == 'modern-core-vision':
             return self.modern_vision_bench()
-        if profile in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-reactive-probe'):
+        if profile in ('modern-core', 'modern-core-ram', 'modern-core-ssd', 'modern-core-reactive-probe', 'modern-core-prefill-probe'):
             return self.modern_core_bench()
         if type(profile) is not str or profile not in BENCH_PROFILES:
             raise ValueError('Unknown fixed benchmark profile')
@@ -1324,13 +1481,17 @@ class Campaign:
         if self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox':
             raise ValueError('Modern core benchmark requires ROCm 10 Distrobox')
         profile = self.m.get('bench_profile')
-        ram_cache = profile == 'modern-core-ram'
-        ssd_cache = profile == 'modern-core-ssd'
+        prefill_probe = self.m.get('prefill_probe') if profile == 'modern-core-prefill-probe' else None
+        if ((profile == 'modern-core-prefill-probe' and prefill_probe not in ('live', 'ram', 'ssd')) or
+                (profile != 'modern-core-prefill-probe' and 'prefill_probe' in self.m)):
+            raise ValueError('Invalid explicit native prefill probe mode')
+        ram_cache = profile == 'modern-core-ram' or prefill_probe == 'ram'
+        ssd_cache = profile == 'modern-core-ssd' or prefill_probe == 'ssd'
         reactive_probe = profile == 'modern-core-reactive-probe'
         progress_ms = self.m.get('progress_interval_ms', 0)
         if (type(progress_ms) is not int or
                 (progress_ms != 0 and not 100 <= progress_ms <= 60000) or
-                (reactive_probe and progress_ms)):
+                ((reactive_probe or prefill_probe) and progress_ms)):
             raise ValueError('Core progress interval must be zero or 100..60000 ms, outside reactive probes')
         mode = self.m.get('decode_mode')
         if mode not in ('ar', 'mtp'):
@@ -1367,12 +1528,19 @@ class Campaign:
             raise ValueError('Invalid core EOS policy')
         if eos_policy == 'ignore' and reactive_probe:
             raise ValueError('Reactive probe retains natural EOS')
-        if (ram_cache or ssd_cache) and (settings['users'] != 1 or settings['warmups'] != 1 or
+        if (ram_cache or ssd_cache) and not prefill_probe and (settings['users'] != 1 or settings['warmups'] != 1 or
                                          settings['repetitions'] != 1):
             raise ValueError('Modern cache gate requires C1, one warmup and one measured run')
         if reactive_probe and (settings['users'] != 2 or settings['warmups'] != 0 or
                                settings['repetitions'] != 1):
             raise ValueError('Direct reactive gate requires C2, no warmup and one probe')
+        if prefill_probe and (
+                'prefill_capacity' not in self.m or capacity <= settings['chunk'] or
+                settings['users'] != (2 if prefill_probe == 'live' else 1) or
+                settings['warmups'] != 0 or settings['repetitions'] != 1 or
+                generation['temperature'] != 0 or generation['frequency_penalty'] != 0 or
+                generation['presence_penalty'] != 0 or eos_policy != 'ignore'):
+            raise ValueError('Native prefill probe requires fixed greedy work and a larger explicit reservation')
         tokens = checked_path(self.root/'tokens.json')
         if sha(tokens) != self.m.get('tokens_sha256'):
             raise ValueError('Physical prompt token file drift')
@@ -1382,6 +1550,8 @@ class Campaign:
                 not 1 <= len(prompt) <= settings['context']-settings['tg'] or
                 any(type(token) is not int or token < 0 or token > 2147483647 for token in prompt)):
             raise ValueError('Invalid bounded physical prompt')
+        if prefill_probe and len(prompt) <= settings['chunk']:
+            raise ValueError('Prefill probe input must exceed its initial chunk')
         model, rows = self.verified_model()
         predictor = None
         if mode == 'mtp':
@@ -1406,6 +1576,8 @@ class Campaign:
             command.append('--ignore-eos')
         if reactive_probe:
             command.append('--reactive-probe')
+        if prefill_probe:
+            command.extend(('--prefill-probe', prefill_probe))
         if ssd_cache:
             command.extend(('--kv-disk-dir', '/work/kv', '--kv-disk-space-mb', '4096',
                             '--kv-disk-staging-mb', '512'))
@@ -1453,7 +1625,7 @@ class Campaign:
                         type(identity.get('prefill_capacity')) is not int or
                         identity['prefill_capacity'] != capacity):
                     raise RuntimeError('Unexpected core prefill identity')
-                for job in jobs:
+                for job in jobs if not prefill_probe else ():
                     if (type(job.get('prefill_chunk')) is not int or
                             job['prefill_chunk'] != settings['chunk'] or
                             type(job.get('prefill_capacity')) is not int or
@@ -1461,6 +1633,19 @@ class Campaign:
                             type(job.get('prefill_revision')) is not int or
                             job['prefill_revision'] != 1):
                         raise RuntimeError('Unexpected admitted job prefill identity')
+            if prefill_probe:
+                proof = validate_prefill_probe(measurements, prefill_probe, settings, capacity, prompt)
+                drafted = sum(row.get('mtp_drafted_tokens', 0) for row in jobs)
+                accepted = sum(row.get('mtp_accepted_tokens', 0) for row in jobs)
+                if ((mode == 'mtp' and (drafted <= 0 or accepted <= 0)) or
+                        (mode == 'ar' and (drafted or accepted))):
+                    raise RuntimeError('Native prefill decode mode did not execute as requested')
+                self.r['bench_result'] = {'profile': profile, 'mode': mode,
+                    'eos_policy': eos_policy, 'generation': generation, 'prefill_probe': proof,
+                    'drafted_in_saved_sample_jobs': drafted, 'accepted_in_saved_sample_jobs': accepted,
+                    'measurements_sha256': sha(self.root/'measurements.jsonl'),
+                    'performance_comparison': False}
+                return
             if reactive_probe:
                 reactive = [row for row in measurements if row.get('event') == 'reactive']
                 if (len(reactive) != 1 or jobs or samples or

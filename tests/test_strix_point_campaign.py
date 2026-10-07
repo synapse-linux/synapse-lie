@@ -47,6 +47,193 @@ class Tests(unittest.TestCase):
         root = self.base/name; root.mkdir()
         (root/'manifest.json').write_text('{}')
         return Fixture(root, {'authorization': 'CPU fixture; not an actual grant'})
+    def prefill_receipt(self, probe, mode='ar', mocked_original=True):
+        path = Path(__file__).parent/'fixtures/prefill-probe-receipts.json'
+        data = json.loads(path.read_text())
+        self.assertEqual(data['classification'], 'SYNTHETIC_NATIVE_C17_HOST_FIXTURE_NOT_INFERENCE')
+        rows = copy.deepcopy(data['cases'][probe+'-'+mode]['rows'])
+        identity = rows[0]
+        # Only exercise receipt validation here. These transformed records are
+        # mocked original-shaped data, never original-weight/GPU evidence.
+        if mocked_original:
+            for row in rows:
+                if 'synthetic' in row:
+                    row['synthetic'] = False
+            identity.update(context_capacity=4096, build_id='mocked-prefill-runtime')
+        settings = {'context':identity['context_capacity'], 'chunk':identity['prefill_chunk'],
+                    'users':identity['users'], 'tg':identity['output_limit'],
+                    'warmups':identity['warmups'], 'repetitions':identity['repetitions']}
+        prompt = next(row['physical_ids'] for row in rows if row['event']=='input')
+        return rows, settings, identity['prefill_capacity'], prompt
+    def validate_prefill_receipt(self, rows, probe, settings, capacity, prompt):
+        return point.validate_prefill_probe(rows, probe, settings, capacity, prompt)
+    def test_prefill_receipts_accept_complete_mocked_ar_and_mtp_witnesses(self):
+        for probe in ('live','ram','ssd'):
+            for mode in ('ar','mtp'):
+                with self.subTest(probe=probe,mode=mode):
+                    rows, settings, capacity, prompt = self.prefill_receipt(probe,mode)
+                    proof = self.validate_prefill_receipt(rows,probe,settings,capacity,prompt)
+                    self.assertEqual(proof['confirmed_output_ids'], list(range(32)))
+                    self.assertEqual(proof['jobs'], 2 if probe=='live' else 5)
+                    self.assertEqual(proof['cache_namespace_steps_verified'], 0 if probe=='live' else 5)
+                    self.assertEqual(proof['native_inflight_and_credit_cancel_verified'],probe=='live')
+    def test_prefill_receipts_refuse_actual_synthetic_identity(self):
+        for probe in ('live','ram','ssd'):
+            for mode in ('ar','mtp'):
+                with self.subTest(probe=probe,mode=mode):
+                    args = self.prefill_receipt(probe,mode,mocked_original=False)
+                    with self.assertRaisesRegex(RuntimeError,'original native identity'):
+                        self.validate_prefill_receipt(args[0],probe,*args[1:])
+    def test_prefill_receipts_bind_all_physical_input_and_confirmed_output_ids(self):
+        for probe in ('live','ram','ssd'):
+            rows, settings, capacity, prompt = self.prefill_receipt(probe)
+            targets = [('input','physical_ids'),('job','output_ids'),
+                       ('prefill_probe_complete','baseline_output_ids')]
+            if probe=='live': targets.append(('prefill_live_result','peer_output_ids'))
+            for event, key in targets:
+                for value in (True,1.0,12345):
+                    with self.subTest(probe=probe,event=event,value=value):
+                        bad = copy.deepcopy(rows)
+                        next(r for r in bad if r['event']==event)[key][1] = value
+                        with self.assertRaises(RuntimeError):
+                            self.validate_prefill_receipt(bad,probe,settings,capacity,prompt)
+            for index, row in enumerate(rows):
+                if row['event'] != 'job': continue
+                bad = copy.deepcopy(rows); bad[index]['output_ids'][-1] = 12345
+                with self.subTest(probe=probe,job=index),self.assertRaises(RuntimeError):
+                    self.validate_prefill_receipt(bad,probe,settings,capacity,prompt)
+            bad = copy.deepcopy(rows)
+            next(r for r in bad if r['event']=='input')['physical_ids_sha256'] = '0'*64
+            with self.assertRaisesRegex(RuntimeError,'physical input hash'):
+                self.validate_prefill_receipt(bad,probe,settings,capacity,prompt)
+    def test_prefill_live_receipt_requires_same_call_immutable_queue_and_real_cancellation(self):
+        rows, settings, capacity, prompt = self.prefill_receipt('live')
+        mutations = [('prefill_transition','same_owner_call_observed',False),
+                     ('prefill_transition','immutable_admissions',False),
+                     ('prefill_transition','queued_after_changes',0),
+                     ('prefill_transition','prefill_started_before',8),
+                     ('prefill_transition','prefill_started_after',10),
+                     ('prefill_transition','prefill_returned_after',9),
+                     ('prefill_live_result','peer_prefill_calls',8),
+                     ('prefill_live_result','complete_peer_output_equal',False),
+                     ('reactive','synthetic',True),('reactive','held_output_blocked',True),
+                     ('reactive','held_borrowed_tokens',0),('reactive','held_output_tokens',32),
+                     ('reactive','completed_delta',0),('reactive','cancelled_delta',0),
+                     ('reactive','decode_batches_delta',0),('reactive','mtp_accepted_delta',1),
+                     ('prefill_cancel','same_owner_call_observed',False),
+                     ('prefill_cancel','cancel_during_prefill_delta',0),
+                     ('prefill_cancel','cancelled_delta',True),('prefill_cancel','failed_delta',1),
+                     ('prefill_cancel','output_tokens',1),('prefill_cancel','retired',1)]
+        for event,key,value in mutations:
+            bad = copy.deepcopy(rows); next(r for r in bad if r['event']==event)[key]=value
+            with self.subTest(event=event,key=key),self.assertRaises(RuntimeError):
+                self.validate_prefill_receipt(bad,'live',settings,capacity,prompt)
+        for event,keys in [('prefill_transition',('initial_core','current_core','active_job','queued_job')),
+                           ('prefill_live_result',('active_job','peer_job'))]:
+            for key in keys:
+                for field in ('chunk_tokens','capacity_tokens','revision'):
+                    bad = copy.deepcopy(rows); next(r for r in bad if r['event']==event)[key][field]=True
+                    with self.subTest(event=event,key=key,field=field),self.assertRaises(RuntimeError):
+                        self.validate_prefill_receipt(bad,'live',settings,capacity,prompt)
+        rows, settings, capacity, prompt = self.prefill_receipt('live','mtp')
+        next(r for r in rows if r['event']=='reactive')['mtp_accepted_delta']=0
+        with self.assertRaisesRegex(RuntimeError,'MTP mode'):
+            self.validate_prefill_receipt(rows,'live',settings,capacity,prompt)
+    def test_prefill_cache_receipts_require_full_hot_prefix_and_separate_chunk_namespaces(self):
+        for probe in ('ram','ssd'):
+            rows, settings, capacity, prompt = self.prefill_receipt(probe)
+            for event in ('job','prefill_cache_step'):
+                indices=[i for i,r in enumerate(rows) if r['event']==event]
+                for step,index in enumerate(indices):
+                    for key,value in [('cached_tokens',0 if step in (1,3,4) else 64),
+                                      ('prefill_calls',1),('ssd_cached_tokens',1)]:
+                        bad=copy.deepcopy(rows); bad[index][key]=value
+                        with self.subTest(probe=probe,event=event,step=step,key=key),self.assertRaises(RuntimeError):
+                            self.validate_prefill_receipt(bad,probe,settings,capacity,prompt)
+                    key='prefill_revision' if event=='job' else 'selection'
+                    bad=copy.deepcopy(rows)
+                    if event=='job': bad[index][key]=99
+                    else: bad[index][key]['revision']=99
+                    with self.subTest(probe=probe,event=event,step=step,key=key),self.assertRaises(RuntimeError):
+                        self.validate_prefill_receipt(bad,probe,settings,capacity,prompt)
+            for field,value in [('verified',1),('ssd_pending',1),('ssd_errors',1)]:
+                bad=copy.deepcopy(rows); next(r for r in bad if r['event']=='prefill_cache_step')[field]=value
+                with self.subTest(probe=probe,field=field),self.assertRaises(RuntimeError):
+                    self.validate_prefill_receipt(bad,probe,settings,capacity,prompt)
+        rows,settings,capacity,prompt=self.prefill_receipt('ssd')
+        for event,key,value in [('prefill_cache_step','ssd_writes',0),
+                                ('ssd_drained','writes',1),('ssd_drained','pending',1),
+                                ('ssd_drained','errors',1)]:
+            bad=copy.deepcopy(rows); next(r for r in bad if r['event']==event)[key]=value
+            with self.subTest(event=event,key=key),self.assertRaises(RuntimeError):
+                self.validate_prefill_receipt(bad,'ssd',settings,capacity,prompt)
+    def test_prefill_receipts_reject_missing_duplicate_and_invalid_typed_events(self):
+        for probe in ('live','ram','ssd'):
+            rows,settings,capacity,prompt=self.prefill_receipt(probe)
+            for index,row in enumerate(rows):
+                if row['event']=='core_ready': continue
+                with self.subTest(probe=probe,missing=row['event']),self.assertRaises(RuntimeError):
+                    self.validate_prefill_receipt(rows[:index]+rows[index+1:],probe,settings,capacity,prompt)
+                with self.subTest(probe=probe,duplicate=row['event']),self.assertRaises(RuntimeError):
+                    self.validate_prefill_receipt(rows[:index]+[row]+rows[index:],probe,settings,capacity,prompt)
+            for bad in (rows+[None],rows[:-1]+[{'event':'complete','exit_code':False}]):
+                with self.assertRaises(RuntimeError):
+                    self.validate_prefill_receipt(bad,probe,settings,capacity,prompt)
+    def prefill_campaign(self,name,probe,mode='ar'):
+        c=self.campaign(name)
+        rows,settings,capacity,prompt=self.prefill_receipt(probe,mode)
+        tokens=c.root/'tokens.json'; tokens.write_text(json.dumps(prompt))
+        c.m.update(action='bench',stack='rocm10-fedora43',transport='distrobox',
+                   bench_profile='modern-core-prefill-probe',prefill_probe=probe,decode_mode=mode,
+                   bundle=str(self.base),tokens_sha256=point.sha(tokens),prompt_tokens_expected=len(prompt),
+                   runtime_build_id='mocked-prefill-runtime',settings=settings,prefill_capacity=capacity,
+                   eos_policy='ignore',generation=rows[0]['generation'],
+                   model_plan={'files':[{'name':'target.gguf'}]})
+        if mode=='mtp': c.m['predictor_plan']={'files':[{'name':'mtp.gguf'}]}
+        return c,rows
+    def test_prefill_campaign_routes_all_three_native_modes_and_binds_complete_receipts(self):
+        for probe in ('live','ram','ssd'):
+            for mode in ('ar','mtp'):
+                with self.subTest(probe=probe,mode=mode):
+                    c,rows=self.prefill_campaign('prefill-route-'+probe+'-'+mode,probe,mode)
+                    def run(command,_bundle,_timeout,_model):
+                        self.assertEqual(command[command.index('--prefill-probe')+1],probe)
+                        self.assertEqual(command[command.index('--prefill-capacity')+1],'32')
+                        self.assertEqual(command[command.index('--kv-cache-ram-mb')+1],
+                                         '4096' if probe=='ram' else '0')
+                        self.assertEqual('--kv-disk-dir' in command,probe=='ssd')
+                        self.assertEqual('--model-mtp' in command,mode=='mtp')
+                        self.assertIn('--ignore-eos',command)
+                        self.assertNotIn('--reactive-probe',command)
+                        (c.root/'measurements.jsonl').write_text(''.join(json.dumps(row)+'\n' for row in rows))
+                    with patch.object(c,'verified_model',return_value=(self.base/'model',[])), \
+                         patch.object(c,'verified_predictor',return_value=(self.base/'mtp.gguf',{})), \
+                         patch.object(c,'check_model_after'),patch.object(c,'run_container',side_effect=run):
+                        c.bench()
+                    self.assertFalse(c.r['bench_result']['performance_comparison'])
+                    self.assertEqual(c.r['bench_result']['prefill_probe']['confirmed_output_ids'],list(range(32)))
+                    self.assertEqual(c.r['bench_result']['measurements_sha256'],point.sha(c.root/'measurements.jsonl'))
+    def test_prefill_campaign_refuses_invalid_manifest_before_model_or_container(self):
+        mutations=[('prefill_probe','other'),('prefill_capacity',8),('prefill_capacity',True),
+                   ('settings.users',1),('settings.warmups',1),('settings.repetitions',2),
+                   ('generation.temperature',1),('generation.frequency_penalty',1),
+                   ('generation.presence_penalty',1),('eos_policy','stop'),
+                   ('progress_interval_ms',1000),('bench_profile','modern-core')]
+        for index,(key,value) in enumerate(mutations):
+            c,_=self.prefill_campaign('prefill-invalid-'+str(index),'live')
+            if '.' in key:
+                parent,child=key.split('.'); c.m[parent][child]=value
+            else: c.m[key]=value
+            with self.subTest(key=key),patch.object(c,'verified_model') as model, \
+                 patch.object(c,'run_container') as run,self.assertRaises(ValueError):
+                c.bench()
+            model.assert_not_called(); run.assert_not_called()
+        c,_=self.prefill_campaign('prefill-short','live')
+        c.m['settings']['chunk']=64;c.m['prefill_capacity']=128
+        with patch.object(c,'verified_model') as model,patch.object(c,'run_container') as run, \
+             self.assertRaisesRegex(ValueError,'exceed'):
+            c.bench()
+        model.assert_not_called();run.assert_not_called()
     def progress_fixture(self):
         settings = {'context':4096, 'chunk':2048, 'users':2, 'tg':32,
                     'warmups':1, 'repetitions':1}

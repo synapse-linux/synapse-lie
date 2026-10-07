@@ -408,6 +408,9 @@ static json_object *core(json_object *rows, nb_error *e) {
   nb_add(out, "jobs", jobs);
   json_object_object_add(out, "loading", select_rows(rows, "core_ready"));
   int64_t chunk,capacity;
+  json_object *probe = NULL;
+  CHECK(!json_object_object_get_ex(id, "prefill_probe", &probe),
+        "Functional prefill qualification is not a performance benchmark");
   CHECK(repetition_config(id) && eqs(id, "suite", "core") &&
             eqs(id, "execution", "shared-reactive-core") &&
             nb_count(id, "users", 1, 8, NULL) &&

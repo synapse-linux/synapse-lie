@@ -192,7 +192,8 @@ static bool progress(lie_core *core,const consumer *rows,unsigned users,
     return emit(stderr,line);
 }
 static bool sample(lie_core *c,const lie_core_request *r,unsigned users,unsigned rep,bool warmup,
-                   unsigned timeout,unsigned progress_ms,const lie_steering_schedule *plan,witness *w,FILE *f,char error[256]) {
+                   unsigned timeout,unsigned progress_ms,const lie_steering_schedule *plan,witness *w,
+                   lie_job_info *completed,FILE *f,char error[256]) {
     consumer rows[LIE_CORE_JOBS]={0};bool ok=false;unsigned finished=0;
     uint64_t begin=now(),last=0,deadline=begin+(uint64_t)timeout*1000000u,next_progress=begin;
     if(!begin){snprintf(error,256,"clock failure");return false;}
@@ -243,6 +244,7 @@ static bool sample(lie_core *c,const lie_core_request *r,unsigned users,unsigned
     }
     for(unsigned i=0;i<users;++i){
         lie_job_info info;lie_job_snapshot(rows[i].job,&info);size_t n=0;
+        if(completed)completed[i]=info;
         if(plan){bool complete=false;json_object *result=schedule_result(rows[i].job,&complete);
             if(!result||!complete){json_object *failure=event("steering_failure");number(failure,"rep",rep);number(failure,"user",i);
                 json_object_object_add(failure,"steering_schedule",result);(void)emit(f,failure);
@@ -318,17 +320,77 @@ done:
     for(unsigned i=0;i<users;++i)if(rows[i].job)lie_job_release(rows[i].job);
     return ok;
 }
+static json_object *prefill_choice(const lie_prefill_info *info) {
+    json_object *row=json_object_new_object();
+    number(row,"chunk_tokens",info->chunk_tokens);number(row,"capacity_tokens",info->capacity_tokens);
+    number(row,"revision",info->revision);return row;
+}
+static bool same_prefill(const lie_prefill_info *a,const lie_prefill_info *b) {
+    return a->chunk_tokens==b->chunk_tokens&&a->capacity_tokens==b->capacity_tokens&&a->revision==b->revision;
+}
+/* Observe a real in-flight owner call. No synthetic barrier, sleep, provider
+ * call or extra thread is introduced by this production client. */
+static bool prefill_live_admission(lie_core *core,const lie_core_request *request,
+                                  lie_job *held,lie_job **peer,uint64_t deadline,
+                                  lie_prefill_info choices[2],FILE *f,char error[256]) {
+    lie_prefill_info initial,current;lie_prefill_info_init(&initial);lie_prefill_info_init(&current);
+    if(lie_core_prefill_snapshot(core,&initial,NULL)!=LIE_OK||initial.chunk_tokens>=initial.capacity_tokens){
+        snprintf(error,256,"live prefill probe requires a larger reserved capacity");return false;
+    }
+    lie_core_info before,after;
+    for(;;){
+        lie_core_snapshot(core,&before);lie_job_info job;lie_job_snapshot(held,&job);
+        if(before.executor_phase==LIE_EXECUTOR_PREFILL&&before.prefill_started>before.prefill_returned)break;
+        if(interrupted||now()>=deadline||job.retired||job.output_tokens){
+            snprintf(error,256,"live prefill owner window not observed");return false;
+        }
+        struct pollfd fd={lie_core_fd(core),POLLIN,0};
+        int rc=poll(&fd,1,1);if(rc<0&&errno!=EINTR){snprintf(error,256,"live prefill owner poll failed");return false;}
+        if(rc>0)lie_core_drain(core);
+    }
+    uint64_t begin=now();
+    if(lie_core_set_prefill_chunk(core,initial.capacity_tokens,NULL)!=LIE_OK||
+       lie_core_submit(core,request,peer)!=LIE_OK||
+       lie_core_set_prefill_chunk(core,initial.chunk_tokens,NULL)!=LIE_OK){
+        snprintf(error,256,"live prefill configuration/admission refused");return false;
+    }
+    lie_core_snapshot(core,&after);
+    bool snapshots=lie_core_prefill_snapshot(core,&current,NULL)==LIE_OK;
+    for(unsigned i=0;i<2;++i){lie_prefill_info_init(&choices[i]);
+        snapshots=snapshots&&lie_job_prefill_snapshot(i?*peer:held,&choices[i],NULL)==LIE_OK;}
+    bool window=before.prefill_started==after.prefill_started&&before.prefill_returned==after.prefill_returned&&
+        after.executor_phase==LIE_EXECUTOR_PREFILL&&after.queued>=1;
+    bool immutable=snapshots&&same_prefill(&initial,&choices[0])&&
+        choices[1].chunk_tokens==initial.capacity_tokens&&choices[1].capacity_tokens==initial.capacity_tokens&&
+        choices[1].revision==initial.revision+1&&current.chunk_tokens==initial.chunk_tokens&&
+        current.capacity_tokens==initial.capacity_tokens&&current.revision==initial.revision+2;
+    json_object *row=event("prefill_transition");text(row,"scope","direct-c-core-inflight-owner-queued-admission");
+    number(row,"elapsed_ns",now()-begin);number(row,"queued_after_changes",after.queued);
+    number(row,"prefill_started_before",before.prefill_started);number(row,"prefill_started_after",after.prefill_started);
+    number(row,"prefill_returned_before",before.prefill_returned);number(row,"prefill_returned_after",after.prefill_returned);
+    json_object_object_add(row,"same_owner_call_observed",json_object_new_boolean(window));
+    json_object_object_add(row,"immutable_admissions",json_object_new_boolean(immutable));
+    json_object_object_add(row,"initial_core",prefill_choice(&initial));
+    json_object_object_add(row,"current_core",prefill_choice(&current));
+    json_object_object_add(row,"active_job",prefill_choice(&choices[0]));
+    json_object_object_add(row,"queued_job",prefill_choice(&choices[1]));
+    if(!emit(f,row)||!window||!immutable){snprintf(error,256,"live prefill same-call/immutable admission witness failed");return false;}
+    return true;
+}
 /* A direct C-core consumer holds one borrowed output while a peer finishes.
  * This is a functional credit/cancellation gate, not a throughput benchmark. */
 static bool reactive_probe(lie_core *core,const lie_core_request *request,unsigned limit,
-                           unsigned timeout,bool mtp,FILE *f,char error[256]) {
+                           unsigned timeout,bool mtp,const witness *expected,FILE *f,char error[256]) {
     lie_job *held=NULL,*peer=NULL;lie_event loan={0};bool borrowed=false,passed=false;
+    lie_prefill_info choices[2];
     uint64_t deadline=now()+(uint64_t)timeout*1000000u;
     uint64_t held_tokens=0,peer_tokens=0;unsigned char *held_copy=NULL;
     lie_core_info before,blocked,after;lie_core_snapshot(core,&before);
-    if(lie_core_submit(core,request,&held)||lie_core_submit(core,request,&peer)){
+    if(lie_core_submit(core,request,&held)){
         snprintf(error,256,"reactive admission failed");goto done;
     }
+    if(expected){if(!prefill_live_admission(core,request,held,&peer,deadline,choices,f,error))goto done;}
+    else if(lie_core_submit(core,request,&peer)){snprintf(error,256,"reactive peer admission failed");goto done;}
     for(;;){
         if(interrupted||now()>=deadline){snprintf(error,256,"reactive held-output deadline");goto done;}
         lie_flow_status status=lie_job_event_next(held,&loan);
@@ -445,6 +507,32 @@ static bool reactive_probe(lie_core *core,const lie_core_request *request,unsign
                  (unsigned long long)(after.cancelled_requests-before.cancelled_requests),
                  (unsigned long long)(after.mtp_accepted-before.mtp_accepted));goto done;
     }
+    if(expected){
+        lie_prefill_info retired[2];lie_job_info jobs[2];
+        for(unsigned i=0;i<2;++i){lie_prefill_info_init(&retired[i]);lie_job *job=i?peer:held;
+            lie_job_snapshot(job,&jobs[i]);
+            if(lie_job_prefill_snapshot(job,&retired[i],NULL)!=LIE_OK||!same_prefill(&choices[i],&retired[i])||
+               jobs[i].prompt_tokens!=request->token_count||jobs[i].prefill_tokens!=request->token_count||
+               jobs[i].prefill_calls!=(request->token_count+choices[i].chunk_tokens-1)/choices[i].chunk_tokens||
+               jobs[i].cached_tokens||jobs[i].ssd_cached_tokens){
+                snprintf(error,256,"live prefill retired job configuration/calls drift");goto done;
+            }
+        }
+        int32_t output[LIE_CORE_MAX_OUTPUT];size_t count=0;
+        if(!expected->initialized||expected->output_count!=limit||
+           lie_job_output_tokens(peer,output,LIE_CORE_MAX_OUTPUT,&count)!=LIE_OK||
+           count!=expected->output_count||memcmp(output,expected->output,count*sizeof(*output))){
+            snprintf(error,256,"live prefill peer greedy output differs from baseline");goto done;
+        }
+        json_object *proof=event("prefill_live_result");
+        json_object_object_add(proof,"active_job",prefill_choice(&retired[0]));
+        json_object_object_add(proof,"peer_job",prefill_choice(&retired[1]));
+        number(proof,"active_prefill_calls",jobs[0].prefill_calls);number(proof,"peer_prefill_calls",jobs[1].prefill_calls);
+        number(proof,"peer_prompt_tokens",jobs[1].prompt_tokens);number(proof,"peer_output_tokens",count);
+        json_object_object_add(proof,"peer_output_ids",ids_json(output,count));
+        json_object_object_add(proof,"complete_peer_output_equal",json_object_new_boolean(true));
+        if(!emit(f,proof))goto done;
+    }
     json_object *row=event("reactive");text(row,"scope","direct-c-core-held-loan-peer-cancel");
     json_object_object_add(row,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
     number(row,"peer_output_tokens",peer_tokens);number(row,"held_output_tokens",held_info.output_tokens);
@@ -462,11 +550,111 @@ done:
     if(peer){if(!passed)lie_job_cancel(peer);lie_job_release(peer);}
     return passed;
 }
+static bool prefill_cancel_probe(lie_core *core,const lie_core_request *request,
+                                 unsigned timeout,FILE *f,char error[256]) {
+    lie_job *job=NULL;bool passed=false;uint64_t deadline=now()+(uint64_t)timeout*1000000u;
+    lie_core_info initial,busy,latched,after;lie_core_snapshot(core,&initial);
+    if(lie_core_submit(core,request,&job)!=LIE_OK){snprintf(error,256,"prefill cancellation admission refused");return false;}
+    for(;;){
+        lie_core_snapshot(core,&busy);lie_job_info info;lie_job_snapshot(job,&info);
+        if(busy.executor_phase==LIE_EXECUTOR_PREFILL&&busy.prefill_started>busy.prefill_returned)break;
+        if(interrupted||now()>=deadline||info.retired||info.output_tokens){snprintf(error,256,"prefill cancellation owner window missing");goto done;}
+        struct pollfd fd={lie_core_fd(core),POLLIN,0};int rc=poll(&fd,1,1);
+        if(rc<0&&errno!=EINTR){snprintf(error,256,"prefill cancellation owner poll failed");goto done;}
+        if(rc>0)lie_core_drain(core);
+    }
+    lie_job_cancel(job);lie_core_snapshot(core,&latched);
+    bool same_call=latched.executor_phase==LIE_EXECUTOR_PREFILL&&latched.prefill_started==busy.prefill_started&&
+        latched.prefill_returned==busy.prefill_returned;
+    bool terminal=false;
+    while(!terminal){
+        if(interrupted||now()>=deadline){snprintf(error,256,"prefill cancellation retirement deadline");goto done;}
+        lie_event e;lie_flow_status status=lie_job_event_next(job,&e);
+        if(status==LIE_FLOW_WOULD_BLOCK){struct pollfd fd={lie_job_event_fd(job),POLLIN,0};
+            if(poll(&fd,1,100)<0&&errno!=EINTR){snprintf(error,256,"prefill cancellation output poll failed");goto done;}
+            if(lie_job_event_drain(job)!=LIE_FLOW_OK){snprintf(error,256,"prefill cancellation drain failed");goto done;}
+            continue;
+        }
+        if(status!=LIE_FLOW_OK){snprintf(error,256,"prefill cancellation output contract failed");goto done;}
+        if(e.kind!=LIE_EVENT_TURN_END){(void)lie_job_event_release(job,e.ticket);
+            snprintf(error,256,"prefill cancellation unexpectedly generated output");goto done;}
+        if(e.reason!=LIE_TURN_CANCELLED||!e.info.retired){snprintf(error,256,"prefill cancellation terminal invalid");goto done;}
+        terminal=true;
+    }
+    for(;;){
+        lie_core_snapshot(core,&after);
+        if(after.cancelled_requests==initial.cancelled_requests+1)break;
+        if(interrupted||now()>=deadline){snprintf(error,256,"prefill cancellation counter deadline");goto done;}
+        struct pollfd fd={lie_core_fd(core),POLLIN,0};if(poll(&fd,1,10)>0)lie_core_drain(core);
+    }
+    lie_job_info info;lie_job_snapshot(job,&info);
+    json_object *row=event("prefill_cancel");
+    json_object_object_add(row,"same_owner_call_observed",json_object_new_boolean(same_call));
+    number(row,"cancel_during_prefill_delta",after.cancel_during_prefill-initial.cancel_during_prefill);
+    number(row,"cancelled_delta",after.cancelled_requests-initial.cancelled_requests);
+    number(row,"failed_delta",after.failed_requests-initial.failed_requests);
+    number(row,"output_tokens",info.output_tokens);number(row,"completed_prefill_calls",info.prefill_calls);
+    number(row,"completed_prefill_tokens",info.prefill_tokens);
+    json_object_object_add(row,"retired",json_object_new_boolean(info.retired));
+    bool valid=same_call&&after.cancel_during_prefill==initial.cancel_during_prefill+1&&
+        after.failed_requests==initial.failed_requests&&info.finish==LIE_FINISH_CANCEL&&info.retired&&!info.output_tokens;
+    if(!emit(f,row)||!valid){snprintf(error,256,"prefill cancellation witness invalid");goto done;}
+    passed=true;
+done:
+    if(!passed)lie_job_cancel(job);
+    lie_job_release(job);return passed;
+}
+/* Five exact-output trials distinguish a chunk's semantic scope from the
+ * monotonically increasing configuration revision. SSD has no RAM fallback. */
+static bool prefill_cache_probe(lie_core *core,const lie_core_request *request,const char *mode,
+                               unsigned timeout,witness *w,FILE *f,char error[256]) {
+    lie_prefill_info initial;lie_prefill_info_init(&initial);
+    if(lie_core_prefill_snapshot(core,&initial,NULL)!=LIE_OK){snprintf(error,256,"prefill cache initial snapshot failed");return false;}
+    bool disk=!strcmp(mode,"ssd");
+    const char *stages[]={"initial-cold","initial-hot","changed-cold","changed-hot","initial-restored-hot"};
+    for(unsigned step=0;step<5;++step){
+        if((step==2||step==4)&&lie_core_set_prefill_chunk(core,step==2?initial.capacity_tokens:initial.chunk_tokens,NULL)!=LIE_OK){
+            snprintf(error,256,"prefill cache namespace change refused");return false;
+        }
+        lie_job_info info;
+        if(!sample(core,request,1,step,false,timeout,0,NULL,w,&info,f,error))return false;
+        uint64_t deadline=now()+(uint64_t)timeout*1000000u;
+        lie_core_info state;
+        do{
+            lie_core_snapshot(core,&state);
+            if(!state.ssd.pending)break;
+            if(interrupted||now()>=deadline){snprintf(error,256,"prefill cache SSD drain deadline");return false;}
+            struct pollfd fd={lie_core_fd(core),POLLIN,0};int rc=poll(&fd,1,10);
+            if(rc<0&&errno!=EINTR){snprintf(error,256,"prefill cache SSD drain poll failed");return false;}
+            if(rc>0)lie_core_drain(core);
+        }while(true);
+        bool hot=step==1||step==3||step==4;
+        unsigned chunk=step==2||step==3?initial.capacity_tokens:initial.chunk_tokens;
+        bool valid=info.output_tokens==request->max_tokens&&info.prompt_tokens==request->token_count&&
+            info.prefill_tokens+info.cached_tokens==request->token_count&&!state.ssd.errors;
+        if(hot)valid=valid&&info.cached_tokens==request->token_count&&!info.prefill_tokens&&!info.prefill_calls&&
+            (disk?info.ssd_cached_tokens==request->token_count:!info.ssd_cached_tokens);
+        else valid=valid&&!info.cached_tokens&&!info.ssd_cached_tokens&&
+            info.prefill_calls==(request->token_count+chunk-1)/chunk;
+        if(disk)valid=valid&&state.ssd.writes>0;
+        lie_prefill_info current;lie_prefill_info_init(&current);
+        valid=valid&&lie_core_prefill_snapshot(core,&current,NULL)==LIE_OK&&current.chunk_tokens==chunk&&
+            current.capacity_tokens==initial.capacity_tokens&&current.revision==initial.revision+(step>=4?2:step>=2?1:0);
+        json_object *row=event("prefill_cache_step");text(row,"stage",stages[step]);text(row,"storage",mode);
+        number(row,"step",step);number(row,"cached_tokens",info.cached_tokens);number(row,"ssd_cached_tokens",info.ssd_cached_tokens);
+        number(row,"prefill_calls",info.prefill_calls);number(row,"ssd_writes",state.ssd.writes);
+        number(row,"ssd_errors",state.ssd.errors);number(row,"ssd_pending",state.ssd.pending);
+        json_object_object_add(row,"selection",prefill_choice(&current));
+        json_object_object_add(row,"verified",json_object_new_boolean(valid));
+        if(!emit(f,row)||!valid){snprintf(error,256,"prefill cache cold/hot namespace witness failed at step %u",step);return false;}
+    }
+    return true;
+}
 int lie_core_bench_main(int argc,char **argv) {
     lie_core_request request;lie_core_request_init(&request);
     const char *mtp=NULL;unsigned mtp_drafts=0;
     const char *model=NULL,*output=NULL,*prompt_path=NULL,*tokens_path=NULL,*graphs=NULL;
-    const char *encoder=NULL,*image_path=NULL,*plan_path=NULL;
+    const char *encoder=NULL,*image_path=NULL,*plan_path=NULL,*prefill_probe=NULL;
     lie_steering_step steps[LIE_STEERING_SCHEDULE_MAX]={0};lie_steering_schedule plan={0};
     lie_store_options ssd={0};lie_cache_policy policy;lie_cache_policy_init(&policy);policy.enabled=LIE_DS4_CACHE_POLICY!=0;
     unsigned context=4096,chunk=LIE_PREFILL_DEFAULT_CHUNK,users=1,tg=128,repetitions=3,warmups=0,timeout=600000,progress_ms=0;
@@ -477,7 +665,7 @@ int lie_core_bench_main(int argc,char **argv) {
     bool steering_supplied=false;
     lie_rope_profile rope_profile=LIE_ROPE_NATIVE;
     for(int i=1;i<argc;++i){
-        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 128..1048576] [--rope-scaling native|yarn2|yarn4]\n  [--model-mtp PREDICTOR.gguf --mtp-draft-tokens N] [--model-vision PROJECTOR.gguf --image-file PNG-OR-JPEG] [--prefill-chunk 1..32768] [--prefill-capacity 1..32768] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--temperature 0..2 --seed 0..9223372036854775807] [--top-p 0<p<=1] [--top-k 0..2147483647] [--min-p 0..1]\n  [--frequency-penalty -2..2] [--presence-penalty -2..2] [--ignore-eos]\n  [--dir-steering-file LAYER-MAJOR.f32 --dir-steering-ffn -100..100 --dir-steering-attn -100..100] [--dir-steering-plan JSON-FILE]\n  [--timeout-ms 600000] [--progress-ms 0|100..60000] [--graphs DIRECTORY] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\n  [--reactive-probe] requires physical tokens, C2, one repetition, no warmup/cache/vision, TG>=16; holds a borrowed output loan while a peer completes, then cancels the held job. Functional gate, not a throughput benchmark.\nDirect shared reactive core; raw text has no chat template. EOS ends generation by default; --ignore-eos continues to the fixed token budget and records the EOS token without masking it. Only raw-text/token samples allow this flag; vision and reactive probes retain natural EOS. Greedy AR by default; nonzero temperature requires an explicit reproducible seed. RAM prefix cache on by default (zero disables); KV disk persistence is opt-in; MTP requires an explicit predictor; KV reuse requires complete admitted predictor state; vision accepts a prompt file and an image; MTP and vision can be combined.\nReports core-client total/first-token latency and separate per-job executor calls. Progress is optional JSONL on stderr; 0 disables it. Snapshots report completed prefill tokens, cache reuse and confirmed output, with a final observation before job release. Progress applies to regular samples, not --reactive-probe.\nSteering uses fixed initial model-wide scales (defaults FFN 1, attention 0), a bounded 16 MiB vector bank and shared RAM/SSD semantic identity. --dir-steering-plan reads 1..64 changes [{\"position\":0,\"ffn\":1,\"attention\":0}, ...] at strictly increasing retained physical frontiers, splitting prefill/MTP work and recording applied results. Unreached changes fail the sample. Plans require a bank and are excluded from --reactive-probe. Numerical GPU qualification remains pending.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
+        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --suite core --model FIRST-SHARD --output NEW-JSONL\n  (--prompt-file UTF8 | --tokens-file JSON-INT-ARRAY) [--context 128..1048576] [--rope-scaling native|yarn2|yarn4]\n  [--model-mtp PREDICTOR.gguf --mtp-draft-tokens N] [--model-vision PROJECTOR.gguf --image-file PNG-OR-JPEG] [--prefill-chunk 1..32768] [--prefill-capacity 1..32768] [--users 1..8] [--tg 128] [--warmups 0] [--repetitions 3]\n  [--temperature 0..2 --seed 0..9223372036854775807] [--top-p 0<p<=1] [--top-k 0..2147483647] [--min-p 0..1]\n  [--frequency-penalty -2..2] [--presence-penalty -2..2] [--ignore-eos]\n  [--dir-steering-file LAYER-MAJOR.f32 --dir-steering-ffn -100..100 --dir-steering-attn -100..100] [--dir-steering-plan JSON-FILE]\n  [--timeout-ms 600000] [--progress-ms 0|100..60000] [--graphs DIRECTORY] [--kv-cache-ram-mb 4096] [--kv-cache-policy ds4|legacy]\n  [--kv-cache-min-tokens 512] [--kv-cache-cold-max-tokens 30000] [--kv-cache-continued-interval-tokens 10000]\n  [--kv-cache-boundary-trim-tokens 32] [--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb N]\n  [--reactive-probe] requires physical tokens, C2, one repetition, no warmup/cache/vision, TG>=16; holds a borrowed output loan while a peer completes, then cancels the held job. Functional gate, not a throughput benchmark.\n  [--prefill-probe live|ram|ssd] functional qualification only: physical tokens longer than the initial chunk, larger explicit capacity, greedy --ignore-eos, TG>=32, one repetition, no warmup/graphs/progress/vision/steering. live uses C2/cache off; ram uses C1/RAM only; ssd uses C1/SSD only. Live changes preserve active/queued choices, borrowed output and peer progress; cancellation during prefill must recover. Cache probes require full-prefix cold/hot reuse across chunk changes; capacity never changes.\nDirect shared reactive core; raw text has no chat template. EOS ends generation by default; --ignore-eos continues to the fixed token budget and records the EOS token without masking it. Only raw-text/token samples allow this flag; vision and reactive probes retain natural EOS. Greedy AR by default; nonzero temperature requires an explicit reproducible seed. RAM prefix cache on by default (zero disables); KV disk persistence is opt-in; MTP requires an explicit predictor; KV reuse requires complete admitted predictor state; vision accepts a prompt file and an image; MTP and vision can be combined.\nReports core-client total/first-token latency and separate per-job executor calls. Progress is optional JSONL on stderr; 0 disables it. Snapshots report completed prefill tokens, cache reuse and confirmed output, with a final observation before job release. Progress applies to regular samples, not --reactive-probe.\nSteering uses fixed initial model-wide scales (defaults FFN 1, attention 0), a bounded 16 MiB vector bank and shared RAM/SSD semantic identity. --dir-steering-plan reads 1..64 changes [{\"position\":0,\"ffn\":1,\"attention\":0}, ...] at strictly increasing retained physical frontiers, splitting prefill/MTP work and recording applied results. Unreached changes fail the sample. Plans require a bank and are excluded from --reactive-probe. Numerical GPU qualification remains pending.\nShared GPU requires coordinated admission. Synthetic builds are NOT-INFERENCE.");return 0;}
         if(!strcmp(argv[i],"--build-info")){build_info=true;continue;}
         if(!strcmp(argv[i],"--ignore-eos")){if(request.eos_policy==LIE_EOS_IGNORE)goto usage;request.eos_policy=LIE_EOS_IGNORE;continue;}
         if(!strcmp(argv[i],"--reactive-probe")){if(probe)goto usage;probe=true;continue;}
@@ -503,6 +691,7 @@ int lie_core_bench_main(int argc,char **argv) {
         else if(!strcmp(key,"--rope-scaling")){bit=67108864u;if(!lie_rope_profile_parse(value,&rope_profile))goto usage;}
         else if(!strcmp(key,"--chunk")||!strcmp(key,"--prefill-chunk")){bit=64u;if(!integer(value,1,LIE_PREFILL_MAX_CHUNK,&chunk))goto usage;}
         else if(!strcmp(key,"--prefill-capacity")){bit=UINT64_C(1)<<40;if(!integer(value,1,LIE_PREFILL_MAX_CHUNK,&prefill.capacity_tokens))goto usage;}
+        else if(!strcmp(key,"--prefill-probe")){bit=UINT64_C(1)<<41;if(strcmp(value,"live")&&strcmp(value,"ram")&&strcmp(value,"ssd"))goto usage;prefill_probe=value;}
         else if(!strcmp(key,"--users")){bit=128u;if(!integer(value,1,LIE_CORE_JOBS,&users))goto usage;}
         else if(!strcmp(key,"--tg")){bit=256u;if(!integer(value,1,LIE_CORE_MAX_OUTPUT,&tg))goto usage;}
         else if(!strcmp(key,"--repetitions")){bit=512u;if(!integer(value,1,100,&repetitions))goto usage;}
@@ -532,6 +721,14 @@ int lie_core_bench_main(int argc,char **argv) {
     if(request.generation.temperature>0&&request.generation.seed<0)goto usage;
     if(request.eos_policy==LIE_EOS_IGNORE&&(encoder||image_path||probe))goto usage;
     if(probe&&(users!=2||warmups||repetitions!=1||cache_mib||ssd.directory||encoder||image_path||!tokens_path||tg<16||progress_ms))goto usage;
+    if(prefill_probe){
+        bool live=!strcmp(prefill_probe,"live"),disk=!strcmp(prefill_probe,"ssd");
+        if(probe||warmups||repetitions!=1||encoder||image_path||!tokens_path||plan_path||steering_supplied||graphs||progress_ms||
+           !prefill.capacity_tokens||prefill.capacity_tokens<=chunk||tg<32||request.generation.temperature!=0||
+           request.generation.frequency_penalty!=0||request.generation.presence_penalty!=0||request.eos_policy!=LIE_EOS_IGNORE||
+           users!=(live?2u:1u)||(live&&(cache_mib||ssd.directory))||
+           (!live&&(disk?(cache_mib||!ssd.directory):(!cache_mib||ssd.directory))))goto usage;
+    }
     if(mtp&&(!LIE_MTP||!*mtp))goto usage;
     if((ssd.directory&&(*ssd.directory!='/'||!ssd.quota_bytes||!ssd.staging_bytes))||
        (!ssd.directory&&(ssd.quota_bytes||ssd.staging_bytes)))goto usage;
@@ -590,9 +787,11 @@ int lie_core_bench_main(int argc,char **argv) {
         json_object_put(array);json_tokener_free(t);
         if(!valid){free(ids);free(data);json_object_put(identity);goto usage;}
         request.kind=LIE_INPUT_TOKENS;request.tokens=ids;request.token_count=n;
+        if(prefill_probe&&n<=chunk){free(ids);free(data);json_object_put(identity);goto usage;}
     }
     text(identity,"input_kind",image_path?"messages-with-image":prompt_path?"raw-text":"physical-tokens");
     json_object_object_add(identity,"reactive_probe",json_object_new_boolean(probe));
+    if(prefill_probe){text(identity,"prefill_probe",prefill_probe);text(identity,"scope","functional prefill qualification; timings are observations only, not a performance benchmark");}
     struct sigaction sa={0};sa.sa_handler=stop_signal;sigemptyset(&sa.sa_mask);
     if(sigaction(SIGINT,&sa,NULL)||sigaction(SIGTERM,&sa,NULL)){free(ids);free(data);json_object_put(identity);return 1;}
     if(progress_ms){struct sigaction pipe_action={0};pipe_action.sa_handler=SIG_IGN;sigemptyset(&pipe_action.sa_mask);
@@ -635,8 +834,20 @@ int lie_core_bench_main(int argc,char **argv) {
     text(bank,"bank_file_sha256",file_hash);text(bank,"bank_scope_sha256",scope_hash);
     text(bank,"scope","model_admission_vector_data_excludes_allocator_overhead_and_workspaces");
     json_object_object_add(ready,"steering",bank);if(!emit(f,ready))goto done;
-    if(probe){if(!reactive_probe(core,&request,tg,timeout,mtp!=NULL,f,error))goto done;}
-    else for(unsigned rep=0;rep<warmups+repetitions;++rep)if(!sample(core,&request,users,rep,rep<warmups,timeout,progress_ms,plan_path?&plan:NULL,&w,f,error))goto done;
+    if(prefill_probe){
+        if(!strcmp(prefill_probe,"live")){
+            if(!sample(core,&request,1,0,false,timeout,0,NULL,&w,NULL,f,error)||
+               !reactive_probe(core,&request,tg,timeout,mtp!=NULL,&w,f,error)||
+               !prefill_cancel_probe(core,&request,timeout,f,error)||
+               !sample(core,&request,1,1,false,timeout,0,NULL,&w,NULL,f,error))goto done;
+        }else if(!prefill_cache_probe(core,&request,prefill_probe,timeout,&w,f,error))goto done;
+        json_object *proof=event("prefill_probe_complete");text(proof,"mode",prefill_probe);
+        json_object_object_add(proof,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
+        number(proof,"prompt_tokens",w.count);number(proof,"output_tokens",w.output_count);
+        json_object_object_add(proof,"baseline_output_ids",ids_json(w.output,w.output_count));
+        if(!emit(f,proof))goto done;
+    }else if(probe){if(!reactive_probe(core,&request,tg,timeout,mtp!=NULL,NULL,f,error))goto done;}
+    else for(unsigned rep=0;rep<warmups+repetitions;++rep)if(!sample(core,&request,users,rep,rep<warmups,timeout,progress_ms,plan_path?&plan:NULL,&w,NULL,f,error))goto done;
     code=0;
 done:
     if(core){lie_core_stop(core);if(!wait_core(core,LIE_STOPPED,0))code=1;else {

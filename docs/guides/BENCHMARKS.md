@@ -245,6 +245,43 @@ This produces functional evidence about backpressure and cancellation; use the
 regular suites above for throughput measurements. A synthetic build checks the
 consumer contract; original-weight inference requires a qualified GPU build.
 
+To qualify live prefill configuration, use `--prefill-probe live` with a physical
+prompt longer than the initial chunk and a larger explicit reservation:
+
+```sh
+"$LIE_BENCH" --suite core --model "$LIE_MODEL" \
+  --tokens-file tokens-8192.json --context 16384 \
+  --prefill-chunk 2048 --prefill-capacity 8192 \
+  --users 2 --tg 32 --warmups 0 --repetitions 1 \
+  --temperature 0 --ignore-eos --kv-cache-ram-mb 0 \
+  --prefill-probe live --output results/prefill-live.jsonl
+```
+
+This saves a complete greedy baseline, observes an actual in-flight prefill
+call, changes the selection for a queued peer and restores the engine selection.
+It verifies both jobs' immutable choices, peer output equality, borrowed-output
+stability and peer progress under withheld credit. It also cancels during a
+separate prefill call and checks a fresh complete output after retirement.
+Failure to observe the same numerical call across the change fails the probe;
+the client introduces no provider barrier or additional inference thread.
+
+`--prefill-probe ram` instead uses `--users 1 --kv-cache-ram-mb 4096`.
+`--prefill-probe ssd` uses `--users 1 --kv-cache-ram-mb 0` and an explicit new
+`--kv-disk-dir`, quota and staging budget. Each cache mode runs five complete
+outputs: initial cold/hot, changed cold/hot, then the initial chunk hot again.
+Full-prefix reuse and identical output IDs are required, including actual SSD
+reuse without RAM fallback. Choose cache policy and budgets that can retain the
+whole physical prompt; the probe fails instead of accepting a partial hit.
+MTP can be selected with an explicit predictor and is qualified separately.
+
+All three modes require greedy fixed output, at least 32 output tokens, one
+repetition and no warmup, progress, graphs, vision or steering plan. They emit
+`prefill_probe` identity and complete functional witnesses. Native reports and
+the optional historical report reader refuse these files as performance input.
+The optional Point supervisor uses profile `modern-core-prefill-probe` and a
+separate manifest `prefill_probe: live|ram|ssd`. Local synthetic and mocked
+receipts qualify client contracts only; original-weight gates remain open.
+
 To measure the dense sampler on original weights, use a fixed seed and keep
 sampling parameters identical in both builds:
 

@@ -12,6 +12,18 @@ Capacity describes reservation, not executed tokens or throughput. Existing
 PP/TG clocks and counters retain their meanings; changing the chunk performs
 no numerical work. See [configuration](../guides/USAGE.md#context-and-concurrency).
 
+Explicit native `--prefill-probe live|ram|ssd` results are functional records.
+`prefill_transition` binds before/after owner-call counters and queued/admitted
+chunk/capacity/revision; `prefill_live_result` binds completed calls and the full
+peer output. `prefill_cancel` records actual cancellation during prefill and
+retirement without output or engine failure. Cache probes emit five ordered
+`prefill_cache_step` records with full-prefix cold/hot reuse and SSD drain status.
+`prefill_probe_complete` retains all baseline output IDs. Sample timings remain
+observations, and report readers refuse this run identity as performance input.
+AR batch counters and MTP drafted/accepted counters describe different executor
+paths; a successful MTP credit probe need not increase AR `decode_batches`.
+See [native qualification commands](../guides/BENCHMARKS.md#full-prompt-prefill).
+
 ## Prefill attention dispatch
 
 The independent `lie/dispatch.h` C17 observer counts actual host selections of

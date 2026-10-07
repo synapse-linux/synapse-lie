@@ -1,6 +1,36 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Native live-prefill and cache qualification clients — 2026-10-07 UTC
+
+The C17 benchmark adds explicit functional `--prefill-probe live|ram|ssd` modes.
+Live qualification binds an actual in-flight call, immutable active/queued
+choices, complete peer output against a greedy baseline, withheld-credit peer
+progress, borrowed-output stability, prefill cancellation and fresh inference
+after retirement. RAM/SSD modes require five cold/hot trials across a selection
+change and restoration, with identical complete outputs and full-prefix reuse.
+SSD has RAM disabled and requires drained writes without errors.
+
+Native Release and unsuppressed ASan/UBSan/LSan checks pass 5/5 each, with six
+AR/MTP synthetic probes, fourteen CLI refusals and a deliberately failed prefill.
+The optional Point supervisor passes 82 mocked controls, binding complete token
+arrays, typed counters, queue choices and cache stages. Native/historical report
+readers refuse functional probe files as throughput input. Default CTest and the
+benchmark remain native; no Python product dependency is added.
+
+The [HOST receipt](development/validation/prefill-probe-host-2026-10-07.json)
+retains actual failures and their corrections, all native outputs and source
+bindings. Initial local failures were a negative-case fixture argument error
+and sandbox loopback access. Supervisor checks then corrected an invalid AR
+batch requirement for MTP and rejected duplicate completion records. Final CPU
+peaks are 75.125 C (Release), 76.25 C (sanitizers) and 48.5 C (mocked supervisor).
+No GPU/model/remote run occurs in this client-preparation phase.
+
+Provider, numerical engine, public ABI and reactive scheduler remain unchanged.
+A newly bound `.161` client build and original-weight live/RAM/SSD gates remain
+open. All six roadmap items stay open; matched benchmarks follow functional
+qualification and Terminal Bench remains last.
+
 ## Original-weight prefill chunk parity through 32K — 2026-10-07 UTC
 
 The current r45 runtime passes three original-weight `.161` arms on the same
