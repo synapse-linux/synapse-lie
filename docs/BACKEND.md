@@ -119,7 +119,7 @@ An open qualification gate does not mean its implementation is absent:
 | 3 | 1M context admission, explicit YaRN, client deadlines and native recall/continuation corpus with exact response oracles | Original-weight recall and HTTP at long context |
 | 4 | Native benchmark methods, metrics, graph generation, C17 prefill-dispatch observation and optional long sparse-WMMA workspace | Matched Gufo/Halogen runs through 1M and C1/2/4/6/8; long-workspace correctness/resources, actual sparse dispatch and reactive cost |
 | 5 | Steering bank, model/session policies, scheduled changes and RAM/SSD identities | Learned-direction quality, graph/correction/fault/vision cases and matched cost |
-| 6 | Temperature, top-k/min-p profiles and seeded AR/MTP controls | Required-tool probabilities/transitions, actual MTP target-distribution behavior and matched cost; selected unconstrained AR probabilities pass |
+| 6 | Temperature, top-k/min-p profiles and seeded AR/MTP controls | Wider tool transitions, actual MTP target-distribution behavior and matched cost; selected unconstrained and required-function AR probabilities pass at their recorded runtimes |
 | 7 | C17 grammar/masking, history and compact speculative distributions, including buffer ownership | Original-weight numerical/fault/resource/quality and cost gates |
 
 The integrated checkpoint `88d4c4e5` passes native functional 101/101 and complete
@@ -298,9 +298,17 @@ none of the six items.
    frozen profiles in original/C17/OFF Release and sanitizer replay. Full
    probability/history/RNG witnesses match, with independent mass and forced
    residual checks. [AR numerical receipt](development/validation/sampling-original-ar-point-2026-10-07.json).
-   This covers unconstrained AR only; required tools, actual MTP-controller
-   branches, wider transitions and cost remain open. The run is collected and
-   strictly closed; no subsequent window is admitted or reserved.
+   This preceding receipt covers unconstrained AR only. The new current r45
+   runtime also passes 152 required-function rows across all six profiles in
+   original/C17/OFF Release and unsuppressed sanitizer replay, including full
+   vocabulary masks, mass, history, RNG, residual checks and complete calls.
+   All six calls choose the requested arguments and finish with natural EOS.
+   [Required-function AR receipt](development/validation/sampling-required-tools-ar-point-2026-10-07.json)
+   binds the new GPU runtime and unchanged qualified host-sampler sources.
+   Both runs are collected and strictly closed. Actual MTP-controller branches,
+   prose/parallel calls/results, broader quality, faults, resources and matched
+   cost remain open. The new capture uses the default 2,048-token prefill chunk;
+   larger live chunks retain their separate gates.
    The optional Point supervisor now executes the native capture under the same
    owned window and collects bounded raw rows, including failed partial evidence.
    Fifteen focused transport/receipt and seven ownership/build regression controls

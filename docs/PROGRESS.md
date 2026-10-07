@@ -1,6 +1,29 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Required-function AR numerical qualification — 2026-10-07 UTC
+
+The current coherent r45 runtime completes six original-weight required-function
+profiles on `.161`: greedy, DS4 temperature/min-p, top-k, nucleus/min-p and positive
+and negative generated-token penalties. All six calls choose the requested
+`LIFO`/3 arguments and finish with natural EOS. The 152 full logit rows and
+248,320-token vocabulary are collected and hash-verified.
+
+Original Gufo, C17 and OFF samplers produce identical complete replay outputs
+in Release and unsuppressed ASan/UBSan/LSan, with all six native commands exiting
+0. Independent byte membership checks cover every mask bit; long-double mass,
+history, RNG and unit-proposal residual checks pass. An additional saved-data
+review agrees within `6.7e-16` absolute mass error. Its initial entry-order and
+F32-input assumptions are corrected and retained alongside their actual failures;
+no GPU capture or native replay is repeated.
+The [numerical receipt](development/validation/sampling-required-tools-ar-point-2026-10-07.json)
+binds the new runtime, unchanged host-sampler sources, complete outputs and portable
+raw data. GPU-run CPU/GPU/NVMe peaks are 58/61/60.85 C; offline sanitizer CPU peaks
+at 84.625 C. Strict closure verifies retired processes/container, the original
+lease free and router restored. Larger prefill chunks, MTP controller, wider tool
+behavior, faults, resources, long-context quality and comparative cost remain open.
+All six roadmap items stay open; benchmarks and Terminal Bench follow qualification.
+
 ## Live shared-engine prefill chunk — 2026-10-07 UTC
 
 The C17 core separates its selected chunk from scratch capacity reserved at model

@@ -145,6 +145,18 @@ now links and binds this client and its metadata accessor. An actual GPU
 capture still requires fresh admission.
 Version-1 unconstrained captures and their complete witnesses remain compatible.
 
+The [current required-function AR qualification](../validation/sampling-required-tools-ar-point-2026-10-07.json)
+completes six original-weight profiles and 152 rows on `.161`. Original/C17/OFF
+Release and unsuppressed sanitizer outputs agree completely, including every
+mask bit and retained probability. Independent mass, RNG, history and complete
+call checks pass; all six calls choose `LIFO`/3 and finish with natural EOS.
+Probability oracles compare support and mass by token, retaining actual entry
+order for draws; descending mass order is not a contract requirement. Real
+generation controls are admitted as float32 before independent calculations.
+The receipt retains the initial supplementary-review assumptions and corrections.
+This qualifies the frozen single-function AR workload at chunk 2,048; wider tool
+transitions, actual MTP execution, fault/resource/quality and cost remain separate.
+
 ### Point supervisor and collection
 
 The optional `.161` supervisor routes the native client with these fields in

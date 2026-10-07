@@ -1,5 +1,22 @@
 # DS4 / synapse-lie coordination
 
+## Current required-function AR capture passed and retired — 2026-10-07
+
+Fresh Point/DGX own-state replies, Q2's fresh declared scope and global preflight
+precede r46 admission on `.161` at 06:23:16 UTC. Q2's `.161` non-use is a recorded
+inference from its no-GPU declaration and sole next `.157` target, rather than an
+explicit per-target reply; the receipt preserves that limitation. The original
+lease is independently acquired and resource/thermal observations remain active.
+The current r45 runtime completes six original-weight profiles and 152 tool rows
+with native/controller/supervisor exit0. Lease66307/105946405 releases at
+06:24:33 UTC. Fresh strict closure at 06:30:17 verifies supervisor257815/start22315240,
+init258022/start22315340 and container absent, the unchanged lease free, HTTP8000
+empty and router258817 restored as the sole compute client. Peers receive verified
+release. Saved-data Release/sanitizer replay and independent numerical review pass
+in the [receipt](development/validation/sampling-required-tools-ar-point-2026-10-07.json).
+Root holds no remote job, lease, window, waiter, reservation or handle. Future GPU
+gates require fresh admission; comparative benchmarks and Terminal Bench stay last.
+
 ## Current prefill Point build passed and retired — 2026-10-07
 
 Fresh peer own-state and global preflight at 05:32:52 UTC precede the device-free

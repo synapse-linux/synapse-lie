@@ -16,6 +16,12 @@ quality, resource and cost gates remain pending. Native
 prepares full-row numerical checks; its local synthetic controls do not qualify
 GPU probabilities or MTP execution.
 Earlier receipts retain their stated frozen sources.
+The current r45 runtime now passes selected original-weight required-function
+AR numerics: 152 rows across six profiles, full vocabulary masks, mass, history,
+RNG and completed calls agree in original/C17/OFF Release and unsuppressed
+sanitizer replay. The [required-function receipt](validation/sampling-required-tools-ar-point-2026-10-07.json)
+binds this runtime and the unchanged host-sampler inputs. Actual MTP-controller
+transitions, wider tool behavior, faults, resources, quality and cost remain open.
 See [compilation context](#compilation-context-and-bootstrap)
 and [decimal output validation](#final-decimal-output-validation), plus
 [native schema staging](#native-schema-staging) and
