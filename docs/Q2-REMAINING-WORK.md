@@ -25,16 +25,22 @@ Keep its bound single-file patch for phase-specific composition; original-model
 validation is pending. Its small operator saving must not be presented as the
 same percentage of whole decode or as a route that closes the4.978455ms gap.
 
-The next higher-impact investigation needs valid GPU duration attribution of
-the complete prefill. Prior128K rocprof dispatch/copy timestamps are all zero;
-host dependency intervals identify depth growth but cannot rank individual
-expert, dense and attention kernels. Current synthetic HIP events are valid,
-which does not prove rocprof timestamps are fixed. First validate the profiler
-on one bounded component; only a working attribution method justifies a new
-original-input diagnostic. Keep all profiling rates separate from the frozen
-benchmark. This is unresolved observability work, not a speedup or admission.
+The [original128K GPU attribution](Q2-NATIVE128-GPU-PROFILE.md) now completes
+on unchanged R3 with positive176014 kernel/4187 copy/481972 API durations and
+exact CSV/ROCPD timestamp agreement. Completed-call analysis excludes loading,
+preparation and post-forward KV copies. Dense GEMM23.017s, HC20.285s and
+IQ2experts14.222s lead absolute prefill costs; attention11.668s and selection
+3.625s account for most growth with position. Decode Q8 GEMV is17.380ms per
+forward,48.26% of kernel time. A genuinely new compact, lossless Q8 operand
+loader and complete attention-path changes deserve screening against the
+retained negative variants. No speedup is inferred from this cost ranking.
+Steady external submission gaps average0.125ms, far below the4.978ms target
+gap; reactive work needs an internal measured dependency opportunity.
+The client succeeds but profiled server shutdown times out(-9), a remaining
+observability/lifecycle defect. All44 files verify before20:04:00 release
+0a924578 and20:04:35 strong closure. No GPU reservation or changed reference.
 Do not rerun rejected tiles/mirrors, saved throughput controls, Q4 or the full
-curve as a substitute for finding a larger removable cost.
+curve as a substitute for a different implementation.
 
 The [Q2_K scalar-down component](Q2-DECODE-DOWN-ROWS.md) now gives a
 four-row candidate with6.96% less complete quantizer/down latency; the

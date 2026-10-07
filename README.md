@@ -4,6 +4,13 @@ The local qualification worktree has been compacted54.8→19.0GiB with original
 results and qualified executables preserved. Some historical source/diagnostic
 paths are now restored on demand; see [artifact recovery](docs/LOCAL-ARTIFACT-RETENTION.md).
 
+A new [original 128K GPU profile](docs/Q2-NATIVE128-GPU-PROFILE.md) verifies
+positive kernel/copy times in both CSV and ROCPD on the retained R3 executable.
+Q8 matrix-vector work takes48.26% of decode kernel time; attention and selection
+explain most prefill depth growth. This is attribution, not a new throughput
+result. Client0 and profiled server shutdown-9 remain separate; all artifacts
+verify before release. [Diagnostic graph](docs/figures/q2-native128-profile.png).
+
 The four-row Q2 down model candidate now has explicit non-prefill dispatch;
 prefill, including one-token tails, retains its prior implementation.
 After the owner restores performance/120 W, its unchanged original128K trial
@@ -93,9 +100,10 @@ experiment contributes no model throughput gain.
 The owner now prioritizes [prefill and decode through 128K](docs/Q2-DECODE-128K.md).
 The active target is C1 AR30 token/s and complete prefill1500 token/s through
 the unchanged130925-token input. Focused32K and complete original128K API
-profiles completed on the saved native server/client binaries. The128K trace
+profiles completed on the saved native server/client binaries. The earlier128K trace
 shows48 score/mark query slices and12 attention kernels per scored chunk;
-invalid device timestamps prevent kernel-time attribution. Instrumented rates
+invalid device timestamps prevented kernel-time attribution. The new R3 trace
+above validates those durations in a separate current-boot diagnostic. Instrumented rates
 cannot replace the saved throughput references.
 The [four-query indexer scoring trial](docs/Q2-REMAINING-WORK.md) has exact
 score/mask output but regresses component time2.15x at32K and4.09x at128K;

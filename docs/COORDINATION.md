@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Original128K profile released — 2026-10-07 UTC: source655dddf3, plandb0f9cfe;
+CPU fixture/verify/admit/run/release0. Run19:59:52→20:02:20, inference client0,
+profiled server-9 after bounded shutdown; exported timestamp validity and
+clean process exit are separate outcomes. All44 artifacts/412463859bytes
+hash-verify20:03:27 before20:04:00.680062 release SHA
+0a924578de5bff0f32994045dfa7af118743576ec1b28fdd7bd2309cc2e2714e.
+Independent20:04:35.761148 closure checks current-boot registry,16 retired
+identities/groups, empty KFD, five original free leases and seven unchanged
+model stats. Core/GLM receive closure. No Q2 job/build/client/handle/lease/
+window/waiter/reservation remains. Further work is local attribution only;
+future device work needs fresh coordination. No remote build, cleanup or tuning.
+
 Profiler clock component released — 2026-10-07 UTC: source59574df6,
 planed37fbee, CPU fixture/verify/admit/run/release0. Run19:41:24→19:41:27;
 all40 artifacts hash-verify19:43:13 before19:46:33.202617 release SHA

@@ -1,5 +1,23 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Original128K GPU attribution completed — 2026-10-07 UTC: retained R3 f8a5210c,
+native client87d856cf and original requests fcee51ef; no new numerical build.
+All176014 kernel,4187 copy and481972 API durations are positive; CSV/ROCPD
+timestamps match and SQLite quick_check passes. All95 embedding geometries
+and four responses match original/R3. Completed-call boundaries exclude
+loading, preparation, graph setup between phases and post-forward KV copies.
+Prefill kernel sums: dense23.017s, HC20.285s, IQ2experts14.222s, attention11.668s,
+Q2down9.274s. Decode Q8 GEMV17.380ms/forward,48.26% of kernel time. Steady
+external submission gap0.125ms cannot close the saved4.978ms target gap.
+No new throughput or quality promotion; all eight decode calls remain visible.
+CPU fixture/verify/admit/run/release0, client0; server-9 after profiler shutdown
+timeout remains a separate defect.44 artifacts/412463859bytes verify before
+20:04:00.680062 release0a924578; independent20:04:35 closure passes registry,
+16 retired identities/groups, KFD, five leases and seven model stats. Core/GLM
+receive closure; no Q2 remote reservation remains. Local analyzer and transport
+failures are retained and corrected without another inference run.
+[Complete attribution and next work](Q2-NATIVE128-GPU-PROFILE.md).
+
 GPU timestamps validated on finite component — 2026-10-07 UTC: rocprof and
 fixture exit0;1472 kernel,469 copy and3037 HIP API durations are all positive.
 CSV/ROCPD kernel ID/timestamp tuples and copy timestamps match exactly;48 HIP

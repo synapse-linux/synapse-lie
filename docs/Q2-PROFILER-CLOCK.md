@@ -58,4 +58,8 @@ It collects CSV plus ROCPD, records actual server/client exit codes separately,
 and excludes instrumented rates from benchmark eligibility. No new model or
 numerical build, throughput-control rerun, full curve or source change is
 required. Source binding: `config/q2-native128-profile-source.json`.
-At this point its CPU fixture/admission and complete model trace remain pending.
+The subsequent CPU fixture and model diagnostic complete on .157. All176014
+kernel,4187 copy and481972 API durations are positive and agree across both
+exporters. The profiled server again needs a timeout kill after export; this
+remains a separate defect. [Completed attribution](Q2-NATIVE128-GPU-PROFILE.md)
+retains every original call and all actual exits without replacing throughput.
