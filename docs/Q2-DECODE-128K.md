@@ -22,7 +22,8 @@ per-lane guard. The sum exchanges lane16 with `permlanex16`, then8/4/2/1 with
 DPP, preserving the descending FP32 tree. Encoded weights, Q8_1 inputs, dot
 products, scale/FMA order and the one-row/32-thread launch remain unchanged.
 The private dispatch is restricted to one-token dense Q8. This is kernel work,
-not a new reactive benefit, and does not change prefill dispatch or public ABI.
+not a new reactive benefit. Wide-prefill kernels and public ABI are unchanged;
+the final prefill logit head can also use the one-token consumer.
 
 Static compilation preserves all77 existing MMVQ device bodies, including28
 Q8 bodies. Two new kernels use14/20 VGPRs, no scratch or LDS, matching the
@@ -42,8 +43,42 @@ weights, and uses distinct output destinations checked before overwrite.
 Longer component batches reduce launch/timer noise; they are not a replacement
 for the unchanged model benchmark. The paired literal control, FP64 checks,
 raw timing samples, invalid HIP-event durations and actual exit codes remain
-visible. GPU numerical/performance qualification is pending. Saved Q2/UD model
-controls and the full curve are not rebuilt or rerun for this component.
+visible. The component has now completed; saved Q2/UD model controls and the
+full curve were not rebuilt or rerun.
+
+| Shape | Original µs | Compact µs | Completed time change |
+|---|---:|---:|---:|
+| M16384/K2560 plain |195.161134|195.049825|−0.057%|
+| M2560/K6144 plain |76.830863|76.810678|−0.026%|
+| M2560/K640 plain |10.909359|10.658630|−2.298%|
+| M640/K2560 gated |18.256531|18.815773|+3.063%|
+
+These are means of five samples after two warmups, with at least64 completed
+launches and more than48MiB weight rotation per sample. They are not model
+TG rates. Shared-down ranges separate, but the large projections remain within
+overlapping ranges and the gate regresses. Preserve the shared-down observation
+without globally promoting this consumer. Large plain traffic remains about
+228GB/s in this synthetic test; fewer instructions did not remove weight bytes.
+No current retained PP/TG number or graph changes.
+
+All2038 full GPU output pairs are exact. The four timed shapes have2030 exact
+pairs and4060 passing FP64 reports. The command nevertheless exits1: the new
+31-row boundary case used fixed sample index31, outside its host reference and
+downloaded output. All four failed reports come from this mistake, on both
+control and candidate. They are invalid oracle evidence, not GPU divergence.
+The original exit1, source capsule and complete raw results remain preserved.
+The repaired helper clamps anchors, rejects zero rows and is exercised over
+12 row sizes and32 banks with actual .157 Debug40/40 and ASan/UBSan40/40 checks.
+The complete HIP fixture also compiles. The repaired GPU boundary has not been
+rerun; no independent quality promotion for that boundary is claimed.
+[Results](../config/q2-decode-q8-compact-results.json),
+[disposition and oracle audit](../config/q2-decode-q8-compact-disposition.json).
+
+Component artifacts collect before02:57:50.129640UTC release4a7c9768; all1800
+identities/1438 groups retire, KFD is empty and original leases/model stat
+identities are unchanged. Main/remote mirrors match; Core is notified before
+analysis. The subsequent CPU fix cohort also collects before03:05:33 closure,
+retiring seven additional identities/six groups. No remote workload remains.
 
 ## First candidate: four Q8 rows per block
 
@@ -169,6 +204,16 @@ batch path, not merely HTTP callbacks, but this track's C1 runs do not measure
 its scaling. Plain greedy sampling already uses a linear scan in
 `SamplerState::SampleGreedy`; the generic sorted-distribution path is not an
 unnecessary sort to remove from this greedy benchmark.
+
+A further [source audit](../config/q2-decode-batch-path-audit.json) identifies
+specific remaining C2 work. `ForwardBatch` is eager, whereas the scalar path
+replays graphs. After the batched forward completes, `SelectBatchLogits` performs
+a separate download and synchronization for each request before CPU sampling.
+Consolidating that readback is smaller than introducing safe graph replay for
+changing session cohorts. The existing pinned buffer only holds `max_logit_rows`,
+so it cannot simply receive all batch rows: ownership, capacity and memory
+accounting must be explicit. Neither change has a measured gain here. This
+potential aggregate improvement must not be advertised as faster C1 decoding.
 
 Prioritize a current critical-path measurement separating PLE wait, sampling,
 copy and graph service before changing decode synchronization. The historical

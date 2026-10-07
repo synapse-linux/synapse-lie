@@ -8,7 +8,19 @@ benchmark contracts. A compact scalar Q8 candidate removes generic lane-bound
 and reduction instructions without changing its dot order. All77 existing
 MMVQ bodies are exact; new14/20VGPR kernels add no LDS or private scratch.
 [Mechanism and qualification boundary](Q2-DECODE-128K.md).
-Actual GPU timing is pending; no new retained speedup is claimed.
+The actual .157 component now completes: large projections−0.057%/−0.026%
+time, shared-down−2.298%, gated+3.063%. Preserve the small shared-down result
+without global/model promotion. All2038 GPU output pairs match. Exit1 comes
+from four invalid FP64 reports for a host out-of-bounds sample in the31-row
+boundary, not new GPU arithmetic; all4060 timed-shape oracles pass. The fixed
+row helper passes .15740 Debug/40 ASan checks. Original failure evidence stays.
+
+Four component artifacts collect before release4a7c9768 at02:57:50 UTC; mirrors
+match and Core is notified. The CPU fix cohort also collects/retires03:05:33.
+The retained source audit distinguishes eager C2 dispatch and one readback/sync
+per request from the existing C1 graph. Consolidated readback needs bounded
+host capacity and has no measured performance claim yet. No saved model
+controls, Q4 or full curve were rerun.
 
 ## Live-grid model completed without a retained gain — 2026-10-06 UTC
 

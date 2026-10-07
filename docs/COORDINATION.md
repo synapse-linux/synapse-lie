@@ -1,5 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q8 compact component closure — 2026-10-07 UTC: checkpoint8f818b74 /planee23acb9,
+admissiond4accb9b02:56:52.066589. New component ends02:57:16.983024 with exits
+0/0/1; all four artifacts collect before02:57:50.129640 release4a7c9768d22ade5458adb6fe0fedf5eeb17bb91072f0260ccb723404c84439c5.
+All1800 identities/1438 groups retire, empty KFD, original CPU/four GPU leases
+free and seven model stat identities unchanged. Canonical/main/remote mirrors
+match and Core receives closure before analysis. No model or saved control run.
+
+The only subsequent work is CPU qualification of an oracle-boundary fix:
+preflight03:02:47 anchors4a7c9768, host-r1 ends03:03:44.456994, Debug40/ASan40
+pass/six zero exits. Seven artifacts collect before03:05:33.265859 closure;
+seven additional identities/six groups retired, same empty KFD/free leases/
+unchanged models. Host receipt d80c7d2a568c3dc936f4643bda3535a2b439946b9456b5cc425e539a9db07b0a
+must accompany the prior GPU closure for the next window. No GPU qualification
+or admission is inherited from this fix. No job/client/build/window/waiter/
+reservation/handle/cleanup remains .157/.161/.158/TB.
+
 Q8 compact preparation — 2026-10-07 UTC: Core confirms no own machine use
 and that its campaign deferral affects Core only. Fresh globalpreflight02:54:39
 anchors1d62a3a5, including the additional host-fix cohort a533e7e1. KFD empty,

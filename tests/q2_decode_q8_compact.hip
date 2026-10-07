@@ -14,6 +14,7 @@ namespace qfn_mmq {
 #include <iostream>
 #include <stdexcept>
 #include "src/core/crypto/sha256.hpp"
+#include "q2_decode_q8_oracle_rows.hpp"
 
 namespace q = qfn_mmq;
 static void Require(bool ok, const char* message) {
@@ -120,7 +121,8 @@ static bool Oracle(const Inputs& in, const std::vector<uint8_t>& bytes, unsigned
   }
   double error=0,norm=0,max_error=0,peak=0;
   for (unsigned s=0;s<64;++s) {
-    const unsigned row=s<8 ? std::array<unsigned,8>{0,1,2,3,4,31,in.m-2,in.m-1}[s] : (s*997+r*73)%in.m;
+    const unsigned row=Q8OracleRow(in.m,s,r);
+    Require(row < in.m, "Oracle row exceeds output");
     double dot=0,gate=0;
     for (unsigned b=0;b<in.k/32;++b) {
       const auto& x=in.x[b]; const auto& w=in.weights[r][size_t(row)*(in.k/32)+b];

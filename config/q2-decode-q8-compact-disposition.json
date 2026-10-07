@@ -1,0 +1,104 @@
+{
+  "schema": "synapse-lie.q2-decode-q8-compact-disposition.v1",
+  "result_sha256": "6ce07bbd70a7ec7ca324b98e1be1d0138f035d7287505803cbf06ce8ab3a2c73",
+  "original_exit_codes": [
+    0,
+    0,
+    1
+  ],
+  "all_gpu_output_pairs_exact": 2038,
+  "timed_output_pairs_exact": 2030,
+  "timed_oracles_passed": 4060,
+  "invalid_oracle_reports": [
+    {
+      "event": "q8_compact_oracle",
+      "case": "k256-plain-r0-i0",
+      "bank": 0,
+      "candidate": false,
+      "samples": 64,
+      "relative_rms": 0.999999998487,
+      "scaled_error": 1,
+      "limit": 2e-05,
+      "pass": false
+    },
+    {
+      "event": "q8_compact_oracle",
+      "case": "k256-plain-r0-i1",
+      "bank": 1,
+      "candidate": false,
+      "samples": 64,
+      "relative_rms": 0.00114212898434,
+      "scaled_error": 0.00451483159341,
+      "limit": 2e-05,
+      "pass": false
+    },
+    {
+      "event": "q8_compact_oracle",
+      "case": "k256-plain-r0-i0",
+      "bank": 0,
+      "candidate": true,
+      "samples": 64,
+      "relative_rms": 0.999999998481,
+      "scaled_error": 0.999999999994,
+      "limit": 2e-05,
+      "pass": false
+    },
+    {
+      "event": "q8_compact_oracle",
+      "case": "k256-plain-r0-i1",
+      "bank": 1,
+      "candidate": true,
+      "samples": 64,
+      "relative_rms": 0.00114212898434,
+      "scaled_error": 0.00451483159341,
+      "limit": 2e-05,
+      "pass": false
+    }
+  ],
+  "failure": "Host oracle sample5 uses row index31 in a31-row matrix. It reads beyond its reference weights and downloaded output for both arms. These4 reports are invalid, not candidate numerical divergence.",
+  "boundary_gpu_quality": "Full downloaded outputs and guards match, but independent FP64 evidence for the31-row boundary remains invalid; the repaired GPU boundary has not been rerun.",
+  "source_correction": {
+    "files": {
+      "tests/q2_decode_q8_compact.hip": "dffaa5b3f58e7c9b0a9a22e287415e72df7d5d0f4a211b1d1f58570715285dde",
+      "tests/q2_decode_q8_oracle_rows.hpp": "1887140c4e9fb7885781a385138078092dbcf421c6b5369e381939e6c30daf8c",
+      "tests/q2_decode_q8_oracle_rows_test.cpp": "7b96029f8758825b99a72b847319d52356fc1be63b78392c2deef48092eef946"
+    },
+    "host_result_sha256": "d80c7d2a568c3dc936f4643bda3535a2b439946b9456b5cc425e539a9db07b0a",
+    "debug_checks": 40,
+    "asan_ubsan_checks": 40,
+    "fixture_compile_receipt_sha256": "7eb9d01e495dcd6480a9e53c53fec72a89d70f22caa8ac532df8ac9472996e3c",
+    "closure_sha256": "10afe7aea72bc089405fce269385ba4f45a4aa19874363766139ac75b16da1b4"
+  },
+  "decisions": [
+    {
+      "shape": "ssm-in",
+      "time_change_percent": -0.05703460135978444,
+      "decision": "No useful improvement"
+    },
+    {
+      "shape": "attn-out",
+      "time_change_percent": -0.026271181063464155,
+      "decision": "No useful improvement"
+    },
+    {
+      "shape": "shared-down",
+      "time_change_percent": -2.2982903427911205,
+      "decision": "Preserve marginal isolated benefit; do not promote globally"
+    },
+    {
+      "shape": "gated",
+      "time_change_percent": 3.063247212140263,
+      "decision": "Do not select: slower"
+    }
+  ],
+  "scope_clarification": "tokens1 selection also reaches the final prefill logit head; wide-prefill kernels and all other device bodies are unchanged. No complete model or prefill measurement was run.",
+  "model_promoted": false,
+  "retained_provider_unchanged": true,
+  "reactive_changed": false,
+  "original_failure_preserved": true,
+  "next": "Prioritize measured critical-path work over more scalar Q8 instruction-only trials. Assess aggregate batching separately from C1 and preserve saved long-context workload.",
+  "initial_full_analysis": {
+    "path": "evidence/q2-decode-q8-compact-preparation/full-initial-analysis.json",
+    "sha256": "52fb5357f4b5f5dc9bf4a348f89b1165530d4601f4e1a4d00bf7ab62cccbf206"
+  }
+}

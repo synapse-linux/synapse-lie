@@ -1,8 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 
 The owner now prioritizes [prefill and decode through 128K](docs/Q2-DECODE-128K.md).
-This track has resumed with a compact scalar Q8 consumer: uniform full-block
-bounds and exact lane exchange, with GPU qualification pending. Core's own
+This track resumed with a compact scalar Q8 trial on .157: shared-down time
+improves2.30%, the large projections stay unchanged and gate/up worsens3.06%.
+All GPU output pairs are exact; a host-oracle boundary bug is diagnosed and
+fixed with40 Debug/40 sanitizer checks. This is an isolated component result,
+not a new model throughput gain. The provider remains unchanged. Core's own
 campaign deferral does not pause Q2.
 The [bounded prefill selector grid](docs/Q2-SELECT-LIVE-GRID.md) passes62 exact
 score/mask pairs and62 independent checks, but the original native full-prefill

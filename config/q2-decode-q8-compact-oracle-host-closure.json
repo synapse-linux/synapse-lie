@@ -1,0 +1,53 @@
+{
+  "at": "2026-10-07T03:05:33.265859+00:00",
+  "core_closure_sha256": "1141a001a8ca79f85c266f8710170bca1ead77009fa3bbc6b3b6ac94ae7fc2b9",
+  "original_core_processes_retired": [
+    [
+      20794,
+      179631020
+    ],
+    [
+      20860,
+      179631128
+    ],
+    [
+      20925,
+      179631192
+    ]
+  ],
+  "original_groups_absent": true,
+  "original_CPU_lease_free": true,
+  "CPU_lease_released": true,
+  "kfd": [],
+  "last_gpu_event": {
+    "event": "window_release",
+    "owner": "synapse-lie-q2",
+    "label": "q2-decode-q8-compact",
+    "at": "2026-10-07T02:57:50.129640+00:00",
+    "state": "Q2_DECODE_Q8_COMPACT_WINDOW_RELEASED",
+    "receipt": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-decode-q8-compact-window-release.json",
+    "receipt_sha256": "4a7c9768d22ade5458adb6fe0fedf5eeb17bb91072f0260ccb723404c84439c5",
+    "next_window_owner": "core"
+  },
+  "no_gpu_admission_claim": true,
+  "host_fix_closed": true,
+  "host_result_sha256": "d80c7d2a568c3dc936f4643bda3535a2b439946b9456b5cc425e539a9db07b0a",
+  "host_identities_retired": {
+    "603589": null,
+    "603591": 190757325,
+    "603695": 190757378,
+    "603944": 190757981,
+    "604489": 190759335,
+    "604559": 190759387,
+    "604835": 190760290
+  },
+  "host_groups_retired": [
+    603591,
+    603695,
+    603944,
+    604489,
+    604559,
+    604835
+  ],
+  "GPU_run": false
+}

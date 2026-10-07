@@ -78,7 +78,12 @@ def main():
     report=dict(schema='synapse-lie.'+PREFIX+'-results.v1',plan_sha256=sha(pp),release_sha256=sha(rp),
         result_sha256=sha(directory/'results/result.json'),commands=exits,verified_artifacts=len(result['artifacts']),
         numerical_pass=numerical,exact_pairs=sum(r['exact'] for r in rows['pair']),
-        oracle_passes=sum(r['pass'] for r in rows['oracle']),timing_shapes=summaries,events=events,
+        oracle_passes=sum(r['pass'] for r in rows['oracle']),timing_shapes=summaries,
+        event_counts={key:len(value) for key,value in rows.items()},
+        raw_events=dict(path=str((directory/'results/03.log').relative_to(ROOT)),
+                        sha256=sha(directory/'results/03.log')),
+        case_events=rows['case'],completion=rows['complete'][0],
+        failed_oracles=[r for r in rows['oracle'] if not r['pass']],
         disposition='Component only; evaluate speed and numerical evidence before a separately admitted model trial.',
         aggregation='Arithmetic mean of five completed monotonic wall samples, raw ranges retained. Zero HIP event times are invalid, not zero-cost kernels.',
         model_inference=False,model_promoted=False,reactive_changed=False,fixed_point_goal_paused=True)
