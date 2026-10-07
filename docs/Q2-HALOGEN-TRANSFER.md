@@ -34,6 +34,42 @@ The saved native 32K serial decode interval is 38.606–38.681 ms per step;
 Its observed host completion-to-next-submission gap is under 0.10 ms, so
 reactive wakeups alone cannot supply that reduction.
 
+## What the original128K trace changes
+
+The [completed 130925-token diagnostic](Q2-LONG-PROFILE.md) matches all64
+unchanged prefill chunks and eight output calls. The quarter means for its
+twelve full-attention completion boundaries rise437.4,502.5,556.1,591.1ms;
+overall completed intervals rise1468.3,1544.2,1599.2,1606.5ms. Every one of
+the twelve boundaries shows a similar depth trend. These host boundaries
+include previous-layer MoE/shared and current-layer attention/HC; all GPU
+event durations are invalid zero. They nominate the complete full-attention
+chain for one bounded test, but cannot assign154ms/chunk solely to selection,
+scoring, V loads or memory traffic. The qualified partition selector's
+generous full-prefill extrapolation remains just8.36ms. The tested four-query
+score reuse and V staging candidates regress or have no clear gain. Repeating
+either cannot plausibly close the12.59s gap.
+
+The depth-dependent part of those boundaries is about5.40s if every later
+chunk is arithmetically held to the first-quarter mean. That is an
+instrumented counterfactual, not a predicted improvement; even such a change
+would leave more than7s of the target gap. Halogen's 0.12.0 indexer work has
+the strongest published benefit at262K–1M, whereas its 0.14.1 routed-expert
+prefill kernel lifted the131K row as well. For LIE the next serious candidate
+must remove work in a complete chain: first test the active routed-expert
+gate/up→pack→down path and its weight reuse; in parallel design an attention
+candidate that reduces *all* repeated block-key work without collapsing query
+parallelism or adding register pressure. Follow with the original cold128K
+model input before promoting either. The public Halogen repository does not
+publish its numerical kernels, so this is a hypothesis from release notes and
+LIE measurements, not a port of their implementation.
+
+Halogen's own serial greedy rows are the relevant decode comparison; its
+46–56 token/s served rows use a draft head and sometimes prompt lookup. LIE's
+greedy sampler is already present. The native under0.1ms completion-to-next-
+submission gap gives little host-only headroom. A decode candidate therefore
+needs to reduce the actual per-step numerical path, and a separate sustained
+128-token C1 measurement must qualify30 token/s.
+
 ## Bounded next expert experiment
 
 The [saved fixed-input routing](../config/q2-current-routing-v2-results.json)

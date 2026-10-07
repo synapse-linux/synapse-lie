@@ -1,5 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Original128K profile window released — 2026-10-07 UTC: checkpoint045e9648,
+planbb41342b and fresh admission8a90be88 at06:39:55.754900 bound exactly one
+saved-binary profile of the original130925-token request, capacity133760 and
+chunk2048. Four primary commands exit0 at06:42:54.241475; native client exits0.
+The profiler-owned server requires the existing shutdown kill (exit−9) after
+the requests complete. The first local collection exits1 because its128MiB
+cap rejects the313462784-byte SQL trace; the scoped512MiB collector verifies
+11 artifacts from the already downloaded archive5a81acae. Release at
+06:43:51.791005/f9605657 matches the remote registry, leaves KFD empty,
+original CPU/four GPU leases free and seven model stat tuples unchanged.
+Core was notified; no Q2 job, client, build, handle, lease, window, waiter or
+reservation remains on .157. No remote cleanup occurred. Further GPU work
+requires a fresh tested plan and admission. The offline result rejects all
+device durations as invalid and makes no benchmark or provider-promotion claim.
+
 Original128K profile preparation — 2026-10-07 UTC: Core explicitly reports
 no own .157 job/build/client/lease/window/reservation or plan. Read-only
 preflight06:36:51.824511 confirms latest releasef2b163b6, empty KFD, seven

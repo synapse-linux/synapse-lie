@@ -20,6 +20,15 @@ GPU timestamps and uses valid CPU intervals only. It identifies45–70ms gaps
 before PLE uploads and depth-dependent attention-completion intervals. Warm
 C1 completion-to-next-submission gaps are only0.092–0.097ms; the older direct
 harness's5.33ms/token gap is not native-server headroom.
+The [completed original128K diagnostic](Q2-LONG-PROFILE.md) now extends the
+same host-boundary view to all64 unchanged prefill chunks. Its twelve full-
+attention boundaries rise437.4→591.1ms/chunk across the first/last quartiles;
+other linear boundaries are near890→908ms/chunk. Every full-attention
+boundary shows depth growth, but each includes previous-layer MoE/shared and
+current-layer attention/HC work. All GPU device timestamps are invalid zero.
+Flattening the instrumented boundary trend to the first-quarter mean accounts
+for only about5.40s of a12.59s target gap, so a baseline complete-chain gain
+is still needed. The older PLE gap does not grow late in this128K trace.
 
 The [new BF16 exact-row candidate](Q2-PLE-ROW-BYTES.md) improves the original
 32K full prefill from1402.245716 to1440.767919 token/s (+2.747%) with identical

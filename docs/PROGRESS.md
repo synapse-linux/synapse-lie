@@ -1,5 +1,25 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Original128K critical-path diagnostic closed — 2026-10-07 UTC: the unchanged
+130925-token request completes with four primary command exits0 and native
+client exit0. The profile matches all95 embedding calls: the original three
+preparations,64 prefill chunks and eight output steps. Eleven artifacts collect
+with verified hashes. The default128MiB collector refused the313MiB trace
+(exit1, `Oversized collection`); a scoped512MiB collector verified the already
+downloaded archive, preserving that failure in its receipt. The GPU window was
+released06:43:51.791005 before offline analysis, with empty KFD, original
+leases free, seven unchanged model stats and no remote cleanup; Core was
+notified. All178605 GPU dispatch and4187 copy durations are invalid zero, so
+the [result](../config/q2-long-profile128-results.json) uses completed host
+intervals only. Across four successive16-chunk quarters, mean completion
+is1468.3/1544.2/1599.2/1606.5ms, while the twelve full-attention boundaries
+are437.4/502.5/556.1/591.1ms. These boundaries also include prior-layer
+expert/shared and current-layer HC work, so this is a depth-dependent lead,
+not kernel attribution. Profiler rates do not replace the saved cold unprofiled
+1310.874605 PP /25.344213 eight-output record. No numerical provider or
+production dispatch changed. [Interpretation](Q2-LONG-PROFILE.md),
+[coordination closure](COORDINATION.md).
+
 Original128K critical-path preparation — 2026-10-07 UTC: the retained
 rocprofv3 diagnostic now accepts only the exact saved130925-token request
 after its original three preparations. Capacity133760,64 prefill calls

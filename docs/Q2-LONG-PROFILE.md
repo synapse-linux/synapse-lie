@@ -49,6 +49,14 @@ descriptor could read only row bytes, preserving cache capacity, order and
 values. Its memory/storage effects and complete-model result must be measured;
 no cache eviction, model mutation, tuning or throughput gain is assumed.
 
+All four primary commands and the native client exit0. After completed requests,
+rocprofv3 flushes its database on SIGTERM; its chained handler fails to retire
+within30s, and the existing supervisor kills its owned server (exit−9).
+This is not a clean server-shutdown qualification. Eleven artifacts collect,
+then releasecb2b68d9 at03:49:52.464972UTC retires all1821 recorded identities
+and1454 groups, with empty KFD, unchanged/free original leases and unchanged
+seven model stat identities. No inference rerun repairs this diagnostic.
+
 ## Exact 128K follow-up prepared — 7 October 2026
 
 The row-sized reader improves the original32K request but regresses at64K
@@ -65,15 +73,49 @@ The new input validator checks exact serialized request bytes, token counts,
 Existing32K analysis still reproduces exactly. The .157 CPU-only gate passes
 43 Debug and43 ASan/UBSan checks; the collected host capsule and
 [frozen plan](../config/q2-long-profile128-plan.json) bind one model diagnostic.
-Fresh GPU admission and collection are pending. The [128K analyzer](../tools/analyze-q2-long-profile128.py)
-will report actual per-chunk host completion intervals and four depth quarters,
-while rejecting zero GPU event durations as kernel timings. It cannot isolate
-individual kernels from a previous-layer/current-layer completion boundary.
+The [128K analyzer](../tools/analyze-q2-long-profile128.py) reports actual
+per-chunk host completion intervals and four depth quarters, while rejecting
+zero GPU event durations as kernel timings. It cannot isolate individual
+kernels from a previous-layer/current-layer completion boundary.
 
-All four primary commands and the native client exit0. After completed requests,
-rocprofv3 flushes its database on SIGTERM; its chained handler fails to retire
-within30s, and the existing supervisor kills its owned server (exit−9).
-This is not a clean server-shutdown qualification. Eleven artifacts collect,
-then releasecb2b68d9 at03:49:52.464972UTC retires all1821 recorded identities
-and1454 groups, with empty KFD, unchanged/free original leases and unchanged
-seven model stat identities. No inference rerun repairs this diagnostic.
+## Exact 128K diagnostic completed
+
+The original request, all64 prefill chunks and eight output calls complete on
+the saved binaries with four command exits0. All95 embedding submissions match
+the original sequence, including the three preparations and1901-token tail.
+All11 collected artifacts match their receipt hashes. The default collection
+exits1 (`Oversized collection`) because the313462784-byte trace exceeds its
+128MiB total cap; the scoped512MiB collector verifies the already downloaded
+archive without touching .157. The release precedes this offline analysis.
+
+All178605 GPU dispatches and4187 copies have invalid zero device durations.
+The table therefore uses completed host API boundaries, **not** individual
+kernel times, device utilization or benchmark throughput. Each full-attention
+boundary includes prior-layer MoE/shared work and current-layer attention/HC.
+
+| Original2048-token chunk quarter | Mean completion, ms | Twelve full-attention boundaries, ms | Other linear boundaries except first two, ms | Mean largest CPU API gap, ms |
+|---:|---:|---:|---:|---:|
+|0–15|1468.272|437.362|890.028|78.635|
+|16–31|1544.225|502.545|900.238|79.060|
+|32–47|1599.163|556.106|902.197|78.361|
+|48–63|1606.454|591.077|907.756|45.839|
+
+The twelve full-attention boundaries grow154ms per chunk between the first and
+last quarters, while the overall completion grows138ms. Each of the twelve
+boundaries shows the same broad depth trend. The mean largest CPU API gap
+shrinks late, so it does not explain that growth. Holding every later chunk's
+full-attention boundary to the first-quarter mean would account for about5.40s
+across this instrumented trace. The cold unprofiled target still needs12.59s,
+so removing depth growth alone would not reach1500 token/s; baseline expert or
+dense costs also need attention. The hypothetical5.40s is an arithmetic
+counterfactual, not a predicted speedup or an upper bound on attention work.
+
+The six warmed output intervals are about39.78–39.97ms under profiling; their
+completion-to-next-submission gaps are about0.096–0.107ms. These eight output
+calls do not qualify sustained TG128. The saved unprofiled128K observation
+remains1310.874605 PP and25.344213 TG on eight outputs.
+
+[All64 chunk records, eight output intervals and validity checks](../config/q2-long-profile128-results.json).
+The [Halogen comparison](Q2-HALOGEN-TRANSFER.md) uses these observations to
+rank testable mechanisms without substituting its different checkpoint or
+benchmark conditions.
