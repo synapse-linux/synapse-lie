@@ -1,5 +1,19 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Owner-requested larger chunks and IOMMU comparison prepared — 2026-10-07 UTC:
+private4K/8K runtime/provider support propagates the real executor capacity
+and preserves four retained prefill dispatches. Local server compilation0;
+923/923 device functions byte-exact R3. Nine focused C17/lifetime tests pass
+on .157, including Debug and ASan/UBSan;
+the first CPU build command requested an unavailable core-only worker target
+and exits2, preserved before correcting the target list. The CPU lease is
+released after the tests. No new model inference yet.
+The subsequent explicit IOMMU request takes priority with retained R3 and
+chunk2048. Limine one-shot change and exact rollback are prepared locally.
+GLM R3 .157 closes/release f124b6a8/strong22:13:13; future GLM tests move to
+.155 per owner instruction. No new Q2 GPU admission at this checkpoint.
+[Chunk scope](Q2-PREFILL-CHUNKS.md) · [IOMMU scope](Q2-IOMMU.md).
+
 Exact Q8 SSM stage layout prepared locally — 2026-10-07 UTC:
 a temporary 42.5 MiB layout preserves every original code/scale bit and the
 retained matrix/convolution arithmetic. Every candidate timing will include

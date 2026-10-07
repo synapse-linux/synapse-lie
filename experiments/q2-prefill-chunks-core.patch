@@ -1,0 +1,41 @@
+--- a/adapters/gufo.cpp
++++ b/adapters/gufo.cpp
+@@ -105,7 +105,7 @@
+ static lie_status open_model(const char *path, const lie_model_options *o, uint32_t width, const char *mtp_path, uint32_t drafts, const char *vision, lie_model **out, lie_error *e) {
+     if (!width || width>LIE_DECODE_MAX_ROWS || !path || !*path || !o || !out || *out || o->abi_version != LIE_EXECUTOR_ABI ||
+         o->struct_bytes != sizeof(*o) || !o->context_tokens || o->context_tokens > INT32_MAX ||
+-        !o->prefill_chunk_tokens || o->prefill_chunk_tokens > 2048)
++        !o->prefill_chunk_tokens || o->prefill_chunk_tokens > 8192)
+         return error(e, LIE_INVALID, "invalid model options/output handle");
+     try {
+         std::string template_error;
+@@ -167,6 +167,7 @@
+         qfn::ModelOptions options;
+         if(vision)options.vision_model_path=vision;
+         options.max_context = o->context_tokens;
++        options.prefill_chunk_tokens = o->prefill_chunk_tokens;
+         options.decode_concurrency = width;
+         options.max_draft_tokens = mtp_path?drafts:1;
+         if(mtp_path)options.mtp_model_path=mtp_path;
+--- a/src/server.c
++++ b/src/server.c
+@@ -2291,7 +2291,7 @@
+     return 2;
+   }
+   if (options.context < 128 || options.context > LIE_WORKER_MAX_CONTEXT ||
+-      options.chunk < 1 || options.chunk > 2048 || options.max_active < 1 ||
++      options.chunk < 1 || options.chunk > 8192 || options.max_active < 1 ||
+       options.max_active > LIE_DECODE_MAX_ROWS || timeout_ms < 100 ||
+       !*model_id || strlen(model_id) > 128 ||
+       !lie_utf8_valid(model_id, strlen(model_id), false) ||
+--- a/src/worker.c
++++ b/src/worker.c
+@@ -1198,7 +1198,7 @@
+ }
+ lie_core *lie_core_create(const lie_core_options *o) {
+     if (!o || !o->model_path || !*o->model_path || o->context<128 || o->context>LIE_CORE_MAX_CONTEXT ||
+-        !o->chunk || o->chunk>2048 || !o->max_active || o->max_active>LIE_DECODE_MAX_ROWS) return NULL;
++        !o->chunk || o->chunk>8192 || !o->max_active || o->max_active>LIE_DECODE_MAX_ROWS) return NULL;
+     if(!LIE_DS4_CACHE_POLICY&&o->cache_policy.enabled)return NULL;
+     /* Prefix support is model-specific and checked after capability admission.
+      * A provider without predictor state may run only with caches disabled. */

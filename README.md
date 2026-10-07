@@ -1,6 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-The next [prefill SSM candidate](docs/Q2-SSM-STAGE-Q8.md) packs the original Q8
+[User-requested chunk4096/8192 support](docs/Q2-PREFILL-CHUNKS.md) is prepared
+in private source capsules; all923 GPU functions match retained R3. The newer
+[IOMMU A/B request](docs/Q2-IOMMU.md) takes priority, using the unchanged R3
+binary and original2048 chunks before and after a temporary boot change.
+No new GPU result is claimed at this preparation checkpoint.
+
+The deferred [prefill SSM candidate](docs/Q2-SSM-STAGE-Q8.md) packs the original Q8
 bytes into contiguous operand stages, charging packing on every call. Local
 compilation and control identity checks pass; GPU performance remains unmeasured.
 
