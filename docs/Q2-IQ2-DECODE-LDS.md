@@ -1,4 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
+
+Model integration prepared on2026-10-07: the private provider composes LDS
+gate/up with the retained four-row Q2 down provider. Dispatch requires
+`!prefill_phase`, one token, ten selected experts, IQ2_XXS,640rows,2560columns
+and512experts with matching gate/up shapes. Every prefill path, including
+one-token tails, stays unchanged. Native Q8_1 packing uses the same MMQ context,
+stream and2880-byte input pool reservation. No model/activation format changes.
+
+Local build preserves all923 common device functions exactly. The added
+2648-byte kernel retains62VGPR/no scratch and the component's instructions;
+the only differing word at offset120 is its PC-relative codebook address.
+ELF symbols resolve both addresses to the same2048-byte IQ2 table. Initial
+strict comparison exit1 is retained, not interpreted as a numerical failure.
+Build/source/relocation receipts are under
+`evidence/q2-iq2-decode-lds-model-preparation/` and
+`config/q2-iq2-decode-lds-{model-source,build}.json`.
+Original130925/8 model timing and task-quality qualification remain pending.
 # Stage the existing IQ2 codebook for scalar decode
 
 The scalar component completed on .157 on 2026-10-07, exit 0. All 906 full

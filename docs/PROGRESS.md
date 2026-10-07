@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+IQ2 scalar LDS model prepared — 2026-10-07 UTC. Private provider derives from
+the retained four-row Q2 down provider and adds only non-prefill scalar gate/up.
+Original Q8_1 producer and2880-byte pool reservation are unchanged; no new
+precision boundary or persistent buffer. Local RelWithDebInfo build succeeds,
+reusing the saved MMQ archive. All923 common device functions are byte-exact;
+the sole new kernel has identical instructions/table bytes after verifying its
+one PC-relative codebook-address relocation. Initial manifest-key preparation
+failure and strict byte-audit mismatch are retained with the explanation.
+The unchanged333-file C17 core and1034-file provider verify. Original130925/8
+model trial is pending separate .157 CPU fixtures/admission; no performance
+claim, control rebuild/rerun or remote GPU reservation follows from this build.
+
 Owner-authorized local cleanup complete — 2026-10-07 UTC: worktree54.8→19.0GiB.
 664 verified duplicate transport archives and55 generated CMake directories
 removed;246 inactive source trees recoverable from checked capsules;231
