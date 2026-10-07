@@ -1,5 +1,25 @@
 # DS4 / synapse-lie coordination
 
+## MTP live/RAM/SSD prefill passed and retired — 2026-10-07
+
+Fresh explicit Point, DGX and Q2 non-use replies and separate global preflights
+precede r53 live/RAM/SSD admission. Each runner acquires original lease
+66307/105946405 independently and repeats resource/thermal checks. All three
+original Q4/Q8 MTP probes pass; complete outputs match the r52 serial reference.
+Controller/supervisor/native exits, collection and independent reviews are 0
+in the [functional receipt](development/validation/prefill-mtp-original-point-2026-10-07.json).
+
+Live supervisor 283499/start 23609913 and init 283824/start 23610040 retire;
+strict closure at 10:02:20 UTC verifies the unchanged lease free and router
+284690 restored. RAM supervisor 284950/start 23634755 and init
+285311/start 23634901 retire; strict closure at 10:06:30 verifies router 286141.
+SSD supervisor 286435/start 23660112 and init 286814/start 23660240 retire;
+lease releases at 10:11:54 and strict closure at 10:13:30 verifies router 287677.
+Each closure checks exact supervisor/client/init and container absence, no
+foreign compute, no guarded hot sensor and port 8000 empty. Peers receive
+verified closure. Root has no remote job/build/client/handle/lease/window/waiter/
+reservation on `.161/.157/.158/TB`. Further gates need fresh admission.
+
 ## Original RAM/SSD prefill cache passed and retired — 2026-10-07
 
 Fresh explicit Point/DGX non-use and global preflights at 09:40:39 and

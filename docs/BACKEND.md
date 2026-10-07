@@ -168,6 +168,17 @@ payloads are retained; an enabled generic compression capability does not
 establish packing. MTP, broader quality/fault/resources and matched performance
 remain open; all six roadmap items stay open.
 
+Original Q4/Q8 MTP now passes the same 8K five-stage RAM/SSD probes, plus a C2
+live probe with an actual in-flight setter, immutable admitted selections,
+withheld-credit peer progress, borrowed-output stability and prefill cancellation
+with recovery. All complete outputs match the same-runtime serial AR reference.
+SSD restores full prefixes with RAM disabled and drains two writes without errors.
+The [MTP functional receipt](development/validation/prefill-mtp-original-point-2026-10-07.json)
+binds all 33 collected files, independent reviews and three strict closures.
+This qualifies selected greedy live/cache behavior at PP8192/TG32, not broader
+MTP probability/filter/grammar, quality/fault/resources or matched performance.
+All six roadmap items remain open; no remote window is reserved.
+
 An open qualification gate does not mean its implementation is absent:
 
 | Item | Source already integrated in this branch | Final qualification still open |

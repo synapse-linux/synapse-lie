@@ -1,6 +1,28 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## MTP live prefill and RAM/SSD parity passed on Point — 2026-10-07 UTC
+
+The current r50 runtime passes original Q4/Q8 MTP probes with 8,192 input
+tokens, 32 output tokens, context 16,384 and reserved prefill capacity 8,192.
+The C2 live probe verifies an in-flight chunk change, immutable admitted choices,
+peer progress while output credit is withheld, borrowed-output stability and
+zero-output prefill cancellation with recovery. Separate C1 RAM/SSD probes pass
+five cold/hot namespace stages each, with prefill calls 4/0/1/0/0. Every complete
+output matches the same-runtime serial AR reference. Each cache probe accepts
+117 of 123 speculative proposals; this is selected greedy correctness evidence.
+
+SSD reads the full 8,192-token prefix with RAM cache disabled; two writes drain
+without errors. Controller, supervisor, native client, all 33 collected files
+and independent reviews pass. Strict closures verify the exact processes and
+containers absent, original lease free, port 8000 empty and router restored.
+Combined sampled CPU/GPU/NVMe peaks are 75/80/69.85 C. The
+[functional receipt](development/validation/prefill-mtp-original-point-2026-10-07.json)
+includes portable raw evidence. Exact DS4 cache payloads remain raw in both
+storage modes. Broader MTP probability/filter/grammar, steering and 1M quality,
+fault/resource and comparative performance gates remain open. Terminal Bench
+follows those gates; all six roadmap items remain open.
+
 ## Original RAM/SSD prefill cache passed on Point — 2026-10-07 UTC
 
 The r50 runtime passes separate native AR RAM and SSD probes with 8,192 input

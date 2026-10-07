@@ -56,6 +56,15 @@ All five outputs per mode and all ten across modes match, with cold/hot calls
 ([cache Point receipt](../development/validation/prefill-cache-original-point-2026-10-07.json)).
 This qualifies these selected namespace transitions; MTP and broader
 quality/fault/resources/performance remain separate open gates.
+The matching r50 original Q4/Q8 MTP probes subsequently pass live C2 and both
+five-stage RAM/SSD C1 paths at PP8192/TG32/context 16,384/capacity 8,192.
+All complete outputs match the same-runtime serial AR reference; SSD restores
+the full prefix with RAM disabled. In-flight immutable selection, withheld-credit
+peer progress, borrowed-output stability and prefill cancellation/recovery pass
+([MTP Point receipt](../development/validation/prefill-mtp-original-point-2026-10-07.json)).
+Broader MTP sampling/grammar, quality/fault/resource and performance gates remain
+open. No ABI layout, numerical algorithm or worker-count change accompanies
+these qualification results.
 See [configuration](../guides/USAGE.md#context-and-concurrency) and
 [cache identity](STATE.md).
 
