@@ -1,6 +1,30 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Original-weight native 8K recall control passes — 2026-10-07 UTC
+
+The current `90a88455`/r68 runtime and checkpoint `2b157729` coordinator pass
+both cold Chat SSE turns on `.161`, seed 77, native RoPE, capacity 262144,
+chunk 256 and C1.
+Actual inputs are 8,190 and 8,298 tokens, outputs 38 and 74 with natural stops.
+The second answer correctly retrieves the two original bindings absent from
+the first reply. Three small calibrations are unscored. This qualifies one
+8K control, not other seeds, YaRN, MTP, longer inputs or matched performance.
+
+All actual controller/supervisor/helper/native-client/server/collector/closure
+exits 0; all 18 artifacts and separately assembled SSE answers verify. Peaks are
+CPU 72.625 / GPU 73 / NVMe 63.85 C across 124 samples. Original model stats remain
+unchanged. Lease releases at 19:50:16 UTC; strong closure at 19:53:59 verifies
+all four actual PID/start identities and whole container absent, two complete
+383-process scans empty, router 38612 restored and original lease free.
+All four peers receive the verified release. The
+[receipt](development/validation/recall-native-8k-ar-point-2026-10-07.json) retains
+42 portable raw members, an initial bookkeeping correction and a local sealing
+exit 1: its reviewer incorrectly expected EOS after one-token budget-limited
+calibrations. The corrected saved-wire review passes 0 without repeating GPU
+work. Root has no remote job/handle/lease/window/waiter/reservation; all six
+items stay open and Terminal Bench remains last.
+
 ## Native recall campaign prepared; original weights pending — 2026-10-07 UTC
 
 The optional `modern-http-recall` route starts a separately bound server and

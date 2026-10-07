@@ -20,6 +20,7 @@ Implementation planning and validation, separate from user benchmarks.
 
 ## Validation protocols
 
+- [Long-context recall and continuation through 1M](protocols/LONG-CONTEXT-RECALL-GPU-PROTOCOL.md).
 - [CORE-GPU-PROTOCOL](protocols/CORE-GPU-PROTOCOL.md).
 - [KVC-GPU-PROTOCOL](protocols/KVC-GPU-PROTOCOL.md).
 - [PERFORMANCE-PROTOCOL](protocols/PERFORMANCE-PROTOCOL.md).

@@ -1,5 +1,30 @@
 # DS4 / synapse-lie coordination
 
+## Native 8K recall control passed and retired — 2026-10-07
+
+Current own-state declarations from Point/DGX/Q2/GLM, explicit current boot/FS/
+original-lease declaration and fresh global/in-lease checks precede the separate
+AR window `recall-native-8192-s77-ar-20261007-r1`. Original Q4 and the qualified
+`90a88455`/r68 runtime pass both cold recall turns at physical 8190/8298 tokens.
+All 18 collected artifacts, independent saved SSE assembly and actual exits 0
+verify; four model stats are unchanged. Peaks CPU/GPU/NVMe: 72.625/73/63.85 C.
+
+Original lease 66308/105946405 releases at 19:50:16.548733 UTC. Strong closure at
+19:53:59.186772 verifies supervisor 36257/start1853876, launcher 36357/start1853964,
+observed init 36482/start1854013 and GPU 37537/start1858468 absent. Container
+`16f1472b` and its whole cgroup are absent; two complete 383-process scans find
+no members/unreadable entries. Router 38612 is restored, original lease free/
+released, HTTP 8000 empty and foreign compute/guarded hot empty. All four peers
+receive the verified release.
+
+The [receipt](development/validation/recall-native-8k-ar-point-2026-10-07.json)
+qualifies one 8K/native/seed 77 AR control. The initial boot-declaration bookkeeping
+mistake and local sealing EOS assertion exit 1 remain preserved; both are corrected
+before acceptance, without a GPU repeat. Root has no remote job/build/client/
+handle/lease/window/waiter/reservation on `.161/.157/.155/.158/TB`. Later seeds,
+128K–1M quality, YaRN/MTP and comparisons need fresh admission. All six tasks
+remain open and Terminal Bench remains last.
+
 ## Complete MTP tool-transition window passed and retired — 2026-10-07
 
 New Point/DGX/Q2 and separate GLM own-state declarations plus fresh global/

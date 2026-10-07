@@ -258,6 +258,36 @@ synapse-lie-bench --suite core --model /path/to/model-00001-of-00004.gguf \
   --warmups 0 --repetitions 1 --timeout-ms 86400000 --progress-ms 10000
 ```
 
+## Original-weight recall: initial 8K control
+
+The current `90a88455`/r68 runtime passes both cold Chat SSE turns on `.161`
+with the native `long-context-recall` preset, seed 77, native RoPE, capacity
+262,144, chunk/scratch 256 and one active sequence. Prefix caching is disabled.
+Turn one retrieves the middle binding; turn two retains the full original ledger
+and retrieves the start/end bindings, whose values were absent from the first
+reply. Three calibration requests are unscored. C1 denotes one sequence;
+process thread counts were not recorded for this window.
+
+| Turn | Physical input tokens | Output tokens | Exact recall | Prefill seconds | Decode seconds |
+| --- | ---: | ---: | --- | ---: | ---: |
+| Middle binding | 8,190 | 38 | Pass | 30.148 | 3.663 |
+| Start/end continuation | 8,298 | 74 | Pass | 30.942 | 7.119 |
+
+The first physical input rounds down from target 8,192 to complete records.
+Outputs finish naturally below the 128-token budget. TTFT is 30.672/31.468 seconds,
+complete wall 34.254/38.509 seconds, PP 271.661/268.181 tok/s and decode
+10.375/10.395 tok/s. These distinct quality turns are not a fixed-output
+performance comparison or repeated measurements of one prompt.
+
+CPU/GPU/NVMe maxima are 72.625/73/63.85 C across 124 samples. All 18 artifacts
+hash-verify, original model stats stay unchanged and complete process/container/
+router/lease closure passes. The [receipt and portable raw data](../../../../development/validation/recall-native-8k-ar-point-2026-10-07.json)
+retain complete requests, original ledger/oracles, saved SSE and independent
+wire checks. The local sealing EOS assertion failure is retained and corrected;
+no GPU run repeats. The [recall protocol](../../../../development/protocols/LONG-CONTEXT-RECALL-GPU-PROTOCOL.md)
+defines the remaining three-seed native/YaRN ladder through 1M. Other seeds,
+128K–1M inputs, YaRN/MTP quality and matched comparisons remain pending.
+
 ## Modern C17 core MTP vs AR on the GPU
 
 The `rocm10-point-modern-r3` build uses LIE source `9b109998`, Gufo pin
