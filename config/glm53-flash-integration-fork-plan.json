@@ -1,0 +1,47 @@
+{
+  "schema": "synapse-lie.glm53-flash-integration-fork-plan.v1",
+  "state": "WAITING_FOR_NEXT_Q2_GPU_TEST_CLOSURE",
+  "requested_at": "2026-10-07",
+  "owner_request": "alla chiusura del prossimo test, crea un fork da questo ramo per l'integrazione di glm5.3-flash con compressione antirez gia presente in .157",
+  "source_branch": "feature/antirez-compat-audit",
+  "source_head_at_request": "2e123691cebcd0feef7d82b74979258421b882f1",
+  "fork_commit_policy": "Use the clean, committed source-branch checkpoint after the next GPU test has closed; do not use develop or an earlier checkpoint.",
+  "target_branch": "feature/glm53-flash-antirez",
+  "target_worktree": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/glm53-flash-antirez",
+  "trigger": {
+    "previous_closed_test": "q2-decode-down-rows-native128-r3",
+    "previous_release_sha256": "d74a7eaa1455150d074458b3254603b4ca6d521beb45ba5b654117990cfde05a",
+    "next_test_candidate": "IQ2 scalar decode codebook LDS component; prepared locally, GPU fixture and admission still pending",
+    "requirements": [
+      "The triggering test must occur after this request; R3 does not satisfy the trigger.",
+      "Retain the actual command exit and collect and hash-check its evidence, including negative results.",
+      "Verify owned-process retirement and release the GPU window under docs/COORDINATION.md.",
+      "Commit the source-branch checkpoint before creating the new branch and worktree."
+    ]
+  },
+  "model": {
+    "host": "192.168.5.157",
+    "path": "/home/paperboy/ds4-launcher/models/gguf/GLM-5.3-Flash-Q2.gguf",
+    "bytes": 96505816384,
+    "device": 54,
+    "inode": 786094,
+    "mtime_ns": 1787989371366313995,
+    "observation": "Read-only filesystem stat; model metadata, architecture and individual tensor quantizations have not yet been inspected."
+  },
+  "vision_encoder_observed": {
+    "path": "/home/paperboy/ds4-launcher/models/gguf/GLM-5.3-Flash-Vision-Encoder.gguf",
+    "bytes": 1127280960,
+    "device": 54,
+    "inode": 2571235,
+    "mtime_ns": 1788266584930000000
+  },
+  "constraints": [
+    "Use the owner's existing antirez-compressed model without conversion or new lossy quantization.",
+    "The explicitly requested current-branch fork is an exception to the default feature-from-develop rule.",
+    "Keep Q2 optimization and GLM integration in separate worktrees; no publication or merge is requested.",
+    "Do not alter DS4-owned model files, source, services, caches or evidence.",
+    "Creating the worktree does not authorize a concurrent GPU run; future GLM tests need their own coordination.",
+    "Creating the worktree does not establish GLM inference compatibility."
+  ],
+  "fork_created": false
+}

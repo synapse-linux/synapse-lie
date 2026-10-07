@@ -1,5 +1,19 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Owner-requested GLM fork pending — 2026-10-07 UTC. After the next Q2 GPU test
+has collected evidence and released its window, checkpoint this branch and
+create `feature/glm53-flash-antirez` in a separate persistent worktree from
+that exact checkpoint. R3 predates the request and does not satisfy the trigger.
+The existing .157 `GLM-5.3-Flash-Q2.gguf` is observed by stat only; no tensor
+layout, inference compatibility, model conversion or GLM GPU run is claimed.
+[Recorded fork plan](../config/glm53-flash-integration-fork-plan.json).
+
+IQ2 scalar LDS component preparation now links a private fixture against the
+saved MMQ archive, without rebuilding the control. It tests complete native
+quantization plus gate/up, 512 rotating experts and per-call retained outputs.
+Local compilation passes; .157 CPU lifecycle and GPU qualification are pending.
+The source control does not replace retained binaries or raw evidence.
+
 Q2 performance-mode follow-up complete — 2026-10-07 UTC: plan14e6cfdc,
 source2e4207cf and unchanged serverf8a5210c complete the original130925/8
 request sequence at1337.972303 PP /26.101627 TG. All four replies are exact;
