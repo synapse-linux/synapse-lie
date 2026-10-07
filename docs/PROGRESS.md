@@ -82,6 +82,9 @@ Focused native Release and unsuppressed sanitizer checks pass with the feature
 ON and OFF. Local device-hidden HIP consumers link against their exact existing
 ON/OFF providers; neither executable is run. Matching `.161` ROCm10 compilation
 and GPU acceptance remain pending; no remote job, lease or reservation is held.
+The [portable HOST and compilation receipt](development/validation/attention-fixture-host-2026-10-07.json)
+retains the exact source checkpoint, actual stage exits, raw outputs and archive
+hashes. It is component tooling evidence, not original-weight qualification.
 The [current roadmap](BACKEND.md#current-roadmap--2026-10-06-utc)
 separates integrated source from open acceptance gates. The owned functional
 source is integrated; at that checkpoint all 650 files match the final HOST receipt.

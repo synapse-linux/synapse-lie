@@ -12,12 +12,19 @@ transport. Cached follow-ups are another metric and must expose cached/new work.
 
 This is a source audit of independently fetched Gufo `f783fedb`, not a GPU profile.
 
-- `src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp`,
-  `SelectScoreKernel`/`SelectBlocks`: scoring covers completed causal blocks for
-  each query. Selection uses cooperative histograms and preserves FP32 reduction
-  order. A fixed selected-attention budget does not make block scoring independent
-  of context length. Query/key reuse is a candidate for measurement, not a proven
-  missing optimization or permission to change numerical order.
+- `src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp:1888`,
+  `SelectScoreKernel`: each query row scores all completed causal blocks. A key
+  is reused across four heads, but loaded again for the next query row. A fixed
+  selected-attention budget does not make this work independent of context.
+  Reusing keys across query rows is a measurable optimization candidate; retain
+  FP32 queries, the FMA/reduction order and selection boundaries.
+- `kernels.hip.cpp:1980`, `SelectMarkKernel`, launched at line 5767: exact top-k
+  selection uses one 256-thread workgroup per query (`dim3(n_tokens)`). It scans
+  live block scores and initializes the full allocated mask pitch. Single-row
+  decode therefore uses one workgroup for this stage regardless of context
+  depth. Distributing selection across workgroups is a plausible long-context
+  target; its share of LIE's elapsed time has not been measured. Preserve the
+  lowest-index tie rule, complete masks and captured-graph replay positions.
 - `kernels/rocm/executor.cpp`: sparse selection and fused wide-batch attention
   already exist. Intermediate operator timings, scratch, occupancy and launch
   gaps must be measured before assigning a bottleneck.
@@ -27,6 +34,12 @@ This is a source audit of independently fetched Gufo `f783fedb`, not a GPU profi
   accumulated length. Its actual contribution is unmeasured and may be small.
 - LIE's worker calls completed chunks up to 2048 tokens sequentially. Ready-row
   batching accelerates concurrent decode, not these prefill operations.
+- `ngram.cpp:205` and `executor.cpp:2000`: model lookup reads already use a
+  worker pool (up to 32, limited by hardware concurrency), row deduplication,
+  a bounded cache and asynchronous `StartRead`/`WaitRead`. Decode queues its
+  preceding layers before waiting at the injection boundary. Cold SSD reads
+  and warm lookup costs need separate measurement; this table is model data,
+  distinct from persisted KV/recurrent state.
 
 ## Practical priorities
 
@@ -43,6 +56,19 @@ frontiers and selection boundaries before running unprofiled repeated timing.
 Larger chunks, key tiling, precise completion dependencies or scratch reuse are
 candidates, not promised gains. Chunk changes also affect mixed-request fairness.
 No host power, IOMMU, firmware or kernel settings were changed for this work.
+
+Use the following order when a profile confirms the corresponding cost:
+
+| Candidate | Intended benefit | Acceptance boundary |
+|---|---|---|
+| Distribute block selection across GPU workgroups | Reduce single-row decode's context-dependent selection cost | Exact block lists, ties and masks; stable graph scratch; account for extra launches |
+| Reuse block keys across prefill query rows | Reduce repeated key reads | Exact scores and lists; no register spill or short-context regression |
+| Tune projection and routed-expert shapes | Increase matrix work per device time | Record weight format and kernel plan; qualify any changed rounding separately |
+| Raise the current 2048-token prefill capacity | Amortize fixed chunk and projection costs | Explicit provider/scratch capacity, bounded memory, cache identity, cancellation and mixed-request fairness |
+
+More host threads do not address the single-workgroup GPU selection path. The
+native attention fixture below verifies the attention operation after selection;
+it neither qualifies indexer scoring/selection nor measures their speed.
 
 The [reactive audit](../INFERENCE-REACTIVE.md#implementation-audit-how-far-the-reactive-flow-reaches)
 separates the implemented readiness/batch layer from unimplemented operator-level
