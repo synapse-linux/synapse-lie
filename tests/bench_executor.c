@@ -14,7 +14,7 @@
 #include <string.h>
 #include <time.h>
 struct lie_model { unsigned context,runs,width,chunk; uint64_t domain; uint32_t drafts; int mode; bool mtp; unsigned vision; };
-struct lie_sequence { lie_model *m; unsigned position,step; int32_t *prompt; unsigned char scope[32]; atomic_bool cancelled; lie_eos_policy eos_policy; };
+struct lie_sequence { lie_model *m; unsigned position,step,prefill_chunk; int32_t *prompt; unsigned char scope[32]; atomic_bool cancelled; lie_eos_policy eos_policy; };
 static atomic_uint_fast64_t domain_counter=1;
 /* This accounting-only fixture does not implement steering. The separate
  * shared-core steering fixture exercises bank/policy/cache/client lifetimes. */
@@ -35,6 +35,11 @@ lie_status lie_sequence_change_steering(lie_sequence *s,const lie_steering_setti
 }
 lie_status lie_sequence_steering_info(lie_sequence *s,lie_steering_policy_info *out,lie_error *e){
     (void)s;(void)out;(void)e;return LIE_UNSUPPORTED;
+}
+lie_status lie_sequence_configure_prefill(lie_sequence *s,uint32_t chunk,const unsigned char scope[32],lie_error *e){
+    unsigned char zero[32]={0};
+    (void)e;if(!s||!scope||!chunk||chunk>s->m->chunk||s->position||s->prefill_chunk||!memcmp(scope,zero,32))return LIE_INVALID;
+    s->prefill_chunk=chunk;memcpy(s->scope,scope,32);return LIE_OK;
 }
 const char *lie_backend_name(void) { return "bench-fixture-NOT-INFERENCE"; }
 const char *lie_backend_ownership(void) { return "synthetic-test-fixture"; }
@@ -58,7 +63,7 @@ lie_status lie_backend_open(const char *p,const lie_model_options *o,lie_model *
 }
 lie_status lie_model_close(lie_model **m,lie_error *e) { (void)e; free(*m); *m=NULL; return LIE_OK; }
 lie_status lie_model_get_info(lie_model *m,lie_model_info *i,lie_error *e) {
-    (void)e; *i=(lie_model_info){.abi_version=LIE_EXECUTOR_ABI,.context_tokens=m->context,.vocab_tokens=256,.prefill_capacity=2048,.native_batch_capacity=m->width,.speculative_supported=m->mtp}; return LIE_OK;
+    (void)e; *i=(lie_model_info){.abi_version=LIE_EXECUTOR_ABI,.context_tokens=m->context,.vocab_tokens=256,.prefill_capacity=m->chunk,.native_batch_capacity=m->width,.speculative_supported=m->mtp}; return LIE_OK;
 }
 lie_status lie_model_attention_dispatch_snapshot(lie_model *m,
     lie_attention_dispatch_info *out,lie_error *e) {
@@ -87,7 +92,7 @@ lie_status lie_sequence_close(lie_sequence **s,lie_error *e) { (void)e; free((*s
 lie_status lie_sequence_prefill(lie_sequence *s,const int32_t *p,size_t n,lie_error *e) {
     (void)e; (void)p;
     if (atomic_load(&s->cancelled)) return LIE_CANCELLED;
-    if (n<=s->position || n-s->position>2048 || n>s->m->context) return LIE_INVALID;
+    if (n<=s->position || n-s->position>s->m->chunk || n>s->m->context) return LIE_INVALID;
     if(s->m->mode>=8&&s->m->mode<=10){
         struct timespec delay={s->m->mode==10?1:0,s->m->mode==10?0:s->position?50000000:300000000};
         while(nanosleep(&delay,&delay)&&errno==EINTR){}
@@ -163,7 +168,7 @@ lie_status lie_sequence_state_describe(lie_sequence *s,const lie_state_layout *f
     (void)e;if(atomic_load(&s->cancelled))return LIE_CANCELLED;
     if(from?(s->position||s->step||from->domain!=s->m->domain):!s->position)return LIE_INVALID;
     *out=(lie_state_layout){.abi_version=LIE_STATE_ABI,.representation_version=2,.domain=s->m->domain,
-        .token_count=from?from->token_count:s->position,.context_tokens=s->m->context,.prefill_chunk=s->m->chunk};
+        .token_count=from?from->token_count:s->position,.context_tokens=s->m->context,.prefill_chunk=s->prefill_chunk?s->prefill_chunk:s->m->chunk};
     out->model_data[0]=from?from->model_data[0]:s->step;
     out->model_data[1]=s->m->drafts;if(from&&from->model_data[1]!=out->model_data[1])return LIE_INVALID;
     uint64_t shape=out->token_count;if(!lie_state_add(out,LIE_STATE_TOKENS,0,LIE_STATE_I32,1,&shape))return LIE_INVALID;

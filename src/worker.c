@@ -9,6 +9,7 @@
 #include <errno.h>
 #include <math.h>
 #include <openssl/rand.h>
+#include <openssl/evp.h>
 #include <poll.h>
 #include <pthread.h>
 #include <stdatomic.h>
@@ -42,9 +43,10 @@ struct lie_job {
   /* Metadata synchronized separately from the model; never holds GPU work. */
   pthread_mutex_t gate;
   lie_job_info info;
+  lie_prefill_info prefill; /* Immutable job admission configuration. */
   lie_sequence *sequence; /* worker only */
   unsigned char cache_scope[32];
-  unsigned char semantic_scope[32]; /* Image identity before steering composition. */
+  unsigned char semantic_scope[32]; /* Image/chunk identity before steering composition. */
   lie_job_steering_info steering; /* Copied requests/snapshots under job gate. */
   lie_steering_schedule_info *schedule; /* Optional copied immutable steps. */
   int32_t *prompt;
@@ -70,6 +72,7 @@ struct lie_core {
   lie_core_info info;
   lie_attention_dispatch_info attention_dispatch;
   lie_core_options options;
+  lie_prefill_info prefill; /* Configuration protected by the core gate. */
   char *path;
   char output_namespace[33]; /* Independent of HTTP; unique across core
                                 restarts. */
@@ -315,7 +318,7 @@ static bool render_prompt(lie_core *w,lie_job *j){
 static void checkpoint_targets(lie_core *w,lie_job *j){
     const lie_cache_policy *p=&w->options.cache_policy;
     if(!w->options.prefix_cache_bytes&&!w->store){j->checkpoint=j->next_continued=0;return;}
-    if(!p->enabled){j->checkpoint=j->tokens>=w->options.chunk?j->tokens-j->tokens%w->options.chunk:j->tokens;return;}
+    if(!p->enabled){j->checkpoint=j->tokens>=j->prefill.chunk_tokens?j->tokens-j->tokens%j->prefill.chunk_tokens:j->tokens;return;}
     uint32_t n=(uint32_t)j->tokens;
     if(p->cold_max_tokens&&n>p->cold_max_tokens)n=p->cold_max_tokens;
     if(j->request.kind==LIE_INPUT_MESSAGES){size_t anchor=0;lie_error error={0};
@@ -546,7 +549,7 @@ static lie_status cache_step(lie_core *w,lie_job *j,bool restore,lie_cache_reaso
     w->info.executor_phase=restore?LIE_EXECUTOR_RESTORE:LIE_EXECUTOR_CAPTURE;
     pthread_mutex_unlock(&w->gate);
     uint64_t start=0,end=0;bool a=clock_ns(&start);unsigned reused=0;
-    lie_status rc=restore?lie_prefix_cache_restore_scope(&w->cache,j->sequence,j->prompt,steering_restore_limit(j),w->options.cache_policy.enabled?1:w->options.chunk,j->request.cache.flags,j->cache_scope,&reused,error):
+    lie_status rc=restore?lie_prefix_cache_restore_scope(&w->cache,j->sequence,j->prompt,steering_restore_limit(j),w->options.cache_policy.enabled?1:j->prefill.chunk_tokens,j->request.cache.flags,j->cache_scope,&reused,error):
         lie_prefix_cache_capture_scope(&w->cache,j->sequence,tokens,frontier,w->options.cache_policy.enabled?&metadata:NULL,
                                         w->options.cache_policy.enabled&&frontier>j->tokens?j->tokens:0,j->request.cache.flags,j->cache_scope,error);
     if(!restore&&rc==LIE_OK&&w->store){
@@ -842,11 +845,28 @@ static bool step(lie_core *w, size_t index) {
     }
     rc = vision ? lie_vision_prompt_cache_scope(vision, j->semantic_scope, &error)
                 : LIE_OK;
+    if (rc == LIE_OK && j->prefill.chunk_tokens != j->prefill.capacity_tokens) {
+      /* Chunk boundaries may change provider rounding. Keep the existing scope
+       * byte-identical for the old capacity==chunk path; otherwise bind the
+       * immutable job choice before composing vision/steering cache identity. */
+      unsigned char input[52] = {'L','I','E','-','P','R','E','F','I','L','L',1};
+      unsigned char scope[32]; unsigned bytes = 0;
+      memcpy(input + 16, j->semantic_scope, 32);
+      for (unsigned k=0;k<4;++k)
+        input[48+k]=(unsigned char)(j->prefill.chunk_tokens>>(8*k));
+      if (!EVP_Digest(input,sizeof(input),scope,&bytes,EVP_sha256(),NULL) || bytes!=32) {
+        rc=LIE_RESOURCE_LIMIT;
+        snprintf(error.message,sizeof(error.message),"prefill cache identity unavailable");
+      } else memcpy(j->semantic_scope,scope,32);
+    }
     memcpy(j->cache_scope,j->semantic_scope,32);
     if (rc == LIE_OK && vision)
       rc = lie_sequence_attach_vision(sequence, vision, &error);
     if (vision)
       (void)lie_vision_prompt_close(&vision, NULL);
+    if (rc == LIE_OK && j->prefill.chunk_tokens != j->prefill.capacity_tokens)
+      rc = lie_sequence_configure_prefill(sequence, j->prefill.chunk_tokens,
+                                          j->semantic_scope, &error);
     if (rc == LIE_OK && w->steering_path) {
       unsigned char combined[32];
       rc = lie_sequence_steering_cache_scope(sequence, j->semantic_scope, combined, &error);
@@ -959,9 +979,9 @@ static bool step(lie_core *w, size_t index) {
     j->ssd_ticket =
         j->text_lookup
             ? lie_store_read_text_scoped_key(w->store, key, key_bytes,
-                                      w->options.chunk, j->request.cache.flags,j->cache_scope)
+                                      j->prefill.chunk_tokens, j->request.cache.flags,j->cache_scope)
             : lie_store_read_scoped_key(w->store, j->prompt, steering_restore_limit(j),
-                                        w->options.chunk,
+                                        j->prefill.chunk_tokens,
                                         j->request.cache.flags, j->cache_scope);
     if (j->ssd_ticket)
       return true;
@@ -981,8 +1001,8 @@ static bool step(lie_core *w, size_t index) {
   }
   if (j->fed < j->tokens) {
     size_t add = j->tokens - j->fed;
-    if (add > w->options.chunk)
-      add = w->options.chunk;
+    if (add > j->prefill.chunk_tokens)
+      add = j->prefill.chunk_tokens;
     uint64_t boundary=steering_boundary(j);
     if(boundary-j->fed<add)add=(size_t)(boundary-j->fed);
     if (w->options.cache_policy.enabled) {
@@ -1322,7 +1342,7 @@ static bool decode_ready(lie_core *w) {
 }
 static void *work(void *arg) {
     lie_core *w=arg; lie_error error={0};
-    lie_model_options options={LIE_EXECUTOR_ABI,sizeof(options),w->options.context,w->options.chunk,w->options.rope_profile};
+    lie_model_options options={LIE_EXECUTOR_ABI,sizeof(options),w->options.context,w->prefill.capacity_tokens,w->options.rope_profile};
     lie_model_info model={0};lie_mtp_info mtp={.abi_version=LIE_MTP_ABI,.struct_bytes=sizeof(mtp)};
     lie_vision_info vision={.abi_version=LIE_VISION_ABI,.struct_bytes=sizeof(vision)};
     lie_steering_model_info steering={.abi_version=LIE_STEERING_MODEL_ABI,.struct_bytes=sizeof(steering)};
@@ -1337,6 +1357,12 @@ static void *work(void *arg) {
         w->mtp_path?lie_backend_open_mtp(w->path,&options,w->options.max_active,w->mtp_path,w->options.mtp_draft_tokens,&w->model,&error):
         lie_backend_open_batch(w->path,&options,w->options.max_active,&w->model,&error);
     if (rc==LIE_OK) rc=lie_model_get_info(w->model,&model,&error);
+    if (rc==LIE_OK && model.prefill_capacity <
+        (w->prefill.capacity_tokens < model.context_tokens ?
+         w->prefill.capacity_tokens : model.context_tokens)) {
+        rc=LIE_UNSUPPORTED;
+        snprintf(error.message,sizeof(error.message),"provider did not reserve the requested prefill capacity");
+    }
     if (rc==LIE_OK) publish_attention_dispatch(w);
     if(rc==LIE_OK&&w->steering_path){
         rc=lie_model_steering_info(w->model,&steering,&error);
@@ -1420,12 +1446,58 @@ static void *work(void *arg) {
     signal_fd(w->notice); return NULL;
 }
 void lie_core_options_init(lie_core_options *o){
-    if(o){*o=(lie_core_options){.context=4096,.chunk=2048,.max_active=1,.mtp_draft_tokens=0,.prefix_cache_bytes=LIE_PREFIX_CACHE_DEFAULT_BYTES};
+    if(o){*o=(lie_core_options){.context=4096,.chunk=LIE_PREFILL_DEFAULT_CHUNK,.max_active=1,.mtp_draft_tokens=0,.prefix_cache_bytes=LIE_PREFIX_CACHE_DEFAULT_BYTES};
         lie_cache_policy_init(&o->cache_policy);o->cache_policy.enabled=LIE_DS4_CACHE_POLICY!=0;}
 }
-lie_core *lie_core_create_steered(const lie_core_options *o,const lie_steering_model_options *steering) {
+void lie_prefill_options_init(lie_prefill_options *o){
+    if(o)*o=(lie_prefill_options){.abi_version=LIE_PREFILL_ABI,.struct_bytes=sizeof(*o)};
+}
+void lie_prefill_info_init(lie_prefill_info *o){
+    if(o)*o=(lie_prefill_info){.abi_version=LIE_PREFILL_ABI,.struct_bytes=sizeof(*o)};
+}
+lie_status lie_core_set_prefill_chunk(lie_core *w,uint32_t tokens,lie_error *e){
+    if(!w||!tokens||tokens>LIE_PREFILL_MAX_CHUNK){
+        if(e)snprintf(e->message,sizeof(e->message),"invalid prefill chunk");
+        return LIE_INVALID;
+    }
+    pthread_mutex_lock(&w->gate);
+    lie_status rc=LIE_OK;bool changed=false;
+    if(w->info.state==LIE_FAILED)rc=LIE_BACKEND_FAILED;
+    else if(atomic_load(&w->stop)||w->info.state==LIE_STOPPING||w->info.state==LIE_STOPPED)rc=LIE_CANCELLED;
+    else if(w->info.state!=LIE_READY)rc=LIE_UNSUPPORTED;
+    else if(tokens>w->prefill.capacity_tokens)rc=LIE_RESOURCE_LIMIT;
+    else if(tokens!=w->prefill.chunk_tokens){
+        if(w->prefill.revision==UINT64_MAX)rc=LIE_RESOURCE_LIMIT;
+        else {w->prefill.chunk_tokens=tokens;++w->prefill.revision;changed=true;}
+    }
+    pthread_mutex_unlock(&w->gate);
+    if(rc!=LIE_OK&&e)snprintf(e->message,sizeof(e->message),"%s",
+        rc==LIE_RESOURCE_LIMIT?"prefill chunk exceeds reserved capacity or revision budget":"core is not ready for a prefill change");
+    if(changed)signal_fd(w->notice);
+    return rc;
+}
+lie_status lie_core_prefill_snapshot(lie_core *w,lie_prefill_info *out,lie_error *e){
+    if(!w||!out||out->abi_version!=LIE_PREFILL_ABI||out->struct_bytes!=sizeof(*out)){
+        if(e)snprintf(e->message,sizeof(e->message),"invalid core prefill snapshot");
+        return LIE_INVALID;
+    }
+    pthread_mutex_lock(&w->gate);*out=w->prefill;pthread_mutex_unlock(&w->gate);
+    return LIE_OK;
+}
+lie_status lie_job_prefill_snapshot(lie_job *j,lie_prefill_info *out,lie_error *e){
+    if(!j||!out||out->abi_version!=LIE_PREFILL_ABI||out->struct_bytes!=sizeof(*out)){
+        if(e)snprintf(e->message,sizeof(e->message),"invalid job prefill snapshot");
+        return LIE_INVALID;
+    }
+    *out=j->prefill;return LIE_OK;
+}
+lie_core *lie_core_create_prefill(const lie_core_options *o,const lie_prefill_options *prefill,
+                                  const lie_steering_model_options *steering) {
+    if(prefill&&(prefill->abi_version!=LIE_PREFILL_ABI||prefill->struct_bytes!=sizeof(*prefill)))return NULL;
+    const uint32_t capacity=prefill&&prefill->capacity_tokens?prefill->capacity_tokens:o?o->chunk:0;
+    if(!capacity||capacity>LIE_PREFILL_MAX_CHUNK)return NULL;
     if (!o || !o->model_path || !*o->model_path || o->context<128 || o->context>LIE_CORE_MAX_CONTEXT ||
-        !o->chunk || o->chunk>2048 || !o->max_active || o->max_active>LIE_DECODE_MAX_ROWS ||
+        !o->chunk || o->chunk>capacity || !o->max_active || o->max_active>LIE_DECODE_MAX_ROWS ||
         !lie_rope_profile_name(o->rope_profile)) return NULL;
     if(!LIE_DS4_CACHE_POLICY&&o->cache_policy.enabled)return NULL;
     /* Prefix support is model-specific and checked after capability admission.
@@ -1443,6 +1515,8 @@ lie_core *lie_core_create_steered(const lie_core_options *o,const lie_steering_m
     lie_attention_dispatch_info_init(&w->attention_dispatch);
     w->info.rope_profile=o->rope_profile;
     w->wake=w->notice=-1; w->options=*o; w->path=strdup(o->model_path);
+    lie_prefill_info_init(&w->prefill);w->prefill.capacity_tokens=capacity;
+    w->prefill.chunk_tokens=o->chunk;w->prefill.revision=1;
     unsigned char output_nonce[16];
     if(RAND_bytes(output_nonce,sizeof(output_nonce))!=1)goto fail;
     for(unsigned k=0;k<sizeof(output_nonce);++k)
@@ -1469,7 +1543,10 @@ fail:
     if (w->notice>=0) close(w->notice);
     free(w->steering_path);free(w->vision_path);free(w->mtp_path);free(w->ssd_path);free(w->path); free(w); return NULL;
 }
-lie_core *lie_core_create(const lie_core_options *o){return lie_core_create_steered(o,NULL);}
+lie_core *lie_core_create_steered(const lie_core_options *o,const lie_steering_model_options *s){
+    return lie_core_create_prefill(o,NULL,s);
+}
+lie_core *lie_core_create(const lie_core_options *o){return lie_core_create_prefill(o,NULL,NULL);}
 lie_status lie_core_steering_snapshot(lie_core *w,lie_steering_model_info *out,lie_error *e){
     if(!w||!out||out->abi_version!=LIE_STEERING_MODEL_ABI||out->struct_bytes!=sizeof(*out)){
         if(e)snprintf(e->message,sizeof(e->message),"invalid core steering snapshot");
@@ -1587,6 +1664,7 @@ int lie_core_submit_steering(lie_core *w, const lie_core_request *request,
       result = 2;
   }
   if (!result) {
+    j->prefill = w->prefill;
     w->jobs[index] = j;
     ++w->info.queued;
     *out = j;

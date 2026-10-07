@@ -21,7 +21,7 @@ struct lie_model { pthread_t owner; unsigned context, chunk, sequences, width; b
 };
 struct lie_sequence {
   lie_model *model;
-  unsigned position, step;
+  unsigned position, step, prefill_chunk;
   int mode;
   unsigned predictor_position;
   int32_t *prompt;
@@ -105,9 +105,11 @@ lie_status lie_model_state_identity(lie_model *m,lie_state_identity *id,uint64_t
     id->bytes[21]^=(unsigned char)m->vision;*domain=m->domain;return LIE_OK;
 }
 lie_status lie_gufo_open(const char *path, const lie_model_options *o, lie_model **out, lie_error *e) {
-    if (strcmp(path,":fixture:") || o->abi_version!=LIE_EXECUTOR_ABI) return error(e,LIE_INVALID,"fixture_path_required");
+    if ((strcmp(path,":fixture:")&&strcmp(path,":fixture-prefill-limit:")) || o->abi_version!=LIE_EXECUTOR_ABI) return error(e,LIE_INVALID,"fixture_path_required");
     lie_model *m=calloc(1,sizeof(*m)); assert(m);
-    m->domain=atomic_fetch_add(&domain_counter,1);m->owner=pthread_self(); m->width=1; m->context=o->context_tokens; m->chunk=o->prefill_chunk_tokens; *out=m; return LIE_OK;
+    m->domain=atomic_fetch_add(&domain_counter,1);m->owner=pthread_self(); m->width=1; m->context=o->context_tokens; m->chunk=o->prefill_chunk_tokens;
+    if(!strcmp(path,":fixture-prefill-limit:")&&m->chunk>8)m->chunk=8;
+    *out=m; return LIE_OK;
 }
 lie_status lie_model_get_info(lie_model *m, lie_model_info *out, lie_error *e) {
     (void)e; owner(m); *out=(lie_model_info){.abi_version=LIE_EXECUTOR_ABI,.context_tokens=m->context,.vocab_tokens=2048,.prefill_capacity=m->chunk,.native_batch_capacity=m->width,.speculative_supported=m->mtp}; return LIE_OK;
@@ -277,6 +279,11 @@ static lie_status fixture_forward_finish(lie_sequence *s,lie_steering_update **u
         if(rc!=LIE_OK)s->model->failed=true;}
     lie_steering_update_discard(update);return rc;
 }
+lie_status lie_sequence_configure_prefill(lie_sequence *s,uint32_t chunk,const unsigned char scope[32],lie_error *e){
+    unsigned char zero[32]={0};
+    if(!s||!scope||!chunk||chunk>s->model->chunk||s->position||s->prefill_chunk||!memcmp(scope,zero,32))return error(e,LIE_INVALID,"invalid fixture prefill configuration");
+    owner(s->model);s->prefill_chunk=chunk;memcpy(s->scope,scope,32);return LIE_OK;
+}
 lie_status lie_sequence_prefill(lie_sequence *s,const int32_t *tokens,size_t count,lie_error *e){
     if(!s->steering_policy)return fixture_prefill(s,tokens,count,e);
     lie_steering_update *u=NULL;
@@ -365,7 +372,7 @@ static lie_status fixture_state_describe(lie_sequence *s,const lie_state_layout 
     owner(s->model);if(atomic_load(&s->cancelled))return LIE_CANCELLED;
     if((from?(s->position||from->domain!=s->model->domain||from->context_tokens>s->model->context):!s->position))return error(e,LIE_INVALID,"fixture state domain/frontier");
     *out=(lie_state_layout){.abi_version=LIE_STATE_ABI,.representation_version=1,.domain=s->model->domain,
-        .token_count=from?from->token_count:s->position,.context_tokens=from?from->context_tokens:s->model->context,.prefill_chunk=s->model->chunk};
+        .token_count=from?from->token_count:s->position,.context_tokens=from?from->context_tokens:s->model->context,.prefill_chunk=s->prefill_chunk?s->prefill_chunk:s->model->chunk};
 #ifdef LIE_TEST_KVC_STATE
     /* Deliberately synthetic family; exercises the shared core/store without
      * Qwen geometry, numerical computation or model inference claims. */

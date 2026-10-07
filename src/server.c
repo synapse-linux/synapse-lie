@@ -1578,7 +1578,7 @@ static bool query_tags(char *query, lie_tag *filters, size_t *count) {
 }
 static char *discovery(void) {
     const char *names[] = {"self", "health", "liveness", "readiness", "info", "metrics", "metrics-requiredMetricName", "prometheus", "llm", "monitor"};
-    const char *paths[] = {"/actuator", "/actuator/health", "/actuator/health/liveness", "/actuator/health/readiness", "/actuator/info", "/actuator/metrics", "/actuator/metrics/{requiredMetricName}", "/actuator/prometheus", "/actuator/llm", "/monitor"};
+    const char *paths[] = {"/actuator", "/actuator/health", "/actuator/health/liveness", "/actuator/health/readiness", "/actuator/info", "/actuator/metrics", "/actuator/metrics/{requiredMetricName}", "/actuator/prometheus", "/actuator/llm", "/actuator/llm/prefill", "/monitor"};
     json_object *j = json_object_new_object(), *links = json_object_new_object();
     for (size_t i = 0; i < sizeof(names) / sizeof(*names); ++i) {
         json_object *link = json_object_new_object();
@@ -1754,6 +1754,42 @@ static char *llm_json(server *s) {
     const char *unknown[]={"memory","speculation","throughput","latency"};
     for (size_t i=0;i<sizeof(unknown)/sizeof(*unknown);++i) json_object_object_add(j,unknown[i],NULL);
     return json_text(j);
+}
+static void prefill_control(connection *c) {
+  if(c->parser.method!=HTTP_GET&&c->parser.method!=HTTP_POST){
+    error_response(c,405,"method_not_allowed");return;
+  }
+  if(!c->owner->worker){error_response(c,503,"core_unavailable");return;}
+  if(c->parser.method==HTTP_POST){
+    bool valid=false;
+    oj_node *unique=c->body_size<=1024?oj_parse(c->body,c->body_size):NULL;
+    json_object *root=unique?lie_json_parse(c->body,c->body_size,&valid):NULL;
+    oj_free(unique);json_object *value=NULL;
+    valid=valid&&json_object_is_type(root,json_type_object)&&
+      json_object_object_length(root)==1&&json_object_object_get_ex(root,"prefill_chunk",&value)&&
+      json_object_is_type(value,json_type_int);
+    uint64_t tokens=valid?json_object_get_uint64(value):0;
+    valid=valid&&tokens>0&&tokens<=LIE_PREFILL_MAX_CHUNK;
+    json_object_put(root);
+    if(!valid){error_response(c,400,"invalid_prefill_chunk");return;}
+    lie_error error={0};
+    lie_status rc=lie_core_set_prefill_chunk(c->owner->worker,(uint32_t)tokens,&error);
+    if(rc!=LIE_OK){
+      error_detail(c,rc==LIE_RESOURCE_LIMIT?409:rc==LIE_INVALID?400:503,
+        rc==LIE_RESOURCE_LIMIT?"prefill_capacity_exceeded":"prefill_change_refused",error.message);
+      return;
+    }
+  }
+  lie_prefill_info info;lie_prefill_info_init(&info);
+  if(lie_core_prefill_snapshot(c->owner->worker,&info,NULL)!=LIE_OK){
+    error_response(c,503,"prefill_unavailable");return;
+  }
+  json_object *body=json_object_new_object();
+  json_object_object_add(body,"prefill_chunk",json_object_new_uint64(info.chunk_tokens));
+  json_object_object_add(body,"prefill_capacity",json_object_new_uint64(info.capacity_tokens));
+  json_object_object_add(body,"revision",json_object_new_uint64(info.revision));
+  json_object_object_add(body,"applies_to",json_object_new_string("new_requests"));
+  char *text=json_text(body);respond(c,200,JSON_TYPE,text);free(text);
 }
 static void route(connection *c) {
   server *s = c->owner;
@@ -2029,6 +2065,10 @@ static void route(connection *c) {
     }
     error_response(c, 404, "not_found");
     return;
+  }
+  if (!strcmp(c->url,"/actuator/llm/prefill")) {
+    if(query){error_response(c,400,"unexpected_query");return;}
+    prefill_control(c);return;
   }
   if (c->parser.method != HTTP_GET) {
     error_response(c, 405, "method_not_allowed");
@@ -2373,6 +2413,8 @@ int main(int argc, char **argv) {
       lie_backend_is_synthetic() ? "cpu-test-fixture" : "qwen3.8-flash-next";
   lie_worker_options options;
   lie_core_options_init(&options);
+  lie_prefill_options prefill;
+  lie_prefill_options_init(&prefill);
   lie_steering_model_options steering;
   lie_steering_model_options_init(&steering);
   unsigned steering_seen=0;
@@ -2399,7 +2441,7 @@ int main(int argc, char **argv) {
            "[--management-host IPv4] [--management-port N]\n  [--model "
            "FIRST-SHARD.gguf] [--model-mtp PREDICTOR.gguf --mtp-draft-tokens "
            "N] [--model-vision PROJECTOR.gguf] [--model-id ID] [--context "
-           "128..1048576] [--rope-scaling native|yarn2|yarn4] [--prefill-chunk N] [--max-active 1..8] "
+           "128..1048576] [--rope-scaling native|yarn2|yarn4] [--prefill-chunk 1..32768] [--prefill-capacity 1..32768] [--max-active 1..8] "
            "[--request-timeout-ms N] [--response-store-ram-mb 64] "
            "[--response-store-records 128] [--response-store-ttl-seconds 3600] "
            "[--kv-cache-ram-mb 4096] "
@@ -2457,7 +2499,12 @@ int main(int argc, char **argv) {
       if(!lie_rope_profile_parse(argv[++i], &options.rope_profile)) return 2;
     }
     else if (!strcmp(key, "--prefill-chunk"))
-      options.chunk = (uint32_t)port_number(argv[++i]);
+      options.chunk = (uint32_t)number(argv[++i], LIE_PREFILL_MAX_CHUNK);
+    else if (!strcmp(key, "--prefill-capacity")) {
+      int value=number(argv[++i], LIE_PREFILL_MAX_CHUNK);
+      if(value<1)return 2;
+      prefill.capacity_tokens=(uint32_t)value;
+    }
     else if (!strcmp(key, "--response-store-ram-mb")) {
       int value = number(argv[++i], 4096);
       if (value < 1)
@@ -2534,7 +2581,8 @@ int main(int argc, char **argv) {
     return 2;
   }
   if (options.context < 128 || options.context > LIE_WORKER_MAX_CONTEXT ||
-      options.chunk < 1 || options.chunk > 2048 || options.max_active < 1 ||
+      options.chunk < 1 || options.chunk > LIE_PREFILL_MAX_CHUNK ||
+      (prefill.capacity_tokens && options.chunk > prefill.capacity_tokens) || options.max_active < 1 ||
       options.max_active > LIE_DECODE_MAX_ROWS || timeout_ms < 100 ||
       !*model_id || strlen(model_id) > 128 ||
       !lie_utf8_valid(model_id, strlen(model_id), false) ||
@@ -2604,7 +2652,7 @@ int main(int argc, char **argv) {
   uv_signal_start(&s.terminate, shutdown_server, SIGTERM);
   if (options.model_path) {
     s.steering_enabled=steering.file!=NULL;
-    s.worker = steering.file?lie_worker_create_steered(&options,&steering):lie_worker_create(&options);
+    s.worker = lie_core_create_prefill(&options,&prefill,steering.file?&steering:NULL);
     rc = s.worker
              ? uv_poll_init(&s.loop, &s.worker_poll, lie_worker_fd(s.worker))
              : UV_ENOMEM;

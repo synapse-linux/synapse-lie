@@ -89,3 +89,4 @@ lie_status lie_sequence_configure_steering(lie_sequence *s UNUSED,const lie_stee
 lie_status lie_sequence_change_steering(lie_sequence *s UNUSED,const lie_steering_settings *o UNUSED,lie_error *e){return unavailable(e);}
 lie_status lie_sequence_steering_info(lie_sequence *s UNUSED,lie_steering_policy_info *o UNUSED,lie_error *e){return unavailable(e);}
 lie_status lie_sequence_steering_cache_scope(lie_sequence *s UNUSED,const unsigned char in[32] UNUSED,unsigned char out[32] UNUSED,lie_error *e){return unavailable(e);}
+lie_status lie_sequence_configure_prefill(lie_sequence *s UNUSED,uint32_t chunk UNUSED,const unsigned char scope[32] UNUSED,lie_error *e){return unavailable(e);}

@@ -1,5 +1,43 @@
 # Experimental transitional execution ABI 3
 
+Prefill ABI 1 (`lie/prefill.h`) adds tagged `lie_prefill_options` and
+`lie_prefill_info` without changing executor ABI 3, request ABI 8 or existing
+core/job-info layouts. Initialize both structures before use. The additive
+`lie_core_create_prefill(options, prefill, steering)` copies the options and
+accepts an optional steering bank. A NULL prefill configuration, or zero
+`capacity_tokens`, reserves the initial `options.chunk`; existing factories
+retain that behavior. Initial chunk and capacity are in 1–32,768 and chunk must
+not exceed capacity. The provider must admit scratch for the reservation, bounded
+by its context. An insufficient advertised capacity fails readiness explicitly.
+
+`lie_core_set_prefill_chunk(core, tokens, error)` changes the READY engine's
+selection under the metadata lock. It allocates nothing, calls no numerical
+provider and creates no thread. Invalid ranges return INVALID; exceeding the
+immutable capacity returns RESOURCE_LIMIT. Loading, failed and stopping engines
+refuse. Refusal preserves configuration. Revision starts at 1, increments on a
+change and remains unchanged for an idempotent setter; exhaustion refuses.
+The selection is copied at successful request admission. Active and queued jobs
+retain their immutable chunk, capacity and revision, including after retirement.
+`lie_core_prefill_snapshot` and `lie_job_prefill_snapshot` require initialized
+outputs; refusal leaves them unchanged. Hold a job pin for its snapshot and do
+not destroy a core concurrently with its APIs. The setter signals the existing
+core notice descriptor. HTTP only projects this shared-engine contract.
+
+The additive provider-owner `lie_sequence_configure_prefill()` binds the job's
+chunk and copied semantic scope after any image attachment and before inference.
+The provider publishes the selected chunk and scope in captured state and checks
+them independently before any restore mutation. The Gufo binding uses the existing
+C17 scoped-state codecs and canonical text positions when no image is present;
+the model's numerical scratch reservation remains immutable. The direct reference
+bench explicitly refuses this shared-core namespace operation.
+
+Larger reservations use the verified provider's `Model::PrefillCapacity`;
+the original unmodified provider explicitly refuses reservations above 2,048.
+All numerical providers and consumers must rebuild coherently after this change.
+GPU correctness, resource cost and comparative performance remain pending.
+See [configuration](../guides/USAGE.md#context-and-concurrency) and
+[cache identity](STATE.md).
+
 Attention-dispatch ABI 1 is a separate tagged C17 contract in `lie/dispatch.h`.
 `lie_model_attention_dispatch_snapshot` runs on the model owner and performs no
 device call or wait, including after a provider fault.

@@ -120,12 +120,17 @@
     {
       "path": "src/models/qwen38_flash_next/engine.cpp",
       "old": "  return std::min(kPrefillChunkTokens, options_.max_context);",
-      "new": "  // LIE C17 resource policy bounds scratch while retaining all admitted rows.\n  const auto draft = mtp_weights_ ? options_.max_draft_tokens + 1 : 1;\n  const auto rows = std::max({options_.lie_prefill_capacity,\n                              options_.decode_concurrency, draft});\n  return std::min({kPrefillChunkTokens, rows, options_.max_context});"
+      "new": "  // LIE C17 resource policy bounds scratch while retaining all admitted rows.\n  const auto draft = mtp_weights_ ? options_.max_draft_tokens + 1 : 1;\n  const auto rows = std::max({options_.lie_prefill_capacity,\n                              options_.decode_concurrency, draft});\n  return std::min(rows, options_.max_context);"
     },
     {
       "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
       "old": "  e->options_.max_batch = std::max<std::uint32_t>(1, options.max_batch);",
       "new": "  e->options_.max_batch = std::max<std::uint32_t>(1, options.max_batch);\n  e->select_chunk_ = std::min(e->select_chunk_, e->options_.max_batch);"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.cpp",
+      "old": "constexpr std::uint32_t kPrefillChunkTokens = 2048;\n",
+      "new": ""
     }
   ]
 }

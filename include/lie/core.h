@@ -7,6 +7,7 @@
 #include "lie/steering.h"
 #include "lie/flow.h"
 #include "lie/store.h"
+#include "lie/prefill.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -132,6 +133,23 @@ lie_core *lie_core_create(const lie_core_options *);
  * unversioned options/info layouts and request ABI are unchanged. */
 lie_core *lie_core_create_steered(const lie_core_options *,
                                   const lie_steering_model_options *);
+/* Additive capacity admission; NULL prefill preserves the initial chunk's
+ * existing scratch reservation. Both option structures are copied before
+ * return. Existing options/info/request layouts remain unchanged. */
+lie_core *lie_core_create_prefill(const lie_core_options *,
+                                 const lie_prefill_options *,
+                                 const lie_steering_model_options *);
+/* READY-only, nonblocking configuration change for subsequently admitted
+ * jobs. Existing/queued jobs retain their captured chunk and cache identity.
+ * Values must be 1..LIE_PREFILL_MAX_CHUNK and fit the reserved capacity.
+ * No worker, allocation, model reload or provider call is added. */
+lie_status lie_core_set_prefill_chunk(lie_core *, uint32_t tokens, lie_error *);
+/* Copied under the core gate in any state. Tagged output required; refusal
+ * leaves it unchanged. Capacity is a reserved upper bound; actual calls are
+ * also bounded by context and the provider's advertised capacity. */
+lie_status lie_core_prefill_snapshot(lie_core *, lie_prefill_info *, lie_error *);
+/* Immutable admission choice, available while the caller holds a job pin. */
+lie_status lie_job_prefill_snapshot(lie_job *, lie_prefill_info *, lie_error *);
 /* READY-only admission record copied under the core gate; never a provider
  * call on the client. Tagged output required; refusal leaves it unchanged.
  * Host vector bytes and provider-reported device vector bytes are separate

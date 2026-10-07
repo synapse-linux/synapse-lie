@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 /* Simplified Gufo-style workloads over completed GPU executor calls. */
 #include "lie/executor.h"
+#include "lie/prefill.h"
 #include "native/bench_native.h"
 #include "lie/inference.h"
 #include <errno.h>
@@ -47,7 +48,7 @@ static bool list(const char *s,unsigned maximum,unsigned *values,unsigned *count
     }
     free(copy);return ok&&*count>0;
 }
-struct config {const char *model,*output,*suite,*graphs,*compare,*execution;unsigned pp,tg,repetitions,warmups,depths[MAX_POINTS],depth_count,users[MAX_POINTS],user_count,sizes[MAX_POINTS],size_count,context;};
+struct config {const char *model,*output,*suite,*graphs,*compare,*execution;unsigned chunk,pp,tg,repetitions,warmups,depths[MAX_POINTS],depth_count,users[MAX_POINTS],user_count,sizes[MAX_POINTS],size_count,context;};
 static json_object *identity(const struct config *c) {
     json_object *j=event("identity");str(j,"schema","synapse-lie.bench.v1");str(j,"program","synapse-lie-bench");str(j,"build_id",LIE_BUILD_ID);
     str(j,"engine",lie_backend_name());str(j,"source_pin",lie_backend_source_pin());str(j,"ownership",lie_backend_ownership());
@@ -55,7 +56,8 @@ static json_object *identity(const struct config *c) {
     json_object_object_add(j,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
     str(j,"suite",c->suite);str(j,"mode","ar");num(j,"pp_target",c->pp);num(j,"output_limit",c->tg);num(j,"repetitions",c->repetitions);num(j,"warmups",c->warmups);
     str(j,"scope",!strcmp(c->suite,"fresh")?"full prompt from empty sequence; completed chunked prefill; no prefix cache":"simplified direct executor; physical-prefix reuse, not HTTP conversation/cache restore or independent kernels");
-    num(j,"prefill_chunk",2048);
+    num(j,"prefill_chunk",c->chunk);
+    num(j,"prefill_capacity",c->chunk);
     str(j,"timing_clock","CLOCK_MONOTONIC");
     str(j,"wall_clock_scope","CLOCK_REALTIME for telemetry correlation only; durations use monotonic phase bounds");
     str(j,"unsupported","MTP, cold-file loading, allocation-exact HIP peak, quality/FP64 oracle");
@@ -75,7 +77,7 @@ static bool open_model(const struct config *c,unsigned context,unsigned users,li
 #else
     (void)users;
 #endif
-    lie_model_options o={LIE_EXECUTOR_ABI,sizeof(o),context,2048,LIE_ROPE_NATIVE};uint64_t begin=ns();
+    lie_model_options o={LIE_EXECUTOR_ABI,sizeof(o),context,c->chunk,LIE_ROPE_NATIVE};uint64_t begin=ns();
 #ifdef LIE_BENCH_REFERENCE
     if(lie_backend_open(c->model,&o,m,e)!=LIE_OK)return false;
 #else
@@ -109,8 +111,8 @@ static bool make_prompt(lie_model *m,unsigned target,unsigned capacity,struct pr
     if(status==LIE_OK||status==LIE_BUFFER_SMALL)status=lie_model_chat_tokens(m,&msg,1,p->ids,capacity,&p->n,e);
     free(padding);free(content);return status==LIE_OK&&p->n<=target&&target-p->n<=32;
 }
-static bool prefill(lie_sequence *s,const struct prompt *p,size_t from,size_t end,lie_error *e) {
-    while(from<end){from=end-from>2048?from+2048:end;if(interrupted||lie_sequence_prefill(s,p->ids,from,e)!=LIE_OK)return false;}return true;
+static bool prefill(lie_sequence *s,const struct prompt *p,size_t from,size_t end,unsigned chunk,lie_error *e) {
+    while(from<end){from=end-from>chunk?from+chunk:end;if(interrupted||lie_sequence_prefill(s,p->ids,from,e)!=LIE_OK)return false;}return true;
 }
 static bool frontier(lie_sequence *s,float *out,unsigned vocab,char digest[65],lie_error *e) {
     size_t n=0;if(lie_sequence_logits(s,out,vocab,&n,e)!=LIE_OK||n!=vocab)return false;
@@ -161,9 +163,9 @@ static bool sample(lie_model *m,const struct prompt *p,unsigned depth,unsigned u
     if(!sample_begin||!wall_begin){snprintf(e->message,sizeof(e->message),"benchmark clock unavailable");goto done;}
     json_object *begin=event("sample_begin");num(begin,"point",point);num(begin,"rep",rep);num(begin,"depth",depth);num(begin,"users",users);num(begin,"warmup",warmup);
     num(begin,"monotonic_ns",(int64_t)sample_begin);num(begin,"wall_time_ns",(int64_t)wall_begin);if(!emit(f,begin))goto done;
-    for(unsigned i=0;i<handles;++i)if(lie_sequence_create(m,&seq[i],e)!=LIE_OK||!prefill(seq[i],p,0,depth,e))goto done;
+    for(unsigned i=0;i<handles;++i)if(lie_sequence_create(m,&seq[i],e)!=LIE_OK||!prefill(seq[i],p,0,depth,c->chunk,e))goto done;
     uint64_t pp_begin=ns();
-    for(unsigned i=0;i<handles;++i)if(!prefill(seq[i],p,depth,p->n,e))goto done;
+    for(unsigned i=0;i<handles;++i)if(!prefill(seq[i],p,depth,p->n,c->chunk,e))goto done;
     uint64_t pp_end=ns();
     if(!pp_begin||pp_end<=pp_begin){snprintf(e->message,sizeof(e->message),"invalid prefill clock interval");goto done;}
     uint64_t pp_ns=pp_end-pp_begin;
@@ -232,14 +234,14 @@ int main(int argc,char **argv) {
         if(!strcmp(argv[i+1],"report"))return nb_report_main(argc,argv);
     }
     _Static_assert(sizeof(float)==4&&FLT_RADIX==2&&FLT_MANT_DIG==24,"float32 required");
-    struct config c={.suite="single",.execution="reactive",.pp=2048,.tg=128,.repetitions=1,.warmups=1,.depths={0,4096,8192,12288,16384,32768,65536,131072},.depth_count=8,.users={1,2,4,6,8},.user_count=5,.sizes={1500,8000,8192,32768,131072,258794},.size_count=6};
+    struct config c={.chunk=LIE_PREFILL_DEFAULT_CHUNK,.suite="single",.execution="reactive",.pp=2048,.tg=128,.repetitions=1,.warmups=1,.depths={0,4096,8192,12288,16384,32768,65536,131072},.depth_count=8,.users={1,2,4,6,8},.user_count=5,.sizes={1500,8000,8192,32768,131072,258794},.size_count=6};
     for(int i=1;i<argc;++i){
         if(!strcmp(argv[i],"--help")) {
             puts("Usage: synapse-lie-bench --model FIRST-SHARD --output NEW-JSONL "
                  "[--suite single|multi|loading|memory|fresh]\n"
                  "  [--depths 0,4096,8192,12288,16384,32768,65536,131072]\n"
                  "  [--sizes 1500,8000,8192,32768,131072,258794] [--users 1,2,4,6,8]\n"
-                 "  [--pp 2048] [--tg 128] [--warmups 1] [--repetitions 1]\n"
+                 "  [--prefill-chunk 1..32768] [--pp 2048] [--tg 128] [--warmups 1] [--repetitions 1]\n"
                  "  [--execution reactive|serial] [--graphs DIRECTORY] [--compare REFERENCE-JSONL]\n"
                  "--build-info opens no model. Direct suites: AR, greedy, thinking off; MTP unavailable.\n"
                  "Direct GPU executor timings; no HTTP, cold-file claim or exact allocation peak.\n"
@@ -267,6 +269,7 @@ int main(int argc,char **argv) {
         else if(!strcmp(key,"--depths")){if(!list(value,131072,c.depths,&c.depth_count))goto usage;}
         else if(!strcmp(key,"--sizes")){if(!list(value,MAX_CONTEXT,c.sizes,&c.size_count))goto usage;for(unsigned k=0;k<c.size_count;++k)if(c.sizes[k]<128)goto usage;}
         else if(!strcmp(key,"--users")){if(!list(value,MAX_USERS,c.users,&c.user_count))goto usage;for(unsigned k=0;k<c.user_count;++k)if(!c.users[k])goto usage;}
+        else if(!strcmp(key,"--prefill-chunk")||!strcmp(key,"--chunk")){if(!integer(value,LIE_PREFILL_MAX_CHUNK,&c.chunk)||!c.chunk)goto usage;}
         else if(!strcmp(key,"--pp")){if(!integer(value,8192,&c.pp)||!c.pp)goto usage;}
         else if(!strcmp(key,"--tg")){if(!integer(value,MAX_OUTPUT,&c.tg)||!c.tg)goto usage;}
         else if(!strcmp(key,"--warmups")){if(!integer(value,10,&c.warmups))goto usage;}

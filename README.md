@@ -150,6 +150,12 @@ curl http://127.0.0.1:8000/v1/chat/completions \
 Use the [usage guide](docs/guides/USAGE.md) for streaming, Responses, Pi,
 concurrency, RAM/SSD cache settings and troubleshooting.
 
+`--prefill-chunk N` selects up to 32,768 prompt tokens per call. Reserve a larger
+`--prefill-capacity N` at startup to change the chunk live through the shared
+engine or the [management endpoint](docs/guides/USAGE.md#context-and-concurrency).
+Requests already admitted retain their chunk. The default remains 2,048 tokens;
+larger reservations require more scratch and are awaiting GPU qualification.
+
 ## Benchmarks
 
 | Model | Platform | Results and graphs |

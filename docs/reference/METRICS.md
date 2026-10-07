@@ -1,5 +1,17 @@
 # Actuator / Micrometer-inspired contract v1 (implemented subset)
 
+## Prefill configuration
+
+`lie_core_prefill_snapshot()` and `lie_job_prefill_snapshot()` expose selected
+chunk, immutable capacity and revision independently of timing/counter ABIs.
+The management endpoint `/actuator/llm/prefill` projects the core's current
+selection; it applies to new requests. A queued or active job may retain an
+earlier revision. Native core JSONL records `prefill_chunk`, `prefill_capacity`
+and `prefill_revision` per job, with chunk/capacity also in the run identity.
+Capacity describes reservation, not executed tokens or throughput. Existing
+PP/TG clocks and counters retain their meanings; changing the chunk performs
+no numerical work. See [configuration](../guides/USAGE.md#context-and-concurrency).
+
 ## Prefill attention dispatch
 
 The independent `lie/dispatch.h` C17 observer counts actual host selections of

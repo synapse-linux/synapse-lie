@@ -32,8 +32,12 @@ This is a source audit of independently fetched Gufo `f783fedb`, not a GPU profi
   every completed chunk; upstream `engine.cpp:Session::Sync` also finds the common
   prefix before feeding only the new tail. The repeated host scan scales with
   accumulated length. Its actual contribution is unmeasured and may be small.
-- LIE's worker calls completed chunks up to 2048 tokens sequentially. Ready-row
-  batching accelerates concurrent decode, not these prefill operations.
+- LIE's worker defaults to completed 2,048-token chunks. The shared core now
+  admits a selected chunk and an immutable scratch reservation up to 32,768;
+  its live setter affects future admissions only. Chunk is bound into RAM/SSD
+  semantic identity. Ready-row batching accelerates concurrent decode, not these
+  prefill operations. Larger-chunk GPU numerical, memory and fairness acceptance
+  remains pending; see [configuration](../guides/USAGE.md#context-and-concurrency).
 - `ngram.cpp:205` and `executor.cpp:2000`: model lookup reads already use a
   worker pool (up to 32, limited by hardware concurrency), row deduplication,
   a bounded cache and asynchronous `StartRead`/`WaitRead`. Decode queues its
@@ -64,7 +68,7 @@ Use the following order when a profile confirms the corresponding cost:
 | Distribute block selection across GPU workgroups | Reduce single-row decode's context-dependent selection cost | Exact block lists, ties and masks; stable graph scratch; account for extra launches |
 | Reuse block keys across prefill query rows | Reduce repeated key reads | Exact scores and lists; no register spill or short-context regression |
 | Tune projection and routed-expert shapes | Increase matrix work per device time | Record weight format and kernel plan; qualify any changed rounding separately |
-| Raise the current 2048-token prefill capacity | Amortize fixed chunk and projection costs | Explicit provider/scratch capacity, bounded memory, cache identity, cancellation and mixed-request fairness |
+| Tune the implemented chunk/capacity controls above the 2,048 default | Amortize fixed chunk and projection costs | Matching GPU numerical results, bounded scratch, cache identity, cancellation and mixed-request fairness |
 
 More host threads do not address the single-workgroup GPU selection path. The
 native attention fixture below verifies the attention operation after selection;

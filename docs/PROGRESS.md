@@ -1,6 +1,29 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Live shared-engine prefill chunk — 2026-10-07 UTC
+
+The C17 core separates its selected chunk from scratch capacity reserved at model
+load, bounded at 32,768. An additive setter changes future admissions while
+queued/active jobs retain their immutable choice. It performs no allocation or
+numerical call and adds no thread. Typed core/job snapshots expose both values
+and revision without changing existing public structure layouts. RAM/SSD scope
+composition binds selected chunks, preserving the historical capacity-equals-
+chunk identity. The verified provider uses its reserved capacity; an unmodified
+provider refuses above 2,048. HTTP management only projects the shared API.
+Native benchmarks and comparative reports carry chunk/capacity consistently.
+
+Focused native lifetime, live-owner/queued-job, both cache formats, HTTP parser
+controls, MTP/vision composition and report consistency pass 26/26 in Release
+and 26/26 with unsuppressed ASan/UBSan/LSan. Both changed public headers compile
+as strict C17/C++17, existing core layouts remain identical, and all 41 guarded
+recipes compose from 1,019 independently verified pinned source files. Local CPU
+peaks at 77.5 C under the 98 C guard; no model or GPU executable runs. No remote
+job, lease, window or reservation is created. The preceding r43 build and r44
+generated GPU attention receipt retain their exact scope; neither qualifies
+larger chunks. Current-source GPU numerical/resource/fairness acceptance remains
+in the final integrated phase; comparative performance and Terminal Bench follow.
+
 ## Long sparse-prefill workspace implemented — 2026-10-07 UTC
 
 The owned attention recipe adds a separate 8,192-word sparse WMMA specialization

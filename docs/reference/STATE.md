@@ -1,5 +1,17 @@
 # C17 prefix state, RAM cache and optional SSD
 
+The model's immutable reserved prefill capacity remains part of its provider
+state/cache identity. The captured descriptor's `prefill_chunk` records the job's
+selected chunk. The core additionally binds each admitted job's selected
+chunk into its semantic prompt scope when chunk differs from capacity. This
+scope is shared by RAM and SSD lookup/capture and is composed with image and
+steering identities. Changing the engine chunk cannot restore a prefix produced
+with another chunk; switching back permits reuse of the original matching
+scope. Revision is an observation counter, not numerical identity. The historical
+capacity-equals-chunk path retains its exact prior scope. DS4 tensor payloads,
+KVC framing and existing public state layouts are unchanged. Scoped text captures
+reuse the existing typed semantic auxiliary trailer; tensor bytes remain unchanged.
+
 Attention-dispatch observation belongs to the admitted model owner, not a
 sequence checkpoint. Inline C17 staging requires no heap or device storage; its
 borrowed pointer outlives the numerical model. The shared core retains a copied

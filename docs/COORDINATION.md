@@ -1,5 +1,14 @@
 # DS4 / synapse-lie coordination
 
+## Shared-engine prefill implementation — 2026-10-07
+
+The owner's live-chunk request resumes local source development. The new shared
+C17 control and bounded provider reservation supersede the r43/r44 runtime for
+this feature. No r45 manifest, remote build/run, waiter, lease or GPU window is
+created or reserved. Old required-tool plans remain unlaunched. Matching remote
+compilation and original-weight qualification require new identities and fresh
+coordinated admission after functional integration and local checks.
+
 ## Generated attention component passed and retired — 2026-10-07
 
 Fresh Q2/Point/DGX own non-use and global preflight at 04:22:09 UTC precede

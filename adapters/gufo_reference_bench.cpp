@@ -3,6 +3,7 @@
 // Shares independently fetched, unchanged Gufo numerical archives with LIE;
 // this compares call paths/batching, not independent numerical engines.
 #include "lie/executor.h"
+#include "lie/prefill.h"
 #include "src/models/qwen38_flash_next/engine.hpp"
 #include "src/models/qwen/chat_template.hpp"
 #include <algorithm>
@@ -38,10 +39,20 @@ extern "C" const char *lie_backend_source_pin(void) {return "f783fedb9bea2ec7de9
 extern "C" const char *lie_backend_ownership(void) {return "delegated";}
 extern "C" const char *lie_backend_dense_sampling(void) {return "gufo";}
 extern "C" int lie_backend_is_synthetic(void) {return 0;}
+extern "C" lie_status lie_sequence_configure_prefill(lie_sequence *,uint32_t,
+    const unsigned char[32],lie_error *e) {
+    if(e)std::snprintf(e->message,sizeof(e->message),"direct reference has no shared-core cache namespace");
+    return LIE_UNSUPPORTED;
+}
 extern "C" lie_status lie_backend_open(const char *path,const lie_model_options *o,lie_model **out,lie_error *e) {
     const auto status = lie_gufo_device_validate(e);
     if (status != LIE_OK) return status;
     return protect(e,[&] { qfn::ModelOptions options;options.max_context=o->context_tokens;
+#ifdef LIE_GUFO_STATE_ACCESS
+        options.lie_prefill_capacity=o->prefill_chunk_tokens;
+#else
+        if(o->prefill_chunk_tokens>2048)return fail(e,"reference provider prefill capacity unavailable");
+#endif
         options.decode_concurrency=reference_width;options.max_draft_tokens=1;
         std::string error;auto model=qfn::Model::Load(path,options,&error);
         if(!model)return fail(e,error.c_str());

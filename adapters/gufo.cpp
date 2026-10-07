@@ -7,6 +7,7 @@
 #error "Gufo adapter requires explicit opt-in; see docs/BACKEND.md"
 #endif
 #include "lie/executor.h"
+#include "lie/prefill.h"
 #include "lie/mtp.h"
 #include "lie/vision.h"
 #include "lie/state.h"
@@ -80,6 +81,8 @@ struct lie_sequence {
     std::atomic<bool> cancelled{false};
     bool stopped{false}, sampling_started{false};
     bool stop_at_eos{true};
+    uint32_t prefill_chunk{}; /* Zero retains the immutable model reservation. */
+    std::array<unsigned char,32> prefill_scope{};
     lie_steering_policy *steering{};
     ~lie_sequence(){if(steering)lie_steering_policy_release(&steering);}
 };
@@ -157,9 +160,13 @@ static lie_status open_model(const char *path, const lie_model_options *o, uint3
                              const lie_steering_model_options *steering=nullptr) {
     if (!width || width>LIE_DECODE_MAX_ROWS || !path || !*path || !o || !out || *out || o->abi_version != LIE_EXECUTOR_ABI ||
         o->struct_bytes != sizeof(*o) || !o->context_tokens || o->context_tokens > INT32_MAX ||
-        !o->prefill_chunk_tokens || o->prefill_chunk_tokens > 2048 ||
+        !o->prefill_chunk_tokens || o->prefill_chunk_tokens > LIE_PREFILL_MAX_CHUNK ||
         !lie_rope_profile_name(o->rope_profile))
         return error(e, LIE_INVALID, "invalid model options/output handle");
+#ifndef LIE_GUFO_STATE_ACCESS
+    if(o->prefill_chunk_tokens>LIE_PREFILL_DEFAULT_CHUNK)
+        return error(e,LIE_UNSUPPORTED,"larger prefill requires the verified capacity provider");
+#endif
 #if !LIE_DIRECTIONAL_STEERING || !defined(LIE_GUFO_STATE_ACCESS) || !defined(LIE_DS4_RUNTIME_CACHE)
     if(steering)return error(e,LIE_UNSUPPORTED,"steering requires the enabled verified DS4 state provider");
 #endif
@@ -697,13 +704,25 @@ extern "C" lie_status lie_sequence_close(lie_sequence **s, lie_error *e) {
     auto status = owner((*s)->runtime, e, true); if (status != LIE_OK) return status;
     delete *s; *s = nullptr; return LIE_OK;
 }
+extern "C" lie_status lie_sequence_configure_prefill(lie_sequence *s,uint32_t chunk,
+    const unsigned char scope[32],lie_error *e) {
+    const unsigned char zero[32]={0};
+    if(!s||!scope||!chunk||chunk>s->runtime->chunk||!std::memcmp(scope,zero,32))
+        return error(e,LIE_INVALID,"invalid sequence prefill configuration");
+    return guarded(s->runtime,e,[&] {
+        if(s->session->Position()||s->sampling_started||s->stopped||s->prefill_chunk)
+            return error(e,LIE_INVALID,"prefill configuration must precede inference");
+        std::copy_n(scope,s->prefill_scope.size(),s->prefill_scope.begin());
+        s->prefill_chunk=chunk;return LIE_OK;
+    });
+}
 extern "C" lie_status lie_sequence_prefill(lie_sequence *s, const int32_t *prefix, size_t n, lie_error *e) {
     if (!s || !prefix || !n) return error(e, LIE_INVALID, "empty/invalid prefill");
     return guarded(s->runtime, e, [&] {
         if (s->cancelled.load()) return error(e, LIE_CANCELLED, "cancelled before submission");
         if (s->stopped || !s->session->IsValid()) return error(e, LIE_INVALID, "sequence cannot prefill");
         const auto prior = s->session->Tokens();
-        if (n < prior.size() || n > s->session->ContextSize() || n - prior.size() > s->runtime->chunk ||
+        if (n < prior.size() || n > s->session->ContextSize() || n - prior.size() > (s->prefill_chunk?s->prefill_chunk:s->runtime->chunk) ||
             !std::equal(prior.begin(), prior.end(), prefix)) return error(e, LIE_INVALID, "prefix frontier/chunk mismatch");
         for (size_t i = 0; i < n; ++i) if (prefix[i] < 0 || static_cast<uint32_t>(prefix[i]) >= s->runtime->model->VocabSize())
             return error(e, LIE_INVALID, "prefill token outside vocabulary");
@@ -869,11 +888,11 @@ extern "C" lie_status lie_sequence_state_describe(lie_sequence *s,const lie_stat
         if(s->steering){
             lie_steering_state_view view{};view.abi_version=LIE_STEERING_STATE_BINDING_ABI;view.struct_bytes=sizeof(view);
             lie_status rc=LIE_OK;
-            if(source){rc=lie_steering_state_inspect(source,qfn::LieStateAccess::StateFormat(*s->session),&view,e);
+            if(source){rc=lie_steering_state_inspect(source,qfn::LieStateAccess::StateFormat(*s->session,s->prefill_chunk!=0),&view,e);
                 if(rc!=LIE_OK)return rc;}
             lie_state_layout model{},expected{};
-            if(!qfn::LieStateAccess::Describe(*s->session,s->runtime->state_domain,s->runtime->chunk,
-                    source?&view.model:nullptr,model,s->runtime->state_quant,s->runtime->drafts,true))
+            if(!qfn::LieStateAccess::Describe(*s->session,s->runtime->state_domain,s->prefill_chunk?s->prefill_chunk:s->runtime->chunk,
+                    source?&view.model:nullptr,model,s->runtime->state_quant,s->runtime->drafts,true,s->prefill_chunk!=0))
                 return error(e,LIE_INVALID,"unsupported, foreign or non-prefix model state");
             if(source){
                 if(view.policy_offset!=LIE_STEERING_STATE_NO_OFFSET)rc=lie_steering_state_extend(&model,&expected,e);
@@ -887,7 +906,7 @@ extern "C" lie_status lie_sequence_state_describe(lie_sequence *s,const lie_stat
             }
             *out=expected;return LIE_OK;
         }
-        if(!qfn::LieStateAccess::Describe(*s->session,s->runtime->state_domain,s->runtime->chunk,source,*out,s->runtime->state_quant,s->runtime->drafts))
+        if(!qfn::LieStateAccess::Describe(*s->session,s->runtime->state_domain,s->prefill_chunk?s->prefill_chunk:s->runtime->chunk,source,*out,s->runtime->state_quant,s->runtime->drafts,false,s->prefill_chunk!=0))
             return error(e,LIE_INVALID,"unsupported, foreign or non-prefix state");
         return LIE_OK;
 #else
@@ -909,10 +928,11 @@ static lie_status state_copy(lie_sequence *s,const lie_state_layout *layout,void
         lie_steering_state_view view;view.abi_version=LIE_STEERING_STATE_BINDING_ABI;view.struct_bytes=sizeof(view);
         std::array<unsigned char,32> semantic{},scope{};
         const lie_state_layout *model=layout;
+        if(s->prefill_chunk){semantic=s->prefill_scope;scope=semantic;}
         if(s->steering){
-            auto admitted=lie_steering_state_inspect(layout,qfn::LieStateAccess::StateFormat(*s->session),&view,e);
+            auto admitted=lie_steering_state_inspect(layout,qfn::LieStateAccess::StateFormat(*s->session,s->prefill_chunk!=0),&view,e);
             if(admitted!=LIE_OK)return admitted;
-            if(!qfn::LieStateAccess::SemanticScope(*s->session,semantic))return error(e,LIE_INVALID,"missing model semantic scope");
+            if(!s->prefill_chunk&&!qfn::LieStateAccess::SemanticScope(*s->session,semantic))return error(e,LIE_INVALID,"missing model semantic scope");
             admitted=restore?lie_steering_state_prepare_restore(s->steering,layout,view.model.format,
                 semantic.data(),data,bytes,&policy.update,scope.data(),e):
                 lie_steering_policy_cache_scope(s->steering,semantic.data(),scope.data(),e);
@@ -920,7 +940,7 @@ static lie_status state_copy(lie_sequence *s,const lie_state_layout *layout,void
             model=&view.model;
         }
         lie_status copied=qfn::LieStateAccess::Copy(*s->session,*model,data,restore,s->cancelled,message,
-            s->steering?scope.data():nullptr);
+            (s->steering||s->prefill_chunk)?scope.data():nullptr,s->prefill_chunk!=0);
         if(copied!=LIE_OK){
             // Cancelled transfers have completed every submitted copy. Their
             // private sequence is retired; no incomplete state is published.

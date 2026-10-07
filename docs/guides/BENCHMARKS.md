@@ -33,6 +33,15 @@ and phase times beyond the job's wall time before publishing graphs or a summary
 
 ## Reading prefill dispatch
 
+Direct `single`, `multi` and `fresh` suites accept `--prefill-chunk N` (1–32,768;
+default 2,048). `--suite core` also accepts `--prefill-capacity N` to reserve a
+larger provider capacity than its selected chunk. `--chunk` remains a CLI alias.
+JSONL identities and summaries report both values; comparative reports require
+matching chunk and capacity. Historical reports without capacity use their
+recorded chunk as the reservation. These are configuration controls, not
+measurements or proof that a larger chunk improves PP. HTTP suites use the
+server's [shared-engine configuration](USAGE.md#context-and-concurrency).
+
 Core sample JSONL includes `prefill_attention_dispatch`: confirmed and
 unconfirmed attention selections over the cohort, split by matrix/scalar and
 dense/sparse paths. `mask_pitch_refusals` helps investigate the fallback at high

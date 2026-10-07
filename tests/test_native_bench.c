@@ -1009,6 +1009,47 @@ static void steering_contract(char *server,char *bench){
   }
   stop_server();steering_server_bank=NULL;
 }
+static void prefill_contract(char *bench,char *tokens) {
+  char output[2400],graphs[2400];path(output,"prefill-core.jsonl");path(graphs,"prefill-core-graphs");
+  char *core[]={bench,"--suite","core","--model",":fixture:","--tokens-file",tokens,
+    "--context","128","--prefill-chunk","2","--prefill-capacity","32768",
+    "--kv-cache-ram-mb","0","--tg","2","--repetitions","1","--output",output,"--graphs",graphs,NULL};
+  run(core,0);graph_files("prefill-core-graphs");
+  json_object *rows=read_json("prefill-core.jsonl",true),*id=json_object_array_get_idx(rows,0);
+  require(nb_number(id,"prefill_chunk")==2&&nb_number(id,"prefill_capacity")==32768,"core reserved/used chunk identity");
+  bool found=false;
+  for(size_t n=0;n<json_object_array_length(rows);++n) {
+    json_object *r=json_object_array_get_idx(rows,n);
+    if(!strcmp(nb_string(r,"event"),"job")) {
+      require(nb_number(r,"prefill_calls")==2&&nb_number(r,"prefill_chunk")==2&&
+              nb_number(r,"prefill_capacity")==32768&&nb_number(r,"prefill_revision")==1,"core CLI chunk was not used");found=true;
+    }
+  }
+  require(found,"prefill core job absent");
+  nb_num(id,"prefill_capacity",16384);save_rows("prefill-mismatch.jsonl",rows);
+  char mismatch[2400],badgraphs[2400];path(mismatch,"prefill-mismatch.jsonl");path(badgraphs,"prefill-mismatch-graphs");
+  nb_error error={0};require(nb_report(mismatch,badgraphs,"fixture",NULL,"reference",false,&error)!=0&&
+    strstr(error.message,"prefill configuration mismatch"),"report accepted a different job reservation");
+  json_object_put(rows);
+  json_object *summary=read_json("prefill-core-graphs/summary.json",false);
+  json_object *point=json_object_array_get_idx(nb_get(nb_get(summary,"primary"),"configurations"),0);
+  require(nb_number(point,"prefill_capacity")==32768,"reserved capacity lost in summary");json_object_put(summary);
+  path(output,"prefill-direct.jsonl");path(graphs,"prefill-direct-graphs");
+  char *direct[]={bench,"--suite","fresh","--model",":fixture:","--sizes","32768",
+    "--prefill-chunk","16384","--tg","2","--warmups","0","--repetitions","1",
+    "--output",output,"--graphs",graphs,NULL};
+  run(direct,0);graph_files("prefill-direct-graphs");
+  rows=read_json("prefill-direct.jsonl",true);id=json_object_array_get_idx(rows,0);
+  require(nb_number(id,"prefill_chunk")==16384&&nb_number(id,"prefill_capacity")==16384,"direct chunk identity");
+  json_object_put(rows);
+  const char *bad[]={"0","32769","-1","2.0"};
+  for(size_t n=0;n<sizeof(bad)/sizeof(*bad);++n) {
+    char *invalid[]={bench,"--suite","core","--build-info","--prefill-chunk",(char *)bad[n],NULL};run(invalid,2);
+    char *invalid_direct[]={bench,"--prefill-chunk",(char *)bad[n],"--build-info",NULL};run(invalid_direct,2);
+  }
+  char *under[]={bench,"--suite","core","--build-info","--prefill-chunk","8","--prefill-capacity","4",NULL};run(under,2);
+  char *duplicate[]={bench,"--suite","core","--build-info","--chunk","8","--prefill-chunk","8",NULL};run(duplicate,2);
+}
 int main(int argc, char **argv) {
   require(argc == 4, "server, accounting bench and steering bench paths required");
   require(atexit(stop_server) == 0, "cleanup registration");
@@ -1026,6 +1067,7 @@ int main(int argc, char **argv) {
   char output[2400], graphs[2400], tokens[2400];
   save("tokens.json", "[0,1,2,3]\n");
   path(tokens, "tokens.json");
+  prefill_contract(argv[2],tokens);
   path(output, "core.jsonl");
   path(graphs, "core-graphs");
   char *core[] = {argv[2],     "--suite",

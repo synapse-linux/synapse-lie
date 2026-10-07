@@ -69,13 +69,15 @@ limit. Focused local policy checks, exact source composition and local HIP 7.2
 cross-compilation for `gfx1150` now pass. Both full providers and all five
 consumers compile/link with exit0, with devices hidden and no model execution
 ([local compilation receipt](development/validation/prefill-visible-mask-local-hip-2026-10-07.json)).
-The `.161` ROCm10 artifacts still predate this guard. The prepared r40 GPU capture was
+The [coherent `.161` ROCm10 build](development/validation/integrated-point-attention-hip-build-2026-10-07.json)
+includes this guard and the long-workspace recipe at source `120e2fce`.
+The prepared r40 GPU capture was
 rejected by automatic approval review before launch, citing an optimization/
 qualification priority conflict. r40/r41 remain unadmitted and stale after this
 source change. The owner's latest visible instruction confirms implementation
 before further tests and supersedes the pending sequencing question. No
-intermediate campaign is queued. Matching `.161` compilation and final original-weight gates are
-still required; the r39 numerical receipt qualifies its recorded binary only.
+intermediate campaign is queued. Final original-weight gates remain required;
+the r39 numerical receipt qualifies its recorded binary only.
 
 The owned recipe subsequently adds a separately instantiated 8,192-word sparse
 WMMA workspace through 1M visible tokens. Default-ON `LIE_LONG_CONTEXT_WMMA`
@@ -87,6 +89,21 @@ It changes neither reactive scheduling nor thread counts.
 The [local compilation receipt](development/validation/prefill-long-wmma-local-hip-2026-10-07.json)
 binds source `c9c79a70`, three complete providers and nine linked consumers;
 this is local HIP 7.2 evidence, not `.161` ROCm10 or inference qualification.
+
+The [generated attention GPU component](development/validation/attention-fixture-point-2026-10-07.json)
+subsequently passes 13 complete cases through 1M on `.161`, with 270,336 values
+matching the recorded fallback bit for bit. This qualifies generated attention
+after selection at its recorded runtime; original weights, indexer, resource
+fit, quality and comparative performance remain open.
+
+The shared core now separates a live selected prefill chunk from immutable
+provider scratch capacity, both bounded at 32,768. New requests capture the
+selection; queued/active requests retain theirs. RAM/SSD semantic identities
+isolate chunk choices. HTTP exposes the core setter on its management listener;
+native direct/core benchmarks record the reservation and actual chunk. Defaults
+remain 2,048 with unchanged existing public layouts and scheduler thread counts.
+These later provider changes require a fresh coherent build and original-weight
+qualification; the preceding r43/r44 receipts do not qualify larger chunks.
 
 An open qualification gate does not mean its implementation is absent:
 

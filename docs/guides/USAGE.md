@@ -191,8 +191,29 @@ The current integration is covered by native fixtures and HIP build/link tests.
 | `--context 262144` | Maximum tokens per sequence, including prompt and reserved output; application range: 128–1,048,576; the model/profile sets the actual limit. |
 | `--rope-scaling native` | Explicit rotary profile: `native`, `yarn2` or `yarn4`; see [context configuration](CONTEXT.md). |
 | `--max-active 1` | Active sequences; set 2–8 to allow GPU decode batches when multiple requests are ready. |
-| `--prefill-chunk 2048` | Maximum prompt tokens handled in one prefill dispatch. |
+| `--prefill-chunk 2048` | Maximum new prompt tokens per completed prefill call; range 1–32,768. |
+| `--prefill-capacity N` | Scratch capacity reserved at model load; range 1–32,768, at least the initial chunk. Defaults to the initial chunk. |
 | `--request-timeout-ms 600000` | Request deadline, in milliseconds; allow enough time for long prompts. |
+
+The shared engine exposes `lie_core_set_prefill_chunk()` to change the chunk
+while READY, within the reserved capacity. For HTTP, reserve room at startup,
+for example `--prefill-chunk 2048 --prefill-capacity 32768`, then use the
+management listener (default loopback port 19880):
+
+```sh
+curl http://127.0.0.1:19880/actuator/llm/prefill
+curl http://127.0.0.1:19880/actuator/llm/prefill \
+  -H 'Content-Type: application/json' -d '{"prefill_chunk":16384}'
+```
+
+The response reports `prefill_chunk`, `prefill_capacity`, `revision` and
+`applies_to: "new_requests"`. A change affects subsequent admissions; active and
+queued requests keep their original chunk. An unchanged value keeps its revision.
+Exceeding the reserved capacity returns 409 without changing configuration.
+This control is available only on the management port. Capacity cannot grow
+without recreating the engine. Larger reservations increase provider scratch;
+larger chunks can delay cancellation and other ready requests. The provider and
+context bound actual calls; a larger chunk alone establishes no speedup.
 
 Omitting `max_tokens`/`max_completion_tokens` in Chat or `max_output_tokens` in
 Responses, or passing null, selects an automatic budget: remaining physical

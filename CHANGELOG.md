@@ -7,6 +7,12 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Shared-engine prefill chunks up to 32,768 tokens, with an independent startup
+  scratch reservation and a live setter for new requests. The management endpoint
+  exposes the same control; queued and active jobs keep their original chunk.
+  Native benchmarks and reports record both chunk and capacity. RAM/SSD cache
+  identities isolate different chunks. GPU qualification remains pending.
+
 - Experimental sparse WMMA prefill workspace through 1M visible tokens, selected
   by default-ON `LIE_LONG_CONTEXT_WMMA`. Short contexts keep their existing
   kernel; OFF retains the 262k WMMA limit and scalar fallback. Provider/client

@@ -81,6 +81,16 @@ static bool repetition_config(json_object *id) {
          nb_count(id, "output_limit", 1, 65536, NULL) &&
          json_object_is_type(nb_get(id, "synthetic"), json_type_boolean);
 }
+static bool prefill_config(json_object *id,bool old_direct,
+                           int64_t *chunk,int64_t *capacity) {
+  *chunk=LIE_PREFILL_DEFAULT_CHUNK;
+  if(nb_get(id,"prefill_chunk")) {
+    if(!nb_count(id,"prefill_chunk",1,LIE_PREFILL_MAX_CHUNK,chunk))return false;
+  } else if(!old_direct)return false;
+  *capacity=*chunk;
+  return !nb_get(id,"prefill_capacity") ||
+    nb_count(id,"prefill_capacity",*chunk,LIE_PREFILL_MAX_CHUNK,capacity);
+}
 static bool direct_phase_bounds(json_object *id, json_object *row) {
   const char *keys[] = {"sample_begin_monotonic_ns", "sample_begin_wall_time_ns",
                         "prefill_begin_monotonic_ns", "prefill_end_monotonic_ns",
@@ -118,7 +128,8 @@ static json_object *direct(json_object *rows, nb_error *e) {
   nb_add(out, "identity", id);
   json_object_object_add(out, "configurations", points);
   json_object_object_add(out, "loading", select_rows(rows, "model_loaded"));
-  CHECK(repetition_config(id), "Invalid direct benchmark identity");
+  int64_t chunk,capacity;
+  CHECK(repetition_config(id)&&prefill_config(id,true,&chunk,&capacity), "Invalid direct benchmark identity");
   size_t reps =
       (size_t)(nb_number(id, "warmups") + nb_number(id, "repetitions"));
   CHECK(json_object_array_length(samples) ==
@@ -145,6 +156,8 @@ static json_object *direct(json_object *rows, nb_error *e) {
     fields(
         point, in,
         "point depth users context_capacity prompt_tokens physical_ids_sha256");
+    nb_num(point, "prefill_chunk", chunk);
+    nb_num(point, "prefill_capacity", capacity);
     nb_num(point, "repetitions", nb_number(id, "repetitions"));
     json_object *group = json_object_new_array();
     json_object_object_add(point, "_rows", group);
@@ -394,10 +407,11 @@ static json_object *core(json_object *rows, nb_error *e) {
   nb_add(out, "samples", samples);
   nb_add(out, "jobs", jobs);
   json_object_object_add(out, "loading", select_rows(rows, "core_ready"));
+  int64_t chunk,capacity;
   CHECK(repetition_config(id) && eqs(id, "suite", "core") &&
             eqs(id, "execution", "shared-reactive-core") &&
             nb_count(id, "users", 1, 8, NULL) &&
-            nb_count(id, "prefill_chunk", 1, 2048, NULL),
+            prefill_config(id,false,&chunk,&capacity),
         "Invalid core identity");
   generation = core_generation(id);
   CHECK(generation, "Invalid core sampling controls or missing reproducible seed");
@@ -493,6 +507,10 @@ static json_object *core(json_object *rows, nb_error *e) {
                 nb_number(r, "user") == (int64_t)u &&
                 flag(r, "warmup") == flag(s, "warmup"),
             "Core peer ordering");
+      if(nb_get(r,"prefill_chunk")||nb_get(r,"prefill_capacity")||nb_get(r,"prefill_revision"))
+        CHECK(nb_count(r,"prefill_chunk",chunk,chunk,NULL)&&
+              nb_count(r,"prefill_capacity",capacity,capacity,NULL)&&
+              nb_count(r,"prefill_revision",1,INT64_MAX,NULL),"Core job prefill configuration mismatch");
       int64_t cached = nb_number(r, "cached_tokens"),
               ssd = nb_number(r, "ssd_cached_tokens"),
               tg = nb_number(r, "output_tokens"),
@@ -601,6 +619,7 @@ static json_object *core(json_object *rows, nb_error *e) {
   nb_add(point, "generation", generation);
   nb_add(point, "steering", steering);
   nb_str(point, "eos_policy", ignore_eos ? "ignore" : "stop");
+  nb_num(point,"prefill_capacity",capacity);
   fields(point, id,
          "mode mtp_model mtp_draft_tokens_requested vision_model image_sha256 image_bytes users context_capacity prefill_chunk input_kind output_limit rope_scaling "
          "repetitions cache_policy prefix_cache_bytes cache_retention_policy "
@@ -968,7 +987,7 @@ static json_object *comparison(json_object *a, json_object *b, bool cache_build,
     }
     CHECK(q, "Missing comparison point");
     const char *samecore[] = {"users",           "context_capacity",
-                              "prefill_chunk",   "input_kind",
+                              "prefill_chunk",   "prefill_capacity", "input_kind",
                               "output_limit",    "physical_ids_sha256",
                               "cache_policy",    "prefix_cache_bytes",
                               "ssd_quota_bytes", "ssd_staging_bytes", "image_sha256", "vision_model", "generation", "steering", "rope_scaling", "progress_interval_ms", "eos_policy"};
@@ -981,7 +1000,8 @@ static json_object *comparison(json_object *a, json_object *b, bool cache_build,
             "HTTP comparison request or physical counts differ");
     else
       CHECK(nb_same(p, q, "context_capacity") &&
-                nb_same(p, q, "physical_ids_sha256"),
+                nb_same(p, q, "physical_ids_sha256") &&
+                nb_same(p, q, "prefill_chunk") && nb_same(p, q, "prefill_capacity"),
             "Comparison capacity or physical input mismatch");
     json_object *r = json_object_new_object();
     json_object_array_add(out, r);
