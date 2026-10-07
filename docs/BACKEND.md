@@ -47,7 +47,10 @@ compilation pass. At the integrated checkpoint, source hashes match all 650 file
 in the final HOST receipt. Later capture/replay tooling adds development clients,
 build targets and an owner-only stop-token metadata accessor. Executor ABI
 layouts, HTTP/reactive scheduling and numerical algorithms remain unchanged;
-the new accessor/client still need matching final HIP compilation and qualification.
+the matching device-free r38 HIP build now links the new accessor/client along
+with the four existing consumers. Its [receipt](development/validation/integrated-point-capture-hip-build-2026-10-07.json)
+binds the exact source and all five artifacts; collection and strict machine
+closure pass without a model or GPU test. Original-weight qualification remains open.
 No missing source implementation is identified in the owned functional
 scope; the acceptance checks in the table below remain open. Further
 original-weight functional/quality/fault gates are deferred by the current

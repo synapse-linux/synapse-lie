@@ -32,8 +32,15 @@ legacy compile helper uses the same target/hash list. This closes a packaging
 integration gap before the final build; the historical four-binary r37 receipt
 is unchanged. The supervisor also requires all five artifacts and checks their
 hashes; three mocked local controls accept the complete bundle and refuse a
-missing or altered capture executable. No HIP/GPU result is inferred from the
-source change.
+missing or altered capture executable. The already admitted device-free r38
+build of `df0780dd` now passes all four compilation stages and links all five
+consumers. Independent verification binds 41 recipes, both complete provider
+variants and the C17 capture's primary-provider linkage. All 126 portable archive
+members verify. [Build receipt](development/validation/integrated-point-capture-hip-build-2026-10-07.json).
+No model is loaded or test campaign started. CPU peaks at 74 C; the original
+lease releases at 00:55:11 UTC and fresh strict closure at 00:56:41 verifies
+owned identities/container retired, HTTP8000 unbound and router232427 restored.
+No machine is reserved. Further campaigns follow completion of functional work.
 
 The native client additionally accepts `--tools` for six strict required-function
 sessions, preserving raw vocabulary bytes and model-neutral stop metadata.
@@ -56,8 +63,9 @@ The [required-tool receipt](development/validation/sampling-tools-host-2026-10-0
 and portable raw archive verify all 2,339 members without another test/build.
 The additive owner-only accessor changes no executor ABI layout, numerical
 algorithm, HTTP behavior or reactive scheduling. Matching final HIP compilation
-and original-weight tool probabilities, MTP branches, wider transitions,
-quality/fault/resource/cost gates remain open; no GPU campaign or lease is queued.
+is now verified; original-weight tool probabilities, MTP branches, wider
+transitions and quality/fault/resource/cost gates remain open. No GPU campaign
+or lease is queued.
 
 The C17 `lie-sampling-capture` development client now records full raw logits
 before the ordinary AR draw, binding their binary hashes to committed outputs

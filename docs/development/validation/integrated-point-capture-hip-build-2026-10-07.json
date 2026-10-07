@@ -1,0 +1,976 @@
+{
+  "schema": "synapse-lie.integrated-point-hip-build.v1",
+  "at_utc": "2026-10-07T00:57:15.573423+00:00",
+  "state": "BUILT_NOT_GPU_TESTED_COLLECTED_VERIFIED_CLOSED",
+  "scope": "Final coherent private gfx1150 HIP compilation only; no model load, original-weight forward or performance/quality/fault acceptance.",
+  "source_commit": "df0780dd7601421f7097315702275c2349e7ed20",
+  "qualified_code_commit": "88d4c4e5fabb34035bed6a307bf61e9fc18844df",
+  "host_qualification": {
+    "path": "docs/development/validation/integrated-final-host-2026-10-06.json",
+    "bytes": 377594,
+    "sha256": "26cb7c71082efad3666621f95ee77e2effdd87628ec93e502b28d27d3a844de0"
+  },
+  "capture_host_qualification": {
+    "path": "docs/development/validation/sampling-tools-host-2026-10-07.json",
+    "bytes": 727156,
+    "sha256": "bb8786462de0d6a63e6f659d3e4d525f2266d00d1b2ef4069e297f6df90bec92"
+  },
+  "preceding_HOST_files_unchanged": 642,
+  "changed_since_preceding_HOST": [
+    "CMakeLists.txt",
+    "adapters/gufo.cpp",
+    "cmake/point/Build.cmake",
+    "include/lie/executor.h",
+    "tests/sampling/CMakeLists.txt",
+    "tests/test_strix_point_campaign.py",
+    "tools/strix-point-campaign.py",
+    "tools/strix-point-rocm10-compile.py"
+  ],
+  "native_capture_C17_primary_provider_link_verified": true,
+  "binary_consumers": [
+    "lie-hip-probe",
+    "lie-sampling-capture",
+    "synapse-lie-bench",
+    "synapse-lie-bench-gufo-reference",
+    "synapse-lie-server"
+  ],
+  "source_seal": {
+    "path": "evidence/context-r38-source-seal.json",
+    "bytes": 5079,
+    "sha256": "154030b3b97c4b8e4727ea916c5163fc2421039be00e6324d25ed249f8a1e8eb"
+  },
+  "source_archive_sha256": "4536ca6c7779e057469f9044b2df4184c1bd24a580f8f7e757c5e17e2a1e5634",
+  "source_inventory_sha256": "f5fa7dcc83606926502bb3ac2b8547fea603becfa501d1522cb58bba99da08e7",
+  "source_files": 2834,
+  "owned_source_files_verified": 650,
+  "independently_pinned_gufo_files": 1019,
+  "private_sampler_files_per_provider": 120,
+  "observer_files_per_provider": 2,
+  "attention_observer_enabled_in_both_providers": true,
+  "private_C17_ON_OFF_consumer_coherence": true,
+  "complete_recipe_count_including_KVC": 41,
+  "complete_variant_files_per_provider": 1019,
+  "independent_variant_verification": {
+    "schema": "synapse-lie.point-compile-verification.v1",
+    "at_utc": "2026-10-07T00:56:45.623217+00:00",
+    "scope": "Local verification of collected build artifacts; no build or test campaign",
+    "exit_code": 0,
+    "remote_operation": false,
+    "build_repeated": false,
+    "model_attempted": false,
+    "state": "BUILT_NOT_GPU_TESTED_COLLECTED_VERIFIED_CLOSED",
+    "collected_artifacts_verified": 25,
+    "private_provider_files_per_variant": 120,
+    "complete_variant_files_per_variant": 1019,
+    "recipes_verified": {
+      "adapters/gufo-state/access-edits.json": "03d0c630dddf0eb4310b99265a95235150b2974b2fc1409c4670068625f9f5e0",
+      "adapters/gufo-state/sampling-edits.json": "601cab9d75b421a7594935d1aeab4e1022e93795f39016e9d08929eabf1c8420",
+      "adapters/gufo-state/dense-sampling-edits.json": "b64b16d475b24beeb06609ea28b13411f71a9ce562d242a9566fe85c281ba037",
+      "adapters/gufo-state/history-sampling-edits.json": "7487f5b2b087e54b64ee564131870daad4441572aa80d2440c2476080c631608",
+      "adapters/gufo-state/distribution-sampling-edits.json": "2dc06f4ba2ff2fa9b021baff1dcd133ad582d0246bf46340208beeab7fcded16",
+      "adapters/gufo-state/grammar-runtime-edits.json": "19562a5dcf5dcb7a3dfc83a96e77aafce299eafe9f2d5b6c12c41be9dff1d83f",
+      "adapters/gufo-state/schema-transform-edits.json": "20e1e08b9e32f1dea9c47d1c633f66fcdb812ddeb6f58bcfb7135c970ee70bdc",
+      "adapters/gufo-state/schema-values-edits.json": "806ec9cbb2fba33f6035ecb0d6a2fc52c140c7140139eec4f77ab1374267b199",
+      "adapters/gufo-state/grammar-cache-edits.json": "720f1224864c1578dc2b24fc31b201c53ee5be6b1301642d5e12ef50dcc23d1a",
+      "adapters/gufo-state/schema-memo-edits.json": "f7f63dc22c9440c2d6494bd0c66a35840b18f8a7c2510e4844f7a40bda9bc9a9",
+      "adapters/gufo-state/schema-dispatch-edits.json": "1de8f9f42297d2729b5f33c5f81544fad6c2d3f363b73f216e3fab14f9b4ce23",
+      "adapters/gufo-state/schema-visit-edits.json": "953820e1cec74385cbaa85c8b030d704aa34fce32c3a4d48aefd640bd38c6ae3",
+      "adapters/gufo-state/schema-body-edits.json": "81e480c38bc8be1c8be26fe28c42fb3b8bbe24c560ee58d989d464126fbe5c11",
+      "adapters/gufo-state/grammar-number-edits.json": "c76e23a22ef21232c641d1acb54bbe3589f3681a3675ce74da6159e612ad7635",
+      "adapters/gufo-state/grammar-regex-edits.json": "a951736f465f7a4937c1b16f4af2a9c39c7aacb8d0813647e913e3fca1549b50",
+      "adapters/gufo-state/grammar-string-edits.json": "0486e534da0ce05a36a994c684bf75fd9d4bfe8f3048edf79ecdcbb52f319cbd",
+      "adapters/gufo-state/schema-format-edits.json": "41913b8a3bbb6ca642b0b1ec67d0755f86fa194fa085bceaedf79a0746cd7c01",
+      "adapters/gufo-state/composition-cache-edits.json": "cdef8e99979427b5c08a4a8d09735d9dbb36cdab1e2410daa334f1a22ba22d07",
+      "adapters/gufo-state/composition-edits.json": "5ea111fdffa9fb1e7478eee5ff49117e20d167394e2a8160e243dfbefb09f44f",
+      "adapters/gufo-state/binary64-edits.json": "de9dc1fac361945103126a16e95f3ac70f3e7907314a8487bd448fcf71f851a2",
+      "adapters/gufo-state/json-parser-edits.json": "1d0bf207909416e9cfe42232d8c14a29de101ac2a6283bcb717ed97b9d7ccaeb",
+      "adapters/gufo-state/json-value-edits.json": "e1bbbb2b0fff9dadd2c2553779656b9943c356642f78d04b6a35d8fb834bc7fe",
+      "adapters/gufo-state/grammar-lexeme-edits.json": "286907bf2635722595d709bc763bfe6f72e4350a156c2bb1b62d22a464474817",
+      "adapters/gufo-state/grammar-vocabulary-edits.json": "ef713c9363bbb6c66b34f2aaeb44ba56f7795d6b08cf397323bd9ac254e71885",
+      "adapters/gufo-state/grammar-state-edits.json": "a40bb8e5029ba492a2de6032c153a13877ceaf87274575a1d430773bc8041bc5",
+      "adapters/gufo-state/grammar-compiler-edits.json": "9a7f03b9166a61d0282a258debed3e1b47c6136b3dff844b9b37d41c10febfe0",
+      "adapters/gufo-state/grammar-parser-edits.json": "8c46d45a4203a8ba63ef41ed408d2696ae915dafe1d925230c73c07895b66d3a",
+      "adapters/gufo-state/vision-weight-edits.json": "fd361ff9a1fd8c53a3777fbe85b5fcce5941ac5a68430b68e211c0dc19c1a70a",
+      "adapters/gufo-state/context-edits.json": "272401d5908e0e4785061756729fc51c913dfe6377e973e15242012209a88ee9",
+      "adapters/gufo-state/steering-edits.json": "223a28d0891acaa9f814d620255618db53f9a86bfb255f07e51efe2ba0189bf3",
+      "adapters/gufo-state/schema-root-edits.json": "66c8e31588e224335d0f709237072f7a882cded20cd0e45476fdbca34c7037d5",
+      "adapters/gufo-state/grammar-storage-edits.json": "d192455c7c1535ae45c58b07606df48cd299eeb9bfbfc7bb4bbbdcd85d62e3a4",
+      "adapters/gufo-state/schema-store-edits.json": "b9ad40b586270260877ee53beddeca440db17397ea47e76176b62916ac157ee1",
+      "adapters/gufo-state/schema-compile-edits.json": "f5b7e58a459754c51cc3aeaa18fc79f66a7924dd788495940bd503fe79321dd5",
+      "adapters/gufo-state/schema-integer-edits.json": "2fd5b11d2cb320d0d59c00314e57d32428cb37ad6ef49467c001569867f64482",
+      "adapters/gufo-state/schema-compiler-edits.json": "90a218406286e7af01dad6875175d4af113a6d94afd16b4fc4d4cb4c0bf25e3b",
+      "adapters/gufo-state/schema-string-edits.json": "e4316bb559a18b4583a9f6402279349c701006fd03f3c45a76a48454db9a28ce",
+      "adapters/gufo-state/schema-frontend-edits.json": "cbab5024648cc989a83ecb7b7db54f40e93f2c7c66b6fa85d282214de07b27b8",
+      "adapters/gufo-state/sampling-storage-edits.json": "7ea90ed30920868d8e16bb2bdd40ab948e51e3a39eb85c591cec0b1a22e30e84",
+      "adapters/gufo-state/attention-dispatch-edits.json": "823bd88c6130a233449f4e720b8edd1a9b35fceea4401d5f4fe058e0bd7e11cb",
+      "adapters/gufo-state/kvc-edits.json": "b2e21ebf720d79b05d9c80fa2f422f1d7798d99ea64119db77a746f5d12353a0"
+    },
+    "full_variant_binding": "All recipe results independently reconstructed from pinned pristine files and exactly equal both recorded variant_files maps",
+    "individual_recipe_fields_absent": [
+      "schema_compiler_edits_sha256",
+      "schema_string_edits_sha256",
+      "schema_frontend_edits_sha256"
+    ],
+    "source_commit": "df0780dd7601421f7097315702275c2349e7ed20",
+    "compile_receipt_sha256": "2af55e20719b8c0782cdb4cfb626ca4a0b9769ef6514668c1a97f47ee6f4d6ac",
+    "bundle_sha256": "587853a162bdcb2588134927795d9d5594681e526049292e2a356b56e537c2df",
+    "build_closure_at_utc": "2026-10-07T00:56:41.692997+00:00",
+    "original_weight_qualification": false,
+    "next_gpu_campaign_prepared_or_admitted": false
+  },
+  "build_stages": {
+    "provider": {
+      "actual_exit_code": 0
+    },
+    "reference-provider": {
+      "actual_exit_code": 0
+    },
+    "configure": {
+      "actual_exit_code": 0
+    },
+    "link": {
+      "actual_exit_code": 0
+    }
+  },
+  "supervisor_exit_code": 0,
+  "container_child_exit_code": 0,
+  "controller_exit_code": 0,
+  "collected_base_artifacts": 6,
+  "collected_compile_artifacts": 25,
+  "collected_coherence_artifacts": 3,
+  "bundle": {
+    "bundle": "/home/pop/workspace/synapse-lie/rocm10-fedora-161/bundle-modern-r38",
+    "bundle_sha256": "587853a162bdcb2588134927795d9d5594681e526049292e2a356b56e537c2df",
+    "metadata": {
+      "schema": "synapse-lie.point-bundle.v1",
+      "source_commit": "df0780dd7601421f7097315702275c2349e7ed20",
+      "image": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+      "compile_receipt_sha256": "2af55e20719b8c0782cdb4cfb626ca4a0b9769ef6514668c1a97f47ee6f4d6ac",
+      "artifacts": {
+        "runtime/bin/lie-hip-probe": "b8c71211b61079c76b6ecf0b7c47856748e80b429942c2974b47364fb9aec2e9",
+        "runtime/bin/lie-sampling-capture": "0f987bedd8e74040a7370de9508dc9b5bc3dc2cd4a5248e491e669af874a7683",
+        "runtime/bin/synapse-lie-bench": "d3d849ab668de25c22fd4ddc1f7b5e1bea4480402bdb406f13e701e178b5376d",
+        "runtime/bin/synapse-lie-bench-gufo-reference": "bda7323d2e56fec4327cc59ec221fc0e6bc1a4aee382d24f18c5505a0b0aec03",
+        "runtime/bin/synapse-lie-server": "346d556de8da860f2621ca8f24f15327c17954fee7d57dca2715edd22274aad7"
+      },
+      "runtime_libraries": "pinned ROCm10 image",
+      "scope": "BUILT_NOT_GPU_TESTED"
+    }
+  },
+  "image": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+  "supervisor_identity": {
+    "pid": 226899,
+    "start_ticks": 20316157
+  },
+  "container_init_identity": {
+    "pid": 226974,
+    "start_ticks": 20316262
+  },
+  "lease": {
+    "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+    "device": 66307,
+    "inode": 105946405,
+    "cooperative_lie_only": true
+  },
+  "lease_released_at_utc": "2026-10-07T00:55:11.952217+00:00",
+  "fresh_closure": {
+    "at_utc": "2026-10-07T00:56:41.692997+00:00",
+    "state": "FRESH_SUCCESSFUL_BUILD_CLOSURE_NO_STANDING_RESERVATION",
+    "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+    "runner_sha256": "6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322",
+    "service": {
+      "MainPID": "232427",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "router_start_ticks": 20346841,
+    "original_lease": {
+      "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+      "device": 66307,
+      "inode": 105946405,
+      "free_briefly": true,
+      "released": true
+    },
+    "observation": {
+      "at": "2026-10-07T00:56:41.573039+00:00",
+      "kfd": [
+        {
+          "pid": 232427,
+          "start_ticks": 20346841,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "dri": [
+        {
+          "pid": 232427,
+          "start_ticks": 20346841,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "denied_fd": 384,
+      "temperatures": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "value_c": 30.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp2_input",
+          "value_c": 34.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp3_input",
+          "value_c": 30.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp1_input",
+          "value_c": 31.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp2_input",
+          "value_c": 32.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp3_input",
+          "value_c": 31.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon5/temp1_input",
+          "value_c": 38.0,
+          "limit_c": 98,
+          "guarded": false
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "value_c": 38.875,
+          "limit_c": 98,
+          "guarded": true
+        }
+      ],
+      "memory": {
+        "MemTotal": 132542648320,
+        "MemAvailable": 121601073152,
+        "SwapTotal": 21474828288,
+        "SwapFree": 20445843456
+      },
+      "kernel_kfd": [
+        232427
+      ],
+      "gpu": {
+        "gpu_busy_percent": 0,
+        "mem_info_gtt_total": 120259084288,
+        "mem_info_gtt_used": 18636800,
+        "mem_info_vram_total": 2147483648,
+        "mem_info_vram_used": 151187456
+      }
+    },
+    "foreign_compute_clients": [],
+    "guarded_hot": [],
+    "http8000_listeners": [],
+    "pinned_image": {
+      "exit_code": 0,
+      "id": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+      "stderr": ""
+    },
+    "free_disk_bytes": 566824181760,
+    "r38_bundle_present": true,
+    "GPU_build_run_or_service_mutation": false,
+    "standing_lease_waiter_reservation": false,
+    "owned_supervisor_identity_absent": true,
+    "owned_container_init_identity_recorded": true,
+    "owned_container_init_identity_absent": true,
+    "owned_container_absent": {
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: 4116fbc7b62d0fe5c3bf34f8660ba9b62a58ae2561c31aaa09842ff3f1b73e50\n"
+    },
+    "owned_container_listing": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  "maximum_observed_remote_CPU_C": 74.0,
+  "maximum_observed_remote_GPU_C_observe_only": 45.0,
+  "telemetry_samples": 267,
+  "thermal_policy": "CPU98/NVMe85/lower guards, GPU observe only; no tuning",
+  "GPU_device_access_in_compiler": false,
+  "model_attempted": false,
+  "model_hash_conversion_or_installation": false,
+  "new_GPU_test_or_benchmark": false,
+  "new_test_or_build_for_collection": false,
+  "native_product_default_tests_require_Python": false,
+  "root_job_client_build_lease_window_plan_waiter_reservation_handle_after_closure": false,
+  "open_task_numbers": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "Terminal_Bench": "STOPPED_COLLECTED_CLOSED_DEFERRED_LAST",
+  "next_gate": "Owner defers all full test campaigns until remaining functional source is complete; focused local checks only during changes, then fresh admission for integrated GPU qualification, matched benchmarks and Terminal Bench last",
+  "publication": false,
+  "goal_complete": false,
+  "portable_raw_archive": {
+    "path": "docs/development/validation/raw/integrated-point-capture-hip-build-2026-10-07.tar.gz",
+    "bytes": 570740,
+    "sha256": "e6ae9b3edd6bfc31dcf7ec31f1be8255f0aef19cc2ffceec84b63b3b2abb0358",
+    "members": 126
+  },
+  "raw_artifacts": {
+    "evidence/context-r38-build-r1/coherence-evidence/build/rocm10-point-modern-r38-provider/build.ninja": {
+      "path": "evidence/context-r38-build-r1/coherence-evidence/build/rocm10-point-modern-r38-provider/build.ninja",
+      "bytes": 120187,
+      "sha256": "5f6d595a7944ef9979ec2e04fa501b62e9ffee6ff82ea619657bd0581d8d9a91"
+    },
+    "evidence/context-r38-build-r1/coherence-evidence/build/rocm10-point-modern-r38-reference-provider/build.ninja": {
+      "path": "evidence/context-r38-build-r1/coherence-evidence/build/rocm10-point-modern-r38-reference-provider/build.ninja",
+      "bytes": 122347,
+      "sha256": "8f0d4210466cd4c6b46839dd9c16427cc11c57bf66d286a2f0aefaac043d392e"
+    },
+    "evidence/context-r38-build-r1/coherence-evidence/build/rocm10-point-modern-r38-runtime/build.ninja": {
+      "path": "evidence/context-r38-build-r1/coherence-evidence/build/rocm10-point-modern-r38-runtime/build.ninja",
+      "bytes": 235520,
+      "sha256": "1c0bcc2bc1a26a1e723260cbcb09eb8cd8191738c13dbffd60fa4885605baf67"
+    },
+    "evidence/context-r38-build-r1/coherence-evidence/collection.json": {
+      "path": "evidence/context-r38-build-r1/coherence-evidence/collection.json",
+      "bytes": 17072,
+      "sha256": "02280e3fa263ccccc4b7d8a6039b1f3b949a7ca8b91551f77486c1ff504f8c62"
+    },
+    "evidence/context-r38-build-r1/collection.json": {
+      "path": "evidence/context-r38-build-r1/collection.json",
+      "bytes": 3072,
+      "sha256": "e545c77bbb52c7e2c5325b9b4cb0d1ee6190f268820f19fc2d9c1da671c3bf57"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/build/rocm10-point-modern-r38-provider/BUILD-RECEIPT.json": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/build/rocm10-point-modern-r38-provider/BUILD-RECEIPT.json",
+      "bytes": 140476,
+      "sha256": "c940383964de4ece35c365be3ced6971fbc1d34d495d68e4bf2afd1db9e4290e"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/build/rocm10-point-modern-r38-reference-provider/BUILD-RECEIPT.json": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/build/rocm10-point-modern-r38-reference-provider/BUILD-RECEIPT.json",
+      "bytes": 140528,
+      "sha256": "45ee67b66b91a34c2fd37654c600e6a9f3373b53ec5536a572d511bc78558a43"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/collection.json": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/collection.json",
+      "bytes": 17262,
+      "sha256": "c23ca0efb5fca693b8bed2c57726a0d7c555288dc042873aca1547658adbcb26"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/configure.command": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/configure.command",
+      "bytes": 740,
+      "sha256": "8334173a34f077ea06be0cdbc5fcb7e3ad63e7b73712c2fa2c030fe33737f596"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/configure.exit": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/configure.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/configure.stderr": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/configure.stderr",
+      "bytes": 1608,
+      "sha256": "e258b77fa03fcd1f6dd72fe5f0e4a40abe324ade018d8715c289866168677983"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/configure.stdout": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/configure.stdout",
+      "bytes": 3849,
+      "sha256": "9bd418604709d58edce15650f026937e8f46d303ac09ccf6b249d9b14b936905"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/link.command": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/link.command",
+      "bytes": 196,
+      "sha256": "bd4a56518db967faa32849ee5b1ec68547d23d81cf9aa669f81f9e363c952b76"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/link.exit": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/link.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/link.stderr": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/link.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/link.stdout": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/link.stdout",
+      "bytes": 12418,
+      "sha256": "0e772e9434f21390acb7d98880db1d7c9205c30ce37aeb1a941e6781e38d0e50"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/provider.command": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/provider.command",
+      "bytes": 261,
+      "sha256": "7991a85dc039661de237ccb2d813ee9e0a53b39b7f72e0f305941346fd9233fe"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/provider.exit": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/provider.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/provider.stderr": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/provider.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/provider.stdout": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/provider.stdout",
+      "bytes": 65,
+      "sha256": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/reference-provider.command": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/reference-provider.command",
+      "bytes": 272,
+      "sha256": "041b723a72bbd39672df2bffd1062bd94cf754e8b533a226765be2acadd7e21d"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/reference-provider.exit": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/reference-provider.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/reference-provider.stderr": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/reference-provider.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/reference-provider.stdout": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/reference-provider.stdout",
+      "bytes": 65,
+      "sha256": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/result.json": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-compile/result.json",
+      "bytes": 1276,
+      "sha256": "2af55e20719b8c0782cdb4cfb626ca4a0b9769ef6514668c1a97f47ee6f4d6ac"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-provider/build.log": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-provider/build.log",
+      "bytes": 9545,
+      "sha256": "adafb56b5a87f7d0834e3fd64b6d41fa11631901169518add19b5174403838c9"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-provider/configure.log": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-provider/configure.log",
+      "bytes": 3359,
+      "sha256": "d61abcdadf4ef024dc5bd6f39052c4be2990c72b4dffab424430da8266a9d169"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-provider/result.json": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-provider/result.json",
+      "bytes": 140476,
+      "sha256": "c940383964de4ece35c365be3ced6971fbc1d34d495d68e4bf2afd1db9e4290e"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-reference-provider/build.log": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-reference-provider/build.log",
+      "bytes": 9775,
+      "sha256": "ee092e8d340b531845b66daf4f3a4ce3868fd52b906f328efa94a0a710a862a5"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-reference-provider/configure.log": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-reference-provider/configure.log",
+      "bytes": 3369,
+      "sha256": "967b494bdf7e46fcb7dcb6d945cf3d9508573837e55f12b8630f1510de617c01"
+    },
+    "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-reference-provider/result.json": {
+      "path": "evidence/context-r38-build-r1/compile-evidence/evidence/rocm10-point-modern-r38-reference-provider/result.json",
+      "bytes": 140528,
+      "sha256": "45ee67b66b91a34c2fd37654c600e6a9f3373b53ec5536a572d511bc78558a43"
+    },
+    "evidence/context-r38-build-r1/compile-verification-r1/result.json": {
+      "path": "evidence/context-r38-build-r1/compile-verification-r1/result.json",
+      "bytes": 6139,
+      "sha256": "2d7f4f2f3ba6d49a01e4d743551d11c2054f85456a3b75c0ccf26abaf34536a9"
+    },
+    "evidence/context-r38-build-r1/controller-result.json": {
+      "path": "evidence/context-r38-build-r1/controller-result.json",
+      "bytes": 541,
+      "sha256": "a532b7ef8d3c4ec91a9ad9e382ae3de98f2485ce8a568a58ec45b512214179a6"
+    },
+    "evidence/context-r38-build-r1/controller-stderr.log": {
+      "path": "evidence/context-r38-build-r1/controller-stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r38-build-r1/controller-stdout.log": {
+      "path": "evidence/context-r38-build-r1/controller-stdout.log",
+      "bytes": 125962,
+      "sha256": "d5d38bdd160dfaaee179c4242cf9ba6b33975cc2d1aa616f981eb9384371ed85"
+    },
+    "evidence/context-r38-build-r1/manifest.json": {
+      "path": "evidence/context-r38-build-r1/manifest.json",
+      "bytes": 1813,
+      "sha256": "9256e7710c9625c7747248005684c0c56b28cb77e6f6c4382958ead178f741a4"
+    },
+    "evidence/context-r38-build-r1/plan.json": {
+      "path": "evidence/context-r38-build-r1/plan.json",
+      "bytes": 523,
+      "sha256": "cee6f091ee0d662d38842494d87438ef3fe1fa9988602dc5d364a986aee525f4"
+    },
+    "evidence/context-r38-build-r1/result.json": {
+      "path": "evidence/context-r38-build-r1/result.json",
+      "bytes": 151206,
+      "sha256": "f55695e30628c4aa0b27f3eb58df6bdfe4e68f4d6d9f298836531234ebb95ab1"
+    },
+    "evidence/context-r38-build-r1/runner.py": {
+      "path": "evidence/context-r38-build-r1/runner.py",
+      "bytes": 112458,
+      "sha256": "0e4b02195a237e38632397cb755d923db687bea466134eb7dc73ad1244e589f2"
+    },
+    "evidence/context-r38-build-r1/stderr.log": {
+      "path": "evidence/context-r38-build-r1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r38-build-r1/stdout.log": {
+      "path": "evidence/context-r38-build-r1/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r38-build-r1/telemetry.jsonl": {
+      "path": "evidence/context-r38-build-r1/telemetry.jsonl",
+      "bytes": 359445,
+      "sha256": "921d512182074f199af495e495ebbcbd0b430bdc04f742a3983d7e0e9e67e8f8"
+    },
+    "evidence/context-r38-build-receiver-fixture/command.log": {
+      "path": "evidence/context-r38-build-receiver-fixture/command.log",
+      "bytes": 101,
+      "sha256": "5279d1fc9a1ced44f9c96da1414ef59e4676f963fbad52e7a1a2903538819b0d"
+    },
+    "evidence/context-r38-build-receiver-fixture/plan.json": {
+      "path": "evidence/context-r38-build-receiver-fixture/plan.json",
+      "bytes": 1083,
+      "sha256": "827c6caef1fcfc76a90285ea7b42f303af64f7bd269823c35ea377e5d3f29718"
+    },
+    "evidence/context-r38-build-receiver-fixture/result.json": {
+      "path": "evidence/context-r38-build-receiver-fixture/result.json",
+      "bytes": 580,
+      "sha256": "a4a0ca878682edb1b38256d9142fe1912cff8c53b175f53e736b11bd488f5244"
+    },
+    "evidence/context-r38-build-receiver-fixture/temperatures.jsonl": {
+      "path": "evidence/context-r38-build-receiver-fixture/temperatures.jsonl",
+      "bytes": 1829,
+      "sha256": "e53b43f30f6aaf0a4ed91fe5764b5610072a47e3c64fc0afc41816e5bd160878"
+    },
+    "evidence/context-r38-local-source-seal/command.log": {
+      "path": "evidence/context-r38-local-source-seal/command.log",
+      "bytes": 3329,
+      "sha256": "b98fc58fb98119119573c97c15fe8ca82e2e7e86102407c3fef4d06d3fdaad59"
+    },
+    "evidence/context-r38-local-source-seal/plan.json": {
+      "path": "evidence/context-r38-local-source-seal/plan.json",
+      "bytes": 895,
+      "sha256": "2e24accfee7b4d52db0ef445bd436b8e71e37782a2a015c0a4b61f1b4c70c81d"
+    },
+    "evidence/context-r38-local-source-seal/result.json": {
+      "path": "evidence/context-r38-local-source-seal/result.json",
+      "bytes": 393,
+      "sha256": "e9bb93e5231b700df2d3efb899935a982002ef8c0e65c13f02e861dbdf8de375"
+    },
+    "evidence/context-r38-local-source-seal/temperatures.jsonl": {
+      "path": "evidence/context-r38-local-source-seal/temperatures.jsonl",
+      "bytes": 2437,
+      "sha256": "407efe60fa3ea9c0e551e5970048b7151cf0c78286db2985c7e7b9588d99a9b4"
+    },
+    "evidence/prepare-context-r38-source.py": {
+      "path": "evidence/prepare-context-r38-source.py",
+      "bytes": 7872,
+      "sha256": "02507efd893a8a9eb7e464d7b6cc59f7e118ff28bb73951fc04c303a6468d780"
+    },
+    "evidence/stage-context-r38-source.py": {
+      "path": "evidence/stage-context-r38-source.py",
+      "bytes": 4226,
+      "sha256": "b95b207147631f53c16f99434eb8a30bd0f8fe7b97f21e9327a1f980e339457d"
+    },
+    "evidence/context-r38-source-seal.json": {
+      "path": "evidence/context-r38-source-seal.json",
+      "bytes": 5079,
+      "sha256": "154030b3b97c4b8e4727ea916c5163fc2421039be00e6324d25ed249f8a1e8eb"
+    },
+    "evidence/context-r38-source-stage.json": {
+      "path": "evidence/context-r38-source-stage.json",
+      "bytes": 6971,
+      "sha256": "315eda3a5eec1b79a5744f22c35e36d713fd563414db3b19f535ea6c572a8085"
+    },
+    "evidence/context-r38-peer-coordination.json": {
+      "path": "evidence/context-r38-peer-coordination.json",
+      "bytes": 12666,
+      "sha256": "52969227859773ce34a4bdf2e34a0c66e131bf3253282d6942f8584fde90430f"
+    },
+    "evidence/context-r38-build-manifest.json": {
+      "path": "evidence/context-r38-build-manifest.json",
+      "bytes": 1813,
+      "sha256": "9256e7710c9625c7747248005684c0c56b28cb77e6f6c4382958ead178f741a4"
+    },
+    "evidence/context-r38-fresh-161-r1.py": {
+      "path": "evidence/context-r38-fresh-161-r1.py",
+      "bytes": 4595,
+      "sha256": "0c1c814fb81bb4737cf9551d8a8203915d0f44b90f1be4be5e1da71e239759b0"
+    },
+    "evidence/context-r38-fresh-161-r1.json": {
+      "path": "evidence/context-r38-fresh-161-r1.json",
+      "bytes": 6808,
+      "sha256": "10542cccc5f45e6f0b22fcfc99a55cbffc49f3a21617e0deeb87951d244977fa"
+    },
+    "evidence/context-r38-fresh-161-r2.py": {
+      "path": "evidence/context-r38-fresh-161-r2.py",
+      "bytes": 4667,
+      "sha256": "a20ed5d00def9775439192da034df2d3087b172d832848599def7ce8c2588af1"
+    },
+    "evidence/context-r38-fresh-161-r2.json": {
+      "path": "evidence/context-r38-fresh-161-r2.json",
+      "bytes": 6884,
+      "sha256": "75914830fe9dbdcfab37a7f2432098d2110fbee554815aacbfa4ccb249f70705"
+    },
+    "evidence/seal-context-r38-bundle.py": {
+      "path": "evidence/seal-context-r38-bundle.py",
+      "bytes": 2543,
+      "sha256": "133f19d0a71cfebe2605842931b43fd07b481ef40ba5db4b72d7a81c7ee73a82"
+    },
+    "evidence/context-r38-bundle-result.json": {
+      "path": "evidence/context-r38-bundle-result.json",
+      "bytes": 1487,
+      "sha256": "08c43773483bb1a83b3a4eb414396ce80fb055f641351f12a236da9e20584176"
+    },
+    "evidence/collect-context-r38-compile.py": {
+      "path": "evidence/collect-context-r38-compile.py",
+      "bytes": 6065,
+      "sha256": "d557343b6efdb81c27a7168b42e2b976551f6cf46d3c1d8b3526f2fa7c53d9aa"
+    },
+    "evidence/collect-context-r38-coherence.py": {
+      "path": "evidence/collect-context-r38-coherence.py",
+      "bytes": 5668,
+      "sha256": "723d50edbbab8e1746b25fb295aad88d84e42823687ec5f0a49b69ef88cb2125"
+    },
+    "evidence/verify-context-r38-compile.py": {
+      "path": "evidence/verify-context-r38-compile.py",
+      "bytes": 7667,
+      "sha256": "8e402caff2f80819a60d1df5e5f95b1d78004d87b4b5dfe85c7d62523244e9cf"
+    },
+    "evidence/context-r38-build-closure-r1.py": {
+      "path": "evidence/context-r38-build-closure-r1.py",
+      "bytes": 6247,
+      "sha256": "e2d89d9410c847618458c1c0e62eb7bc578204a406cc5a15b0046e6837734ebe"
+    },
+    "evidence/context-r38-build-closure-r1.json": {
+      "path": "evidence/context-r38-build-closure-r1.json",
+      "bytes": 7698,
+      "sha256": "58f37add7cf22881589cf20a9e636aeb517bf81e985d4a79295fc3b141fd93b6"
+    },
+    "evidence/seal-integrated-point-build-r38.py": {
+      "path": "evidence/seal-integrated-point-build-r38.py",
+      "bytes": 10122,
+      "sha256": "b0e7de789cd7ee13a1d91789574e31289922b3fde18960ec57dabf83beb27101"
+    },
+    "evidence/context-r38-capture-build-integration.json": {
+      "path": "evidence/context-r38-capture-build-integration.json",
+      "bytes": 690,
+      "sha256": "de39221f8edae6189b69d4047a170df4a2255955b2880090e62437776b0c13f8"
+    },
+    "docs/development/validation/sampling-tools-host-2026-10-07.json": {
+      "path": "docs/development/validation/sampling-tools-host-2026-10-07.json",
+      "bytes": 727156,
+      "sha256": "bb8786462de0d6a63e6f659d3e4d525f2266d00d1b2ef4069e297f6df90bec92"
+    },
+    "docs/development/validation/integrated-final-host-2026-10-06.json": {
+      "path": "docs/development/validation/integrated-final-host-2026-10-06.json",
+      "bytes": 377594,
+      "sha256": "26cb7c71082efad3666621f95ee77e2effdd87628ec93e502b28d27d3a844de0"
+    },
+    "evidence/context-r38-build-live-r1.json": {
+      "path": "evidence/context-r38-build-live-r1.json",
+      "bytes": 10008,
+      "sha256": "d41a0d5f241e60086a730858f91b973ca47c308fcd01d64ac3d433404a99bb53"
+    },
+    "evidence/context-r38-build-live-r1.py": {
+      "path": "evidence/context-r38-build-live-r1.py",
+      "bytes": 3781,
+      "sha256": "68e7e71c19cf8f5ee8b129ee0ee7bce7566e9904c39eaf2277944cdc0b97ab39"
+    },
+    "evidence/context-r38-build-live-r2.json": {
+      "path": "evidence/context-r38-build-live-r2.json",
+      "bytes": 16551,
+      "sha256": "724f034b2f1d978bf838d3902eaac39ca70233c02cf5a8fbf72a257d71ca6c11"
+    },
+    "evidence/context-r38-build-live-r2.py": {
+      "path": "evidence/context-r38-build-live-r2.py",
+      "bytes": 3781,
+      "sha256": "2b323be9330a4b3a9f7f1d8ee6204de99df499c39670433c33e2a5e22fd45868"
+    },
+    "cmake/provider/Build.cmake": {
+      "path": "cmake/provider/Build.cmake",
+      "bytes": 19555,
+      "sha256": "1da6fa53bbb6d497b440a9d97fcd730b312c858b530f21de26b3d5053936fb85"
+    },
+    "cmake/provider/Source.cmake": {
+      "path": "cmake/provider/Source.cmake",
+      "bytes": 6300,
+      "sha256": "08bb3764211b85c3fb466bcfbbeb4d751274765418a8104f0327fc7542d1ee3f"
+    },
+    "cmake/provider/Verify.cmake": {
+      "path": "cmake/provider/Verify.cmake",
+      "bytes": 20863,
+      "sha256": "10559f446f2875c177ed56c0b9dc7b767f7f136f7d79dfdb0eec74f43bc54f1d"
+    },
+    "cmake/point/Build.cmake": {
+      "path": "cmake/point/Build.cmake",
+      "bytes": 5969,
+      "sha256": "0fe8922aabda0c9c5b993d80d85599728f098b8edfa3be70b3cd82d0b87c30e2"
+    },
+    "cmake/gufo-runtime/CMakeLists.txt": {
+      "path": "cmake/gufo-runtime/CMakeLists.txt",
+      "bytes": 6194,
+      "sha256": "ec8b5e25dbb95376d4e5b3726b2d3ce888464116596290b952713385c9d92bbb"
+    },
+    "src/dispatch.c": {
+      "path": "src/dispatch.c",
+      "bytes": 6426,
+      "sha256": "41099ca819f97282daf4c5c9ae6eafb3a9e3b221b1bd0f03340c3c3fcfbad674"
+    },
+    "include/lie/dispatch.h": {
+      "path": "include/lie/dispatch.h",
+      "bytes": 3620,
+      "sha256": "8b327f40c85b560833f98fb49f12760f2b0d884abbca81312233ef17b0380a3d"
+    },
+    "adapters/gufo.cpp": {
+      "path": "adapters/gufo.cpp",
+      "bytes": 62087,
+      "sha256": "8d8337ca5449335b1651e6f3be2574f13a0f6b18d986df30194c7a604478c404"
+    },
+    "CMakeLists.txt": {
+      "path": "CMakeLists.txt",
+      "bytes": 56543,
+      "sha256": "e4625d3b705b13a844a4a83a0444d5c8ca55bc403307cc77214bf99c4e9b48ff"
+    },
+    "adapters/gufo-state/access-edits.json": {
+      "path": "adapters/gufo-state/access-edits.json",
+      "bytes": 1064,
+      "sha256": "03d0c630dddf0eb4310b99265a95235150b2974b2fc1409c4670068625f9f5e0"
+    },
+    "adapters/gufo-state/sampling-edits.json": {
+      "path": "adapters/gufo-state/sampling-edits.json",
+      "bytes": 3118,
+      "sha256": "601cab9d75b421a7594935d1aeab4e1022e93795f39016e9d08929eabf1c8420"
+    },
+    "adapters/gufo-state/dense-sampling-edits.json": {
+      "path": "adapters/gufo-state/dense-sampling-edits.json",
+      "bytes": 13097,
+      "sha256": "b64b16d475b24beeb06609ea28b13411f71a9ce562d242a9566fe85c281ba037"
+    },
+    "adapters/gufo-state/history-sampling-edits.json": {
+      "path": "adapters/gufo-state/history-sampling-edits.json",
+      "bytes": 10763,
+      "sha256": "7487f5b2b087e54b64ee564131870daad4441572aa80d2440c2476080c631608"
+    },
+    "adapters/gufo-state/distribution-sampling-edits.json": {
+      "path": "adapters/gufo-state/distribution-sampling-edits.json",
+      "bytes": 42741,
+      "sha256": "2dc06f4ba2ff2fa9b021baff1dcd133ad582d0246bf46340208beeab7fcded16"
+    },
+    "adapters/gufo-state/grammar-runtime-edits.json": {
+      "path": "adapters/gufo-state/grammar-runtime-edits.json",
+      "bytes": 35619,
+      "sha256": "19562a5dcf5dcb7a3dfc83a96e77aafce299eafe9f2d5b6c12c41be9dff1d83f"
+    },
+    "adapters/gufo-state/schema-transform-edits.json": {
+      "path": "adapters/gufo-state/schema-transform-edits.json",
+      "bytes": 23987,
+      "sha256": "20e1e08b9e32f1dea9c47d1c633f66fcdb812ddeb6f58bcfb7135c970ee70bdc"
+    },
+    "adapters/gufo-state/schema-values-edits.json": {
+      "path": "adapters/gufo-state/schema-values-edits.json",
+      "bytes": 22633,
+      "sha256": "806ec9cbb2fba33f6035ecb0d6a2fc52c140c7140139eec4f77ab1374267b199"
+    },
+    "adapters/gufo-state/grammar-cache-edits.json": {
+      "path": "adapters/gufo-state/grammar-cache-edits.json",
+      "bytes": 2028,
+      "sha256": "720f1224864c1578dc2b24fc31b201c53ee5be6b1301642d5e12ef50dcc23d1a"
+    },
+    "adapters/gufo-state/schema-memo-edits.json": {
+      "path": "adapters/gufo-state/schema-memo-edits.json",
+      "bytes": 1493,
+      "sha256": "f7f63dc22c9440c2d6494bd0c66a35840b18f8a7c2510e4844f7a40bda9bc9a9"
+    },
+    "adapters/gufo-state/schema-dispatch-edits.json": {
+      "path": "adapters/gufo-state/schema-dispatch-edits.json",
+      "bytes": 8013,
+      "sha256": "1de8f9f42297d2729b5f33c5f81544fad6c2d3f363b73f216e3fab14f9b4ce23"
+    },
+    "adapters/gufo-state/schema-visit-edits.json": {
+      "path": "adapters/gufo-state/schema-visit-edits.json",
+      "bytes": 1895,
+      "sha256": "953820e1cec74385cbaa85c8b030d704aa34fce32c3a4d48aefd640bd38c6ae3"
+    },
+    "adapters/gufo-state/schema-body-edits.json": {
+      "path": "adapters/gufo-state/schema-body-edits.json",
+      "bytes": 17225,
+      "sha256": "81e480c38bc8be1c8be26fe28c42fb3b8bbe24c560ee58d989d464126fbe5c11"
+    },
+    "adapters/gufo-state/grammar-number-edits.json": {
+      "path": "adapters/gufo-state/grammar-number-edits.json",
+      "bytes": 28470,
+      "sha256": "c76e23a22ef21232c641d1acb54bbe3589f3681a3675ce74da6159e612ad7635"
+    },
+    "adapters/gufo-state/grammar-regex-edits.json": {
+      "path": "adapters/gufo-state/grammar-regex-edits.json",
+      "bytes": 10101,
+      "sha256": "a951736f465f7a4937c1b16f4af2a9c39c7aacb8d0813647e913e3fca1549b50"
+    },
+    "adapters/gufo-state/grammar-string-edits.json": {
+      "path": "adapters/gufo-state/grammar-string-edits.json",
+      "bytes": 28740,
+      "sha256": "0486e534da0ce05a36a994c684bf75fd9d4bfe8f3048edf79ecdcbb52f319cbd"
+    },
+    "adapters/gufo-state/schema-format-edits.json": {
+      "path": "adapters/gufo-state/schema-format-edits.json",
+      "bytes": 6117,
+      "sha256": "41913b8a3bbb6ca642b0b1ec67d0755f86fa194fa085bceaedf79a0746cd7c01"
+    },
+    "adapters/gufo-state/composition-cache-edits.json": {
+      "path": "adapters/gufo-state/composition-cache-edits.json",
+      "bytes": 4094,
+      "sha256": "cdef8e99979427b5c08a4a8d09735d9dbb36cdab1e2410daa334f1a22ba22d07"
+    },
+    "adapters/gufo-state/composition-edits.json": {
+      "path": "adapters/gufo-state/composition-edits.json",
+      "bytes": 16284,
+      "sha256": "5ea111fdffa9fb1e7478eee5ff49117e20d167394e2a8160e243dfbefb09f44f"
+    },
+    "adapters/gufo-state/binary64-edits.json": {
+      "path": "adapters/gufo-state/binary64-edits.json",
+      "bytes": 2099,
+      "sha256": "de9dc1fac361945103126a16e95f3ac70f3e7907314a8487bd448fcf71f851a2"
+    },
+    "adapters/gufo-state/json-parser-edits.json": {
+      "path": "adapters/gufo-state/json-parser-edits.json",
+      "bytes": 1292,
+      "sha256": "1d0bf207909416e9cfe42232d8c14a29de101ac2a6283bcb717ed97b9d7ccaeb"
+    },
+    "adapters/gufo-state/json-value-edits.json": {
+      "path": "adapters/gufo-state/json-value-edits.json",
+      "bytes": 619,
+      "sha256": "e1bbbb2b0fff9dadd2c2553779656b9943c356642f78d04b6a35d8fb834bc7fe"
+    },
+    "adapters/gufo-state/grammar-lexeme-edits.json": {
+      "path": "adapters/gufo-state/grammar-lexeme-edits.json",
+      "bytes": 13043,
+      "sha256": "286907bf2635722595d709bc763bfe6f72e4350a156c2bb1b62d22a464474817"
+    },
+    "adapters/gufo-state/grammar-vocabulary-edits.json": {
+      "path": "adapters/gufo-state/grammar-vocabulary-edits.json",
+      "bytes": 15114,
+      "sha256": "ef713c9363bbb6c66b34f2aaeb44ba56f7795d6b08cf397323bd9ac254e71885"
+    },
+    "adapters/gufo-state/grammar-state-edits.json": {
+      "path": "adapters/gufo-state/grammar-state-edits.json",
+      "bytes": 818,
+      "sha256": "a40bb8e5029ba492a2de6032c153a13877ceaf87274575a1d430773bc8041bc5"
+    },
+    "adapters/gufo-state/grammar-compiler-edits.json": {
+      "path": "adapters/gufo-state/grammar-compiler-edits.json",
+      "bytes": 25351,
+      "sha256": "9a7f03b9166a61d0282a258debed3e1b47c6136b3dff844b9b37d41c10febfe0"
+    },
+    "adapters/gufo-state/grammar-parser-edits.json": {
+      "path": "adapters/gufo-state/grammar-parser-edits.json",
+      "bytes": 24003,
+      "sha256": "8c46d45a4203a8ba63ef41ed408d2696ae915dafe1d925230c73c07895b66d3a"
+    },
+    "adapters/gufo-state/vision-weight-edits.json": {
+      "path": "adapters/gufo-state/vision-weight-edits.json",
+      "bytes": 2803,
+      "sha256": "fd361ff9a1fd8c53a3777fbe85b5fcce5941ac5a68430b68e211c0dc19c1a70a"
+    },
+    "adapters/gufo-state/context-edits.json": {
+      "path": "adapters/gufo-state/context-edits.json",
+      "bytes": 9969,
+      "sha256": "272401d5908e0e4785061756729fc51c913dfe6377e973e15242012209a88ee9"
+    },
+    "adapters/gufo-state/steering-edits.json": {
+      "path": "adapters/gufo-state/steering-edits.json",
+      "bytes": 18547,
+      "sha256": "223a28d0891acaa9f814d620255618db53f9a86bfb255f07e51efe2ba0189bf3"
+    },
+    "adapters/gufo-state/schema-root-edits.json": {
+      "path": "adapters/gufo-state/schema-root-edits.json",
+      "bytes": 2704,
+      "sha256": "66c8e31588e224335d0f709237072f7a882cded20cd0e45476fdbca34c7037d5"
+    },
+    "adapters/gufo-state/grammar-storage-edits.json": {
+      "path": "adapters/gufo-state/grammar-storage-edits.json",
+      "bytes": 2696,
+      "sha256": "d192455c7c1535ae45c58b07606df48cd299eeb9bfbfc7bb4bbbdcd85d62e3a4"
+    },
+    "adapters/gufo-state/schema-store-edits.json": {
+      "path": "adapters/gufo-state/schema-store-edits.json",
+      "bytes": 1249,
+      "sha256": "b9ad40b586270260877ee53beddeca440db17397ea47e76176b62916ac157ee1"
+    },
+    "adapters/gufo-state/schema-compile-edits.json": {
+      "path": "adapters/gufo-state/schema-compile-edits.json",
+      "bytes": 3345,
+      "sha256": "f5b7e58a459754c51cc3aeaa18fc79f66a7924dd788495940bd503fe79321dd5"
+    },
+    "adapters/gufo-state/schema-integer-edits.json": {
+      "path": "adapters/gufo-state/schema-integer-edits.json",
+      "bytes": 1165,
+      "sha256": "2fd5b11d2cb320d0d59c00314e57d32428cb37ad6ef49467c001569867f64482"
+    },
+    "adapters/gufo-state/schema-compiler-edits.json": {
+      "path": "adapters/gufo-state/schema-compiler-edits.json",
+      "bytes": 10147,
+      "sha256": "90a218406286e7af01dad6875175d4af113a6d94afd16b4fc4d4cb4c0bf25e3b"
+    },
+    "adapters/gufo-state/schema-string-edits.json": {
+      "path": "adapters/gufo-state/schema-string-edits.json",
+      "bytes": 2980,
+      "sha256": "e4316bb559a18b4583a9f6402279349c701006fd03f3c45a76a48454db9a28ce"
+    },
+    "adapters/gufo-state/schema-frontend-edits.json": {
+      "path": "adapters/gufo-state/schema-frontend-edits.json",
+      "bytes": 2229,
+      "sha256": "cbab5024648cc989a83ecb7b7db54f40e93f2c7c66b6fa85d282214de07b27b8"
+    },
+    "adapters/gufo-state/sampling-storage-edits.json": {
+      "path": "adapters/gufo-state/sampling-storage-edits.json",
+      "bytes": 8282,
+      "sha256": "7ea90ed30920868d8e16bb2bdd40ab948e51e3a39eb85c591cec0b1a22e30e84"
+    },
+    "adapters/gufo-state/attention-dispatch-edits.json": {
+      "path": "adapters/gufo-state/attention-dispatch-edits.json",
+      "bytes": 4672,
+      "sha256": "823bd88c6130a233449f4e720b8edd1a9b35fceea4401d5f4fe058e0bd7e11cb"
+    },
+    "adapters/gufo-state/kvc-edits.json": {
+      "path": "adapters/gufo-state/kvc-edits.json",
+      "bytes": 5057,
+      "sha256": "b2e21ebf720d79b05d9c80fa2f422f1d7798d99ea64119db77a746f5d12353a0"
+    }
+  }
+}

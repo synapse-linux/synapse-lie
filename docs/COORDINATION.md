@@ -1,5 +1,28 @@
 # DS4 / synapse-lie coordination
 
+## Final device-free Point build closed; test campaigns deferred — 2026-10-07
+
+The owner again requests finishing all remaining functional implementation
+before full test campaigns. Only required focused local checks accompany source
+changes. Final integrated GPU qualification comes afterward, followed by matched
+benchmarks and Terminal Bench last. No new campaign or machine reservation is queued.
+
+The already admitted r38 compilation of `df0780dd` completes both private
+ON/OFF providers and all five consumers, including `lie-sampling-capture`.
+All stages and supervisor/container/controller exit 0. Collection verifies the
+full variants, C17 capture linkage and all 126 portable archive members.
+[Build receipt](development/validation/integrated-point-capture-hip-build-2026-10-07.json).
+GPU devices, network and model mounts were absent; no model was attempted.
+CPU peaks at 74 C under CPU98/NVMe85/lower guards; GPU is observed only.
+
+Original lease **dev66307/inode105946405** releases at **00:55:11 UTC**.
+Fresh strict closure at **00:56:41 UTC** verifies supervisor226899/start20316157
+and init226974/start20316262 retired, the owned container removed, HTTP8000
+unbound and router232427 restored as the sole compute client. Q2/Point/DGX are
+informed of release; no reply or reservation is requested. Root holds no remote
+job/client/build/lease/window/waiter/reservation/live handle on `.161/.157/.158/TB`.
+Any future original-weight run requires fresh admission. All six items stay open.
+
 ## Required-tool capture preparation; no remote campaign — 2026-10-07
 
 Root completes the native required-function/vocabulary/stop capture and offline
