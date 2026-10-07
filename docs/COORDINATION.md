@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+IQ2 scalar LDS component released — 2026-10-07 UTC: plan6d025486,
+source d61b1395, .157 CPU fixture/verify/admit/run/release exit0. Admitted
+16:24:40 UTC; component finishes16:24:58.892422. All38 files verify locally
+at16:26:28.234413 before release16:26:42.197559, SHA
+4fe172bdad7b914e3f843fd8dd87fb75eb782d6c49d65ae7bc8ba7dfc94b0179.
+Five current-boot identities/groups retired, KFD empty, five original leases
+free, seven model stats unchanged and persistent registry match. No original
+model access, remote build, installation, tuning or cleanup. No Q2 remote
+window or reservation remains. The owner-requested local GLM branch/worktree
+fork can now follow the checkpoint; it reserves no GPU or GLM workload.
+
 Q2 R3 performance-mode window released — 2026-10-07 UTC: plan14e6cfdc
 admits15:49:58.347419, run15:50:26.104246→15:52:21.535857 exits0. All36
 artifacts collect/hash before release15:54:31.040199, SHA

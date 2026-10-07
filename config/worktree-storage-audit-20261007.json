@@ -1,0 +1,31 @@
+{
+  "schema": "synapse-lie.worktree-storage-audit.v1",
+  "at": "2026-10-07",
+  "scope": "Local antirez-compat-audit worktree; no remote cleanup",
+  "source_branch": "feature/antirez-compat-audit",
+  "allocated_bytes": {
+    "worktree": 58843131904,
+    "evidence": 51362127872,
+    "deps": 7025561600
+  },
+  "evidence_file_categories_allocated_bytes": {
+    "gzip_archives": 24813789184,
+    "bin_arrays": 11685171200,
+    "f32_arrays": 8064073728,
+    "f16_arrays": 929464320,
+    "assembly": 2310205440
+  },
+  "deps_object_bytes": 318042112,
+  "tracked_logical_bytes": 124544694,
+  "archive_sample": "evidence/worktree-storage-audit-20261007/archive-samples.json",
+  "duplicate_reclaimable_bytes": null,
+  "limits": [
+    "Counts are a point-in-time inventory, not exclusive physical storage on a deduplicating filesystem.",
+    "Archive member samples match extracted files; complete duplicate verification has not been performed.",
+    "Do not interpret archive size as automatically removable space.",
+    "Branches retain tracked source, patches, recipes and reports; ignored raw evidence and retained executables need separate storage.",
+    "The new Git worktree will not copy ignored .deps, evidence or run directories."
+  ],
+  "files_deleted": 0,
+  "remote_cleanup": false
+}

@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-Owner-requested GLM fork pending — 2026-10-07 UTC. After the next Q2 GPU test
-has collected evidence and released its window, checkpoint this branch and
+Owner-requested GLM fork ready — 2026-10-07 UTC. The next Q2 GPU test
+has collected evidence and released its window; checkpoint this branch and
 create `feature/glm53-flash-antirez` in a separate persistent worktree from
 that exact checkpoint. R3 predates the request and does not satisfy the trigger.
 The existing .157 `GLM-5.3-Flash-Q2.gguf` is observed by stat only; no tensor
@@ -11,8 +11,22 @@ layout, inference compatibility, model conversion or GLM GPU run is claimed.
 IQ2 scalar LDS component preparation now links a private fixture against the
 saved MMQ archive, without rebuilding the control. It tests complete native
 quantization plus gate/up, 512 rotating experts and per-call retained outputs.
-Local compilation passes; .157 CPU lifecycle and GPU qualification are pending.
+Local compilation and .157 CPU lifecycle checks pass. The GPU component exits
+0 with 906 exact replays and 1359 passing independent checks. LDS is faster
+in four of five pairs; mean53.585203→50.391713us, with substantial variation
+and one regression. No model token-rate gain or production dispatch is claimed.
+All38 files (2.9MB) collect/hash before16:26:42.197559UTC release4fe172bd;
+registry, process retirement, empty KFD, five leases and model stats verify.
+No Q2 GPU window remains. [All component rounds](Q2-IQ2-DECODE-LDS.md).
 The source control does not replace retained binaries or raw evidence.
+
+Read-only local storage audit: approximately55GiB total,48GiB raw evidence
+and6.5GiB .deps. Evidence includes23GiB gzip archives plus19GiB numerical
+arrays; sampled archives have matching extracted files. Full duplicate
+verification and any space reclamation remain unperformed. No file deletion
+or remote cleanup. Tracked files total about119MiB; a new Git worktree does
+not copy ignored evidence/build directories.
+[Inventory](../config/worktree-storage-audit-20261007.json).
 
 Q2 performance-mode follow-up complete — 2026-10-07 UTC: plan14e6cfdc,
 source2e4207cf and unchanged serverf8a5210c complete the original130925/8

@@ -20,8 +20,10 @@ Independent operator checks pass; small byte differences remain. It is retained
 for composition after the small positive decode observation; this is not
 independent task-quality acceptance or a sustained-decode measurement.
 
-A private [IQ2 decode codebook-LDS draft](docs/Q2-IQ2-DECODE-LDS.md) compiles
-with unchanged weight/input formats. It has no GPU result or model dispatch.
+A private [IQ2 decode codebook-LDS component](docs/Q2-IQ2-DECODE-LDS.md)
+passes 906 exact output comparisons and 1359 independent checks on .157.
+Four of five component pairs improve, with variable timing; all five rounds
+are reported. It has no model dispatch or measured model token-rate gain.
 
 The subsequent down/SiLU fusion passes its exact component checks but adds
 no measured model gain:1332.307970 PP /25.595276 TG versus the retained

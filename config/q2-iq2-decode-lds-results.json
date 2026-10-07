@@ -1,0 +1,86 @@
+{
+  "schema": "synapse-lie.q2-iq2-decode-lds-results.v1",
+  "source_checkpoint": "d61b1395",
+  "scope": "Synthetic original-format scalar component on .157; no original-model inference, no token/s measurement.",
+  "plan_sha256": "6d0254862b1885f59209a95c67ccbc60f17362d7564135868c304427d9465323",
+  "source_manifest_sha256": "dca898130031b87f0db1177f619204edc22b6708492b2274fd6daf9cc74386d3",
+  "binary_sha256": "817ccf3ae3b3c154dd05051e33fc36d45b5352afc9f61e44bc4b723d282b11d1",
+  "control_archive_sha256": "5daa0088a8f461ef1908ec6bb1e1a9d1239ed1745ae81b5f49e1219f728f8d91",
+  "arm_labels": {
+    "0": "saved native quantizer and gated projection",
+    "1": "literal clone, no LDS",
+    "2": "same codebook staged in LDS"
+  },
+  "measured_pairs": [
+    {
+      "rep": 2,
+      "complete_cycle_us": {
+        "2": 49.108515625,
+        "0": 50.435640625,
+        "1": 50.40878125
+      },
+      "lds_vs_original_percent": -2.631323769370675
+    },
+    {
+      "rep": 3,
+      "complete_cycle_us": {
+        "0": 59.24965625,
+        "1": 50.535015625,
+        "2": 49.02775
+      },
+      "lds_vs_original_percent": -17.252262539497863
+    },
+    {
+      "rep": 4,
+      "complete_cycle_us": {
+        "1": 61.78765625,
+        "2": 48.94978125,
+        "0": 50.29534375
+      },
+      "lds_vs_original_percent": -2.675322206143582
+    },
+    {
+      "rep": 5,
+      "complete_cycle_us": {
+        "2": 56.04634375,
+        "0": 50.3689375,
+        "1": 50.468296875
+      },
+      "lds_vs_original_percent": 11.271641872533046
+    },
+    {
+      "rep": 6,
+      "complete_cycle_us": {
+        "0": 57.5764375,
+        "1": 50.563,
+        "2": 48.826171875
+      },
+      "lds_vs_original_percent": -15.197650297484966
+    }
+  ],
+  "mean_complete_cycle_us": {
+    "0": 53.585203125,
+    "1": 52.75255,
+    "2": 50.3917125
+  },
+  "mean_lds_vs_original_percent": -5.959650124961624,
+  "lds_faster_pairs": 4,
+  "exact_replays": 906,
+  "independent_checks": 1359,
+  "independent_failures": 0,
+  "exit_code": 0,
+  "all_collected": {
+    "at": "2026-10-07T16:26:28.234413+00:00",
+    "artifacts": 38,
+    "bytes": 2892208,
+    "all_sha256_verified": true,
+    "collection_method": "direct files, no duplicated transport archive"
+  },
+  "release_sha256": "4fe172bdad7b914e3f843fd8dd87fb75eb782d6c49d65ae7bc8ba7dfc94b0179",
+  "released_at": "2026-10-07T16:26:42.197559+00:00",
+  "registry_matches": true,
+  "model_dispatch_changed": false,
+  "model_promoted": false,
+  "goal_met": false,
+  "interpretation": "Retain for a separate model dispatch trial: all outputs exact and four of five component pairs faster, but timings vary and one pair regresses. No claim of model decode or prefill improvement."
+}
