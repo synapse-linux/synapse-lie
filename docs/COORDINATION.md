@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+IQ2 token160 append-only handover correction — 2026-10-07 UTC: the terminal
+release b937ad6c recorded counts, rather than the full retired process and
+group inventories required by subsequent preflights. It remains unchanged.
+A separately tested helper rechecks that release, its component result, the
+prior full release d1480588, empty KFD, all retired processes/groups, five
+original leases, seven model stat identities and thermal limits. It appends
+the complete 1,952-identity / 1,558-group receipt at08:44:58.533969UTC,
+SHA256 66e35d380df5dfbfdb01d9fabf722505ddf1ecb4f7c2f9cb71725be27cb0e38b.
+This is the latest `window_release` registry event and the predecessor for
+future fresh admissions; Core receives its hash and path. No GPU run, model
+access, service change or remote cleanup occurs in the correction.
+[Verified summary](../config/q2-iq2-token160-handover-summary.json).
+
 IQ2 token160 component released — 2026-10-07 UTC: after Core's explicit .157
 non-use, fresh preflight08:35:33 checks the previous r2 release d1480588,
 empty KFD, five free original leases, seven unchanged model stat tuples and

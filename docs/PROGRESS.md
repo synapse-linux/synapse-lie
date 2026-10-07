@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+IQ2 token160 handover inventory corrected — 2026-10-07 UTC: the terminal
+release stored retired process/group counts instead of the full lists needed
+by the next preflight. An append-only, separately tested receipt now binds the
+original release and previous full receipt, rechecks empty KFD/five leases/
+seven model stats and records all1,952 retired identities and1,558 groups.
+Its verified SHA256 is66e35d380df5dfbfdb01d9fabf722505ddf1ecb4f7c2f9cb71725be27cb0e38b;
+Core receives the corrected handover. No model or GPU run occurs in the
+correction. [Summary](../config/q2-iq2-token160-handover-summary.json).
+
 Halogen follow-up, smaller IQ2 tile screen — 2026-10-07 UTC: the public
 0.14.1 routed-expert release is still the strongest prefill algorithm lead,
 but its numerical kernels are unpublished. A private 160-token LIE gate/up

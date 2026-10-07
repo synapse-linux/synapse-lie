@@ -1,0 +1,16 @@
+{
+  "schema": "synapse-lie.q2-iq2-token160-handover-summary.v1",
+  "original_release_sha256": "b937ad6c4238092a63f534db9851349b6e713b71f716f3d4466ddeb55eb0a7d6",
+  "handover_release_sha256": "66e35d380df5dfbfdb01d9fabf722505ddf1ecb4f7c2f9cb71725be27cb0e38b",
+  "prior_full_release_sha256": "d14805883aaba480fcd51be1ae0b9efb38786076f7f4be3da8681447f7fa0d68",
+  "component_result_sha256": "8497920ea85653e235eb3ee7379b7d74fb07270ad764d13240a3f16136a2f961",
+  "retired_identity_count": 1952,
+  "retired_group_count": 1558,
+  "lease_count": 5,
+  "model_stat_count": 7,
+  "remote_registry_receipt_exact": true,
+  "kfd_empty": true,
+  "remote_cleanup": false,
+  "original_receipt_preserved": true,
+  "reason": "The terminal release stored process inventory counts; the append-only handover restores full identity lists for future preflight."
+}

@@ -255,7 +255,13 @@ original-weight model or long-context request was rerun, and no PP/TG gain is
 claimed. The release receipt at 2026-10-07 08:36:43 UTC has SHA-256
 `b937ad6c4238092a63f534db9851349b6e713b71f716f3d4466ddeb55eb0a7d6`:
 empty KFD, five original leases free, seven model stat identities unchanged,
-and no remote cleanup. [Complete component samples](../config/q2-iq2-token160-component-results.json),
+and no remote cleanup. The terminal receipt stored process/group counts rather
+than their full lists; an append-only handover receipt at08:44:58UTC restores
+the verified 1,952 identities and1,558 groups, SHA256
+`66e35d380df5dfbfdb01d9fabf722505ddf1ecb4f7c2f9cb71725be27cb0e38b`.
+The original receipt is preserved; the handover is the latest registry release.
+[Complete component samples](../config/q2-iq2-token160-component-results.json),
+[handover summary](../config/q2-iq2-token160-handover-summary.json),
 [map audit](../config/q2-iq2-token160-map-audit.json),
 [static resources](../config/q2-iq2-token160-probe-static.json) and
 [private patch](../experiments/q2-iq2-token160-probe.patch) preserve the result.
