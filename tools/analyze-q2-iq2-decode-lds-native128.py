@@ -108,7 +108,7 @@ def main():
     out.write_text(json.dumps(report,indent=2)+'\n')
     labels={'original':'Original saved Q2','isolated_hc':'Isolated HC','down_rows':'Retained Q2 down rows','iq2_lds':'IQ2 LDS candidate'}
     with (ROOT/'docs/figures/q2-iq2-decode-lds-native128.csv').open('w') as stream:
-        writer=csv.writer(stream);writer.writerow(['variant','prefill_tps','decode_tps','prefill_ms','decode_ms'])
+        writer=csv.writer(stream, lineterminator='\n');writer.writerow(['variant','prefill_tps','decode_tps','prefill_ms','decode_ms'])
         for key,label in labels.items():
             row=rates[key];writer.writerow([label,*[row[k] for k in ('prefill_tps','decode_tps','prefill_ms','decode_ms')]])
     print(json.dumps({k:v for k,v in report.items() if k not in ('rates','new_telemetry','saved_telemetry','limits')}))
