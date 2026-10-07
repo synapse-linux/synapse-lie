@@ -1,5 +1,26 @@
 # DS4 / synapse-lie coordination
 
+## Original RAM/SSD prefill cache passed and retired — 2026-10-07
+
+Fresh explicit Point/DGX non-use and global preflights at 09:40:39 and
+09:44:50 UTC precede separate r52 RAM/SSD admission. Q2 non-use on `.161`
+remains an inference from its current local/sole `.157` scope, not an explicit
+target reply or grant. Each runner acquires original lease 66307/105946405
+separately. Both PP8192/TG32/C1 probes pass all five namespace stages.
+
+RAM supervisor 280353/start 23501154 and init 280704/start 23501273 retire;
+lease releases at 09:42:57 and strict closure at 09:44:10 verifies exact process/
+container absence, free unchanged lease, HTTP8000 empty and router 281529.
+SSD supervisor 281822/start 23524954 and init 282190/start 23525086 retire;
+lease releases at 09:49:17 and strict closure at 09:49:51 verifies the same
+conditions with router 283108. Both clients and containers are absent. Actual
+controller/supervisor/native exits and collection/review are 0 in the
+[functional receipt](development/validation/prefill-cache-original-point-2026-10-07.json).
+Peers receive verified closure. Root has no remote job/build/client/handle/
+lease/window/waiter/reservation on `.161/.157/.158/TB`; no future window is
+reserved. MTP and broader gates need fresh admission. All six roadmap items
+remain open; comparative benchmarks and Terminal Bench remain last.
+
 ## Original-weight live prefill passed and retired — 2026-10-07
 
 Fresh explicit Point/DGX own-state replies and the 09:23:46 UTC global preflight

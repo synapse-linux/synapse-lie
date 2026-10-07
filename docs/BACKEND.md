@@ -158,6 +158,16 @@ binds actual exits, sampled resources, independent review and strict closure.
 RAM/SSD/MTP, broader quality/fault/resource and matched performance gates remain
 open; this selected functional pass does not establish a throughput gain.
 
+Separate original AR RAM/SSD probes now pass five chunk-namespace trials each
+at PP8192/TG32/C1/context 16,384/capacity 8,192. All ten full outputs match;
+prefill calls are 4/0/1/0/0 and hot restores cover all 8,192 tokens. SSD has
+RAM disabled, two drained writes, actual full reads and zero errors. The
+[cache functional receipt](development/validation/prefill-cache-original-point-2026-10-07.json)
+binds all exits, original model witnesses and strict closures. Exact DS4 raw
+payloads are retained; an enabled generic compression capability does not
+establish packing. MTP, broader quality/fault/resources and matched performance
+remain open; all six roadmap items stay open.
+
 An open qualification gate does not mean its implementation is absent:
 
 | Item | Source already integrated in this branch | Final qualification still open |

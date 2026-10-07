@@ -49,6 +49,13 @@ prefill retires with zero output and a fresh complete request matches the baseli
 ([live Point receipt](../development/validation/prefill-live-original-point-2026-10-07.json)).
 RAM/SSD/MTP and broader quality/fault/resource/performance acceptance remain open;
 the selected functional pass does not change the ABI or qualify throughput.
+Separate AR RAM/SSD PP8192/TG32/C1 probes now pass complete-prefix reuse across
+2,048 → 8,192 → 2,048 selections at fixed capacity 8,192/context 16,384.
+All five outputs per mode and all ten across modes match, with cold/hot calls
+4/0/1/0/0. SSD has RAM disabled and performs real full-prefix reads
+([cache Point receipt](../development/validation/prefill-cache-original-point-2026-10-07.json)).
+This qualifies these selected namespace transitions; MTP and broader
+quality/fault/resources/performance remain separate open gates.
 See [configuration](../guides/USAGE.md#context-and-concurrency) and
 [cache identity](STATE.md).
 

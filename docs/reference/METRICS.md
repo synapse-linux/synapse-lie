@@ -502,6 +502,11 @@ successful packs and `compression_attempts` counts eligible capture-path calls
 (including calls refused by size/budget or the bounded benefit probe). A true
 build capability does not imply any state was packed: current admission requires
 at least 50% retained saving. These are not active GPU KV savings.
+Exact DS4/KVC states, including semantic-scope bindings, remain raw and are
+excluded from this generic aligned-state packer. The original-weight
+RAM/SSD chunk-namespace probes record zero compressed captures even though
+the build capability is ON
+([functional receipt](../development/validation/prefill-cache-original-point-2026-10-07.json)).
 `/actuator/llm` projects this object and reports the actual
 `ssd_enabled` flag, false by default, plus a separate `ssd` object.
 The budget covers the immutable descriptor/payload allocations, including the

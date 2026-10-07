@@ -1,6 +1,25 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Original RAM/SSD prefill cache passed on Point — 2026-10-07 UTC
+
+The r50 runtime passes separate native AR RAM and SSD probes with 8,192 input
+tokens, 32 output tokens, C1, context 16,384 and reserved capacity 8,192. Each
+probe runs initial cold/hot, changed cold/hot and initial-restored hot. All ten
+complete outputs match; prefill calls are 4/0/1/0/0 in each mode. Every hot run
+restores the complete 8,192-token prefix. SSD uses RAM cache zero and records
+two completed writes, real reads, no errors and no pending work.
+
+Controller, supervisor, native client, collection and independent review exit 0.
+Strict closures at 09:44:10 and 09:49:51 UTC verify the exact processes and
+containers absent, original lease free, port 8000 empty and the router restored.
+Combined sampled CPU/GPU/NVMe peaks are 75.125/80/65.85 C. The
+[functional receipt](development/validation/prefill-cache-original-point-2026-10-07.json)
+retains all 22 collected artifacts and portable raw proof. DS4 payloads remain
+raw; compression capability being enabled does not imply actual packing.
+MTP, broader quality/fault/resources and performance remain open. All six
+roadmap items remain open; matched benchmarks and Terminal Bench follow those gates.
+
 ## Original-weight live prefill passed on Point — 2026-10-07 UTC
 
 The r50 runtime passes the native AR probe with a 32,768-token prompt, 32-token

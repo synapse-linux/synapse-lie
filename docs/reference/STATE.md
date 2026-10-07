@@ -469,7 +469,12 @@ Dynamic index memory is accounted separately. Compile-time
 `--cache-policy legacy` selects the previous capture schedule. Full contracts,
 CLI options and CPU/GPU status are in [CACHE-DS4-POLICY.md](CACHE-DS4-POLICY.md).
 
-Packing operates only on a uniquely owned immutable state. Physical tokens stay
+Packing operates only on a uniquely owned immutable aligned state. Exact DS4/KVC
+payloads and semantic-scope bindings are excluded so their representation stays
+unchanged. The original AR RAM/SSD chunk-namespace probes preserve raw DS4
+payloads and pass full-prefix/output equality
+([functional receipt](../development/validation/prefill-cache-original-point-2026-10-07.json)).
+For an eligible aligned payload, physical tokens stay
 uncompressed; all remaining bytes, including floating-point bit patterns, use
 independent 1 MiB Zstandard/raw blocks. Four-byte words are reversibly split
 into byte planes before level-1 compression, without interpreting their values.
