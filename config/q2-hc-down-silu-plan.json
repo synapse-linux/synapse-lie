@@ -1,0 +1,22 @@
+{
+  "schema": "synapse-lie.q2-hc-down-silu-window-plan.v1",
+  "label": "q2-hc-down-silu-component-r1",
+  "source_commit": "859475bf950e0e8617809fec4a3cee50aa76f278",
+  "previous_release": "q2-hc-scalar-native128-isolated-r1/release.json",
+  "previous_release_sha256": "34ec91fa8c10fd827a0eeaf83f39998ff6133dbc61cd6be4c2100d146de67e3e",
+  "staged_sha256": {
+    "candidate.hip": "91a369819c4aec06f81cf30f3277509e98666f4baf03034e314e1cf5cc73fe2b",
+    "fixture.hip": "5b4ef15df401122788bc5c66d57206192691ce1eb3164d43d5c7e3fbc67a8cc2",
+    "q2-hc-down-silu-window.py": "259f97d3e0341d90475c660dcb51cca785646888fe041d81ac74a20c7a16cb49",
+    "q2_hc_down_silu_check": "b1eac16f83690c49b52bb5e01e115605cb978e3c39b0d0810952ee72585747f1",
+    "q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "source-manifest.json": "f5bddd69dfbe08907055c18b618cc5a3b56a176eb0b9578338b5a8185b1c19c1"
+  },
+  "component_only": true,
+  "original_model_inference": false,
+  "model_access": false,
+  "remote_build": false,
+  "remote_cleanup": false,
+  "timeout_seconds": 300,
+  "scope": "One original-F16/F32 HC down+SiLU component and complete up/mix chain. Seven input families,70 guarded exact comparisons,24 independent FP64 checks,100/200MiB rotating weights. No model access, reduced precision or control-model rerun. Performance retained even if exact or independent checks fail."
+}

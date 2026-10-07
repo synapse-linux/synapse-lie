@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+HC down/SiLU component released — 2026-10-07 UTC: Core own non-use precedes
+CPU fixtures/preflight and source859475bf/plan3a856524 admission. GPU component
+exits0,70 exact comparisons/24 FP64 checks. All24 artifacts collect/hash before
+release12:54:22.239156UTC, SHA
+519c89b8e32bced59bc7803ccd1f1beccb31e0d0f25ca084ce8b2b2269dc06c3.
+Latest registry matches;1970 identities/1576 groups retired, KFD empty,
+five original leases free and seven model stats unchanged. Core receives
+closure; no Q2 remote workload/window remains. A new original128K candidate
+requires fresh CPU fixtures, preflight and admission. No remote build,
+cleanup, conversion, dependency, service or tuning action occurred.
+
 Isolated HC native128K window released — 2026-10-07 UTC: Core own non-use,
 CPU fixture exit0 and fresh verify precede source539a3457/plan5d547363
 admission. One candidate reuses the original native client and requests;

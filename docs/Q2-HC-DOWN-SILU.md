@@ -29,3 +29,26 @@ if a numerical comparison fails, with actual exit1 preserved.
 Compile/link/changed-file formatting and static checks pass locally. GPU and
 model qualification are pending; this is not a model-throughput result.
 [Source and static contract](../config/q2-hc-down-silu-source.json).
+
+The .157 component completes exit0 with70 exact comparisons and24 independent
+FP64 checks. Down/SiLU latency falls34.535219 to32.575734us (-5.673873%);
+the whole HC chain falls68.550906 to66.429563us (-3.094552%). All five pairs
+favor the candidate in both modes. All24 artifacts match remote hashes before
+release12:54:22.239156UTC/519c89b8,1970 identities/1576 groups retired, empty
+KFD, five original leases free and seven original model stats unchanged.
+[Complete result](../config/q2-hc-down-silu-results.json).
+
+The private1031-file model provider adds only the separately compiled kernel,
+its declaration, build source and scalar HC dispatch. It replaces Dense-down
+and SiLU only under the existing scalar eligibility; that F16 Dense route had
+no cache-side effects. Common kernels, up/mix, scratch identities and all
+prefill-body branches are unchanged. The scalar final logits head can use the
+same qualified operation. Full-model throughput remains pending.
+
+The locally built native candidate8e48aa82 retains all922 existing device
+functions byte-for-byte, including the isolated up/mix kernels. Both new
+down/SiLU kernels exactly match the qualified component. All1031 provider
+files verify; common RelWithDebInfo and only scalar -g0 remain. Full build
+and corrected added-line formatting pass. Provider-wide formatting retains
+unrelated inherited violations; its exit1 and the initially unformatted new
+call/declaration are preserved. Only the new lines were corrected.

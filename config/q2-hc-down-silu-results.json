@@ -1,0 +1,90 @@
+{
+  "schema": "synapse-lie.q2-hc-down-silu-results.v1",
+  "artifact_hashes": {
+    "admission.json": "15aa57bf40b1a38718234f60a3fd693047b8f69c7467cfba8e76f28c21ef61da",
+    "admit.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "admit.stdout": "15aa57bf40b1a38718234f60a3fd693047b8f69c7467cfba8e76f28c21ef61da",
+    "candidate.hip": "91a369819c4aec06f81cf30f3277509e98666f4baf03034e314e1cf5cc73fe2b",
+    "component.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "component.stdout": "bcd4f15f16910751574ff8e992738f2005cf9047a99d783dc7158105a0bb8235",
+    "cpu-fixture/tests/q2_hc_down_silu_window_test.py": "83294be09884f0f3be69fff0c877a736a886d628931fe9c050adef9df7bc7344",
+    "cpu-fixture/tools/q2-hc-down-silu-window.py": "259f97d3e0341d90475c660dcb51cca785646888fe041d81ac74a20c7a16cb49",
+    "cpu-fixture/tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "cpu-fixture.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cpu-fixture.stdout": "af588dce923e8644eda69dae7b99fd0c691bf3ab9d7c9a4dcb1cd38d7f804d96",
+    "fixture.hip": "5b4ef15df401122788bc5c66d57206192691ce1eb3164d43d5c7e3fbc67a8cc2",
+    "plan.json": "3a856524727c7a1ab048fa49eb2aa48b043c566e0deb7023ead03f0fe20194ec",
+    "preflight-commands.json": "975086d9f9f451d2dc0d2cb081e0a545c15f48a742f9d4e93d45860e36597400",
+    "preflight.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "preflight.stdout": "98f6be5ee4c30051a2260183c9cdc4b380d8352a7f11b74d3f810638aa5642ac",
+    "q2-hc-down-silu-window.py": "259f97d3e0341d90475c660dcb51cca785646888fe041d81ac74a20c7a16cb49",
+    "q2_hc_down_silu_check": "b1eac16f83690c49b52bb5e01e115605cb978e3c39b0d0810952ee72585747f1",
+    "q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "result.json": "ba56a9fccf97190df483459f69063a43d09704d9bdeea0ca565719d323a7ae43",
+    "run-commands.json": "5fbc241c2c5fca11eff70261c3a931fe6756bd8e62f69c389bdf3256823756da",
+    "run.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "run.stdout": "ba56a9fccf97190df483459f69063a43d09704d9bdeea0ca565719d323a7ae43",
+    "source-manifest.json": "f5bddd69dfbe08907055c18b618cc5a3b56a176eb0b9578338b5a8185b1c19c1"
+  },
+  "release_sha256": "519c89b8e32bced59bc7803ccd1f1beccb31e0d0f25ca084ce8b2b2269dc06c3",
+  "release_at": "2026-10-07T12:54:22.239156+00:00",
+  "component_exit_code": 0,
+  "exact_pairs": 70,
+  "independent_oracle_checks": 24,
+  "maximum_oracle_relative_rms": 1.38329129999e-07,
+  "maximum_oracle_peak_scaled_error": 2.51832932654e-07,
+  "gpu_event_times_recorded": false,
+  "completed_wall_is_primary": true,
+  "modes": [
+    {
+      "chain": true,
+      "reference_wall_us": [
+        68.471859375,
+        68.50684375,
+        68.55090625,
+        68.58465625,
+        68.58746875
+      ],
+      "candidate_wall_us": [
+        66.283140625,
+        66.472984375,
+        66.318765625,
+        66.4295625,
+        66.45721875
+      ],
+      "reference_median_us": 68.55090625,
+      "candidate_median_us": 66.4295625,
+      "latency_change_percent": -3.0945524516679757,
+      "all_five_pairs_faster": true
+    },
+    {
+      "chain": false,
+      "reference_wall_us": [
+        34.530046875,
+        34.60428125,
+        34.463484375,
+        34.670359375,
+        34.53521875
+      ],
+      "candidate_wall_us": [
+        32.575734375,
+        32.530734375,
+        32.699484375,
+        32.520734375,
+        32.584328125
+      ],
+      "reference_median_us": 34.53521875,
+      "candidate_median_us": 32.575734375,
+      "latency_change_percent": -5.673872776612987,
+      "all_five_pairs_faster": true
+    }
+  ],
+  "eligible_for_original_model_trial": true,
+  "model_run": false,
+  "model_throughput_gain_established": false,
+  "inherited_parent_task_quality_qualified": false,
+  "peak_cpu_mc": 39250,
+  "peak_gpu_mc": 46000,
+  "retired_identities": 1970,
+  "retired_groups": 1576
+}

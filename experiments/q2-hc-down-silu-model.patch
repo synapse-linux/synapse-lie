@@ -1,0 +1,128 @@
+--- a/src/models/qwen38_flash_next/CMakeLists.txt
++++ b/src/models/qwen38_flash_next/CMakeLists.txt
+@@ -50,6 +50,7 @@
+   set(QFN_HIP_SOURCES
+     ${QFN_ROCM_DIR}/kernels.hip.cpp
+     ${QFN_ROCM_DIR}/hc_scalar_up_mix.hip
++    ${QFN_ROCM_DIR}/hc_down_silu.hip
+     ${QFN_ROCM_DIR}/w8a8_wave64.hip
+     ${QFN_ROCM_DIR}/blaslt.cpp
+     ${QFN_ROCM_DIR}/device_model.cpp
+@@ -64,6 +65,7 @@
+   # Keep the measured scalar component codegen local. The common backend
+   # retains the saved RelWithDebInfo flags and its prefill instruction stream.
+   set_source_files_properties(${QFN_ROCM_DIR}/hc_scalar_up_mix.hip
++    ${QFN_ROCM_DIR}/hc_down_silu.hip
+     PROPERTIES COMPILE_OPTIONS "-g0")
+   set_source_files_properties(${QFN_ROCM_DIR}/w8a8_wave64.hip
+     PROPERTIES COMPILE_OPTIONS "-mwavefrontsize64")
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -1313,11 +1313,16 @@
+         AssignError(error_msg, "W8A8 mixer down projection failed");
+         return false;
+       }
++    } else if (fused_scalar_projection) {
++      HcDownSilu(static_cast<const __half*>(m.down.data), s_.xn, s_.lo, stream_,
++                 nullptr);
+     } else if (!Dense(m.down, s_.xn, s_.lo, n_tokens, error_msg)) {
+       return false;
+     }
+-    SiluScale(s_.lo, 1.0F / static_cast<float>(c.hc_count),
+-              static_cast<std::size_t>(n_tokens) * c.hc_low_rank, stream_);
++    if (!fused_scalar_projection) {
++      SiluScale(s_.lo, 1.0F / static_cast<float>(c.hc_count),
++                static_cast<std::size_t>(n_tokens) * c.hc_low_rank, stream_);
++    }
+     if (fused_raw_projection) {
+       // The full gate tensor is dead on this route. Its prefix holds the
+       // same narrowed low-rank rows that the separate up GEMM would read.
+--- /dev/null
++++ b/src/models/qwen38_flash_next/kernels/rocm/hc_down_silu.hip
+@@ -0,0 +1,74 @@
++// SPDX-License-Identifier: MIT
++// Derived from Gufo HcDownF16VecKernel and SiluScaleKernel, official pin
++// f783fedb9bea2ec7de941f6da4e02f4a4596b29e. Original F16 weights/F32 math.
++#include <hip/hip_fp16.h>
++#include <hip/hip_runtime.h>
++
++namespace gufo::models::qwen38_flash_next::rocm {
++namespace {
++__device__ __forceinline__ float SigmoidF(float x) {
++  return 1.0f / (1.0f + __expf(-x));
++}
++__device__ __forceinline__ float SiluF(float x) {
++  return x * SigmoidF(x);
++}
++__device__ __forceinline__ float WaveSum(float v) {
++  for (int offset = warpSize / 2; offset > 0; offset >>= 1) {
++    v += __shfl_xor(v, offset);
++  }
++  return v;
++}
++}  // namespace
++
++template<bool kWitness>
++__global__ void HcDownSiluKernel(const __half* w, const float* x, float* out,
++                                 float* raw) {
++  constexpr unsigned k = 10240, waves = 16;
++  const unsigned row = blockIdx.x;
++  const unsigned lane = threadIdx.x % 32;
++  const unsigned wave = threadIdx.x / 32;
++  const __half* wrow = w + std::size_t(row) * k;
++  float acc = 0.0f;
++  for (unsigned i = threadIdx.x * 4; i < k; i += waves * 32 * 4) {
++    const uint2 packed = *reinterpret_cast<const uint2*>(wrow + i);
++    const float4 v = *reinterpret_cast<const float4*>(x + i);
++    const __half2 a = __builtin_bit_cast(__half2, packed.x);
++    const __half2 b = __builtin_bit_cast(__half2, packed.y);
++    // Retain the saved gfx1151 instruction order: components 3,1,2,0.
++    // Explicit FMA prevents the fused epilogue from reassociating the dot.
++    acc = __fmaf_rn(v.w, __half2float(__high2half(b)), acc);
++    acc = __fmaf_rn(v.y, __half2float(__high2half(a)), acc);
++    acc = __fmaf_rn(v.z, __half2float(__low2half(b)), acc);
++    acc = __fmaf_rn(v.x, __half2float(__low2half(a)), acc);
++  }
++  __shared__ float partial[waves];
++  const float reduced = WaveSum(acc);
++  if (lane == 0)
++    partial[wave] = reduced;
++  __syncthreads();
++  if (wave == 0) {
++    const float total = WaveSum(lane < waves ? partial[lane] : 0.0f);
++    if (lane == 0) {
++      if constexpr (kWitness)
++        raw[row] = total;
++      // SiluScale applies its scale BEFORE SiLU, at the same F32 boundary.
++      float scaled = __fmul_rn(total, 0.25f);
++      // A register-only boundary also prevents fast-math from folding this
++      // scale into __expf's multiplier. It emits no additional instruction.
++      asm volatile("" : "+v"(scaled));
++      out[row] = SiluF(scaled);
++    }
++  }
++}
++
++void HcDownSilu(const __half* w, const float* x, float* out, hipStream_t stream,
++                float* raw) {
++  if (raw) {
++    hipLaunchKernelGGL((HcDownSiluKernel<true>), dim3(320), dim3(512), 0,
++                       stream, w, x, out, raw);
++  } else {
++    hipLaunchKernelGGL((HcDownSiluKernel<false>), dim3(320), dim3(512), 0,
++                       stream, w, x, out, nullptr);
++  }
++}
++}  // namespace gufo::models::qwen38_flash_next::rocm
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
+@@ -65,6 +65,9 @@
+ /// n_tokens * streams * HcInjectParts(hidden) floats.
+ std::uint32_t HcInjectParts(std::uint32_t hidden);
+ std::uint32_t HcInjectPartsVec4(std::uint32_t hidden);
++// Exact scalar down and SiLU, original F16 weights/F32, fixed320/10240.
++void HcDownSilu(const __half* w, const float* x, float* out, hipStream_t stream,
++                float* raw);
+ // Original scalar F16 up projection and F32 mix/injection, fixed2560/320/4.
+ // Caller owns ten partial injection sums per stream and supplies no witness.
+ void HcScalarUpMix(const __half* w, const float* lo, const float* xn,
