@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Halogen transfer audit — 2026-10-07 UTC: public 0.14.1 measurements point to
+routed-expert prefill as the most relevant algorithm family; its published
+131K uplift is not a LIE control. The archived 48-layer LIE route has 6813
+wide IQ2 descriptors, with 67.4% in expert/layer pairs receiving at least256
+rows. A distinct token-tile weight-reuse component is proposed with static,
+numeric and complete-chain gates before any unchanged 32K/128K model run.
+Halogen's 0.12.0 long-depth indexer gains, 0.12.1 cache-capture fix and matrix
+plan do not by themselves establish the 1500 PP/30 C1 TG target here. No GPU
+run, host tuning or retained-provider change. [Audit](Q2-HALOGEN-TRANSFER.md).
+
 Grouped selector scoring closed — 2026-10-07 UTC: checkpoint e825dff3,
 plan119bc361, admissionfc82491d. All component commands exit0;16 complete
 score/mask pairs are byte-exact, eight sampled FP64 checks pass (worst

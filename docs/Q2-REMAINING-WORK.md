@@ -8,6 +8,9 @@ do not prioritize it over the new long-context goal or replace the long-prefix
 measurement with a2048-token continuation. The retained128K observation is
 1310.874605 PP /25.344213 TG; TG is the original eight output calls, not TG128.
 Prefill must fall from99.876067s to at most87.283333s, a12.592734s saving.
+The [Halogen transfer audit](Q2-HALOGEN-TRANSFER.md) records public source
+clues and the actual48-layer route counts for a gated token-tile reuse trial;
+it introduces no new measured LIE gain.
 
 The [completed native32K diagnostic](Q2-LONG-PROFILE.md) rejects all zero
 GPU timestamps and uses valid CPU intervals only. It identifies45–70ms gaps
