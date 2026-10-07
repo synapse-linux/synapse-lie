@@ -1,6 +1,37 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Scalar HC down and SiLU fusion
 
+## Original128K model result: retain the preceding up/mix candidate
+
+The unchanged130925-token/eight-output .157 run completes with all four
+responses, token pieces, usage and finish reasons exact. Prefill measures
+1332.307970 token/s and decode25.595276, versus the preceding isolated
+up/mix candidate1337.119965 and25.914406: observed changes -0.359878% and
+-1.231476%. This establishes no incremental model gain. Keep up/mix server
+a4afb757 as the retained candidate; preserve down/SiLU server8e48aa82 and
+its positive component result for possible future composition. One observation
+with eight output calls does not establish a repeatable regression or TG128.
+
+Common compilation matches and all922 existing device functions are byte-exact.
+The allocation audit also finds hipMalloc in both the real HC weight copy and
+the component. Mapped host weights therefore do not explain this transfer
+failure; cache history and the surrounding model traffic remain different.
+No new precision boundary is introduced. Inherited task quality stays open.
+
+CPU input/lifetime fixtures, run, server and client exit0. All30 artifacts
+collect and verify before release13:11:52.323603UTC, SHA
+5252b3d92dc74f479b748107c729488be5476394ead7a8ef9ca5eec0b5157177.
+The latest registry matches:1972 identities/1578 groups retired, KFD empty,
+five original leases free and seven model stat tuples unchanged. No control
+rebuild/rerun, remote build or cleanup occurs.
+
+[Full model result](../config/q2-hc-down-silu-native128-results.json),
+[PP/TG graph](figures/q2-hc-down-silu-native128.png),
+[values](figures/q2-hc-down-silu-native128.csv),
+[allocation audit](../config/q2-hc-down-silu-transfer-audit.json).
+
+The following records preparation and the positive component result.
+
 The new component joins the original320-by10240 F16 HC down projection and
 its following F32 SiLU(scale0.25) in one kernel. It removes one launch and
 one1280-byte write/read pair per HC operation. The original16-wave dot and
@@ -26,8 +57,8 @@ complete down/SiLU operation and its actual up/mix consumer. Each graph has
 Two warmups and five alternating pairs are retained. Performance still runs
 if a numerical comparison fails, with actual exit1 preserved.
 
-Compile/link/changed-file formatting and static checks pass locally. GPU and
-model qualification are pending; this is not a model-throughput result.
+Compile/link/changed-file formatting and static checks pass locally. These
+static checks alone establish no model-throughput result.
 [Source and static contract](../config/q2-hc-down-silu-source.json).
 
 The .157 component completes exit0 with70 exact comparisons and24 independent
@@ -43,7 +74,7 @@ its declaration, build source and scalar HC dispatch. It replaces Dense-down
 and SiLU only under the existing scalar eligibility; that F16 Dense route had
 no cache-side effects. Common kernels, up/mix, scratch identities and all
 prefill-body branches are unchanged. The scalar final logits head can use the
-same qualified operation. Full-model throughput remains pending.
+same qualified operation. Its subsequent model result is recorded above.
 
 The locally built native candidate8e48aa82 retains all922 existing device
 functions byte-for-byte, including the isolated up/mix kernels. Both new

@@ -1,5 +1,11 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The subsequent down/SiLU fusion passes its exact component checks but adds
+no measured model gain:1332.307970 PP /25.595276 TG versus the retained
+isolated up/mix1337.119965 /25.914406. Keep the up/mix candidate.
+[Latest comparison](docs/Q2-HC-DOWN-SILU.md),
+[phase-specific dispatch](docs/Q2-PHASE-DISPATCH.md).
+
 The latest phase-specific HC candidate keeps the original common backend
 instructions while compiling its scalar kernel separately. The unchanged
 original128K .157 trial measures1337.119965 prefill /25.914406 decode token/s,

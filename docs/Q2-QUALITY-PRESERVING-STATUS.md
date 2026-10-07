@@ -1,6 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Performance evidence excluding quality-reducing changes
 
+The subsequent down/SiLU component adds70 exact comparisons and24 independent
+FP64 checks, with no new precision boundary. All four model replies match,
+but neither measured phase improves over isolated up/mix. It adds no accepted
+model-performance gain and does not close inherited task-quality qualification.
+[Complete evidence](Q2-HC-DOWN-SILU.md).
+
 Latest isolated-compilation observation: original130925/8 now measures
 1337.119965 PP /25.914406 TG, versus saved1310.874605 /25.344213.
 The common numerical GPU instructions are exact to the saved backend, and

@@ -1,5 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+HC down/SiLU original128K follow-up — 2026-10-07 UTC: all four replies are
+exact, but1332.307970 PP /25.595276 TG does not improve the preceding
+isolated up/mix1337.119965 /25.914406. Preserve the positive component and
+both binaries; retain up/mix. Common instructions match and both HC weight
+allocations use hipMalloc. No new precision reduction; inherited quality and
+sustained decode remain open. All30 artifacts verify before13:11:52.323603UTC
+release5252b3d9,1972 identities/1578 groups retired, empty KFD, five free
+original leases and seven unchanged model stats. No remote workload remains.
+[Model result and graph](Q2-HC-DOWN-SILU.md).
+
+Phase/operation-specific dispatch is already present and is now documented
+explicitly: prefill bodies, scalar HC and the final logits head have separate
+eligibility. Scalar compilation is isolated too. The next prefill-only Q8/SSM
+BK4 component is locally built with170 VGPR/no scratch and a byte-exact
+production control; GPU qualification remains pending. No model promotion.
+[Dispatch](Q2-PHASE-DISPATCH.md), [new component](Q2-SSM-BK4.md).
+
 HC down/SiLU component prepared — 2026-10-07 UTC: separate HIP kernel
 preserves original F16/F32 arithmetic,16-wave reduction and scalar scale
 boundary; original fixture/control/consumer instructions match saved native

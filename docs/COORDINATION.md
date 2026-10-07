@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+HC down/SiLU original128K released — 2026-10-07 UTC: sourcee4f59b83 and
+plan9bcee485 run only the new8e48aa82 candidate with the original requests
+and native client. CPU fixtures/verify/run/server/client exit0. All30 raw
+artifacts collect/hash before release13:11:52.323603UTC, SHA
+5252b3d92dc74f479b748107c729488be5476394ead7a8ef9ca5eec0b5157177.
+Latest registry matches;1972 identities/1578 groups retired, empty KFD,
+five original leases free and seven original model stats unchanged. Core
+receives closure. No Q2 job/build/client/lease/window/waiter/reservation
+remains. A proposed SSM BK4 component requires a separate fresh admission.
+No remote cleanup, build, tuning, service or dependency change occurred.
+
 HC down/SiLU component released — 2026-10-07 UTC: Core own non-use precedes
 CPU fixtures/preflight and source859475bf/plan3a856524 admission. GPU component
 exits0,70 exact comparisons/24 FP64 checks. All24 artifacts collect/hash before

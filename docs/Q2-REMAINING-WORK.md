@@ -10,15 +10,19 @@ common sizes/resources match. Its64-exact/50-FP64 component retains the
 build-confounded, and the intervening all-g HC result was1335.257764/24.825466.
 No repeated controls or revised input are needed to preserve those records.
 
-The next bounded decode mechanism is scalar down/SiLU launch fusion, retaining
-the original F32 FMA/reduction order and independently scoped compilation.
-Do not repeat completed four-wave prefetch,32-wave or marginal DPP trials.
-For prefill, return to the complete2048-row routed/dense chain. The scalar
-fusion excludes the prefill body; its single-logit head explicitly resets the
-arithmetic phase and can use the fusion. The prior claim of whole-prefill
-exclusion was incorrect. No new full curve is justified. Eight output calls
-are not sustained TG128; parent task quality and the30TG/1500PP goal stay open.
-No extra requantization counts toward the goal.
+The scalar down/SiLU fusion is now measured: component latency improves
+5.67% alone and3.09% through the full HC consumer, with70 exact/24 FP64
+checks. The unchanged original128K model result1332.307970/25.595276 does
+not improve the retained up/mix result. Preserve the component for composition;
+do not promote it or repeat controls. The next bounded prefill mechanism is
+[Q8 SSM BK4 staging](Q2-SSM-BK4.md), already compiled locally but awaiting
+GPU qualification. Its170 VGPR/64KiB LDS and doubled row grid need measurement.
+
+[Phase-specific routing](Q2-PHASE-DISPATCH.md) retains the prefill body even
+for a one-token tail; the scalar logits head has its own qualified operation.
+No new full curve is justified. Eight output calls are not sustained TG128;
+inherited task quality and30TG/1500PP remain open. No extra requantization
+counts toward the goal.
 
 The owner requires performance gains without quality degradation. The
 [quality audit](Q2-QUALITY-PRESERVING-STATUS.md) makes the inherited F16
