@@ -1,0 +1,13 @@
+{
+  "schema": "synapse-lie.q2-select-live-grid-pair-window.v1",
+  "state": "Q2_LIVE_GRID_PAIR_ADMITTED",
+  "at": "2026-10-07T07:46:22.221964+00:00",
+  "plan_sha256": "02997d8de8efb13171481946ed9441cb1072a51d533419b7ea7b3e4a3ba3ceda",
+  "previous_release_sha256": "2ac6b4ded0694cec5cebcc6071d8c0afefd689ea711b5c83a0c36a7f8e79241a",
+  "original_model_stats_unchanged": true,
+  "kfd_empty": true,
+  "original_leases_free": true,
+  "gpu_reserved": true,
+  "planned_label": "q2-select-live-grid-pair-r1",
+  "remote_cleanup": false
+}

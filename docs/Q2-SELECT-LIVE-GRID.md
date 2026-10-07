@@ -148,3 +148,24 @@ identities,1547 groups, seven unchanged model files, five free leases and empty
 KFD. The staged runner's remote `verify` exits0 at07:44:58 with no GPU
 admission. A fresh explicit window admission, run, artifact collection and
 release are still needed before interpreting the pair.
+
+### First window closed; distinct retry prepared
+
+Admission07:46:22/71720701 runs the retained32K arm at1423.942975 token/s.
+The next arm never starts: the runner's pre-server bind probe exits2 with
+`EADDRINUSE` immediately after the first server closes. This is an
+infrastructure failure, not a candidate result. All six raw files collect
+with hashes equal to the remote files before release07:48:11/98fa22ff.
+Release confirms both owned children retired, KFD empty, five original leases
+free, seven model files unchanged and no remote cleanup. The one retained rate
+is preserved but makes no A/B comparison.
+[Failure and artifact hashes](../config/q2-select-live-grid-pair-r1-disposition.json).
+
+The [distinct r2 plan](../config/q2-select-live-grid-pair-r2-plan.json) anchors
+that failed release and the preceding full release. Its only runtime change is
+the port probe: `SO_REUSEADDR` accepts the previous server's loopback
+`TIME_WAIT`, with a bounded retry if its listener is still retiring. An active
+listener continues to prevent a bind. The same server/client binary hashes,
+request bytes, A-B-B-A order, 32K workload and thermal gate are fixed. The new
+runner and plan stage under new names; the remote CPU-only `verify` passes at
+07:50:24. No r2 GPU admission or model result yet.

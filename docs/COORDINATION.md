@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Live-grid32K A/B r1 released; r2 read-only gate — 2026-10-07 UTC: r1
+admission07:46:22/71720701 ran only retained32K before its runner exited2
+at the next port probe (`EADDRINUSE`). Six exact raw files collect before
+release07:48:11/98fa22ff; owned PIDs713503/713630 retired, KFD empty, five
+leases free, seven model stat tuples unchanged, no cleanup. Core receives
+closure. The r2 runner uses `SO_REUSEADDR` with a bounded bind retry and has a
+distinct frozen plan d4790ef7 anchored to that failed release and the prior
+full release. Original requests, binaries, model stats and A-B-B-A scope stay
+fixed. The new .157 CPU-only verify exits0 at07:50:24; an ephemeral
+loopback `SO_REUSEADDR` probe also exits0 at07:52 UTC. **No r2 GPU admission**
+yet. A fresh exact-plan admission is required before retrying.
+
 Live-grid32K A/B preparation — 2026-10-07 UTC: Core confirms no own .157
 job/build/client/lease/window/reservation; it is working only on .161. A
 read-only .157 preflight07:40:10 anchors latest release2ac6b4de, with1941

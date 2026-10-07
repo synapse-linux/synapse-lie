@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Original32K live-grid A/B r1 closed — 2026-10-07 UTC: retained arm
+1423.942975PP completes, then the runner exits2 at the next port bind before
+any candidate run. Six files collect exactly; release verifies empty KFD,
+retired owned children, free leases and unchanged models. This partial result
+cannot resolve the earlier candidate regression. Distinct r2 plan changes only
+the loopback port probe; remote CPU-only verify passes. No r2 GPU result yet.
+[Failure and retry](Q2-SELECT-LIVE-GRID.md).
+
 Original32K live-grid A/B prepared — 2026-10-07 UTC: a same-session A-B-B-A
 replay will resolve whether the former10.7% model regression survives under
 matched conditions. It uses the exact original32711-token prompt after its
