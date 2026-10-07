@@ -1,11 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Original32K live-grid matched A/B complete — 2026-10-07 UTC: distinct r2
+admission07:53:44/d4790ef7 runs saved binaries A-B-B-A on the unchanged
+32711-token request. All four original preparations, sixteen prefill calls,
+zero prefix hits and exact output/usage checks pass. Mean retained1424.717
+versus live-grid1431.531 token/s is +0.478% and109.314 ms at32K; no 128K
+benefit is established. All21 raw files collect with remote/local SHA match
+before release07:57:37/d1480588. Eight owned identities retired, KFD empty,
+five leases free, seven model stat tuples unchanged and no cleanup; Core is
+notified. The private live-grid change remains unpromoted. The next high-impact
+prefill work is in the complete routed-expert or dense-Q8 chain, with the
+original fixed request as model gate.
+
 Original32K live-grid A/B r1 closed — 2026-10-07 UTC: retained arm
 1423.942975PP completes, then the runner exits2 at the next port bind before
 any candidate run. Six files collect exactly; release verifies empty KFD,
 retired owned children, free leases and unchanged models. This partial result
 cannot resolve the earlier candidate regression. Distinct r2 plan changes only
-the loopback port probe; remote CPU-only verify passes. No r2 GPU result yet.
+the loopback port probe; remote CPU-only verify passes. At this stage r2 had
+no GPU result.
 [Failure and retry](Q2-SELECT-LIVE-GRID.md).
 
 Original32K live-grid A/B prepared — 2026-10-07 UTC: a same-session A-B-B-A
@@ -13,7 +26,8 @@ replay will resolve whether the former10.7% model regression survives under
 matched conditions. It uses the exact original32711-token prompt after its
 three preparation requests, saved binaries, capacity133760/chunk2048/C1 AR
 and no prefix hits. Core non-use and .157 read-only preflight pass; staged
-runner CPU-only verify exits0. No GPU admission or new rate yet.
+runner CPU-only verify exits0. At this preparation stage there was no GPU
+admission or new rate.
 [Scope and gates](Q2-SELECT-LIVE-GRID.md), [coordination](COORDINATION.md).
 
 Halogen transfer recheck — 2026-10-07 UTC: public release notes identify the

@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Live-grid32K r2 window released — 2026-10-07 UTC: fresh CPU-only preflight
+07:53:36 and Core own .157 non-use precede exact-plan admission07:53:44/
+d4790ef7. Four saved-binary A-B-B-A arms finish COMPLETE with identical
+original request and outputs. All21 raw files collect and match remote SHA-256
+before release07:57:37/d1480588. Eight owned process identities/groups are
+retired, KFD empty, original five leases free and seven model stat tuples
+unchanged, remote_cleanup=false. Core receives closure. No Q2 job, build,
+client, handle, window, waiter or reservation remains on .157. A future GPU
+run requires fresh ownership checks, plan and admission.
+
 Live-grid32K A/B r1 released; r2 read-only gate — 2026-10-07 UTC: r1
 admission07:46:22/71720701 ran only retained32K before its runner exited2
 at the next port probe (`EADDRINUSE`). Six exact raw files collect before
@@ -9,8 +19,8 @@ closure. The r2 runner uses `SO_REUSEADDR` with a bounded bind retry and has a
 distinct frozen plan d4790ef7 anchored to that failed release and the prior
 full release. Original requests, binaries, model stats and A-B-B-A scope stay
 fixed. The new .157 CPU-only verify exits0 at07:50:24; an ephemeral
-loopback `SO_REUSEADDR` probe also exits0 at07:52 UTC. **No r2 GPU admission**
-yet. A fresh exact-plan admission is required before retrying.
+loopback `SO_REUSEADDR` probe also exits0 at07:52 UTC. At this gate there
+was **no r2 GPU admission**; the later admission and release are above.
 
 Live-grid32K A/B preparation — 2026-10-07 UTC: Core confirms no own .157
 job/build/client/lease/window/reservation; it is working only on .161. A

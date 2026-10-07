@@ -132,10 +132,11 @@ Every score launch uses the capacity-sized131-block second grid dimension,
 including early chunks with far fewer visible blocks. This submits51.864
 billion score threads across the original request; the source's causal guards
 leave25.705 billion score cells eligible for arithmetic. These are *logical
-dispatch counts*, not device time or measured bandwidth. The previously
-tested live-grid candidate could roughly halve those dispatched threads, but
-its original32K model trial fell10.731% in PP with lower observed GPU clocks;
-it remains unqualified and cannot be claimed as a128K saving.
+dispatch counts*, not device time or measured bandwidth. The live-grid
+candidate could roughly halve those dispatched threads. Its first32K model
+trial fell10.731% with lower observed GPU clocks, while a later
+[same-session A-B-B-A replay](Q2-SELECT-LIVE-GRID.md) found only +0.478% mean
+prefill rate. It remains unpromoted and cannot be claimed as a128K saving.
 
 The previous8.36ms selector extrapolation was invalid: its10.889µs component
 gain was measured for **one decode query**, while each of these prefill

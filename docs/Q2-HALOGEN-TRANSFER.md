@@ -56,13 +56,15 @@ effect or IOMMU effect. The `.157` command line lacks an explicit
 `amd_iommu=off`, which alone does not establish the runtime IOMMU state.
 
 The exact-output live-grid selector component reduced completed32K slice time
-26.8%, but its original32K model request fell10.7% in prefill rate. Its
-approximate telemetry window has median GPU clock2439.5MHz against2648MHz for
-the saved retained request, a separate-session difference large enough to
-confound attribution but not proof of the cause. The next selector decision,
-if pursued, needs one same-session paired control/candidate run on the unchanged
-32K input and then the unchanged128K request only if the32K regression clears.
-Do not credit component percentages toward either model target.
+26.8%, but its first original32K model request fell10.7% in prefill rate.
+Its approximate telemetry window had median GPU clock2439.5MHz against
+2648MHz for the saved retained request, a separate-session confound rather
+than proof of the cause. A subsequent [matched original32K A-B-B-A
+replay](Q2-SELECT-LIVE-GRID.md) completed at1424.717 retained versus1431.531
+live-grid token/s, **+0.478%** mean rate with all outputs exact. This supersedes
+the first trial as the controlled 32K effect; no 128K effect is measured.
+The modest full-model gain cannot be inflated from the component result and
+does not justify promoting this candidate toward the large 128K target gap.
 
 Halogen's 131K uplift is 9.137% in rate. Applying that percentage to LIE's
 retained 1,310.875 token/s would give only 1,430.645 token/s; another 4.848%
@@ -204,3 +206,9 @@ name ROCm, power, IOMMU and arena differences; absolute rates cannot serve as
 LIE controls. Halogen reports a 13–16% prefill effect from disabling IOMMU on
 its machine, but that is a host-specific A/B observation, not a LIE kernel
 gain. This audit authorizes no host tuning, GPU run or altered benchmark input.
+
+The public 0.16.4 changelog changes server streaming only; 0.16.3 reports a
+slight multi-stream decode improvement, with no new matched serial C1 rate.
+Neither changes the current C1 or cold-prefill priority ranking. The numerical
+engine source remains unpublished in this repository; these are algorithm
+leads to test in LIE, not code to import.

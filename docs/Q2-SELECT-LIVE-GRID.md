@@ -168,4 +168,37 @@ the port probe: `SO_REUSEADDR` accepts the previous server's loopback
 listener continues to prevent a bind. The same server/client binary hashes,
 request bytes, A-B-B-A order, 32K workload and thermal gate are fixed. The new
 runner and plan stage under new names; the remote CPU-only `verify` passes at
-07:50:24. No r2 GPU admission or model result yet.
+07:50:24. A second CPU-only verify passes at07:53:36, and an ephemeral
+loopback-port probe confirms the reuse behavior before admission.
+
+### Matched original-32K replay complete
+
+The distinct r2 plan is admitted at07:53:44. Four saved-binary arms complete
+in A-B-B-A order. Each replays the original 32711-token cold request after the
+same three original preparations, with capacity133760, chunk2048, sixteen
+prefill calls, zero cached prefix tokens and eight output calls. All four
+streamed outputs, usage records and finish reasons agree exactly. The 21 raw
+files are collected and SHA-256 matched to the remote files before release.
+
+| Arm | Original32K prefill ms | Prefill tok/s | GPU clock median MHz (busy samples) |
+| --- | ---: | ---: | ---: |
+| Retained A1 | 22930.424 | 1426.533 | 2705 |
+| Live-grid B1 | 22830.222 | 1432.794 | 2683 |
+| Live-grid B2 | 22870.521 | 1430.269 | 2671 |
+| Retained A2 | 22988.948 | 1422.901 | 2673 |
+
+The two-arm means are1424.717 token/s retained and1431.531 live-grid:
+**+0.478%**, or109.314 ms less prefill time at32K. The sign is consistent
+against the bracketing controls, while sampled clocks and only two arms per
+variant limit precision. This resolves the earlier −10.731% separate-session
+result as unreproduced in this matched session; it does not identify its cause.
+The whole-model gain is far smaller than the original128K target gap, and no
+long-context model gain has been measured. The private candidate remains
+unpromoted. [Full-precision disposition](../config/q2-select-live-grid-pair-r2-results.json)
+and the ignored local `evidence/q2-select-live-grid-pair-r2/results/` retain
+all samples, logs and exact outputs.
+
+Release at07:57:37/d1480588 confirms all eight owned process identities and
+groups retired, KFD empty, five original leases free, seven model stat tuples
+unchanged and no remote cleanup. Core receives closure. A further GPU test
+requires its own plan, fresh ownership checks and admission.

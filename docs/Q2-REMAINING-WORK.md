@@ -14,6 +14,9 @@ passes exact C17 coverage and GPU output checks, but the .157 component
 regresses2.4–3.7% on three saved routing layers. Its242 VGPR/42,112-byte LDS
 footprint plausibly raises occupancy pressure. Keep production on the retained
 128/64-token path. No complete-chain or model throughput result was produced.
+The separate live-grid selector's [matched original32K A-B-B-A
+trial](Q2-SELECT-LIVE-GRID.md) gives only +0.478% mean prefill rate with
+exact outputs. It does not establish a 128K saving and remains unpromoted.
 
 The [completed native32K diagnostic](Q2-LONG-PROFILE.md) rejects all zero
 GPU timestamps and uses valid CPU intervals only. It identifies45–70ms gaps
