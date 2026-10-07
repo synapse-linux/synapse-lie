@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+IQ2 token256 window released — 2026-10-07 UTC: frozen plan41f872d1 and
+checkpoint5263e680 admitted06:21:46.686734 with mirror147f1c8c. The sole
+private component ends06:23:05.091371, three commands0, no model access.
+Its four artifacts collect as archiveef60f17e before06:24:14.801994 release
+f2b163b68e87cf5cfa1e68733fd41c9535e2818a9c794c7fc7771c91813381a6.
+Local/remote release SHA match; empty KFD, original CPU/four GPU leases free,
+seven model stat identities unchanged, no remote cleanup or reservation. Core
+notified before offline analysis. No Q2 GPU job, lease, window, waiter or
+reservation remains. The numerically exact candidate regresses on three saved
+routing layers; no model trial or provider promotion follows.
+
 IQ2 token256 component preparation — 2026-10-07 UTC: Core reports no own
 .157 use, job, build, client, lease, window or reservation. Read-only
 preflight06:16:54.865534 anchors previous releasec087ce07, checks1898 retired

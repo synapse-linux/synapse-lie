@@ -1,5 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+IQ2 token256 component closed — 2026-10-07 UTC: exact-plan GPU admission
+147f1c8c followed the43/43 Debug and43/43 ASan/UBSan host gate. The only
+.157 component ends06:23:05.091371 with three zero command exits and no model
+access. Its collected archive ef60f17e contains15 exact route maps,51 exact
+whole-output replays with rotating weights and guards, and84 completed timing
+records. HIP events are all invalid zero; use the five measured completed-wall
+samples per arm. The saved routing layers0/3/22 regress by2.410%/3.653%/
+2.525% in median gate/up time. Uniform synthetic cases are essentially flat;
+skewed synthetic routing regresses3.871%. The 256-token body has242 VGPR and
+42,112B LDS versus150 VGPR/25,728B for128 tokens; greater occupancy pressure
+is a plausible cause, not an isolated attribution. Release f2b163b6 at
+06:24:14.801994 closes the window with empty KFD, original leases free and
+seven unchanged model stats; remote cleanup=false and Core notified. Production
+dispatch remains128/64. No complete-chain or model PP/TG trial follows this
+negative screen. [Exact samples](../config/q2-iq2-token256-component-results.json),
+[Halogen transfer assessment](Q2-HALOGEN-TRANSFER.md).
+
 IQ2 token256 host qualification — 2026-10-07 UTC: fresh read-only .157
 preflight confirms the latest Q2 release, no KFD client, 1898 retired process
 identities, 1513 retired groups, seven unchanged model stat identities and five
@@ -8,7 +25,8 @@ provider inventory. The .157 host cohort passes43/43 Debug and43/43
 ASan/UBSan tests; all six commands exit0 and seven artifacts collect. Frozen
 plan41f872d1 names only one guarded gate/up GPU comparison. There has been no
 GPU admission, remote GPU build, original-model inference or performance
-result. [Protocol and scope](COORDINATION.md),
+result **at the time of preparation**; the component result is recorded above.
+[Protocol and scope](COORDINATION.md),
 [source and component gate](Q2-HALOGEN-TRANSFER.md).
 
 Halogen token-side IQ2 probe preparation — 2026-10-07 UTC: a private provider

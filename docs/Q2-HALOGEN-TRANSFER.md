@@ -47,42 +47,52 @@ counts, not measured DRAM reads: cache residency, register pressure, LDS size
 and occupancy may erase or reverse any saved fetches. This route fixture is
 the fixed 2K input; long-context routing must be checked before extrapolation.
 
-The next distinct trial is reuse of one expert's encoded IQ2 weights across
-successive **token** tiles, restricted to experts with at least two wide
-descriptors. Preserve the existing 640-by-2560 paired gate/up arithmetic,
-output order, top-10 routing, 2048-token model chunks and fixed comparator.
-First compile a private 2-tile component and record registers, scratch, LDS,
-occupancy limits and code size. The first coordinated GPU screen compares
-the whole gate/up output and completed timings on the archived routing counts.
-Stop if numerical differences or occupancy loss make the route implausible.
-Only a positive screen proceeds to complete compact+gate/up+pack+down cycles,
-checking every output and independent numeric references. Advance to one
-original 32K model request only if the full-chain component gain could
-materially reduce the 12.593-second 128K deficit; test
-the unchanged original 128K request only after that gate. Keep the retained
-provider unless the complete-model measurement improves. The prior BM256
-experiment enlarged **output** rows and regressed, so it is not evidence for
-or against this token-side design.
+The bounded trial reused one expert's encoded IQ2 weights across successive
+**token** tiles, restricted to experts with at least two wide descriptors. It
+preserved the existing 640-by-2560 paired gate/up arithmetic, output order,
+top-10 routing and 2048-token model chunks. The first GPU screen compared
+whole gate/up outputs and completed timings on archived routing counts. The
+screen regressed, so the planned compact+gate/up+pack+down and original 32K/
+128K model gates were correctly skipped. The prior BM256 experiment enlarged
+**output** rows and had also regressed; it tested a different axis.
 
-The private token-side probe is prepared without changing production dispatch.
-Its C17 map covers every live 64-row unit exactly on all 48 saved routing
-layers and 18 boundary shapes. A locally linked gfx1151 HIP fixture compares
-the retained 128/64-token producer with a 256/128/64-token producer on whole
-guarded outputs and rotating weights; this fixture has **not** run on the GPU.
-Static device compilation preserves all 164 retained bodies and adds one
-256-token body without private scratch. That body uses 242 VGPR and 42,112
-bytes of LDS, versus 150 VGPR and 25,728 bytes for the 128-token body.
-Its resource increase makes occupancy a concrete risk. Local compilation and
-coverage establish neither numerical acceptance nor a speed gain. The exact
-manifest, assembly analysis and isolated patch are in
+The private token-side probe changes no production dispatch. Its C17 map
+covers every live 64-row unit exactly on all 48 saved routing layers and 18
+boundary shapes. Static device compilation preserves all 164 retained bodies
+and adds one 256-token body without private scratch. That body uses 242 VGPR
+and 42,112 bytes of LDS, versus 150 VGPR and 25,728 bytes for the 128-token
+body. The exact manifest, assembly analysis and isolated patch are in
 `../config/q2-iq2-token256-probe-source.json`,
 `../config/q2-iq2-token256-probe-static.json` and
-`../experiments/q2-iq2-token256-probe.patch`. A coordinated GPU component
-comparison is the next gate; no model run follows from this preparation.
-The .157 CPU host gate now passes 43 Debug and 43 ASan/UBSan checks with all
-six command exits zero. Its collected capsule and
-`../config/q2-iq2-token256-plan.json` bind the pending component; this host
-result does not admit a GPU run.
+`../experiments/q2-iq2-token256-probe.patch`.
+
+The .157 host gate passes 43 Debug and 43 ASan/UBSan checks. A single
+coordinated GPU component then passes all 15 route maps and 51 guarded,
+byte-exact whole-output replays across three rotating synthetic weight sets.
+No original model weights are read. All 84 HIP event durations are invalid
+zero; the table uses medians of five completed host-wall samples per arm,
+after two warmup repetitions. Both arms process the same 2048-token shape.
+
+| Gate/up component routing | Retained128 median µs | Candidate256 median µs | Time change |
+| --- | ---: | ---: | ---: |
+| Uniform, 160 experts | 3633.256 | 3620.203 | −0.359% |
+| Uniform, 512 experts | 5492.852 | 5482.586 | −0.187% |
+| Skewed, 64 experts | 3776.666 | 3922.846 | +3.871% |
+| Saved layer 0 | 5193.263 | 5318.400 | +2.410% |
+| Saved layer 3 | 4136.297 | 4287.383 | +3.653% |
+| Saved layer 22 | 5489.219 | 5627.818 | +2.525% |
+
+The three saved-routing cases all regress. Higher VGPR/LDS usage may explain
+some of the loss, but this experiment does not isolate occupancy from memory
+or scheduling effects. The release receipt confirms an empty KFD, free
+original leases, unchanged model stats and no remote cleanup. The bounded
+gate therefore stops here: there is no complete-chain or original-model
+trial, and no 128K PP or serial TG gain. The retained 128/64-token dispatch
+remains active. [Validated component results](../config/q2-iq2-token256-component-results.json)
+and [coordination receipt](../config/q2-iq2-token256-window-release.json)
+preserve the exact samples and closure. The next prefill candidate must change
+useful work across the **complete** expert chain or a measured dense Q8
+projection, with unchanged original-input model gates before promotion.
 
 The [Halogen benchmark conditions](https://github.com/peonist-ai/halogen-flash-server#measured)
 identify its measured rows as the older w4b checkpoint: the 0.14.1 prefill

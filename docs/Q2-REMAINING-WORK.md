@@ -9,12 +9,11 @@ measurement with a2048-token continuation. The retained128K observation is
 1310.874605 PP /25.344213 TG; TG is the original eight output calls, not TG128.
 Prefill must fall from99.876067s to at most87.283333s, a12.592734s saving.
 The [Halogen transfer audit](Q2-HALOGEN-TRANSFER.md) records public source
-clues and the actual48-layer route counts for a gated token-tile reuse trial;
-it introduces no new measured LIE gain. The private 256-token IQ2 probe now
-has exact C17 route coverage, local gfx1151 assembly and a linked guarded
-component fixture. It has not run on .157. Its 242 VGPR/42,112-byte LDS
-footprint is a substantial occupancy risk; keep production on the retained
-128/64-token path until a coordinated component comparison passes.
+clues and the actual48-layer route counts. Its private 256-token IQ2 probe
+passes exact C17 coverage and GPU output checks, but the .157 component
+regresses2.4–3.7% on three saved routing layers. Its242 VGPR/42,112-byte LDS
+footprint plausibly raises occupancy pressure. Keep production on the retained
+128/64-token path. No complete-chain or model throughput result was produced.
 
 The [completed native32K diagnostic](Q2-LONG-PROFILE.md) rejects all zero
 GPU timestamps and uses valid CPU intervals only. It identifies45–70ms gaps
