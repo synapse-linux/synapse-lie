@@ -545,6 +545,12 @@ if(LIE_GUFO_RUNTIME)
   include(cmake/provider/Target.cmake)
   lie_verify_hip_target("${GUFO_BUILD}" "${LIE_HIP_ARCHITECTURE}")
   list(APPEND CMAKE_PREFIX_PATH /opt/rocm)
+  # hip-config also uses GPU_TARGETS for C++ consumers. Pin it before loading
+  # the package so a device-free build never probes or defaults to another GPU.
+  if(DEFINED GPU_TARGETS AND NOT GPU_TARGETS STREQUAL LIE_HIP_ARCHITECTURE)
+    message(FATAL_ERROR "GPU_TARGETS must match the verified provider HIP architecture")
+  endif()
+  set(GPU_TARGETS "${LIE_HIP_ARCHITECTURE}")
   find_package(hip REQUIRED)
   find_package(hipblas REQUIRED)
   find_package(hipblaslt REQUIRED)
@@ -603,6 +609,10 @@ if(LIE_GUFO_RUNTIME)
     target_compile_definitions(lie-attention-qualify PRIVATE LIE_HIP_ARCHITECTURE="${LIE_HIP_ARCHITECTURE}")
     target_include_directories(lie-attention-qualify PRIVATE include "${GUFO_SOURCE}")
     set_target_properties(lie-attention-qualify PROPERTIES HIP_STANDARD 17 HIP_STANDARD_REQUIRED ON)
+    # The existing static provider has non-PIC host objects. Unlike the C++
+    # driver used by the other consumers, Fedora's HIP Clang driver defaults
+    # to PIE; select the compatible executable link mode for this private tool.
+    target_link_options(lie-attention-qualify PRIVATE "$<$<LINK_LANG_AND_ID:HIP,Clang>:-no-pie>")
     target_link_libraries(lie-attention-qualify PRIVATE lie_attention_fixture_plan lie_gufo PkgConfig::JSON OpenSSL::Crypto m)
   endif()
   target_include_directories(synapse-lie-bench PRIVATE include)
