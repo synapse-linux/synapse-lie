@@ -1,0 +1,28 @@
+{
+  "schema": "synapse-lie.q2-ssm-wave-balance-static.v1",
+  "kernels": [
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb1ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 49152,
+      "private_segment_fixed_size": 0,
+      "sgpr_count": 19,
+      "sgpr_spill_count": 0,
+      "vgpr_count": 220,
+      "vgpr_spill_count": 0,
+      "wavefront_size": 32
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm25DenseSsmWaveBalanceKernelILi256ELi128ELi2ELi4ELi2ELi1ELb0ELb1ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 49152,
+      "private_segment_fixed_size": 0,
+      "sgpr_count": 19,
+      "sgpr_spill_count": 0,
+      "vgpr_count": 237,
+      "vgpr_spill_count": 0,
+      "wavefront_size": 32
+    }
+  ],
+  "gpu_run": false,
+  "performance_claim": false,
+  "logical_lds_operand_read_change_percent": -20.0
+}

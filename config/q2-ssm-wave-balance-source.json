@@ -1,0 +1,36 @@
+{
+  "schema": "synapse-lie.q2-ssm-wave-balance-source.v1",
+  "parent_manifest": "config/q2-iq2-fixed-bounds-source.json",
+  "parent_manifest_sha256": "2e81463dbbe134190c300f2b008684d584f0d75f60f36f16eb25b765c2c4b45c",
+  "provider": ".deps/gufo-q2-iq2-fixed-bounds-run",
+  "provider_files": 1028,
+  "bindings": {
+    "experiments/q2-ssm-wave-balance.inc": "caa6ed0fe648986142f3cf30d2773f9052f7859b1d6f834d6c67e6d6cb5fdaef",
+    "tests/q2_ssm_wave_balance.hip": "cb9f320e96a9ba3d383778934e2af24c06bd89b0bd840617da4ab811fba34891",
+    "tools/prepare-q2-ssm-wave-balance.py": "a123f55b641df423256a6866a074172a9b72026094701819dc0443667bb73fc2",
+    "experiments/q2-ssm-resident-oracle.inc": "29609c9f4e94d84907e3c975902fe5ab60ec8fb87e96b1ac23b983b22b1a58d0"
+  },
+  "unchanged_tile": [
+    256,
+    128,
+    2
+  ],
+  "waves_before": [
+    8,
+    1
+  ],
+  "waves_candidate": [
+    4,
+    2
+  ],
+  "same_grid": true,
+  "same_rounding": true,
+  "same_k16_order": true,
+  "changed_production_dispatch": false,
+  "gpu_run": false,
+  "model_run": false,
+  "object_sha256": "b69f076d3ce1098f76eee1607e94536233843277a07e4868fb1fe21e05d9cf35",
+  "assembly_sha256": "ba8b46b597ceb337e11b426f94ca6a2dc807200d3b2e46a118c3cffa9b61238d",
+  "logical_lds_operand_bytes_per_lane_k32_before": 640,
+  "logical_lds_operand_bytes_per_lane_k32_candidate": 512
+}

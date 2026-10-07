@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+A private [native Q8 SSM wave assignment](docs/Q2-SSM-WAVE-BALANCE.md)
+now compiles at unchanged tile size and arithmetic. It reduces logical LDS
+operand reads, but needs a coordinated GPU measurement before any promotion.
+
 The owner now prioritizes [prefill and decode through 128K](docs/Q2-DECODE-128K.md).
 The active target is C1 AR30 token/s and complete prefill1500 token/s through
 the unchanged130925-token input. Focused32K and complete original128K API
