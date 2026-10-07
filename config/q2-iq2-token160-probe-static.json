@@ -1,0 +1,50 @@
+{
+  "schema": "synapse-lie.q2-iq2-token160-probe-static.v1",
+  "source_manifest_sha256": "c25f529ada391e119336108c46c4b1754b89ce579df7854ace4d105a644d4867",
+  "retained_assembly_sha256": "10f77ab9fd463dea4da04fb3c613a69fd3a56686782119780f16eacee3a9d331",
+  "candidate_assembly_sha256": "e71c3c1c26e1faca86df61a245ea8b24fc9139d020ecd3014db918129481a241",
+  "compile": {
+    "argv": [
+      "/opt/rocm/llvm/bin/clang++",
+      "-x",
+      "hip",
+      "--offload-arch=gfx1151",
+      "--offload-device-only",
+      "-std=c++23",
+      "-O3",
+      "-ffast-math",
+      "-fno-finite-math-only",
+      "-DQFN_ROCM_BUILD=1",
+      "-DENGINE_ENABLE_HIP=1",
+      "-I.deps/gufo-q2-iq2-token160-probe",
+      "-isystem",
+      "/opt/rocm/include",
+      "-S",
+      ".deps/gufo-q2-iq2-token160-probe/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "-o",
+      "evidence/q2-iq2-token160-probe-preparation/candidate.s"
+    ],
+    "exit_code": 0
+  },
+  "retained_device_instruction_operand_resource_exact": 164,
+  "retained_symbols_renamed_by_private_template_parameter": 2,
+  "added_device_bodies": 1,
+  "retained_128_resources": {
+    "group_segment_fixed_size": 25728,
+    "private_segment_fixed_size": 0,
+    "next_free_vgpr": 150,
+    "next_free_sgpr": 32,
+    "wavefront_size32": 1
+  },
+  "private_160_resources": {
+    "group_segment_fixed_size": 29824,
+    "private_segment_fixed_size": 0,
+    "next_free_vgpr": 173,
+    "next_free_sgpr": 38,
+    "wavefront_size32": 1
+  },
+  "gpu_run": false,
+  "model_run": false,
+  "numerical_acceptance": false,
+  "performance_gain": false
+}

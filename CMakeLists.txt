@@ -108,6 +108,11 @@ target_include_directories(iq2_token256_tiles PUBLIC experiments)
 target_compile_options(iq2_token256_tiles PRIVATE -Wall -Wextra -Werror -Wpedantic)
 add_test(NAME iq2_token256_tiles COMMAND "${Python3_EXECUTABLE}"
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_iq2_token256_tiles.py")
+add_library(iq2_token160_tiles STATIC experiments/iq2_token160_tiles.c)
+target_include_directories(iq2_token160_tiles PUBLIC experiments)
+target_compile_options(iq2_token160_tiles PRIVATE -Wall -Wextra -Werror -Wpedantic)
+add_test(NAME iq2_token160_map_audit COMMAND "${Python3_EXECUTABLE}"
+  "${CMAKE_CURRENT_SOURCE_DIR}/tools/q2-iq2-token160-map-audit.py")
 add_library(iq2_stage_layout STATIC experiments/iq2_stage_layout.c)
 target_include_directories(iq2_stage_layout PUBLIC experiments)
 target_compile_options(iq2_stage_layout PRIVATE -Wall -Wextra -Werror -Wpedantic)

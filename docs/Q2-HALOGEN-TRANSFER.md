@@ -216,3 +216,31 @@ slight multi-stream decode improvement, with no new matched serial C1 rate.
 Neither changes the current C1 or cold-prefill priority ranking. The numerical
 engine source remains unpublished in this repository; these are algorithm
 leads to test in LIE, not code to import.
+
+## Smaller private expert tile, prepared but unmeasured
+
+Halogen's 0.14.1 note gives an algorithm-family lead, not a kernel to port.
+The failed 256-token LIE tile spent 242 VGPR and 42,112 bytes of LDS. A private
+160-token IQ2 gate/up body now compiles locally at 173 VGPR and 29,824 bytes
+of LDS, versus 150 VGPR and 25,728 bytes for the retained 128-token body;
+neither body spills private scratch. All 164 retained device bodies preserve
+their instruction streams and resource counts. This is a static resource
+screen, not runtime occupancy or a speedup. The 256-token failure still warns
+that larger tiles can lose despite greater encoded-weight reuse.
+
+The C17 map selects only experts whose padded rows can be covered by 160-row
+tiles with at least 64 padded rows in the final tile. All other experts keep the
+retained 128/64-row map. The saved 48-layer original 2K routing contains
+3,512 private 160-row descriptors; these select 508,126 of 983,040 *real*
+routed rows (51.69%) across 991 expert/layer pairs. An independent coverage
+audit verifies every padded 16-row unit exactly once for all 48 layers and 18
+edge shapes; its failed-capacity paths leave outputs unchanged. The guarded
+HIP whole-output fixture compiles locally, but has **not** run on a GPU. No
+original-weight model or long-context request was rerun, so no prefill gain is
+claimed. [Map audit](../config/q2-iq2-token160-map-audit.json),
+[static resources](../config/q2-iq2-token160-probe-static.json) and
+[private patch](../experiments/q2-iq2-token160-probe.patch) preserve the gate.
+The next decision is a coordinated, original-routing component comparison
+with exact complete gate/up output and rotated weights. Only a clear component
+win would justify a complete expert-chain and fixed original-request model
+test; neither would replace the retained benchmark control.

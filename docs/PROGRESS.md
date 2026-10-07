@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Halogen follow-up, smaller IQ2 tile preparation — 2026-10-07 UTC: the public
+0.14.1 routed-expert release is still the strongest prefill algorithm lead,
+but its numerical kernels are unpublished. A private 160-token LIE gate/up
+body compiles locally at173 VGPR/29,824B LDS versus retained128 at150/
+25,728; all164 retained device bodies preserve ISA and resource counts.
+The C17 map covers all48 saved routing layers and18 edge shapes exactly,
+selecting508,126/983,040 real routed rows. Focused CTest passes; the guarded
+HIP fixture compiles. There is no GPU numerical test, complete-model trial or
+new PP/TG result yet. The negative256-token tile result still controls the
+decision: first require an exact, matched component win, then the original
+cold128K model gate. [Transfer analysis](Q2-HALOGEN-TRANSFER.md).
+
 Dense-Q8 decode representation screen — 2026-10-07 UTC: read-only .157 GGUF
 directory reports337 Q8_0 tensors /3.897GB. Four bounded tensor samples cover
 393216 Q8 blocks; every block needs eight code bits under a simple per-block
