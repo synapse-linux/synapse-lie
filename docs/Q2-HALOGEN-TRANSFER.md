@@ -32,11 +32,13 @@ particularly sensitive attention output projections to 8 bits; its published
 per-tensor map is incomplete. This argues for a *family-selective* dense
 representation experiment rather than blindly narrowing all LIE Q8 tensors.
 LIE's current Q8 sample shows that simple lossless per-block range packing
-does not reduce the sampled blocks. A private Q5/Q6 decode component may test
-the traffic hypothesis, but a faster synthetic kernel would not establish
-acceptable model quality: sampled Q5/Q6 re-quantization already adds
-4.67–5.38% / 2.26–2.62% weight-domain RMS error. Keep the original Q8 path
-until an independent quality gate and the unchanged native C1 comparison pass.
+does not reduce the sampled blocks. The subsequent private Q5 component
+[measures 21–35% shorter completed times](Q2-DENSE-DECODE-FEASIBILITY.md)
+on four synthetic dense shapes with equal-effective-weight Q8/Q5 operands.
+This supports the traffic hypothesis but does not establish acceptable model
+quality: sampled Q5/Q6 re-quantization already adds 4.67–5.38% /
+2.26–2.62% weight-domain RMS error. Keep the original Q8 path until an
+independent quality gate and the unchanged native C1 comparison pass.
 
 Halogen's 0.12.0 sparse-index selection saves large amounts at 262K–1M,
 where its old decode path was serial in context length. LIE's byte-exact

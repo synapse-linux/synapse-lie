@@ -1,0 +1,97 @@
+{
+  "schema": "synapse-lie.q2-decode-q5-r2-results.v1",
+  "at": "2026-10-07T09:13:21.920027+00:00",
+  "plan_sha256": "b5b5cbd120992f1101b90e61933818b6bd06a0006c88b24361db26f78df3bc3c",
+  "evidence_sha256": {
+    "preflight.json": "a1786d0181f926eb2029a3e02e7bfdf130495155a54195d202cf7eb889f6a922",
+    "admission.json": "95255a5b8c22089d2c4e009a8865e415cce29018ab5ae6697f85932aeb7871aa",
+    "result.json": "688dccf10020d568f478c5e05135a53c89e204044ec8c31a6701a1aabb754b9f",
+    "release.json": "6e6a7bc62d447edb7031cfa2b88f35680143c284be9e1f5f243435858671d940",
+    "component.stdout": "8ab9aeb779f7e37e866c62865e9372a6cc65139b81399cb35f65cf5ee1a20802",
+    "component.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "release-command.stdout": "6e6a7bc62d447edb7031cfa2b88f35680143c284be9e1f5f243435858671d940",
+    "registry-check.json": "6a5a396522eecf73fef4be99935441cae505bca72f789b7764a933e1a11996a2"
+  },
+  "event_counts": {
+    "q5_dense_oracle": 60,
+    "q5_dense_pair": 30,
+    "q5_dense_case": 6,
+    "q5_dense_timing": 56,
+    "q5_dense_complete": 1
+  },
+  "max_oracle_relative_rms": 1.36476219531e-07,
+  "max_equal_weight_pair_relative_rms": 0.000481015416233,
+  "timing_source": "completed host wall; HIP event durations invalid zero",
+  "warmup_repetitions_excluded": 2,
+  "measured_repetitions_per_arm": 5,
+  "cases": {
+    "ssm-in": {
+      "q8_median_completed_wall_us": 195.5786875,
+      "q5_median_completed_wall_us": 126.20315625,
+      "candidate_change_percent": -35.471928018741814,
+      "paired_change_percent": [
+        -35.57811130366646,
+        -35.32206686898931,
+        -35.29353863719621,
+        -36.21048711888047,
+        -36.29920140181155
+      ],
+      "paired_median_change_percent": -35.57811130366646,
+      "iterations_per_record": 64,
+      "rotated_weight_bytes_q8": 89128960,
+      "rotated_weight_bytes_q5": 57671680
+    },
+    "attn-out": {
+      "q8_median_completed_wall_us": 75.5754307692,
+      "q5_median_completed_wall_us": 50.0693230769,
+      "candidate_change_percent": -33.749205836739684,
+      "paired_change_percent": [
+        -33.50935087204924,
+        -33.76713793773148,
+        -33.7685352247032,
+        -33.73831293447452,
+        -33.490269426178386
+      ],
+      "paired_median_change_percent": -33.73831293447452,
+      "iterations_per_record": 65,
+      "rotated_weight_bytes_q8": 83558400,
+      "rotated_weight_bytes_q5": 54067200
+    },
+    "shared-down": {
+      "q8_median_completed_wall_us": 11.0677222222,
+      "q5_median_completed_wall_us": 8.738,
+      "candidate_change_percent": -21.049699074728924,
+      "paired_change_percent": [
+        -21.10558674077546,
+        -20.506858775938607,
+        -23.407932475319516,
+        -22.971282351541156,
+        -21.049699074728924
+      ],
+      "paired_median_change_percent": -21.10558674077546,
+      "iterations_per_record": 90,
+      "rotated_weight_bytes_q8": 78336000,
+      "rotated_weight_bytes_q5": 50688000
+    },
+    "gated": {
+      "q8_median_completed_wall_us": 18.6287444444,
+      "q5_median_completed_wall_us": 13.1621,
+      "candidate_change_percent": -29.345211432342833,
+      "paired_change_percent": [
+        -29.350689472386005,
+        -30.00383280062501,
+        -29.320525985195445,
+        -29.193622913935634,
+        -29.38159487095958
+      ],
+      "paired_median_change_percent": -29.350689472386005,
+      "iterations_per_record": 90,
+      "rotated_weight_bytes_q8": 156672000,
+      "rotated_weight_bytes_q5": 101376000
+    }
+  },
+  "model_inference": false,
+  "model_quality": false,
+  "full_c1_decode": false,
+  "remote_cleanup": false
+}

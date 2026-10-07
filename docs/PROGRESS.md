@@ -1,5 +1,19 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Private Q5 dense decode component passes — 2026-10-07 UTC: corrected r2
+oracle uses the encoded F16 `Q8_1.s`; device image is byte-exact to r1.
+Six shapes, 60 sampled FP64 oracles, 30 guarded whole-output pair diagnostics
+and 56 timings pass. Five measured, paired repetitions after two warmups
+show completed component time reductions of35.472% (16384×2560 SSM input),
+33.749% (2560×6144 attention output),21.050% (shared down) and29.345%
+(gated). All HIP event durations are invalid zero; these are host-wall
+medians over at least64 calls and more than48MiB rotated weights per arm.
+Q5 uses fewer bytes despite higher VGPR. Original model weights, C1,
+prefill and task quality remain untested; no production dispatch changes.
+Release6e6a7bc6 is the latest .157 event, with KFD empty,5 leases free,7
+models unchanged and no cleanup. [Full gate](Q2-DENSE-DECODE-FEASIBILITY.md),
+[values](../config/q2-decode-q5-r2-results.json).
+
 Private Q5 decode gate, first attempt — 2026-10-07 UTC: a synthetic equal-
 effective-weight Q8/Q5 scalar component compiles locally for gfx1151; Q5
 plain/gated uses36/60 VGPR versus retained Q8's14/20, with no spills. Debug

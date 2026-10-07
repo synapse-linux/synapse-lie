@@ -40,7 +40,8 @@ width and the original F16 scale cannot shrink any of those sampled blocks:
 every block needs eight code bits; falling back to the original34-byte block
 is cheaper. Marginal entropy suggests limited gain from simple independent-code
 entropy coding, but does **not** bound a codec that exploits cross-code or
-cross-block correlations. No compressed GPU kernel was built or timed.
+cross-block correlations. This weight-only screen did not time a compressed
+GPU kernel; the later private Q5 component is reported below.
 
 The separate narrower-format screen uses24,576 blocks per tensor and a
 symmetric signed per-32 maximum with nearest-even codes and an F16-rounded
@@ -61,11 +62,8 @@ roughly twice Q6's sampled weight error. No representation is promoted.
 
 [Exact aggregate Q8 sample](../config/q2-dense-q8-sample.json) and
 [narrow-format precision screen](../config/q2-dense-q8-requant-probe.json)
-preserve the complete bounded results. The next GPU experiment should first
-prove that a chosen compressed decoder saves time with production memory
-placement and rotated weights; original-model output and quality qualification
-must precede any serving change. The cold-prefill priority remains the complete
-routed-expert chain, which these weight-only samples do not address.
+preserve the complete bounded results. The cold-prefill priority remains the
+complete routed-expert chain, which these weight-only samples do not address.
 
 ## Private Q5 decoder gate
 
@@ -94,4 +92,44 @@ Q5 reference from the encoded `Q8_1.s` and will need a distinct GPU window.
 The failed exit, stdout/stderr hashes and complete release are retained in
 [r1 failure evidence](../config/q2-decode-q5-r1-failure.json). Release
 verifies empty KFD, all five original leases free, seven unchanged model stat
-tuples and no remote cleanup. There is no Q5 speed or model-quality result yet.
+tuples and no remote cleanup. That first run has no Q5 speed result.
+
+The corrected r2 component runs to completion under a separate .157 window.
+It uses the exact same gfx1151 device image as r1; only the host oracle changes.
+All six shapes pass, including 60 independent FP64 row-oracle records, 30
+whole-output pair diagnostics and 56 interleaved timing records. The maximum
+sampled operator error against its encoded-format oracle is 1.37e-7 relative
+RMS. Equal-effective-weight Q8/Q5 whole outputs differ by at most 4.81e-4
+RMS because the Q5 path uses the stored F16 `Q8_1.s` correction. That
+difference is a component arithmetic observation, not a model-quality score.
+
+All 56 HIP event durations are invalid zero. These are medians of five
+**completed host-wall** samples per arm after two warmups, with at least 64
+distinct guarded output destinations per sample. Each timed arm rotates more
+than 48 MiB of its own encoded weights, above the 32 MiB gfx1151 Infinity
+Cache listed in [AMD's ROCm specifications](https://rocm.docs.amd.com/en/latest/reference/gpu-specs.html).
+The same original synthetic inputs and effective weights reach both arms.
+
+| One-token dense component | Retained Q8 µs | Private Q5 µs | Q5 time change |
+| --- | ---: | ---: | ---: |
+| SSM input, 16384×2560 |195.579|126.203|−35.472%|
+| Attention output, 2560×6144 |75.575|50.069|−33.749%|
+| Shared down, 2560×640 |11.068|8.738|−21.050%|
+| Gated, 640×2560 |18.629|13.162|−29.345%|
+
+The five paired measured repetitions stay negative on all four shapes.
+The [validated result](../config/q2-decode-q5-r2-results.json) retains each
+paired change and the raw evidence hashes. Release
+`6e6a7bc62d447edb7031cfa2b88f35680143c284be9e1f5f243435858671d940`
+is the verified latest .157 registry event after this window: 1,954 retired
+identities and 1,560 groups, empty KFD, five free original leases, seven
+unchanged model stat tuples, no cleanup.
+
+This establishes a **component** speed benefit from fewer encoded weight
+bytes on gfx1151 despite the higher Q5 register count. It does not establish
+whole-C1 30 token/s, any cold-prefill gain or safe Q5 re-quantization of the
+original model. The immediate next gate is a bounded family-selective test
+with real Q8 weights and saved activations, preserving the original GGUF and
+separating quantization error from decoder arithmetic. Any opt-in model arm
+then needs original-input numerical/task-quality and native C1 measurements
+before production dispatch changes.

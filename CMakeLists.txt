@@ -117,6 +117,8 @@ add_test(NAME iq2_token160_window_cpu COMMAND "${Python3_EXECUTABLE}"
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_iq2_token160_window_test.py")
 add_test(NAME q2_decode_q5_window_cpu COMMAND "${Python3_EXECUTABLE}"
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_decode_q5_window_test.py")
+add_test(NAME q2_decode_q5_analysis COMMAND "${Python3_EXECUTABLE}"
+  "${CMAKE_CURRENT_SOURCE_DIR}/tools/analyze-q2-decode-q5.py" --verify)
 add_test(NAME iq2_token160_handover_cpu COMMAND "${Python3_EXECUTABLE}"
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/q2_iq2_token160_handover_test.py")
 add_library(iq2_stage_layout STATIC experiments/iq2_stage_layout.c)
