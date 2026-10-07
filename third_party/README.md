@@ -212,8 +212,10 @@ The separate Responses parser correction is first-party C17 normalization of
 seed and penalties through the existing shared generation contract; stored
 response options preserve supplied values. Upstream numerical/template source
 is unchanged. Eight Release and eight unsuppressed sanitizer parser/HTTP
-fixture checks pass ([HOST receipt](../docs/development/validation/responses-generation-controls-host-2026-10-07.json));
-the changed HTTP source still requires coherent HIP and original-weight gates.
+fixture checks pass ([HOST receipt](../docs/development/validation/responses-generation-controls-host-2026-10-07.json)).
+The [matching coherent HIP build](../docs/development/validation/responses-generation-controls-point-build-2026-10-07.json)
+binds both unchanged numerical providers and the corrected C17 parser/server
+objects. Original-weight checks of this runtime remain required.
 
 ## Archived private Q2 experiment
 

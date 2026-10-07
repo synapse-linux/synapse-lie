@@ -895,7 +895,9 @@ sampler algorithm, cache/state format or thread-count change is introduced.
 The [parser and HTTP HOST checks](../development/validation/responses-generation-controls-host-2026-10-07.json)
 include the original failed checking request, both Responses input forms,
 positive boundaries, invalid types/ranges and native AR/MTP stored-object
-fixtures. Original-weight new-runtime acceptance remains pending.
+fixtures. The [matching HIP build](../development/validation/responses-generation-controls-point-build-2026-10-07.json)
+verifies actual C17 parser/server objects and their primary server linkage.
+Original-weight new-runtime acceptance remains pending.
 
 ## Additive completed batch contract
 

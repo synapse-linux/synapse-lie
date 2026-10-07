@@ -1,6 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Responses generation controls compiled on Point — 2026-10-07 UTC
+
+The `90a88455`/r68 ROCm10 build passes both full private providers and all six
+consumers with controller/supervisor/child exit0. All 32 collected artifacts
+verify. Independent reconstruction checks the pinned upstream and owned
+recipes; actual compiler/link commands bind `chat.c`, `responses.c` and
+`server.c` as C17 into the primary server. No model or GPU executable runs.
+
+Peaks are CPU73.5/GPU46/NVMe55.85 C. The original lease releases at 17:51:33 UTC;
+strong closure at 17:53:36 verifies the observed process identities, container
+and whole cgroup absent, two complete process scans empty, router27938 restored,
+port8000 empty and the unchanged lease free. All four peers receive the release.
+The [build receipt](development/validation/responses-generation-controls-point-build-2026-10-07.json)
+binds source, binaries and portable raw evidence. Original-weight AR/MTP checks
+remain required; all six tasks stay open and Terminal Bench stays last.
+
 ## Responses generation controls pass local parser and HTTP checks — 2026-10-07 UTC
 
 Responses now admits and normalizes seed and frequency/presence penalties

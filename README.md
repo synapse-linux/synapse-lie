@@ -40,8 +40,9 @@ passes [14 original-weight transition checks](docs/development/validation/tool-t
 including reversed-result correlation in JSON and streaming. The wider gate
 then finds a Responses parser refusal of the supplied `seed`; remaining
 Responses, sampling-profile and MTP checks remain required.
-The parser correction passes [local parser and HTTP checks](docs/development/validation/responses-generation-controls-host-2026-10-07.json);
-the updated source still needs a matching HIP build and original-weight checks.
+The parser correction passes [local parser and HTTP checks](docs/development/validation/responses-generation-controls-host-2026-10-07.json)
+and a [matching HIP build](docs/development/validation/responses-generation-controls-point-build-2026-10-07.json).
+Original-weight checks of the updated runtime remain pending.
 
 The unchanged [Terminal Bench Core-19 smoke](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#terminal-bench-core-19)
 passes 1/1 task on Strix Point. The full 19-task evaluation is deferred until

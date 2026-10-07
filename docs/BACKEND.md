@@ -27,8 +27,11 @@ response objects. Signed seed overflow is refused in both APIs. Eight grouped
 Release and eight unsuppressed sanitizer checks pass, including the unchanged
 failed request, strict negative controls and native AR/MTP HTTP fixtures
 ([HOST receipt](development/validation/responses-generation-controls-host-2026-10-07.json)).
-These fixtures are not model inference; new coherent HIP compilation and the
-unchanged original-weight AR/MTP workload remain required. The prepared r66
+These fixtures are not model inference. The matching `90a88455`/r68
+[coherent HIP build](development/validation/responses-generation-controls-point-build-2026-10-07.json)
+passes both full providers and six consumers; collected commands bind the
+Chat/Responses parsers and server controls to C17 objects and the primary server.
+The unchanged original-weight AR/MTP workload remains required. The prepared r66
 MTP manifest is stale after this source change and remains unlaunched.
 The [earlier swapped-value failure](development/validation/tool-transitions-ar-point-r3-2026-10-07.json)
 remains historical evidence. The

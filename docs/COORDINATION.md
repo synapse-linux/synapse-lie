@@ -1,5 +1,28 @@
 # DS4 / synapse-lie coordination
 
+## Responses generation controls Point build retired — 2026-10-07
+
+Fresh Point/DGX/Q2 and separate GLM own-state declarations plus global/in-lease
+checks precede the `90a88455`/r68 device-hidden ROCm10 build. Both providers and
+all six consumers finish with controller/supervisor/child exit0; all 32 artifacts
+and independent source/linkage checks pass. No model or GPU executable runs.
+CPU/GPU/NVMe peaks are 73.5/46/55.85 C.
+
+Original lease66308/105946405 releases at 17:51:33.282257 UTC. Strong closure at
+17:53:36.417574 verifies supervisor22232/start1124559 and observed init22304/
+start1124647 absent, container `b298b6cd` and its whole recorded cgroup absent,
+and two complete 389-process scans without members or unreadable entries.
+Router27938 is restored and the sole observed KFD owner; lease unchanged/free,
+HTTP8000 empty, no foreign compute or guarded hot sensor. All four peers receive
+the verified release.
+
+The [build receipt](development/validation/responses-generation-controls-point-build-2026-10-07.json)
+grants no original-weight qualification or future admission. Root has no remote
+job/build/client/handle/lease/window/waiter/reservation on `.161/.157/.158/TB`.
+New AR/MTP manifests require current bundle bindings, unchanged checking workload,
+fresh coordination and global/in-lease checks. Old r66 MTP remains stale and
+unlaunched. All six tasks stay open; Terminal Bench stays last.
+
 ## Responses generation normalization checked locally; no remote admission — 2026-10-07
 
 The Responses seed/penalty correction and shared signed-seed refusal pass
