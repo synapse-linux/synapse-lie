@@ -59,6 +59,15 @@ qualification, with fresh admission for each remote window.
 Comparative performance follows those gates; Terminal Bench stays last.
 All six items remain open until their separate acceptance evidence is collected.
 
+The subsequent C17 sparse-prefill admission correction uses the actually visible
+mask extent while retaining its allocated stride and the existing workspace
+limit. Only focused local policy checks and exact source composition pass so far;
+the current HIP artifacts predate this guard. The prepared r40 GPU capture was
+rejected by automatic approval review before launch, citing an optimization/
+qualification priority conflict. r40/r41 remain unadmitted and stale after this
+source change. Fresh coherent compilation and final original-weight gates are
+still required; the r39 numerical receipt qualifies its recorded binary only.
+
 An open qualification gate does not mean its implementation is absent:
 
 | Item | Source already integrated in this branch | Final qualification still open |

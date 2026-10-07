@@ -12,7 +12,40 @@ static lie_attention_dispatch_info snapshot(lie_attention_dispatch_counter *c) {
   assert(lie_attention_dispatch_snapshot(c, &out) == LIE_DISPATCH_OK);
   return out;
 }
+static void sparse_mask_extents(void) {
+  /* A 1M allocation has an 8192-word row pitch. It can safely use the existing
+   * 2048-word workspace until the actual visible frontier crosses 262144.
+   * Fixed boundaries verify the last live block/word and short-stride refusal. */
+  static const struct {
+    uint32_t start, rows, ratio, pitch, workspace;
+    bool fits;
+  } cases[] = {
+      {0, 128, 4, 8192, 2048, true},
+      {0, 129, 4, 1, 2048, false},
+      {262143, 1, 4, 8192, 2048, true},
+      {262144, 1, 4, 8192, 2048, false},
+      {260096, 2048, 4, 8192, 2048, true},
+      {260096, 2049, 4, 8192, 2048, false},
+      {1046528, 2048, 4, 8192, 2048, false},
+      {0, 131072, 2, 4096, 2048, true},
+      {0, 131073, 2, 4096, 2048, false},
+      {0, 1048576, 16, 8192, 2048, true},
+      {UINT32_MAX - 1, 1, UINT32_MAX, 1, 1, true},
+      {UINT32_MAX, 1, 4, 8192, 2048, false},
+      {UINT32_MAX - 1, 2, 4, 8192, 2048, false},
+      {0, 0, 4, 8192, 2048, false},
+      {0, 1, 0, 8192, 2048, false},
+      {0, 1, 4, 0, 2048, false},
+      {0, 1, 4, 8192, 0, false},
+  };
+  for (size_t i = 0; i < sizeof(cases) / sizeof(cases[0]); ++i) {
+    assert(lie_attention_mask_span_fits(cases[i].start, cases[i].rows,
+                                       cases[i].ratio, cases[i].pitch,
+                                       cases[i].workspace) == cases[i].fits);
+  }
+}
 int main(void) {
+  sparse_mask_extents();
   lie_attention_dispatch_counter c;
   lie_attention_dispatch_init(&c, false, 0);
   lie_attention_dispatch_info empty = snapshot(&c), out = empty;

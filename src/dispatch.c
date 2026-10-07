@@ -4,6 +4,21 @@
 #include <stddef.h>
 #include <string.h>
 
+bool lie_attention_mask_span_fits(uint32_t start_token, uint32_t query_rows,
+                                  uint32_t compression_ratio,
+                                  uint32_t row_pitch_words,
+                                  uint32_t workspace_words) {
+  if (!query_rows || !compression_ratio || !row_pitch_words || !workspace_words)
+    return false;
+  const uint64_t end = (uint64_t)start_token + query_rows;
+  if (end > UINT32_MAX)
+    return false;
+  const uint64_t blocks =
+      (end + (uint64_t)compression_ratio - 1) / compression_ratio;
+  const uint64_t words = (blocks + 31) / 32;
+  return words <= row_pitch_words && words <= workspace_words;
+}
+
 void lie_attention_dispatch_info_init(lie_attention_dispatch_info *info) {
   if (!info)
     return;

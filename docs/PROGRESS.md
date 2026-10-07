@@ -1,6 +1,35 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Sparse prefill admission correction — 2026-10-07 UTC
+
+The shared C17 dispatch policy now separates visible mask words from allocated
+row pitch. A 1M allocation can therefore admit the unchanged sparse WMMA kernel
+while the visible frontier stays within 262,144 tokens; deeper frontiers retain
+the existing fallback. The policy also rejects a short row pitch and arithmetic
+overflow. It adds no worker, allocation or change to reactive scheduling.
+Seventeen boundary cases and existing dispatch controls pass 1/1 in both Release
+and unsuppressed ASan/UBSan/LSan; local CPU peaks at 51.125 C, with GPU masked.
+Composition of all 41 pinned recipes confirms that only the host WMMA guard
+changes; kernel bodies, full mask stride and workspace limits are unchanged.
+[Focused host receipt](development/validation/prefill-visible-mask-host-2026-10-07.json)
+preserves sources, executable identities, actual exits and all 36 verified
+portable archive members.
+The first source check guessed the base recipe count incorrectly and retains
+actual exit1; the corrected check binds the full recorded set, including KVC.
+Matching coherent HIP compilation and original-weight/quality/performance
+acceptance remain pending. Preserve the frozen r38 original-policy comparator;
+rebuilding both comparison arms with this guard cannot measure its benefit.
+
+The prepared r40 required-tool GPU capture was rejected by automatic approval
+review before process creation, citing a newer decode/prefill optimization
+priority with qualification on standby. No model, GPU job, lease, router change
+or remote handle was started. r40/r41 plans are local and now also predate this
+guard correction; they must not be launched as current-runtime qualification.
+Priority clarification is pending; no rejection bypass or retry occurs. The
+already sealed r39 receipt remains historical evidence for its exact binary.
+All six acceptance items remain open; benchmarks and Terminal Bench stay last.
+
 ## Current sequence: implementation, qualification, benchmarks, eval
 
 The owner again requests completing all remaining functional implementation

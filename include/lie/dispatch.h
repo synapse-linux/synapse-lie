@@ -47,6 +47,16 @@ typedef struct {
   lie_attention_dispatch_info info;
   lie_attention_dispatch_totals staged;
 } lie_attention_dispatch_counter;
+/* Pure host admission for a compressed sparse-mask workspace. Each mask row
+ * retains row_pitch_words storage; only words containing tokens in
+ * [0, start_token + query_rows) are accessed. workspace_words limits that live
+ * span, independently of allocation pitch. Zero geometry or a token frontier
+ * outside uint32_t refuses. This checks extents, not mask contents or pointers;
+ * the provider owns storage validity and its other kernel geometry limits. */
+bool lie_attention_mask_span_fits(uint32_t start_token, uint32_t query_rows,
+                                  uint32_t compression_ratio,
+                                  uint32_t row_pitch_words,
+                                  uint32_t workspace_words);
 void lie_attention_dispatch_info_init(lie_attention_dispatch_info *);
 /* Nonzero, unique model epoch required when supported; reset changes epoch. */
 void lie_attention_dispatch_init(lie_attention_dispatch_counter *, bool,

@@ -7,6 +7,10 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- C17 sparse-prefill admission distinguishes visible mask words from allocated
+  row stride, preserving the numerical kernel's workspace limits. Source and
+  focused host controls pass; HIP and performance qualification are pending.
+
 - Builds without the Gufo adapter now export the public stop-token metadata
   query, returning an explicit unsupported status without changing caller output.
 

@@ -1,5 +1,22 @@
 # DS4 / synapse-lie coordination
 
+## Required-tool launch rejected before creation — 2026-10-07
+
+Fresh Q2/Point/DGX own non-use and global preflight at 01:52:58 UTC observe
+the original lease66307/105946405 free, no foreign compute, HTTP8000 empty and
+router234120 as the sole compute client. Automatic approval review then rejects
+the r40 GPU capture before process creation, citing a newer owner decode/prefill
+priority with qualification on standby. No supervisor/container/client, model
+access, lease or router mutation starts. All peers receive this non-launch notice.
+Root holds no remote job, lease, reservation or live handle on `.161/.157/.158/TB`.
+
+Subsequent work is local only: the C17 visible-mask-span policy and its owned
+source recipe, with focused Release/sanitizer controls and source composition.
+No kernel body or reactive scheduler changes. Coherent HIP build, GPU numerical
+and performance gates are pending; r40/r41 manifests predate this new guard and
+are unadmitted. There is no indirect retry or bypass of the review rejection.
+The priority question remains pending; earlier preflights grant no future window.
+
 ## Current sequencing and closure — 2026-10-07
 
 Further test campaigns remain deferred until the remaining functional source

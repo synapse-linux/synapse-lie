@@ -1,7 +1,7 @@
 {
   "license": "MIT",
   "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
-  "purpose": "Observe actual prefill attention host selections; preserve kernel bodies, geometry, mask-pitch guard and decode dispatch. Borrow a C17 counter bound to the model owner. Full coherent private ABI rebuild required.",
+  "purpose": "Observe actual prefill attention host selections and admit sparse WMMA by its live mask extent while preserving allocation row pitch, kernel storage/algorithms, geometry and narrow decode dispatch. Borrow a C17 counter bound to the model owner. Full coherent private provider/consumer rebuild required; GPU numerical/performance acceptance pending.",
   "edits": [
     {
       "path": "src/models/qwen38_flash_next/engine.hpp",
@@ -41,7 +41,7 @@
     {
       "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
       "old": "                         bool last_only) {\n  if (heads != kWmmaQueryHeads || kv_heads != kWmmaKvHeads ||\n      d != kWmmaHeadDim || ratio != kWmmaRatio || n_tokens == 0 ||\n      (mask != nullptr && mask_words > kWmmaMaxMaskWords)) {\n    return false;\n  }\n  if (mask != nullptr) {",
-      "new": "                         bool last_only, lie_attention_refusal* refusal) {\n  if (refusal) *refusal = LIE_ATTENTION_REFUSAL_NONE;\n  if (heads != kWmmaQueryHeads || kv_heads != kWmmaKvHeads ||\n      d != kWmmaHeadDim || ratio != kWmmaRatio || n_tokens == 0) {\n    if (refusal) *refusal = LIE_ATTENTION_REFUSAL_GEOMETRY;\n    return false;\n  }\n  if (mask != nullptr && mask_words > kWmmaMaxMaskWords) {\n    if (refusal) *refusal = LIE_ATTENTION_REFUSAL_MASK_PITCH;\n    return false;\n  }\n  if (mask != nullptr) {"
+      "new": "                         bool last_only, lie_attention_refusal* refusal) {\n  if (refusal) *refusal = LIE_ATTENTION_REFUSAL_NONE;\n  if (heads != kWmmaQueryHeads || kv_heads != kWmmaKvHeads ||\n      d != kWmmaHeadDim || ratio != kWmmaRatio || n_tokens == 0) {\n    if (refusal) *refusal = LIE_ATTENTION_REFUSAL_GEOMETRY;\n    return false;\n  }\n  // The kernel scans only the visible words, keeping the full row stride.\n  // Its local_words[8] and union_words storage remain bounded by 2048.\n  if (mask != nullptr &&\n      !lie_attention_mask_span_fits(start_pos, n_tokens, ratio, mask_words,\n                                    kWmmaMaxMaskWords)) {\n    if (refusal) *refusal = LIE_ATTENTION_REFUSAL_MASK_PITCH;\n    return false;\n  }\n  if (mask != nullptr) {"
     },
     {
       "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
