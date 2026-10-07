@@ -87,7 +87,7 @@ def models(previous):
 def load():
     plan = json.loads(PLAN.read_text())
     require(plan['schema'] == 'synapse-lie.q2-decode-q5-window-plan.v1' and
-            plan['label'] == 'q2-decode-q5-component-r1' and
+            plan['label'] == 'q2-decode-q5-component-r2' and
             plan['component_only'] and not plan['model_access'] and
             not plan['remote_build'] and not plan['remote_cleanup'] and
             plan['timeout_seconds'] == 900 and
@@ -98,7 +98,7 @@ def load():
                 name not in ('plan.json', 'admission.json', 'release.json') and
                 sha(HERE / name) == digest, 'Staged file changed: ' + name)
     require(plan['previous_release'] ==
-            'q2-iq2-token160-component-r1/handover.json',
+            'q2-decode-q5-component-r1/release.json',
             'Previous release path differs')
     previous_path = RUN / plan['previous_release']
     require(sha(previous_path) == plan['previous_release_sha256'],

@@ -66,3 +66,32 @@ prove that a chosen compressed decoder saves time with production memory
 placement and rotated weights; original-model output and quality qualification
 must precede any serving change. The cold-prefill priority remains the complete
 routed-expert chain, which these weight-only samples do not address.
+
+## Private Q5 decoder gate
+
+A private one-token Q5_0 kernel now uses the pinned provider's existing
+`vec_dot_q5_0_q8_1` arithmetic. The synthetic fixture packs equal-effective-
+weight Q8_0 and Q5_0 matrices, rotates more than 48 MiB of each arm's encoded
+weights and compares independent guarded outputs on active dense shapes. It
+does not convert or load the original model or change production dispatch.
+The local gfx1151 HIP build passes. Static metadata reports 14/20 VGPR for
+plain/gated retained Q8 versus 36/60 for private Q5, with zero spill and
+private scratch in all four kernels. The Q5 decoder therefore has a concrete
+unpacking/occupancy cost to measure against its smaller weight traffic.
+[Source](../config/q2-decode-q5-source.json),
+[static resources](../config/q2-decode-q5-static.json).
+
+The first coordinated .157 component stops at the first tiny shape, before
+any timed case, with exit2 from its independent FP64 oracle. The Q8 arm passes;
+the Q5 arm was compared to the wrong reference formula. `Q8_1.s` holds an
+F16-rounded activation sum, while the Q5 helper subtracts that stored sum;
+the first fixture oracle subtracted the exact integer sum times `Q8_1.d`.
+A deterministic CPU replay of the tiny inputs gives about 2.12e-4 relative
+RMS between those formulas, beyond the fixture's 2e-5 operator tolerance.
+This explains a plausible false rejection but does not prove the GPU output:
+the failed run did not preserve its Q5 values. The source now computes the
+Q5 reference from the encoded `Q8_1.s` and will need a distinct GPU window.
+The failed exit, stdout/stderr hashes and complete release are retained in
+[r1 failure evidence](../config/q2-decode-q5-r1-failure.json). Release
+verifies empty KFD, all five original leases free, seven unchanged model stat
+tuples and no remote cleanup. There is no Q5 speed or model-quality result yet.

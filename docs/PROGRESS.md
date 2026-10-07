@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Private Q5 decode gate, first attempt — 2026-10-07 UTC: a synthetic equal-
+effective-weight Q8/Q5 scalar component compiles locally for gfx1151; Q5
+plain/gated uses36/60 VGPR versus retained Q8's14/20, with no spills. Debug
+and ASan-configured CPU runner tests pass. The coordinated .157 r1 component
+stops at the first tiny FP64 oracle before timing (component exit2): the
+oracle used exact Q8_1 integer-sum correction, while the Q5 helper uses the
+separately F16-rounded encoded `Q8_1.s`. A CPU formula replay finds2.12e-4
+RMS between them; GPU confirmation requires a new admitted run with the fixed
+oracle. The r1 release is complete: KFD empty, five leases free, seven model
+stats unchanged, no cleanup. No PP/TG or quality gain is claimed.
+[Details](Q2-DENSE-DECODE-FEASIBILITY.md),
+[failure receipt](../config/q2-decode-q5-r1-failure.json).
+
 Halogen performance lead after current gates — 2026-10-07 UTC: rechecked the
 public 0.16.4 README, 0.14.1/0.12.x release notes and checkpoint precision
 map against LIE's saved component and full-model evidence. The 128K routed-

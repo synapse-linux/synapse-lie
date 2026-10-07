@@ -1,0 +1,38 @@
+{
+  "schema": "synapse-lie.q2-decode-q5-r1-failure.v1",
+  "at": "2026-10-07T09:06:43.389061+00:00",
+  "source_commit": "73488f13",
+  "plan_sha256": "1a15171d8a0cba4e578c5b3f3e7ce81774bca68130605a29793332429747c72e",
+  "preflight_sha256": "6f302c5b8c6a7863ca56c848f6ca3bb199e5381f76e583cf74face2be9dcb350",
+  "admission_sha256": "214694ce0b7d9ef370c28119af3d0c11b0fe5f0d3447e2b359d592a446b5b341",
+  "component_result_sha256": "c060cf09fc4bc78115cfd975da4ba2ab03cdeb391d292f903052fd68031fd682",
+  "release_sha256": "9541f95e7e87086610e58dbe25bf0817fa6cfae093fc0dba68311a93caf4874f",
+  "command_exit_codes": {
+    "preflight": 0,
+    "admit": 0,
+    "run_wrapper": 1,
+    "component": 2,
+    "release": 0
+  },
+  "component_stdout_sha256": "645ffcd2f1fae06963c34c2fbf3c1e772b43f7744812cc1049909ec9614f2157",
+  "component_stderr_sha256": "90e3e04826dff4f3a691b5ce9f701aa74fb7f096d00a5cfdf1b4720428f2733a",
+  "observed_stdout_first_record": {
+    "event": "q5_dense_oracle",
+    "case": "tiny-plain",
+    "rep": 0,
+    "arm": 0,
+    "relative_rms": 6.30719449548e-08,
+    "pass": true
+  },
+  "observed_error": "FAIL: FP64 oracle mismatch",
+  "completed_timing_records": 0,
+  "model_inference": false,
+  "gpu_client_absent_after_release": true,
+  "original_lease_count_free_after_release": 5,
+  "original_model_stats_unchanged_after_release": 7,
+  "retired_identities": 1953,
+  "retired_groups": 1559,
+  "remote_cleanup": false,
+  "diagnostic_hypothesis": "Q5_0 helper subtracts 16 times Q8_1.s; Q8_1.s is separately F16-rounded. The r1 oracle instead subtracted 16 times exact integer sum times Q8_1.d. A deterministic CPU replay gives 0.00021224 relative RMS between these formulas for the tiny-plain case; r1 did not record actual Q5 outputs, so GPU confirmation is pending.",
+  "disposition": "No performance conclusion; do not promote. Rebuild oracle against encoded Q8_1.s, then run a separate admitted component."
+}

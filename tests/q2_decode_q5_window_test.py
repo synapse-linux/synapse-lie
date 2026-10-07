@@ -28,7 +28,7 @@ def test(exit_code):
     with tempfile.TemporaryDirectory(prefix='lie-decode-q5-window-') as temp:
         root = Path(temp)
         run = root / 'run'
-        here = run / 'q2-decode-q5-component-r1'
+        here = run / 'q2-decode-q5-component-r2'
         here.mkdir(parents=True)
         model = root / 'model.gguf'
         model.write_bytes(b'unchanged model identity')
@@ -47,7 +47,7 @@ def test(exit_code):
                         'inode': stat.st_ino, 'bytes': stat.st_size,
                         'mtime_ns': stat.st_mtime_ns, 'ctime_ns': stat.st_ctime_ns}],
         }
-        prior = run / 'q2-iq2-token160-component-r1' / 'handover.json'
+        prior = run / 'q2-decode-q5-component-r1' / 'release.json'
         prior.parent.mkdir()
         prior.write_text(json.dumps(previous) + '\n')
         program = here / 'q2_decode_q5_dense_check'
