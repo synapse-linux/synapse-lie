@@ -1,5 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Grouped selector scoring closed — 2026-10-07 UTC: checkpoint e825dff3,
+plan119bc361, admissionfc82491d. All component commands exit0;16 complete
+score/mask pairs are byte-exact, eight sampled FP64 checks pass (worst
+3.709e-7), and four output shapes include32K,128K, final tail and the sparse
+budget crossing. All28 HIP event durations are invalid zero, so only completed
+host wall samples are used. At32K the grouped scorer regresses from2812.945
+to6036.020us median (+114.580% time); at128K from6132.057 to25057.123us
+(+308.625%). The candidate uses185 instead of115 VGPRs and removes grid
+parallelism; those are plausible causes, not isolated attribution. Do not
+integrate it or infer a model PP/TG gain. Four artifacts collect before
+05:39:19.793500UTC release c087ce07;1898 identities/1513 groups retired,
+KFD empty, original CPU/four GPU leases free, all seven model stats unchanged,
+and mirror receipts exact. Core was notified. No .157 Q2 job, lease, window,
+waiter or reservation remains. [Full samples](../config/q2-select-score-group4-results.json).
+
 Grouped selector scoring preparation — 2026-10-07 UTC: the retained provider
 and model dispatch remain unchanged. A private HIP component scores four
 adjacent query rows per resident FP16 block key while preserving the original

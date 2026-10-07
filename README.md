@@ -2,9 +2,12 @@
 
 The owner now prioritizes [prefill and decode through 128K](docs/Q2-DECODE-128K.md).
 The active target is C1 AR30 token/s and complete prefill1500 token/s through
-the unchanged130925-token input. A focused32K kernel/API profile is prepared
+the unchanged130925-token input. A focused32K kernel/API profile completed
 on the saved native server/client binaries to attribute long-context costs;
 instrumented rates cannot replace the saved throughput references.
+The [four-query indexer scoring trial](docs/Q2-REMAINING-WORK.md) has exact
+score/mask output but regresses component time2.15x at32K and4.09x at128K;
+it is not integrated. Routed-expert work remains the leading prefill target.
 The [completed diagnostic](docs/Q2-LONG-PROFILE.md) finds invalid zero device
 timestamps but usable CPU API intervals:45–70ms prefill gaps before PLE uploads,
 and only0.092–0.097ms between warm C1 completions and subsequent submissions.

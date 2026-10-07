@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Grouped selector scoring closed — 2026-10-07 UTC: checkpoint e825dff3,
+plan119bc361, admissionfc82491d at05:38:24.506912. Host-r1/r2 both pass
+42 Debug/42 ASan/UBSan checks; all component build/test exits0 and four
+artifacts collect5196e81d before05:39:19.793500 release c087ce07de0fc16d3b058223b3fde68383271da0be8333d85236c68fd5d94aca.
+The release retires1898 identities/1513 groups, confirms KFD empty and
+original CPU/four GPU leases free, seven model stat identities unchanged,
+and exact canonical/main/remote receipts. Core notified before analysis.
+No Q2 remote work, handle, waiter, reservation or cleanup remains. Component
+result is a large regression; no model trial or provider promotion follows.
+
 Exact partition selector closed — 2026-10-07 UTC: checkpointd12fa4c8/
 planf7ac47ef, admission11edfaa8 at05:02:15.597681. Three component commands0
 finish05:03:55.969861; four artifacts collect2a5a41c4 before05:06:57.034002

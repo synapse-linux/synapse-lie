@@ -51,15 +51,14 @@ or increase useful row reuse across the complete chain. Measure actual routed
 tile counts and weight traffic before choosing an altered layout. Keep current
 quantization, exact prompt chunks and saved control binary.
 
-The secondary long-context experiment is query-grouped selector scoring. The
-current `SelectScoreKernel` loads a128-value key separately for each query row,
-then reuses it across four heads. A workgroup could hold that key while scoring
-four adjacent query rows, preserving each row's FP32 FMA/reduction sequence and
-the original top-512 tie rule. This changes score scheduling, not the query
-or key data or attention budget. Compare full score bits and masks at32K and
-128K in a scoped component before any original full-model trial. Prior two-query
-key reuse in the attention consumer regressed, so it does not qualify this
-different indexer hypothesis.
+The query-grouped selector scoring experiment is closed. The current
+`SelectScoreKernel` loads a128-value key separately for each query row and
+reuses it across four heads. A new four-query workgroup keeps that key resident
+and preserves every FP32 score bit and top-512 mask in16 component pairs, but
+its32K/128K median completed times are2.15x/4.09x the retained scorer.
+The candidate raises VGPR use115→185 and removes parallel query workgroups.
+Keep the original scorer; this design cannot justify a full-model trial.
+The still-open higher-impact route is the complete routed-expert chain above.
 
 The completed128K partition-selector component saves10.889us per2048-row
 selection launch. Even multiplying that by12 full-attention layers and all64
