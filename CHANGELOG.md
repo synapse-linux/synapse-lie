@@ -13,6 +13,8 @@ stable release is declared. Detailed validation history is in
   and calls. GPU numerical qualification remains deferred; product executables
   and default tests gain no Python dependency.
   Point ROCm build receipts also bind the capture executable to its runtime.
+  The optional Point supervisor executes and collects native text/tool captures,
+  retaining partial failure data for offline replay.
 
 - Native core benchmark JSONL reports prefill attention selections, separating
   completed and unconfirmed work and distinguishing unsupported measurements

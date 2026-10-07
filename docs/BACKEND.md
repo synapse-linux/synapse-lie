@@ -238,6 +238,12 @@ none of the six items.
    Current local synthetic fixtures
    do not close the original-weight probability or MTP-controller gates; no
    capture campaign is admitted or launched.
+   The optional Point supervisor now executes the native capture under the same
+   owned window and collects bounded raw rows, including failed partial evidence.
+   Fifteen focused transport/receipt and seven ownership/build regression controls
+   pass locally. [Preparation receipt](development/validation/sampling-capture-supervisor-host-2026-10-07.json).
+   Native/runtime numerical sources and the matching HIP build remain unchanged;
+   structural receipt validation does not qualify the independent probabilities.
    [Sampling defaults](https://github.com/antirez/ds4/blob/main/docs/SERVER.md) ·
    [MTP sampling semantics](https://github.com/antirez/ds4/blob/main/docs/SPECULATIVE_DECODING.md).
 7. **C17 sampler extractions integrated; qualify the combined runtime.**

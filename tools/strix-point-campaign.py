@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 import re
 import signal
+import stat
 import struct
 import subprocess
 import sys
@@ -51,6 +52,168 @@ def core_generation(value, historical=False):
             (out['temperature'] > 0 and out['seed'] < 0)):
         raise ValueError('Invalid core sampling filter or seed')
     return out
+
+# Frozen native-client profiles. This receipt validation never samples a token.
+SAMPLING_CAPTURE_GENERATIONS = tuple(core_generation(dict(
+    temperature=t, top_p=p, top_k=k, min_p=m, frequency_penalty=f,
+    presence_penalty=a, seed=123)) for t,p,k,m,f,a in (
+        (0,1,0,0,0,0), (1,1,0,.05,0,0), (1,1,32,0,0,0),
+        (.7,.9,0,.05,0,0), (1,1,32,.05,.4,.2), (2,1,0,.2,-.3,-.1)))
+
+def capture_file(path, maximum, contents=False):
+    """Read a bounded regular capture artifact; FIFOs/symlinks never block."""
+    path = checked_path(path)
+    fd = os.open(path, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW | os.O_NONBLOCK)
+    try:
+        before = os.fstat(fd)
+        if (not stat.S_ISREG(before.st_mode) or before.st_uid != os.getuid() or
+                not 1 <= before.st_size <= maximum):
+            raise RuntimeError('Invalid bounded regular capture artifact')
+        with os.fdopen(fd, 'rb', closefd=False) as stream:
+            if contents:
+                data = stream.read(maximum + 1)
+                digest = hashlib.sha256(data).hexdigest()
+                if len(data) != before.st_size:
+                    raise RuntimeError('Capture artifact length changed')
+            else:
+                data = None
+                digest = hashlib.file_digest(stream, 'sha256').hexdigest()
+        after = os.fstat(fd)
+        current = path.stat()
+        fields = ('st_dev', 'st_ino', 'st_size', 'st_mtime_ns', 'st_ctime_ns')
+        if (any(getattr(before,k) != getattr(after,k) for k in fields) or
+                any(getattr(after,k) != getattr(current,k) for k in fields)):
+            raise RuntimeError('Capture artifact identity changed')
+        return {'bytes': before.st_size, 'sha256': digest}, data
+    finally:
+        os.close(fd)
+
+def validate_sampling_capture(root, mode, budget, build_id):
+    """Bind native rows/frontiers; probability/grammar replay is a separate gate."""
+    if mode not in ('text','tools') or type(budget) is not int or not 1 <= budget <= 128:
+        raise ValueError('Invalid sampling capture mode or row budget')
+    directory = checked_path(root/'capture')
+    manifest, data = capture_file(directory/'capture.jsonl', 8*2**20, contents=True)
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result: raise RuntimeError('Duplicate capture JSON key')
+            result[key] = value
+        return result
+    def nonfinite(_): raise RuntimeError('Nonfinite capture JSON number')
+    rows = []
+    for line in data.decode('utf-8').splitlines():
+        if not line or len(line.encode('utf-8')) > 262144:
+            raise RuntimeError('Invalid bounded capture JSON line')
+        row = json.loads(line, object_pairs_hook=unique, parse_constant=nonfinite)
+        if type(row) is not dict: raise RuntimeError('Invalid capture JSON object')
+        rows.append(row)
+    at = 0
+    def next_event(name):
+        nonlocal at
+        if at >= len(rows) or rows[at].get('event') != name:
+            raise RuntimeError('Incomplete or unordered sampling capture')
+        value = rows[at]; at += 1
+        return value
+    def integer(value, low, high):
+        return type(value) is int and low <= value <= high
+    identity = next_event('identity'); tools = mode == 'tools'
+    if (identity.get('schema') != 'synapse-lie.sampling-capture.v'+('2' if tools else '1') or
+            identity.get('program') != 'lie-sampling-capture' or
+            identity.get('build_id') != build_id or identity.get('synthetic') is not False or
+            identity.get('classification') != 'ORIGINAL-WEIGHT-ROW-CAPTURE' or
+            identity.get('engine') != 'gufo-embedded-f783fedb' or
+            identity.get('source_pin') != 'f783fedb9bea2ec7de941f6da4e02f4a4596b29e' or
+            identity.get('dense_sampling') != 'lie-c17-dense' or
+            identity.get('row_encoding') != 'IEEE754-F32-little-endian' or
+            identity.get('decode_mode') != 'ar' or
+            identity.get('eos_policy') != ('stop; un-emitted EOS is captured without position advance' if tools else
+                                          'ignore; EOS remains an ordinary sampled token') or
+            any(type(identity.get(k)) is not int or identity[k] != v for k,v in
+                (('context',8192),('prefill_chunk',2048),('profiles',6),('tokens_per_profile',budget)))):
+        raise RuntimeError('Unexpected original-weight capture identity')
+    artifacts = {'capture/capture.jsonl': manifest}
+    vocabulary_tokens = None
+    if tools:
+        vocabulary = next_event('vocabulary')
+        if vocabulary.get('file') != 'vocabulary.bin' or not integer(vocabulary.get('tokens'),1,1048576):
+            raise RuntimeError('Invalid capture vocabulary identity')
+        witness, _ = capture_file(directory/'vocabulary.bin', 64*2**20)
+        if type(vocabulary.get('bytes')) is not int or witness != {k:vocabulary.get(k) for k in ('bytes','sha256')}:
+            raise RuntimeError('Capture vocabulary hash or length mismatch')
+        artifacts['capture/vocabulary.bin'] = witness
+        vocabulary_tokens = vocabulary['tokens']
+    prompt = None; frozen_constraint = None; total = 0; counts = []; semantic_matches = 0
+    for profile, controls in enumerate(SAMPLING_CAPTURE_GENERATIONS):
+        begin = next_event('profile_begin'); vocab = begin.get('vocab'); tokens = begin.get('prompt_ids')
+        if (type(begin.get('profile')) is not int or begin['profile'] != profile or
+                not integer(vocab,1,1048576) or
+                (vocabulary_tokens is not None and vocab != vocabulary_tokens) or
+                core_generation(begin.get('generation')) != controls or type(tokens) is not list or
+                not 1 <= len(tokens) <= 8192-budget or
+                any(not integer(token,0,vocab-1) for token in tokens) or
+                (prompt is not None and tokens != prompt)):
+            raise RuntimeError('Unexpected complete capture profile')
+        vocabulary_tokens = vocab
+        if tools:
+            constraint = begin.get('constraint')
+            if (type(constraint) is not dict or constraint.get('format') != 'json_object' or
+                    constraint.get('required') is not True or constraint.get('parallel') is not False or
+                    constraint.get('name') != 'describe_stack' or
+                    any(type(constraint.get(k)) is not str for k in ('parameters_json','definition_json')) or
+                    (frozen_constraint is not None and constraint != frozen_constraint)):
+                raise RuntimeError('Unexpected required-tool capture constraint')
+            frozen_constraint = constraint
+        prompt = tokens; n = 0; output = []; stopped = False
+        while at < len(rows) and rows[at].get('event') == 'row':
+            row = next_event('row'); name = f'profile-{profile}-row-{n}.f32le'
+            if (stopped or n >= budget or type(row.get('profile')) is not int or row['profile'] != profile or
+                    type(row.get('step')) is not int or row['step'] != n or row.get('file') != name):
+                raise RuntimeError('Unexpected capture row order or path')
+            witness, _ = capture_file(directory/name, 4*1048576)
+            if (type(row.get('bytes')) is not int or
+                    witness != {k:row.get(k) for k in ('bytes','sha256')} or witness['bytes'] != 4*vocab):
+                raise RuntimeError('Capture row hash or length mismatch')
+            emitted = row.get('emitted') if tools else 1
+            if tools:
+                if (type(emitted) is not int or emitted not in (0,1) or
+                        type(row.get('stop')) is not bool or emitted == int(row['stop'])):
+                    raise RuntimeError('Invalid tool capture stop/emission')
+                stopped = row['stop']
+            token = row.get('token')
+            if emitted:
+                if not integer(token,0,vocab-1): raise RuntimeError('Invalid captured token')
+                output.append(token)
+            elif token is not None:
+                raise RuntimeError('Stop capture must not claim an observed EOS ID')
+            if type(row.get('position')) is not int or row['position'] != len(prompt)+len(output):
+                raise RuntimeError('Invalid committed capture frontier')
+            artifacts['capture/'+name] = witness; n += 1
+        complete = next_event('profile_complete')
+        if (type(complete.get('profile')) is not int or complete['profile'] != profile or
+                type(complete.get('rows')) is not int or complete['rows'] != n or
+                type(complete.get('output_ids')) is not list or
+                any(not integer(token,0,vocab-1) for token in complete['output_ids']) or
+                complete['output_ids'] != output or not n or
+                (tools and not stopped) or (not tools and n != budget)):
+            raise RuntimeError('Incomplete capture profile or stop frontier')
+        if tools:
+            call = complete.get('tool_call'); args = call.get('arguments') if type(call) is dict else None
+            if (type(call) is not dict or call.get('name') != 'describe_stack' or
+                    type(args) is not dict or set(args) != {'order','size'} or
+                    args['order'] not in ('LIFO','FIFO') or not integer(args['size'],0,9)):
+                raise RuntimeError('Invalid completed required function arguments')
+            semantic_matches += int(args == {'order':'LIFO','size':3})
+        counts.append(n); total += n
+    terminal = next_event('complete')
+    if (at != len(rows) or set(terminal) != {'event','exit_code','profiles','rows'} or
+            any(type(terminal.get(k)) is not int or terminal[k] != v for k,v in
+                (('exit_code',0),('profiles',6),('rows',total)))):
+        raise RuntimeError('Incomplete capture aggregate')
+    return {'scope':'NATIVE_ORIGINAL_WEIGHT_CAPTURE_STRUCTURE_ONLY', 'mode':mode,
+            'profiles':6, 'rows':total, 'rows_per_profile':counts, 'artifacts':artifacts,
+            'semantic_matches':semantic_matches if tools else None,
+            'probability_mask_MTP_quality_performance_acceptance':False}
 
 BENCH_PROFILES = {
     # Same direct-executor workloads as docs/CONTEXT-COMPARISON.md on .157.
@@ -525,7 +688,8 @@ class Campaign:
             while self.child.poll() is None:
                 if not self.r['model_attempted'] and ((self.root/'measurements.jsonl').exists() or
                                                       (self.root/'http-started.marker').exists() or
-                                                      (self.root/'restart-started.marker').exists()):
+                                                      (self.root/'restart-started.marker').exists() or
+                                                      (self.root/'capture/capture.jsonl').exists()):
                     self.r['model_attempted'] = True
                     self.record()
                 self.sample()
@@ -534,7 +698,8 @@ class Campaign:
             self.r['child_exit_code'] = self.child.returncode
             if not self.r['model_attempted'] and ((self.root/'measurements.jsonl').exists() or
                                                   (self.root/'http-started.marker').exists() or
-                                                  (self.root/'restart-started.marker').exists()):
+                                                  (self.root/'restart-started.marker').exists() or
+                                                  (self.root/'capture/capture.jsonl').exists()):
                 self.r['model_attempted'] = True
             # Do not close a GPU window until the kernel has retired its owner.
             self.wait_owned_gpu_retirement()
@@ -935,6 +1100,8 @@ class Campaign:
             self.check_model_after(rows)
     def bench(self):
         profile = self.m.get('bench_profile')
+        if profile == 'modern-sampling-capture':
+            return self.modern_sampling_capture()
         if profile == 'modern-http-depth':
             return self.modern_http_depth_gate()
         if profile == 'modern-http-multi':
@@ -988,6 +1155,29 @@ class Campaign:
                 self.r['bench_partial'] = {'measurements_sha256': sha(self.root/'measurements.jsonl'),
                                             'bytes': (self.root/'measurements.jsonl').stat().st_size}
             self.check_model_after(rows)
+    def modern_sampling_capture(self):
+        mode = self.m.get('capture_mode'); budget = self.m.get('capture_row_budget')
+        if (self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox' or
+                self.m.get('decode_mode') != 'ar' or 'predictor_plan' in self.m or
+                mode not in ('text','tools') or type(budget) is not int or not 1 <= budget <= 128 or
+                type(self.m.get('runtime_build_id')) is not str or not self.m['runtime_build_id'] or
+                len(self.m['runtime_build_id']) > 128 or type(self.m.get('artifacts')) is not dict or
+                'runtime/bin/lie-sampling-capture' not in self.m.get('artifacts', {})):
+            raise ValueError('Expected bounded native AR sampling capture settings')
+        model, rows = self.verified_model()
+        command = ['/bundle/runtime/bin/lie-sampling-capture', '--model',
+                   '/model/'+self.m['model_plan']['files'][0]['name'],
+                   '--output-dir', '/work/capture', '--tokens', str(budget)]
+        if mode == 'tools': command.append('--tools')
+        self.r['capture_command'] = command; self.record()
+        try:
+            self.run_container(command, self.m['bundle'], 1800, model)
+            result = validate_sampling_capture(self.root, mode, budget, self.m['runtime_build_id'])
+            save(self.root/'capture-artifacts.json', result)
+            self.r['capture_result'] = result
+        finally:
+            self.check_model_after(rows)
+
     def modern_core_bench(self):
         if self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox':
             raise ValueError('Modern core benchmark requires ROCm 10 Distrobox')

@@ -3,9 +3,12 @@
 """Collect a finished private .161 benchmark with source hashes and fresh closure."""
 import argparse
 import hashlib
+import inspect
 import json
+import os
 from pathlib import Path
 import re
+import stat
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -14,6 +17,8 @@ SSH = ['ssh', '-F', '/dev/null', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=8'
        'pop@192.168.5.161']
 SCP = ['scp', '-F', '/dev/null', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=8']
 FILES = {
+    'sampling-capture': ('manifest.json', 'runner.py', 'result.json', 'telemetry.jsonl',
+                         'stdout.log', 'stderr.log'),
     'steering-admission': ('manifest.json', 'runner.py', 'steering-admission-gate.py',
                            'steering-restart-gate.py', 'result.json', 'telemetry.jsonl'),
     'steering-restart': ('manifest.json', 'runner.py', 'steering-restart-gate.py',
@@ -40,6 +45,8 @@ FILES = {
     'preflight': ('manifest.json', 'runner.py', 'result.json', 'telemetry.jsonl'),
 }
 OPTIONAL = {
+    'sampling-capture': ('capture-artifacts.json', 'distrobox-create.log',
+                         'distrobox.stdout.log', 'distrobox.stderr.log'),
     'steering-admission': ('steering-admission-result.json', 'admission-progress.json',
                            'restart-started.marker', 'valid.f32', 'prompt.txt',
                            'stdout.log', 'stderr.log', 'distrobox-create.log',
@@ -88,6 +95,40 @@ def sha(path):
     with path.open('rb') as stream:
         return hashlib.file_digest(stream, 'sha256').hexdigest()
 
+def sampling_capture_inventory(root):
+    """Collect bounded native data, including partial/uncommitted failed rows."""
+    directory = root/'capture'
+    if not directory.exists(): return {}
+    if directory.resolve() != directory or directory.stat().st_uid != os.getuid():
+        raise RuntimeError('Unexpected private capture directory')
+    paths = sorted(directory.iterdir())
+    if len(paths) > 770: raise RuntimeError('Too many native capture artifacts')
+    result = {}
+    for path in paths:
+        if path.name == 'capture.jsonl': maximum = 8*2**20
+        elif path.name == 'vocabulary.bin': maximum = 64*2**20
+        else:
+            match = re.fullmatch(r'profile-([0-5])-row-(0|[1-9][0-9]*)\.f32le', path.name)
+            if not match or int(match[2]) >= 128:
+                raise RuntimeError('Unexpected native capture artifact path')
+            maximum = 4*1048576
+        fd = os.open(path, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW | os.O_NONBLOCK)
+        try:
+            before = os.fstat(fd)
+            if (not stat.S_ISREG(before.st_mode) or before.st_uid != os.getuid() or
+                    not 0 <= before.st_size <= maximum):
+                raise RuntimeError('Invalid bounded native capture artifact')
+            with os.fdopen(fd, 'rb', closefd=False) as stream:
+                digest = hashlib.file_digest(stream,'sha256').hexdigest()
+            after = os.fstat(fd); current = path.stat()
+            fields = ('st_dev','st_ino','st_size','st_mtime_ns','st_ctime_ns')
+            if (any(getattr(before,k) != getattr(after,k) for k in fields) or
+                    any(getattr(after,k) != getattr(current,k) for k in fields)):
+                raise RuntimeError('Native capture artifact identity changed')
+            result['capture/'+path.name] = {'bytes':before.st_size, 'sha256':digest}
+        finally: os.close(fd)
+    return result
+
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -99,14 +140,15 @@ def main():
     if not (local/'plan.json').is_file(): parser.error('Unknown local campaign label')
     remote = BASE+'/'+args.label
     names = FILES[args.kind] + OPTIONAL.get(args.kind, ())
-    program = '''import fcntl,hashlib,json,os,pathlib,subprocess
+    program = 'import re,stat\n'+inspect.getsource(sampling_capture_inventory)+'\n'
+    program += '''import fcntl,hashlib,json,os,pathlib,subprocess
 base=pathlib.Path('/home/pop/workspace/synapse-lie')
 root=base/'''+repr(args.label)+'''
 if root.resolve()!=root or root.stat().st_uid!=os.getuid():raise SystemExit('Unexpected run root')
 result=json.loads((root/'result.json').read_text())
 if not result.get('ended_at'):raise SystemExit('Campaign has not finished')
 names='''+repr(names)+'''
-files={}
+files=sampling_capture_inventory(root) if '''+repr(args.kind)+'''=='sampling-capture' else {}
 for name in names:
  p=root/name
  if p.is_file():
@@ -141,6 +183,7 @@ print(json.dumps(out))
     status['inventory'] = inventory
     for name, identity in inventory['files'].items():
         dest = local/name
+        dest.parent.mkdir(parents=True, exist_ok=True)
         if dest.exists():
             if dest.stat().st_size != identity['bytes'] or sha(dest) != identity['sha256']:
                 status['error'] = 'Staged source drift: '+name

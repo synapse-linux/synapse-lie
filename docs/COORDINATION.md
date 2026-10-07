@@ -1,5 +1,20 @@
 # DS4 / synapse-lie coordination
 
+## Native capture supervisor prepared locally — 2026-10-07
+
+Root closes the final capture orchestration gap in owned development tools:
+native AR text/required-function execution, bounded receipt validation and full
+raw-data collection, including failed partial rows. Only focused CPU fixtures
+run, with every remote/container command mocked: 15 capture controls and seven
+ownership/build regressions pass. GPU is masked; peak CPU53.75 C. The native
+client/replay sources, core/ABI/reactive/numerical code and qualified r38 build
+remain unchanged. [Preparation receipt](development/validation/sampling-capture-supervisor-host-2026-10-07.json).
+Root has no remote job/client/build/lease/window/waiter/reservation/live handle
+on `.161/.157/.158/TB`. No capture campaign is admitted, launched or queued.
+Functional source/preparation comes first; final integrated qualification needs
+fresh peer/global/original-lease admission, then matched benchmarks and Terminal
+Bench last. All six root acceptance items remain open.
+
 ## Final device-free Point build closed; test campaigns deferred — 2026-10-07
 
 The owner again requests finishing all remaining functional implementation

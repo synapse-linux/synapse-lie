@@ -139,9 +139,51 @@ model chose the requested `LIFO` and 3; schema validity is not a quality score.
 
 This is deferred qualification tooling. Local synthetic fixtures do not prove
 original-weight tool probabilities, result correlation, free-prose/parallel
-behavior, MTP controller branches, faults or performance. The new accessor and
-client require a matching final HIP build before an admitted GPU capture.
+behavior, MTP controller branches, faults or performance. The matching
+[final HIP build](../validation/integrated-point-capture-hip-build-2026-10-07.json)
+now links and binds this client and its metadata accessor. An actual GPU
+capture still requires fresh admission.
 Version-1 unconstrained captures and their complete witnesses remain compatible.
+
+### Point supervisor and collection
+
+The optional `.161` supervisor routes the native client with these fields in
+an otherwise pinned campaign manifest:
+
+```json
+{
+  "bench_profile": "modern-sampling-capture",
+  "decode_mode": "ar",
+  "capture_mode": "tools",
+  "capture_row_budget": 128
+}
+```
+
+Use `capture_mode: "text"` for unconstrained rows, with an explicit 1–128 row
+budget. The manifest also binds the original model plan, compiled runtime build
+identity and capture executable hash, using the existing lease, thermal and
+model-stat contracts. It admits AR only, without a predictor. The supervisor
+records possible model access as soon as the native manifest appears and
+preserves model identities even when the child or receipt validation fails.
+
+Successful receipts verify all six frozen generation profiles, raw-file hashes,
+ordered rows, committed frontiers, terminal counts and completed required-call
+arguments. Schema-valid calls and requested `LIFO`/3 semantics are counted
+separately. Probability, full-mask, MTP-controller, quality and performance
+acceptance remain the separate gates described above.
+
+After the campaign ends, collect its native data with:
+
+```sh
+python3 tools/strix-point-bench-collect.py UNIQUE_LABEL --kind sampling-capture
+```
+
+Data lands in `evidence/UNIQUE_LABEL/capture`, ready for the existing three
+offline replay executables. Collection also preserves partial manifests, empty
+failure artifacts and raw rows written before an unsuccessful draw. Only bounded
+regular files with the native names are accepted; symlinks and named pipes
+refuse. This optional development orchestration changes no product dependency,
+HTTP behavior or reactive scheduling, and schedules no GPU run by itself.
 
 ## Required gates
 

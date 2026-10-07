@@ -26,6 +26,18 @@ long-context and performance gates remain open; none of the six items closes.
 
 ## Native numerical qualification tooling — 2026-10-07 UTC
 
+The optional Point supervisor now routes the C17 capture client directly and
+collects native raw data, including partial/uncommitted failure rows. Its bounded
+receipt checks bind all six profiles, row hashes, committed frontiers, natural
+tool stops and complete call arguments. The actual probability/mask replay stays
+a separate numerical gate. Fifteen focused local transport/receipt controls and
+seven existing ownership/build regressions pass, with commands mocked and GPU
+masked; peak local CPU53.75 C. [Supervisor preparation receipt](development/validation/sampling-capture-supervisor-host-2026-10-07.json).
+The twelve native client/replay source files remain unchanged from their earlier
+sanitizer-qualified receipt and matching final HIP build. Only optional development
+orchestration changes; no native/core ABI, HTTP, reactive or numerical code changes.
+No remote operation, model load, test campaign or machine reservation is started.
+
 The canonical Point build now links and hashes `lie-sampling-capture` alongside
 the server, native benchmark, coherent OFF reference and probe. The optional
 legacy compile helper uses the same target/hash list. This closes a packaging
