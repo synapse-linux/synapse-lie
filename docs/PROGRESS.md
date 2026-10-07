@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Halogen token-side IQ2 probe preparation — 2026-10-07 UTC: a private provider
+and C17 route map pair 128-token descriptors within each expert into a
+256-token tile. All 48 saved routing layers and 18 boundary cases have exact
+64-row coverage; focused host CTest passes. The gfx1151 HIP fixture links
+locally without changing production dispatch, and static device assembly
+preserves all 164 retained bodies. The new BN256 body has no private scratch
+but grows 150→242 VGPR and 25,728→42,112 LDS bytes against BN128, a substantial
+occupancy risk. No GPU component or model run has occurred, so there is no
+numeric or speed claim. Halogen 0.15.2's optional unpacked trunk is not an
+untested shortcut here: LIE's 5.35GB Q8 mirror already regressed original2K
+prefill by 2.165%. 0.15.3/0.16.1 report further gains without public
+kernel detail or matched C1 rates. [Audit and exact probe scope](Q2-HALOGEN-TRANSFER.md).
+
 Halogen transfer audit — 2026-10-07 UTC: public 0.14.1 measurements point to
 routed-expert prefill as the most relevant algorithm family; its published
 131K uplift is not a LIE control. The archived 48-layer LIE route has 6813

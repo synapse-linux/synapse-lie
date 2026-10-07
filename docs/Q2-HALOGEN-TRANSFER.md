@@ -19,6 +19,8 @@ benchmark, so its rates are not LIE controls.
 | Halogen ships a shape-tuned matrix plan. | LIE already has shape-specific native kernels and a hipBLASLt HC-down comparison. All seven tested library alternatives changed numerical outputs; the selected native route remains the qualified one. Dense Q8/F16 is 293.227 ms in the older 2K profile. | Tune an active Q8 shape only with a matched operator and original-model numerical gate. Do not substitute the Halogen plan or claim its result. |
 | Halogen's prompt cache avoids repeated prefill on follow-up turns; the 0.12.1 release removed a redundant DeltaNet replay during cold capture. | The LIE target is one complete cold request with zero cached tokens and its original capture policy. LIE's saved long diagnostic has no attributed second recurrence pass. | Audit capture cost only if an actual duplicate pass is found. Cache-hit TTFT cannot count toward cold prefill throughput. |
 | Halogen's reported serial greedy decode is 37.6 token/s at 1.5K and 34.1 at 32K; larger served rates use MTP and sometimes prompt lookup. | LIE's 128K record has only eight output calls, so its 25.344 token/s is not a sustained TG128 measure. The native C1 completion-to-next-submission gap is 0.092–0.097 ms, leaving numerical execution as the likely major cost. | Compare serial C1 with serial C1. MTP, lookup and batching may improve serving separately; they do not establish the 30 token/s C1 goal. |
+| Halogen 0.15.2 optionally keeps its compressed trunk unpacked in memory, using about 5.5 GiB extra for faster long prompts. | LIE already tested a persistent 5,348,130,816-byte Q8 mirror: exact outputs, but original 2K prefill fell 2.165%. The representation, packing and kernels differ. | Do not repeat an unconditional mirror. A new residency design needs an identified consumer and a whole-model win. |
+| Halogen 0.15.3 reports faster prompts of every length, and 0.16.1 reports faster decode, especially with concurrent conversations. The changelog does not expose the numerical kernel implementation or a matched C1 rate for these changes. | LIE's serial C1 target and concurrency/reactive measurements are separate. | Treat the release notes as attribution leads, not measured transferable gains. |
 
 Halogen's 131K uplift is 9.137% in rate. Applying that percentage to LIE's
 retained 1,310.875 token/s would give only 1,430.645 token/s; another 4.848%
@@ -50,17 +52,38 @@ successive **token** tiles, restricted to experts with at least two wide
 descriptors. Preserve the existing 640-by-2560 paired gate/up arithmetic,
 output order, top-10 routing, 2048-token model chunks and fixed comparator.
 First compile a private 2-tile component and record registers, scratch, LDS,
-occupancy limits and code size. Stop if it spills or loses enough occupancy to
-make the route implausible. Then time complete compact+gate/up+pack+down cycles
-on the archived actual counts, checking every output and independent numeric
-references. Advance to one original 32K model request only if the full-chain
-component gain could materially reduce the 12.593-second 128K deficit; test
+occupancy limits and code size. The first coordinated GPU screen compares
+the whole gate/up output and completed timings on the archived routing counts.
+Stop if numerical differences or occupancy loss make the route implausible.
+Only a positive screen proceeds to complete compact+gate/up+pack+down cycles,
+checking every output and independent numeric references. Advance to one
+original 32K model request only if the full-chain component gain could
+materially reduce the 12.593-second 128K deficit; test
 the unchanged original 128K request only after that gate. Keep the retained
 provider unless the complete-model measurement improves. The prior BM256
 experiment enlarged **output** rows and regressed, so it is not evidence for
 or against this token-side design.
 
+The private token-side probe is prepared without changing production dispatch.
+Its C17 map covers every live 64-row unit exactly on all 48 saved routing
+layers and 18 boundary shapes. A locally linked gfx1151 HIP fixture compares
+the retained 128/64-token producer with a 256/128/64-token producer on whole
+guarded outputs and rotating weights; this fixture has **not** run on the GPU.
+Static device compilation preserves all 164 retained bodies and adds one
+256-token body without private scratch. That body uses 242 VGPR and 42,112
+bytes of LDS, versus 150 VGPR and 25,728 bytes for the 128-token body.
+Its resource increase makes occupancy a concrete risk. Local compilation and
+coverage establish neither numerical acceptance nor a speed gain. The exact
+manifest, assembly analysis and isolated patch are in
+`../config/q2-iq2-token256-probe-source.json`,
+`../config/q2-iq2-token256-probe-static.json` and
+`../experiments/q2-iq2-token256-probe.patch`. A coordinated GPU component
+comparison is the next gate; no model run follows from this preparation.
+
 The [Halogen benchmark conditions](https://github.com/peonist-ai/halogen-flash-server#measured)
-also name ROCm, power, IOMMU and arena differences; they explain why its
-absolute rates cannot be used as a control. This audit authorizes no host
-tuning, GPU run or altered benchmark input.
+identify its measured rows as the older w4b checkpoint: the 0.14.1 prefill
+rows used two runs, and the serial decode rows came from 0.2.0. They also
+name ROCm, power, IOMMU and arena differences; absolute rates cannot serve as
+LIE controls. Halogen reports a 13–16% prefill effect from disabling IOMMU on
+its machine, but that is a host-specific A/B observation, not a LIE kernel
+gain. This audit authorizes no host tuning, GPU run or altered benchmark input.

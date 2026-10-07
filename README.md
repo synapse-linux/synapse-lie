@@ -10,7 +10,9 @@ score/mask output but regresses component time2.15x at32K and4.09x at128K;
 it is not integrated. Routed-expert work remains the leading prefill target.
 The [Halogen transfer audit](docs/Q2-HALOGEN-TRANSFER.md) checks public
 performance clues against LIE's saved routing and names the next bounded
-expert-chain experiment; it does not claim a measured LIE speedup.
+expert-chain experiment. Its private 256-token IQ2 probe has a compiled and
+linked GPU fixture plus exact host route coverage; GPU timing and original
+model inference are still pending, so it claims no LIE speedup.
 The [completed diagnostic](docs/Q2-LONG-PROFILE.md) finds invalid zero device
 timestamps but usable CPU API intervals:45–70ms prefill gaps before PLE uploads,
 and only0.092–0.097ms between warm C1 completions and subsequent submissions.
