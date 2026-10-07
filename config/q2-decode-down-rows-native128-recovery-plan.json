@@ -1,0 +1,116 @@
+{
+  "schema": "synapse-lie.q2-decode-down-rows-native128-recovery-plan.v1",
+  "label": "q2-decode-down-rows-native128-r2",
+  "source_commit": "006afae3ac7d5c37c2c48f2d009d08139798ef0c",
+  "runner_sha256": "aef5591fc7d47589e5cb46c4b7f706ee737f50e45a39347a307f95c0f78b56d0",
+  "order": [
+    "down-rows"
+  ],
+  "port": 8000,
+  "capacity": 133760,
+  "chunk": 2048,
+  "prefix_tokens": 130925,
+  "output_tokens": 8,
+  "previous_release": "gpu-coordination/epochs/8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653/baseline.json",
+  "previous_release_sha256": "5bfd3b2e2b21cb805bb73bf8559faa5a0da7b44f1d8bd04199bbbe17ec6858e2",
+  "staged_sha256": {
+    "q2-decode-down-rows-native128-recovery-window.py": "aef5591fc7d47589e5cb46c4b7f706ee737f50e45a39347a307f95c0f78b56d0",
+    "native-build.json": "6f9720ac5d78a51796c6ab7d41e1aa1d9890c9e7a025da5bcfacdb4277a8eb46",
+    "provider-manifest.json": "e53280b48151f5a3a5d7a163944e90320d8e856fd249239df2a2b8c5253d1ea9",
+    "requests.jsonl": "fcee51efeebfcbd25209ba90d09064d37aead6d3b0c6bbe7a9f97f328a4f24ef",
+    "synapse-lie-server": "f8a5210cc0b2244a8767b6d98042d61f412fc137ba03d410853f3a5104fa781b"
+  },
+  "candidate_server": {
+    "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-decode-down-rows-native128-r2/synapse-lie-server",
+    "sha256": "f8a5210cc0b2244a8767b6d98042d61f412fc137ba03d410853f3a5104fa781b"
+  },
+  "client": {
+    "label": "saved native C client",
+    "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-native-row-ud-r1/build/native-bench/synapse-lie-bench",
+    "sha256": "87d856cf454d5114f93d7d4260d54b58f6e92800f70e4013a505aa16973560c9"
+  },
+  "requests": {
+    "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-decode-down-rows-native128-r2/requests.jsonl",
+    "sha256": "fcee51efeebfcbd25209ba90d09064d37aead6d3b0c6bbe7a9f97f328a4f24ef"
+  },
+  "model_stats": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "device": 54,
+      "inode": 3116203,
+      "bytes": 147207127040,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "device": 54,
+      "inode": 3206497,
+      "bytes": 10946624,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "device": 54,
+      "inode": 3228516,
+      "bytes": 49859583136,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "device": 54,
+      "inode": 3211726,
+      "bytes": 49376141504,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "device": 54,
+      "inode": 3207513,
+      "bytes": 12087983520,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "device": 54,
+      "inode": 3206512,
+      "bytes": 2786568256,
+      "mtime_ns": 1790711824619908153,
+      "ctime_ns": 1790711826279892467
+    },
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q4.gguf",
+      "device": 54,
+      "inode": 3116346,
+      "bytes": 177280286720,
+      "mtime_ns": 1789871998360000000,
+      "ctime_ns": 1790258428459084412
+    }
+  ],
+  "saved_reference_sha256": {
+    "evidence/q2-full-prefill128-final-r1/results/full-prefill.jsonl": "34cb33c48be8d9f1782a7eb44877a43cb5b06bf55f43f38993b41c69d421d3f5",
+    "evidence/q2-full-prefill128-final-r1/results/full-prefill.requests.jsonl": "fcee51efeebfcbd25209ba90d09064d37aead6d3b0c6bbe7a9f97f328a4f24ef",
+    "config/q2-full-prefill128-results.json": "74a7d49e94d1c68bf350fa127289326520427f086d35480e8182b69723b446e6",
+    "config/q2-full-prefill128-decode-results.json": "68831086fef31f2b66a58e2a196f6c79da9480729697b2ab914bf5edd2d734ad",
+    "config/q2-hc-scalar-native128-isolated-results.json": "7bc2a479f4a8f082934e4b1eacceb9330564e318d0afa9e64524592e09adf632"
+  },
+  "remote_build": false,
+  "remote_cleanup": false,
+  "run_controls": false,
+  "changed_request_bytes": false,
+  "scope": "New admission after owner-reported power outage. Same f8a5210c candidate, original130925/8 plus same three preparations, chunk2048/cap133760/cache0/port8000. Only coordination and early process receipts changed. No reference rebuild/rerun, quantization, model change or cleanup.",
+  "cpu_check_sha256": {
+    "cpu-test-command.json": "b19f3e8e700ec2f22e4ae6d3719a5782efd896bc32053f9dffce26abe317b7cc",
+    "cpu-test.stdout": "f4ecf40bf7c5ff1ea08128143b9c263b79f3c0c548cc6622f0e35d6e4c07cbbe",
+    "cpu-test.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "epoch-cpu-command.json": "f8fc8e6b0c485cea225048723be82eb2a1c71eb6176fd3a736e3f76d4e6296cc",
+    "comfyui-stop.json": "7dc67690ea54c94ce14a26be3d0e413eaf5ac7b357e3895bef6fc8798a9f2330"
+  },
+  "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+  "interrupted_predecessor_sha256": "858d0f6c1e3d26811bcdfc85206dd7ab8070a78d0a5c072c53699d747868f037",
+  "cpu_preparation_manifest_sha256": "830dda98ff51cbcb90b05872df358162eac0514cdca3e5a3a3a30cacea7808cb"
+}

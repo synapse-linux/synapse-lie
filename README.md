@@ -2,20 +2,22 @@
 
 The four-row Q2 down model candidate now has explicit non-prefill dispatch;
 prefill, including one-token tails, retains its prior implementation.
-Its first original 128K trial was interrupted by the owner's reported power
-outage. All 37 surviving artifacts are verified; no throughput sample survived.
-The attempt is recorded as aborted by reboot, with unknown command exit.
-An offline review found no launch-geometry or pool-reservation discrepancy;
-the executable and inputs remain unchanged for a new, separately admitted run.
-Post-reboot coordination is now persistent and boot-qualified. ComfyUI was
-stopped with explicit owner authorization and may remain stopped.
+Its recovered original 128K trial completes at 992.706649 prefill /25.632191
+decode token/s, with all four replies exact. Post-run APU readback is
+balanced/85 W versus the last saved live performance/120 W state. This runtime
+difference prevents attributing the observed regression to the candidate.
+The earlier 1337.119965 /25.914406 comparator remains; no candidate promotion.
+The first trial's power-outage failure is preserved. Coordination is now
+persistent and boot-qualified; ComfyUI remains stopped with owner approval.
 [Phase selection](docs/Q2-PHASE-DISPATCH.md),
-[recovered trial](docs/Q2-DECODE-DOWN-ROWS.md).
+[recovered trial and power diagnosis](docs/Q2-DECODE-DOWN-ROWS.md),
+[measured PP/TG graph](docs/figures/q2-decode-down-rows-native128-recovery.png).
 
 A new [scalar Q2_K down candidate](docs/Q2-DECODE-DOWN-ROWS.md) reduces its
 complete quantizer/projection component time6.96%, with no new quantization.
 Independent operator checks pass; small byte differences remain. It is retained
-for model evaluation, with no new model-throughput or task-quality claim.
+for model evaluation; its recovered model trial has differing power conditions,
+and establishes no performance gain or task-quality acceptance.
 
 The subsequent down/SiLU fusion passes its exact component checks but adds
 no measured model gain:1332.307970 PP /25.595276 TG versus the retained

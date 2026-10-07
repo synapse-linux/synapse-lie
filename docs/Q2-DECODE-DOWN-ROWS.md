@@ -1,6 +1,60 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Reuse native Q2_K decode inputs across more output rows
 
+## Recovered original 128K trial: power conditions differ
+
+The same executable f8a5210c completes on the rebooted .157 at
+2026-10-07 15:10:37 UTC. No source rebuild, request change or control rerun
+occurs. The original sequence still ends with 130925 input tokens and eight
+decode calls: 63 full 2048-token chunks plus the 1901-token tail, cap133760,
+zero cached tokens, C1 AR, saved native client and port8000.
+
+| Original128K observation | Prefill token/s | Prefill ms | Decode token/s | Eight decode calls ms |
+|---|---:|---:|---:|---:|
+| Saved unprofiled reference |1310.874605|99876.067130|25.344213|315.653915|
+| Retained isolated HC up/mix |1337.119965|97915.672036|25.914406|308.708599|
+| New four-row Q2 down, after reboot |992.706649|131886.897497|25.632191|312.107537|
+
+These are measured, uncorrected rates. The new observation is -25.757847%
+prefill and -1.089028% decode versus retained HC; it does not demonstrate a
+model gain. All four replies/token pieces match the saved reference. That
+does not close inherited task quality or establish sustained TG128.
+
+Read-only `axb35-ctl get all` after the run reports **balanced/85 W**. The
+last saved live APU receipt, from the fan adjustment, records
+**performance/120 W**. That old receipt predates the retained benchmark;
+neither benchmark samples the APU mode directly. Their GPU telemetry supports
+the runtime discrepancy: among samples with GPU busy at least80%, the new
+mean clock is2148.36MHz (14 samples), versus2661.86MHz (51 samples) for
+retained HC. Peaks are CPU70.375/GPU74 C versus91.875/94 C. These differently
+powered observations cannot isolate the effect of the new kernel. No numeric
+frequency/power correction is applied, and no causal fraction is claimed.
+
+All three fan curves remain exactly40,50,60,70,82 rising and35,45,55,65,78
+falling. The stored config hash also matches the earlier fan receipt: its APU
+field was intentionally left balanced, and the installed fan-only helper does
+not apply that field. Thus the fan change did not make performance mode
+persistent across reboots. ComfyUI is inactive, as explicitly authorized.
+
+The runtime-only restoration plan specifies `sudo -n /usr/bin/axb35-ctl set
+apu performance`, followed by mode/TDP/fan/config readback under fresh
+coordination. It remains **prepared, not authorized or executed**: repository
+policy prohibits tuning and the existing hardware exception was fan-only.
+No startup change or higher custom power limit is proposed. After authorization
+and readback, repeat only this existing candidate with the unchanged workload.
+Do not rebuild or rerun the saved controls.
+
+Run/server/client exits are0. All32 raw artifacts verify before the
+15:15:21.705147 UTC release d9840546; two current-boot identities/groups
+retired, KFD empty, five leases free and seven original model stats unchanged.
+The persistent epoch registry matches. No remote window remains.
+
+[Audited result](../config/q2-decode-down-rows-native128-recovery-results.json),
+[PP/TG image](figures/q2-decode-down-rows-native128-recovery.png),
+[exact-value CSV](figures/q2-decode-down-rows-native128-recovery.csv),
+[power observation](../config/q2-post-reboot-apu-observation.json),
+[restoration plan](../config/q2-post-reboot-apu-restore-plan.json).
+
 ## First original 128K model trial: interrupted by power outage
 
 Recovery on 2026-10-07 verifies all 37 surviving artifacts and the original

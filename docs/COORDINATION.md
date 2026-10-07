@@ -1,5 +1,19 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2 recovered model window released — 2026-10-07 15:15 UTC: current-boot
+plan f2c9542e admits at15:07:43.440022 UTC; unchanged candidate f8a5210c
+and original requests complete at15:10:37.141097 UTC. Run and both children
+exit0; all32 artifacts hash-verify before release15:15:21.705147 UTC,
+SHA d984054686e339d9febb0e4fc3c89c26dbfcfc6966df33cdbe569c5ed46d9089.
+Persistent epoch registry matches this window_release. Two current-boot
+process identities and groups are retired, KFD empty, five unchanged leases
+free and seven model stat tuples unchanged. Core receives closure; no Q2
+job, lease, window or reservation remains. ComfyUI stays inactive per owner.
+Later read-only APU observation finds balanced/85 W against the last saved
+performance/120 W state. No tuning is performed. A runtime restoration plan
+requires the owner's explicit exception and fresh coordination before mutation;
+the subsequent unchanged-candidate trial needs its own fresh admission.
+
 ## Current .157 epoch after power outage — 2026-10-07 UTC
 
 The previous boot 01a007d1-8d99-4d24-b5ea-3788970135c3 ended during the admitted

@@ -1,0 +1,55 @@
+{
+  "schema": "synapse-lie.q2-post-reboot-apu-observation.v1",
+  "at": "2026-10-07T15:24:05.405710+00:00",
+  "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+  "remote_read_only": true,
+  "observed_after_r2": true,
+  "raw": {
+    "path": "evidence/q2-post-reboot-apu-observation-r1/stdout.json",
+    "sha256": "9768bc88c0c84448a1a839df13455cc982ce2758ce7074f23c40b80aa7b9407b"
+  },
+  "command": {
+    "path": "evidence/q2-post-reboot-apu-observation-r1/command.json",
+    "sha256": "c31000d1f49bc6974a798986d17cd77d14d4445751b838cbdcd15366b9305d94",
+    "exit_code": 0
+  },
+  "current_apu": {
+    "apu_power_mode": "balanced",
+    "tdp_watts": 85
+  },
+  "last_saved_live_apu": {
+    "path": "config/q2-fan-curve-82.json",
+    "sha256": "a2cc29c7e8b25f2080ca36d97bffeb807762cc42755bfd720f09575136e3eace",
+    "at": "2026-10-03T12:57:54.426997+00:00",
+    "apu_power_mode": "performance",
+    "tdp_watts": 120
+  },
+  "fan_curves_unchanged": true,
+  "fan_curves": {
+    "fan1": {
+      "mode": "curve",
+      "rampup_curve": "40,50,60,70,82",
+      "rampdown_curve": "35,45,55,65,78"
+    },
+    "fan2": {
+      "mode": "curve",
+      "rampup_curve": "40,50,60,70,82",
+      "rampdown_curve": "35,45,55,65,78"
+    },
+    "fan3": {
+      "mode": "curve",
+      "rampup_curve": "40,50,60,70,82",
+      "rampdown_curve": "35,45,55,65,78"
+    }
+  },
+  "stored_config_sha256": "2d06c52faed9b353806204c985d2b52a076a4f07b9f5ca281c42296ea0808ce7",
+  "stored_config_unchanged": true,
+  "comfyui_inactive": true,
+  "kfd_empty_observed": true,
+  "limits": [
+    "APU mode is observed after R2, not sampled inside each benchmark.",
+    "The historical APU receipt predates the retained benchmark; its GPU telemetry independently shows higher clocks/power.",
+    "This is a concrete runtime difference; throughput causality and the size of its effect require the unchanged candidate under the original mode.",
+    "No frequency or power normalization is applied to measured throughput."
+  ]
+}

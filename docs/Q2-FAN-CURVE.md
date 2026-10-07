@@ -57,6 +57,15 @@ are 1407/1427/423 RPM, each at level 1. Live APU remains performance/120 W.
 The stored APU field remains its original balanced value and is not applied
 by the fan-only helper. No reboot is performed or claimed.
 
+After the owner's reported power outage on2026-10-07, all three fan modes and
+curve pairs survive unchanged, as does the stored config hash. Read-only APU
+observation instead reports balanced/85 W. The earlier fan-only operation
+did not persist the independently selected live performance/120 W mode.
+The recovered Q2 trial therefore has a power-condition confound; a separate
+runtime-only restoration plan awaits explicit authorization under the
+repository's no-tuning rule. [Observation](../config/q2-post-reboot-apu-observation.json),
+[plan](../config/q2-post-reboot-apu-restore-plan.json).
+
 The operation acquires all four original leases nonblocking, verifies empty
 KFD and releases them on completion. The shared registry records
 `fan_curve_update`. Fresh performance pairs must run both Q2 and UD under this

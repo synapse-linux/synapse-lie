@@ -1,5 +1,26 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2 recovered original128K trial — 2026-10-07 UTC: unchanged server f8a5210c,
+client 87d856cf and request fcee51ef complete at 992.706649 PP /25.632191 TG.
+All four responses match; run/server/client exit 0. The original 130925/8,
+63 full 2048 chunks plus 1901 tail, cap133760/cache0/port8000 remain fixed.
+All 32 artifacts verify before release at 15:15:21.705147 UTC, SHA d9840546;
+two current-boot identities/groups retired, KFD empty, five leases free and
+seven model stats unchanged. Historical pre-reboot identities remain separate.
+No control rebuild/rerun or new quantization; no model promotion or goal closure.
+
+Read-only diagnosis after the trial finds APU balanced/85 W, versus the last
+saved live performance/120 W state. Fan curves at82 C and their stored config
+are unchanged. The runtime discrepancy is consistent with lower sampled GPU
+clocks; its throughput effect is not quantified. Keep the measured rates and
+both historical comparators, without power/frequency normalization. An explicit
+runtime-mode restoration plan is prepared but not authorized or executed;
+AGENTS prohibits tuning and the earlier exception was fan-only. ComfyUI remains
+inactive with owner authorization. No Q2 remote window remains.
+[Full table and graph](Q2-DECODE-DOWN-ROWS.md),
+[read-only diagnosis](../config/q2-post-reboot-apu-observation.json),
+[prepared restoration](../config/q2-post-reboot-apu-restore-plan.json).
+
 Q2 power-outage recovery — 2026-10-07 UTC: host boot at 14:37:23 UTC proves
 the first original128K run is no longer live. All 37 surviving artifacts hash
 verify; no samples or command exits survive. Owner confirms mains power loss.
