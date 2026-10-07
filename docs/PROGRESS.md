@@ -1,6 +1,29 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Parallel calls pass; reversed result correlation fails on Point — 2026-10-07 UTC
+
+The corrected `acfb9d26`/r62 runtime passes the unchanged original-weight greedy
+Chat JSON question requesting `alpha` and `beta` together. Both valid function
+calls finish naturally. The next fixed question sends beta941 then alpha137,
+using the actual call IDs, and asks for their mapping. The valid HTTP200 answer
+is alpha941/beta137. Five new checks pass, one fails and 65 remain unexecuted;
+five baseline controls pass. The client retains its `model_quality` failure.
+Source review identifies a loss of correlation: the pinned Qwen renderer emits
+tool contents in received order and omits call IDs. A correction is pending;
+no changed question, expected answer or weakened acceptance is introduced.
+
+Controller/supervisor/helper exit1, owned server exit0. All 15 files collect and
+hash-verify; model stat identities stay unchanged. Peaks are CPU59.5/GPU62/
+NVMe63.85 C. Lease66308/105946405 releases at 15:29:28 UTC. Strong closure at
+15:32:52 verifies actual supervisor/launcher/init/GPU identities, container and
+its full cgroup absent, two complete process scans empty, original lease free
+and router12606 restored. The [receipt](development/validation/tool-transitions-ar-point-r3-2026-10-07.json)
+preserves both outcomes and raw evidence. A local preparation guard initially
+refuses a provenance-only README change; its failure and explicit correction
+remain evidence. MTP is prepared but unadmitted. No root remote job or
+reservation remains; all six tasks stay open and Terminal Bench stays last.
+
 ## Corrected tool prompt compiled on Point and build closed — 2026-10-07 UTC
 
 The coherent `.161` ROCm10 build of `acfb9d26` passes both complete private

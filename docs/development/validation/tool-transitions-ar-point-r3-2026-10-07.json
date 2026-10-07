@@ -1,0 +1,822 @@
+{
+  "schema": "synapse-lie.point-tool-transitions-failed.v1",
+  "at_utc": "2026-10-07T15:43:55.918691+00:00",
+  "review_exit_code": 0,
+  "scope": "Offline independent review of retained failed original-weight run; no job rerun",
+  "collected_remote_files_verified": 15,
+  "unchanged_owned_provider_files_verified": 130,
+  "native_runtime_source_commit": "acfb9d26f280c02344000e222bdf4792a3724cff",
+  "client_source_commit": "db02da35239179bc12799ea41cd291ba62fd74e1",
+  "state": "FAILED_MODEL_QUALITY_COLLECTED_AND_CLOSED",
+  "new_checks_passed": 5,
+  "new_checks_failed": 1,
+  "new_checks_unexecuted": 65,
+  "baseline_controls_passed": 5,
+  "failure": {
+    "check": "greedy_chat_correlated_results_json",
+    "classification": "model_quality",
+    "request": {
+      "model": "qwen3.8-flash-next",
+      "store": false,
+      "seed": 123,
+      "temperature": 0,
+      "top_p": 1,
+      "top_k": 0,
+      "min_p": 0,
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "get_value",
+            "description": "Get the independent integer value for the selected key.",
+            "strict": true,
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "enum": [
+                    "alpha",
+                    "beta"
+                  ]
+                }
+              },
+              "required": [
+                "key"
+              ],
+              "additionalProperties": false
+            }
+          }
+        }
+      ],
+      "max_tokens": 512,
+      "tool_choice": "none",
+      "response_format": {
+        "type": "json_object"
+      },
+      "messages": [
+        {
+          "role": "user",
+          "content": "Call get_value exactly twice in this turn: once with key alpha and once with key beta. Both calls are independent and must be issued together. Do not explain."
+        },
+        {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "call-lie-b978e6539307967e8cf539ab73aec98b-9-0",
+              "type": "function",
+              "function": {
+                "name": "get_value",
+                "arguments": "{\"key\":\"alpha\"}"
+              }
+            },
+            {
+              "id": "call-lie-b978e6539307967e8cf539ab73aec98b-9-1",
+              "type": "function",
+              "function": {
+                "name": "get_value",
+                "arguments": "{\"key\":\"beta\"}"
+              }
+            }
+          ]
+        },
+        {
+          "role": "tool",
+          "tool_call_id": "call-lie-b978e6539307967e8cf539ab73aec98b-9-1",
+          "content": "{\"value\": 941}"
+        },
+        {
+          "role": "tool",
+          "tool_call_id": "call-lie-b978e6539307967e8cf539ab73aec98b-9-0",
+          "content": "{\"value\": 137}"
+        },
+        {
+          "role": "user",
+          "content": "Return only one JSON object mapping alpha and beta to their returned integer values. Do not call functions."
+        }
+      ],
+      "stream": false
+    },
+    "response": {
+      "id": "chatcmpl-12148-3001417167543-10",
+      "object": "chat.completion",
+      "created": 1791386964,
+      "model": "qwen3.8-flash-next",
+      "system_fingerprint": "gufo-embedded-f783fedb",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "{\"alpha\": 941, \"beta\": 137}"
+          },
+          "finish_reason": "stop"
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 158,
+        "completion_tokens": 16,
+        "total_tokens": 174
+      },
+      "lie_timings": {
+        "schema": "synapse-lie.request-timings.v1",
+        "scope": "synchronous_executor_calls",
+        "valid": true,
+        "prefill_tokens": 158,
+        "cached_tokens": 0,
+        "cache_capture_ms": 0.0,
+        "cache_restore_ms": 0.0,
+        "ssd_cached_tokens": 0,
+        "ssd_read_ms": 0.0,
+        "decode_mode": "ar",
+        "max_decode_output_tokens": 1,
+        "mtp_drafted_tokens": 0,
+        "mtp_accepted_tokens": 0,
+        "decode_tokens": 16,
+        "output_token_limit": 512,
+        "prefill_calls": 1,
+        "decode_calls": 17,
+        "prefill_ms": 787.824001,
+        "decode_ms": 1569.641351,
+        "prefill_tokens_per_second": 200.55240738978196,
+        "decode_tokens_per_second": 10.193411373755279
+      }
+    },
+    "source_diagnosis": "The independently pinned Qwen renderer omits tool_call_id and emits contiguous tool results in received order. The observed answer swaps precisely the reversed result values. A model-layer correlation correction and requalification remain pending.",
+    "causality_limit": "Source diagnosis identifies lost correlation; no corrected HOST or original-weight result is claimed."
+  },
+  "actual_exits": {
+    "controller": 1,
+    "supervisor": 1,
+    "helper": 1,
+    "server": 0,
+    "collector": 0,
+    "whole_container_closure_r2": 0
+  },
+  "wire_rows_including_readiness": 74,
+  "telemetry_samples": 115,
+  "sampled_peak_C": {
+    "CPU": 59.5,
+    "GPU": 62.0,
+    "NVMe": 63.85
+  },
+  "models_stat_unchanged": true,
+  "model_payloads_newly_hashed": false,
+  "lease_released_at": "2026-10-07T15:29:28.932923+00:00",
+  "whole_container_closure": {
+    "state": "WHOLE_CONTAINER_AND_EXACT_GPU_IDENTITIES_CLOSED_NO_STANDING_RESERVATION",
+    "at_utc": "2026-10-07T15:32:52.776775+00:00",
+    "boot_id": "7a966774-3424-46c3-8045-34f759ea58a1",
+    "evidence_scope": "Entire recorded container cgroup absent, all actual GPU PID/start_ticks and launcher/supervisor absent; no inferred missing-PID success",
+    "observed_container_init_PID_available": true,
+    "original_init_PID_absence_claimed": true,
+    "identities": [
+      {
+        "role": "supervisor",
+        "pid": 10401,
+        "start_ticks": 290299,
+        "exact_identity_absent": true
+      },
+      {
+        "role": "Distrobox launcher",
+        "pid": 10496,
+        "start_ticks": 290408,
+        "exact_identity_absent": true
+      },
+      {
+        "role": "observed container init",
+        "pid": 10607,
+        "start_ticks": 290418,
+        "exact_identity_absent": true
+      },
+      {
+        "role": "observed native GPU owner",
+        "pid": 12148,
+        "start_ticks": 300126,
+        "cgroup": "0::/system.slice/docker-0f800e84691591ad266c192301e475648f4df8b4c6b9ecb9a75de4a9478338ef.scope\n",
+        "exact_identity_absent": true
+      }
+    ],
+    "whole_container_process_scans": [
+      {
+        "pass": 0,
+        "processes_checked": 387,
+        "owned_cgroup_matches": [],
+        "unreadable": [],
+        "vanished_during_read": []
+      },
+      {
+        "pass": 1,
+        "processes_checked": 387,
+        "owned_cgroup_matches": [],
+        "unreadable": [],
+        "vanished_during_read": []
+      }
+    ],
+    "container_cgroup": {
+      "path": "/sys/fs/cgroup/system.slice/docker-0f800e84691591ad266c192301e475648f4df8b4c6b9ecb9a75de4a9478338ef.scope",
+      "exists": false,
+      "empty": true
+    },
+    "container_inspect": {
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: 0f800e84691591ad266c192301e475648f4df8b4c6b9ecb9a75de4a9478338ef\n"
+    },
+    "label_listing": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "original_lease": {
+      "device": 66308,
+      "inode": 105946405,
+      "free_briefly": true,
+      "released": true
+    },
+    "service": {
+      "MainPID": "12606",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "http8000_listeners": [],
+    "foreign_compute_clients": [],
+    "guarded_hot": [],
+    "observation": {
+      "at": "2026-10-07T15:32:52.651502+00:00",
+      "kfd": [
+        {
+          "pid": 12606,
+          "start_ticks": 303638,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "dri": [
+        {
+          "pid": 12606,
+          "start_ticks": 303638,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "denied_fd": 375,
+      "temperatures": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "value_c": 31.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp2_input",
+          "value_c": 33.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp3_input",
+          "value_c": 31.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp1_input",
+          "value_c": 33.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp2_input",
+          "value_c": 32.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp3_input",
+          "value_c": 33.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon5/temp1_input",
+          "value_c": 37.0,
+          "limit_c": 98,
+          "guarded": false
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "value_c": 37.625,
+          "limit_c": 98,
+          "guarded": true
+        }
+      ],
+      "memory": {
+        "MemTotal": 132542644224,
+        "MemAvailable": 123172638720,
+        "SwapTotal": 21474828288,
+        "SwapFree": 21474828288
+      },
+      "kernel_kfd": [
+        12606
+      ],
+      "gpu": {
+        "gpu_busy_percent": 0,
+        "mem_info_gtt_total": 120259084288,
+        "mem_info_gtt_used": 18636800,
+        "mem_info_vram_total": 2147483648,
+        "mem_info_vram_used": 151191552
+      }
+    },
+    "GPU_build_run_or_service_mutation": false,
+    "standing_lease_waiter_reservation": false
+  },
+  "MTP_prepared_but_not_admitted_or_run": true,
+  "frozen_workload_modified": false,
+  "same_frozen_question_requalified_on_corrected_runtime": true,
+  "GPU_rerun_in_this_window": false,
+  "selected_greedy_chat_parallel_case_passed": {
+    "request": {
+      "model": "qwen3.8-flash-next",
+      "store": false,
+      "seed": 123,
+      "temperature": 0,
+      "top_p": 1,
+      "top_k": 0,
+      "min_p": 0,
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "get_value",
+            "description": "Get the independent integer value for the selected key.",
+            "strict": true,
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "enum": [
+                    "alpha",
+                    "beta"
+                  ]
+                }
+              },
+              "required": [
+                "key"
+              ],
+              "additionalProperties": false
+            }
+          }
+        }
+      ],
+      "max_tokens": 512,
+      "tool_choice": "required",
+      "parallel_tool_calls": true,
+      "messages": [
+        {
+          "role": "user",
+          "content": "Call get_value exactly twice in this turn: once with key alpha and once with key beta. Both calls are independent and must be issued together. Do not explain."
+        }
+      ],
+      "stream": false
+    },
+    "response": {
+      "id": "chatcmpl-12148-3001417167543-9",
+      "object": "chat.completion",
+      "created": 1791386960,
+      "model": "qwen3.8-flash-next",
+      "system_fingerprint": "gufo-embedded-f783fedb",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": null,
+            "tool_calls": [
+              {
+                "id": "call-lie-b978e6539307967e8cf539ab73aec98b-9-0",
+                "type": "function",
+                "function": {
+                  "name": "get_value",
+                  "arguments": "{\"key\":\"alpha\"}"
+                }
+              },
+              {
+                "id": "call-lie-b978e6539307967e8cf539ab73aec98b-9-1",
+                "type": "function",
+                "function": {
+                  "name": "get_value",
+                  "arguments": "{\"key\":\"beta\"}"
+                }
+              }
+            ]
+          },
+          "finish_reason": "tool_calls"
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 387,
+        "completion_tokens": 31,
+        "total_tokens": 418
+      },
+      "lie_timings": {
+        "schema": "synapse-lie.request-timings.v1",
+        "scope": "synchronous_executor_calls",
+        "valid": true,
+        "prefill_tokens": 387,
+        "cached_tokens": 0,
+        "cache_capture_ms": 0.0,
+        "cache_restore_ms": 0.0,
+        "ssd_cached_tokens": 0,
+        "ssd_read_ms": 0.0,
+        "decode_mode": "ar",
+        "max_decode_output_tokens": 1,
+        "mtp_drafted_tokens": 0,
+        "mtp_accepted_tokens": 0,
+        "decode_tokens": 31,
+        "output_token_limit": 512,
+        "prefill_calls": 1,
+        "decode_calls": 32,
+        "prefill_ms": 1382.075851,
+        "decode_ms": 2954.763868,
+        "prefill_tokens_per_second": 280.01357502917546,
+        "decode_tokens_per_second": 10.491532110477262
+      }
+    }
+  },
+  "original_weight_full_gate_passed": false,
+  "performance_claim": false,
+  "Terminal_Bench_run": false,
+  "goal_complete": false,
+  "open_task_numbers": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "classification": "ORIGINAL_WEIGHT_SELECTED_AR_HTTP_FAILURE_NOT_FULL_ACCEPTANCE",
+  "coherent_HIP_build_receipt": {
+    "path": "docs/development/validation/tool-prompt-guidance-point-build-2026-10-07.json",
+    "bytes": 36834,
+    "sha256": "f80a2d52d4b10c32b918f3f91ca445be4a13788378d1c2d37ed0ab7920a246b4"
+  },
+  "checking_code_HOST_receipt": {
+    "path": "docs/development/validation/tool-transitions-host-2026-10-07.json",
+    "bytes": 32861,
+    "sha256": "4dd15838bac572e1599dcf85a7d4d2624d989ba7494a55826877132df302c142"
+  },
+  "runtime_build_id": "rocm10-point-modern-r62-runtime",
+  "runtime_artifacts": {
+    "runtime/bin/lie-attention-qualify": "32c83adb750ba3f96716a9d8976efd6202cf7b14ca18192a4ea6ce1122c3d9bb",
+    "runtime/bin/lie-hip-probe": "b7dc59173d085dce7a809e1a13bd695ba8d0aa06e8b503b82e5c21db258aa40c",
+    "runtime/bin/lie-sampling-capture": "7768091969e2b785530b5c6a8d65b534c129f86adbd99a1cd78aedc21381c3e4",
+    "runtime/bin/synapse-lie-bench": "d9b4f03227337ca82b030ae844c9f8b9903864e6a9ff8855ca12cc3a338755e5",
+    "runtime/bin/synapse-lie-bench-gufo-reference": "7bb7c83273e2c16a9efa99bf27e622faa6b0c6b112f49e46af4b1edc60e73c1d",
+    "runtime/bin/synapse-lie-server": "d2282198608729c05cbddb447923bb0ee55b5b3c89bf1b28a685cf0be6c129f0"
+  },
+  "source_checkpoint": "db02da35239179bc12799ea41cd291ba62fd74e1",
+  "server_context": 16384,
+  "prefill_chunk": 2048,
+  "RAM_cache_enabled": false,
+  "C1_sequential_requests": true,
+  "server_max_active": 2,
+  "original_model_revision": "38bb39ee97821de2c9009abb7e93950eec396e66",
+  "original_model_bytes": 111334654784,
+  "guards": {
+    "CPU_C": 98,
+    "NVMe_C": 85,
+    "GPU": "observe-only"
+  },
+  "native_source_modified": false,
+  "product_Python_dependency": false,
+  "new_HIP_build_or_model_conversion": false,
+  "publication": false,
+  "preserved_initial_sealer_failure": {
+    "scope": "OFFLINE_ALREADY_COLLECTED_WIRE_REVIEW_NOT_GPU_RERUN",
+    "actual_exit_code": 1,
+    "failed_helper": "evidence/seal-tool-transitions-ar-point-r63.py",
+    "failed_helper_sha256": "de4f95d0d04597dfdaa7046046cac94c05c5533ecdd10ee5a35331179d915201",
+    "error": "AssertionError: historical prose whitespace expected two newlines; current saved JSON/SSE outputs both contain exactly one newline after the requested sentence.",
+    "corrected_helper": "evidence/seal-tool-transitions-ar-point-r63-r2.py",
+    "corrected_helper_sha256": "1b4f217ecbc56a2f857da4fc95c77bb4188c47fe022e16e4adbcdcd2b9bdd5bd",
+    "frozen_request_acceptance_or_GPU_output_modified": false,
+    "no_sealed_or_review_outputs_created_before_failure": true
+  },
+  "preserved_preparation_guard_failure": {
+    "scope": "LOCAL_SOURCE_IDENTITY_GUARD_NOT_GPU_OR_REMOTE",
+    "actual_exit_code": 1,
+    "failed_helper": "evidence/prepare-context-r63-tools.py",
+    "failed_helper_sha256": "710bbb42c4efabeed887d530a026f350197b1851b924beea888965ace662c426",
+    "error": "AssertionError: third_party/README.md",
+    "cause": "Provenance-only documentation changed in the completed r62 documentation checkpoint; no native/compiler source changed. The corrected helper verifies the exact seven documentation/evidence diff paths and records the one capsule documentation difference explicitly.",
+    "no_manifests_or_readiness_outputs_created": true,
+    "corrected_helper_sha256": "16b6a92a6df64369e1f6fe38985140c145debda44875aaf57ea3d0e77904fb52"
+  },
+  "preserved_read_only_lookup_failures": [
+    {
+      "scope": "READ_ONLY_SEARCH_NOT_MODEL_OR_GPU",
+      "command": "rg --files evidence | rg r60-helper-pattern",
+      "actual_exit_code": 1,
+      "cause": "Default rg inventory respected the evidence gitignore; the corrected --no-ignore inventory succeeded with exit0.",
+      "mutation": false
+    },
+    {
+      "scope": "READ_ONLY_SOURCE_LOOKUP_NOT_MODEL_OR_GPU",
+      "actual_exit_code": 2,
+      "missing_path": ".deps/gufo-f783fedb/src/cli/serve/openai_router.cpp",
+      "cause": "An unverified file name was included in the source search. The subsequent actual file inventory found openai_chat.cpp/openai_chat.hpp.",
+      "mutation": false
+    }
+  ],
+  "standing_remote_job_lease_window_waiter_reservation": false,
+  "portable_raw_archive": {
+    "path": "docs/development/validation/raw/tool-transitions-ar-point-r3-2026-10-07.tar.gz",
+    "bytes": 553072,
+    "sha256": "379ba209de1b248f5d335cbb25ba3e42895fb2dd5f7ad6ef89b8b9222dfb2809",
+    "regular_members": 66
+  },
+  "raw_artifacts": {
+    ".deps/gufo-f783fedb/src/models/qwen/chat_template.cpp": {
+      "bytes": 20426,
+      "sha256": "13939881240e9231611ce9d12e9047ec439b4202aab689ebf31fecac33e7a29b"
+    },
+    "adapters/gufo.cpp": {
+      "bytes": 64866,
+      "sha256": "0c22880e1a49682325641df43f3318e67c8aae4214a064532d975ff5c44162ca"
+    },
+    "adapters/gufo_chat.hpp": {
+      "bytes": 5204,
+      "sha256": "68333bbb1e1f3d921509b4763abf7e0215f014820b835bfccf1c4993e7775652"
+    },
+    "docs/BACKEND.md": {
+      "bytes": 79133,
+      "sha256": "4c25f216f43a6e400a14bde1e12ec50415025d0b50dae9cff2d477d108b86ee5"
+    },
+    "docs/COORDINATION.md": {
+      "bytes": 209568,
+      "sha256": "af64070574d59932d037e752783411ec3713305672f7a92d47eef3c9c3c2242c"
+    },
+    "docs/PROGRESS.md": {
+      "bytes": 427843,
+      "sha256": "1124df9e87d16bd377e78f718d42e9b4731e6b04ad163d26ba4d2f0dcdcb93a6"
+    },
+    "docs/development/protocols/TOOL-TRANSITIONS-GPU-PROTOCOL.md": {
+      "bytes": 5329,
+      "sha256": "5f6c995c1e17cad44510d3e5ccd9a709367be8e228e0db16f66a9c516bcb450c"
+    },
+    "docs/development/validation/tool-prompt-guidance-point-build-2026-10-07.json": {
+      "bytes": 36834,
+      "sha256": "f80a2d52d4b10c32b918f3f91ca445be4a13788378d1c2d37ed0ab7920a246b4"
+    },
+    "docs/development/validation/tool-transitions-host-2026-10-07.json": {
+      "bytes": 32861,
+      "sha256": "4dd15838bac572e1599dcf85a7d4d2624d989ba7494a55826877132df302c142"
+    },
+    "evidence/context-r63-ar-coordination-messages.json": {
+      "bytes": 3399,
+      "sha256": "0292c0205a1ffa761fbed7b3a6b99a061fd4d049f641bc049e9274388f0a1fb9"
+    },
+    "evidence/context-r63-before-tools-ar-r1.json": {
+      "bytes": 6766,
+      "sha256": "d9d0d7f7c8510cacdadaf4f62ed39397843c9b7d9695dccf52495094dae6f14d"
+    },
+    "evidence/context-r63-before-tools-ar-r1.py": {
+      "bytes": 4891,
+      "sha256": "4e9b8129716050a257d8e2098b947f83d0c4a9b341a6331fe6ccb1266b380640"
+    },
+    "evidence/context-r63-coordination-request.json": {
+      "bytes": 1926,
+      "sha256": "ed2b0d8987f6438ddada770690ba836e4e5f182f38d58fff8954aa064e933bce"
+    },
+    "evidence/context-r63-initial-sealer-failure-r1.json": {
+      "bytes": 727,
+      "sha256": "e0247ef7ac4cc64e6c614608cee216657aa474a3b0268670a9044f636c6013b2"
+    },
+    "evidence/context-r63-peer-coordination.json": {
+      "bytes": 4047,
+      "sha256": "3adefd8921b95d9683e8a0b953837c273a0814315f469b1543b4eb3a043beec8"
+    },
+    "evidence/context-r63-preparation-guard-failure-r1.json": {
+      "bytes": 723,
+      "sha256": "4364762bc656aeb5d15f138f3652ca3738e845315fab7a5bc86eebd4f77bbaaf"
+    },
+    "evidence/context-r63-preserved-read-only-inventory-failure.json": {
+      "bytes": 284,
+      "sha256": "f4b9fddd2e0cd830d516587e4fc20da1c52144f989af1bcdb10aca3448439af9"
+    },
+    "evidence/context-r63-preserved-read-only-lookup-failure.json": {
+      "bytes": 326,
+      "sha256": "935db64245a96b020ca77c8790d80cd48869af443b74c6a06b4edff2fe7ab74e"
+    },
+    "evidence/context-r63-remote-helper-recipes.json": {
+      "bytes": 1245,
+      "sha256": "8970542829c07e274f9619ef03fffbded37414942cc39524b3ff42017831e06d"
+    },
+    "evidence/context-r63-sealer-recipe.json": {
+      "bytes": 413,
+      "sha256": "850212a3acf3a00746e47c57fb70d9f6cf14de4cd0f7257d210ef09e294427a7"
+    },
+    "evidence/context-r63-tools-ar-closure-r1.py": {
+      "bytes": 8083,
+      "sha256": "c8676aee42af55e21eec916bb72c62a381bd5448a15e178aba523fa744ffe7da"
+    },
+    "evidence/context-r63-tools-ar-closure-r2.json": {
+      "bytes": 9457,
+      "sha256": "1870c59a3a137abaa7c3c6449e0ec7a95d2fc2870115c5c02df89b55157514e0"
+    },
+    "evidence/context-r63-tools-ar-live-1.json": {
+      "bytes": 5742,
+      "sha256": "bb82c6738415e2a39a799a1035ab3b38d27ea47f6ed98a437980e773714935c0"
+    },
+    "evidence/context-r63-tools-ar-live-2.json": {
+      "bytes": 21889,
+      "sha256": "7081f3dbfb7ba5cc850358ef11be21e2494dd40c05463551fd68820d70129da7"
+    },
+    "evidence/context-r63-tools-ar-manifest.json": {
+      "bytes": 6279,
+      "sha256": "b6cda2010925ad41e66b190aa3f6666ef4fe9bde4db28003c36741ee88a43709"
+    },
+    "evidence/context-r63-tools-ar-offline-review-r2.json": {
+      "bytes": 14079,
+      "sha256": "663f5b0800596aefbb15ecf91f7e77f40d101721f852febc5b9faaca481b027e"
+    },
+    "evidence/context-r63-tools-ar-r1/collection.json": {
+      "bytes": 7718,
+      "sha256": "6eeb93198b3f1b87f711022e677016d06b683a28ec89722cd42f80ab21099423"
+    },
+    "evidence/context-r63-tools-ar-r1/controller-result.json": {
+      "bytes": 745,
+      "sha256": "0acf2e6c84fed9405a78d8238670fc31d19091e0ecf4a4ac9837f743709b0fca"
+    },
+    "evidence/context-r63-tools-ar-r1/controller-stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r63-tools-ar-r1/controller-stdout.log": {
+      "bytes": 141249,
+      "sha256": "44f5b05c70110c1e2d3ff2b77f436da5778e2350d550547585a18e987a55de61"
+    },
+    "evidence/context-r63-tools-ar-r1/distrobox-create.log": {
+      "bytes": 263,
+      "sha256": "680e4994ed8a33e5cbdf56ff07aed449ed85809b0f1b56cfacab3fd2fa70a9a9"
+    },
+    "evidence/context-r63-tools-ar-r1/distrobox.stderr.log": {
+      "bytes": 1073,
+      "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+    },
+    "evidence/context-r63-tools-ar-r1/distrobox.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r63-tools-ar-r1/http-gate.py": {
+      "bytes": 19937,
+      "sha256": "68cce0621854c407b35305a75e33bf2a02e5a33c0847bf63bd43118cc73b07f8"
+    },
+    "evidence/context-r63-tools-ar-r1/http-result.json": {
+      "bytes": 970,
+      "sha256": "9fd131732e307aa82d83dc69036d01bfe81a760fff3795c19e0a017e3b7067eb"
+    },
+    "evidence/context-r63-tools-ar-r1/http-tool-transitions-result.json": {
+      "bytes": 6605,
+      "sha256": "dda0b74f27c1473c8c9bd986600b88ca367fc5c3c0b1917cf2241844752a2a57"
+    },
+    "evidence/context-r63-tools-ar-r1/http-tool-transitions.py": {
+      "bytes": 23284,
+      "sha256": "ae96da74d458d772466c3dc8abe8e8d1494fc900d4ef726723cdd2dc2563fb73"
+    },
+    "evidence/context-r63-tools-ar-r1/http-wire.jsonl": {
+      "bytes": 59139,
+      "sha256": "ff2b58cb601aa1546ce0678f2d4b965f5cc644fc62a6be06eeef151a165208c1"
+    },
+    "evidence/context-r63-tools-ar-r1/manifest.json": {
+      "bytes": 6279,
+      "sha256": "b6cda2010925ad41e66b190aa3f6666ef4fe9bde4db28003c36741ee88a43709"
+    },
+    "evidence/context-r63-tools-ar-r1/plan.json": {
+      "bytes": 727,
+      "sha256": "da5d218d9bbe358acb83c8d4151a1fe26afddecb3194f5c0474332e986095611"
+    },
+    "evidence/context-r63-tools-ar-r1/result.json": {
+      "bytes": 153903,
+      "sha256": "136517a97825ed834b22e15653c7ff12556616b0d9cb684c3f531f280c74cc50"
+    },
+    "evidence/context-r63-tools-ar-r1/runner.py": {
+      "bytes": 165410,
+      "sha256": "25afa625431aa79589e0ca2a619c146b36d294a4aa3cc884d6a52786c910ae57"
+    },
+    "evidence/context-r63-tools-ar-r1/server.log": {
+      "bytes": 92,
+      "sha256": "b0a3bc64f29a7708a4dce0251f4024bd6335e077dae8dc8190e46367f154338a"
+    },
+    "evidence/context-r63-tools-ar-r1/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r63-tools-ar-r1/stdout.log": {
+      "bytes": 69953,
+      "sha256": "e15f0cfa78ff344c87f8d3b97efc5a431dadf943083dabfb13413101880f008e"
+    },
+    "evidence/context-r63-tools-ar-r1/telemetry.jsonl": {
+      "bytes": 170365,
+      "sha256": "ad341c63fe9b08c4cafe827cff14961805c0fc3093a87afd98a0eb89f8ade2d3"
+    },
+    "evidence/context-r63-tools-jobs-prepared.json": {
+      "bytes": 11396,
+      "sha256": "e9602d0a7dd19c5bbac1e23b88b629c2efcedfa8fdc402ccfaf42accbc216fba"
+    },
+    "evidence/context-r63-tools-live.py": {
+      "bytes": 4307,
+      "sha256": "b010f5fd8b260e6ceb9f68cceb705182158645844d776dd7b27aa29942cb0476"
+    },
+    "evidence/context-r63-tools-mtp-manifest.json": {
+      "bytes": 6901,
+      "sha256": "b3924f2cc3af5651f3e03f7d2eadeda37865afdd88894f5e02622c0772ebf447"
+    },
+    "evidence/context-r63-tools-mtp-r1/http-gate.py": {
+      "bytes": 19937,
+      "sha256": "68cce0621854c407b35305a75e33bf2a02e5a33c0847bf63bd43118cc73b07f8"
+    },
+    "evidence/context-r63-tools-mtp-r1/http-tool-transitions.py": {
+      "bytes": 23284,
+      "sha256": "ae96da74d458d772466c3dc8abe8e8d1494fc900d4ef726723cdd2dc2563fb73"
+    },
+    "evidence/context-r63-tools-mtp-r1/manifest.json": {
+      "bytes": 6901,
+      "sha256": "b3924f2cc3af5651f3e03f7d2eadeda37865afdd88894f5e02622c0772ebf447"
+    },
+    "evidence/context-r63-tools-mtp-r1/runner.py": {
+      "bytes": 165410,
+      "sha256": "25afa625431aa79589e0ca2a619c146b36d294a4aa3cc884d6a52786c910ae57"
+    },
+    "evidence/context-r63-tools-prepare-remote.py": {
+      "bytes": 5227,
+      "sha256": "fd5970f18dfadfcc62d25bc1370f970401e4a7a89e73d17676b650349babe281"
+    },
+    "evidence/context-r63-tools-readiness.json": {
+      "bytes": 1799,
+      "sha256": "f5eedce62f1e71482a043da399a6d90baa252cf52bfb263b33432720d36f6f50"
+    },
+    "evidence/launch-context-r63-tools-ar.py": {
+      "bytes": 3021,
+      "sha256": "19ec6c1a320ee969cd2da62ada75548b61a8e6761ee6d56e6667ee89842462aa"
+    },
+    "evidence/launch-context-r63-tools-mtp.py": {
+      "bytes": 3025,
+      "sha256": "03eaae214bc4e73e1d748ebc5a431ad74a586975ed1c22261df3f3fada3075e7"
+    },
+    "evidence/prepare-context-r63-tools-r2.py": {
+      "bytes": 6120,
+      "sha256": "16b6a92a6df64369e1f6fe38985140c145debda44875aaf57ea3d0e77904fb52"
+    },
+    "evidence/prepare-context-r63-tools.py": {
+      "bytes": 5499,
+      "sha256": "710bbb42c4efabeed887d530a026f350197b1851b924beea888965ace662c426"
+    },
+    "evidence/seal-tool-transitions-ar-point-r63-r2.py": {
+      "bytes": 14608,
+      "sha256": "1b4f217ecbc56a2f857da4fc95c77bb4188c47fe022e16e4adbcdcd2b9bdd5bd"
+    },
+    "evidence/seal-tool-transitions-ar-point-r63.py": {
+      "bytes": 14473,
+      "sha256": "de4f95d0d04597dfdaa7046046cac94c05c5533ecdd10ee5a35331179d915201"
+    },
+    "third_party/gufo-source.json": {
+      "bytes": 120375,
+      "sha256": "8891dc1d32fdebbeba4a0fe13e3a13c5a9d7cdb95483c6b0edec7897a074db51"
+    },
+    "tools/strix-point-bench-collect.py": {
+      "bytes": 15116,
+      "sha256": "7258acbb467ed751c46ebc37c5dfa7d15182838145cb2b3bd54975309afafa5c"
+    },
+    "tools/strix-point-campaign.py": {
+      "bytes": 165410,
+      "sha256": "25afa625431aa79589e0ca2a619c146b36d294a4aa3cc884d6a52786c910ae57"
+    },
+    "tools/strix-point-http-gate.py": {
+      "bytes": 19937,
+      "sha256": "68cce0621854c407b35305a75e33bf2a02e5a33c0847bf63bd43118cc73b07f8"
+    },
+    "tools/strix-point-tool-transition-gate.py": {
+      "bytes": 23284,
+      "sha256": "ae96da74d458d772466c3dc8abe8e8d1494fc900d4ef726723cdd2dc2563fb73"
+    }
+  }
+}

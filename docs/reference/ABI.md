@@ -809,6 +809,13 @@ tokenization remains distinct. Original-weight acceptance of the corrected
 prompt policy remains open; both providers and all six consumers now have a
 [coherent device-hidden HIP build](../development/validation/tool-prompt-guidance-point-build-2026-10-07.json)
 at `acfb9d26`, without model execution or changes to public layouts.
+The later original-weight greedy Chat JSON two-call case passes, but its
+reversed-results continuation swaps values
+([qualification](../development/validation/tool-transitions-ar-point-r3-2026-10-07.json)).
+LIE retains actual IDs in the owned history and adapter messages; the pinned
+renderer emits only tool content in received order. Model-prompt correlation
+handling remains an identified correction. Public call-ID contracts and the
+frozen checking questions remain unchanged.
 No tool code executes here. Exact-session snapshots remain absent;
 MTP uses its separate admitted contract. Native decode batching uses the additive contract below.
 An owned or selectively ported renderer must preserve the applicable, separately

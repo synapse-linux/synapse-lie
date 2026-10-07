@@ -194,6 +194,11 @@ is bundled/modified. Tool-frame tests and CPU/Pi fixtures are not model qualific
 The corrected guidance now compiles in both private HIP providers and all six
 consumers ([build receipt](../docs/development/validation/tool-prompt-guidance-point-build-2026-10-07.json));
 this device-hidden build does not qualify original-weight tool behavior.
+The subsequent [original-weight AR observation](../docs/development/validation/tool-transitions-ar-point-r3-2026-10-07.json)
+passes the selected two-call question but fails its reversed-results follow-up.
+The pinned renderer omits call IDs and emits results in received order;
+preserving correlation in LIE's model binding remains pending. Upstream source
+and the frozen client workload remain unchanged.
 
 ## Archived private Q2 experiment
 

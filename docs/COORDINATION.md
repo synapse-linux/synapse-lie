@@ -1,5 +1,28 @@
 # DS4 / synapse-lie coordination
 
+## Corrected prompt AR tool gate failed at result correlation and retired — 2026-10-07
+
+Fresh Point/DGX/Q2 own-state declarations and global/in-lease checks precede
+r63 AR using the original Q4 files and the coherent acfb9d26/r62 runtime. The
+unchanged greedy Chat JSON two-call case passes. The next reversed-result
+follow-up swaps values and fails; controller/supervisor/helper exit1 and owned
+server exit0 are retained. All 15 remote files verify; model stats are unchanged.
+
+Lease66308/105946405 releases at 15:29:28.932923 UTC. Strong closure at
+15:32:52.776775 verifies supervisor10401/start290299, launcher10496/start290408,
+observed init10607/start290418 and native GPU owner12148/start300126 absent.
+Container `0f800e84` and its entire recorded cgroup are absent; two complete
+387-process scans find no members or unreadable entries. Router12606 is active,
+original lease free/released, HTTP8000 empty; no foreign compute or guarded hot
+sensor is observed. Peaks are CPU59.5/GPU62/NVMe63.85 C. Peers receive the release.
+
+The [failed receipt](development/validation/tool-transitions-ar-point-r3-2026-10-07.json)
+grants no future window. MTP is prepared only; no plan/admission/run is present.
+Root has no remote job/client/build/handle/lease/window/waiter/reservation on
+`.161/.157/.158/TB`. The identified result-correlation source correction and
+subsequent original-weight AR/MTP checks need new coherent bindings and fresh
+admission. All six items remain open; Terminal Bench stays last.
+
 ## Corrected tool prompt Point build retired — 2026-10-07
 
 The first r62 read-only preflight exits1 before staging/build because `.161`

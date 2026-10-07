@@ -83,3 +83,10 @@ The first [original AR run](../validation/tool-transitions-ar-point-r2-2026-10-0
 fails `greedy_chat_parallel_json` after four new checks: the fixed two-key
 question produces only `alpha`. All subsequent checks are unexecuted, and MTP
 is unadmitted. This failure does not change the workload or acceptance criteria.
+
+The [corrected-runtime AR observation](../validation/tool-transitions-ar-point-r3-2026-10-07.json)
+passes that unchanged greedy Chat JSON two-call case. Its next fixed reversed-
+results continuation instead swaps the two integer values. Five new checks pass,
+one fails and 65 are unexecuted. Source diagnosis identifies omitted call IDs in
+the model renderer; result-correlation correction and AR/MTP requalification
+remain open. Questions, profiles, budgets and acceptance criteria are unchanged.

@@ -13,22 +13,25 @@ learning from real workloads; do not let the prototype define the final limits.
 
 ## Current roadmap — 2026-10-07 UTC
 
-The wider original-weight HTTP tool gate now fails its frozen greedy two-call
-question: the requested `alpha` and `beta` calls produce only `alpha`. Four new
-checks and five baseline controls pass before the failure; 66 new checks are
-unexecuted. The [failed AR receipt](development/validation/tool-transitions-ar-point-r2-2026-10-07.json)
-retains the complete wire, original exits and verified machine closure. MTP is
-prepared but unadmitted. HOST diagnosis now confirms that the exact schema's
-grammar permits the second call and allows natural EOS after the first. The
-model-layer prompt now adds the missing JSON format guidance, following the
-pinned upstream constrained-request behavior for both text and vision. This
-correction has [grouped HOST checks](development/validation/tool-prompt-guidance-host-2026-10-07.json)
-and a [coherent device-hidden HIP build](development/validation/tool-prompt-guidance-point-build-2026-10-07.json)
-of both providers and all six consumers at `acfb9d26`. The same frozen
-original-weight question still needs qualification; compilation does not establish
-that the quality miss is fixed. Before wider tool acceptance,
-steering quality, long-context recall/HTTP, fault/resource gates, matched
-comparisons and Terminal Bench remain open. Terminal Bench stays last.
+The corrected `acfb9d26` runtime now passes the unchanged original-weight greedy
+Chat JSON two-call question: both `alpha` and `beta` are emitted. The next fixed
+follow-up fails: reversed results beta941/alpha137 produce alpha941/beta137.
+Five new checks and five baseline controls pass; one new check fails and 65 are
+unexecuted. The [current failed AR receipt](development/validation/tool-transitions-ar-point-r3-2026-10-07.json)
+retains both observations, actual exits and verified machine closure. The
+[earlier one-call failure](development/validation/tool-transitions-ar-point-r2-2026-10-07.json)
+remains unchanged historical evidence. MTP is prepared but unadmitted.
+
+Source diagnosis finds that the pinned Qwen renderer omits tool call IDs and
+emits contiguous tool results in received order. Preserving their correlation
+in the model prompt is now an identified functional correction; neither the
+question nor acceptance criteria change. JSON format guidance already has
+[grouped HOST checks](development/validation/tool-prompt-guidance-host-2026-10-07.json)
+and a [coherent HIP build](development/validation/tool-prompt-guidance-point-build-2026-10-07.json).
+Result correlation needs its own source correction and grouped HOST/HIP/original
+weight checks. Wider tool acceptance, steering quality, long-context recall/HTTP,
+fault/resource gates, matched comparisons and Terminal Bench remain open.
+Terminal Bench stays last.
 
 Strix Point integration is merged into `develop` at `30598a3`; current context
 and OpenAI work remains on `feature/context-million-openai`. Recorded GPU
@@ -75,9 +78,9 @@ with the four existing consumers. Its [receipt](development/validation/integrate
 binds the exact source and all five artifacts; collection and strict machine
 closure pass without a model or GPU test. Original-weight qualification remains open.
 The final unavailable-backend stop metadata export is corrected at `229b1e13`,
-with focused Release and sanitizer linkage checks. No further missing source
-implementation is identified in the owned functional scope. The implementation
-phase is complete; the acceptance checks below remain open for final integrated
+with focused Release and sanitizer linkage checks. That source audit was followed
+by the newly identified model-prompt result-correlation defect above. Its source
+correction remains open; the acceptance checks below remain open for final integrated
 qualification, with fresh admission for each remote window.
 Comparative performance follows those gates; Terminal Bench stays last.
 All six items remain open until their separate acceptance evidence is collected.
