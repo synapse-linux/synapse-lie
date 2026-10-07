@@ -14,7 +14,12 @@ Exact replay remains valid numerical evidence; model timing deltas cannot yet
 be attributed to HC alone. The component's same-build paired result is separate.
 A newly rebuilt matching candidate preserves every common device function's
 size/resources;907 of920 functions are byte-exact and the remaining13 differ
-only in address literals in disassembly. Its runtime qualification is pending.
+only in address literals in disassembly. Its original128K run now completes
+with all four responses/token streams exact:1335.257764 PP (+1.860068%) but
+24.825466 TG (-2.046807%) versus saved1310.874605/25.344213. The native decode
+benefit is not confirmed with matching builds; do not promote it as an overall
+improvement. One observation and eight output calls do not establish sustained
+performance or inherited task quality. No reference is rebuilt or rerun.
 
 The current1587.893545 fixed-point prefill and1310.874605 full128K prefill
 are experimental observations, not demonstrated quality-preserving gains
@@ -35,9 +40,10 @@ Some individual changes do have exact differential replay evidence:
 
 These gains must not be added or treated as an end-to-end quality acceptance.
 The previously retained fixed decode25.12414406 versus original25.09595499
-was essentially unchanged. The subsequent exact HC scalar change below now
-provides a measured C1 gain relative to that retained parent; it does not
-remove the parent's inherited quality qualification gap.
+was essentially unchanged. The initial HC scalar rate increases below are
+observed with the build confound documented above; the matching128K result
+does not confirm an overall C1 improvement. No child removes the parent's
+inherited quality qualification gap.
 The30TG/1500-long-prefill goal remains open.
 
 Sources: [shared Q8](Q2-SHARED-Q8-FIXED-MODEL.md),

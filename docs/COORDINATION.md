@@ -1,5 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Original128K HC windows released — 2026-10-07 UTC: fresh Core own non-use
+and CPU fixture/preflight checks precede each exact-plan admission. First
+source9a399a78/planddf75f28 reuses server578e3320;22 artifacts collect/hash
+before11:45:00.617434UTC releasec8a3b6773443278305262a5a150ff72843c6f82fe5a6fff5b98b24ca00553865,
+retiring1964 identities/1570 groups. The offline build audit then corrects
+only the candidate locally to match saved RelWithDebInfo. New sourcefb355e95/
+plan5b06f7d5 and serverf2ceaa65 admit11:59:43.943212UTC after fresh own non-use,
+CPU fixtures and verify11:58:57.681837UTC. Run/server/client exit0;23 artifacts
+collect/hash before final release12:02:55.635711UTC, SHA
+893459ca2d2a2f604b073f1a8e3f34631133b9b64f68a9f4948dd76479b430c8.
+Latest registry independently matches:1966 identities/1572 groups retired,
+KFD empty, all five original leases free, seven original model stats unchanged.
+Core receives both closures. No Q2 remote job/build/client/handle/lease/window/
+waiter/reservation remains on .157/.158/.161/TB. No remote rebuild, dependency,
+tuning, cleanup or reference rerun. The initial shell transport exit127 is
+preserved; it precedes Python execution and any GPU admission.
+
 Native32K scalar HC window released — 2026-10-07 UTC: fresh Core own
 .157/.158/TB non-use precedes CPU contract/lifetime fixture pass and verify
 11:21:46.449723UTC. Source6c5bd9bc/server578e3320 and plan4ce1d478 admit

@@ -1,5 +1,26 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Original128K HC and build correction — 2026-10-07 UTC: initial saved HC
+Release server578e3320 completes the unchanged130925/8 input at1249.340740 PP
+and25.987615 TG, all four responses exact. The offline audit discovers the
+saved controls are RelWithDebInfo:147 common device functions differ in size
+and132 in resources, despite identical compiler revision. Initial fixed/32K/
+128K HC model gains are therefore build-confounded; exact replay remains valid.
+Only the HC candidate is rebuilt locally with the saved mode. New server
+f2ceaa65 preserves all common function sizes/resources;907/920 are byte-exact,
+remaining13 disassemblies differ only in address literals. The new matching
+original128K run gives1335.257764 PP (+1.860068%) /24.825466 TG (-2.046807%),
+all four responses exact. This does not confirm a native128K decode gain;
+the scalar branch excludes prefill. No overall promotion or goal closure.
+Both observations, originals and the new PP/TG graph are preserved. CPU
+fixtures, verify/run/server/client exit0 in both windows;22 then23 artifacts
+verify before releasesc8a3b677/893459ca. Final12:02:55.635711UTC release retires
+1966 identities/1572 groups, empty KFD/five leases/seven unchanged model stats.
+No remote cleanup or old control rebuild/rerun. The next bounded decode check
+is the same component compiled with matching settings; broad curves remain
+unjustified. Original-weight inherited task quality remains open.
+[Full evidence](Q2-HC-SCALAR-UP-MIX.md).
+
 ## Original-quality performance accounting and scalar HC preparation — 2026-10-07
 
 The owner excludes quality-reducing changes. The new

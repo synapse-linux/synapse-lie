@@ -311,3 +311,50 @@ python3-c corrects transport without changing the test.
 [Result](../config/q2-hc-scalar-native128-results.json),
 [plan](../config/q2-hc-scalar-native128-plan.json),
 [offline auditor](../tools/analyze-q2-hc-scalar-native128.py).
+
+## Matching-build original128K result — 7 October 2026
+
+The corrected serverf2ceaa65 uses the saved RelWithDebInfo configuration,
+unchanged compiler revision, same1029-file provider and same333-file C17 core.
+The saved client87d856cf replays the same original four requestsfcee51ef;
+all content, streamed token pieces, usage and finish reasons remain exact.
+No reference is rebuilt/rerun and no new precision boundary is introduced.
+
+| Original128K observation | Prefill token/s | Decode token/s |
+|---|---:|---:|
+| Saved retained RelWithDebInfo | 1310.874605 | 25.344213 |
+| Initial HC Release, build-confounded | 1249.340740 | 25.987615 |
+| Matching HC RelWithDebInfo | 1335.257764 | 24.825466 |
+
+The matching-build observation is+1.860068% PP and-2.046807% TG versus the
+saved reference. Its prefill98.052229s exceeds the1500 target by10.768896s;
+decode40.281218ms/call exceeds the30 target by6.947885ms. The candidate's
+native128K decode benefit is not confirmed. Keep the saved reference and
+both experimental binaries; no overall promotion. These are eight output
+calls, not sustained TG128, and exact responses do not settle inherited
+task quality. The scalar branch excludes prefill, so the nominal PP increase
+is not evidence that this decode fusion accelerates prefill.
+
+Active telemetry (busy>=80%) reports2661.92MHz mean clock/96.73% mean busy,
+versus saved2625.02MHz/95.63%; sampled CPU/GPU peaks92.125/97C. No causal
+claim or clock-normalized rate follows. The matched new HC kernel itself has
+3024 instruction bytes versus3000 in Release, retaining44VGPR/no private
+scratch; the next bounded decode check should measure the component under
+the matching configuration before another model run. Prefill optimization
+still needs the unchanged2048-row expert/dense chain, not smaller chunks.
+
+Fresh Core own non-use, CPU fixture pass and verify11:58:57 precede
+admission11:59:43.943212UTC, sourcefb355e95/plan5b06f7d5. Run/server/client
+exit0; all23 raw artifacts collect/hash before release12:02:55.635711UTC,
+SHA893459ca2d2a2f604b073f1a8e3f34631133b9b64f68a9f4948dd76479b430c8.
+All1966 identities/1572 groups are retired, KFD empty, five original leases
+free, seven model stat tuples unchanged, latest registry independently matched.
+Core receives closure; no Q2 job/client/handle/lease/window/waiter/reservation
+remains. No remote build, dependency installation, tuning or cleanup.
+
+![Original128K prefill and decode, all observations](figures/q2-hc-native128.png)
+
+[PNG](figures/q2-hc-native128.png), [SVG](figures/q2-hc-native128.svg),
+[exact-value CSV](figures/q2-hc-native128.csv),
+[matching result](../config/q2-hc-scalar-native128-matched-results.json),
+[matching plan](../config/q2-hc-scalar-native128-matched-plan.json).

@@ -1,6 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Current Q2 optimization assessment — 7 October 2026
 
+Latest qualification supersedes causal claims in the initial HC history below:
+the saved model controls use RelWithDebInfo, while the first HC builds used
+Release. The corrected candidate now matches all common device-function
+sizes/resources, with only address-literal differences in13/920 functions.
+At original130925/8 it measures1335.257764 PP (+1.860068%) but24.825466 TG
+(-2.046807%) versus saved1310.874605/25.344213. All four responses are exact;
+no overall promotion or native128K decode gain is established. Preserve the
+first build's1249.340740/25.987615 observation and all old references too.
+The next bounded decode check should measure the existing HC component with
+matching build settings, then consider scalar down/SiLU launch fusion without
+changing the original F32 arithmetic. Do not repeat the completed four-wave
+prefetch,32-wave or marginal DPP trials. For prefill, return to the complete
+2048-row routed/dense chain: this scalar fusion excludes that path. No new
+full curve is justified. The same frozen source still has inherited task-quality
+qualification open; extra requantization cannot count toward the goal.
+
 The owner requires performance gains without quality degradation. The
 [quality audit](Q2-QUALITY-PRESERVING-STATUS.md) makes the inherited F16
 intermediate differences explicit: retained1587/1310 observations cannot be

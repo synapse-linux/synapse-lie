@@ -6,8 +6,11 @@ intermediate-precision changes still need task-quality qualification.
 The HC model comparisons below have a newly identified build-mode confound:
 the saved controls use RelWithDebInfo, while the initial HC binaries use
 Release. Observed rates and exact replays remain recorded, but do not isolate
-the fusion's performance contribution. A matching candidate is prepared;
-no saved control is rebuilt or rerun.
+the fusion's performance contribution. The matching candidate now completes
+the original130925-token/eight-output input:1335.26 PP versus1310.87 (+1.86%),
+but24.83 TG versus25.34 (-2.05%), with all four replies exact. No overall
+promotion or goal closure; no saved control is rebuilt or rerun.
+[Latest native128K PP/TG graph](docs/figures/q2-hc-native128.png).
 
 The private [scalar HC up/mix fusion](docs/Q2-HC-SCALAR-UP-MIX.md) preserves
 original F16 weights and F32 arithmetic. On the original fixed2048/tg128
@@ -16,7 +19,8 @@ parent token/logit files exact. Prefill measures1571.38 versus saved1587.89
 (-1.04%); both binaries remain. On the original native32K/eight-output case,
 decode reaches26.8256 token/s versus saved26.2505/26.2537 (+2.18–2.19%),
 with all four original responses exact. Prefill1419.14 is0.26–0.52% below the
-same-sequence saved controls. New128K and sustained long-depth TG128 remain open.
+same-sequence saved controls. These initial Release observations remain
+separate from the matching-build128K result above; sustained TG128 remains open.
 
 A private [native Q8 SSM wave assignment](docs/Q2-SSM-WAVE-BALANCE.md)
 passes72 exact output pairs and144 independent numerical checks on .157, but
