@@ -1,7 +1,32 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Reuse native Q2_K decode inputs across more output rows
 
-## Original 128K model trial: completion unverified
+## First original 128K model trial: interrupted by power outage
+
+Recovery on 2026-10-07 verifies all 37 surviving artifacts and the original
+server hash f8a5210c. The owner explicitly reports a mains power outage.
+The new boot starts at 14:37:23 UTC; the prior journal ends at 14:15:44 UTC.
+No benchmark rows, telemetry samples or remote exit receipt survived. The
+append-only interrupted receipt at 14:48:23.803106 UTC is
+`ABORTED_HOST_REBOOT`, SHA256
+858d0f6c1e3d26811bcdfc85206dd7ab8070a78d0a5c072c53699d747868f037.
+It does not invent a command exit or performance result. The old processes
+retired with the previous kernel boot; this is not an ordinary GPU-free release.
+
+The new startup launched ComfyUI. Its empty queue was checked and the exact
+user service was stopped at 14:59:49 UTC with explicit owner authorization;
+the owner permits leaving it stopped. The unit remains enabled/unmodified.
+KFD is empty afterwards. Coordination now uses a persistent, boot-scoped
+registry/lock; existing persistent lease inodes and seven model inode/size/
+mtime/ctime tuples survive, while the filesystem device number changes 52→54.
+CPU checks cover stat rebinding, failed lock acquisition cleanup and the
+native request/child-lifetime contract. Both exit 0. No new model run is
+admitted by those checks or by the epoch bootstrap.
+
+[Interruption evidence](../config/q2-decode-down-rows-native128-interrupted.json),
+[new epoch](../config/q2-post-reboot-epoch-baseline.json).
+
+The following records the original attempt and its temporary observation loss.
 
 The phase-scoped candidate is built and staged as server f8a5210c, source
 60439e4d. CPU input/lifetime fixtures and preflight both exit 0. The original

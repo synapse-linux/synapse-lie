@@ -1,13 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Current Q2 optimization assessment — 7 October 2026
 
-The four-row Q2 model trial has now started, but its .157 SSH connection
-timed out and fresh read-only attempts return No route to host. Recover its
-existing result and verify window closure before another GPU admission.
+The first four-row Q2 model trial was interrupted by an owner-reported power
+outage. All 37 surviving artifacts verify, with no throughput samples.
+It is terminal as ABORTED_HOST_REBOOT; original command exits are unknown.
 The frozen launcher passes an offline source/address review with no new pool
 reservation or geometry discrepancy; this does not qualify runtime safety or
-performance. The next action depends on restored host access, not another
-candidate rebuild or a changed prompt. [Outstanding trial](Q2-DECODE-DOWN-ROWS.md).
+performance. Host access is restored and ComfyUI stopped with owner permission.
+The next action is a separate fresh admission on persistent boot-qualified
+coordination, using the same executable and original input without a rebuild.
+[Recovered trial](Q2-DECODE-DOWN-ROWS.md).
 
 The [Q2_K scalar-down component](Q2-DECODE-DOWN-ROWS.md) now gives a
 four-row candidate with6.96% less complete quantizer/down latency; the

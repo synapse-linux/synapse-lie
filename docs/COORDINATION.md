@@ -1,5 +1,40 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Current .157 epoch after power outage — 2026-10-07 UTC
+
+The previous boot 01a007d1-8d99-4d24-b5ea-3788970135c3 ended during the admitted
+q2-decode-down-rows-native128-r1 trial. Owner confirms a power outage.
+Current boot 8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653 starts 14:37:23 UTC.
+All 37 persistent artifacts verify; no benchmark rows or command exits survive.
+Interrupted receipt 858d0f6c1e3d26811bcdfc85206dd7ab8070a78d0a5c072c53699d747868f037
+records ABORTED_HOST_REBOOT at 14:48:23.803106 UTC. Old execution is terminal
+by boot change, without inventing child exit codes or a normal lease release.
+Historical receipts and their 1974 identities / 1580 groups remain preserved.
+
+The old /tmp shared lock and registry disappeared. With Core's explicit
+coordination ACK, the current epoch uses persistent
+`run/gpu-coordination/epochs/8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653/`
+for `gpu.lock`, `runs.jsonl` and `baseline.json`. Bootstrap hash
+5bfd3b2e2b21cb805bb73bf8559faa5a0da7b44f1d8bd04199bbbe17ec6858e2
+is metadata only, not GPU admission. Four persistent legacy lease inodes
+survive; they are not recreated or rewritten. Filesystem st_dev is rebound
+52→54 after checking inode and original model size/mtime/ctime. The missing
+ephemeral GPU lock is replaced by the agreed persistent epoch lock.
+
+Every new admission must verify this exact boot and current lease identities,
+acquire all five leases EX|NB in the established order, require empty KFD and
+check model stats, executable/input hashes and the latest registry event.
+Process retirement checks apply only within the matching boot; historical
+PIDs must not reject unrelated reused PIDs in the new boot. Early supervisor,
+server and client identity receipts preserve observation if power fails again.
+
+ComfyUI PID1086 started with the host. The owner explicitly authorizes stopping
+the exact user service for Q2 with an empty queue and then permits leaving it
+stopped. Stop at 14:59:49 UTC exits 0; active→inactive, KFD empty, unit remains
+enabled with configuration unchanged. This exception covers only that service
+under the stated conditions. No other service/process, model, dependency,
+device setting or remote file is changed or cleaned up.
+
 Outstanding Q2 original128K window — 2026-10-07 14:29 UTC:
 CPU fixture and verify exit 0 at 14:10:01.321352 UTC. Source 60439e4d,
 server f8a5210c and plan 6e7ed1e3 admit q2-decode-down-rows-native128-r1

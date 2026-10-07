@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2 power-outage recovery — 2026-10-07 UTC: host boot at 14:37:23 UTC proves
+the first original128K run is no longer live. All 37 surviving artifacts hash
+verify; no samples or command exits survive. Owner confirms mains power loss.
+Append-only ABORTED_HOST_REBOOT receipt 858d0f6c at 14:48:23 preserves the
+unknown exit and is not a normal GPU-free release. ComfyUI's empty queue is
+verified; authorized service stop at 14:59:49 exits 0, leaving KFD empty and
+unit configuration unchanged. Owner permits leaving it stopped.
+Epoch and native input/lifetime CPU checks pass on .157. The persistent
+boot-scoped baseline 5bfd3b2e binds surviving legacy lease inodes and original
+model stat tuples, with a documented mount device 52→54 rebind. Core ACKs
+the new coordination for any future .157 use. The same f8a5210c candidate and
+original workload are prepared for a separate admission; no reference rerun.
+
 Q2 offline launch review — 2026-10-07 UTC: a fresh .157 read-only connection
 still exits 255 with No route to host. Core independently reports no .157
 observations or workload. The frozen source/ELF review finds the original

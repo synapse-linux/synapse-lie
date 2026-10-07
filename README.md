@@ -2,13 +2,15 @@
 
 The four-row Q2 down model candidate now has explicit non-prefill dispatch;
 prefill, including one-token tails, retains its prior implementation.
-Its original 128K trial was admitted on .157 at 2026-10-07 14:15:23 UTC,
-but the SSH transport subsequently timed out. Completion and window release
-are unverified; no new model throughput result is available.
+Its first original 128K trial was interrupted by the owner's reported power
+outage. All 37 surviving artifacts are verified; no throughput sample survived.
+The attempt is recorded as aborted by reboot, with unknown command exit.
 An offline review found no launch-geometry or pool-reservation discrepancy;
-the existing remote trial still needs to be recovered.
+the executable and inputs remain unchanged for a new, separately admitted run.
+Post-reboot coordination is now persistent and boot-qualified. ComfyUI was
+stopped with explicit owner authorization and may remain stopped.
 [Phase selection](docs/Q2-PHASE-DISPATCH.md),
-[pending trial](docs/Q2-DECODE-DOWN-ROWS.md).
+[recovered trial](docs/Q2-DECODE-DOWN-ROWS.md).
 
 A new [scalar Q2_K down candidate](docs/Q2-DECODE-DOWN-ROWS.md) reduces its
 complete quantizer/projection component time6.96%, with no new quantization.
