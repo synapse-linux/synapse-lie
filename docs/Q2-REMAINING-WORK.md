@@ -21,8 +21,11 @@ replies. Smaller prefixes are mixed, including regressions. The new64K/128K
 observations also regress:1369.779064/1296.437473 PP, −1.343%/−1.101% versus
 saved retained. All replies match. Preserve the reader as a closed experiment
 and keep the earlier provider; do not continue its full-curve testing.
-Next inspect bounded attention staging/selection on the actual2048-token
-shape. The ordinary greedy path already runs at temperature0; a GPU argmax
+The complete2048-row attention staging component is closed: exact outputs,
+no convincing latency benefit, no model trial. The new C1 partition selector
+keeps local top512 candidates across nine4096-block slices before an exact
+merge;36KiB bounded scratch and lower-index ties. Its host gate passes; GPU
+qualification is pending. This does not alter prefill chunking or ranking. The ordinary greedy path already runs at temperature0; a GPU argmax
 could reduce full-logit downloads, but needs correct snapshot/logprobs and
 multi-sequence ownership before it is a usable decode optimization.
 

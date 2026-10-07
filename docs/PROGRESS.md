@@ -1,5 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Attention V staging closed — 2026-10-07 UTC: checkpoint3fa26c59/plana72cf63b,
+admission6c4631f4. Component0/0/0 finishes04:50:29.871938; four artifacts
+collect42390a04 before04:50:51.277229 release7c5193f944c7e135e678b48bc62e2517d2c913c80e6215f4817a25f03ee7042b.
+1869 IDs/1489 groups retired, KFD empty, original leases/models unchanged,
+mirrors exact and Core notified before analysis. All30 output pairs exact;
+12 sampled FP64 checks pass(max4.102e-6). Late V time changes+4.50%/+5.33%/
+-1.74%/+0.66% at16/32/64/128K, with overlapping deep ranges. Keep current
+model dispatch; no model trial. [Complete evidence](../config/q2-attention-v-stage-results.json).
+
+Exact partition selector preparation — 2026-10-07 UTC: globalpreflight04:58:07
+anchors7c5193f9; Core own non-use remains explicit. Host-r1 ends04:59:05 with
+42 Debug/42 sanitizer checks, six exits0, seven collected artifacts0d503fa5.
+The new component compares retained C1 selection against nine4096-block local
+selections plus an exact merge over4608 candidate slots,36KiB scratch. Entire
+masks are checked against a full host sort, including ties and sparse bounds.
+Provider/model dispatch unchanged. Fresh admission required; no model/control
+replay, .161/.158/TB use or cleanup is authorized by this preparation.
+
+
 Attention V staging preparation — 2026-10-07 UTC: fresh Core own non-use and
 global preflight04:47:11 anchor570f32f1. Host-r1 finishes04:48:19 with42 Debug
 and42 ASan/UBSan checks, six exits0; seven artifacts collected(dd2bfbff).

@@ -500,10 +500,11 @@ The [fixed-width half consumer](docs/Q2-HALF-FIXED-WIDTH.md) completes at1569.53
 The [eight-value half consumer](docs/Q2-HALF-CONSUMER-EIGHT.md) measures1571.716479 PP /25.20732109 TG: nominal+0.102547% PP against saved1570.106384, with overlapping ranges.105 component comparisons and21 parent model files are exact. Both sources are retained; inherited quality/full curves remain open. Fixed UD1685.777092 still requires7.257073% more PP.
 # Synapse LIE — original Q2 support for official Gufo
 
-The current Q2 attention staging component is prepared and host-qualified
-(42 Debug and42 sanitizer checks on .157). It compares existing GPU load
-schedules on complete2048-row shapes; no model performance gain is claimed.
-See [progress](docs/PROGRESS.md) and [the scoped plan](config/q2-attention-v-stage-plan.json).
+The Q2 attention-load experiment completed with exact outputs and no convincing
+speedup. A new exact partition selector for long C1 decode is host-qualified
+on .157; GPU results are pending. [Progress](docs/PROGRESS.md),
+[attention evidence](config/q2-attention-v-stage-results.json),
+[selector plan](config/q2-select-partition-plan.json).
 
 The [eight-half output-store candidate](docs/Q2-DOWN-HALF-VECTOR.md) completes
 at1570.106384 PP /25.18915597 TG: a small nominal+0.201424% PP versus saved

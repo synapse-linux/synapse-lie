@@ -1,0 +1,171 @@
+{
+  "schema": "synapse-lie.q2-attention-v-stage-results.v1",
+  "plan_sha256": "a72cf63bacece1b64ccce8df0b4d5170d11d077dff6045b050dcd5fe4bbb4533",
+  "release_sha256": "7c5193f944c7e135e678b48bc62e2517d2c913c80e6215f4817a25f03ee7042b",
+  "component_receipt_sha256": "d54a218b3c26ed250cfb94fecba119fab90c2c1daec2c140c59a457820414073",
+  "archive_sha256": "42390a043654a95c6a40affaa1f6bafa5cdd00dac60c5ab8330942e0a5566b05",
+  "command_exits": [
+    0,
+    0,
+    0
+  ],
+  "events": {
+    "attention_stage_timing": 56,
+    "attention_stage_oracle": 12,
+    "attention_stage_pair": 30,
+    "complete": 1
+  },
+  "all_pairs_exact": true,
+  "input_hashes_and_guards_pass": true,
+  "maximum_sampled_fp64_absolute_error": 4.101634900993277e-06,
+  "fp64_absolute_limit": 0.01,
+  "valid_gpu_event_count": 0,
+  "timings": [
+    {
+      "name": "full16",
+      "n": 2048,
+      "pos": 12288,
+      "early": {
+        "samples_us": [
+          18477.937,
+          18968.958,
+          18481.687,
+          18809.851,
+          18387.509000000002
+        ],
+        "median_us": 18481.687,
+        "range_us": [
+          18387.509000000002,
+          18968.958
+        ]
+      },
+      "late": {
+        "samples_us": [
+          19491.938000000002,
+          19279.842,
+          19181.483,
+          19313.781,
+          19578.436
+        ],
+        "median_us": 19313.781,
+        "range_us": [
+          19181.483,
+          19578.436
+        ]
+      },
+      "late_time_change_percent": 4.502262158210968
+    },
+    {
+      "name": "full32",
+      "n": 2048,
+      "pos": 28672,
+      "early": {
+        "samples_us": [
+          23555.14,
+          25085.8,
+          23725.796000000002,
+          24141.789,
+          23966.352
+        ],
+        "median_us": 23966.352,
+        "range_us": [
+          23555.14,
+          25085.8
+        ]
+      },
+      "late": {
+        "samples_us": [
+          25244.177,
+          24637.41,
+          25536.253,
+          24598.510000000002,
+          25249.168
+        ],
+        "median_us": 25244.177,
+        "range_us": [
+          24598.510000000002,
+          25536.253
+        ]
+      },
+      "late_time_change_percent": 5.331745941142829
+    },
+    {
+      "name": "full64",
+      "n": 2048,
+      "pos": 61440,
+      "early": {
+        "samples_us": [
+          30322.46,
+          31686.313000000002,
+          29960.366,
+          32628.716,
+          31771.483
+        ],
+        "median_us": 31686.313000000002,
+        "range_us": [
+          29960.366,
+          32628.716
+        ]
+      },
+      "late": {
+        "samples_us": [
+          30746.472,
+          30913.599000000002,
+          31135.604,
+          31850.721,
+          32660.946
+        ],
+        "median_us": 31135.604,
+        "range_us": [
+          30746.472,
+          32660.946
+        ]
+      },
+      "late_time_change_percent": -1.7380027774137163
+    },
+    {
+      "name": "full128",
+      "n": 2048,
+      "pos": 126976,
+      "early": {
+        "samples_us": [
+          42044.135,
+          42709.942,
+          43320.71,
+          44067.846,
+          43914.719
+        ],
+        "median_us": 43320.71,
+        "range_us": [
+          42044.135,
+          44067.846
+        ]
+      },
+      "late": {
+        "samples_us": [
+          43151.234000000004,
+          43607.295,
+          43608.114,
+          43567.706,
+          43853.41
+        ],
+        "median_us": 43607.295,
+        "range_us": [
+          43151.234000000004,
+          43853.41
+        ]
+      },
+      "late_time_change_percent": 0.6615427124809337
+    }
+  ],
+  "provider_promoted": false,
+  "model_run": false,
+  "headline_eligible": false,
+  "decision": "Keep existing dispatch. Late V regresses16K/32K;64K/128K ranges overlap. No model trial.",
+  "limits": [
+    "Synthetic masks and isolated kernel, not measured full-model token throughput.",
+    "All GPU event times are zero; only completed host wall times are used.",
+    "The FP64 check samples outputs; every output is checked for finiteness and exact pair equality.",
+    "No unchanged model control, Q4, full curve or cleanup was run."
+  ]
+}
