@@ -1,5 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Original-quality performance accounting and scalar HC preparation — 2026-10-07
+
+The owner excludes quality-reducing changes. The new
+[quality audit](Q2-QUALITY-PRESERVING-STATUS.md) records that retained1587 PP
+and full128K1310 PP inherit intermediate-precision differences with task
+quality still open; exact children do not qualify those parent changes.
+Only isolated measured deltas with their actual replay scope are credited.
+No material quality-preserving model decode gain is established.
+
+The [scalar HC up/mix candidate](Q2-HC-SCALAR-UP-MIX.md) compiles with
+original F16 weights and ordered F32 arithmetic,44VGPR/128byte LDS/no spills.
+It removes one gate-plane pass and launch at the original C1 shape. Six
+input families, independent FP64 checks and100MiB rotating-weight complete
+HIP graphs are prepared; no GPU/model result is yet claimed.
+
+
 Native Q8 SSM wave assignment rejected — 2026-10-07 UTC: the private
 [unchanged-tile candidate](Q2-SSM-WAVE-BALANCE.md) completes on .157 with72
 exact whole-output pairs and144 passing independent FP64 checks. Median

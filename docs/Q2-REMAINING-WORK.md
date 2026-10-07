@@ -1,6 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Current Q2 optimization assessment — 7 October 2026
 
+The owner requires performance gains without quality degradation. The
+[quality audit](Q2-QUALITY-PRESERVING-STATUS.md) makes the inherited F16
+intermediate differences explicit: retained1587/1310 observations cannot be
+reported as proven quality-preserving gains over the original reference.
+New scalar HC up/mix work retains original weights/precision and requires
+exact complete component replay before an original-model trial.
+
 The active goal is now **C1 AR decode30 token/s and complete prefill at least
 1500 token/s through the original130925-token input**. The old fixed-point UD
 parity objective is paused, not completed. Preserve its reference below, but
