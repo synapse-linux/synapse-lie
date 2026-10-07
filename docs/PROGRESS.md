@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Halogen transfer recheck — 2026-10-07 UTC: public release notes identify the
+0.14.1 routed-expert kernel and the 0.12.0 sparse indexer as the two most
+relevant numerical leads; neither implementation is published. Its 0.12.1
+cold-cache DeltaNet replay bug is not present in the inspected LIE snapshot
+path. Saved `.157` profiled128K telemetry reports2635MHz median GPU clock
+when busy>90%, so a simple sustained underclock is not established. The
+previous bounded selector's32K model regression occurred in a separate
+lower-clock session; any renewed trial needs matched original-input A/B.
+No GPU window, inference change or new performance result in this audit.
+[Evidence and next gates](Q2-HALOGEN-TRANSFER.md).
+
 IQ2 stage-pair layout GPU screen closed — 2026-10-07 UTC: the corrected .157
 host gate passes44/44 Debug and44/44 ASan/UBSan tests. Under fresh admission,
 the private component exits0 with15 exact route maps,51 byte-exact guarded

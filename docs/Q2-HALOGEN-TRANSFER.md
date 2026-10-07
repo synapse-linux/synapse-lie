@@ -24,6 +24,46 @@ benchmark, so its rates are not LIE controls.
 | Halogen's 32K prefill arena is about 9% faster than its 16K arena at a 262K served prompt, with a larger memory footprint. | LIE's retained benchmark uses 2048-token model chunks and its own scratch layout; `HALOGEN_MAX_TOK` is not an equivalent setting. | Inspect LIE's actual expert/attention tile occupancy before considering an arena or chunk change. Preserve the fixed 2048-token benchmark as the comparison control. |
 | Halogen 0.15.3 reports faster prompts of every length, and 0.16.1 reports faster decode, especially with concurrent conversations. The changelog does not expose the numerical kernel implementation or a matched C1 rate for these changes. | LIE's serial C1 target and concurrency/reactive measurements are separate. | Treat the release notes as attribution leads, not measured transferable gains. |
 
+## Additional source and measurement checks
+
+Halogen's [0.14.1 note](https://github.com/peonist-ai/halogen-flash-server/blob/main/CHANGELOG.md)
+explicitly permits rounding-level differences from its new routed-expert prefill
+kernel. A future LIE expert-chain candidate should therefore report both
+byte-exact checks where expected and bounded numerical/quality checks where the
+operation order changes. A byte mismatch alone does not establish harmful model
+error; neither does a small component error establish acceptable quality. The
+original cold request and an independent quality task remain the model gates.
+This observation does not relax an existing candidate's recorded gate after the
+fact.
+
+Halogen's 0.12.1 cold-cache fix removed a second DeltaNet recurrence that its
+own cache capture ran over the prompt. In the inspected private LIE provider,
+`Executor::SaveSnapshot` walks existing device state and transfers its bytes;
+it does not call `GatedDeltaNet` again. The original long request also reports
+zero reused prefix tokens. A Halogen-style recurrence deletion is thus not an
+identified LIE saving. Snapshot transfer cost can be measured separately if
+it appears on the original critical path.
+
+The saved `.157` original128K diagnostic samples 51 GPU-busy (>90%) moments:
+median reported clock2635MHz, busy96%, GPU sensor power140.641W and GPU
+temperature89°C. These are two-second samples from a *profiled* run, not an
+unprofiled throughput control. Halogen reports a2229MHz median clock and about
+85W sustained **package** power for its own32K prefill; its power measurement
+scope is not established as the same as `.157`'s GPU `power1_average` sensor.
+The observed `.157` GPU clock does not suggest a simple sustained underclock
+relative to that published condition. It cannot isolate a kernel gap, cooling
+effect or IOMMU effect. The `.157` command line lacks an explicit
+`amd_iommu=off`, which alone does not establish the runtime IOMMU state.
+
+The exact-output live-grid selector component reduced completed32K slice time
+26.8%, but its original32K model request fell10.7% in prefill rate. Its
+approximate telemetry window has median GPU clock2439.5MHz against2648MHz for
+the saved retained request, a separate-session difference large enough to
+confound attribution but not proof of the cause. The next selector decision,
+if pursued, needs one same-session paired control/candidate run on the unchanged
+32K input and then the unchanged128K request only if the32K regression clears.
+Do not credit component percentages toward either model target.
+
 Halogen's 131K uplift is 9.137% in rate. Applying that percentage to LIE's
 retained 1,310.875 token/s would give only 1,430.645 token/s; another 4.848%
 rate gain would still be required. This is arithmetic, **not** a prediction.
