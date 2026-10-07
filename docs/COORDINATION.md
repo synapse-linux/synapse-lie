@@ -1,5 +1,30 @@
 # DS4 / synapse-lie coordination
 
+## Current-runtime MTP HTTP controls passed and retired — 2026-10-07
+
+Fresh Point/DGX own-state replies, Q2's fresh released/offline-only scope and
+global preflight precede the new r47 `.161` admission at 06:56:59 UTC. Q2's
+`.161` non-use is explicitly an inference from its declared scope and current
+local-only work, not an explicit per-target reply or global grant. The receipt
+preserves that limitation. The original lease is acquired separately; the old
+r37 MTP manifest remains unlaunched.
+
+The current r45 runtime passes 37 OpenAI and 66 bounded-integer controls with
+the original Q4 weights and Q8 predictor. Controller, supervisor, HTTP helper
+and server exit 0; the idle container init ends with 143 during owned cleanup.
+Lease66307/105946405 releases at 07:03:07 UTC. Fresh strict closure at 07:04:06
+verifies supervisor261665/start22515456, init261879/start22515589 and container
+absent, the unchanged lease free, HTTP8000 empty and router262885 restored as
+the sole compute client. Peers receive verified release. Collection verifies
+all 19 files; independent saved-wire and scoped-counter reviews pass in the
+[functional receipt](development/validation/integrated-point-mtp-2026-10-07.json).
+
+Root holds no remote job, lease, window, waiter, reservation or handle on
+`.161/.157/.158/TB`. Future GPU gates require new admission. Larger-chunk and
+MTP numerical/fault/quality/cost acceptance remain open; comparative benchmarks
+and Terminal Bench follow those gates. Source integration and this selected
+functional pass do not close the six active roadmap items.
+
 ## Current required-function AR capture passed and retired — 2026-10-07
 
 Fresh Point/DGX own-state replies, Q2's fresh declared scope and global preflight

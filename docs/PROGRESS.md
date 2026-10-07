@@ -1,6 +1,33 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Current-runtime MTP HTTP controls — 2026-10-07 UTC
+
+The coherent r45 runtime now passes **37 OpenAI controls and 66 bounded-integer
+controls** on an MTP-enabled `.161` server with the original Q4 weights and Q8
+predictor. Tools, JSON/SSE, output budgets and retained Responses lifecycle pass.
+Independent saved-wire checks verify 60 integer outputs, six HTTP400 refusals
+and 30 JSON/SSE pairs. All 19 collected remote files match their recorded hashes;
+controller, supervisor, HTTP helper and server each exit 0. Five model stat
+witnesses remain unchanged.
+
+Saved counters confirm actual drafted and accepted tokens. Requests with stop
+strings, logprobs or logit bias use the existing per-request AR fallback; this
+qualification does not imply that every check executes MTP. The
+[functional receipt](development/validation/integrated-point-mtp-2026-10-07.json)
+records the exact runtime, complete wire data, scoped counters and portable raw
+evidence. A local counter reviewer initially counted a stored metadata update
+twice; the corrected review counts creation endpoints only. Its actual failure
+is retained, and no GPU test is repeated.
+
+CPU/GPU/NVMe peaks are 66.75/70/63.85 C. Strict closure verifies retired own
+processes/container, the original lease free, port 8000 empty and the named
+router restored. This run uses the default 2,048-token chunk and capacity; it
+does not qualify larger chunks, full MTP target-distribution/controller behavior,
+faults, quality or comparative cost. All six roadmap items remain open.
+Comparative benchmarks follow the remaining functional acceptance gates;
+Terminal Bench stays last.
+
 ## Required-function AR numerical qualification — 2026-10-07 UTC
 
 The current coherent r45 runtime completes six original-weight required-function

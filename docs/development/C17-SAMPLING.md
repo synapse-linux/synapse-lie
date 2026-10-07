@@ -22,6 +22,13 @@ RNG and completed calls agree in original/C17/OFF Release and unsuppressed
 sanitizer replay. The [required-function receipt](validation/sampling-required-tools-ar-point-2026-10-07.json)
 binds this runtime and the unchanged host-sampler inputs. Actual MTP-controller
 transitions, wider tool behavior, faults, resources, quality and cost remain open.
+The same r45 runtime also passes 37 OpenAI and 66 bounded-integer controls on
+an MTP-enabled original-weight server, including nonzero draft/acceptance counters
+and independent saved-wire interval checks. The
+[functional MTP receipt](validation/integrated-point-mtp-2026-10-07.json)
+preserves existing per-request AR fallback for stop/logprobs/bias controls. This
+selected HTTP result does not qualify MTP target probabilities or controller
+branches; those numerical, fault, quality and cost gates remain open.
 See [compilation context](#compilation-context-and-bootstrap)
 and [decimal output validation](#final-decimal-output-validation), plus
 [native schema staging](#native-schema-staging) and

@@ -37,8 +37,10 @@ belongs to that final validation phase; do not turn it into another intermediate
 implementation campaign.
 GPU qualification uses `.161` with fresh admission. The owner's latest request
 defers further GPU/test campaigns until all remaining functional implementation
-is finished. The prepared r37 MTP manifest has not been admitted or launched;
-peer non-use replies grant no future admission. No intermediate remote campaign,
+is finished. The old prepared r37 MTP manifest remains unlaunched. Subsequent
+final-phase r47 qualification uses a newly bound manifest and the current r45
+runtime; its selected MTP-enabled HTTP controls pass as recorded below. Peer
+non-use replies grant no future admission. No intermediate remote campaign,
 Terminal Bench restart or machine reservation is queued.
 
 The functional source audit now maps items 3–7 to integrated context/recall,
@@ -153,8 +155,15 @@ none of the six items.
    AR37+66, with collected wire, independent exact-rational integer checks and
    strict process/service/lease closure
    ([AR receipt](development/validation/integrated-point-ar-2026-10-06.json)).
-   Current-source MTP is prepared only and deferred; the earlier paired result
-   does not qualify that mode on the later binary.
+   The current prefill r45 runtime / code `d6431db8` now passes **37 OpenAI and
+   66 bounded-integer controls on an MTP-enabled server**, with original Q4
+   weights and Q8 predictor, unchanged model stats and exact process/service/
+   lease closure ([MTP receipt](development/validation/integrated-point-mtp-2026-10-07.json)).
+   Actual drafted/accepted counters are present. Existing stop/logprobs/bias
+   requests fall back to AR, so the pass does not imply every check executes MTP.
+   Independent saved-wire review verifies 60 outputs, six HTTP400 refusals and
+   30 JSON/SSE pairs. The older AR37+66 receipt uses a different runtime; it is
+   not a matched AR/MTP comparison with r45.
    Broader task quality, probabilities, fault coverage and performance remain
    separate acceptance gates in the six open items below.
 2. **Deferred: run Terminal Bench after the functional modifications.** Use the pinned
