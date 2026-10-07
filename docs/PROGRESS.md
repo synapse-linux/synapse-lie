@@ -1,6 +1,28 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Wider function transition client prepared on HOST — 2026-10-07 UTC
+
+The optional final-phase HTTP client now declares 71 checks across Chat/Responses,
+JSON/SSE and greedy/DS4/filtered seeded profiles. It covers text-only automatic
+choice, prose plus calls, two independent calls, parallel-disabled single calls,
+distinct reversed results and full/retained continuation. Eight malformed
+histories require HTTP400 with unchanged actual executor counters. Independent
+stream assembly validates complete indexed call identities and JSON/SSE equality;
+model-quality misses remain failures distinct from protocol errors.
+
+Grouped offline tests pass 8 transition oracles, 87 ownership/supervisor controls,
+18 capture regressions and 8 existing OpenAI controls. An initially misplaced
+fixture assertion fails with exit1, is corrected and remains evidence. All are
+HOST mock checks, not original-weight inference. No native/core/ABI/numerical
+source changes; no new HIP build is required for these optional client scripts.
+The supervisor also records the observed live Distrobox init PID/start ticks
+and refuses replacement rather than inventing a missing identity. Further
+original-weight AR/MTP runs require fresh coordination and admission.
+See the [frozen workload](development/protocols/TOOL-TRANSITIONS-GPU-PROTOCOL.md).
+All six roadmap items remain open; comparative benchmarks and Terminal Bench
+follow functional qualification, with Terminal Bench last.
+
 ## Original-weight required-tool MTP replay passed on Point — 2026-10-07 UTC
 
 The same r56 Q4/Q8 runtime completes six strict `describe_stack` calls with

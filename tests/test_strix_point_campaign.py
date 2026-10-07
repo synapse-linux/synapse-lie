@@ -1217,6 +1217,76 @@ class Tests(unittest.TestCase):
              patch.object(c,'run_container') as child:
             with self.assertRaisesRegex(ValueError,'boolean selection'): c.bench()
             child.assert_not_called()
+
+    def test_modern_tool_transitions_bind_complete_witnesses_before_acceptance(self):
+        c = self.campaign('modern-tool-transitions')
+        helper = c.root/'http-gate.py'; helper.write_bytes(b'fixture HTTP helper')
+        transitions = c.root/'http-tool-transitions.py'; transitions.write_bytes(b'fixture transitions helper')
+        c.m.update(stack='rocm10-fedora43', transport='distrobox', bench_profile='modern-http',
+                   decode_mode='ar', bundle=str(self.base), model_plan={'files':[{'name':'target.gguf'}]},
+                   http_gate_sha256=point.sha(helper), http_tool_transition_gate=True,
+                   http_tool_transitions_sha256=point.sha(transitions))
+        selected = sorted(point.HTTP_TOOL_TRANSITION_CHECKS)
+        result = {'schema':'synapse-lie.point-http-original.v1', 'state':'PASSED', 'mode':'ar',
+                  'server_exit_code':0, 'passed':['models','chat_json','chat_sse','responses_json','responses_sse']+selected}
+        sidecar = {'schema':'synapse-lie.point-tool-transitions.v1', 'state':'PASSED',
+                   'decode_mode':'ar', 'refusals_before_forward_verified':True,
+                   'passed':selected.copy(), 'witnesses':dict.fromkeys(selected, {'fixture':'NOT-INFERENCE'})}
+        def run(command, *_):
+            self.assertEqual(command[-1], '--tool-transitions')
+            (c.root/'http-result.json').write_text(json.dumps(result))
+            (c.root/'http-tool-transitions-result.json').write_text(json.dumps(sidecar))
+        with patch.object(c,'verified_model',return_value=(self.base/'model',[])), \
+             patch.object(c,'check_model_after') as model_after, patch.object(c,'run_container',side_effect=run) as child:
+            c.bench()
+            self.assertEqual(c.r['http_tool_transitions_sha256'],point.sha(c.root/'http-tool-transitions-result.json'))
+            sidecar['passed'] = selected[:-1]
+            with self.assertRaisesRegex(RuntimeError,'Incomplete original-weight tool transitions'): c.bench()
+            sidecar['passed'] = selected + selected[:1]
+            with self.assertRaisesRegex(RuntimeError,'Incomplete original-weight tool transitions'): c.bench()
+            sidecar['passed'] = selected.copy()
+            del sidecar['witnesses'][selected[0]]
+            with self.assertRaisesRegex(RuntimeError,'Incomplete original-weight tool transitions'): c.bench()
+            self.assertEqual(model_after.call_count,4)
+            transitions.write_bytes(b'drift')
+            count = child.call_count
+            with self.assertRaisesRegex(ValueError,'tool-transition helper drift'): c.bench()
+            self.assertEqual(child.call_count,count)
+
+    def test_modern_tool_transitions_refuse_nonboolean_before_model_access(self):
+        c = self.campaign('modern-tool-transitions-type')
+        helper = c.root/'http-gate.py'; helper.write_bytes(b'fixture HTTP helper')
+        c.m.update(stack='rocm10-fedora43', transport='distrobox', bench_profile='modern-http',
+                   decode_mode='ar', http_gate_sha256=point.sha(helper), http_tool_transition_gate=1)
+        with patch.object(c,'verified_model') as model, patch.object(c,'run_container') as child:
+            with self.assertRaisesRegex(ValueError,'boolean selection'): c.bench()
+            model.assert_not_called(); child.assert_not_called()
+
+    def test_running_container_identity_binds_live_ticks_and_refuses_replacement(self):
+        c = self.campaign('container-init-identity'); c.cid = 'a'*64
+        state = {'Running':True, 'Pid':12345}
+        def inspect(argv):
+            self.assertEqual(argv, ['docker','inspect','--format','{{json .State}}','a'*64])
+            return subprocess.CompletedProcess(argv,0,stdout=json.dumps(state))
+        with patch.object(c,'command',side_effect=inspect), patch.object(point,'ticks',return_value=123) as live:
+            c.observe_container_identity()
+            self.assertEqual((c.r['container_host_pid'],c.r['container_start_ticks']),(12345,123))
+            c.observe_container_identity()
+            live.return_value = 124
+            with self.assertRaisesRegex(RuntimeError,'init identity changed'): c.observe_container_identity()
+            self.assertEqual(c.r['container_start_ticks'],123)
+
+    def test_running_container_identity_does_not_invent_missing_pid(self):
+        c = self.campaign('container-init-unknown'); c.cid = 'a'*64
+        for state in ({'Running':False,'Pid':0}, {'Running':True,'Pid':0}, {'Running':True,'Pid':True}):
+            with patch.object(c,'command',return_value=subprocess.CompletedProcess([],0,stdout=json.dumps(state))), \
+                 patch.object(point,'ticks') as live:
+                c.observe_container_identity(); live.assert_not_called()
+                self.assertNotIn('container_host_pid',c.r)
+        with patch.object(c,'command',return_value=subprocess.CompletedProcess([],0,stdout='{"Running":true,"Pid":123}')), \
+             patch.object(point,'ticks',side_effect=FileNotFoundError):
+            c.observe_container_identity()
+            self.assertNotIn('container_host_pid',c.r)
     def test_modern_http_output_budgets_bind_helper_and_exact_receipt(self):
         c=self.campaign('modern-http-output-budget')
         helper=c.root/'http-gate.py';helper.write_bytes(b'fixture HTTP helper')

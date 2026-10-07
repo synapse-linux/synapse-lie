@@ -210,7 +210,7 @@ An open qualification gate does not mean its implementation is absent:
 | 3 | 1M context admission, explicit YaRN, client deadlines and native recall/continuation corpus with exact response oracles | Original-weight recall and HTTP at long context |
 | 4 | Native benchmark methods, metrics, graph generation, C17 prefill-dispatch observation and optional long sparse-WMMA workspace | Matched Gufo/Halogen runs through 1M and C1/2/4/6/8; long-workspace correctness/resources, actual sparse dispatch and reactive cost |
 | 5 | Steering bank, model/session policies, scheduled changes and RAM/SSD identities | Learned-direction quality, graph/correction/fault/vision cases and matched cost |
-| 6 | Temperature, top-k/min-p profiles and seeded AR/MTP controls | Wider tool transitions, actual MTP target-distribution behavior and matched cost; selected unconstrained and required-function AR probabilities pass at their recorded runtimes |
+| 6 | Temperature, top-k/min-p profiles and seeded AR/MTP controls | Wider tool transitions, broader quality/fault/resources and matched cost; selected AR/MTP text and required-function numerical witnesses pass at their recorded runtimes |
 | 7 | C17 grammar/masking, history and compact speculative distributions, including buffer ownership | Original-weight numerical/fault/resource/quality and cost gates |
 
 The integrated checkpoint `88d4c4e5` passes native functional 101/101 and complete
@@ -413,6 +413,12 @@ none of the six items.
    pass locally. [Preparation receipt](development/validation/sampling-capture-supervisor-host-2026-10-07.json).
    Native/runtime numerical sources and the matching HIP build remain unchanged;
    structural receipt validation does not qualify the independent probabilities.
+   The [wider function transition client](development/protocols/TOOL-TRANSITIONS-GPU-PROTOCOL.md)
+   now prepares 71 frozen HTTP checks across greedy/DS4/filtered profiles,
+   including prose, parallel calls, distinct reversed results and eight
+   pre-forward refusals. Grouped HOST mock controls pass; original-weight
+   AR/MTP observations and matched cost remain open. It changes no native ABI,
+   numerical algorithm, reactive scheduling or product dependency.
    [Sampling defaults](https://github.com/antirez/ds4/blob/main/docs/SERVER.md) ·
    [MTP sampling semantics](https://github.com/antirez/ds4/blob/main/docs/SPECULATIVE_DECODING.md).
 7. **C17 sampler extractions integrated; qualify the combined runtime.**

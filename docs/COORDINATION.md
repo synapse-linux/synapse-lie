@@ -1,5 +1,23 @@
 # DS4 / synapse-lie coordination
 
+## Wider tool transition qualification prepared locally — 2026-10-07
+
+Root finishes the optional final-phase 71-check HTTP client with 121 grouped
+HOST mock checks. The source changes affect development clients, collection,
+ownership observations and fixtures only; the r56 native runtime is unchanged.
+No GPU/model/build/remote operation runs during these checks. The new supervisor
+records actual Distrobox init PID/start ticks and refuses replacement; an
+unobserved PID remains unknown. All local test handles are terminal.
+
+Point, DGX and Q2 return fresh own-state declarations with no `.161` activity,
+plans or conflicts for this proposal. They grant no admission or reservation.
+Root currently holds no remote job/client/lease/window/waiter/reservation on
+`.161/.157/.158/TB`. The prospective separate AR/MTP windows require an exclusive
+job, bound current client/runtime, fresh global/in-lease admission and the
+original lease. No shared machine is reserved between preparation and launch.
+See the [frozen protocol](development/protocols/TOOL-TRANSITIONS-GPU-PROTOCOL.md).
+All six roadmap items remain open; Terminal Bench remains last.
+
 ## Original required-tool MTP capture and replay retired — 2026-10-07
 
 Fresh Point/DGX/Q2 own-state declarations and global preflight precede r58

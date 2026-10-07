@@ -222,15 +222,16 @@ def tool_gate(api, result):
 def main():
     args = sys.argv[1:]
     flags = set()
-    while args and args[-1] in ('--tools','--controls','--output-budget','--schema-integer'):
+    while args and args[-1] in ('--tools','--controls','--output-budget','--schema-integer','--tool-transitions'):
         flag = args.pop()
         if flag in flags: raise SystemExit('Duplicate HTTP gate flag')
         flags.add(flag)
     check_tools, check_controls = '--tools' in flags, '--controls' in flags
     check_output = '--output-budget' in flags
     check_integer = '--schema-integer' in flags
+    check_transitions = '--tool-transitions' in flags
     if len(args) not in (3, 4) or args[2] not in ('ar', 'mtp') or (len(args) == 4) != (args[2] == 'mtp'):
-        raise SystemExit('Usage: http-gate.py SERVER MODEL ar|mtp [PREDICTOR] [--tools] [--controls] [--output-budget] [--schema-integer]')
+        raise SystemExit('Usage: http-gate.py SERVER MODEL ar|mtp [PREDICTOR] [--tools] [--controls] [--output-budget] [--schema-integer] [--tool-transitions]')
     binary, model, mode = args[:3]
     api, management = port(), port()
     while management == api:
@@ -333,6 +334,13 @@ def main():
                 checked = integer.integer_gate(api, MODEL_ID, exchange, events, ROOT)
                 # Keep the separate inventory and the general gate's count.
                 result['schema_integer_checks'] = len(checked['passed'])
+            if check_transitions:
+                spec = importlib.util.spec_from_file_location('original_tool_transitions', ROOT/'http-tool-transitions.py')
+                transitions = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(transitions)
+                checked = transitions.transitions_gate(api, MODEL_ID, exchange, events, ROOT,
+                                                       management=management, mode=mode)
+                result['passed'].extend(checked['passed'])
             result['chat_text'] = text
             result['responses_text'] = response_text
             result['state'] = 'PASSED'

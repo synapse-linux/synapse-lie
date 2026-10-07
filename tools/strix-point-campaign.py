@@ -525,6 +525,17 @@ HTTP_CONTROL_CHECKS = {
 HTTP_OUTPUT_BUDGET_CHECKS = {
     'models_context_output_limits', 'chat_automatic_output', 'responses_automatic_output',
 }
+HTTP_TOOL_TRANSITION_CHECKS = {
+    f'{profile}_{api}_{case}_{wire}' for profile in ('greedy', 'ds4', 'filtered')
+    for api in ('chat', 'responses') for case in ('auto-text', 'prose-call', 'parallel', 'single')
+    for wire in ('json', 'sse')
+} | {
+    f'{profile}_{api}_correlated_results_{wire}' for profile in ('greedy', 'ds4', 'filtered')
+    for api in ('chat', 'responses') for wire in ('json', 'sse')
+} | {f'{profile}_responses_parallel_replay' for profile in ('greedy', 'ds4', 'filtered')} | {
+    f'{api}_refusal_{case}' for api in ('chat', 'responses')
+    for case in ('orphan', 'missing', 'duplicate', 'unknown')
+}
 HTTP_SCHEMA_INTEGER_CHECKS = {
     f'{api}_{wire}_{name}' for api in ('chat', 'responses') for wire in ('json', 'sse')
     for name in ('positive-inclusive', 'negative-inclusive', 'positive-exclusive',
@@ -1073,6 +1084,23 @@ class Campaign:
         (self.root/'stdout.log').write_text(p.stdout)
         (self.root/'stderr.log').write_text(p.stderr)
         if row['ExitCode'] or row['OOMKilled']: raise RuntimeError('Container child failed; see retained logs')
+    def observe_container_identity(self):
+        """Bind the actual live init identity; an unobserved PID stays unknown."""
+        state = json.loads(self.command(['docker', 'inspect', '--format', '{{json .State}}', self.cid]).stdout)
+        pid = state.get('Pid')
+        if state.get('Running') is not True or type(pid) is not int or pid <= 0:
+            return
+        try:
+            start = ticks(pid)
+        except FileNotFoundError:
+            return  # inspect and /proc are separate observations.
+        old = self.r.get('container_host_pid'), self.r.get('container_start_ticks')
+        if old[0] is not None and old != (pid, start):
+            raise RuntimeError('Owned container init identity changed during execution')
+        self.r['container_host_pid'] = pid
+        self.r['container_start_ticks'] = start
+        self.record()
+
     def execute_distrobox(self, command, bundle, model, image, timeout):
         name = self.m.get('distrobox_name')
         if (self.m.get('action') != 'bench' or self.m.get('stack') != 'rocm10-fedora43' or
@@ -1131,6 +1159,7 @@ class Campaign:
             self.record()
             deadline = time.monotonic()+timeout
             while self.child.poll() is None:
+                self.observe_container_identity()
                 if not self.r['model_attempted'] and ((self.root/'measurements.jsonl').exists() or
                                                       (self.root/'http-started.marker').exists() or
                                                       (self.root/'restart-started.marker').exists() or
@@ -1996,6 +2025,13 @@ class Campaign:
             integer = checked_path(self.root/'http-schema-integer.py')
             if sha(integer) != self.m.get('http_schema_integer_sha256'):
                 raise ValueError('Modern HTTP integer-schema helper drift')
+        check_transitions = self.m.get('http_tool_transition_gate', False)
+        if type(check_transitions) is not bool:
+            raise ValueError('HTTP tool-transition gate requires a boolean selection')
+        if check_transitions:
+            transitions = checked_path(self.root/'http-tool-transitions.py')
+            if sha(transitions) != self.m.get('http_tool_transitions_sha256'):
+                raise ValueError('Modern HTTP tool-transition helper drift')
         model, rows = self.verified_model()
         predictor = None
         if mode == 'mtp':
@@ -2022,6 +2058,8 @@ class Campaign:
             command.append('--output-budget')
         if check_integer:
             command.append('--schema-integer')
+        if check_transitions:
+            command.append('--tool-transitions')
         self.r['bench_command'] = command
         self.record()
         try:
@@ -2060,6 +2098,18 @@ class Campaign:
                         result.get('schema_integer_checks') != len(HTTP_SCHEMA_INTEGER_CHECKS)):
                     raise RuntimeError('Incomplete original-weight bounded integer controls')
                 self.r['http_schema_integer_sha256'] = sha(self.root/'http-schema-integer-result.json')
+            if check_transitions:
+                required |= HTTP_TOOL_TRANSITION_CHECKS
+                checked = json.loads((self.root/'http-tool-transitions-result.json').read_text())
+                if (checked.get('schema') != 'synapse-lie.point-tool-transitions.v1' or
+                        checked.get('state') != 'PASSED' or
+                        checked.get('decode_mode') != mode or
+                        checked.get('refusals_before_forward_verified') is not True or
+                        set(checked.get('passed', [])) != HTTP_TOOL_TRANSITION_CHECKS or
+                        len(checked.get('passed', [])) != len(HTTP_TOOL_TRANSITION_CHECKS) or
+                        set(checked.get('witnesses', {})) != HTTP_TOOL_TRANSITION_CHECKS):
+                    raise RuntimeError('Incomplete original-weight tool transitions')
+                self.r['http_tool_transitions_sha256'] = sha(self.root/'http-tool-transitions-result.json')
             if (result.get('schema') != 'synapse-lie.point-http-original.v1' or
                     result.get('state') != 'PASSED' or result.get('mode') != mode or
                     result.get('server_exit_code') != 0 or
