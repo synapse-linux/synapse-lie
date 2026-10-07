@@ -52,8 +52,70 @@ The existing inference scheduler and model kernels are retained.
 Nine focused CTest checks plus the private borrowed-row fixture pass in each
 normal/sanitizer build. Exact pinned recipe composition and both sampler-mode
 adapter syntax checks pass. These are HOST checks, not original activation or
-quality evidence. The native paired-prompt builder, coherent HIP compilation,
-original-weight captures, learned-bank quality and matched cost remain pending.
+quality evidence. The native builder is now integrated as described below;
+coherent HIP compilation, original-weight captures, learned-bank quality and
+matched cost remain pending.
+
+## Native bank builder
+
+`lie-steering-build` is a C17 diagnostic client over the same model-neutral
+executor/capture/learner APIs. Its [usage command](../guides/USAGE.md#directional-steering)
+accepts two prompt files and a new output directory. Files must be regular,
+unchanged during reading, at most 32 MiB each and contain no NUL or invalid UTF-8.
+Each nonblank line is one prompt, at most 65,536 bytes. Corresponding line counts
+must match, with at most the configured pair limit (4096 maximum). CRLF and a
+missing final newline are accepted; the exact original bytes are retained and
+SHA-256 identified. All dataset admission precedes model opening.
+
+The client opens an unsteered model once, then a fresh sequence for each target
+and contrast. `chat` uses the model's template with thinking disabled; `raw`
+uses plain tokenization. It retains physical IDs, sends cumulative prefill
+chunks on the existing owner and observes only the final chunk, including a
+one-token tail. No decode, predictor, HTTP request, cache reuse, independent
+thread or CPU model forward is added. Observer rows are copied during their
+borrowed lifetime. Full prefill status, completed prefix and complete unique
+layer/component rows must all succeed before a pair can enter the learner.
+Callback writer/refusal errors are latched and checked after numerical return;
+they cannot veto or retry inference. Bounded raw rows from failed captures remain
+diagnostic evidence and never become accepted learning input.
+
+`--components ffn` is the default; `attention` selects projected attention rows,
+and `both` prepares two separate banks from the same captures. Each bank is
+headerless little-endian binary32, layer-major, with target-minus-contrast
+compensated FP64 accumulation and unit L2 per layer. Zero layers refuse the
+whole run. Banks are staged exclusively, fsynced and published without replacing
+files after all pairs, normalization and executor retirement succeed. A failure
+during multi-file publication may retain a final name as evidence; neither a
+file's presence nor its hash is acceptance. Use banks only with actual process
+exit 0 **and** the final `complete` journal event. Failure preserves owned
+partial files; existing output directories are refused without modification.
+
+| Output | Meaning |
+| --- | --- |
+| `target-prompts.txt`, `contrast-prompts.txt` | Exact admitted source bytes. |
+| `build.jsonl` | Source hashes, backend/build identity, geometry, controls, physical IDs, row offsets, actual completion/refusal and terminal status. |
+| `activations.f32le` | Completed borrowed branch-major rows, in recorded callback order; FFN branch means are computed separately by the C17 collector. |
+| `direction.ffn.f32`, `direction.attention.f32` | Selected normalized banks, each exactly `layers * width * 4` bytes. |
+| `*.partial` | Owned staging artifacts; not accepted banks. |
+
+The explicit host bound covers prompt/index/token/encoding buffers, learners,
+both simultaneous captures and the provider's observer-row reservation. It
+excludes JSON/crypto/stdio and allocator overhead, model/executor resources and
+device allocations. The output bound covers admitted source copies, journal,
+raw rows and staged banks, reserving 8192 bytes for a failed terminal event.
+Hard-linked staging/final names do not double-charge bytes. These are requested
+owned-byte limits, not measured process RAM or device memory.
+
+Four focused native CTest checks pass in normal and unsuppressed sanitizer
+builds, including analytic bank bytes independently loaded by the existing
+DS4-format loader, borrowed-buffer reuse, target/contrast counts, finite and
+incomplete-row refusals, failure after all rows, close failures, and input/host/
+output bounds. Twelve mocked build-coordination checks require the new consumer
+and refuse missing or changed artifacts. The
+[HOST receipt](validation/steering-build-host-2026-10-07.json) retains failures and
+portable raw artifacts. CPU fixtures are explicitly `NOT-INFERENCE`; the new
+production target still requires coherent HIP compilation and original-weight
+activation/parity/learned-quality qualification on `.161`.
 
 ## Shared bank contract
 

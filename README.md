@@ -97,6 +97,8 @@ and the core report's prefill-dispatch fields.
   records exact retrieval and continuation results.
 
 See the [usage guide](docs/guides/USAGE.md) for API limits and configuration.
+It also explains [native steering-bank preparation](docs/guides/USAGE.md#directional-steering)
+from paired prompts; original-weight learned quality remains under qualification.
 
 An omitted or null output limit uses the available context up to the engine's
 advertised 4,096-token output ceiling. `/v1/models` reports both limits;

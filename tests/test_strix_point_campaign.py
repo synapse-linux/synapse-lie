@@ -1558,6 +1558,7 @@ class Tests(unittest.TestCase):
         self.assertEqual(c.r['build_result']['state'], 'BUILT_NOT_GPU_TESTED')
     def modern_rocm10_build_fixture(self, omit_capture=False, corrupt_capture=False,
                                    omit_attention=False, corrupt_attention=False,
+                                   omit_steering=False, corrupt_steering=False,
                                    long_selection=True, long_receipt='match'):
         c = self.campaign()
         label = 'rocm10-point-modern-r1'
@@ -1590,17 +1591,21 @@ class Tests(unittest.TestCase):
             binary_dir = source/'build'/f'{label}-runtime'
             binary_dir.mkdir()
             names = ('synapse-lie-server','synapse-lie-bench',
-                     'synapse-lie-bench-gufo-reference','lie-hip-probe','lie-sampling-capture','lie-attention-qualify')
+                     'synapse-lie-bench-gufo-reference','lie-hip-probe','lie-sampling-capture','lie-attention-qualify','lie-steering-build')
             binaries = {}
             for name in names:
                 if name == 'lie-sampling-capture' and omit_capture:
                     continue
                 if name == 'lie-attention-qualify' and omit_attention:
                     continue
+                if name == 'lie-steering-build' and omit_steering:
+                    continue
                 file = binary_dir/name
                 file.write_bytes(name.encode())
                 binaries[name] = '0'*64 if name == 'lie-sampling-capture' and corrupt_capture else point.sha(file)
                 if name == 'lie-attention-qualify' and corrupt_attention:
+                    binaries[name] = '0'*64
+                if name == 'lie-steering-build' and corrupt_steering:
                     binaries[name] = '0'*64
             receipt = source/'evidence'/f'{label}-compile'/'result.json'
             receipt.parent.mkdir()
@@ -1620,6 +1625,13 @@ class Tests(unittest.TestCase):
         c = self.modern_rocm10_build_fixture()
         self.assertEqual(c.r['build_result']['source_commit'], 'abcdef0123456789')
         self.assertIn('lie-sampling-capture', c.r['build_result']['binaries'])
+        self.assertIn('lie-steering-build', c.r['build_result']['binaries'])
+    def test_modern_build_refuses_missing_steering_artifact(self):
+        with self.assertRaisesRegex(RuntimeError, 'Modern binary inventory mismatch'):
+            self.modern_rocm10_build_fixture(omit_steering=True)
+    def test_modern_build_refuses_changed_steering_artifact(self):
+        with self.assertRaisesRegex(RuntimeError, 'Modern binary drift: lie-steering-build'):
+            self.modern_rocm10_build_fixture(corrupt_steering=True)
     def test_modern_build_refuses_missing_capture_artifact(self):
         with self.assertRaisesRegex(RuntimeError, 'Modern binary inventory mismatch'):
             self.modern_rocm10_build_fixture(omit_capture=True)

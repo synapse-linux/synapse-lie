@@ -27,6 +27,14 @@ binary32. Existing executor/request/core layouts and DS4 payload framing are
 unchanged. HOST/sanitizer/syntax checks pass; HIP execution and learned-bank
 quality remain pending.
 
+The native C17 `lie-steering-build` client composes the activation/capture/direction
+APIs without changing their ABI or existing structures. Its dataset and artifact
+contract is [`synapse-lie.steering-build.v1`](../development/STEERING.md#native-bank-builder).
+The authoritative preparation result requires process exit 0 and a terminal
+`complete` journal event; captured rows alone do not authorize learning. Callback
+I/O errors are checked after executor completion and never mutate its numerical
+return status. No model/platform type enters the client or shared helpers.
+
 Sampling-observer ABI 1 (`lie/sampling_observer.h`) is an additive diagnostic
 contract. `lie_sequence_decode_mtp_observed` executes the ordinary single-row
 MTP call on the device owner with a callback installed for that call only.

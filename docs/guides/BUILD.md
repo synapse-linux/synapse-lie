@@ -78,6 +78,8 @@ is the declared variable being measured.
 The resulting programs
 are `build/release/synapse-lie-server`, `synapse-lie-bench`,
 `synapse-lie-bench-gufo-reference`, `synapse-lie-monitor` and `synapse-lie-kvc`.
+The opt-in provider also builds the native diagnostic `lie-steering-build` for
+[paired-prompt direction preparation](USAGE.md#directional-steering).
 `synapse-lie-bench-report` is also available for offline reporting. The benchmark
 executables do not need adjacent scripts or a Python interpreter.
 

@@ -82,7 +82,7 @@ def main():
                           '-DGUFO_BUILD='+str(ROOT/'build'/LIBRARY_LABEL),
                           '-DGUFO_REFERENCE_BUILD='+str(ROOT/'build'/reference_label)])
         binaries = ('synapse-lie-server', 'synapse-lie-bench',
-                    'synapse-lie-bench-gufo-reference', 'lie-hip-probe', 'lie-sampling-capture', 'lie-attention-qualify')
+                    'synapse-lie-bench-gufo-reference', 'lie-hip-probe', 'lie-sampling-capture', 'lie-attention-qualify', 'lie-steering-build')
         run('link', ['cmake', '--build', 'build/'+LINK_LABEL, '--parallel', '1',
                      '--target', *binaries])
         record['binaries'] = {name: sha(ROOT/'build'/LINK_LABEL/name) for name in binaries}

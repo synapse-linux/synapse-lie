@@ -424,7 +424,14 @@ none of the six items.
    across modes. Divergent saved spelling is refused and the compatible prefix
    restores exactly 128 tokens. MTP accepts 3 of 14 proposals in each case.
    Eighteen host gate and 60 campaign checks pass. The sparse nonzero fixture
-   qualifies this regression; learned-direction quality, independent graph/
+   qualifies this regression. The native C17 paired-prompt builder now composes
+   model-derived last-token capture and compensated direction learning, retains
+   raw rows/physical IDs and writes DS4-format banks with bounded input/host/output
+   resources. Four native CTest checks pass normally and with unsuppressed
+   sanitizers; twelve mocked build checks require its seventh consumer artifact
+   ([HOST receipt](development/validation/steering-build-host-2026-10-07.json)).
+   Coherent HIP compilation and original activations remain pending;
+   learned-direction quality, independent graph/
    correction/fault, vision and matched cost remain open.
    Separate `modern-core-steering-admission` windows now qualify original-model
    malformed-bank refusals and absent/zero/fresh-core recovery equality in AR/MTP

@@ -10,8 +10,12 @@ stable release is declared. Detailed validation history is in
 - Shared C17 steering preparation now collects complete last-prompt-token
   activations and learns normalized directions from paired target/contrast
   prompts with explicit memory bounds. Provider capture hooks are added;
-  HOST/sanitizer checks pass. The native builder and GPU quality checks remain
-  pending. Runtime `.f32` and DS4 cache formats are unchanged.
+  HOST/sanitizer checks pass. Native C17 `lie-steering-build` now reads paired
+  prompt files, retains raw captures and physical token IDs, and publishes
+  DS4-compatible `.f32` banks only after complete successful learning.
+  Input/format/failure and sanitizer checks pass; coherent HIP compilation,
+  original-weight capture and learned quality remain pending. Runtime `.f32`
+  and DS4 cache formats are unchanged.
 
 - Optional Strix Point recall coordination now runs the native benchmark on
   separate context/RoPE/seed cohorts through 1M, with complete continuation,

@@ -50,6 +50,29 @@ actual original-weight capacity depends on memory and GPU qualification.
 
 Experimental steering uses DS4-compatible layer-major `.f32` directions:
 
+To prepare a direction from your own paired prompts, use the native
+`lie-steering-build` target from the [GPU build](BUILD.md#gpu-inference-build):
+
+```sh
+cmake --build build/release --target lie-steering-build -j2
+build/release/lie-steering-build --model "$LIE_MODEL" \
+  --target-prompts target.txt --contrast-prompts contrast.txt \
+  --output-dir learned-direction --components ffn
+```
+
+Each input file contains one nonempty UTF-8 prompt per line; corresponding lines
+form a pair. The output directory must be new. The default uses the model's
+chat template with thinking disabled; `--prompt-format raw` uses plain tokens.
+Only use `learned-direction/direction.ffn.f32` after process exit 0 and a
+`complete` event in `build.jsonl`. Prompt copies, physical token IDs and raw
+activation rows remain beside the bank. `--help` lists component, context,
+prefill, RoPE and memory/output bounds. Capture is diagnostic work and its
+duration is not a throughput benchmark. The native format/input/failure checks
+pass on HOST; original-weight capture and learned quality remain unqualified.
+See [capture and learning details](../development/STEERING.md#native-bank-builder).
+
+Load a prepared bank with the server:
+
 ```sh
 build/release/synapse-lie-server --model "$LIE_MODEL" --port 8000 \
   --dir-steering-file /path/to/directions.f32 \

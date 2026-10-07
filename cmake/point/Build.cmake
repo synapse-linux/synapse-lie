@@ -100,7 +100,7 @@ run_stage(configure
   "-DGUFO_BUILD=${root}/build/${provider}"
   "-DGUFO_REFERENCE_BUILD=${root}/build/${reference_provider}")
 set(point_binaries synapse-lie-server synapse-lie-bench
-  synapse-lie-bench-gufo-reference lie-hip-probe lie-sampling-capture lie-attention-qualify)
+  synapse-lie-bench-gufo-reference lie-hip-probe lie-sampling-capture lie-attention-qualify lie-steering-build)
 run_stage(link
   "${CMAKE_COMMAND}" --build "${root}/build/${runtime}" --parallel 1
   --target ${point_binaries})

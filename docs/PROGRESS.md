@@ -1,6 +1,35 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Native C17 paired-prompt steering builder integrated — 2026-10-07 UTC
+
+`lie-steering-build` composes the existing model-neutral observer, collector and
+learner. It validates both prompt lists before model admission, retains source
+hashes/physical IDs/raw borrowed rows, uses fresh unsteered sequences and observes
+only the last cumulative prefill chunk. Callback failures cannot veto or retry
+inference. Complete successful pairs accumulate target-minus-contrast in FP64;
+unit-L2 layer banks are written as DS4-compatible headerless little-endian F32.
+Exclusive staged output requires actual exit 0 and a final `complete` event.
+Input/host/output bounds preserve partial failure evidence without publishing an
+accepted incomplete bank. No extra threads, HTTP dependency or Python product
+dependency is introduced. The [usage command](guides/USAGE.md#directional-steering)
+and [artifact contract](development/STEERING.md#native-bank-builder) are documented.
+
+Four focused native CTest checks pass normally and with unsuppressed ASan/UBSan/
+LSan, including 32 owned CLI fixture executions per mode. Twelve mocked modern
+build-coordination checks pass, including missing/drifted seventh-consumer
+refusals. Initial fixture compile warnings and its attention-only row-budget
+mistake are corrected without weakening checks. A sanitizer run under the
+sandbox fails because LSan cannot operate under its tracing restriction; the
+same binaries/tests pass outside that restriction with leak detection enabled.
+All failed command exits remain in the
+[HOST receipt](development/validation/steering-build-host-2026-10-07.json).
+Only the two routine build directories are reused. No GPU/model run or remote
+build is admitted. Coherent HIP compilation, original captures, learned quality,
+wider runtime/fault/resource and matched cost remain open. All six root tasks
+remain open; Terminal Bench remains last. Root owns no remote job, GPU handle,
+lease, window, waiter or reservation.
+
 ## Steering capture and direction learning prepared in C17 — 2026-10-07 UTC
 
 Model-neutral bounded C17 collectors now validate unique component/layer rows at
