@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Prefill value-layout component prepared — 2026-10-07 UTC: exact temporary
+16-dimension V slices seek contiguous reads across selected keys, with full
+packing cost inside each timed attention cycle. Original sorted masks, QK,
+softmax/PV order and early/late dispatch remain. Two controls are byte-exact
+to R3; both arms retain 231/223 VGPRs and zero scratch. Complete 2048-row
+32K/128K shapes plus real/tiny tails are prepared; no model dispatch or speed
+claim. New .157 CPU fixtures and coordination precede GPU execution.
+[Scope and memory cost](Q2-ATTENTION-V-TILES.md).
+
 Q8 planar component closed; prefill now prioritized — 2026-10-07 UTC:
 2057 exact output comparisons and 68 independent checks pass on .157.
 Vocabulary latency improves 2.4252%, SSM 0.3440%; attention output and shared

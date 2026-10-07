@@ -1,0 +1,61 @@
+{
+  "schema": "synapse-lie.q2-attention-v-tiles-static.v1",
+  "binary_sha256": "656d0fd28ddfaceb48f9814cdbd15f5b5f7f67a0e9787b77bde2cf12ef994f46",
+  "device_audit_sha256": "500f95b8a5a79dfe7a5d1723839cf1e3a69e187b79cf8034e1565ad38cc49c57",
+  "common_functions": 2,
+  "exact_common_functions": 2,
+  "changed_functions": [],
+  "kernels": {
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_125PackAttentionVTilesKernelEPK15HIP_vector_typeIjLj4EEPS5_j": {
+      "sha256": "2520ea619883859c134708973888fef2406a70612ddbb3b6ceb41646ad399e25",
+      "bytes": 220,
+      "bundle": "0",
+      "resources": {
+        "num_vgpr": 9,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    },
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_131WmmaCausalAttentionVTilesKernelILj4ELj16ELb1ELb1EEEvPKfS6_PK6__halfS9_PKjjPfjjj": {
+      "sha256": "ea5fa92a7a0c7dbca47ccca9c9e8bf43d069a71962b23c09b402f8d3e3fc0945",
+      "bytes": 27016,
+      "bundle": "0",
+      "resources": {
+        "num_vgpr": 223,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    },
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_131WmmaCausalAttentionVTilesKernelILj4ELj16ELb1ELb0EEEvPKfS6_PK6__halfS9_PKjjPfjjj": {
+      "sha256": "5e96e34d98b31cb6a4aa28f8f8bfb5c4d2cb6db1da9329b0d7e6c71a65446c51",
+      "bytes": 27028,
+      "bundle": "0",
+      "resources": {
+        "num_vgpr": 231,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    },
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_125WmmaCausalAttentionKernelILj4ELj16ELb1ELb1EEEvPKfS6_PK6__halfS9_PKjjPfjjj": {
+      "sha256": "662e737cdcd04973b61ead8094331363e7662218544d7832138dae4bd41f46cf",
+      "bytes": 27016,
+      "bundle": "0",
+      "resources": {
+        "num_vgpr": 223,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    },
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_125WmmaCausalAttentionKernelILj4ELj16ELb1ELb0EEEvPKfS6_PK6__halfS9_PKjjPfjjj": {
+      "sha256": "4eef903fe59998102fb9824c6e54e67dc3e111f14d8e2f378e3bd15f6e42c7fb",
+      "bytes": 27028,
+      "bundle": "0",
+      "resources": {
+        "num_vgpr": 231,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    }
+  },
+  "gpu_run": false
+}
