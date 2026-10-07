@@ -1,5 +1,29 @@
 # DS4 / synapse-lie coordination
 
+## Correlated AR tool window failed at Responses seed and retired — 2026-10-07
+
+Fresh Point/DGX/Q2 and separate GLM own-state non-use declarations plus global/
+in-lease checks precede r66 AR on `.161`. Fourteen new checks and five baseline
+controls pass; one Responses request fails HTTP400 and 56 remain unexecuted.
+The corrected reversed-result Chat JSON/SSE checks pass on original weights.
+Controller/supervisor/helper exit1, owned server exit0; all 15 collected files
+hash-verify. CPU/GPU/NVMe peaks are 63.75/66/65.85 C.
+
+The original lease66308/105946405 releases at 17:12:05.721340 UTC. Strong closure
+at 17:13:21.452722 verifies supervisor19733/start908442, launcher19831/start908533,
+observed init19940/start908542 and actual GPU21157/start914670 absent. Container
+`2967cc01` and its entire recorded cgroup are absent; two complete process scans
+find no members or unreadable entries. Router21757 is restored and the sole
+observed KFD owner; original lease free/released, HTTP8000 empty, no foreign
+compute or guarded hot sensor. All four peers receive the verified release.
+
+The [failed receipt](development/validation/tool-transitions-ar-point-r4-2026-10-07.json)
+grants no full tool acceptance or future window. Root has no remote job/build/
+client/handle/lease/window/waiter/reservation on `.161/.157/.158/TB`. MTP stays
+prepared but unadmitted. The Responses parser correction requires a new coherent
+runtime and unchanged AR/MTP checking workload with fresh admission. All six
+tasks remain open; Terminal Bench stays last.
+
 ## Correlation correction Point build retired — 2026-10-07
 
 Fresh Point/DGX/Q2 own-state declarations, current boot identity and global/

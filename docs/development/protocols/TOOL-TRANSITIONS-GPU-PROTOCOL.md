@@ -90,3 +90,11 @@ results continuation instead swaps the two integer values. Five new checks pass,
 one fails and 65 are unexecuted. Source diagnosis identifies omitted call IDs in
 the model renderer; result-correlation correction and AR/MTP requalification
 remain open. Questions, profiles, budgets and acceptance criteria are unchanged.
+
+The [correlation-corrected AR observation](../validation/tool-transitions-ar-point-r4-2026-10-07.json)
+passes 14 new checks, including the unchanged reversed-results Chat JSON/SSE
+questions and all four malformed Chat histories. The next seeded Responses
+request receives HTTP400: `seed` is missing from the Responses parser allowlist
+and normalization. One check fails, 56 are unexecuted, and MTP is unadmitted.
+This protocol refusal and the earlier model-quality failures retain their
+separate source identities. The workload and acceptance remain unchanged.

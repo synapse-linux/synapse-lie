@@ -13,12 +13,16 @@ learning from real workloads; do not let the prototype define the final limits.
 
 ## Current roadmap — 2026-10-07 UTC
 
-The corrected `acfb9d26` runtime now passes the unchanged original-weight greedy
-Chat JSON two-call question: both `alpha` and `beta` are emitted. The next fixed
-follow-up fails: reversed results beta941/alpha137 produce alpha941/beta137.
-Five new checks and five baseline controls pass; one new check fails and 65 are
-unexecuted. The [current failed AR receipt](development/validation/tool-transitions-ar-point-r3-2026-10-07.json)
-retains both observations, actual exits and verified machine closure. The
+The corrected `64fa7c2a`/r65 runtime passes the unchanged greedy Chat two-call
+and reversed-results questions in JSON and SSE: alpha137/beta941 remains
+correct when results arrive in reverse order. Fourteen new checks and five
+baseline controls pass. The next Responses request fails with HTTP400 because
+the parser excludes its supplied `seed`; 56 new checks remain unexecuted.
+The [current failed AR receipt](development/validation/tool-transitions-ar-point-r4-2026-10-07.json)
+retains both observations, actual exits and verified machine closure. This is
+a protocol refusal; broader Responses and AR/MTP acceptance remains open.
+The [earlier swapped-value failure](development/validation/tool-transitions-ar-point-r3-2026-10-07.json)
+remains historical evidence. The
 [earlier one-call failure](development/validation/tool-transitions-ar-point-r2-2026-10-07.json)
 remains unchanged historical evidence. MTP is prepared but unadmitted.
 
@@ -37,8 +41,9 @@ Six focused Release and six unsuppressed sanitizer checks pass in the
 The matching `64fa7c2a` [coherent HIP build](development/validation/tool-result-correlation-point-build-2026-10-07.json)
 passes both complete private providers and all six consumers. Collected compiler
 commands verify the C17 helper and its linkage into server, bench and capture.
-Unchanged original-weight AR/MTP checks remain required; the r63 model-quality
-failure remains historical evidence.
+The selected unchanged original-weight AR correlation checks now pass, as above;
+wider Responses, sampling-profile and MTP checks remain required. The earlier
+model-quality failures retain their original source identities and outcomes.
 Wider tool acceptance, steering quality, long-context recall/HTTP,
 fault/resource gates, matched comparisons and Terminal Bench remain open.
 Terminal Bench stays last.

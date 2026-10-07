@@ -1,6 +1,28 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Original Chat correlation passes; Responses seed refusal blocks the gate — 2026-10-07 UTC
+
+The `64fa7c2a`/r65 runtime passes 14 new original-weight AR checks and five
+baseline controls. Both unchanged reversed-results questions now return
+alpha137/beta941 in Chat JSON and SSE; parallel calls and all four pre-forward
+Chat refusals also pass. The next `greedy_responses_auto-text_json` receives
+HTTP400/`invalid_responses_request`. Source diagnosis finds `seed` absent from
+the Responses field allowlist and normalization. The checking request, seed123,
+profiles, question, output budget and acceptance remain unchanged. One check
+fails and 56 remain unexecuted; this is a protocol refusal, not model quality.
+
+Controller/supervisor/helper exit1 and owned server exit0. All 15 files collect
+and hash-verify. Peaks are CPU63.75/GPU66/NVMe65.85 C. Original lease66308/
+105946405 releases at 17:12:05 UTC. Strong closure at 17:13:21 verifies actual
+supervisor/launcher/init/GPU identities and the entire container cgroup absent,
+two complete process scans empty, original lease free and router21757 restored.
+Peers receive the verified release. The [receipt](development/validation/tool-transitions-ar-point-r4-2026-10-07.json)
+preserves partial wire and all actual outcomes. MTP stays prepared but unadmitted;
+the parser correction needs local checks and a new coherent runtime before
+unchanged AR/MTP requalification. No root remote job or reservation remains.
+All six tasks stay open; matched comparisons follow and Terminal Bench stays last.
+
 ## Correlation correction compiled on Point and build closed — 2026-10-07 UTC
 
 The `64fa7c2a`/r65 coherent `.161` ROCm10 build finishes both complete private

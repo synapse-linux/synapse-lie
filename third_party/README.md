@@ -204,8 +204,10 @@ frozen client workload. Local core/formatter Release and sanitizer checks pass
 ([HOST receipt](../docs/development/validation/tool-result-correlation-host-2026-10-07.json));
 the matching `64fa7c2a` [coherent HIP build](../docs/development/validation/tool-result-correlation-point-build-2026-10-07.json)
 passes both providers and all six consumers, including verified C17 helper
-linkage. Original-weight AR/MTP checks remain required; this build does not
-resolve the recorded model-quality failure.
+linkage. The later [original AR observation](../docs/development/validation/tool-transitions-ar-point-r4-2026-10-07.json)
+passes the fixed reversed-result Chat JSON/SSE checks. It stops at a separate
+Responses parser refusal of `seed`; wider AR/MTP acceptance remains required.
+The earlier model-quality failures remain unchanged historical evidence.
 
 ## Archived private Q2 experiment
 
