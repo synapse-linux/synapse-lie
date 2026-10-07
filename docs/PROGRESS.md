@@ -1,5 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+IQ2 stage-pair layout GPU screen closed — 2026-10-07 UTC: the corrected .157
+host gate passes44/44 Debug and44/44 ASan/UBSan tests. Under fresh admission,
+the private component exits0 with15 exact route maps,51 byte-exact guarded
+whole-output replays and84 timing rows across three rotating weight banks.
+HIP events all report invalid zero duration; five completed host-wall samples
+per arm show saved routing layers0/3/22 at+0.306%/+0.725%/+0.142% time.
+Synthetic uniform160/skew64 improve1.757%/2.100%, but uniform512 regresses
+0.252%. Stop before model trial and retain production dispatch. Four artifacts
+collect before release2ac6b4de at07:27:53UTC; KFD empty, original leases
+free, seven model stats unchanged, no remote cleanup. The first window ended
+without GPU work after a parser allowlist error (exit2); its distinct receipt
+is preserved. [Experiment](Q2-IQ2-STAGE-LAYOUT.md),
+[results](../config/q2-iq2-stage-layout-component-results.json),
+[coordination](COORDINATION.md).
+
 IQ2 stage-pair layout preparation — 2026-10-07 UTC: Halogen's documented
 routed-expert prefill gain motivates an independent, lossless LIE weight-layout
 probe. A private BN128 body reads contiguous stage-pair planes; production

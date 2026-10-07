@@ -151,9 +151,11 @@ The next private screen changes the IQ2 gate/up *weight layout* without
 changing any quantized byte. It puts the two groups used by each stage for 16
 successive rows in one contiguous 256-byte segment. The
 [stage-pair layout probe](Q2-IQ2-STAGE-LAYOUT.md) preserves all production
-kernel bodies and compiles one new private body. No GPU output or timing is
-available yet; this is an inference about coalescing from LIE's own access
-pattern, not a claim about Halogen's undisclosed implementation.
+kernel bodies and compiles one new private body. The completed .157 screen
+passes 51 exact whole-output checks, but saved routing layers are flat or
+slower in completed gate/up wall time. This was an inference about coalescing
+from LIE's own access pattern, not a claim about Halogen's undisclosed
+implementation. The model trial is skipped by the bounded gate.
 
 The [Halogen benchmark conditions](https://github.com/peonist-ai/halogen-flash-server#measured)
 identify its measured rows as the older w4b checkpoint: the 0.14.1 prefill

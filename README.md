@@ -16,8 +16,9 @@ weight-reuse probe is numerically exact, but the .157 GPU component regresses
 by2.4–3.7% on three saved routing layers. The retained128/64-token path stays
 active; no model inference or LIE throughput gain is claimed for this probe.
 An independent [lossless IQ2 stage-pair layout probe](docs/Q2-IQ2-STAGE-LAYOUT.md)
-now passes local byte and static ISA checks; its GPU and full-model benefit
-remain unmeasured.
+passes local byte, static ISA and .157 GPU numerical checks. Its saved-routing
+gate/up time is flat or slower, so production dispatch remains unchanged and
+no full-model gain is claimed.
 The [completed diagnostic](docs/Q2-LONG-PROFILE.md) finds invalid zero device
 timestamps but usable CPU API intervals:45–70ms prefill gaps before PLE uploads,
 and only0.092–0.097ms between warm C1 completions and subsequent submissions.

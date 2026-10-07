@@ -1,5 +1,37 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+IQ2 stage-layout r2 window released — 2026-10-07 UTC: after the parser guard
+fix, fresh read-only preflight07:25:14 anchors release2f2bfa77, KFD empty,
+1930 retired identities/1538 groups, five original leases free and seven
+model stat tuples unchanged. The .157 CPU host r2-host-r1 passes44 Debug and
+44 ASan/UBSan tests, six exits0, seven artifacts collected209df579. Frozen
+plan8fc063a6 binds25 tested fixtures and only one synthetic IQ2 stage-layout
+component. Admission07:26:47/8453f25f precedes all GPU work. Component
+r2-component-r1 finishes07:27:38 with three exits0, 15 exact route maps,
+51 guarded byte-exact whole-output replays and84 timing records; four
+artifacts collect7a267f39 before release. Release07:27:53.528740/
+2ac6b4ded0694cec5cebcc6071d8c0afefd689ea711b5c83a0c36a7f8e79241a
+retires all owned processes/groups, KFD empty, original CPU/four GPU leases
+free, seven model stats unchanged, remote cleanup=false. Core is notified
+before offline performance analysis. No Q2 job, build, client, handle, lease,
+window, waiter or reservation remains on .157; another GPU run needs a new
+plan and admission. No model access or production dispatch change occurred.
+[Component results](../config/q2-iq2-stage-layout-component-results.json).
+
+IQ2 stage-layout r1 window released without GPU work — 2026-10-07 UTC:
+read-only preflight07:18:03 anchors prior releasef9605657, KFD empty, five
+leases free and seven model stat tuples unchanged. The first CPU host label
+was already occupied locally by evidence and its attempted command exits1
+before staging; the distinct r1 plan uses host-r2, which passes44+44 and
+collects seven artifacts. Admission07:22:44/d3253670 binds plan5241e206.
+The local phase confirms its active admission but the `q2-remote.py` staging
+parser rejects the new variant from one allowlist (exit2), before remote
+component staging/build/GPU. Release07:23:19.091901/
+2f2bfa77a6754191e3fbb05ca833ade8f4ebd9126b73406743ec1da66430c9bb
+checks KFD empty, owned processes retired, original leases free, seven model
+stats unchanged and no cleanup. Its failure and receipts remain intact; the
+r2 window above is independent.
+
 Original128K profile window released — 2026-10-07 UTC: checkpoint045e9648,
 planbb41342b and fresh admission8a90be88 at06:39:55.754900 bound exactly one
 saved-binary profile of the original130925-token request, capacity133760 and

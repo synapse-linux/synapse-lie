@@ -27,19 +27,48 @@ instruction operands and resources after accounting for the added template
 parameter. The new body uses 25,728 bytes of LDS, no private scratch and 153
 next-free VGPR, versus 150 for the retained BN128 body. The C17 packer has a
 byte-exact inverse reconstruction test over two experts and checks guards,
-lengths and overlap. Focused CTest and ASan/UBSan pass locally; the HIP fixture
-links for gfx1151 but has **not** executed on a GPU. The fixture retains the
+lengths and overlap. Focused CTest and ASan/UBSan pass locally and on .157;
+the HIP fixture compiles for gfx1151 and completed there. It retains the
 same 128/64-token route maps on both arms, rotates three synthetic weight banks,
 checks whole-output bytes and guards, and records completed wall times. Its
-measurements will be operator evidence only, not a model PP/TG result.
+measurements are operator evidence only, not a model PP/TG result.
 
 The private variant's [source manifest](../config/q2-iq2-stage-layout-source.json),
 [static report](../config/q2-iq2-stage-layout-static.json) and
 [isolated patch](../experiments/q2-iq2-stage-layout.patch) bind the probe.
-Actual GPU output, time and full-model memory fit remain unverified. Holding
+The coordinated .157 component now verifies 15 exact route maps and 51
+guarded, byte-exact whole-output replays across three rotating weight sets.
+It records 84 interleaved timing rows; all HIP event durations are invalid
+zero, so the following medians use five completed host-wall samples per arm
+after two warmup repetitions. Each timed iteration runs the full 2048-token
+gate/up component over three weight rotations, divided by three for the table.
+
+| Routing | Retained median µs | Stage layout median µs | Time change |
+| --- | ---: | ---: | ---: |
+| Saved layer 0 | 5203.547 | 5219.466 | +0.306% |
+| Saved layer 3 | 4264.176 | 4295.085 | +0.725% |
+| Saved layer 22 | 5506.948 | 5514.758 | +0.142% |
+| Uniform 160 experts | 3614.167 | 3550.659 | −1.757% |
+| Uniform 512 experts | 5485.242 | 5499.078 | +0.252% |
+| Skewed 64 experts | 3774.746 | 3695.458 | −2.100% |
+
+Paired per-repetition changes on saved layer 3 straddle zero; its paired
+median is −0.443% despite the +0.725% ratio of arm medians. The saved routing
+cases therefore provide no robust gain. The small synthetic gains do not
+justify an original-model trial or a production dispatch change. The
+[complete samples and validity checks](../config/q2-iq2-stage-layout-component-results.json)
+are retained. The first admission ended without a GPU run because the staging
+parser omitted the new variant from one allowlist; its exit 2 and release
+remain preserved. The corrected second host gate passed 44/44 Debug and
+44/44 ASan/UBSan tests. Its GPU component exited 0, all four artifacts were
+collected, and the .157 window was released with KFD empty, original leases
+free, unchanged model stats and no remote cleanup.
+
+Full-model memory fit remains unverified. Holding
 both old and transposed gate/up experts for every layer would add roughly
 20.8 GB (19.3 GiB), so a successful component would still require a replacement or
-on-demand layout design before any original-model trial. No speedup is claimed.
+on-demand layout design before any original-model trial. No whole-model PP/TG
+speedup is claimed.
 
 The saved 128K trace also has 4.510309 s total in the largest CPU API gaps
 per chunk. Even the unrealistic assumption that all of this time disappears
