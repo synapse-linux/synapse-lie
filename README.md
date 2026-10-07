@@ -1,10 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-[User-requested chunk4096/8192 support](docs/Q2-PREFILL-CHUNKS.md) is prepared
-in private source capsules; all923 GPU functions match retained R3. The owner
-requires the complete chunk curves with IOMMU enabled before the temporary
-boot change. The [IOMMU enabled baseline](docs/Q2-IOMMU.md) is collected;
-the disabled arm remains unmeasured and the boot configuration is untouched.
+[Complete IOMMU-enabled chunk2K/4K/8K tables](docs/Q2-PREFILL-CHUNKS-RESULTS.md)
+and [PP/TG graph](docs/figures/q2-prefill-chunks128.png) are available. At the
+original130925-token prompt, prefill measures1302.02/1265.10/1232.32 token/s;
+decode25.80/25.55/26.02. Larger chunks do not provide a general prefill gain,
+so2048 remains the default. All4K replies match2K; one short8K reply differs.
+The [IOMMU-off experiment](docs/Q2-IOMMU.md) remains deferred: no boot change
+or reboot occurred. The owner receives the tables before any restart.
 
 The deferred [prefill SSM candidate](docs/Q2-SSM-STAGE-Q8.md) packs the original Q8
 bytes into contiguous operand stages, charging packing on every call. Local

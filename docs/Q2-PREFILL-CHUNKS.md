@@ -39,3 +39,14 @@ The owner clarified the order: complete these curves with IOMMU enabled
 before changing the boot configuration. The separate IOMMU comparison uses
 the already-qualified R3 executable and original chunk2048. Its enabled
 baseline is collected; its reboot is deferred until after these curves.
+
+All three curves now complete. [Full measured tables and limitations](Q2-PREFILL-CHUNKS-RESULTS.md)
+retain every original case and both8K attempts; the2055 preparation is marked
+separately. At130925,4096/8192 reduce prefill by2.8361%/5.3531% relative to
+the same-session2048 control. Decode changes-0.9788%/+0.8443% over eight calls.
+The larger capacity is experimental; retain2048 as the default. The four-K
+arm matches all eleven short replies. The eight-K arm differs at16317 tokens:
+`This text appears to be a **Mark` becomes
+`This text appears to be a collection of`. Both outputs stop at the original
+eight-token budget. This is an observed output difference, not an independent
+quality verdict. The historical R3 reference is not replaced by this curve.

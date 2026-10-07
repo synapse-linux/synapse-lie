@@ -1,5 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Enabled-IOMMU chunk128 curves released — 2026-10-07 UTC: source dc37ef01,
+plan68552a5c, same server f6772a1e and native client87d856cf. CPU fixture,
+verify/admit/run/release and all six children exit0. Run22:44:07→22:56:17;
+54 artifacts/67937455bytes hash-verify22:57:47 before release22:58:03 SHA
+a6110bdffbc0b39a398b4d88de4bb66b7f0922615f58ecc5a4e808001dfb471b.
+Independent22:58:18 closure checks46 identities/groups including supervisor
+36575/start2920470/group36571, KFD empty, five free original leases, seven
+reference model stats and GLM stats unchanged. Core/GLM receive closure.
+No Q2 ownership or reservation remains on any host. Boot8b9cbb46 unchanged;
+32 IOMMU groups and original Limine SHA8c7c6387 verify22:59:01. An initial
+unprivileged config read exits1; the read-only sudo retry exits0, both retained.
+The owner requests complete tables before reboot; stop for that review.
+Bootplanf8716328 remains deferred/unapplied and requires a new predecessor
+and fresh coordination if resumed. No remote cleanup, tuning or service change.
+
 IOMMU-on baseline released — 2026-10-07 UTC: source44809c18,
 plan eee95efc, retained R3 server f8a5210c. CPU9CTest/verify/admit/run/release0;
 both separate original130925/8 native-client runs finish0. All56 artifacts

@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Enabled-IOMMU chunk curves completed — 2026-10-07 UTC: same candidate
+server f6772a1e and saved native client, all original eleven requests per arm,
+no request padding and no KV/SSD prefix reuse. At130925 tokens: chunk2048
+1302.021442PP/25.798469TG; chunk4096 1265.095076/25.545963; chunk8192
+1232.322348/26.016298. The larger chunks do not provide a general prefill win;
+keep the default2048. All eleven 4K outputs match2K; 8K differs only at the
+16317-token prompt, in its last two of eight generated tokens. This observation
+alone establishes neither quality loss nor quality equivalence. No new
+quantization; eight-call decode is not sustained TG128. Preserve the separate
+historical R3 reference. [Full tables](Q2-PREFILL-CHUNKS-RESULTS.md).
+
 Owner clarifies test order — 2026-10-07 UTC: complete chunk4096/8192 curves
 with IOMMU enabled before its temporary disable/reboot. The enabled R3
 baseline completes first1076.934433/25.567541 and repeat1321.570237/26.097557

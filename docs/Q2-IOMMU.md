@@ -46,3 +46,10 @@ Boot plan f8716328 is deferred without application. Configuration and EFI
 variables are untouched and no reboot has been requested. A replacement plan
 must name the new predecessor release after the chunk curves. The prepared
 disabled-IOMMU measurement is not an observed result.
+
+The enabled chunk curves are now complete and released at22:58:03 UTC,
+receipt a6110bdf, with independent closure22:58:18. The owner requires the
+complete2K/4K/8K tables before reboot, so execution stops after presenting
+them. At22:59:01 the original boot ID,32 IOMMU groups and exact original
+Limine SHA8c7c6387 still match. No boot plan is applied. Any later transition
+must bind the new release and freshly coordinate all ownership checks.
