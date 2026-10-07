@@ -134,7 +134,7 @@ separating quantization error from decoder arithmetic. Any opt-in model arm
 then needs original-input numerical/task-quality and native C1 measurements
 before production dispatch changes.
 
-## Decode-only overlay prepared; runtime qualification pending
+## Decode-only overlay: conversion qualified, model qualification pending
 
 The next private provider variant keeps every original Q8_0 device tensor for
 the unchanged batched prefill path. At load it can additionally encode Q5_0
@@ -151,8 +151,15 @@ and pinned MMQ numerical tier. Applying it with zero fuzz reproduces all six
 candidate source files from the previous private provider. Local gfx1151
 builds of the conversion fixture, model fixture and original C17 direct
 benchmark exit 0; [source and binary hashes](../config/q2-decode-q5-overlay-source.json)
-are frozen. This proves compilation, not GPU conversion correctness, model
-quality or throughput. A guarded GPU conversion/FP64 operator test on `.157`
-is the next gate. If it passes, run one family at a time on the original model
-and compare full saved logits and native C1 timings before considering the
-combined arm. The 128K cold prefill target remains separately unproven.
+are frozen. The coordinated `.157` guarded converter/oracle fixture also exits
+0 on 257 by 2560 synthetic Q8 weights: Q8-to-Q5 weight relative RMS is
+3.1859%, while the Q5 decode kernel differs from an independent FP64 oracle
+by 1.513e-7 relative RMS. The latter measures decoder arithmetic against its
+*quantized* operands, not preservation of original-model logits. The
+[result and raw evidence hashes](../config/q2-q5-overlay-converter-results.json)
+record empty KFD, five free original leases, seven unchanged model stat tuples
+and no remote cleanup at release. This is not an original-model performance or
+quality result. Next, run one family at a time on the unchanged exact-2048
+input and compare complete saved logits and native C1 timings before
+considering the combined arm. The 128K cold prefill target remains separately
+unproven.

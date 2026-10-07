@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Private decode-only Q5 converter passes — 2026-10-07 UTC: the coordinated
+`.157` synthetic 257×2560 Q8-to-Q5 guarded GPU fixture exits0. Weight RMS
+against original Q8 is3.1859%; independent quantized-operand decode oracle
+RMS is1.513e-7. This separates representation error from decoder arithmetic
+but does not establish original-model quality, C1 throughput or 128K prefill.
+Release1296c307 verifies empty KFD, five original leases free, seven model
+stat tuples unchanged and no remote cleanup. The retained provider is
+unchanged. [Result](../config/q2-q5-overlay-converter-results.json),
+[scope](Q2-DENSE-DECODE-FEASIBILITY.md).
+
 Private decode-only Q5 model arm prepared — 2026-10-07 UTC: an opt-in
 in-memory Q5 overlay covers four named dense tensor families while retaining
 original Q8 for the unchanged batched prefill. The original GGUF file remains
