@@ -1,6 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Current Q2 optimization assessment — 7 October 2026
 
+Owner priority: focus new work on prefill, preserving original input,
+2048-token chunks and retained model comparisons. Keep any improvement that
+benefits only decode behind its decode dispatch; do not require a prefill win
+or apply it globally. The [planar Q8 component](Q2-DECODE-Q8-PLANAR.md) now
+retains vocabulary/SSM candidates separately while rejecting its shared gated
+and attention-output shapes. No new decode model test is scheduled.
+
 The unchanged four-row Q2 candidate now completes after the owner restores
 performance/120 W:1337.972303 PP /26.101627 TG on original130925/8, versus
 retained HC1337.119965 /25.914406 (+0.064% /+0.722% observed). All four

@@ -58,3 +58,37 @@ dependency, service, tuning or cleanup is requested.
 [device audit](../config/q2-decode-q8-planar-static.json),
 [candidate](../experiments/q2-decode-q8-planar.inc),
 [fixture](../tests/q2_decode_q8_planar.hip).
+
+## Completed component and phase-specific decision
+
+The .157 component exits 0 on 2026-10-07. All 2057 complete-output
+comparisons are exact and all 68 sampled independent FP64 checks pass.
+The exhaustive 65536 scale-bit packing check, immutable inputs, written
+finite outputs and allocation guards pass. No original model is executed.
+
+| Decode projection | Original mean, us | Planar mean, us | Latency change | Improving pairs |
+|---|---:|---:|---:|---:|
+| ssm-in | 195.242368 | 194.570728 | -0.344003% | 6/6 |
+| attn-out | 78.609578 | 102.269926 | +30.098556% | 0/6 |
+| vocabulary | 2970.850269 | 2898.801287 | -2.425197% | 6/6 |
+| shared-gated | 18.161294 | 19.159398 | +5.495776% | 0/6 |
+
+All six measured pairs and both warmups are retained in the
+[bound result](../config/q2-decode-q8-planar-results.json). Their arithmetic
+means describe this component only and do not replace the frozen model
+reference. Startup packing and simultaneous original/planar residency remain
+separate costs; vocabulary adds 675430400 bytes and takes 6.243517 ms to pack.
+
+Retain vocabulary and the small SSM result as decode-only candidates; do not
+apply planar loading globally or to prefill. Model integration and complete
+decode qualification remain pending. Per the owner's new priority, new
+experiments focus on prefill. A benefit exclusive to decode is preserved for
+that phase, with no requirement that it also improve prefill.
+
+CPU fixture, verify, admit, run and release all exit 0. All 36 artifacts
+(817727 bytes) hash-verify at 20:34:04 UTC before release at 20:38:30, SHA
+63ef8bc62ff61ad53c79df9ab764ccaa3193f32b5bd7ba5e1360071624212850.
+Independent closure at 20:39:18 checks the registry, 18 retired identities
+including the supervisor and owned groups, empty KFD, five original free
+leases and seven unchanged model stats. Core and GLM receive closure; no
+Q2 window or reservation remains. No remote cleanup or tuning occurs.

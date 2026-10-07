@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Planar Q8 component released — 2026-10-07 UTC: source 2e5c6b15, plan
+c5f65754. CPU fixture/verify/admit/run/release all exit 0. All 36 artifacts
+(817727 bytes) verify at 20:34:04 UTC before release 20:38:30, SHA
+63ef8bc62ff61ad53c79df9ab764ccaa3193f32b5bd7ba5e1360071624212850.
+Independent 20:39:18 closure verifies current-boot registry, 18 retired
+identities including supervisor/groups, empty KFD, five original free leases
+and seven model stats. Core/GLM receive closure. No Q2 job, window, waiter
+or reservation remains; further prefill work is local preparation only.
+No model access, remote build, dependency, service, tuning or cleanup action.
+
 Original128K profile released — 2026-10-07 UTC: source655dddf3, plandb0f9cfe;
 CPU fixture/verify/admit/run/release0. Run19:59:52→20:02:20, inference client0,
 profiled server-9 after bounded shutdown; exported timestamp validity and

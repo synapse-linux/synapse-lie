@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q8 planar component closed; prefill now prioritized — 2026-10-07 UTC:
+2057 exact output comparisons and 68 independent checks pass on .157.
+Vocabulary latency improves 2.4252%, SSM 0.3440%; attention output and shared
+gated regress. Keep beneficial shapes as decode-only candidates, without
+global promotion or a model-throughput claim. New work focuses on original
+128K prefill, with frozen input/chunks/reference. CPU fixture and all window
+commands exit 0; verified collection precedes release 63ef8bc6 and independent
+closure. No Q2 GPU reservation remains. [All results](Q2-DECODE-Q8-PLANAR.md).
+
 Lossless Q8 decode layout prepared — 2026-10-07 UTC: separate exact scale
 bits and aligned code words without changing the 34-byte payload, dot or row
 reduction. Two control device functions are byte-exact to R3; candidate

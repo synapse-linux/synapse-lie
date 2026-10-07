@@ -1,5 +1,10 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+New optimization work prioritizes prefill. The [planar Q8 decode component](docs/Q2-DECODE-Q8-PLANAR.md)
+retains exact vocabulary/SSM candidates separately; slower shared gated and
+attention-output shapes are not selected. No global dispatch or model-rate
+change is claimed, and decode-only gains will stay outside prefill.
+
 The local qualification worktree has been compacted54.8→19.0GiB with original
 results and qualified executables preserved. Some historical source/diagnostic
 paths are now restored on demand; see [artifact recovery](docs/LOCAL-ARTIFACT-RETENTION.md).
