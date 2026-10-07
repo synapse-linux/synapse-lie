@@ -187,8 +187,12 @@ sanitizer HOST checks pass. Native AR wire formats stay unchanged; the explicit
 MTP writer/replay now passes grouped HOST controls across original/C17/OFF,
 including independent probability/RNG/grammar/controller oracles and negative
 fixtures ([HOST receipt](development/validation/mtp-capture-host-2026-10-07.json)).
-A newly coherent HIP build and original-weight capture are still required
-before this path qualifies actual probabilities or controller branches.
+The matching device-hidden ROCm 10 build of `c6625f09` now compiles both
+coherent ON/OFF providers and all six consumers. Collection, independent source
+reconstruction and strict machine closure pass in the
+[build receipt](development/validation/mtp-capture-point-build-2026-10-07.json).
+Original-weight capture and independent replay remain required before this path
+qualifies actual probabilities or controller branches.
 
 An open qualification gate does not mean its implementation is absent:
 

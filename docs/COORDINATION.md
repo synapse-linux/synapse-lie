@@ -1,5 +1,22 @@
 # DS4 / synapse-lie coordination
 
+## Native MTP capture Point build verified and retired — 2026-10-07
+
+Fresh Point/DGX/Q2 own-state non-use replies and two global preflights precede
+r56 admission. Device-hidden ROCm 10 compilation completes both providers and
+six consumers with exit 0; no model or GPU executable runs. The original lease
+66307/105946405 releases at 11:48:00 UTC. Collection and independent source,
+recipe and linkage verification pass in the
+[build receipt](development/validation/mtp-capture-point-build-2026-10-07.json).
+
+Strict closure at 11:53:58 UTC verifies supervisor 288239/start 24232523,
+container init 288313/start 24232596 and the owned container absent, port 8000
+empty, the unchanged lease free and router 293903 active. No foreign compute
+client or guarded hot sensor is observed. Peers receive the release. Root has
+no job/build/client/handle/lease/waiter/reservation on `.161/.157/.158/TB`.
+Original-weight MTP capture requires fresh coordination and admission; this
+closure grants no future window. All six items remain open; Terminal Bench last.
+
 ## Native MTP capture/replay prepared locally — 2026-10-07
 
 Root finishes C17 MTP capture and independent offline replay with grouped

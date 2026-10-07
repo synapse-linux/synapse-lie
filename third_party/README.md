@@ -87,6 +87,9 @@ residual/RNG and grammar byte-walk oracles. The copied callback configuration
 changes diagnostic lifetime only. These clients add no product dependency,
 sampling policy or model-forward implementation. Their HOST fixtures are
 explicitly separate from original-weight GPU qualification.
+The [matching Point compilation receipt](../docs/development/validation/mtp-capture-point-build-2026-10-07.json)
+binds the 42 exact recipes, both complete provider variants and all six linked
+consumers. Compilation does not establish original-weight numerical acceptance.
 
 ## Actual external dependencies
 

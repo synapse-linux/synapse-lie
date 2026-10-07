@@ -17,8 +17,10 @@ refuse; no observer remains after failure.
 GPU greedy verification can omit host rows, so missing events cannot qualify
 those predictions. Existing executor/request/core/state layouts and reactive
 scheduling remain unchanged. Capture I/O is excluded from throughput claims.
-The observation path and native MTP capture/replay have HOST checks only;
-original-weight acceptance must bind a new coherent provider/consumer build.
+The observation path and native MTP capture/replay pass HOST checks. The
+[matching Point build](../development/validation/mtp-capture-point-build-2026-10-07.json)
+also compiles both coherent providers and all six consumers, without GPU or
+model execution. Original-weight observation/replay acceptance remains open.
 
 Prefill ABI 1 (`lie/prefill.h`) adds tagged `lie_prefill_options` and
 `lie_prefill_info` without changing executor ABI 3, request ABI 8 or existing

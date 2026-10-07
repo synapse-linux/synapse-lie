@@ -1,6 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Native MTP capture client compiled on Point — 2026-10-07 UTC
+
+The device-hidden `.161` ROCm 10 build of `c6625f09` completes both coherent
+C17 ON/OFF providers and all six consumers with exit 0. Collection verifies
+25 compile files, four control logs and three linkage witnesses. Independent
+reconstruction matches both 1,019-file variants, all 42 recipes and the 122
+owned sampling files. No model or GPU executable runs. Sampled CPU/GPU/NVMe
+peaks are 73/46/55.85 C, without a guard stop.
+
+Strict closure at 11:53:58 UTC verifies the exact supervisor/init/container
+retired, the unchanged original lease free, port 8000 empty and the router
+active. Fresh Point/DGX/Q2 replies report their own non-use; no future window
+is reserved. The [build receipt](development/validation/mtp-capture-point-build-2026-10-07.json)
+binds source, artifacts and portable raw evidence. Original-weight MTP
+probability/controller observations and independent replay remain required.
+All six roadmap items stay open; matched comparisons follow functional
+qualification and Terminal Bench is last.
+
 ## Native MTP capture and independent replay passed locally — 2026-10-07 UTC
 
 The C17 capture client now accepts explicit `--mtp-model` and `--draft-tokens`
