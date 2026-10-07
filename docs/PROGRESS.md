@@ -17,6 +17,10 @@ OFF sampler and disabled-feature providers. Emitted instruction sequences and
 resource fields for all three original kernels match the preceding local build.
 Both long specializations declare 54,304 shared bytes and zero private-stack or
 register-spill counts. These are compiler observations, not runtime performance.
+All five enabled consumers and four disabled-feature consumers link coherently;
+the [source and local compilation receipt](development/validation/prefill-long-wmma-local-hip-2026-10-07.json)
+preserves their identities, emitted device code and actual exits. Local CPU peaks
+at 84.5 C under the 98 C guard; no thermal stop occurs.
 Focused checks cover 25 extent boundaries, provider receipt refusals and eight
 mocked development-controller controls; Release and unsuppressed sanitizers pass.
 Matching `.161` ROCm10 compilation and original-weight numerical/quality/resource

@@ -80,6 +80,9 @@ receipt and Point build routes enforce the selected option in providers and
 clients. This completes the long-workspace source path; GPU numerical, quality,
 resource and performance acceptance remains in the final integrated phase.
 It changes neither reactive scheduling nor thread counts.
+The [local compilation receipt](development/validation/prefill-long-wmma-local-hip-2026-10-07.json)
+binds source `c9c79a70`, three complete providers and nine linked consumers;
+this is local HIP 7.2 evidence, not `.161` ROCm10 or inference qualification.
 
 An open qualification gate does not mean its implementation is absent:
 
