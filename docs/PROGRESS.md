@@ -1,6 +1,23 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Larger-chunk qualification supervisor — 2026-10-07 UTC
+
+The optional Point campaign supervisor now admits the engine's complete
+1–32,768 chunk range and a separate explicit `prefill_capacity`. It refuses
+invalid types and reservations smaller than the selected chunk before model
+access. Explicit capacity and larger chunks require matching native identity
+and per-job chunk/capacity/revision witnesses; old frozen small-chunk receipts
+retain their original interpretation. No engine, ABI, scheduler or numerical
+code changes. Server and native benchmark dependencies remain unchanged.
+
+All 74 mocked campaign controls pass locally, including reservation forwarding,
+admission refusal and rejection of false or mismatched completed witnesses.
+The [HOST receipt](development/validation/prefill-supervisor-host-2026-10-07.json)
+binds those source changes and actual exit 0. This qualifies the development
+supervisor only. Original-weight larger-chunk parity/cache/cancellation/fairness
+and performance remain open and require fresh `.161` admission.
+
 ## Current-runtime MTP HTTP controls — 2026-10-07 UTC
 
 The coherent r45 runtime now passes **37 OpenAI controls and 66 bounded-integer

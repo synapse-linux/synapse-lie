@@ -1,0 +1,67 @@
+{
+  "schema": "synapse-lie.prefill-supervisor-host.v1",
+  "at_utc": "2026-10-07T07:27:21.446044+00:00",
+  "classification": "MOCKED_HOST_CAMPAIGN_ONLY_NOT_INFERENCE",
+  "before_commit": "f813e226512cb7676e9d2af06f53480736fb3671",
+  "selected_chunk_range": [
+    1,
+    32768
+  ],
+  "explicit_prefill_capacity_range": [
+    1,
+    32768
+  ],
+  "checks": 74,
+  "actual_exit_code": 0,
+  "child_exit_code": 0,
+  "CPU_peak_C": 51.125,
+  "source_changes": [
+    "tools/strix-point-campaign.py",
+    "tests/test_strix_point_campaign.py"
+  ],
+  "engine_ABI_numerical_or_scheduler_changed": false,
+  "GPU_remote_or_model_run": false,
+  "Python_product_dependency_added": false,
+  "larger_chunk_original_weight_qualified": false,
+  "goal_complete": false,
+  "open_task_numbers": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "portable_raw_archive": {
+    "path": "raw/prefill-supervisor-host-2026-10-07.tar.gz",
+    "bytes": 45735,
+    "sha256": "664e87611c01dbd76fc5f32de34248c8f483b17de53b1acaf897560b78ecef6a",
+    "members": 6
+  },
+  "raw_artifacts": {
+    "tools/strix-point-campaign.py": {
+      "bytes": 136148,
+      "sha256": "567f4f609b0c3ef6ca0d9d4f6e800ed1e089dde2e13e1cef016a74eb59a6b28a"
+    },
+    "tests/test_strix_point_campaign.py": {
+      "bytes": 96696,
+      "sha256": "7c4411a5e252ef85a44621b76fc87505ccae570b595d94bad9bd27836e81e63e"
+    },
+    "evidence/context-r48-supervisor-host-guard/plan.json": {
+      "bytes": 901,
+      "sha256": "7ead0153923efa6532d58fb00f901ccc401cc8a95fe643ee4f95e527eae2e0e3"
+    },
+    "evidence/context-r48-supervisor-host-guard/temperatures.jsonl": {
+      "bytes": 1828,
+      "sha256": "bc9a9d26749659a826b3f3217875939d234f4af5942131f7efb12fc776c53a13"
+    },
+    "evidence/context-r48-supervisor-host-guard/command.log": {
+      "bytes": 173,
+      "sha256": "f868700698422c3ebd0a60f2970b0fbf0180cd6c9240e98d734c59c3ada953f8"
+    },
+    "evidence/context-r48-supervisor-host-guard/result.json": {
+      "bytes": 399,
+      "sha256": "9cf71f7a2cb5ba3c8376954a78d2f9f6dc3201b0354f3fc5dd9505e3d193c599"
+    }
+  }
+}

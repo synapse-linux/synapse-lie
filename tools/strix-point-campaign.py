@@ -1350,10 +1350,16 @@ class Campaign:
                 {'context', 'chunk', 'users', 'tg', 'warmups', 'repetitions'} or
                 any(type(value) is not int for value in settings.values()) or
                 not 4096 <= settings['context'] <= context_limit or
-                settings['chunk'] not in (256, 512, 1024, 2048) or
+                not 1 <= settings['chunk'] <= 32768 or
                 settings['users'] not in (1, 2, 4) or settings['tg'] not in (32, 128) or
                 settings['warmups'] not in (0, 1) or not 1 <= settings['repetitions'] <= 3):
             raise ValueError('Invalid bounded modern core settings')
+        capacity = self.m.get('prefill_capacity', settings['chunk'])
+        if type(capacity) is not int or not settings['chunk'] <= capacity <= 32768:
+            raise ValueError('Core prefill capacity must cover the selected chunk within 1..32768')
+        # Older frozen small-chunk receipts predate the additive prefill fields.
+        # An explicit reservation or larger chunk requires the new witnesses.
+        bind_prefill = 'prefill_capacity' in self.m or settings['chunk'] > 2048
         generation = (core_generation(self.m['generation']) if 'generation' in self.m
                       else core_generation(None, historical=True))
         eos_policy = self.m.get('eos_policy', 'stop')
@@ -1394,6 +1400,8 @@ class Campaign:
             command.extend(('--rope-scaling', rope))
         if progress_ms:
             command.extend(('--progress-ms', str(progress_ms)))
+        if 'prefill_capacity' in self.m:
+            command.extend(('--prefill-capacity', str(capacity)))
         if eos_policy == 'ignore':
             command.append('--ignore-eos')
         if reactive_probe:
@@ -1439,6 +1447,20 @@ class Campaign:
                 raise RuntimeError('Unexpected modern core sampling identity')
             jobs = [row for row in measurements if row.get('event') == 'job']
             samples = [row for row in measurements if row.get('event') == 'sample']
+            if bind_prefill or 'prefill_chunk' in identity or 'prefill_capacity' in identity:
+                if (type(identity.get('prefill_chunk')) is not int or
+                        identity['prefill_chunk'] != settings['chunk'] or
+                        type(identity.get('prefill_capacity')) is not int or
+                        identity['prefill_capacity'] != capacity):
+                    raise RuntimeError('Unexpected core prefill identity')
+                for job in jobs:
+                    if (type(job.get('prefill_chunk')) is not int or
+                            job['prefill_chunk'] != settings['chunk'] or
+                            type(job.get('prefill_capacity')) is not int or
+                            job['prefill_capacity'] != capacity or
+                            type(job.get('prefill_revision')) is not int or
+                            job['prefill_revision'] != 1):
+                        raise RuntimeError('Unexpected admitted job prefill identity')
             if reactive_probe:
                 reactive = [row for row in measurements if row.get('event') == 'reactive']
                 if (len(reactive) != 1 or jobs or samples or
@@ -1493,6 +1515,10 @@ class Campaign:
                                       'measured_ssd_cached_tokens': sum(row.get('ssd_cached_tokens', 0) for row in jobs if not row.get('warmup')),
                                       'measured_ssd_hits': sum(row.get('ssd_hits', 0) for row in samples if not row.get('warmup')),
                                       'measurements_sha256': sha(self.root/'measurements.jsonl')}
+            if bind_prefill or 'prefill_chunk' in identity or 'prefill_capacity' in identity:
+                self.r['bench_result']['prefill'] = {
+                    'chunk_tokens': settings['chunk'], 'capacity_tokens': capacity,
+                    'revision': 1, 'admitted_jobs_verified': len(jobs)}
             if progress_result is not None:
                 self.r['bench_result']['progress'] = progress_result
         finally:

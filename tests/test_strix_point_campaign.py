@@ -584,6 +584,60 @@ class Tests(unittest.TestCase):
                     reported[0] = changed
                     with self.subTest(mode=mode,changed=changed), self.assertRaisesRegex(RuntimeError,'sampling identity'):
                         c.bench()
+    def test_modern_core_prefill_reservation_and_admitted_witnesses(self):
+        for chunk in (1, 2048, 4096, 8192, 16384, 32768):
+            c = self.campaign('prefill-' + str(chunk))
+            tokens = c.root/'tokens.json'; tokens.write_text('[1,2,3]')
+            c.m.update(action='bench', stack='rocm10-fedora43', transport='distrobox',
+                       bench_profile='modern-core', decode_mode='ar', bundle=str(self.base),
+                       model_plan={'files':[{'name':'target.gguf'}]}, tokens_sha256=point.sha(tokens),
+                       prompt_tokens_expected=3, runtime_build_id='fixture-runtime',
+                       prefill_capacity=32768,
+                       settings={'context':65536,'chunk':chunk,'users':1,'tg':32,'warmups':0,'repetitions':1})
+            identity = {'prefill_chunk':chunk,'prefill_capacity':32768}
+            admitted = dict(identity, prefill_revision=1)
+            def run(command, *_args):
+                self.assertEqual(command[command.index('--chunk')+1], str(chunk))
+                self.assertEqual(command[command.index('--prefill-capacity')+1], '32768')
+                rows = [{'event':'identity','schema':'synapse-lie.core-bench.v1','mode':'ar',
+                         'synthetic':False,'cache_policy':'off','build_id':'fixture-runtime',**identity},
+                        {'event':'job','prompt_tokens':3,'output_tokens':32,
+                         'mtp_drafted_tokens':0,'mtp_accepted_tokens':0,**admitted},
+                        {'event':'sample'},{'event':'complete','exit_code':0}]
+                (c.root/'measurements.jsonl').write_text(''.join(json.dumps(row)+'\n' for row in rows))
+            with patch.object(c,'verified_model',return_value=(self.base,[])), \
+                 patch.object(c,'run_container',side_effect=run), patch.object(c,'check_model_after'):
+                c.bench()
+                self.assertEqual(c.r['bench_result']['prefill'],
+                                 {'chunk_tokens':chunk,'capacity_tokens':32768,
+                                  'revision':1,'admitted_jobs_verified':1})
+                for target in (identity, admitted):
+                    for key in tuple(target):
+                        good = target[key]
+                        for bad in (None, True, str(good), good+1):
+                            target[key] = bad
+                            with self.subTest(chunk=chunk,key=key,bad=bad), \
+                                 self.assertRaisesRegex(RuntimeError,'prefill identity'):
+                                c.bench()
+                        target[key] = good
+
+    def test_modern_core_prefill_refuses_invalid_admission_before_model(self):
+        c = self.campaign('prefill-admission')
+        c.m.update(action='bench',stack='rocm10-fedora43',transport='distrobox',
+                   bench_profile='modern-core',decode_mode='ar',
+                   settings={'context':65536,'chunk':4096,'users':1,'tg':32,'warmups':0,'repetitions':1})
+        with patch.object(c,'verified_model') as model, patch.object(c,'run_container') as container:
+            for bad in (None,True,'8192',0,2048,32769):
+                c.m['prefill_capacity'] = bad
+                with self.subTest(capacity=bad),self.assertRaisesRegex(ValueError,'prefill capacity'):
+                    c.bench()
+            c.m['prefill_capacity'] = 32768
+            for bad in (True,0,32769):
+                c.m['settings']['chunk'] = bad
+                with self.subTest(chunk=bad),self.assertRaisesRegex(ValueError,'core settings'):
+                    c.bench()
+            model.assert_not_called(); container.assert_not_called()
+
     def test_modern_core_eos_policy_is_forwarded_and_bound_without_shortening_oracle(self):
         for mode in ('ar','mtp'):
             c=self.campaign('eos-policy-'+mode)
