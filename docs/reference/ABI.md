@@ -22,8 +22,12 @@ The observation path and native MTP capture/replay pass HOST checks. The
 also compiles both coherent providers and all six consumers, without GPU or
 model execution. The [selected original Q4/Q8 text capture](../development/validation/sampling-mtp-text-point-2026-10-07.json)
 subsequently passes complete original/C17/OFF probability/RNG/controller replay
-in Release and unsuppressed sanitizers. Required-tool MTP masks and wider
-quality/fault/resource/cost acceptance remain open; greedy is host-head only.
+in Release and unsuppressed sanitizers. The
+[selected required-tool MTP capture](../development/validation/sampling-mtp-tools-point-2026-10-07.json)
+also passes complete target masks, probability/RNG/controller replay and all
+six natural-EOS calls. Proposals intentionally borrow no grammar mask; target
+verification enforces it. Wider tool/quality/fault/resource/cost acceptance
+remains open; greedy is host-head only.
 
 Prefill ABI 1 (`lie/prefill.h`) adds tagged `lie_prefill_options` and
 `lie_prefill_info` without changing executor ABI 3, request ABI 8 or existing

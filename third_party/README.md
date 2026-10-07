@@ -93,6 +93,10 @@ consumers. Compilation does not establish original-weight numerical acceptance.
 The [subsequent selected text receipt](../docs/development/validation/sampling-mtp-text-point-2026-10-07.json)
 binds actual Q4/Q8 MTP observations and complete original/C17/OFF numerical
 replays. Required-tool MTP and broader qualification remain separate.
+The [subsequent required-tool MTP receipt](../docs/development/validation/sampling-mtp-tools-point-2026-10-07.json)
+also qualifies selected full-mask and complete-call probability/RNG/controller
+witnesses. The original unconstrained proposal policy is retained; wider
+quality/fault/resources and matched performance remain open.
 
 ## Actual external dependencies
 

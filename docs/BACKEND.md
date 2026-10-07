@@ -195,8 +195,13 @@ The [selected original-weight text qualification](development/validation/samplin
 now captures six 16-token Q4/Q8 profiles and replays all 192 observations across
 original/C17/OFF Release and sanitizer programs. Actual proposal, acceptance,
 residual/deferred RNG and committed frontiers match independent oracles.
-Greedy covers the host head only. Required-tool MTP masks, wider quality/fault/
-resources and matched cost remain open; this capture establishes no speedup.
+The [required-tool MTP qualification](development/validation/sampling-mtp-tools-point-2026-10-07.json)
+also passes all six complete natural-EOS calls, 226 observations and 169 full
+target masks across Release and sanitizer programs. Compact proposals retain
+the original unconstrained policy; every target/verification mask bit and
+acceptance/residual/deferred frontier matches. Greedy covers the host head only.
+Wider tool transitions, quality/fault/resources and matched cost remain open;
+these diagnostic captures establish no speedup.
 
 An open qualification gate does not mean its implementation is absent:
 

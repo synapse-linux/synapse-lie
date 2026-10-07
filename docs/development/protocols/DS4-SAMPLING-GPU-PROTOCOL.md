@@ -213,6 +213,14 @@ original/C17/OFF Release and sanitizer mass/RNG/controller witnesses match.
 Greedy remains a host-head baseline; required-tool MTP masks, broader quality,
 fault/resources and matched cost retain their separate gates.
 
+The [selected required-tool MTP receipt](../validation/sampling-mtp-tools-point-2026-10-07.json)
+subsequently binds all six complete `LIFO`/3 calls, 226 observations and 169
+full target masks. Original/C17/OFF Release and unsuppressed sanitizer mass,
+RNG, grammar and complete-call witnesses agree. Compact proposal samplers
+retain the original unconstrained policy; their `allowed` field is null,
+while target draws and verification carry the complete mask. Wider tool
+transitions and fault/quality/resource/cost gates remain separate.
+
 ### Point supervisor and collection
 
 The optional `.161` supervisor routes the native client with these fields in

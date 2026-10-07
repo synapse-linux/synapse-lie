@@ -1,6 +1,32 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Original-weight required-tool MTP replay passed on Point — 2026-10-07 UTC
+
+The same r56 Q4/Q8 runtime completes six strict `describe_stack` calls with
+natural EOS; all select the requested `LIFO` and 3. Original/C17/OFF Release
+and unsuppressed ASan/UBSan/LSan agree on all 226 observations, 169 complete
+target masks (41,966,080 bits per program), probabilities, compact proposals,
+acceptance/residual/deferred RNG and complete output frontiers. There are 57
+proposals, 14 accepted verifications, 21 rejections and 21 deferred draws.
+Proposal samplers intentionally have no grammar mask; target/verification
+masks enforce the constraint. Greedy covers the host head only.
+
+All 407 files collect and verify. The initial collection started before batch
+prefetch finished and refused a partial file; it is retained, then succeeds
+after both handles retire. The first closure refuses the missing init PID.
+The completed 12:46:43 UTC closure instead proves the exact GPU, launcher and
+supervisor identities absent, the entire recorded container cgroup absent and
+two complete process scans empty. Init PID remains explicitly unknown; no
+missing-PID success is claimed and the GPU run is not repeated. Router and
+unchanged original lease are restored/free. CPU/GPU/NVMe peaks are
+58.875/62/62.85 C; local sanitizer CPU peak is 83.75 C. Native GPU process
+thread counts are 27 and 43; this direct diagnostic adds no HTTP/core worker.
+The [numerical receipt](development/validation/sampling-mtp-tools-point-2026-10-07.json)
+preserves failures and portable raw proof. Wider tool transitions, steering,
+long-context quality, faults/resources and matched cost remain open. All six
+items stay open; Terminal Bench is last.
+
 ## Original-weight MTP numerical replay passed on Point — 2026-10-07 UTC
 
 The r56 runtime captures six frozen original Q4/Q8 text profiles on `.161`,

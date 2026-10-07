@@ -1,5 +1,26 @@
 # DS4 / synapse-lie coordination
 
+## Original required-tool MTP capture and replay retired — 2026-10-07
+
+Fresh Point/DGX/Q2 own-state declarations and global preflight precede r58
+original Q4/Q8 required-tool capture on `.161`. Controller/supervisor/native
+exit 0, all six calls match `LIFO`/3, and complete original/C17/OFF Release and
+sanitizer witnesses pass. The [numerical receipt](development/validation/sampling-mtp-tools-point-2026-10-07.json)
+binds all 407 files, actual failures and their corrections.
+
+The original lease 66307/105946405 releases at 12:32:20 UTC. The initial strict
+closure refuses: Distrobox omits init PID and the live observation was late.
+At 12:46:43 the stronger whole-container check verifies exact supervisor
+299024/start 24520638, launcher 299129/start 24520760 and recorded GPU owner
+299852/start 24525784 absent. The GPU witness binds cgroup/container
+9a5e65606074f590572b9c7c4a302c6442933c0c5bc5b2aebcc9aec8b315828b;
+its cgroup is absent and two complete host process scans find no members or
+unreadable entries. Container and label listing are absent/empty, original lease
+free, HTTP8000 empty and router 300010 active. Init PID stays unknown; generic
+collector absent(-1) fields are not evidence. No GPU run repeats. Peers receive
+the release. No root remote job/client/handle/lease/window/waiter/reservation
+remains; next admission requires fresh coordination. All six items stay open.
+
 ## Original MTP text capture passed and retired — 2026-10-07
 
 Fresh explicit Point/DGX/Q2 own-state declarations and a global preflight
