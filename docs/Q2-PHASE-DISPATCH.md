@@ -90,3 +90,9 @@ extra persistent memory. The positive component is not a model-rate gain;
 original-model validation follows separately.
 [Guard and lifetime contract](../experiments/q2-attention-v-blocks-contract.h),
 [integration evidence](Q2-ATTENTION-V-TILES.md).
+
+The V-blocks integration now completes the original130925/8 model test:
+1332.109243 PP / 26.037992 TG, below retained R3 in both observed rates.
+Its four exact replies establish no performance benefit. Keep it private and
+unpromoted; the retained prefill and decode provider stays selected. Positive
+component results remain available for a different justified composition.

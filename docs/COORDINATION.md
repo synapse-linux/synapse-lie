@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Attention V-blocks original128K model released — 2026-10-07 UTC:
+source 6f021593, plan a08cfe83, server d49ad1f8. CPU fixture/verify/admit/run/
+release all exit 0; server/client both 0. Run 21:20:37→21:22:32; all 49 files
+(66931331 bytes) hash-verify at 21:24:00.500587 before release at
+21:28:43.621659, SHA 0cda95c0ad52e19a094fe8c0ebca081e2ebe98980d41208e1e9fa91623326583.
+Independent 21:28:56.251514 closure verifies registry, 22 retired identities
+including supervisor 29245/start2419404 and process groups, empty KFD, five
+original free leases and seven unchanged model stats. Core/GLM receive closure.
+Q2 owns no job, client, build, handle, window, waiter or reservation on
+.157/.155/.161/.158/TB. No remote build, tuning, installation or cleanup.
+Further GPU work requires a new concrete plan and fresh admission.
+
 Attention V-blocks component released — 2026-10-07 UTC: source 45e84406,
 plan 3d18d648. CPU fixture/verify/admit/run/release all exit 0. Run ends
 20:57:14; all 36 artifacts/896298 bytes hash-verify at 20:58:10 before

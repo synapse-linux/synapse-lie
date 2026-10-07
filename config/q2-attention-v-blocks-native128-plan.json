@@ -1,0 +1,120 @@
+{
+  "schema": "synapse-lie.q2-attention-v-blocks-native128-plan.v1",
+  "label": "q2-attention-v-blocks-native128-r1",
+  "source_commit": "6f0215937945d07b944100ea6d638e6a2ba35b61",
+  "runner_sha256": "bd53c44c6a94ec6a026780d8c5324d4019f568e143f970f16ca96d23bce71403",
+  "order": [
+    "v-blocks"
+  ],
+  "port": 8000,
+  "capacity": 133760,
+  "chunk": 2048,
+  "prefix_tokens": 130925,
+  "output_tokens": 8,
+  "previous_release": "q2-attention-v-blocks-component-r1/release.json",
+  "previous_release_sha256": "da5b6845eedadf900f6c66f6f147d2f99f8120c403e52c7d9d9fe101202b505d",
+  "staged_sha256": {
+    "native-build.json": "3a9d72512ebdb631a9cfd810d43ca4da9262fc07c81eb4f93a6f60c6d8c10d18",
+    "provider-manifest.json": "2fda8c2b139c23071f67bd8ea4ea853f1a8ea983852b04844550cfffe1d38f8e",
+    "q2-attention-v-blocks-native128-window.py": "bd53c44c6a94ec6a026780d8c5324d4019f568e143f970f16ca96d23bce71403",
+    "record-command.py": "8972b345d80f5427efdbd804b0e045c09132b9371e47d875b5b832e126953155",
+    "requests.jsonl": "fcee51efeebfcbd25209ba90d09064d37aead6d3b0c6bbe7a9f97f328a4f24ef",
+    "synapse-lie-server": "d49ad1f87159c354f10bb313f7040f9edbf3a62ebc90e3bf39c12692176cc593"
+  },
+  "candidate_server": {
+    "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-attention-v-blocks-native128-r1/synapse-lie-server",
+    "sha256": "d49ad1f87159c354f10bb313f7040f9edbf3a62ebc90e3bf39c12692176cc593"
+  },
+  "client": {
+    "label": "saved native C client",
+    "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-native-row-ud-r1/build/native-bench/synapse-lie-bench",
+    "sha256": "87d856cf454d5114f93d7d4260d54b58f6e92800f70e4013a505aa16973560c9"
+  },
+  "requests": {
+    "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-attention-v-blocks-native128-r1/requests.jsonl",
+    "sha256": "fcee51efeebfcbd25209ba90d09064d37aead6d3b0c6bbe7a9f97f328a4f24ef"
+  },
+  "model_stats": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "device": 54,
+      "inode": 3116203,
+      "bytes": 147207127040,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "device": 54,
+      "inode": 3206497,
+      "bytes": 10946624,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "device": 54,
+      "inode": 3228516,
+      "bytes": 49859583136,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "device": 54,
+      "inode": 3211726,
+      "bytes": 49376141504,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "device": 54,
+      "inode": 3207513,
+      "bytes": 12087983520,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "device": 54,
+      "inode": 3206512,
+      "bytes": 2786568256,
+      "mtime_ns": 1790711824619908153,
+      "ctime_ns": 1790711826279892467
+    },
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q4.gguf",
+      "device": 54,
+      "inode": 3116346,
+      "bytes": 177280286720,
+      "mtime_ns": 1789871998360000000,
+      "ctime_ns": 1790258428459084412
+    }
+  ],
+  "saved_reference_sha256": {
+    "evidence/q2-full-prefill128-final-r1/results/full-prefill.jsonl": "34cb33c48be8d9f1782a7eb44877a43cb5b06bf55f43f38993b41c69d421d3f5",
+    "evidence/q2-full-prefill128-final-r1/results/full-prefill.requests.jsonl": "fcee51efeebfcbd25209ba90d09064d37aead6d3b0c6bbe7a9f97f328a4f24ef",
+    "config/q2-full-prefill128-results.json": "74a7d49e94d1c68bf350fa127289326520427f086d35480e8182b69723b446e6",
+    "config/q2-full-prefill128-decode-results.json": "68831086fef31f2b66a58e2a196f6c79da9480729697b2ab914bf5edd2d734ad",
+    "config/q2-hc-scalar-native128-isolated-results.json": "7bc2a479f4a8f082934e4b1eacceb9330564e318d0afa9e64524592e09adf632",
+    "config/q2-decode-down-rows-native128-performance-results.json": "308b766a26f90fe8eb1bdba87adb005163c4f9f539b0ee714b6cc03b16e35477"
+  },
+  "remote_build": false,
+  "remote_cleanup": false,
+  "run_controls": false,
+  "changed_request_bytes": false,
+  "scope": "One new original130925/8 model trial of exact prefill-only V packing, with bounded reuse of original expert scratch. Original three preparation requests, saved native client/chunk2048/cap133760/cache0/port8000. No decode modification, new allocation or quantization. No control rebuild/rerun or remote cleanup/build/tuning.",
+  "cpu_check_sha256": {
+    "cpu-test-command.json": "dc4951f19a51e483c9bbab2df8f287e0c313083884ef2711b8646aa98d8825f9",
+    "cpu-test.stdout": "068a80939a166d8fac07e056f11aedd8b5c25aa2330ba438417ad2f3e5d7f109",
+    "cpu-test.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+  "expected_power": {
+    "apu_power_mode": "performance",
+    "tdp_watts": 120,
+    "restored_by_owner": true,
+    "agent_tuning": false
+  }
+}

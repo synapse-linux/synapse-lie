@@ -170,3 +170,48 @@ Only the new candidate will run the frozen four-request native bench workload:
 eight AR calls, capacity 133760, original requests/client and port 8000.
 No saved control is rebuilt or rerun. GPU admission and model performance
 remain pending at this preparation checkpoint.
+
+## Original-model result: no verified gain
+
+The new candidate runs once on .157 with the frozen original client and all
+four requests. No reference executable is rebuilt or rerun. The complete
+prefill still contains 63 full 2048-token chunks and the actual 1901-token
+tail; capacity 133760, zero cached tokens and eight autoregressive output calls.
+
+| Saved or new observation | Complete prefill, token/s | Prefill, ms | Decode, token/s | Eight-call decode, ms |
+|---|---:|---:|---:|---:|
+| Original saved Q2 | 1310.874605 | 99876.067130 | 25.344213 | 315.653915 |
+| Retained isolated HC | 1337.119965 | 97915.672036 | 25.914406 | 308.708599 |
+| Retained four-row Q2 down R3 | 1337.972303 | 97853.296131 | 26.101627 | 306.494308 |
+| New prefill V blocks | 1332.109243 | 98283.981327 | 26.037992 | 307.243356 |
+
+The new prefill observation is 0.438205% below R3 and takes 430.685196 ms
+longer. The component's 2.6–3.0% saving does not establish a complete-model
+benefit. Preserve the component and integrated executable, but do not promote
+the candidate or replace R3. The unchanged decode device code does not justify
+attributing its -0.243796% variation to a decode optimization.
+
+All four complete responses/token pieces/usage match original and R3.
+This limited exact replay is not independent parent-quality qualification,
+and eight calls do not qualify sustained TG128. Performance/120 W and fan
+curves verify before and after. New telemetry records 52 samples, CPU peak
+90.375 C, GPU peak 92 C and mean active clock 2664.412 MHz; saved R3 records
+91.25 C, 94 C and 2658.902 MHz. These samples alone do not explain the timing
+difference. No new precision reduction or additional allocation is introduced.
+Expected guarded dispatch is derived from source; this unprofiled trial does
+not observe the number of new device launches directly.
+
+CPU checks, verify/admit/run/release and server/client all exit 0. All 49
+artifacts (66931331 bytes) hash-verify at 21:24:00.500587 UTC before release
+21:28:43.621659, SHA 0cda95c0ad52e19a094fe8c0ebca081e2ebe98980d41208e1e9fa91623326583.
+Independent closure at 21:28:56.251514 verifies registry, 22 identities
+including supervisor/groups retired, KFD empty, five original free leases
+and seven unchanged model stats. Core/GLM receive closure; no Q2 GPU
+reservation remains. No full-curve or repeated-control run follows.
+
+[Audited values](../config/q2-attention-v-blocks-native128-results.json),
+[frozen plan](../config/q2-attention-v-blocks-native128-plan.json),
+[CSV](figures/q2-attention-v-blocks-native128.csv),
+[reproducible analysis](../tools/analyze-q2-attention-v-blocks-native128.py).
+
+![Complete original128K PP and eight-call TG comparison](figures/q2-attention-v-blocks-native128.png)

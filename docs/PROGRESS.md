@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Prefill V-blocks model trial closed without a gain — 2026-10-07 UTC:
+original 130925-token complete prefill measures 1332.109243 token/s versus
+saved R3 1337.972303 (-0.438205%); eight-call TG 26.037992 versus 26.101627
+(-0.243796%). All four outputs are exact, cache hits zero and the actual
+1901-token tail retained. No reference rebuild/rerun or new quantization.
+Keep R3; component gains are not a model gain and decode kernels are unchanged.
+CPU/verify/admit/run/release and both children exit 0. All 49 artifacts hash
+before release 0cda95c0; independent closure checks 22 identities/groups, KFD,
+five leases and seven model stats. Core/GLM notified; no Q2 window remains.
+[Full values and graph](Q2-ATTENTION-V-TILES.md).
+
 Prefill V-blocks integrated for a new model trial — 2026-10-07 UTC: bounded
 reuse of existing 200 MiB expert scratch, original one-stream last-reader
 ordering, no allocation or precision change. C17 guards reject decode, small
