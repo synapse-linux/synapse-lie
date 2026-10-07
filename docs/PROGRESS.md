@@ -24,6 +24,14 @@ generated GPU attention receipt retain their exact scope; neither qualifies
 larger chunks. Current-source GPU numerical/resource/fairness acceptance remains
 in the final integrated phase; comparative performance and Terminal Bench follow.
 
+Both complete sampler ON/OFF providers compile locally with HIP 7.2 for `gfx1150`;
+server, bench, reference bench, probe, sampling capture and attention client all
+link with devices hidden and actual exit 0. The native unavailable-backend product
+targets also build. HIP compilation peaks at CPU 82.875 C without a thermal stop.
+The [local validation receipt](development/validation/prefill-runtime-local-2026-10-07.json)
+binds checkpoint `d6431db8`, exact sources and independently verified archive
+members, retains the two initial test failures and records the remaining GPU gates.
+
 ## Long sparse-prefill workspace implemented — 2026-10-07 UTC
 
 The owned attention recipe adds a separate 8,192-word sparse WMMA specialization

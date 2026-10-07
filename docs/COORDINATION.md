@@ -9,6 +9,12 @@ created or reserved. Old required-tool plans remain unlaunched. Matching remote
 compilation and original-weight qualification require new identities and fresh
 coordinated admission after functional integration and local checks.
 
+Checkpoint `d6431db8` now passes the grouped local native controls and coherent
+device-hidden HIP provider/client links, recorded in the
+[local receipt](development/validation/prefill-runtime-local-2026-10-07.json).
+This is CPU/HIP compilation evidence, not `.161` execution or numerical acceptance.
+No remote ownership or future window is acquired by these local checks.
+
 ## Generated attention component passed and retired — 2026-10-07
 
 Fresh Q2/Point/DGX own non-use and global preflight at 04:22:09 UTC precede
