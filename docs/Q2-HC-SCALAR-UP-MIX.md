@@ -231,3 +231,18 @@ and the corrected audit exits0 without rerunning inference.
 [Full result](../config/q2-hc-scalar-native32-results.json),
 [frozen plan](../config/q2-hc-scalar-native32-plan.json),
 [offline audit](../tools/analyze-q2-hc-scalar-native32.py).
+
+## Original128K follow-up preparation
+
+The next depth point reuses native server578e3320 and C client87d856cf without
+rebuilding either. The exact four-request filefcee51ef is shared by the saved
+unprofiled final128K measurement and the later diagnostic profile. Only the
+unprofiled1310.874605 PP /25.344213 TG observation is a throughput reference.
+The full prefix is130925 tokens,63 complete2048 chunks plus1901 final tokens,
+zero prefix-cache hits and eight output calls at capacity133760. No change to
+sampling, precision, prompt bytes, output budget or cache policy is planned.
+The dedicated128K supervisor preserves the already qualified32K child
+lifecycle and changes only the frozen shape, input identity and ownership
+label. CPU fixtures on .157 must verify saved-input rejection and child
+success/failure retirement before fresh admission. Long-depth results and
+inherited task-quality qualification remain open until measured.
