@@ -1,6 +1,30 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Constrained tool prompt alignment passed on HOST — 2026-10-07 UTC
+
+Diagnosis finds a concrete missing upstream behavior: the sampler accepts JSON
+tool frames, while LIE's pinned Qwen template still instructs XML. The model
+binding now adds syntax-only JSON guidance for strict functions, following
+upstream `ConstrainChatRequest`. Both text and vision use it; images attach by
+original message index before a system message can be inserted. Ordinary text
+and non-strict tool formatting remain unchanged. Public ABI, C17 reactive
+scheduling, worker counts, numerical algorithms and cache formats do not change.
+
+Six focused native CTests pass in Release and unsuppressed ASan/UBSan/LSan.
+The exact failed-run argument schema permits a second call when parallel is
+enabled and natural EOS after the first. All eight grammar modes and 848
+prefix masks agree across original/C17/OFF in both configurations. A checking
+fixture initially lacks byte continuation pieces and fails with CTest exit8;
+its source/logs remain evidence before correction. A sanitizer approval-review
+deadline precedes execution; the explicitly permitted retry passes. CPU peak is
+78.5 C without a guard stop. The
+[HOST receipt](development/validation/tool-prompt-guidance-host-2026-10-07.json)
+preserves source, actual exits and portable witnesses. No model, GPU or remote
+operation runs. A new coherent HIP build and the unchanged original-weight
+question are required; the r60 quality miss remains unresolved. All six items
+stay open; Terminal Bench is last.
+
 ## Wider original-weight AR tool gate failed on Point — 2026-10-07 UTC
 
 The unchanged r56 native runtime with the qualified r59 HTTP client fails

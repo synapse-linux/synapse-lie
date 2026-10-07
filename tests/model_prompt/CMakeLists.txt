@@ -1,0 +1,36 @@
+# SPDX-License-Identifier: MIT
+# CPU formatter/contract checks only. No HIP discovery, model or GPU execution.
+cmake_minimum_required(VERSION 3.21)
+project(lie_model_prompt_checks LANGUAGES C CXX)
+get_filename_component(REPO "${CMAKE_CURRENT_LIST_DIR}/../.." ABSOLUTE)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+option(LIE_SANITIZERS "ASan/UBSan CPU formatter checks" OFF)
+set(LIE_GUFO_RUNTIME OFF CACHE BOOL "No runtime in CPU formatter checks" FORCE)
+set(LIE_GUFO_HEADER_CHECK OFF CACHE BOOL "No HIP compile in CPU formatter checks" FORCE)
+set(LIE_LEGACY_PYTHON_TESTS OFF CACHE BOOL "Native checks only" FORCE)
+set(BUILD_TESTING ON CACHE BOOL "Native fixtures" FORCE)
+include("${REPO}/cmake/provider/Source.cmake")
+file(READ "${REPO}/third_party/gufo-source.json" manifest)
+string(JSON original_files GET "${manifest}" files)
+set(pristine "${REPO}/.deps/gufo-f783fedb")
+lie_verify_files("${pristine}" "${original_files}")
+find_package(ICU REQUIRED COMPONENTS uc)
+include(CTest)
+add_subdirectory("${REPO}" "${CMAKE_CURRENT_BINARY_DIR}/lie" EXCLUDE_FROM_ALL)
+add_executable(test-model-prompt "${REPO}/tests/test_gufo_chat.cpp"
+  "${pristine}/src/models/qwen/chat_template.cpp")
+target_include_directories(test-model-prompt PRIVATE "${REPO}/adapters" "${pristine}")
+# Only the native Render API is used: discard unused Tokenize/model-metadata
+# entry points rather than linking or substituting a tokenizer/model executor.
+target_compile_options(test-model-prompt PRIVATE -Wall -Wextra -Wpedantic -UNDEBUG
+  -ffunction-sections -fdata-sections)
+target_link_options(test-model-prompt PRIVATE -Wl,--gc-sections)
+target_link_libraries(test-model-prompt PRIVATE lie_runtime ICU::uc)
+if(LIE_SANITIZERS)
+  target_compile_options(test-model-prompt PRIVATE -fsanitize=address,undefined -fno-omit-frame-pointer)
+  target_link_options(test-model-prompt PRIVATE -fsanitize=address,undefined)
+endif()
+add_test(NAME model-constrained-tool-prompt-host COMMAND test-model-prompt)
+set_tests_properties(model-constrained-tool-prompt-host PROPERTIES TIMEOUT 30)

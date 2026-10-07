@@ -18,7 +18,13 @@ question: the requested `alpha` and `beta` calls produce only `alpha`. Four new
 checks and five baseline controls pass before the failure; 66 new checks are
 unexecuted. The [failed AR receipt](development/validation/tool-transitions-ar-point-r2-2026-10-07.json)
 retains the complete wire, original exits and verified machine closure. MTP is
-prepared but unadmitted. Diagnose the miss before claiming wider tool acceptance;
+prepared but unadmitted. HOST diagnosis now confirms that the exact schema's
+grammar permits the second call and allows natural EOS after the first. The
+model-layer prompt now adds the missing JSON format guidance, following the
+pinned upstream constrained-request behavior for both text and vision. This
+correction has [grouped HOST checks](development/validation/tool-prompt-guidance-host-2026-10-07.json)
+and needs a new coherent HIP build and the same frozen original-weight
+question; it does not establish that the quality miss is fixed. Before wider tool acceptance,
 steering quality, long-context recall/HTTP, fault/resource gates, matched
 comparisons and Terminal Bench remain open. Terminal Bench stays last.
 

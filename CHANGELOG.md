@@ -7,6 +7,11 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Strict function calls now receive model-layer JSON format guidance matching
+  the constrained sampler, for text and image prompts. The pinned Qwen renderer
+  and ordinary text formatting are preserved. HOST checks pass; a new coherent
+  HIP build and original-weight qualification remain required.
+
 - Shared-engine prefill chunks up to 32,768 tokens, with an independent startup
   scratch reservation and a live setter for new requests. The management endpoint
   exposes the same control; queued and active jobs keep their original chunk.

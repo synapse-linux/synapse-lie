@@ -131,6 +131,8 @@ foreach(arm IN ITEMS reference candidate fallback)
   set_tests_properties(${arm}-json-value-const-readers PROPERTIES TIMEOUT 30)
   add_executable(${arm}-composition-probe "${REPO}/tests/sampling/composition.cpp")
   target_link_libraries(${arm}-composition-probe PRIVATE ${arm})
+  add_executable(${arm}-parallel-tools-probe "${REPO}/tests/sampling/parallel_tools.cpp")
+  target_link_libraries(${arm}-parallel-tools-probe PRIVATE ${arm})
   add_executable(${arm}-composition-cache-probe "${REPO}/tests/sampling/composition_cache.cpp")
   target_link_libraries(${arm}-composition-cache-probe PRIVATE ${arm})
   add_executable(${arm}-cache-probe "${REPO}/tests/sampling/cache.cpp")
@@ -341,6 +343,13 @@ add_test(NAME byte-grammar-reference-parity COMMAND "${CMAKE_COMMAND}"
   "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/grammar-parity"
   -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
 set_tests_properties(byte-grammar-reference-parity PROPERTIES TIMEOUT 120)
+add_test(NAME parallel-tools-exact-schema-reference-parity COMMAND "${CMAKE_COMMAND}"
+  "-DREFERENCE=$<TARGET_FILE:reference-parallel-tools-probe>"
+  "-DCANDIDATE=$<TARGET_FILE:candidate-parallel-tools-probe>"
+  "-DFALLBACK=$<TARGET_FILE:fallback-parallel-tools-probe>"
+  "-DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/parallel-tools-parity"
+  -P "${CMAKE_CURRENT_LIST_DIR}/compare.cmake")
+set_tests_properties(parallel-tools-exact-schema-reference-parity PROPERTIES TIMEOUT 120)
 
 add_test(NAME number-grammar-reference-parity COMMAND "${CMAKE_COMMAND}"
   "-DREFERENCE=$<TARGET_FILE:reference-number-probe>"

@@ -469,6 +469,8 @@ extern "C" lie_status lie_model_chat_tokens_ex(lie_model *m, const lie_chat_temp
     return guarded(m->runtime,e,[&] {
         auto chat=lie_gufo::translate_chat(*input);
         if (!chat) return error(e,LIE_INVALID,"invalid/bounded chat template");
+        if (!lie_gufo::guide_constrained_tools(*chat))
+            return error(e,LIE_INVALID,"invalid constrained tool definition");
         gufo::tokenization::ChatTemplateOptions options;
         options.enable_thinking = false;
         options.require_tool_call = input->require_tool_call!=0;
@@ -1044,6 +1046,8 @@ extern "C" lie_status lie_model_prepare_vision(lie_model *m,const lie_chat_templ
                 auto owned=std::make_shared<const std::vector<uint8_t>>(v.data,v.data+v.bytes);
                 chat->messages[v.message_index].images.push_back({v.text_offset,std::move(owned)});
             }
+            if (!lie_gufo::guide_constrained_tools(*chat))
+                return error(e,LIE_INVALID,"invalid constrained tool definition");
             gufo::tokenization::ChatTemplateOptions opts;opts.enable_thinking=false;opts.require_tool_call=input->require_tool_call!=0;
             opts.max_output_bytes=gufo::tokenization::RenderedPromptBoundBytes(m->runtime->model->MaxContext());
             auto prompt=std::make_shared<gufo::models::qwen::vision::Prompt>(gufo::models::qwen::vision::Prepare(

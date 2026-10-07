@@ -182,8 +182,12 @@ does not relicense numerical code or make embedded Model/Session a reimplementat
 
 `src/chat_tools.c` and `src/tools.c` are first-party C17 protocol code, not copied
 from DS4 or Gufo's serving frontend. `adapters/gufo_chat.hpp` translates LIE data
-into the existing independently fetched Qwen template API at `f783fedb`; no new
-ChatML/tool prompt or numerical implementation is substituted. Upstream template
+into the existing independently fetched Qwen template API at `f783fedb`. The
+renderer remains unmodified. Strict functions receive first-party JSON format
+guidance following upstream `ConstrainChatRequest` in
+`src/cli/serve/inference_backend.cpp`, aligning the template with the JSON call
+grammar rather than forcing names, values or counts. This applies to text and
+vision after image attachment; no numerical implementation is substituted. Upstream template
 provenance/notices remain applicable. Pi is an optional external client, using its
 standard OpenAI provider and normal JSON configuration; no extension or Pi source
 is bundled/modified. Tool-frame tests and CPU/Pi fixtures are not model qualification.

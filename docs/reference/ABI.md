@@ -797,7 +797,16 @@ context-derived output bound (at least 1 MiB). The adapter validates the GGUF
 template before model load, then invokes the pinned Qwen renderer/tokenizer with
 thinking disabled, structured calls/results and real tool declarations. Buffer/
 physical-context refusal precedes session mutation. Plain formatting remains
-byte-identical in the CPU formatter test. Raw tokenization remains distinct.
+byte-identical in the CPU formatter test. Strict function definitions also select
+model-layer JSON call guidance matching the sampler's accepted call frames,
+following the independently pinned upstream constrained-request behavior. This
+guides representation without supplying function names, values or call counts.
+Images attach using original message indices before guidance can prepend a
+system message; their content, offsets and ownership are preserved. Exact
+rendered bytes remain the text-prefix cache key, including this guidance.
+No public structure, scheduler thread or numerical algorithm changes. Raw
+tokenization remains distinct. Original-weight acceptance of the corrected
+prompt policy requires a newly bound HIP runtime.
 No tool code executes here. Exact-session snapshots remain absent;
 MTP uses its separate admitted contract. Native decode batching uses the additive contract below.
 An owned or selectively ported renderer must preserve the applicable, separately

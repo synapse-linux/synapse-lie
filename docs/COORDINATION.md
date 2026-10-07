@@ -1,5 +1,21 @@
 # DS4 / synapse-lie coordination
 
+## Strict tool prompt correction qualified locally — 2026-10-07
+
+Root corrects the model-layer JSON format guidance without numerical, ABI or
+reactive scheduling changes. Native formatter/parser/cache and exact-schema
+original/C17/OFF controls pass in Release and unsuppressed sanitizers in the
+[HOST receipt](development/validation/tool-prompt-guidance-host-2026-10-07.json).
+The initial checking-fixture failure and approval-review deadline are preserved;
+no remote or GPU operation occurs. All local handles are terminal.
+
+Root holds no remote job/build/client/handle/lease/window/waiter/reservation on
+`.161/.157/.158/TB`. A subsequent `.161` build requires a committed source,
+new coherent bindings, current peer coordination and fresh global/in-lease
+admission. The old r60 MTP preparation remains unadmitted and is superseded by
+this source change. The failed AR observation is not relabeled as passing.
+All six items stay open; Terminal Bench remains last.
+
 ## Wider AR tool gate failed and retired — 2026-10-07
 
 Fresh Point/DGX/Q2 own-state declarations and global/in-lease preflights precede

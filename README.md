@@ -7,7 +7,7 @@ scheduling, concurrent requests, cancellation, metrics and prompt caching.
 The current numerical backend is an embedded Gufo adapter using C++ and HIP,
 with owned [C17 sampling, grammar and schema components](docs/development/C17-SAMPLING.md).
 Gufo still owns model execution and controller state. The current
-[backend roadmap](docs/BACKEND.md#current-roadmap--2026-10-06-utc) covers the
+[backend roadmap](docs/BACKEND.md#current-roadmap--2026-10-07-utc) covers the
 sampler integration and qualification; full executor ownership is the
 architectural destination.
 
@@ -35,7 +35,8 @@ The [original-weight OpenAI control gates](docs/benchmarks/models/qwen3.8-flash-
 pass 37 checks in both AR and MTP on Strix Point, including tools, automatic
 output budgets and retained Responses lifecycle. The corrected integer validator
 also passes [66 additional JSON/SSE checks in each mode](docs/development/validation/output-schema-integer-point-gpu-2026-10-06.json).
-The receipts identify the tested runtime and limits.
+The receipts identify the tested runtime and limits. Wider function transitions
+remain under qualification.
 
 The unchanged [Terminal Bench Core-19 smoke](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#terminal-bench-core-19)
 passes 1/1 task on Strix Point. The full 19-task evaluation is deferred until
