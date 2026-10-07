@@ -1,5 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+A new [Q2_K scalar-down component](Q2-DECODE-DOWN-ROWS.md) tests four/eight
+output rows per wave against the retained two-row route. Native quantization,
+weights and every dot/reduction remain; prefill is unchanged. The existing
+MMQ archive is linked directly and all83 common device functions are exact.
+New bodies use78/104 VGPR without scratch. Local build/format pass; no GPU
+qualification or model-speed claim yet.
+
 SSM BK4 component completed — 2026-10-07 UTC:72 guarded exact comparisons
 and144 independent FP64 checks pass, but the complete2048 projection/convolution
 slows5406.401667 to7983.260000us (+47.663094%). All five pairs regress;

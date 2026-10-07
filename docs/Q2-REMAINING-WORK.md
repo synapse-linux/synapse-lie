@@ -1,6 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Current Q2 optimization assessment — 7 October 2026
 
+A new [Q2_K scalar-down component](Q2-DECODE-DOWN-ROWS.md) tests four/eight
+output rows per wave against the retained two-row route. Native quantization,
+weights and every dot/reduction remain; prefill is unchanged. The existing
+MMQ archive is linked directly and all83 common device functions are exact.
+New bodies use78/104 VGPR without scratch. Local build/format pass; no GPU
+qualification or model-speed claim yet.
+
 Latest isolated HC qualification: original130925/8 is1337.119965 PP /
 25.914406 TG, versus saved1310.874605 /25.344213; all four outputs exact.
 The candidate isolates scalar -g0 compilation while918 common numerical
