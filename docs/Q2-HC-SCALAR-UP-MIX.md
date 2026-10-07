@@ -1,6 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Original-F16 scalar HC up/mix fusion
 
+**Build qualification correction:** the initial fixed/native HC executables
+were built as Release, whereas their saved controls use RelWithDebInfo.
+The compiler revision is identical but instruction scheduling and resources
+are not. Those measurements remain observations of the complete executables,
+not isolated model-level fusion gains. The exact component pair remains valid.
+The corrected candidate preparation is recorded after the128K result below.
+
 The subsequent original-model .157 trial improves fixed-point C1 decode
 from25.12414406 to26.24707057 token/s (+4.469512%), with all21 parent model
 files byte-exact and nine internal replays exact. Prefill measures1571.380247
@@ -246,3 +253,61 @@ lifecycle and changes only the frozen shape, input identity and ownership
 label. CPU fixtures on .157 must verify saved-input rejection and child
 success/failure retirement before fresh admission. Long-depth results and
 inherited task-quality qualification remain open until measured.
+
+## Original128K observation and build audit — 7 October 2026
+
+The saved server578e3320 and client87d856cf complete the exact original
+four-request filefcee51ef. All response content, token pieces, usage and
+finish reasons match the saved unprofiled final128K control. The prefix has
+130925 tokens,64 calls (63x2048+1901), zero cached tokens and eight output calls.
+
+| Original128K observation | Prefill token/s | Decode token/s |
+|---|---:|---:|
+| Saved retained, unprofiled | 1310.874605 | 25.344213 |
+| Initial HC Release | 1249.340740 | 25.987615 |
+| Observed change | -4.694108% | +2.538657% |
+
+Prefill takes104.795270s versus99.876067s; the1500 target allows87.283333s.
+Decode takes38.479868ms/call;30 token/s requires33.333333ms/call. This is one
+observation with eight output calls, not sustained TG128. Keep the prior
+best-prefill executable; no whole-goal or independent-quality acceptance.
+
+Active samples (GPU busy>=80%) show mean clocks2565.55 versus2625.02MHz and
+mean GPU busy90.89% versus95.63%. Sampled peak CPU/GPU are92.375/97C versus
+97.5/99C. These observations do not establish the regression's cause. The
+cache capture also rises212.72 to623.57ms, outside the prefill timer; it cannot
+be subtracted from the measured prefill time. No clock normalization or altered
+temperature limit is used to recover a rate.
+
+The offline binary audit finds an additional uncontrolled difference: the
+old build is RelWithDebInfo, the initial HC build Release. Both record AMD
+Clang22/f58b06dc and the HIP target adds-O3, but the differing debug/codegen
+configuration still changes595 of920 common device-function byte sequences,
+147 function sizes and132 resource records. A sampled SwigluHalf tail shows
+different instruction scheduling, not just relocated addresses. The same
+build-type mismatch also affects the initial fixed2048 HC comparison. This
+does not erase exact token/logit evidence, but prevents attributing those
+model-rate deltas solely to the new fusion. No performance control was rerun.
+
+The new matching RelWithDebInfo build regenerates only the HC candidate and
+its own MMQ. Configure/build exit0; serverf2ceaa65 preserves all333 core and
+1029 provider source identities. It retains every common function size and
+resource record;907 of920 common functions are byte-exact, and the13 remaining
+disassemblies differ only in address literals (including diagnostic strings).
+Two functions are the added HC variants. Static comparison is not runtime
+qualification. The next window admits only this corrected candidate on the
+same original130925/8 input, with fresh CPU checks and ownership admission.
+[Matching build](../config/q2-hc-scalar-matched-build.json),
+[device-code auditor](../tools/audit-q2-native-device-code.py).
+
+The first128K window's CPU tests, verify, run, server and client exit0.
+All22 raw artifacts collect/hash before release11:45:00.617434UTC,
+SHAc8a3b6773443278305262a5a150ff72843c6f82fe5a6fff5b98b24ca00553865:
+1964 identities/1570 groups retired, empty KFD, five original leases free,
+seven model stat tuples unchanged. Latest registry matches independently;
+Core receives closure. No remote build or cleanup. An initial remote-shell
+transport exit127 occurs before Python/GPU admission and is retained; using
+python3-c corrects transport without changing the test.
+[Result](../config/q2-hc-scalar-native128-results.json),
+[plan](../config/q2-hc-scalar-native128-plan.json),
+[offline auditor](../tools/analyze-q2-hc-scalar-native128.py).

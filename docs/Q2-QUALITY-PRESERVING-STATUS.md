@@ -6,6 +6,16 @@ Original GGUF weights alone do not establish unchanged inference quality:
 intermediate precision, accumulation order and state representations also matter.
 The lossy Q5 overlay is rejected and contributes no accepted gain.
 
+The initial HC model comparisons also have a build-mode confound, discovered
+after the original128K follow-up: saved controls are RelWithDebInfo, while
+the new fixed/native HC binaries are Release. The compiler revision matches,
+but147 common device functions change size and132 change recorded resources.
+Exact replay remains valid numerical evidence; model timing deltas cannot yet
+be attributed to HC alone. The component's same-build paired result is separate.
+A newly rebuilt matching candidate preserves every common device function's
+size/resources;907 of920 functions are byte-exact and the remaining13 differ
+only in address literals in disassembly. Its runtime qualification is pending.
+
 The current1587.893545 fixed-point prefill and1310.874605 full128K prefill
 are experimental observations, not demonstrated quality-preserving gains
 over the original fixed-Q2 baseline. Their lineage includes F32-to-F16

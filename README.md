@@ -3,6 +3,12 @@
 The [quality-preserving performance audit](docs/Q2-QUALITY-PRESERVING-STATUS.md)
 separates exact individual changes from the retained faster lineage, whose
 intermediate-precision changes still need task-quality qualification.
+The HC model comparisons below have a newly identified build-mode confound:
+the saved controls use RelWithDebInfo, while the initial HC binaries use
+Release. Observed rates and exact replays remain recorded, but do not isolate
+the fusion's performance contribution. A matching candidate is prepared;
+no saved control is rebuilt or rerun.
+
 The private [scalar HC up/mix fusion](docs/Q2-HC-SCALAR-UP-MIX.md) preserves
 original F16 weights and F32 arithmetic. On the original fixed2048/tg128
 model comparison, decode rises25.1241 to26.2471 token/s (+4.47%), with all21
