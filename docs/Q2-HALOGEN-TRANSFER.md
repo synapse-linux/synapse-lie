@@ -10,6 +10,43 @@ binary, kernel or model artifact is imported into LIE. Its model weights,
 compression, arena and measurement conditions differ from the retained Q2
 benchmark, so its rates are not LIE controls.
 
+## Decision after the current component gates
+
+The 0.14.1 routed-expert kernel is still the best published explanation for
+Halogen's 128K prefill step from 1,390 to 1,517 token/s. LIE's isolated
+256-token and 160-token gate/up tiles and reordered stage-pair layout have
+now failed their saved-routing speed gates. They tested weight reuse or layout
+inside gate/up, not Halogen's undisclosed algorithm. The next LIE prefill
+candidate should remove work or intermediate traffic across the **complete**
+gate/up, route-pack and down chain, or the separately expensive dense Q8/F16
+projection. First measure that complete path on unchanged saved routing; only
+a useful component result merits the original cold 130,925-token model replay.
+
+For serial decode, the strongest same-engine Halogen comparison changes the
+weight representation: its 4-bit trunk decodes at 35.4 token/s at short
+context, while its repacked UD GGUF with 8-bit dense layers reaches 25.4,
+with about 2 GB extra weight traffic per step. Its [current checkpoint map](https://github.com/peonist-ai/halogen-flash-server/blob/main/docs/QUANT.md)
+uses 4 bits for most model weights, 6 bits for mixing layers and 8 bits for
+draft-head projections. The older checkpoint's quality sidecar promoted twelve
+particularly sensitive attention output projections to 8 bits; its published
+per-tensor map is incomplete. This argues for a *family-selective* dense
+representation experiment rather than blindly narrowing all LIE Q8 tensors.
+LIE's current Q8 sample shows that simple lossless per-block range packing
+does not reduce the sampled blocks. A private Q5/Q6 decode component may test
+the traffic hypothesis, but a faster synthetic kernel would not establish
+acceptable model quality: sampled Q5/Q6 re-quantization already adds
+4.67–5.38% / 2.26–2.62% weight-domain RMS error. Keep the original Q8 path
+until an independent quality gate and the unchanged native C1 comparison pass.
+
+Halogen's 0.12.0 sparse-index selection saves large amounts at 262K–1M,
+where its old decode path was serial in context length. LIE's byte-exact
+one-query selector improvement did not translate into a material matched
+32K prefill gain, and the original 128K deficit cannot be assigned to that
+selector. Its 0.12.1 cold-cache fix removed a redundant DeltaNet pass, but
+the inspected LIE snapshot path does not contain one. The published
+13–16% IOMMU effect is an A/B result on Halogen's reference machine, not a
+kernel change or a demonstrated LIE gain; no machine setting is changed here.
+
 ## What matters for the present goal
 
 | Published clue | LIE evidence | Decision |

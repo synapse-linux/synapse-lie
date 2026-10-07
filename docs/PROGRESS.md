@@ -1,5 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Halogen performance lead after current gates — 2026-10-07 UTC: rechecked the
+public 0.16.4 README, 0.14.1/0.12.x release notes and checkpoint precision
+map against LIE's saved component and full-model evidence. The 128K routed-
+expert prefill gain is real on Halogen's own workload, but LIE's 256/160-token
+gate/up tiles and stage-pair layout fail their saved-routing gates. The next
+prefill experiment must affect the complete gate/up→pack→down chain or dense
+Q8/F16 projection; it must retain the exact cold 130,925-token request for
+model acceptance. Halogen's same-engine 4-bit versus 8-bit dense comparison
+supports Q8 traffic as the leading serial-decode hypothesis. Its selective
+6/8-bit quality allocation makes a blanket LIE Q5 conversion unjustified;
+first test a private decoder component, then independent model quality and
+native C1. The published sparse indexer and cache-capture gains do not
+establish a LIE 128K saving. No GPU run, model read or host tuning in this
+source-only recheck. [Analysis](Q2-HALOGEN-TRANSFER.md).
+
 IQ2 token160 handover inventory corrected — 2026-10-07 UTC: the terminal
 release stored retired process/group counts instead of the full lists needed
 by the next preflight. An append-only, separately tested receipt now binds the
