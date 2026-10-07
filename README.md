@@ -15,6 +15,10 @@ performance clues against LIE's saved routing. Its private 256-token IQ2
 weight-reuse probe is numerically exact, but the .157 GPU component regresses
 by2.4–3.7% on three saved routing layers. The retained128/64-token path stays
 active; no model inference or LIE throughput gain is claimed for this probe.
+The [private dense-Q5 decode gate](docs/Q2-DENSE-DECODE-FEASIBILITY.md) cuts
+synthetic one-token component time21–35%. A decode-only in-memory overlay is
+prepared with original Q8 retained for prefill, but no original-model quality,
+C1 throughput or long-prefill gain is established for that arm yet.
 An independent [lossless IQ2 stage-pair layout probe](docs/Q2-IQ2-STAGE-LAYOUT.md)
 passes local byte, static ISA and .157 GPU numerical checks. Its saved-routing
 gate/up time is flat or slower, so production dispatch remains unchanged and

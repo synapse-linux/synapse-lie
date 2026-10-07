@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Private decode-only Q5 model arm prepared — 2026-10-07 UTC: an opt-in
+in-memory Q5 overlay covers four named dense tensor families while retaining
+original Q8 for the unchanged batched prefill. The original GGUF file remains
+unchanged. A zero-fuzz patch reproduces six changed provider
+files; local gfx1151 builds of the guarded conversion fixture, model fixture
+and original C17 direct benchmark exit0. Focused ASan-configured CPU CTest
+passes2/2. No new GPU run, model inference, quality or native C1 result has
+occurred for this arm. The next gate is a coordinated .157 converter/oracle
+run, then original-input family-selective model comparison if it passes.
+[Source and limits](Q2-DENSE-DECODE-FEASIBILITY.md),
+[hashes](../config/q2-decode-q5-overlay-source.json).
+
 Private Q5 dense decode component passes — 2026-10-07 UTC: corrected r2
 oracle uses the encoded F16 `Q8_1.s`; device image is byte-exact to r1.
 Six shapes, 60 sampled FP64 oracles, 30 guarded whole-output pair diagnostics

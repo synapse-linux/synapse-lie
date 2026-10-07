@@ -1126,3 +1126,11 @@ target_compile_definitions(q2_hc_norm_owner PRIVATE QFN_ROCM_BUILD=1 ENGINE_ENAB
 target_include_directories(q2_hc_norm_owner PRIVATE "${GUFO_SOURCE}" "${Q2_FIXTURE_ROOT}")
 target_include_directories(q2_hc_norm_owner SYSTEM PRIVATE ${HIPCUB_INCLUDE_DIR} ${ROCPRIM_INCLUDE_DIR})
 target_link_libraries(q2_hc_norm_owner PRIVATE hip::host OpenSSL::Crypto)
+
+# Private Q8-to-Q5 decode-overlay format and numerical gate.
+add_executable(q2_q5_overlay_conversion EXCLUDE_FROM_ALL
+  ../../tests/q2_q5_overlay_conversion.hip)
+target_compile_definitions(q2_q5_overlay_conversion PRIVATE GGML_HIP_NO_VMM)
+target_include_directories(q2_q5_overlay_conversion PRIVATE "${MMQ}")
+target_link_libraries(q2_q5_overlay_conversion PRIVATE
+  gufo_qwen38_flash_next_mmq hip::host)
