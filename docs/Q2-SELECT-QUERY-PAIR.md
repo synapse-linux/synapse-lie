@@ -1,4 +1,23 @@
 <!-- SPDX-License-Identifier: MIT -->
+
+A separate single-query LDS component is prepared on2026-10-07. It retains
+one original score per thread and cooperatively stages the same4x128 FP32
+query values into2048bytes of workgroup storage. Every four-FMA partial,
+descending reduction, head sum and original top-k remain. Uniform empty-block
+returns precede the barrier; partial key blocks wait before inactive lanes exit.
+This is distinct from the rejected two/four-query key-reuse experiments below.
+The fixture uses the same original32K/128K internal selector slices and complete
+score-plus-mark checks. No model input/chunk, attention precision, persistent
+buffer or production dispatch changes. No model performance claim follows.
+
+Local compilation reports142VGPR/16SGPR/2048LDS/zero scratch versus the native
+control115VGPR/84SGPR/zero LDS/scratch. Both invoked control kernels, score
+and mark, are byte-exact to the saved native server. The broader fixture has
+153/165 common functions byte-exact;12 unused functions differ, with identical
+sizes/resources. Do not claim all device code identical. Source and static
+bindings are `config/q2-select-query-lds-{source,static}.json`; GPU execution
+requires fresh coordinated admission. More registers may offset saved reads.
+
 # Exact selector key reuse across two queries
 
 This private component follows the owner's new decode/full-prefill-through-128K

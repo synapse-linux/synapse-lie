@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Single-query selector LDS component prepared — 2026-10-07 UTC: stage the
+original512 FP32 query values per key workgroup, preserving score arithmetic
+and original top-k. This differs from prior multi-query experiments. Retained
+score/mark control kernels match native server bytes; new142VGPR/2KiB LDS
+versus115VGPR/zero LDS needs measurement. Complete original32K/128K selector
+slices plus causal tails/ties/tiny inputs are covered by the existing fixture
+contract. No model dispatch, input, quantization or buffer-lifetime changes;
+no new GPU result or reservation yet. Source/build/ISA evidence is persistent.
+
 IQ2 LDS original128K model trial complete — 2026-10-07 UTC: checkpoint5548600e,
 server30fdc4f6 and original native130925/8 request sequence measure
 1338.152114 PP /26.087829 TG. Retained down-rows remains1337.972303 /26.101627;

@@ -1,0 +1,20 @@
+{
+  "schema": "synapse-lie.q2-select-query-lds-source.v1",
+  "parent_manifest": "config/q2-decode-down-rows-model-source.json",
+  "parent_manifest_sha256": "e53280b48151f5a3a5d7a163944e90320d8e856fd249239df2a2b8c5253d1ea9",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "source": ".deps/gufo-q2-decode-down-rows-run/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+  "source_sha256": "361722189d69208bd03b1ca64265a9e11b6fc159975574b36cc43ec105a8e4e6",
+  "candidate": "experiments/q2-select-query-lds.inc",
+  "candidate_sha256": "2494cd8ab8b5519a2a0afcedba0f7c08697081bfdc90f19ee4198b85ba38f488",
+  "generator_sha256": "2ef08513e3bcfaa9e69a047362a1d0a4f663aed617c82f8e1c9dbdbe0e3ad273",
+  "arithmetic_order_unchanged": true,
+  "query_type": "FP32",
+  "key_type": "F16",
+  "extra_lds_bytes": 2048,
+  "extra_workgroup_barriers": 1,
+  "new_persistent_buffers": 0,
+  "model_dispatch_changed": false,
+  "benchmark_input_changed": false,
+  "gpu_run": false
+}
