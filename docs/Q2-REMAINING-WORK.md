@@ -40,6 +40,35 @@ within noise, shared-down improves2.30% locally and gated shared-up slows3.06%.
 There is no new model-level speedup. Multi-request batching and reactive
 responsiveness are separate from the C1 goal; they cannot count as30 token/s.
 
+## Mechanisms to test next at the fixed long-prefix input
+
+The prefill target needs12.592734s less at130925 tokens. Prioritize a complete
+2048-row routed-expert chain experiment: the current IQ2 gate/up path already
+pairs projections, but still materializes a packed scaled-half plane before Q2
+down. Its existing whole640 producer/pack replacement was11.08% slower in the
+mixed component, so a new candidate must reduce repeated expert-weight reads
+or increase useful row reuse across the complete chain. Measure actual routed
+tile counts and weight traffic before choosing an altered layout. Keep current
+quantization, exact prompt chunks and saved control binary.
+
+The secondary long-context experiment is query-grouped selector scoring. The
+current `SelectScoreKernel` loads a128-value key separately for each query row,
+then reuses it across four heads. A workgroup could hold that key while scoring
+four adjacent query rows, preserving each row's FP32 FMA/reduction sequence and
+the original top-512 tie rule. This changes score scheduling, not the query
+or key data or attention budget. Check full score bits and masks at16/32K
+before any64/128K component and original full-model trial. Prior two-query
+key reuse in the attention consumer regressed, so it does not qualify this
+different indexer hypothesis.
+
+The completed128K partition-selector component saves10.889us per2048-row
+selection launch. Even multiplying that by12 full-attention layers and all64
+prefill chunks gives only about8.36ms, far below the required12.59s. This is
+an intentionally generous illustration, not a measured model attribution;
+selection dispatch and chunk depths vary. Deep selector work may still help
+one-row decode, whose shape needs its own measurement, but it cannot be the
+main route to the full-prefill target.
+
 ## Historical fixed-point assessment (paused)
 
 The preserved original fixed comparison is **1587.893545 PP versus
