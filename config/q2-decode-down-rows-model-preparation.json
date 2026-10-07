@@ -1,0 +1,32 @@
+{
+  "schema": "synapse-lie.q2-decode-down-rows-model-preparation.v1",
+  "component_results": "config/q2-decode-down-rows-results.json",
+  "component_results_sha256": "b16719d8f3739499636a8fd4820983c4d12c542681ae56bb52642724ffec74a9",
+  "parent_provider_manifest": "config/q2-hc-scalar-isolated-source.json",
+  "retained_native_server_sha256": "a4afb757bf04302f6036b7eabe8f76c7c88911d3d239d29d5ea5cb1c639e9d20",
+  "selected_rows_per_wave": 4,
+  "unsupported_rows8_not_integrated": true,
+  "dispatch_contract": {
+    "whole_model_input_tokens": 1,
+    "prefill_phase": false,
+    "expert_type": "Q2_K",
+    "output_rows": 2560,
+    "logical_k": 640,
+    "physical_k": 768,
+    "slots": 10,
+    "experts_per_slot": 1,
+    "other_operations": "Retained path"
+  },
+  "numerical_status": "Finite nonexact component; all independent FP64 checks pass. Preserve differences and run original-model numerical and performance comparison. No quality promotion.",
+  "implementation_approach": "Separate HIP translation unit using the original MMQ input quantizer/pool and four-row template; explicit executor eligibility. Reuse qualified MMQ archive; retain common compiler flags and verify device code.",
+  "model_requests_sha256": "fcee51efeebfcbd25209ba90d09064d37aead6d3b0c6bbe7a9f97f328a4f24ef",
+  "capacity": 133760,
+  "chunk_tokens": 2048,
+  "prefix_cache_hits": 0,
+  "saved_controls_rebuilt_or_rerun": false,
+  "new_provider_implemented": false,
+  "new_model_binary_built": false,
+  "gpu_reserved": false,
+  "model_run": false,
+  "goal_met": false
+}

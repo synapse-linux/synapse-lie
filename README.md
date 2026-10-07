@@ -1,5 +1,10 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+A new [scalar Q2_K down candidate](docs/Q2-DECODE-DOWN-ROWS.md) reduces its
+complete quantizer/projection component time6.96%, with no new quantization.
+Independent operator checks pass; small byte differences remain. It is retained
+for model evaluation, with no new model-throughput or task-quality claim.
+
 The subsequent down/SiLU fusion passes its exact component checks but adds
 no measured model gain:1332.307970 PP /25.595276 TG versus the retained
 isolated up/mix1337.119965 /25.914406. Keep the up/mix candidate.

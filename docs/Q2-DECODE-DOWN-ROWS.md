@@ -1,11 +1,58 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Reuse native Q2_K decode inputs across more output rows
 
+## Completed component: retain four rows for model evaluation
+
+| Rows per wave | Median complete cycle us | Change versus two rows |
+|---|---:|---:|
+| Original2 |49.80915625|0%|
+| Candidate4 |46.34237500|-6.960128%|
+| Candidate8 |65.60171875|+31.706143%|
+
+All five measured rotations favor four rows and reject eight rows. These
+durations include the original activation quantizer and down projection,
+64 graph calls with82.575MB rotating weights. They are not model token rates.
+The retained model binary is unchanged. The next model candidate should use
+four rows only in the qualified single-token, non-prefill Q2_K down operation.
+Do not extrapolate this6.96% component reduction to whole-model decode.
+
+The original numerical expressions do not guarantee exact compiled rounding:
+898 of906 full output comparisons differ. All1359 independent FP64 checks
+pass the unchanged0.002 limit; maximum relative RMS9.21618842429e-8.
+In the64 preserved four-row buffer pairs,1837 of1638400 cells differ,
+maximum absolute2.98023223877e-8 and relative L2 2.12964639998e-9.
+The differences are real; they are not an oracle failure. They establish
+neither task degradation nor unchanged model quality. No weights or
+intermediate storage format is reduced. Actual component exit1 is preserved,
+and all performance measurements complete despite that exact-replay failure.
+
+Every timed replay is checked before its buffer is reused. Failed-output
+filenames identify input step/arm but not repetition: the saved buffers are
+the final pair for each step, not all repeated failure frontiers. The complete
+906 replay decisions and1359 numerical reports survive in stdout. A future
+fixture revision should add repetition to failed-output filenames.
+
+CPU success/failure fixtures, preflight and admission pass. The component
+finishes13:51:19.260631UTC with no thermal stop, CPU/GPU peaks41/45C.
+All284 artifacts collect/hash before release13:53:01.034806UTC, SHA
+9954b78f2c76846bed0074ba73cf02ca1898429efd9916bb751d6db2bbdc4e25.
+Latest registry matches;1974 identities/1580 groups retired, KFD empty,
+five original leases free and seven model stats unchanged. Core receives
+closure; no Q2 remote job/client/lease/window/reservation remains.
+
+[Audited result](../config/q2-decode-down-rows-results.json),
+[every timing](figures/q2-decode-down-rows-samples.csv),
+[frozen plan](../config/q2-decode-down-rows-plan.json),
+[analyzer](../tools/analyze-q2-decode-down-rows.py).
+
+The following describes the prepared source and fixture.
+
 The retained scalar Q2_K down launcher computes two output rows per wave.
 Q8 and Q5_1 already have wider short-input routes, but Q2_K has no corresponding
 specialization. This private component instantiates the original numerical
-template for four and eight rows. It preserves every dot, block accumulation,
-descending wave reduction, padded K768/live K640 and negative-ID behavior.
+template for four and eight rows. It retains the source dot, block accumulation,
+descending wave reduction, padded K768/live K640 and negative-ID expressions.
+Compiled exact replay is qualified separately, with differences recorded above.
 Only row ownership changes. Prefill and model dispatch remain unchanged.
 
 For a single original-model decode step, ten expert slots become two token
@@ -33,7 +80,7 @@ ten/eleven slots, inactive IDs, tiny/zero/cancellation inputs are covered.
 Finite numerical differences retain timing and failed output files.
 
 Local compilation and static checks are preparation only. The .157 component
-requires fresh coordination, CPU supervisor checks and its own admission. No
+used fresh coordination, CPU supervisor checks and its own admission. No
 model access, full curve, retained-control rebuild, dependency or cleanup is
 part of this experiment. Any later model selection is decode-only at the
 qualified shape; other phases and shapes keep the retained path.

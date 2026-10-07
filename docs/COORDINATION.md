@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2_K decode row reuse completed — 2026-10-07 UTC: four rows reduce the
+native-quantizer/down component49.809156 to46.342375us (-6.960128%);
+eight rows regress31.706143%. All five measured rotations agree. Keep four
+rows for model evaluation; no model token-rate gain is claimed. All1359 FP64
+checks pass, but898/906 full replays differ: four-row saved error max2.98e-8,
+relative L2 2.13e-9. Actual exit1 and all timings remain; small numerical
+differences are not automatically quality degradation or quality acceptance.
+All284 artifacts collect/hash before13:53:01.034806UTC release9954b78f,
+1974 identities/1580 groups retired, KFD empty, five leases free and seven
+model stats unchanged. Core receives closure; no remote Q2 window remains.
+[Result](Q2-DECODE-DOWN-ROWS.md).
+
 SSM BK4 component completed — 2026-10-07 UTC:72 guarded exact comparisons
 and144 independent FP64 checks pass, but the complete2048 projection/convolution
 slows5406.401667 to7983.260000us (+47.663094%). All five pairs regress;
