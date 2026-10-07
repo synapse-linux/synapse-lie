@@ -1,0 +1,18 @@
+{
+  "schema": "synapse-lie.q2-q5-model-source.v1",
+  "at": "2026-10-07T09:53:42.622210+00:00",
+  "source_commit": "a098ce1a",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "provider_overlay_manifest": "config/q2-decode-q5-overlay-source.json",
+  "provider_overlay_manifest_sha256": "f0e61dcecbdeae017b20f10343739d1ebf344aeed1d4934c01ed4e6c18f10fea",
+  "provider_overlay_patch_sha256": "13fccb68dcf7c7e2f4a661e50f865822cc5b1f9233167e93e857be3b6f620e94",
+  "counting_harness_manifest_sha256": "153c953edbfe47e14e4469fe25d45d20a7bf44021742b648973b2d1589474aae",
+  "counting_harness_source_sha256": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+  "fixed_reference_sha256": "7f58a7fa19b53338c96f575667f0d853b61d3e8f6af4864319a7a1445b2474d1",
+  "fixed_input_sha256": "75343e606f5b815fe01f69ddc6ce50a997e2de96d8a20304a82a7f24f1180b35",
+  "binary_sha256": "d12703168a1da70b5f3211fc13e9cb9b2225f370cd2a07e9a72676ad2d11c960",
+  "remote_build": false,
+  "original_model_gguf_unchanged": true,
+  "default_q8_control_same_binary": true,
+  "candidate_family": "shared-down"
+}
