@@ -73,3 +73,11 @@ model access, installation, tuning or cleanup in this preparation.
 [candidate](../experiments/q2-ssm-stage-q8.inc),
 [fixture](../tests/q2_ssm_stage_q8.hip),
 [reproduction](../tools/prepare-q2-ssm-stage-q8.py).
+
+The prepared window helper follows the shared boot/registry/five-lease protocol,
+with GLM r3 release as its explicit predecessor. Its host fixture covers
+success, finite numerical mismatch, unsafe exit and timeout child retirement.
+A separate analyzer fixture rejects duplicated comparisons, changed token
+counts, unsafe output, false oracle passes and hidden exits; zero GPU events
+remain invalid while completed-wall timings survive. Both fixtures await .157
+execution. No frozen plan or GPU admission exists at this checkpoint.
