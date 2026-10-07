@@ -1,0 +1,27 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/mmq/mmvq.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/mmq/mmvq.hip.cpp
+@@ -54,6 +54,8 @@
+     }
+   }
+ }
++
++#include "q2_decode_q8_compact.inc"
+ 
+ // Integer matrix products reuse each Q8 weight across up to 48 inputs.
+ // Keep four separate K8 sums per wave: merging them into a K32 integer sum
+@@ -486,6 +488,15 @@
+ template <int tokens>
+ static void launch_q8(const void* weights, const void* gate, const block_q8_1* input,
+                       float* output, int k, int rows, int input_stride, hipStream_t stream) {
++    if constexpr (tokens == 1) {
++        if (gate)
++            mul_mat_vec_q8_compact<true><<<rows, 32, 0, stream>>>(
++                weights, gate, input, output, k, rows, input_stride);
++        else
++            mul_mat_vec_q8_compact<false><<<rows, 32, 0, stream>>>(
++                weights, nullptr, input, output, k, rows, input_stride);
++        return;
++    }
+     if (gate) {
+         mul_mat_vec_q8<tokens, true><<<rows, 32, 0, stream>>>(
+             weights, gate, input, output, k, rows, input_stride);

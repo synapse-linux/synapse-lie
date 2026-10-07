@@ -365,6 +365,22 @@ class RemoteGuardTests(unittest.TestCase):
                 remote.main()
             run.assert_not_called()
 
+    def test_decode_q8_compact_is_component_only_with_retained_provider(self):
+        mode = remote.DECODE_Q8_COMPACT_MODE
+        variant = remote.IQ2_FIXED_BOUNDS_VARIANT
+        self.refuse([mode, 'q2-fixture'], 'Decode Q8 compact requires the retained')
+        component = [mode, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(component + [flag], 'Decode Q8 compact component accepts no model')
+        self.refuse(component + ['--replay-from', 'q2-norm-fixed-model-before-r1'],
+                    'Decode Q8 compact component accepts no model')
+        with patch.object(sys, 'argv', [str(path), *component]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
     def test_select_query_pair_is_component_only_with_retained_provider(self):
         mode = remote.SELECT_QUERY_PAIR_MODE
         variant = remote.IQ2_FIXED_BOUNDS_VARIANT

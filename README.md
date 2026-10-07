@@ -1,6 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
 The owner now prioritizes [prefill and decode through 128K](docs/Q2-DECODE-128K.md).
+This track has resumed with a compact scalar Q8 consumer: uniform full-block
+bounds and exact lane exchange, with GPU qualification pending. Core's own
+campaign deferral does not pause Q2.
 The [bounded prefill selector grid](docs/Q2-SELECT-LIVE-GRID.md) passes62 exact
 score/mask pairs and62 independent checks, but the original native full-prefill
 trial shows no retained model gain: roughly−0.6% to+1.1% through16K and−10.7%

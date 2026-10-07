@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q8 compact preparation — 2026-10-07 UTC: Core confirms no own machine use
+and that its campaign deferral affects Core only. Fresh globalpreflight02:54:39
+anchors1d62a3a5, including the additional host-fix cohort a533e7e1. KFD empty,
+original CPU/four GPU leases free, prior processes/groups retired and seven
+model stat tuples unchanged. New .157 host-r1 finishes02:55:49 with39 Debug/
+39 ASan checks and six zero exits; seven artifacts collected. Plan ee23acb9
+binds318 fixtures for one new scalar Q8 component, no model/control/full-curve
+rerun. Fixed-point parity remains paused. Checkpoint and fresh admission still
+precede GPU work. Q2 owns no .161/.158/TB job or reservation; no remote cleanup.
+
 Live-grid model closure — 2026-10-06 UTC: admission5f733e89 at22:10:33.221435,
 checkpoint560b2e36/plan55bf5bcb. Six model commands0; launcher exits1 in its
 postflight because the new MMQ receipt lacks `archive`. Original receipts are

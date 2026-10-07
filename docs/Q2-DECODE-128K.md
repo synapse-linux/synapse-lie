@@ -10,6 +10,41 @@ The long-prefix replies contain eight decode calls; they do not establish a
 long-context TG128 curve. No prompt padding or intermediate partial chunks are
 introduced to make a candidate look faster.
 
+## Resumed scalar Q8 work — 2026-10-07 UTC
+
+The owner's renewed request resumes this128K track. The Core thread's deferral
+applies to its own campaigns, not Q2. Fixed-point parity stays paused. The last
+three candidates did not justify replacing the retained performance provider.
+
+The new compact scalar Q8 draft separates complete eight-block K groups from
+the one possible tail. A full group uses a uniform bound; the tail keeps its
+per-lane guard. The sum exchanges lane16 with `permlanex16`, then8/4/2/1 with
+DPP, preserving the descending FP32 tree. Encoded weights, Q8_1 inputs, dot
+products, scale/FMA order and the one-row/32-thread launch remain unchanged.
+The private dispatch is restricted to one-token dense Q8. This is kernel work,
+not a new reactive benefit, and does not change prefill dispatch or public ABI.
+
+Static compilation preserves all77 existing MMVQ device bodies, including28
+Q8 bodies. Two new kernels use14/20 VGPRs, no scratch or LDS, matching the
+scalar original's register budget. The generic lane-address calculations and
+five `ds_bpermute` exchanges per sum disappear. Separate tail code increases
+whole-body static size; instruction totals are not a dynamic speed estimate.
+[Source](../config/q2-decode-q8-compact-source.json),
+[static audit](../config/q2-decode-q8-compact-static.json).
+The first offline check expected28 *scalar* bodies, but there are22 scalar
+plus6 batch bodies; its assertion is preserved and the corrected check covers
+all28, without changing a numerical kernel.
+
+The scoped GPU component uses actual plain16384×2560,2560×6144,2560×640 and
+shared gated640×2560 shapes, plus four boundary/tiny-input cases. Each timed
+sample completes at least64 launches, rotates more than48MiB of encoded
+weights, and uses distinct output destinations checked before overwrite.
+Longer component batches reduce launch/timer noise; they are not a replacement
+for the unchanged model benchmark. The paired literal control, FP64 checks,
+raw timing samples, invalid HIP-event durations and actual exit codes remain
+visible. GPU numerical/performance qualification is pending. Saved Q2/UD model
+controls and the full curve are not rebuilt or rerun for this component.
+
 ## First candidate: four Q8 rows per block
 
 The saved 1571-provider diagnostic trace attributes 261.537326 ms of

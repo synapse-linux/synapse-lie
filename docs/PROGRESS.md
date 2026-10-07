@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+## Resume decode/128K work after an unjustified stop — 2026-10-07 UTC
+
+Core's own deferred campaigns did not pause Q2. Resume the owner's decode and
+full-prefill128K priority, retaining the earlier fixed-point pause and saved
+benchmark contracts. A compact scalar Q8 candidate removes generic lane-bound
+and reduction instructions without changing its dot order. All77 existing
+MMVQ bodies are exact; new14/20VGPR kernels add no LDS or private scratch.
+[Mechanism and qualification boundary](Q2-DECODE-128K.md).
+Actual GPU timing is pending; no new retained speedup is claimed.
+
 ## Live-grid model completed without a retained gain — 2026-10-06 UTC
 
 Original native full-prefix history through32K completes, all nine streamed
