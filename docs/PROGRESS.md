@@ -26,6 +26,26 @@ long-context and performance gates remain open; none of the six items closes.
 
 ## Native numerical qualification tooling — 2026-10-07 UTC
 
+The unavailable backend now exports `lie_model_token_is_stop`, matching the
+public C contract. It returns `LIE_UNSUPPORTED`, preserves caller output and
+accepts omitted output/error pointers. The existing ABI fixture checks linkage
+and behavior in Release as well as unsuppressed ASan/UBSan/LSan: 1/1 each,
+without model or GPU execution. The first standalone link omitted its existing
+dispatch dependency; actual build1 and consequent CTest8 remain preserved.
+Corrected checks pass; peak local CPU52.75 C.
+[Focused receipt](development/validation/executor-stop-host-2026-10-07.json).
+This closes a source gap before further campaigns; all six acceptance items
+remain open and the implementation-first sequence remains in force.
+
+The previously started r39 AR capture is finished, collected and strictly closed.
+Its 96 original-weight rows have matching full probability/history/RNG witnesses
+in original/C17/OFF Release and sanitizer replay; broader tool/MTP/fault/quality/
+resource/cost gates remain open. Raw rows, complete outputs, actual exits and
+the two local provenance/log-label failures remain under `evidence/context-r39-*`.
+No capture or Release replay was repeated to correct the local log-label check.
+There is no active remote job, lease or reservation. These saved results do not
+queue another campaign or change the deferred order.
+
 The optional Point supervisor now routes the C17 capture client directly and
 collects native raw data, including partial/uncommitted failure rows. Its bounded
 receipt checks bind all six profiles, row hashes, committed frontiers, natural

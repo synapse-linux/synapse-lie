@@ -1,5 +1,20 @@
 # DS4 / synapse-lie coordination
 
+## Current sequencing and closure — 2026-10-07
+
+Further test campaigns remain deferred until the remaining functional source
+is complete. Only focused local checks accompany corrections; final integrated
+GPU qualification precedes matched benchmarks, with Terminal Bench last.
+Root has no queued or active remote job, lease, reservation or live handle.
+
+The already finished r39 AR capture releases the original lease at 01:19:47 UTC;
+strict closure at 01:21:14 verifies owned identities/container retired, HTTP8000
+unbound and router234120 restored. Collection and offline replay are complete;
+broader acceptance gates remain open. The unavailable stop-metadata export is
+corrected locally with one Release and one sanitizer ABI control, without model
+or GPU use. [Focused receipt](development/validation/executor-stop-host-2026-10-07.json).
+Any later remote run needs fresh admission; this closure grants none.
+
 ## Native capture supervisor prepared locally — 2026-10-07
 
 Root closes the final capture orchestration gap in owned development tools:

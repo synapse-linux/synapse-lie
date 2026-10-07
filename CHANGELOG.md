@@ -7,6 +7,9 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Builds without the Gufo adapter now export the public stop-token metadata
+  query, returning an explicit unsupported status without changing caller output.
+
 - C17 development client for complete raw-logit capture before ordinary AR
   draws, including strict required-function calls, bound vocabulary and stop
   metadata. Offline original/C17/OFF replay checks complete masks, probabilities

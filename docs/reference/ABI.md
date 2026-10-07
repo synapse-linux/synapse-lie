@@ -630,7 +630,10 @@ checks full borrowed-byte stability during this bounded wait and cancellation.
   then copies exactly 0 or 1. Refusal leaves the destination unchanged. It calls
   no forward/device operation and does not touch sampler history or RNG. The
   selected adapter keeps upstream stop-token types private; raw pieces still
-  use `lie_model_token_text`.
+  use `lie_model_token_text`. The unavailable backend exports this query too,
+  returning `LIE_UNSUPPORTED` with optional diagnostics and unchanged output.
+  The focused ABI fixture exercises linkage and refusal in Release and
+  sanitizer configurations without loading a model.
 - Prefill takes a cumulative physical prefix, verifies the existing frontier,
   token ranges, context and configured delta before Sync. It cannot truncate a
   recurrent state by merely shortening a token list.
