@@ -30,11 +30,11 @@ its positive component result did not establish a gain in either measured
 model phase. Preserve the experiment; phase dispatch cannot manufacture a
 phase-specific gain where the model observation has not shown one.
 
-The next Q8/SSM BK4 experiment is a prefill component only. Any later model
-integration must restrict it to the qualified projection dimensions, Q8
-weights, prefill mode and tested row domain. Keep decode and unsupported tails
-on their retained paths. Performance and numerical evidence for that candidate
-are still required before selecting it in model execution.
+The Q8/SSM BK4 experiment is a prefill component only. Its subsequent .157
+measurement passes exact replay but increases complete-operation latency
+47.66%, so it is not integrated. Future prefill candidates must restrict
+dispatch to their qualified projection dimensions, weight types, phase and
+tested row domain. Keep decode and unsupported tails on their retained paths.
 
 [Source dispatch audit](../config/q2-hc-scalar-phase-dispatch-audit.json),
 [isolated HC measurements](Q2-HC-SCALAR-UP-MIX.md),

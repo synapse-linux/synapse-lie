@@ -6,6 +6,9 @@ isolated up/mix1337.119965 /25.914406. Keep the up/mix candidate.
 [Latest comparison](docs/Q2-HC-DOWN-SILU.md),
 [phase-specific dispatch](docs/Q2-PHASE-DISPATCH.md).
 
+The prefill-only [Q8/SSM BK4 trial](docs/Q2-SSM-BK4.md) also passes numerical
+checks but increases component latency47.66%; production dispatch is unchanged.
+
 The latest phase-specific HC candidate keeps the original common backend
 instructions while compiling its scalar kernel separately. The unchanged
 original128K .157 trial measures1337.119965 prefill /25.914406 decode token/s,

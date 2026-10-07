@@ -14,9 +14,11 @@ The scalar down/SiLU fusion is now measured: component latency improves
 5.67% alone and3.09% through the full HC consumer, with70 exact/24 FP64
 checks. The unchanged original128K model result1332.307970/25.595276 does
 not improve the retained up/mix result. Preserve the component for composition;
-do not promote it or repeat controls. The next bounded prefill mechanism is
-[Q8 SSM BK4 staging](Q2-SSM-BK4.md), already compiled locally but awaiting
-GPU qualification. Its170 VGPR/64KiB LDS and doubled row grid need measurement.
+do not promote it or repeat controls. The subsequent
+[Q8 SSM BK4 staging trial](Q2-SSM-BK4.md) passes72 exact/144 FP64 checks,
+but complete-operator latency increases47.66%; it is not integrated. Both
+variants allow one theoretical block per multiprocessor despite170 versus220
+registers. Do not repeat this geometry or extrapolate register savings to speed.
 
 [Phase-specific routing](Q2-PHASE-DISPATCH.md) retains the prefill body even
 for a one-token tail; the scalar logits head has its own qualified operation.

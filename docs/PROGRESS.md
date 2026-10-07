@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+SSM BK4 component completed — 2026-10-07 UTC:72 guarded exact comparisons
+and144 independent FP64 checks pass, but the complete2048 projection/convolution
+slows5406.401667 to7983.260000us (+47.663094%). All five pairs regress;
+retain existing prefill dispatch and omit a model run. CPU fixture/preflight/
+component exit0. All29 artifacts verify before13:36:14.127541UTC release
+4dc425921043fbf058b69265040f5fd77d213ea4c82a79ec08cea21efc961e11,
+1973 retired identities/1579 groups, empty KFD, five original leases free and
+seven unchanged model stats. Core receives closure; no Q2 remote workload,
+window or reservation remains. No cleanup or model access occurs.
+[Result](Q2-SSM-BK4.md). Phase-specific HC routing remains unchanged.
+
 HC down/SiLU original128K follow-up — 2026-10-07 UTC: all four replies are
 exact, but1332.307970 PP /25.595276 TG does not improve the preceding
 isolated up/mix1337.119965 /25.914406. Preserve the positive component and

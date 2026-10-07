@@ -1,0 +1,15 @@
+event,shape,rep,order,candidate,warmup,tokens,output_rows,inner,iterations,weight_bytes,gpu_event_valid,gpu_event_us,completed_wall_us
+ssm_bk4_timing,ssm2048,0,0,False,True,2048,16384,2560,3,133693440,False,0,5070.888
+ssm_bk4_timing,ssm2048,0,1,True,True,2048,16384,2560,3,133693440,False,0,7806.44433333
+ssm_bk4_timing,ssm2048,1,0,True,True,2048,16384,2560,3,133693440,False,0,7844.25333333
+ssm_bk4_timing,ssm2048,1,1,False,True,2048,16384,2560,3,133693440,False,0,5117.22
+ssm_bk4_timing,ssm2048,2,0,False,False,2048,16384,2560,3,133693440,False,0,5387.479
+ssm_bk4_timing,ssm2048,2,1,True,False,2048,16384,2560,3,133693440,False,0,7956.59366667
+ssm_bk4_timing,ssm2048,3,0,True,False,2048,16384,2560,3,133693440,False,0,8115.056
+ssm_bk4_timing,ssm2048,3,1,False,False,2048,16384,2560,3,133693440,False,0,5413.41166667
+ssm_bk4_timing,ssm2048,4,0,False,False,2048,16384,2560,3,133693440,False,0,5406.40166667
+ssm_bk4_timing,ssm2048,4,1,True,False,2048,16384,2560,3,133693440,False,0,7982.49966667
+ssm_bk4_timing,ssm2048,5,0,True,False,2048,16384,2560,3,133693440,False,0,7983.26
+ssm_bk4_timing,ssm2048,5,1,False,False,2048,16384,2560,3,133693440,False,0,5403.982
+ssm_bk4_timing,ssm2048,6,0,False,False,2048,16384,2560,3,133693440,False,0,5423.985
+ssm_bk4_timing,ssm2048,6,1,True,False,2048,16384,2560,3,133693440,False,0,8036.555
