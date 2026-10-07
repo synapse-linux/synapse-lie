@@ -18,7 +18,7 @@ arrays, typed counters, queue choices and cache stages. Native/historical report
 readers refuse functional probe files as throughput input. Default CTest and the
 benchmark remain native; no Python product dependency is added.
 
-The [HOST receipt](development/validation/prefill-probe-host-2026-10-07.json)
+The [HOST receipt](development/validation/prefill-probe-host-r2-2026-10-07.json)
 retains actual failures and their corrections, all native outputs and source
 bindings. Initial local failures were a negative-case fixture argument error
 and sandbox loopback access. Supervisor checks then corrected an invalid AR

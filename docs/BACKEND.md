@@ -132,7 +132,7 @@ and five cache-namespace stages are saved. Performance report readers refuse
 these functional identities. Focused native Release and unsuppressed sanitizer
 checks pass 5/5 each; six AR/MTP synthetic probes, fourteen CLI refusals and a
 deliberate failed prefill are retained. All 82 optional mocked supervisor checks
-pass. The [HOST receipt](development/validation/prefill-probe-host-2026-10-07.json)
+pass. The [HOST receipt](development/validation/prefill-probe-host-r2-2026-10-07.json)
 preserves corrected preparation/test failures. No engine ABI, scheduler, provider
 or numerical algorithm changes; a newly bound `.161` client build and actual
 original-weight live/cache runs are still required. All six items remain open.
