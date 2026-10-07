@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Owner clarifies test order — 2026-10-07 UTC: complete chunk4096/8192 curves
+with IOMMU enabled before its temporary disable/reboot. The enabled R3
+baseline completes first1076.934433/25.567541 and repeat1321.570237/26.097557
+PP/TG, preserving both. Collection56files verifies22:32:15, release d4022589
+22:32:38, independent closure22:32:58:39 process identities/groups retired,
+KFD empty, five leases free and model stats unchanged. Boot proposal f8716328
+is deferred without application; only owned staging files exist, with
+/boot/limine.conf and EFI variables unchanged. The chunk curve will use a
+fresh plan/admission on the current epoch and the saved original corpus.
+
 Owner-requested larger chunks and IOMMU comparison prepared — 2026-10-07 UTC:
 private4K/8K runtime/provider support propagates the real executor capacity
 and preserves four retained prefill dispatches. Local server compilation0;

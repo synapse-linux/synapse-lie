@@ -35,6 +35,7 @@ Every arm reports actual PP/TG counters, output differences and zero prefix
 reuse. The existing `synapse-lie-bench` client and original input corpus remain
 hash-bound. A chunk win is not automatically a decode win.
 
-The subsequent owner instruction requests an IOMMU A/B first. That comparison
-uses the already-qualified R3 executable and original chunk2048; the larger
-chunk candidate is prepared, but no GPU curve has run yet.
+The owner clarified the order: complete these curves with IOMMU enabled
+before changing the boot configuration. The separate IOMMU comparison uses
+the already-qualified R3 executable and original chunk2048. Its enabled
+baseline is collected; its reboot is deferred until after these curves.

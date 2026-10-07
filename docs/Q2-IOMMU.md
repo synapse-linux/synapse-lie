@@ -2,7 +2,8 @@
 
 # User-authorized IOMMU measurement on .157
 
-The owner explicitly requests disabling IOMMU and measuring the result.
+The owner explicitly requests disabling IOMMU and measuring the result,
+then clarifies that the4K/8K curves must run first with IOMMU enabled.
 Initial readback: kernel7.2.2-1-cachyos, Limine12.7.0, 32 IOMMU groups and no
 IOMMU override on the command line. Group presence alone does not identify
 translated versus passthrough mode.
@@ -34,4 +35,14 @@ identities; old-boot PID numbers cannot establish current ownership.
 Preparation and measurements live under `evidence/q2-iommu-preparation` and
 separate `q2-iommu-{on,off}-native128-r1` directories. No model or .157 evidence
 is removed. Source/checkpoint and the rollback configuration are persistent.
-Prepared work does not establish that IOMMU has been disabled or measured.
+The enabled baseline completes both original130925/8 runs: first1076.934433
+PP /25.567541 TG; repeat1321.570237 PP /26.097557 TG. All56 artifacts verify
+before release d4022589 at22:32:38 UTC; independent closure22:32:58 checks
+39 retired identities/groups, empty KFD, five free leases and unchanged model
+stats. The two values are retained individually; neither replaces the prior
+qualified R3 measurement.
+
+Boot plan f8716328 is deferred without application. Configuration and EFI
+variables are untouched and no reboot has been requested. A replacement plan
+must name the new predecessor release after the chunk curves. The prepared
+disabled-IOMMU measurement is not an observed result.

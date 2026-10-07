@@ -1,0 +1,10 @@
+{
+  "state": "DEFERRED_NOT_APPLIED",
+  "at": "2026-10-07T22:36:17.881012+00:00",
+  "plan_sha256": "f871632807b68b890dbf5903ba37066fdd756357086ce16b080050777732f01d",
+  "reason": "Owner requires 4096/8192 full curves with IOMMU enabled before any boot change.",
+  "boot_configuration_changed": false,
+  "efi_variables_changed": false,
+  "reboot_requested": false,
+  "new_plan_required_after_chunk_curve": true
+}

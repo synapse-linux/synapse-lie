@@ -1,5 +1,18 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+IOMMU-on baseline released — 2026-10-07 UTC: source44809c18,
+plan eee95efc, retained R3 server f8a5210c. CPU9CTest/verify/admit/run/release0;
+both separate original130925/8 native-client runs finish0. All56 artifacts
+(16798163 bytes) verify22:32:15 before release22:32:38 SHA
+d4022589cd47dab9d7d44da702ac799a742e5604aaa997f66314641e1d67714a.
+Independent22:32:58 closure checks39 identities/groups, empty KFD, five
+original free leases and seven reference plus GLM model stats. No Q2 GPU
+ownership remains. The owner requires chunk4K/8K curves with IOMMU enabled
+before reboot; bootplan f8716328 is withdrawn/deferred without application.
+Its staged files grant no reservation/admission. Future GLM tests move to
+.155 per owner instruction, with separate coordination. Next Q2 curve needs
+a fresh proposal/admission on the existing .157 epoch.
+
 Attention V-blocks original128K model released — 2026-10-07 UTC:
 source 6f021593, plan a08cfe83, server d49ad1f8. CPU fixture/verify/admit/run/
 release all exit 0; server/client both 0. Run 21:20:37→21:22:32; all 49 files

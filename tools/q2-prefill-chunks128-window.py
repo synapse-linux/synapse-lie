@@ -95,13 +95,13 @@ def source(plan):
             plan['prefix_tokens'] == 130925 and plan['output_tokens'] == 8 and
             plan['port'] == 8000,
             'Original 128K shape differs')
-    require(plan['previous_release'] == 'glm53-existing-bench-native2048-r3/artifacts/release.json',
+    require(plan['previous_release'] == 'q2-iommu-on-native128-r1/release.json',
             'Previous release path differs')
     previous_path = ROOT / plan['previous_release']
     require(sha(previous_path) == plan['previous_release_sha256'], 'Previous release differs')
     previous = read(previous_path)
     require(previous['boot_id'] == EXPECTED_BOOT and
-            previous['state'] == 'GLM53_EXISTING_BENCH157_RELEASED',
+            previous['state'] == 'Q2_IOMMU_NATIVE128_RELEASED',
             'Wrong coordination epoch')
     require(not previous['gpu_reserved'] and not previous['remote_cleanup'],
             'Prior window not released')
@@ -115,6 +115,10 @@ def source(plan):
             'a6144ae1c72b80869cfacfcf6ee58a645e691ac184ee5e3af1a1a36394b0a7db',
             'Original selected request digest differs')
     require(plan['model_stats'] == previous['models'], 'Model identities differ')
+    require(plan['iommu_mode'] == 'on' and
+            'amd_iommu=off' not in Path('/proc/cmdline').read_text().split() and
+            bool(list(Path('/sys/kernel/iommu_groups').glob('*'))),
+            'Chunk curve must precede the disabled-IOMMU experiment')
     return previous
 
 
