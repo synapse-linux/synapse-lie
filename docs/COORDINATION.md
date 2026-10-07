@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Selector key tiles released — 2026-10-07 UTC: sourcebe128ea3, plane0513fd1,
+CPU fixture/verify/admit/run/release0. Run18:49:13→18:49:16; all35 artifacts
+verify18:51:19 before18:51:57.988613 release SHA
+519dc16c2dcb527861573f29e3148deebaedb335a207d9b6ce1d8c3141b9d609.
+Independent18:53:24 closure checks registry, ten retired identities/groups
+plus supervisor, empty KFD, five unchanged free leases and seven model stats.
+No Q2 job/window/reservation remains; Core receives closure. A follow-up
+continuous component is local preparation only and requires new admission.
+
 Selector query LDS component released — 2026-10-07 UTC: source da31ffbc,
 plan7634d2a0; CPU fixture/verify/admit/run/release exit0. Run18:28:41→18:28:44;
 all35 artifacts hash-verify18:30:31 before18:32:55.912809 release SHA

@@ -1,5 +1,27 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+The8x8 key-layout component completes on .157 at18:49:16 UTC with48 exact
+score/mask comparisons and48 independent checks, including all packed half
+bits and unused sentinels. Its five-pair completed-wall means are907.9252→
+916.8028us at32K (+0.9778%),2665.0664→2512.9026us at128K (-5.7096%), and
+1956.8926→1795.4886us on the128K tail (-8.2480%). These are unqualified
+component observations, not model speedups. Individual launches vary strongly
+by execution order; five alternating pairs give a3:2 order imbalance. In the
+second position the full128K candidate instead averages2301.2953 versus
+2202.8990us (+4.4667%). Aggregate means do not resolve the conflict.
+All samples/order groups remain in
+[`q2-select-key-tile-results.json`](../config/q2-select-key-tile-results.json).
+All35 artifacts verify before18:51:57.988613 release519dc16c; fresh closure
+passes at18:53:24. No model integration or new throughput claim follows.
+
+A separate continuous diagnostic retains the exact same kernels and inputs.
+It submits eight alternating pairs without host oracle/hash pauses, giving
+each arm four first and four second positions. Every launch has its own output
+buffer and HIP event pair; every result is checked after completion. Packing
+remains inside each candidate's timer. A valid HIP duration is required and
+the total completed batch wall time is retained separately. This resolves a
+component-timing concern; it does not alter the frozen model benchmark.
+
 The single-query LDS trial below completes on .157 at18:28:44 UTC,
 2026-10-07. All48 complete score/mask comparisons and48 independent FP64/
 CPU top-k checks pass; actual exit0. Completed score-plus-mark wall means

@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Selector key tiles numerically exact — 2026-10-07 UTC: .157 component exits0,
+48 exact pairs and48 independent checks. Completed-wall means show+0.98%
+latency at32K and-5.71%/-8.25% at full/tail128K, but execution-order variation
+and a3:2 ordering imbalance prevent performance qualification. No model
+integration. All35 artifacts hash-verify before18:51:57.988613 release519dc16c;
+fresh independent closure passes. A continuous, equally ordered diagnostic
+retains every timed output separately and uses unchanged device kernels.
+This is a new timing investigation, not a changed model benchmark/reference.
+
 Selector query LDS rejected — 2026-10-07 UTC: .157 component exits0 with
 48/48 exact output pairs and48/48 independent checks. Complete score/top-k
 latency increases62.31%,91.34%,86.58% on the same32K/full128K/tail128K internal
