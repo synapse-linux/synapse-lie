@@ -3,8 +3,8 @@
 
 This protocol checks a learned conciseness direction on original weights. It is
 separate from bank construction, general model quality and throughput. Its
-checker and native-client HOST fixtures are implemented; original-weight
-execution and campaign integration remain pending.
+checker, serial server/client supervision and native-client HOST fixtures are
+implemented. Original-weight execution and outer campaign integration remain pending.
 
 The owned [corpus](../../../tests/fixtures/steering-conciseness-v1.json) contains
 100 unique training questions and ten disjoint held-out arithmetic problems.
@@ -43,7 +43,7 @@ Count explanation words with the checker's locale-independent Unicode word
 expression. Negative scale amplifies the concise target-minus-contrast
 direction; positive scale removes it. At -1, require a median word-count ratio
 of at most 0.8 against scale 0 and shorter explanations in at least 8/10 cases.
-At +2, require a median ratio of at least1.2 and longer explanations in at
+At +2, require a median ratio of at least 1.2 and longer explanations in at
 least 8/10 cases. Report every intermediate scale without assuming monotonicity.
 Only score this effect after all arithmetic, natural-stop and parity controls
 pass. No effect, wrong answers or truncation produce `QUALITY_FAILED`, retaining
@@ -57,6 +57,26 @@ Its `prepare` operation writes paired prompt files and both native request
 cohorts into a new directory; `review` consumes actual supervised exit codes,
 exported requests, measurements and stored snapshots. These development tools
 are outside the Python-free native product and default CMake build.
+
+The optional [own-child supervisor](../../../tools/strix-point-steering-quality-run.py)
+launches the two servers serially, waits for the selected model, runs the native
+client and fetches each stored steering observation. It preserves raw HTTP
+status/text and partial native files on failure. The second server cannot start
+before both first-phase children retire. Timeout and signals retire only its
+own children; process identities and actual exits are retained. The outer
+campaign still owns GPU admission, thermal/resource guards, original model
+provenance, container retirement and release notifications.
+
+The bank's SHA256, size, inode and timestamps must remain unchanged. Response
+storage is bounded to 128 records/64 MiB, with TTL covering the complete workload
+deadline so early responses do not expire while later scales run. The timeout
+accounts for 70 requests, two loads and bounded cleanup; configurations exceeding
+one day refuse before any process is launched. Eleven HOST checks per normal
+and sanitizer mode include real native C client round trips, simulated model
+server lifetimes, actual self-interruption and refusal paths
+([receipt](../validation/steering-quality-supervision-host-2026-10-08.json)).
+These simulations do not qualify model loading, applied numerical steering or
+original-weight response quality.
 
 Passing establishes arithmetic-answer preservation and a response-length
 effect on this held-out corpus. It does not establish semantic explanation

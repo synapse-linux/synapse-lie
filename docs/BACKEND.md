@@ -482,7 +482,10 @@ none of the six items.
    The [held-out response protocol](development/protocols/STEERING-QUALITY-GPU-PROTOCOL.md)
    and independent checker now pass HOST/native-client fixtures
    ([receipt](development/validation/steering-quality-checker-host-2026-10-08.json));
-   campaign integration and original learned-bank response execution remain pending.
+   serial own-child server/native-client supervision is also implemented and
+   checked against eleven HOST cases per normal/sanitizer mode
+   ([receipt](development/validation/steering-quality-supervision-host-2026-10-08.json)).
+   Outer campaign integration and original learned-bank response execution remain pending.
    Learned direction quality, independent graph/
    correction/fault, vision and matched cost remain open.
    Separate `modern-core-steering-admission` windows now qualify original-model

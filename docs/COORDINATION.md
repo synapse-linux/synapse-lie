@@ -1,5 +1,21 @@
 # DS4 / synapse-lie coordination
 
+## Active current-r70 YaRN4 near-256K recall — 2026-10-08
+
+Four specific Point/DGX/Q2/GLM current non-use declarations and fresh global
+02:13:21 UTC/in-lease checks admit `recall-yarn4-261632-s77-ar-20261008-r1`,
+manifest `c63d2d14`, on `.161`. Source remains `4c703b3d`/r70; the checkpoint is
+`8d13e682`. Target 261632/capacity 1048576, YaRN4, seed 77, chunk 256, C1, cold AR
+recall and three unscored calibrations are unchanged from the frozen protocol.
+
+Actual supervisor 103258/start 4170328 owns original lease FD3; init 103484/start 4170461
+and container `dcdca466` are witnessed alive. The first two reads precede native
+inference. At 02:17:38, the original GPU owner 105251/start 4182273 is observed in
+that complete cgroup, with the server/client running and four wire rows saved.
+The window remains exclusive through collection/hash checks and whole-container
+strong closure. Root uses no other host. No future grant or later result is
+inferred; this active job is not qualified until terminal evidence and closure.
+
 ## Current r70 YaRN4 128K recall verified and retired — 2026-10-08
 
 All four specific peer non-use declarations and fresh global/in-lease checks

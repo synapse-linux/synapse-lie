@@ -1,6 +1,28 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Steering response supervision passes HOST checks — 2026-10-08 UTC
+
+The optional qualification helper runs absent-bank and admitted-bank servers
+serially with the existing native HTTP benchmark. It records actual child
+identities/exits, complete request/SSE files and raw stored-steering HTTP replies;
+checks exact applied plans and arithmetic/length criteria independently; and
+requires unchanged bank SHA/size/inode/timestamps. Deadline-sized record retention
+prevents early observations expiring. Failures preserve partial evidence and
+retire only owned children before another model opens.
+
+Eleven HOST checks per normal/sanitizer mode pass, including two real C clients
+and 70 synthetic responses per mode, timeout/load/snapshot/retirement failures,
+same-byte bank replacement, actual self-interruption and replay refusal. One
+focused native CTest per mode passes. The
+[receipt](development/validation/steering-quality-supervision-host-2026-10-08.json)
+keeps sources, commands and thermal observations. No new build directory,
+product dependency or native runtime/ABI/state/metrics change is introduced.
+Model servers and steering snapshots are simulated; original response quality
+and outer campaign integration remain pending. All six root tasks stay open,
+with Terminal Bench last. The separate `.161` near-256K recall cohort remains
+active on the frozen r70 runtime; no second GPU window is admitted.
+
 ## YaRN4 8K/128K recall and streamed steering review pass — 2026-10-08 UTC
 
 The current `4c703b3d`/r70 runtime passes both cold Chat SSE turns with YaRN4,

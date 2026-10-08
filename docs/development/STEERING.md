@@ -61,7 +61,11 @@ defines 100 unique training pairs, ten disjoint arithmetic problems, absent/zero
 controls and six FFN scales. Its independent full-SSE checker and real native
 HTTP client pass synthetic HOST fixtures in normal and sanitizer modes
 ([receipt](validation/steering-quality-checker-host-2026-10-08.json)).
-Original-weight execution and supervised campaign integration remain pending.
+The separate [own-child supervisor](../../tools/strix-point-steering-quality-run.py)
+also passes eleven HOST checks per normal/sanitizer mode, including real C
+clients, serial retirement, signals, timeout and unchanged-bank identity
+([receipt](validation/steering-quality-supervision-host-2026-10-08.json)).
+Original-weight execution and outer campaign integration remain pending.
 Answer preservation and response length are separate from general quality.
 
 ## Native bank builder

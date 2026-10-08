@@ -21,6 +21,8 @@ stable release is declared. Detailed validation history is in
   reads raw activations by row, with 100-pair fixture and mutation checks.
   A held-out arithmetic/conciseness protocol and independent saved-SSE checker
   now have native-client HOST coverage; original response execution remains pending.
+  Optional own-child supervision now records serial server lifetimes and stored
+  application snapshots, with timeout/signal/retirement and bank-identity checks.
   Learned response quality and wider runtime
   qualification remain pending. Runtime `.f32` and DS4 cache formats are unchanged.
 
