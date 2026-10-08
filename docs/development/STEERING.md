@@ -188,8 +188,32 @@ from the native builder's declared host bound. Preserve source copies, full phys
 container exits, model stats and exact closure. Report observed one-token tails;
 ordinary captures do not qualify tails absent from the actual inputs.
 
-Python is optional development coordination/oracle code. The builder, learner,
-collector and default products/build/tests remain native and Python-free.
+After a coordinated training window finishes and releases its lease, the
+optional artifact-transfer helper collects complete or failed native output:
+
+```sh
+python3 -B tools/strix-point-steering-build-collect.py saved-training-label
+```
+
+It binds the staged manifest, hashes regular files through one unchanged
+descriptor in 1 MiB reads and admits up to 512 MiB per raw activation file,
+640 MiB in aggregate. FFN-only, attention-only and both-component training
+require their selected banks. Failed partial files are retained. Verified copies
+are published without overwriting local files, and every local content identity
+is rechecked after transfer. Existing collection receipts refuse overwrite;
+an explicit `--record collection-r2.json` keeps a separate retry record.
+Remote process exits and failed staging survive transfer errors. Collection
+does not qualify learning, quality or exact container closure; the independent
+raw-row oracle and strong closure/release gates remain required. Sixteen HOST
+checks and two focused CTests pass per normal/native-sanitizer mode, including
+65 MiB synthetic streaming and actual 100-pair FFN-only C17 construction
+([receipt](validation/steering-build-collection-host-2026-10-08.json)).
+The initial wrong CTest-driver selection is preserved with actual exit 1;
+corrected commands use the same fixture and criteria.
+
+Python is optional development coordination/oracle/artifact-transfer code. The
+builder, learner, activation collector and default products/build/tests remain
+native and Python-free.
 Twenty-one HOST checks pass with each Debug and unsuppressed ASan/UBSan/LSan
 C17 fixture, including 100 paired prompts with analytic directions, raw-file
 replacement/truncation and descriptor retirement. The focused native CTest

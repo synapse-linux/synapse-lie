@@ -482,6 +482,12 @@ none of the six items.
    Its analytic 100-pair native fixture passes in Debug and sanitizer modes;
    both frozen original reviews match exactly
    ([HOST receipt](development/validation/steering-build-scaled-review-host-2026-10-08.json)).
+   Bounded development artifact collection now supports FFN-only captures and
+   512 MiB raw files, with stable streamed hashes and complete local rechecks.
+   Sixteen HOST checks and two focused CTests pass per normal/native-sanitizer
+   mode, including synthetic 100-pair construction
+   ([receipt](development/validation/steering-build-collection-host-2026-10-08.json)).
+   This transfer path does not qualify original learning or strong closure.
    The [held-out response protocol](development/protocols/STEERING-QUALITY-GPU-PROTOCOL.md)
    and independent checker now pass HOST/native-client fixtures
    ([receipt](development/validation/steering-quality-checker-host-2026-10-08.json));

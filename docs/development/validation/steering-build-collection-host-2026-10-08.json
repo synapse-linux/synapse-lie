@@ -1,0 +1,283 @@
+{
+  "schema": "synapse-lie.steering-build-collection-host.v1",
+  "state": "HOST_STREAMED_COLLECTION_AND_SYNTHETIC_NATIVE_FFN_BUILD_VERIFIED_NOT_INFERENCE",
+  "at_utc": "2026-10-08T04:14:47.450876+00:00",
+  "scope": "Stable bounded artifact transfer/inventory and synthetic C17 FFN-only bank construction; SSH/SCP are mocked. No original training, original model or GPU is executed by this checking work.",
+  "tests": {
+    "final_checks_per_debug_and_native_sanitizer_mode": 16,
+    "focused_CTest_per_mode": 2,
+    "earlier_checks_per_mode_before_complete_local_recheck": 14,
+    "actual_synthetic_native_builder_children_per_final_mode": 1,
+    "synthetic_training_pairs": 100,
+    "synthetic_FFN_rows": 400
+  },
+  "bounds": {
+    "stream_read_bytes": 1048576,
+    "raw_file_bytes": 536870912,
+    "aggregate_bytes": 671088640,
+    "tested_synthetic_stream_bytes": 68157440,
+    "frozen_capture_model_geometry": false
+  },
+  "covered": [
+    "Selected FFN/attention/both banks; incomplete successful captures refuse.",
+    "Terminal/released and manifest-bound source state; contradictory/bool exits refuse.",
+    "Duplicate/nonfinite JSON, symlink/FIFO/directory/unknown-file refusal.",
+    "Stable one-descriptor streaming and byte-identical inode replacement retirement.",
+    "SCP/hash/timeout partial retention and destination race without overwrite.",
+    "Complete local content recheck, recorded actual remote failures and exclusive replay refusal.",
+    "Serialized inventory executes on private HOST fixtures; original-model hashing is absent."
+  ],
+  "preserved_initial_failure": {
+    "guard_exit_code": 1,
+    "test_process_exit_code": 1,
+    "selected_native_child_exit_code": -6,
+    "reason": "Selected test-steering-build-contract, the argc3 CTest driver, instead of test-steering-build, the synthetic C17 builder.",
+    "correction": "Change only the test command native client path; preserve all fourteen tests, source and numerical criteria.",
+    "criteria_weakened": false
+  },
+  "actual_guard_exits": {
+    "steering-build-collection-host-debug-r1": 1,
+    "steering-build-collection-host-debug-r2": 0,
+    "steering-build-collection-host-asan-r1": 0,
+    "steering-build-collection-host-debug-r3": 0,
+    "steering-build-collection-host-asan-r2": 0,
+    "steering-build-collection-ctest-debug-r1": 0,
+    "steering-build-collection-ctest-asan-r1": 0
+  },
+  "local_peak_C_by_sensor_path": {
+    "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+    "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+    "/sys/class/hwmon/hwmon7/temp1_input": 45.0,
+    "/sys/class/hwmon/hwmon8/temp1_input": 51.625
+  },
+  "native_runtime_sources_byte_equal_to": "4c703b3d604c6c877d6a2214d7aee0b15a013f61",
+  "actual_native_source_comparison_exit_code": 0,
+  "native_fixture_binaries": {
+    "context-debug": {
+      "path": "build/context-debug/test-steering-build",
+      "sha256": "e4fbcd6c675b3cb8f27bc70cbce0dee3ca30cc3822fe4fde4e94ae7b2b67a797"
+    },
+    "tool-http-asan": {
+      "path": "build/tool-http-asan/test-steering-build",
+      "sha256": "e239d5250d4eb12a91e55aa31bbf47520419e36982b4b631a512e80871755e4b"
+    }
+  },
+  "frozen_campaign_sha256": "e5037ecd3ac15aa18b3871e8d4961854aad4089513330bcf641dc9da87df85c2",
+  "product_Python_dependency_or_CMake_ABI_state_metrics_change": false,
+  "new_build_directories": [],
+  "remote_collector_invoked": false,
+  "original_learning_response_quality_performance_or_strong_GPU_closure_qualified": false,
+  "pending": [
+    "Actual original100-pair training collection and independent reconstruction.",
+    "Qualified model/corpus/bank receipt with full strong closure and four peer releases.",
+    "Original held-out responses, wider MTP/graph/correction/fault/vision/model/platform and matched cost."
+  ],
+  "separate_current_GPU_job": {
+    "label": "recall-yarn4-523776-s77-ar-20261008-r1",
+    "manifest_sha256": "72a4728832f961b91185e233a041635d549656a8916ce14d38ee0f9dd99812a7",
+    "controller_handle": 95198,
+    "actual_live_observation": "2026-10-08T04:11:54.058403+00:00",
+    "qualification_pending": true
+  },
+  "roadmap": {
+    "open_items": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "terminal_bench_last": true,
+    "full_goal_complete": false
+  },
+  "raw": {
+    "path": "docs/development/validation/raw/steering-build-collection-host-2026-10-08.tar.gz",
+    "bytes": 69885,
+    "sha256": "c4de02f4c85242e6c284e39ae7ed69ad21564f3135e3e8fa61cfda58d481b830",
+    "regular_members": 45,
+    "members": {
+      "tools/strix-point-steering-build-collect.py": {
+        "bytes": 13022,
+        "sha256": "1d72bd097f01c80e1ad057e746aa1f26690f7845deb820e1b3ee508afba6d3ff"
+      },
+      "tests/test_strix_point_steering_build_collection.py": {
+        "bytes": 15306,
+        "sha256": "14922b89c076555bb27b5e733e54d7943dd59583a933a32e7e382083e8a1cbed"
+      },
+      "tools/strix-point-steering-build-gate.py": {
+        "bytes": 19154,
+        "sha256": "218a71af2eca71709a9cf00ff55ad3eb1190d1909a3857ebed358d964d8d6f3f"
+      },
+      "tests/fixtures/steering-build-receipts.json": {
+        "bytes": 12052,
+        "sha256": "c81b672f605b182bf84ad30e84b108e7eb903a8a70316ba5da24e1f4d9b4ee82"
+      },
+      "tools/steering-build.c": {
+        "bytes": 27915,
+        "sha256": "24099905d9c7b831c3c38781f13999b0d93a16a407a666510eebebac7d0cf4b4"
+      },
+      "tests/steering_build_executor.c": {
+        "bytes": 5374,
+        "sha256": "407e293e3c47c41b763fe29d6ccae87935aef6d2df402451772510be34309c53"
+      },
+      "tests/test_steering_build.c": {
+        "bytes": 12547,
+        "sha256": "bae56c25896b6f2fdee65382269d41e4ea9b5f4995179c00ddcbc1a78aad92e1"
+      },
+      "docs/development/STEERING.md": {
+        "bytes": 45266,
+        "sha256": "e09d5aee5e0f2d9b8d66f4fc46d24fee3d8b8e6c901962295688dc1a27325eb5"
+      },
+      "LICENSE": {
+        "bytes": 1081,
+        "sha256": "7ea461cf01583ff889f2c0705702f4e97bc1751fd96d5381895754638dc1263d"
+      },
+      "CMakeLists.txt": {
+        "bytes": 64606,
+        "sha256": "c1afb2ed50cfefe213609352769c3af0205e5def6bcbbe6e27ac43c11d6f49f2"
+      },
+      "evidence/steering-build-collection-host-debug-r1/command.log": {
+        "bytes": 1033,
+        "sha256": "ca2a121f5301e6fcf0ef098fa0dd178598a26d80c5525c9fda657ffa0f2208a5"
+      },
+      "evidence/steering-build-collection-host-debug-r1/plan.json": {
+        "bytes": 1116,
+        "sha256": "6847ba52c97fb5334344dfe2842f708ba5965d8f516c1c5c9f6b64be7755a79e"
+      },
+      "evidence/steering-build-collection-host-debug-r1/result.json": {
+        "bytes": 608,
+        "sha256": "6ed589efdedd87787e36f0b52374ba241cf0f5e6e3debf10f3f21efec8d8f161"
+      },
+      "evidence/steering-build-collection-host-debug-r1/temperatures.jsonl": {
+        "bytes": 1831,
+        "sha256": "f3814e48435aafc90a7a7ca833416c07ca748ee03cf242e9376fc3cdd38c744a"
+      },
+      "evidence/steering-build-collection-host-debug-r2/command.log": {
+        "bytes": 113,
+        "sha256": "c5389f0cb32a80ff45c90f24fc3fbf1bc6b9a5617cab52b463e77c761b2a7e4d"
+      },
+      "evidence/steering-build-collection-host-debug-r2/plan.json": {
+        "bytes": 1107,
+        "sha256": "8e3447b2c60d70fec2ece05ea20aa80a698a18b2109774fe28ca93b7d9eee389"
+      },
+      "evidence/steering-build-collection-host-debug-r2/result.json": {
+        "bytes": 597,
+        "sha256": "18c2149d857ba6937b23ab6b170786ec040568d03782c6dd2ed002b73a0fb1de"
+      },
+      "evidence/steering-build-collection-host-debug-r2/temperatures.jsonl": {
+        "bytes": 1829,
+        "sha256": "f71faa8c657c7ada9ca00a4d6b312b8373cb3b92dda4b6f78dce885cd8c0b098"
+      },
+      "evidence/steering-build-collection-host-asan-r1/command.log": {
+        "bytes": 113,
+        "sha256": "a8af9e5ccdf1ecb2f0224b0603b1034c48aa5f97e8288dca1e02af15d42907c7"
+      },
+      "evidence/steering-build-collection-host-asan-r1/plan.json": {
+        "bytes": 1216,
+        "sha256": "59ecf0c5a3cffbb306dcf18bf54a448ba8698a3d2d8a32ff369681aad57abca9"
+      },
+      "evidence/steering-build-collection-host-asan-r1/result.json": {
+        "bytes": 708,
+        "sha256": "d7fb3e5d50aaf3f6afe4ff5482c2a35fa7094d7f11073bc56c75bd6deb4ce1ba"
+      },
+      "evidence/steering-build-collection-host-asan-r1/temperatures.jsonl": {
+        "bytes": 1831,
+        "sha256": "f233c6d765a196ecc95941c159aa5719ad676a221ebf1088cbe0c3192547ffe1"
+      },
+      "evidence/steering-build-collection-host-debug-r3/command.log": {
+        "bytes": 543,
+        "sha256": "810d14f66971e3a809b841daf609f1c208ca69e12d7e28fbcc18ec1b4a6a5d25"
+      },
+      "evidence/steering-build-collection-host-debug-r3/plan.json": {
+        "bytes": 1107,
+        "sha256": "4ecb3ce2bcfbff4bf5e114fa14e03bef0006b88f99379eee53ffb4ca0b0915d3"
+      },
+      "evidence/steering-build-collection-host-debug-r3/result.json": {
+        "bytes": 599,
+        "sha256": "027476daa9b189f1041ac5e2ff4223386ebf6b2f6436fe995393503a9d6d3962"
+      },
+      "evidence/steering-build-collection-host-debug-r3/temperatures.jsonl": {
+        "bytes": 1832,
+        "sha256": "fa0cff0ab2b1f6eb2bd88c9d75acd5aa2293b9bd2770de2d15a6e193fc9bb629"
+      },
+      "evidence/steering-build-collection-host-asan-r2/command.log": {
+        "bytes": 543,
+        "sha256": "8cc8c5890a485296e0be4987da03b9fd240a48c8227ad08e82785433180a88b5"
+      },
+      "evidence/steering-build-collection-host-asan-r2/plan.json": {
+        "bytes": 1216,
+        "sha256": "db15819271ceccd877ab671e30fc8e1e1d57f1767c895aacf8f2401f493acc6a"
+      },
+      "evidence/steering-build-collection-host-asan-r2/result.json": {
+        "bytes": 708,
+        "sha256": "ae35fff37e7d95b8899443cb57c9f76bd5c93e4d2ed8fd73432ee0ddc216ad91"
+      },
+      "evidence/steering-build-collection-host-asan-r2/temperatures.jsonl": {
+        "bytes": 1829,
+        "sha256": "7ce2286f81540c355c91fd4ceed143f8bbab65364cec70d777c88f6182926e57"
+      },
+      "evidence/steering-build-collection-ctest-debug-r1/command.log": {
+        "bytes": 448,
+        "sha256": "f1010889e74e9e2fb39f5b0db3a33931803a2a392c3eae1ece68e9023cb56cb1"
+      },
+      "evidence/steering-build-collection-ctest-debug-r1/plan.json": {
+        "bytes": 1017,
+        "sha256": "991b26bf2de33a88db7638f29f99ccab22e4a640df71b933756d7ce129036d5e"
+      },
+      "evidence/steering-build-collection-ctest-debug-r1/result.json": {
+        "bytes": 507,
+        "sha256": "ae8e6695444d92cfee45b172eb37923efa387b9d5f59a7d22fdef9781aa360d9"
+      },
+      "evidence/steering-build-collection-ctest-debug-r1/temperatures.jsonl": {
+        "bytes": 1827,
+        "sha256": "d537b65c8374b7083aab9057c29751249e870d4edfd9c03b96fe2c3d861e7a2c"
+      },
+      "evidence/steering-build-collection-ctest-asan-r1/command.log": {
+        "bytes": 449,
+        "sha256": "adaacafd30e091fc1b894f1eb0d8916fbf2dc61083bdb2c81ef949cb94535123"
+      },
+      "evidence/steering-build-collection-ctest-asan-r1/plan.json": {
+        "bytes": 1137,
+        "sha256": "39231b38ff14b7ed013a7594863fd983cf0162767dba67a2ca5f99d2e74cce7f"
+      },
+      "evidence/steering-build-collection-ctest-asan-r1/result.json": {
+        "bytes": 629,
+        "sha256": "6a8560347fd3906c92e5c0a397b3b607a017984443845fcf631ed17450a79018"
+      },
+      "evidence/steering-build-collection-ctest-asan-r1/temperatures.jsonl": {
+        "bytes": 1827,
+        "sha256": "f2bd08cf01b1efde705dee3d01b4cbc68f7f65e45d9a51c98ac17b4ef8e4db04"
+      },
+      "evidence/steering-build-collection-initial-failure-r1/failure.json": {
+        "bytes": 1094,
+        "sha256": "6ab9a8b333875445c86c0142875b684815d36f0186cf4138e0a5bc2e1bbff641"
+      },
+      "evidence/steering-build-collection-initial-failure-r1/strix-point-steering-build-collect.py": {
+        "bytes": 12371,
+        "sha256": "8e29c8e39c7c4238232c06b313ef0e1d12a6f1673b8491f2dd5aa7792dd01b92"
+      },
+      "evidence/steering-build-collection-initial-failure-r1/test_strix_point_steering_build_collection.py": {
+        "bytes": 13335,
+        "sha256": "127edf6b5aecaecf5f781cafb12457459abd2312f21a8d1215db490c81389bc3"
+      },
+      "evidence/steering-build-collection-before-local-recheck-r1/inventory.json": {
+        "bytes": 313,
+        "sha256": "332a42dfccc011bd98d5b85fc1c31e3563170fbc8ec5e1e00c6b512bdee7af40"
+      },
+      "evidence/steering-build-collection-before-local-recheck-r1/strix-point-steering-build-collect.py": {
+        "bytes": 12371,
+        "sha256": "8e29c8e39c7c4238232c06b313ef0e1d12a6f1673b8491f2dd5aa7792dd01b92"
+      },
+      "evidence/steering-build-collection-before-local-recheck-r1/test_strix_point_steering_build_collection.py": {
+        "bytes": 13335,
+        "sha256": "127edf6b5aecaecf5f781cafb12457459abd2312f21a8d1215db490c81389bc3"
+      },
+      "evidence/seal-steering-build-collection-host-r1.py": {
+        "bytes": 8525,
+        "sha256": "03975f97126a2873f3488814e6fbaee3994fd1df5939a6aacfe9cf315e7b4b52"
+      }
+    }
+  },
+  "actual_exit_code": 0
+}

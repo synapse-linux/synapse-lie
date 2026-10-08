@@ -7,6 +7,26 @@ observation precedes model loading; a later actual native GPU witness confirms
 inference is running. No 512K result is inferred. The separately
 prepared 100-pair conciseness inputs have no GPU admission or learned bank yet.
 
+## Bounded steering training collection passes HOST checks — 2026-10-08 UTC
+
+The optional `.161` transfer helper now supports FFN-only training and raw files
+up to 512 MiB/640 MiB aggregate. It hashes in 1 MiB blocks through stable owned
+regular descriptors, retains failed native/staging files, publishes without
+overwrite and rechecks every local content identity. Terminal/released state
+and the admitted manifest are required. Collection remains separate from the
+learning oracle, response quality and strong container closure.
+
+Sixteen HOST checks pass per Debug/native unsuppressed sanitizer mode, including
+65 MiB synthetic streaming, mutation/copy/replay failures and actual 100-pair
+FFN-only C17 fixture construction; two focused CTests pass per mode. The
+[receipt](development/validation/steering-build-collection-host-2026-10-08.json)
+preserves the first command's wrong CTest-driver selection, actual native -6
+and test exit 1, then the unchanged corrected fourteen-case runs and final
+sixteen-case CLI/local-recheck coverage. No model, GPU, remote collector,
+runtime/ABI/state/metrics change or new build directory is involved. The original
+100-pair inputs remain prepared only; the separate near-512K recall window
+continues on `.161`. All six root tasks remain open; Terminal Bench stays last.
+
 ## Steering campaign body and supervision bounds pass HOST checks — 2026-10-08 UTC
 
 The optional campaign body now binds all five helpers before staged imports,
