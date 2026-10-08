@@ -18,28 +18,29 @@
     </header>
     <main id="main">
       <section class="manual-hero client-hero" aria-labelledby="clients-title"><div class="manual-hero-inner">
-        <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> CLIENT CONFIGURATION / DEVELOPMENT PREVIEW</p>
-        <h1 id="clients-title">Connect an agent.<br><span>Know the protocol.</span></h1>
-        <p>Three coding clients do not speak the same wire format. This page shows the working Pi profile, the Codex provider settings and the current Claude Code boundary against LIE’s <code>/v1</code> API.</p>
-        <div class="manual-hero-links"><a href="#pi">Pi configuration <span aria-hidden="true">↓</span></a><a href="#codex">Codex status <span aria-hidden="true">↓</span></a><a href="#claude">Claude Code status <span aria-hidden="true">↓</span></a></div>
-        <div class="manual-version"><span>DOCUMENTED SOURCE</span><strong>develop · 30598a3d</strong><span>API listener: port 8000</span></div>
+        <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> Connect a coding agent</p>
+        <h1 id="clients-title">Choose a client.<br><span>Know what works.</span></h1>
+        <p>Pi has a tested path to the OpenAI API. Codex and Claude Code need more protocol work; their current status is explained before any configuration.</p>
+        <div class="manual-hero-links"><a href="#pi">Set up Pi <span aria-hidden="true">↓</span></a><a href="#status">Compare clients <span aria-hidden="true">↓</span></a></div>
+        <div class="manual-version"><span>Based on develop</span><strong>9e793a64</strong><span>Example API: port 8000</span></div>
       </div></section>
       <div class="manual-layout">
-        <aside class="manual-sidebar" aria-label="Client guide contents"><p>ON THIS PAGE</p><nav aria-label="Client guide sections"><a href="#status">Compatibility at a glance</a><a href="#pi">Pi</a><a href="#codex">Codex CLI</a><a href="#claude">Claude Code</a><a href="#network">Address &amp; access</a></nav><a class="manual-sidebar-source" href="reference.html">All server and bench options ↗</a></aside>
+        <aside class="manual-sidebar" aria-label="Client guide contents"><p>In this guide</p><nav aria-label="Client guide sections"><a href="#status">Which client works?</a><a href="#pi">Set up Pi</a><a href="#codex">Codex CLI</a><a href="#claude">Claude Code</a><a href="#network">Address &amp; access</a></nav><a class="manual-sidebar-source" href="reference.html">Server and bench settings ↗</a></aside>
         <div class="manual-content">
-          <section class="manual-intro" id="status"><p class="manual-kicker">00 / STATUS</p><h2>Which client works today?</h2>
-            <div class="client-status-grid"><article><span class="client-badge ready">WORKING PATH</span><h3>Pi</h3><p>Uses LIE’s OpenAI Chat Completions endpoint. Develop records a real GPU read/edit/read tool round trip.</p><a href="#pi">Configure Pi →</a></article><article><span class="client-badge pending">PROTOCOL GAP</span><h3>Codex CLI</h3><p>A custom Responses provider can be selected, but current Codex request fields are rejected by LIE develop. End-to-end agent use is not qualified.</p><a href="#codex">Inspect the profile →</a></article><article><span class="client-badge pending">PROTOCOL GAP</span><h3>Claude Code</h3><p>Uses Anthropic Messages via its gateway setting. LIE develop exposes OpenAI endpoints, so there is no direct Claude Code URL to enter.</p><a href="#claude">See what is missing →</a></article></div>
+          <section class="manual-intro" id="status"><p class="manual-kicker">Choose a client</p><h2>Which client works today?</h2>
+            <div class="client-status-grid"><article><span class="client-badge ready">Tested</span><h3>Pi</h3><p>Uses Chat Completions. A real GPU tool round trip is recorded on develop.</p><a href="#pi">Set up Pi →</a></article><article><span class="client-badge pending">Needs server work</span><h3>Codex CLI</h3><p>Reaches the Responses endpoint, but LIE rejects fields Codex sends. Agent use has not passed.</p><a href="#codex">See the gap →</a></article><article><span class="client-badge pending">Different API</span><h3>Claude Code</h3><p>Uses Anthropic Messages. LIE has no direct Messages endpoint or qualified adapter.</p><a href="#claude">See the gap →</a></article></div>
             <p>All examples refer to the server started with <code>--model-id qwen3.8-flash-next --host 0.0.0.0 --port 8000</code>. On the same machine, use <code>127.0.0.1</code>; from another machine, replace <code>SERVER-IP</code> with the server’s trusted LAN address.</p>
           </section>
 
-          <section class="manual-section" id="pi"><p class="manual-kicker">01 / CONFIGURE</p><h2>Pi: working OpenAI profile</h2>
-            <p>Develop ships both profile files. Copy them into a new private directory from the repository root, then edit <code>baseUrl</code> and <code>contextWindow</code> in <code>models.json</code>. A directory that already exists should be reused deliberately or given a new name; <code>mkdir -m 700</code> does not overwrite one.</p>
+          <section class="manual-section" id="pi"><p class="manual-kicker">The working path</p><h2>Set up Pi</h2>
+            <p>Pi needs two files, both shipped on develop. Copy them from the repository root into a private directory, then change the server address and context size. Reuse an existing directory deliberately or choose a new name; <code>mkdir -m 700</code> does not overwrite one.</p>
             <div class="code-block"><div class="code-top"><span>Prepare Pi profile</span><button class="copy-button" type="button" aria-label="Copy Pi profile setup">Copy</button></div><pre><code>mkdir -p run
 mkdir -m 700 run/pi-profile
 cp config/pi-unsloth.models.json run/pi-profile/models.json
 cp config/pi-unsloth.settings.json run/pi-profile/settings.json</code></pre></div>
-            <p>The committed <a href="https://github.com/synapse-linux/synapse-lie/blob/develop/config/pi-unsloth.models.json">models.json</a> points at the project’s test host. For your own server, the provider entry should have these values; retain the remaining model fields from the committed file:</p>
-            <div class="code-block"><div class="code-top"><span>run/pi-profile/models.json · provider and model</span><button class="copy-button" type="button" aria-label="Copy Pi models JSON">Copy</button></div><pre><code>{
+            <div class="manual-edit-grid"><div><strong>Server address</strong><p>In <code>models.json</code>, set <code>baseUrl</code> to <code>http://SERVER-IP:8000/v1</code>. Use <code>127.0.0.1</code> on the server machine.</p></div><div><strong>Context size</strong><p>Set <code>contextWindow</code> to the server’s <code>--context</code> value. The profile below uses 262,144 tokens.</p></div></div>
+            <p>The committed <a href="https://github.com/synapse-linux/synapse-lie/blob/develop/config/pi-unsloth.models.json">models.json</a> points at the project’s test host. Open the full example when you need to inspect or copy every field:</p>
+            <details class="example-disclosure"><summary>View the complete Pi model profile <span aria-hidden="true">⌄</span></summary><div class="code-block"><div class="code-top"><span>run/pi-profile/models.json · provider and model</span><button class="copy-button" type="button" aria-label="Copy Pi models JSON">Copy</button></div><pre><code>{
   "providers": {
     "synapse-lie": {
       "baseUrl": "http://SERVER-IP:8000/v1",
@@ -62,10 +63,10 @@ cp config/pi-unsloth.settings.json run/pi-profile/settings.json</code></pre></di
       }]
     }
   }
-}</code></pre></div>
+}</code></pre></div></details>
             <p><code>contextWindow</code> must match the server’s configured <code>--context</code>, not exceed it. <code>maxTokens</code> is Pi’s per-request output budget (2,048 here); develop’s server ceiling is 4,096. <code>apiKey</code> is a placeholder required by the client profile, not server-side authentication. The profile selects Chat Completions via <code>openai-completions</code>.</p>
             <p>The committed <a href="https://github.com/synapse-linux/synapse-lie/blob/develop/config/pi-unsloth.settings.json">settings.json</a> sets the default model and disables thinking, automatic compaction and retry for this development profile:</p>
-            <div class="code-block"><div class="code-top"><span>run/pi-profile/settings.json</span><button class="copy-button" type="button" aria-label="Copy Pi settings JSON">Copy</button></div><pre><code>{
+            <details class="example-disclosure"><summary>View the complete Pi settings file <span aria-hidden="true">⌄</span></summary><div class="code-block"><div class="code-top"><span>run/pi-profile/settings.json</span><button class="copy-button" type="button" aria-label="Copy Pi settings JSON">Copy</button></div><pre><code>{
   "defaultProvider": "synapse-lie",
   "defaultModel": "qwen3.8-flash-next",
   "defaultThinkingLevel": "off",
@@ -73,16 +74,16 @@ cp config/pi-unsloth.settings.json run/pi-profile/settings.json</code></pre></di
   "packages": [],
   "compaction": {"enabled": false},
   "retry": {"enabled": false, "provider": {"maxRetries": 0, "timeoutMs": 630000}}
-}</code></pre></div>
+}</code></pre></div></details>
             <div class="code-block"><div class="code-top"><span>Start Pi with the isolated profile</span><button class="copy-button" type="button" aria-label="Copy Pi launch command">Copy</button></div><pre><code>env PI_CODING_AGENT_DIR="$PWD/run/pi-profile" PI_OFFLINE=1 PI_TELEMETRY=0 \
   pi --provider synapse-lie --model qwen3.8-flash-next --thinking off \
   --no-extensions --no-skills --no-prompt-templates --no-themes</code></pre></div>
             <p>On develop, Pi 0.87.1 completed an original-weight GPU tool round trip on the project host; see the <a href="https://github.com/synapse-linux/synapse-lie/blob/develop/docs/guides/USAGE.md#connect-pi">source usage guide</a>. This page does not claim a new test on your machine.</p>
           </section>
 
-          <section class="manual-section" id="codex"><p class="manual-kicker">02 / COMPATIBILITY WORK</p><h2>Codex CLI: provider setup and current failure</h2>
+          <section class="manual-section" id="codex"><p class="manual-kicker">Needs a Responses change</p><h2>Codex CLI</h2>
             <p>Official OpenAI documentation supports custom providers with a base URL and <code>wire_api = "responses"</code>. Put this profile in your user-level <code>~/.codex/synapse-lie.config.toml</code> (or <code>$CODEX_HOME/synapse-lie.config.toml</code>). Codex ignores provider definitions in a project-local <code>.codex/config.toml</code>. The profile uses no API key because LIE has no built-in API authentication. <a href="https://learn.chatgpt.com/docs/config-file/config-reference">OpenAI configuration reference ↗</a></p>
-            <div class="code-block"><div class="code-top"><span>Codex profile · configuration only</span><button class="copy-button" type="button" aria-label="Copy Codex profile TOML">Copy</button></div><pre><code>model = "qwen3.8-flash-next"
+            <details class="example-disclosure"><summary>View the unqualified Codex profile <span aria-hidden="true">⌄</span></summary><div class="code-block"><div class="code-top"><span>Codex profile · configuration only</span><button class="copy-button" type="button" aria-label="Copy Codex profile TOML">Copy</button></div><pre><code>model = "qwen3.8-flash-next"
 model_provider = "synapse_lie"
 model_context_window = 262144
 model_reasoning_summary = "none"
@@ -91,24 +92,24 @@ model_reasoning_summary = "none"
 name = "Synapse LIE"
 base_url = "http://SERVER-IP:8000/v1"
 wire_api = "responses"
-requires_openai_auth = false</code></pre></div>
+requires_openai_auth = false</code></pre></div></details>
             <p>Once LIE implements the missing request fields and passes an agent tool round trip, the selection command will be <code>codex --profile synapse-lie</code>. <strong>Do not treat the profile above as a working integration today.</strong> A local no-GPU probe with Codex CLI 0.159.3 confirmed it sends <code>POST /v1/responses</code> with <code>reasoning</code>, <code>include: ["reasoning.encrypted_content"]</code>, <code>prompt_cache_key</code> and <code>client_metadata</code>. The develop Responses parser rejects unknown fields and does not accept those values, so the request fails before inference.</p>
             <div class="manual-callout"><strong>Completion gate.</strong> LIE needs a defined policy for these request fields, then tests for a streamed text turn, a function-call/result round trip, long-context budgeting and session continuation. The profile only proves that Codex selects the local provider and reaches the right URL.</div>
           </section>
 
-          <section class="manual-section" id="claude"><p class="manual-kicker">03 / DIFFERENT API</p><h2>Claude Code: an Anthropic endpoint is missing</h2>
+          <section class="manual-section" id="claude"><p class="manual-kicker">Needs a different API</p><h2>Claude Code</h2>
             <p>Claude Code’s <code>ANTHROPIC_BASE_URL</code> selects an <em>Anthropic-format</em> gateway. It does not convert requests to OpenAI Chat Completions or Responses. LIE develop has no <code>/v1/messages</code> endpoint, so setting <code>ANTHROPIC_BASE_URL=http://SERVER-IP:8000</code> will not connect it. Anthropic’s current <a href="https://code.claude.com/docs/en/llm-gateway">gateway documentation</a> also states that routing Claude Code to non-Claude models through a gateway is not supported by Anthropic.</p>
             <p>A future interoperable path needs an independently maintained Anthropic Messages adapter or gateway that translates request, streaming event, tool-use and tool-result semantics to LIE’s OpenAI API. It must be tested with a complete Claude Code tool round trip before publishing configuration commands. No direct Claude Code profile is shipped or qualified on develop.</p>
             <div class="manual-callout"><strong>Use Pi now for agent work.</strong> Pi is the documented and exercised client. Codex and Claude Code remain explicit integration tasks; setting only a base URL does not close either protocol gap.</div>
           </section>
 
-          <section class="manual-section" id="network"><p class="manual-kicker">04 / NETWORK</p><h2>Address and access</h2>
+          <section class="manual-section" id="network"><p class="manual-kicker">Connect across machines</p><h2>Address and access</h2>
             <p>For a remote client, start LIE with <code>--host 0.0.0.0 --port 8000</code> and use <code>http://SERVER-IP:8000/v1</code> in OpenAI clients. The management port is separate and defaults to <code>127.0.0.1:19880</code>. LIE has no built-in TLS or access control, so keep port 8000 on a trusted network or behind a configured proxy. Readiness is available at <code>http://127.0.0.1:19880/actuator/health/readiness</code> on the server host.</p>
             <p>For service options and benchmark parameters, continue with the <a href="reference.html">complete CLI option reference</a>.</p>
           </section>
         </div>
       </div>
     </main>
-    <footer class="site-footer"><div><span class="footer-brand">synapse<span>.</span>lie</span><p>Client setup is only useful when the wire protocol matches.</p></div><div class="footer-links"><a href="#main">Back to top ↑</a><a href="manual.html">Usage quickstart ↗</a><a href="reference.html">All options ↗</a><a href="index.html#install">Installation ↗</a></div><p class="footer-legal">Development preview · Source contracts from develop 30598a3d · First-party site code MIT.</p></footer>
+    <footer class="site-footer"><div><span class="footer-brand">synapse<span>.</span>lie</span><p>Client setup is only useful when the wire protocol matches.</p></div><div class="footer-links"><a href="#main">Back to top ↑</a><a href="manual.html">Usage guide ↗</a><a href="reference.html">All options ↗</a><a href="index.html#install">Installation ↗</a></div><p class="footer-legal">Development preview · Source contracts from develop 9e793a64 · First-party site code MIT.</p></footer>
   </body>
 </html>

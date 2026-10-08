@@ -7,20 +7,19 @@ This is the static site published from `gh-pages` at
 ECharts, with no remote fonts, build step or CDN. Relative links work under the
 `/synapse-lie/` project path.
 
-`manual.html` is the first operator-facing usage manual for
-`synapse-lie-server` and `synapse-lie-bench`. Its commands and capability bounds
-were checked against `develop` at `30598a3d3a20a3c552fa3c93c769fcb355ae6e38`,
-especially `docs/guides/USAGE.md`, `docs/guides/BENCHMARKS.md`,
-`docs/guides/BUILD.md` and `src/server.c`. The manual uses the develop GPU output
-path `build/release/`. The site's installation shortcut `make strix-halo` comes
-from `feature/integrate-antirez-qwen` and produces `build/strix-halo/` instead;
-the manual calls out this distinction. It documents use of existing features,
-not a new original-weight qualification run.
+`manual.html` is the task-led usage guide for `synapse-lie-server` and
+`synapse-lie-bench`. The commands and capability bounds were checked against
+`develop` at `9e793a64d725394ee5763b03dd1f143a4a2d8a6c`, especially
+`docs/guides/USAGE.md`, `docs/guides/BENCHMARKS.md`, `docs/guides/BUILD.md`
+and the CLI parsers. The normal GPU path is now `make strix-halo` and
+`build/strix-halo/` on develop. No new original-weight qualification run was
+performed for the site.
 
-The manual now links two deeper pages: `clients.html` contains the complete Pi
-profile and an honest Codex/Claude Code interoperability status;
-`reference.html` explains the options accepted by every server and benchmark
-suite parser on the pinned develop commit. A local Codex CLI 0.159.3 probe used
+The guide links two deeper pages: `clients.html` contains the complete Pi
+profile and the Codex/Claude Code interoperability status; `reference.html`
+keeps the full option inventory inside searchable, expandable task groups,
+including the newer `ds4-walk` and `http-curve` suites. A local Codex CLI
+0.159.3 probe used
 an isolated configuration and ephemeral loopback mock only. It confirmed
 provider selection and `/v1/responses` routing, but exposed unsupported
 `reasoning`, `reasoning.encrypted_content`, `prompt_cache_key` and
@@ -100,8 +99,8 @@ matched comparison against the literary-prompt run.
 
 ## Build information
 
-The site leads with `make strix-halo`, implemented in
-`feature/integrate-antirez-qwen` at `d415d8dfd132650b7d6927439ddea067de152f69`.
+The site leads with `make strix-halo`, now present on `develop` at the pin above
+and originally implemented at `d415d8dfd132650b7d6927439ddea067de152f69`.
 That target configures the verified pinned provider for gfx1151 and builds the
 GPU-enabled server and native tools under `build/strix-halo/`. It does not
 install packages, download weights or start a service. Its host-side build
