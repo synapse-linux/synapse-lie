@@ -162,7 +162,7 @@ class Tests(unittest.TestCase):
 
     def test_settings_and_input_limits_admit_before_model_work(self):
         for key,value in (('context',True), ('components',[]), ('rope',None),
-                          ('prefill_chunk',33), ('max_pairs',33), ('timeout_seconds',0),
+                          ('prefill_chunk',33), ('max_pairs',129), ('timeout_seconds',0),
                           ('max_output_bytes',2**30)):
             with self.subTest(key=key):
                 selected = dict(self.settings); selected[key]=value
@@ -170,6 +170,41 @@ class Tests(unittest.TestCase):
         for data in (b'\n', b'T\0\n', b'\xff\n', b'T\n', b'T'*65537+b'\n'):
             (self.output/'target-prompts.txt').write_bytes(data)
             with self.assertRaises((RuntimeError,UnicodeDecodeError)): gate.input_pair(self.output,2)
+
+    def test_streamed_raw_replacement_refuses_and_releases_descriptor(self):
+        previous = gate.RawRows.values
+        descriptors = []
+
+        def replace_after_read(raw, offset, count):
+            values = previous(raw, offset, count)
+            if not descriptors:
+                descriptors.append(raw.fd)
+                saved = self.root/'retained-original-raw'
+                raw.path.rename(saved)
+                shutil.copyfile(saved, raw.path)
+            return values
+
+        with patch.object(gate.RawRows, 'values', replace_after_read):
+            with self.assertRaisesRegex(RuntimeError, 'changed during review'):
+                self.review()
+        with self.assertRaises(OSError):
+            os.fstat(descriptors[0])
+
+    def test_raw_row_reads_are_bounded_and_posthash_truncation_refuses(self):
+        with patch.object(gate.os, 'pread', wraps=os.pread) as read:
+            result = self.review()
+        self.assertEqual(result['captured_rows'], 16)
+        self.assertTrue(read.call_args_list)
+        self.assertTrue(all(0 < call.args[1] <= gate.RawRows.BLOCK_BYTES for call in read.call_args_list))
+        path = self.output/'activations.f32le'
+        descriptor = None
+        with self.assertRaisesRegex(RuntimeError, 'changed during review'):
+            with gate.RawRows(path, self.settings['max_output_bytes']) as raw:
+                descriptor = raw.fd
+                path.write_bytes(b'\0' * 4)
+                raw.values(4, 1)
+        with self.assertRaises(OSError):
+            os.fstat(descriptor)
 
     def campaign(self):
         work = self.root/'campaign'; work.mkdir()
@@ -242,6 +277,31 @@ class Tests(unittest.TestCase):
 
 @unittest.skipUnless(CLIENT, 'Explicit synthetic C17 native client not supplied')
 class NativeTests(unittest.TestCase):
+    def test_one_hundred_native_pairs_use_the_same_independent_oracle(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root/'target-prompts.txt').write_bytes(b'Texample\n' * 100)
+            (root/'contrast-prompts.txt').write_bytes(b'Cexample\n' * 100)
+            settings = dict(FROZEN['settings'], max_pairs=100, max_output_bytes=2**20)
+            argv = [CLIENT, '--model', ':ok:', '--target-prompts', str(root/'target-prompts.txt'),
+                    '--contrast-prompts', str(root/'contrast-prompts.txt'), '--output-dir', str(root/'output')]
+            for key, value in settings.items():
+                if key != 'timeout_seconds':
+                    argv.extend(('--' + key.replace('_', '-'), str(value)))
+            process = subprocess.run(argv, capture_output=True, text=True, timeout=30)
+            self.assertEqual(process.returncode, 0, process.stderr)
+            sources, pairs = gate.input_pair(root, 100)
+            result = gate.validate(root/'output', settings, sources, pairs, process.returncode,
+                                   os.environ['LIE_STEERING_GATE_NATIVE_BUILD_ID'], 'synthetic-only',
+                                   ':ok:', expected_synthetic=True)
+            self.assertEqual(result['pairs'], 100)
+            self.assertEqual(result['captured_rows'], 800)
+            self.assertFalse(result['model_generation_or_quality_tested'])
+            for name, bank in result['banks'].items():
+                self.assertEqual(struct.unpack('<4f', (root/'output'/name).read_bytes()),
+                                 struct.unpack('<4f', struct.pack('<4f', .6, .8, -.8, .6)))
+                self.assertEqual(bank['independent_max_absolute_error'], 0)
+
     def test_actual_native_fixture_raw_chat_components_and_one_token_tails(self):
         for format_,component,chunk in (('raw','ffn',2), ('chat','attention',2), ('chat','both',1)):
             with self.subTest(format=format_,component=component), tempfile.TemporaryDirectory() as temp:

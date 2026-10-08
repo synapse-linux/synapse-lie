@@ -1,0 +1,434 @@
+{
+  "schema": "synapse-lie.steering-scaled-review-host.v1",
+  "at_utc": "2026-10-08T01:18:30.785410+00:00",
+  "state": "HOST_BOUNDED_STREAMED_REVIEW_VERIFIED_NOT_INFERENCE",
+  "source_checkpoint_before_change": "711b59fa6e5de6d84c3b233a87908399b744d97b",
+  "bounds": {
+    "max_pairs": 128,
+    "max_output_bytes": 536870912,
+    "context_max": 8192,
+    "raw_hash_and_pread_max_block_bytes": 1048576,
+    "native_host_limit_excludes_development_reviewer": true
+  },
+  "tests": {
+    "debug": 21,
+    "unsuppressed_native_asan_ubsan_lsan": 21,
+    "campaign_regression": 89,
+    "focused_native_ctest_per_mode": 1,
+    "analytic_native_cli_children_per_mode": 4,
+    "hundred_pair_native_fixture_per_mode": {
+      "pairs": 100,
+      "rows": 800,
+      "layers": 2,
+      "width": 2,
+      "ffn_branches": 2
+    }
+  },
+  "verified_refusals": [
+    "raw replacement after hashing",
+    "raw truncation after hashing",
+    "descriptor release on refusal",
+    "existing finite/completion/forged-bank and input checks"
+  ],
+  "frozen_original_reconstruction": {
+    "at_utc": "2026-10-08T01:14:03.329829+00:00",
+    "state": "STREAMED_ORACLE_MATCHES_BOTH_FROZEN_ORIGINAL_REVIEWS",
+    "actual_exit_code": 0,
+    "cohorts": [
+      {
+        "label": "steering-build-original-pairs-point-20261007-r1",
+        "captured_rows": 1536,
+        "exactly_matches_qualified_independent_review": true,
+        "one_token_tails": 0
+      },
+      {
+        "label": "steering-build-multichunk-tail-point-20261008-r1",
+        "captured_rows": 1536,
+        "exactly_matches_qualified_independent_review": true,
+        "one_token_tails": 4
+      }
+    ],
+    "helper_sha256": "218a71af2eca71709a9cf00ff55ad3eb1190d1909a3857ebed358d964d8d6f3f",
+    "new_GPU_execution_or_model_hash": false,
+    "learned_response_quality_qualified": false
+  },
+  "all_native_product_sources_byte_unchanged_at_4c703b3d": true,
+  "runtime_rebuild_or_new_GPU_execution": false,
+  "learned_response_quality_or_matched_performance_qualified": false,
+  "native_python_dependency_added": false,
+  "fixture_bindings": {
+    "debug": {
+      "path": "build/context-debug/test-steering-build",
+      "bytes": 113144,
+      "sha256": "e4fbcd6c675b3cb8f27bc70cbce0dee3ca30cc3822fe4fde4e94ae7b2b67a797",
+      "classification": "SYNTHETIC_C17_NOT_INFERENCE"
+    },
+    "asan": {
+      "path": "build/tool-http-asan/test-steering-build",
+      "bytes": 552856,
+      "sha256": "e239d5250d4eb12a91e55aa31bbf47520419e36982b4b631a512e80871755e4b",
+      "classification": "SYNTHETIC_C17_NOT_INFERENCE"
+    }
+  },
+  "preserved_sealing_failure": {
+    "actual_exit_code": 1,
+    "reason": "Sealer expected a different CTest summary spelling; both actual native CTests exit0. Same results accepted with their real summary, no test/GPU repeat."
+  },
+  "actual_guard_results": {
+    "steering-build-scaled-host-debug-r1": {
+      "argv": [
+        "env",
+        "LIE_STEERING_GATE_NATIVE_CLIENT=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/context-million-openai/build/context-debug/test-steering-build",
+        "LIE_STEERING_GATE_NATIVE_BUILD_ID=context-million-debug",
+        "python3",
+        "-B",
+        "tests/test_strix_point_steering_build.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 49.625
+      },
+      "elapsed_s": 1.056261490099132
+    },
+    "steering-build-scaled-host-asan-r1": {
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:abort_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "LIE_STEERING_GATE_NATIVE_CLIENT=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/context-million-openai/build/tool-http-asan/test-steering-build",
+        "LIE_STEERING_GATE_NATIVE_BUILD_ID=unrecorded",
+        "python3",
+        "-B",
+        "tests/test_strix_point_steering_build.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 50.375
+      },
+      "elapsed_s": 1.0902268970385194
+    },
+    "steering-build-scaled-campaign-guard-r1": {
+      "argv": [
+        "python3",
+        "-B",
+        "tests/test_strix_point_campaign.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 67.25
+      },
+      "elapsed_s": 1.0645367512479424
+    },
+    "steering-build-scaled-ctest-debug-r1": {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "-R",
+        "^steering-build-native-contract$",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 48.0
+      },
+      "elapsed_s": 1.0818531848490238
+    },
+    "steering-build-scaled-ctest-asan-r1": {
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:abort_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "-R",
+        "^steering-build-native-contract$",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 49.375
+      },
+      "elapsed_s": 1.0738725354894996
+    },
+    "steering-build-streamed-original-guard-r1": {
+      "argv": [
+        "python3",
+        "-B",
+        "evidence/verify-steering-streamed-original-r1.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 47.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 81.625
+      },
+      "elapsed_s": 5.248957554809749
+    }
+  },
+  "existing_payload_references": [
+    {
+      "path": "docs/development/validation/steering-build-original-point-2026-10-08.json",
+      "sha256": "09a760bf286510e4a9dc1558a4356eccfff2ce0822a2424b6f98f492885b7c01",
+      "existing_archive": "docs/development/validation/raw/steering-build-original-point-2026-10-08.tar.gz",
+      "archive_sha256": "5873bb9bc6b2e94c358f36d03960b88ed39a0ea7ff8356b74527fb9c4f367c65",
+      "payload_not_duplicated": true
+    },
+    {
+      "path": "docs/development/validation/steering-build-tail16-point-2026-10-08.json",
+      "sha256": "f9faf96acffa1253b41c49e0ad066babfe2a03a7aaf7a330671332ad0ef8283b",
+      "existing_archive": "docs/development/validation/raw/steering-build-tail16-point-2026-10-08.tar.gz",
+      "archive_sha256": "e622730a5d83ed17820394bb9bdf746781a53cec9b4ca1f5383662a60d705f03",
+      "payload_not_duplicated": true
+    }
+  ],
+  "raw": {
+    "path": "docs/development/validation/raw/steering-build-scaled-review-host-2026-10-08.tar.gz",
+    "bytes": 118680,
+    "sha256": "c6fbd43a0d5b681510ddebdd5bba260838f70a3dab08f1daeaae14c401366278",
+    "regular_members": 50,
+    "members": {
+      "CMakeLists.txt": {
+        "bytes": 64606,
+        "sha256": "c1afb2ed50cfefe213609352769c3af0205e5def6bcbbe6e27ac43c11d6f49f2"
+      },
+      "LICENSE": {
+        "bytes": 1081,
+        "sha256": "7ea461cf01583ff889f2c0705702f4e97bc1751fd96d5381895754638dc1263d"
+      },
+      "docs/development/validation/steering-build-original-point-2026-10-08.json": {
+        "bytes": 24283,
+        "sha256": "09a760bf286510e4a9dc1558a4356eccfff2ce0822a2424b6f98f492885b7c01"
+      },
+      "docs/development/validation/steering-build-tail16-point-2026-10-08.json": {
+        "bytes": 26027,
+        "sha256": "f9faf96acffa1253b41c49e0ad066babfe2a03a7aaf7a330671332ad0ef8283b"
+      },
+      "evidence/seal-steering-build-scaled-host-r1.py": {
+        "bytes": 6505,
+        "sha256": "c45a69825031f4e31b2c3ca954634b50e4cbde33274590c6729b35963d61d7a3"
+      },
+      "evidence/seal-steering-build-scaled-host-r2.py": {
+        "bytes": 6929,
+        "sha256": "029fa0f34b4b1f91b28698526a8b3c098c63ee3d690c04f49a195f534fbbee07"
+      },
+      "evidence/steering-build-scaled-campaign-guard-r1/command.log": {
+        "bytes": 188,
+        "sha256": "7847ea4defc77580fa4f15fec01b39c83b374d690ec8187bb570b1d76346eb1a"
+      },
+      "evidence/steering-build-scaled-campaign-guard-r1/plan.json": {
+        "bytes": 901,
+        "sha256": "c0fb7714134c76356ea3ab7bf14f84c7e0795a8bbbbf51e65f0461267f764896"
+      },
+      "evidence/steering-build-scaled-campaign-guard-r1/result.json": {
+        "bytes": 398,
+        "sha256": "4b55e60770f4480b180c25d275bc9bbd1c17a36226a464567f88566ac0c84711"
+      },
+      "evidence/steering-build-scaled-campaign-guard-r1/temperatures.jsonl": {
+        "bytes": 1829,
+        "sha256": "6c9a9ffbf1886d44412b42379871286485c2c363f2a303b6c478982883e8f43d"
+      },
+      "evidence/steering-build-scaled-ctest-asan-r1/command.log": {
+        "bytes": 307,
+        "sha256": "9e9250e841f82ac2d799380cbaa10543fef3e8b49d6d514cb0e7e0d7d460887a"
+      },
+      "evidence/steering-build-scaled-ctest-asan-r1/plan.json": {
+        "bytes": 1076,
+        "sha256": "f0faee4c21338cb9e80bcd0d53a54ab4d111f93ffdb6685f206d068f8ff291ee"
+      },
+      "evidence/steering-build-scaled-ctest-asan-r1/result.json": {
+        "bytes": 568,
+        "sha256": "8ab5864c2ccd9264e3403b3c2e7576a55096a665f4a18b7b12d1b1bd492ac1f5"
+      },
+      "evidence/steering-build-scaled-ctest-asan-r1/temperatures.jsonl": {
+        "bytes": 1829,
+        "sha256": "ce7ae8ecf64597087fe29ccc7d7fafd79dcd41a9b9b05985a06869ed74a24dec"
+      },
+      "evidence/steering-build-scaled-ctest-debug-r1/command.log": {
+        "bytes": 306,
+        "sha256": "9e6a8d458e3697a94432fb300a97c93b3aaf7c1966f2e214acf1a7def8cf5867"
+      },
+      "evidence/steering-build-scaled-ctest-debug-r1/plan.json": {
+        "bytes": 969,
+        "sha256": "94f2a19ccfefccd8f13ca506d74f3eac07068221633f577c91764689ac772129"
+      },
+      "evidence/steering-build-scaled-ctest-debug-r1/result.json": {
+        "bytes": 465,
+        "sha256": "871b05e9dd1b43d6506da0894a5da6bd51ee862c5d7a2a1324fe50744ad84d08"
+      },
+      "evidence/steering-build-scaled-ctest-debug-r1/temperatures.jsonl": {
+        "bytes": 1828,
+        "sha256": "c85c28b7715ccc3a6f6ada609863547dc9c85f6cf42e967036e0ef2e93f07dec"
+      },
+      "evidence/steering-build-scaled-host-asan-r1/command.log": {
+        "bytes": 120,
+        "sha256": "aba8f7ee23df91130bbff27cb05bb5ce9da600d976493f1e7025c369621ad48e"
+      },
+      "evidence/steering-build-scaled-host-asan-r1/plan.json": {
+        "bytes": 1238,
+        "sha256": "7f36898f72f9d7324b0c8686dbd678154090905d03ad34b1b5ff28434c7068b0"
+      },
+      "evidence/steering-build-scaled-host-asan-r1/result.json": {
+        "bytes": 730,
+        "sha256": "302a552425921a09c7e7113998446f595172314f419d8bd11e203b837f747f91"
+      },
+      "evidence/steering-build-scaled-host-asan-r1/temperatures.jsonl": {
+        "bytes": 1831,
+        "sha256": "b510e16a1c3554c2132f226799d69712eee6fcab51d4c4b380103555de324eda"
+      },
+      "evidence/steering-build-scaled-host-debug-r1/command.log": {
+        "bytes": 120,
+        "sha256": "3c6073f11d06a136c515b0847bcb5a2870cdb6d385dcafe65544d969d3eb0ba4"
+      },
+      "evidence/steering-build-scaled-host-debug-r1/plan.json": {
+        "bytes": 1153,
+        "sha256": "b6807187fbb4b6d5afe6ed2a6c0ae5d0ae9a5859e6ef6939611d6ea996df28bb"
+      },
+      "evidence/steering-build-scaled-host-debug-r1/result.json": {
+        "bytes": 650,
+        "sha256": "7007a6e0320665affc72403f3fc8a986d8ba6f1d6ef37c45f6082e776f201946"
+      },
+      "evidence/steering-build-scaled-host-debug-r1/temperatures.jsonl": {
+        "bytes": 1829,
+        "sha256": "f1f0b2cb77afa2614102c579861d26dd2addf85f5a335ef728357e892aef7d0a"
+      },
+      "evidence/steering-build-scaled-host-seal-guard-r1/command.log": {
+        "bytes": 389,
+        "sha256": "5af5f3cbde61ff84f66ce5298b0e4e08c56f32a4dd5e14fa17be8a01297bc31a"
+      },
+      "evidence/steering-build-scaled-host-seal-guard-r1/plan.json": {
+        "bytes": 913,
+        "sha256": "a1492edf1f75ad269f45eb69215f3d9261e814ec5eb3d962a63895bdd937936f"
+      },
+      "evidence/steering-build-scaled-host-seal-guard-r1/result.json": {
+        "bytes": 410,
+        "sha256": "d7f9bfa63c6aef8b65843ce3323b259ff8490448792f293e8cbd922f8b4aa986"
+      },
+      "evidence/steering-build-scaled-host-seal-guard-r1/temperatures.jsonl": {
+        "bytes": 1826,
+        "sha256": "7b9135dd8704341443b53fa6c89fb5edff1f31d149fa5da1232a609c6468dbf1"
+      },
+      "evidence/steering-build-streamed-original-guard-r1/command.log": {
+        "bytes": 643,
+        "sha256": "982b96b5bed28ee96e576622453b741aaec0e554744158fb00b43f6cba8d3ef1"
+      },
+      "evidence/steering-build-streamed-original-guard-r1/plan.json": {
+        "bytes": 915,
+        "sha256": "d4c6e539fe5f6f9e0defe2f3932357f4b2a1c870f63fbcbde36822d3df3ea13b"
+      },
+      "evidence/steering-build-streamed-original-guard-r1/result.json": {
+        "bytes": 412,
+        "sha256": "ade9fe74b802c9652b306ea6cbda775fb3db12208658811dbe591981bbe96e2a"
+      },
+      "evidence/steering-build-streamed-original-guard-r1/temperatures.jsonl": {
+        "bytes": 4259,
+        "sha256": "10afaf0cbc47dd58c7d6e182b398c74fe681c6c83e24c3cc4ee9ab06d96a339b"
+      },
+      "evidence/steering-build-streamed-original-review-r1.json": {
+        "bytes": 731,
+        "sha256": "f59fba00e0410218bfbce9e2b8155f81b5c2fb0680b7b8f5f85f37cde9132dd1"
+      },
+      "evidence/verify-steering-streamed-original-r1.py": {
+        "bytes": 2200,
+        "sha256": "5e5b6aba2acb420efffbfa3b6dcadbfa23af915c2d8ba0a490d8978566cb6398"
+      },
+      "include/lie/activation_observer.h": {
+        "bytes": 2300,
+        "sha256": "debe0030122de07cc29eae5ec6262c70deb7fae022d0dd41efd813fe341b0c09"
+      },
+      "include/lie/steering_capture.h": {
+        "bytes": 1979,
+        "sha256": "d0d79eb31f41179077620ad90a1c35e8beb15795fb38bcea7442a2261aa20dc1"
+      },
+      "include/lie/steering_direction.h": {
+        "bytes": 2836,
+        "sha256": "b82dd96d681fd99d4116ba6e92a9db0923ad012fa9a7dd0f4b877de3a10a861a"
+      },
+      "src/steering_capture.c": {
+        "bytes": 5243,
+        "sha256": "f113984eba2b914503deda462f9e3782e740d17432a8a066ee6261268f2eb786"
+      },
+      "src/steering_direction.c": {
+        "bytes": 6887,
+        "sha256": "c042d8612601dec057fc08ba12a597e915e1e625d4d1bc888a979f92109ea8a4"
+      },
+      "tests/fixtures/steering-build-receipts.json": {
+        "bytes": 12052,
+        "sha256": "c81b672f605b182bf84ad30e84b108e7eb903a8a70316ba5da24e1f4d9b4ee82"
+      },
+      "tests/steering_build_executor.c": {
+        "bytes": 5374,
+        "sha256": "407e293e3c47c41b763fe29d6ccae87935aef6d2df402451772510be34309c53"
+      },
+      "tests/test_steering_build.c": {
+        "bytes": 12547,
+        "sha256": "bae56c25896b6f2fdee65382269d41e4ea9b5f4995179c00ddcbc1a78aad92e1"
+      },
+      "tests/test_strix_point_campaign.py": {
+        "bytes": 118142,
+        "sha256": "1653d901f6e9fc2a6e069f87dd25aa00a6c12ab7fca89ebdc8479bb7f3406e69"
+      },
+      "tests/test_strix_point_steering_build.py": {
+        "bytes": 18943,
+        "sha256": "8f38f8935dea40063ba81870c4240c7de80c52ea8f90a4ffb34d04f71d248db7"
+      },
+      "tools/steering-build.c": {
+        "bytes": 27915,
+        "sha256": "24099905d9c7b831c3c38781f13999b0d93a16a407a666510eebebac7d0cf4b4"
+      },
+      "tools/strix-point-campaign.py": {
+        "bytes": 172977,
+        "sha256": "e5037ecd3ac15aa18b3871e8d4961854aad4089513330bcf641dc9da87df85c2"
+      },
+      "tools/strix-point-steering-build-gate.py": {
+        "bytes": 19154,
+        "sha256": "218a71af2eca71709a9cf00ff55ad3eb1190d1909a3857ebed358d964d8d6f3f"
+      },
+      "tools/thermal-run.py": {
+        "bytes": 5743,
+        "sha256": "17c0582bc6c6a15ba53fee2824b407cc62f46f5c3d2c6723e52317bf6f88f670"
+      }
+    }
+  },
+  "roadmap": {
+    "open_items": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "terminal_bench_last": true,
+    "full_goal_complete": false
+  }
+}

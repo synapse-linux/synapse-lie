@@ -27,8 +27,8 @@ def validate_settings(value):
     if type(value) is not dict or set(value) != SETTINGS:
         raise ValueError('Expected complete bounded steering build settings')
     for name, low, high in (('context', 1, 8192), ('prefill_chunk', 1, 8192),
-                           ('max_pairs', 1, 32), ('max_host_bytes', 65536, 512 * 2**20),
-                           ('max_output_bytes', 65536, 64 * 2**20), ('timeout_seconds', 1, 3600)):
+                           ('max_pairs', 1, 128), ('max_host_bytes', 65536, 512 * 2**20),
+                           ('max_output_bytes', 65536, 512 * 2**20), ('timeout_seconds', 1, 3600)):
         if type(value[name]) is not int or not low <= value[name] <= high:
             raise ValueError('Invalid steering build bound: ' + name)
     if (any(type(value[name]) is not str for name in ('components', 'rope', 'prompt_format')) or
@@ -61,6 +61,75 @@ def regular(path, maximum):
         return data, {'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()}
     finally:
         os.close(fd)
+
+
+class RawRows:
+    """Hash a stable bounded file, then read only the borrowed row being checked.
+
+    Keep one descriptor across hashing and reconstruction. Final identity checks
+    reject replacement, truncation or mutation; no mmap can fault on truncation.
+    This oracle does not add its memory to the native builder's host accounting.
+    """
+    BLOCK_BYTES = 1024 * 1024
+
+    def __init__(self, path, maximum):
+        self.path = Path(path)
+        if self.path.resolve() != self.path:
+            raise RuntimeError('Capture path must be canonical without symlinks')
+        self.fd = os.open(self.path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC)
+        try:
+            self.before = os.fstat(self.fd)
+            if (not stat.S_ISREG(self.before.st_mode) or self.before.st_uid != os.getuid() or
+                    not 1 <= self.before.st_size <= maximum):
+                raise RuntimeError('Invalid bounded regular steering artifact')
+            total = 0
+            sha = hashlib.sha256()
+            while total < self.before.st_size:
+                block = os.read(self.fd, min(self.BLOCK_BYTES, self.before.st_size - total))
+                if not block:
+                    raise RuntimeError('Steering artifact changed during review')
+                sha.update(block)
+                total += len(block)
+            self.unchanged()
+            self.identity = {'bytes': total, 'sha256': sha.hexdigest()}
+        except BaseException:
+            os.close(self.fd)
+            raise
+
+    def __len__(self):
+        return self.before.st_size
+
+    def unchanged(self):
+        after = os.fstat(self.fd)
+        named = self.path.stat(follow_symlinks=False)
+        fields = ('st_dev', 'st_ino', 'st_size', 'st_mtime_ns', 'st_ctime_ns')
+        if (self.path.resolve() != self.path or not stat.S_ISREG(named.st_mode) or
+                any(getattr(self.before, key) != getattr(after, key) for key in fields) or
+                any(getattr(after, key) != getattr(named, key) for key in fields)):
+            raise RuntimeError('Steering artifact changed during review')
+
+    def values(self, offset, count):
+        size = count * 4
+        if offset < 0 or size <= 0 or offset + size > len(self):
+            raise RuntimeError('Raw activation row exceeds captured payload')
+        blocks = []
+        cursor = offset
+        while cursor < offset + size:
+            block = os.pread(self.fd, min(self.BLOCK_BYTES, offset + size - cursor), cursor)
+            if not block:
+                raise RuntimeError('Steering artifact changed during review')
+            blocks.append(block)
+            cursor += len(block)
+        return struct.unpack('<' + str(count) + 'f', b''.join(blocks))
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, _type, _value, _traceback):
+        try:
+            self.unchanged()
+        finally:
+            os.close(self.fd)
 
 
 def input_pair(directory, max_pairs):
@@ -127,7 +196,14 @@ def validate(directory, settings, sources, pairs, actual_exit, build_id, source_
     if copied != sources or copied_pairs != pairs:
         raise RuntimeError('Native source copies do not match admitted dataset')
     journal, journal_identity = regular(directory / 'build.jsonl', min(16 * 2**20, settings['max_output_bytes']))
-    raw, raw_identity = regular(directory / 'activations.f32le', settings['max_output_bytes'])
+    with RawRows(directory / 'activations.f32le', settings['max_output_bytes']) as raw:
+        return validate_rows(directory, settings, sources, pairs, actual_exit, build_id,
+                             source_pin, model, expected_synthetic, journal, journal_identity, raw)
+
+
+def validate_rows(directory, settings, sources, pairs, actual_exit, build_id, source_pin,
+                  model, expected_synthetic, journal, journal_identity, raw):
+    raw_identity = raw.identity
     if not journal.endswith(b'\n') or len(raw) % 4:
         raise RuntimeError('Incomplete journal or raw binary32 payload')
     rows = [json.loads(line, object_pairs_hook=strict_object, parse_constant=invalid_constant)
@@ -201,7 +277,7 @@ def validate(directory, settings, sources, pairs, actual_exit, build_id, source_
                         not matches(row, expected_row) or
                         cursor + byte_count > len(raw)):
                     raise RuntimeError('Refused, duplicate, incomplete or wrong-position activation row')
-                floats = struct.unpack_from('<' + str(value_count) + 'f', raw, cursor)
+                floats = raw.values(cursor, value_count)
                 if any(not math.isfinite(value) for value in floats):
                     raise RuntimeError('Nonfinite raw activation')
                 values[component][layer] = [f32(math.fsum(floats[b * width + i] for b in range(row_branches)) / row_branches)

@@ -1,6 +1,31 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## YaRN4 short recall and streamed steering review pass — 2026-10-08 UTC
+
+The current `4c703b3d`/r70 runtime passes both cold Chat SSE turns with YaRN4,
+capacity 1048576, seed 77, chunk 256, C1, cache off and actual inputs 8190/8298.
+Independent saved-wire reconstruction verifies the middle and start/end answers
+with the full ledger retained. All process, collector and strong-closure exits
+are 0; 18 artifact hashes and four model stats verify. CPU/GPU/NVMe peaks are
+74.125/74/63.85 C. Lease release at 01:10:00 and strong closure at 01:12:52 retire all
+four observed identities and the full container/cgroup; router restored and
+original lease free. The [receipt](development/validation/recall-yarn4-8k-ar-point-2026-10-08.json)
+and [same platform table](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#yarn4-short-recall-control-current-r70-runtime)
+retain complete PP/TG/TTFT/wall values. This is a short-input control, not 1M recall.
+
+The optional steering reviewer now admits 128 pairs/512 MiB and streams hashed
+raw rows through one stable descriptor. Twenty-one checks per Debug/sanitizer
+mode include analytic 100-pair native construction and mutation/refusal lifetimes;
+focused CTest passes in both modes and 89 supervisor checks pass. Both saved
+original cohorts re-review exactly, without repeating inference. The
+[HOST receipt](development/validation/steering-build-scaled-review-host-2026-10-08.json)
+preserves an initial sealer exit 1 caused by a different CTest summary spelling;
+the actual CTests pass with exit 0 and the corrected sealer uses the same results.
+Native products/source, ABI/state/metrics and Python-free default build remain
+unchanged. All six root tasks stay open; Terminal Bench remains last. Root owns
+no remote job/handle/lease/reservation; longer inputs and learned quality remain open.
+
 ## Original multi-chunk and one-token-tail capture passes — 2026-10-08 UTC
 
 The frozen `4c703b3d`/r70 C17 builder passes the same eight prompt pairs with

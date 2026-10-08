@@ -83,8 +83,13 @@ pass independent activation/bank reconstruction on `.161`
 The same physical prompts also pass multiple chunks and four one-token tails,
 with byte-identical raw activations and banks
 ([receipt](development/validation/steering-build-tail16-point-2026-10-08.json)).
-Held-out learned direction quality remains unqualified. Earlier tool/recall results retain their frozen r68
-identity and do not automatically qualify this later runtime.
+Held-out learned direction quality remains unqualified. The current r70 runtime
+also passes both cold turns of the YaRN4 short recall control, with 8190/8298
+physical inputs and capacity 1048576
+([receipt](development/validation/recall-yarn4-8k-ar-point-2026-10-08.json)).
+Earlier tool and native-RoPE recall results retain their frozen r68 identity;
+the short scaled control does not qualify the long-input ladder or those tools
+on this later runtime.
 
 Strix Point integration is merged into `develop` at `30598a3`; current context
 and OpenAI work remains on `feature/context-million-openai`. Recorded GPU
@@ -361,14 +366,18 @@ none of the six items.
    The [recall protocol](development/protocols/LONG-CONTEXT-RECALL-GPU-PROTOCOL.md)
    now defines three seeds, profile-specific short controls and the native/YaRN
    ladder through 1M. The optional one-case supervisor route is implemented and
-   checked against native-client HOST fixtures. The current r68 runtime now
+   checked against native-client HOST fixtures. The frozen r68 runtime
    passes the [original-weight native 8K control](development/validation/recall-native-8k-ar-point-2026-10-07.json)
    [128K control](development/validation/recall-native-128k-ar-point-2026-10-07.json)
    and [near-256K check](development/validation/recall-native-near256k-ar-point-2026-10-07.json):
    seed 77, both cold turns at each size, physical 8190/8298, 131070/131178 and
    261630/261738 tokens, complete collection, independent saved-wire answers and
    exact retirement. Near-256K CPU/GPU/NVMe peaks are 80/81/67.85 C.
-   Other seeds, 512K–1M inputs, YaRN and MTP remain pending.
+   The newer r70 runtime also passes its own
+   [YaRN4 short control](development/validation/recall-yarn4-8k-ar-point-2026-10-08.json),
+   seed 77, capacity 1048576 and physical inputs 8190/8298. Both saved SSE answers and
+   complete closure verify. Other seeds, longer YaRN inputs, 512K–1M inputs
+   and MTP remain pending; the historical native results keep their r68 binding.
    The historical `1bff953` `.161` run completes all
    **1,048,448 physical prefill tokens and 128 output tokens**
    with explicit YaRN4 and `--ignore-eos`. The
@@ -459,8 +468,12 @@ none of the six items.
    passes multiple chunks and four final one-token chunks, preserving all
    physical IDs and byte-identical raw activations and banks
    ([tail receipt](development/validation/steering-build-tail16-point-2026-10-08.json)).
-   Both jobs are collected and strongly closed;
-   learned-direction quality, independent graph/
+   Both jobs are collected and strongly closed.
+   The optional reviewer now streams raw rows and admits up to 128 pairs/512 MiB.
+   Its analytic 100-pair native fixture passes in Debug and sanitizer modes;
+   both frozen original reviews match exactly
+   ([HOST receipt](development/validation/steering-build-scaled-review-host-2026-10-08.json)).
+   Learned direction quality, independent graph/
    correction/fault, vision and matched cost remain open.
    Separate `modern-core-steering-admission` windows now qualify original-model
    malformed-bank refusals and absent/zero/fresh-core recovery equality in AR/MTP

@@ -1,5 +1,22 @@
 # DS4 / synapse-lie coordination
 
+## Current r70 YaRN4 short control verified and retired — 2026-10-08
+
+Specific Point/DGX/Q2/GLM non-use declarations and fresh global/in-lease checks
+admit `recall-yarn4-8192-s77-ar-20261008-r1`, manifest `2ca393d5`, on `.161`.
+Both cold recall turns pass on `4c703b3d`/r70. All actual process/collector/closure
+exits are 0; 18 collected hashes and four model stats reverify on the target.
+Early and inference-time reads witness the supervisor, init and GPU identities.
+
+The original lease releases at 01:10:00.752098 UTC; strong closure at
+01:12:52.293129 verifies all four observed identities and the complete
+container/cgroup absent, two complete scans empty, router 90167 restored and
+unchanged original lease device 66308/inode 105946405 free. All four peers receive verified
+release. The [receipt](development/validation/recall-yarn4-8k-ar-point-2026-10-08.json)
+binds the complete saved wire and closure. Root owns no job/handle/lease/window/
+waiter/reservation on any host. This short scaled control grants no later size,
+model or test; each later GPU window requires separately fresh admission.
+
 ## Original multi-chunk capture window verified and retired — 2026-10-08
 
 Four specific current non-use declarations and fresh global/in-lease checks

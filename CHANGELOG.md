@@ -17,14 +17,18 @@ stable release is declared. Detailed validation history is in
   the first eight original-weight prompt pairs pass independent raw-row/bank
   reconstruction on Strix Point with single-chunk and multi-chunk prefill,
   including four final one-token chunks. Their raw captures and both banks
-  match byte for byte. Learned response quality and wider runtime
+  match byte for byte. The optional checking route now admits 128 pairs and
+  reads raw activations by row, with 100-pair fixture and mutation checks.
+  Learned response quality and wider runtime
   qualification remain pending. Runtime `.f32` and DS4 cache formats are unchanged.
 
 - Optional Strix Point recall coordination now runs the native benchmark on
   separate context/RoPE/seed cohorts through 1M, with complete continuation,
   exact-answer checking, memory admission and failed-artifact retention.
   Original-weight native 8K, 128K and near-256K AR checks, seed 77, pass both cold turns
-  at each size; the rest of the ladder remains pending. Native products remain
+  at each size. A separate current-runtime YaRN4 short control passes both turns
+  with 1M configured capacity and approximately 8K physical input; the long-input
+  ladder remains pending. Native products remain
   Python-free.
 
 - Responses now accepts `seed`, `frequency_penalty` and `presence_penalty`

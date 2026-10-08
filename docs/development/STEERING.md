@@ -145,7 +145,7 @@ settings object is:
 }
 ```
 
-This bounded gate admits at most 32 pairs, an 8K context and 64 MiB of outputs.
+This bounded gate admits at most 128 pairs, an 8K context and 512 MiB of outputs.
 It runs the native C17 builder directly on the existing owner, with no decode,
 predictor, HTTP server or extra inference thread. Fresh `.161` peer/boot/lease/
 thermal/model admission is still required. Dataset/helper drift, invalid settings
@@ -159,17 +159,26 @@ averages FFN branches, rounds means to F32, uses `math.fsum` for paired contrast
 and `math.hypot` for per-layer normalization. Compare each published coordinate
 with relative tolerance 2e-6/absolute 2e-8 and each layer's norm within 1e-6.
 These fixed bounds allow binary32 rounding; a matching file hash alone is not an
-oracle. Preserve source copies, full physical IDs, raw rows, banks, native and
+oracle. Raw bytes are hashed in bounded blocks and read by row through one
+descriptor, with final identity checks. Replacement or truncation during review
+refuses; the whole raw file is not retained in RAM. The oracle still stores the
+coordinate contrast terms for independent `math.fsum`; its memory is separate
+from the native builder's declared host bound. Preserve source copies, full physical IDs, raw rows, banks, native and
 container exits, model stats and exact closure. Report observed one-token tails;
 ordinary captures do not qualify tails absent from the actual inputs.
 
 Python is optional development coordination/oracle code. The builder, learner,
 collector and default products/build/tests remain native and Python-free.
-Eighteen HOST checks pass with both Debug and unsuppressed ASan/UBSan/LSan C17
-fixtures; 89 existing supervisor checks pass. The
-[HOST receipt](validation/steering-build-gate-host-2026-10-07.json) binds commands
-and preserves the initial fixture setup failure. These fixtures are not original
-weights. The first original short-prompt cohort now passes, as recorded below.
+Twenty-one HOST checks pass with each Debug and unsuppressed ASan/UBSan/LSan
+C17 fixture, including 100 paired prompts with analytic directions, raw-file
+replacement/truncation and descriptor retirement. The focused native CTest
+passes in both modes; 89 supervisor checks pass. Re-reviewing both saved original
+cohorts yields exactly their qualified independent results without a GPU repeat.
+The [current HOST receipt](validation/steering-build-scaled-review-host-2026-10-08.json)
+retains the checking sources, command exits and initial CTest-summary sealing
+error. The [first gate receipt](validation/steering-build-gate-host-2026-10-07.json)
+retains its earlier fixture setup failure. Synthetic fixture checks are not
+original inference; the original short-prompt cohorts are recorded below.
 Even a passing original capture gate leaves held-out steering quality,
 generation parity, graph/correction/fault/vision and matched cost open.
 

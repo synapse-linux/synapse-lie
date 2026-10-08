@@ -1,0 +1,780 @@
+{
+  "schema": "synapse-lie.original-recall-point.v1",
+  "state": "ORIGINAL_AR_YARN4_8K_PASSED_COLLECTED_INDEPENDENT_WIRE_VERIFIED_CLOSED",
+  "at_utc": "2026-10-08T01:14:58.640788+00:00",
+  "scope": "Original-weight synthetic associative recall and continued full-history Chat SSE; one seed/YaRN4 profile at the stated short physical target on the current r70 runtime.",
+  "runtime_source_commit": "4c703b3d604c6c877d6a2214d7aee0b15a013f61",
+  "coordinator_checkpoint": "711b59fa6e5de6d84c3b233a87908399b744d97b",
+  "bundle_manifest_sha256": "6aa4bd13296af8c2e02383e9c6c6fb40c4247ffe5497fe10e468ca0ed90537b0",
+  "runtime_artifacts": {
+    "runtime/bin/lie-attention-qualify": "76a30ac62bcf274ff1bd0fc0cabcb81c4c1100eea0eeb47818ee48930ce05623",
+    "runtime/bin/lie-hip-probe": "98b71ab97ef470bbf59e3eee7a56d578e5d10dc2fc53d5cb62aa5eaa7705fc01",
+    "runtime/bin/lie-sampling-capture": "8a9e3e84093a9a3ec95e325c5cd01cce8804fb955b5adc0199efe8d21f6ead74",
+    "runtime/bin/lie-steering-build": "d4f4ee1f98b031dc883546654c37e036dadcae7614fdac53633c8b59fb16e3e4",
+    "runtime/bin/synapse-lie-bench": "b9cd41993627d2d0337da3526d4e8b903b06a55daa252c4e9180decde29082f9",
+    "runtime/bin/synapse-lie-bench-gufo-reference": "8935adb66865ba75f5afcbe8fe966a5b2d37c76ad6523c4ef7100fde210690ab",
+    "runtime/bin/synapse-lie-server": "136952d52765e96607e25878609f5bb74d3fe3dbfa8b25c1e257f2bdaa6c1191"
+  },
+  "settings": {
+    "context": 1048576,
+    "rope_scaling": "yarn4",
+    "size": 8192,
+    "chunk": 256,
+    "seed": 77,
+    "request_timeout_seconds": 600,
+    "load_timeout_seconds": 900
+  },
+  "three_unscored_calibrations": 3,
+  "quality_summary": {
+    "checks": 2,
+    "passes": 2,
+    "warmup_checks": 0,
+    "warmup_passes": 0,
+    "exact_match_rate": 1.0
+  },
+  "observations": [
+    {
+      "turn": 0,
+      "prompt_tokens": 8190,
+      "output_tokens": 38,
+      "cached_tokens": 0,
+      "exact_match": true,
+      "expected": {
+        "key_c54279302e70d172": "v_70f10cc944c8c205"
+      },
+      "actual_answer": "{\"key_c54279302e70d172\": \"v_70f10cc944c8c205\"}",
+      "finish_reason": "stop",
+      "prefill_ms": 30513.134539,
+      "decode_ms": 3672.282749,
+      "prefill_tokens_per_second": 268.4090023439594,
+      "decode_tokens_per_second": 10.347787084300027,
+      "ttft_seconds": 32.292671929,
+      "wall_seconds": 35.918511837
+    },
+    {
+      "turn": 1,
+      "prompt_tokens": 8298,
+      "output_tokens": 74,
+      "cached_tokens": 0,
+      "exact_match": true,
+      "expected": {
+        "key_a3f0748249b658eb": "v_72b59558b0023930",
+        "key_b48f1446e361caa9": "v_0426f252171645de"
+      },
+      "actual_answer": "{\"key_a3f0748249b658eb\": \"v_72b59558b0023930\", \"key_b48f1446e361caa9\": \"v_0426f252171645de\"}",
+      "finish_reason": "stop",
+      "prefill_ms": 31325.976462,
+      "decode_ms": 7142.504723,
+      "prefill_tokens_per_second": 264.8919822201199,
+      "decode_tokens_per_second": 10.36051117498155,
+      "ttft_seconds": 33.117688703,
+      "wall_seconds": 40.212433048
+    }
+  ],
+  "source_model": {
+    "schema": "synapse-lie.model-source.v1",
+    "repository": "unsloth/Qwen3.8-Flash-Next-GGUF",
+    "revision": "38bb39ee97821de2c9009abb7e93950eec396e66",
+    "target": "pop@192.168.5.161",
+    "destination": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee",
+    "total_bytes": 111334654784,
+    "files": [
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "bytes": 10946624,
+        "sha256": "4448186216b3af4cc558bbce2c3213f01608f8f8b2e5267a9767971dd3ec8082",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+        "bytes": 49859583136,
+        "sha256": "3f342f1c1580473f1ee94ddd5b28206e8c07a70fa1a366f59d1d6c922919a6c9",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+        "bytes": 49376141504,
+        "sha256": "56758f40269cad5cd9b0d3d6fbae0f40f6d5be6de49e4ab392dbe83157d9cbd3",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+        "bytes": 12087983520,
+        "sha256": "753bda48b98ba4f1636134a90a967de1b2d3908a236c026e464777342e53510a",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf"
+      }
+    ],
+    "verification": "Independent official repository metadata agrees with historical SHA-256; target payloads not downloaded or hashed",
+    "metadata_receipt": "evidence/strix-point-model-metadata-r1",
+    "metadata_sha256": "1866707f788ee7c6df4b6c94c8a3d82abc7cc377bdc5f22bdd4f7707b46c144b"
+  },
+  "model_stat_unchanged": true,
+  "thermal_sample_count": 151,
+  "peak_C_by_sensor": {
+    "nvme": 63.85,
+    "amdgpu": 74.0,
+    "k10temp": 74.125
+  },
+  "current_owned_lifecycle_observation": {
+    "scope": "Actual contemporaneous supervisor/init/GPU identities; no management-latency or thread-role census.",
+    "actual_GPU_identity": {
+      "pid": 88852,
+      "start_ticks": 3774528,
+      "cgroup": "0::/system.slice/docker-d1e1aa2f05c435032ee36d933b08c39df158a9e924cf54aeb3cd73427a39ae02.scope\n",
+      "devices": [
+        "/dev/dri/renderD128",
+        "/dev/kfd"
+      ]
+    },
+    "actual_live_init_identity": {
+      "pid": 87607,
+      "start_ticks": 3768052,
+      "cgroup": "0::/system.slice/docker-d1e1aa2f05c435032ee36d933b08c39df158a9e924cf54aeb3cd73427a39ae02.scope\n"
+    }
+  },
+  "actual_exit_codes": {
+    "controller": 0,
+    "supervisor": 0,
+    "helper": 0,
+    "native_client": 0,
+    "server": 0,
+    "collector": 0,
+    "strong_closure": 0,
+    "independent_review_seal": 0
+  },
+  "lease_release_at": "2026-10-08T01:10:00.752098+00:00",
+  "closure": {
+    "state": "WHOLE_CONTAINER_AND_EXACT_GPU_IDENTITIES_CLOSED_NO_STANDING_RESERVATION",
+    "at_utc": "2026-10-08T01:12:52.293129+00:00",
+    "boot_id": "7a966774-3424-46c3-8045-34f759ea58a1",
+    "evidence_scope": "Entire recorded container cgroup absent, all actual GPU PID/start_ticks and launcher/supervisor absent; no inferred missing-PID success",
+    "observed_container_init_PID_available": true,
+    "original_init_PID_absence_claimed": true,
+    "identities": [
+      {
+        "role": "supervisor",
+        "pid": 87377,
+        "start_ticks": 3767916,
+        "exact_identity_absent": true
+      },
+      {
+        "role": "Distrobox launcher",
+        "pid": 87477,
+        "start_ticks": 3768003,
+        "exact_identity_absent": true
+      },
+      {
+        "role": "observed container init",
+        "pid": 87607,
+        "start_ticks": 3768052,
+        "exact_identity_absent": true
+      },
+      {
+        "role": "observed native GPU owner",
+        "pid": 88852,
+        "start_ticks": 3774528,
+        "cgroup": "0::/system.slice/docker-d1e1aa2f05c435032ee36d933b08c39df158a9e924cf54aeb3cd73427a39ae02.scope\n",
+        "exact_identity_absent": true
+      }
+    ],
+    "whole_container_process_scans": [
+      {
+        "pass": 0,
+        "processes_checked": 429,
+        "owned_cgroup_matches": [],
+        "unreadable": [],
+        "vanished_during_read": []
+      },
+      {
+        "pass": 1,
+        "processes_checked": 429,
+        "owned_cgroup_matches": [],
+        "unreadable": [],
+        "vanished_during_read": []
+      }
+    ],
+    "container_cgroup": {
+      "path": "/sys/fs/cgroup/system.slice/docker-d1e1aa2f05c435032ee36d933b08c39df158a9e924cf54aeb3cd73427a39ae02.scope",
+      "exists": false,
+      "empty": true
+    },
+    "container_inspect": {
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: d1e1aa2f05c435032ee36d933b08c39df158a9e924cf54aeb3cd73427a39ae02\n"
+    },
+    "label_listing": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "original_lease": {
+      "device": 66308,
+      "inode": 105946405,
+      "free_briefly": true,
+      "released": true
+    },
+    "service": {
+      "MainPID": "90167",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "http8000_listeners": [],
+    "foreign_compute_clients": [],
+    "guarded_hot": [],
+    "model_stats_reverified_unchanged": true,
+    "models_at_strong_closure": [
+      {
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "bytes": 10946624,
+        "device": 66308,
+        "inode": 106208485,
+        "mtime_ns": 1790931367673069984,
+        "ctime_ns": 1790931367683069853
+      },
+      {
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+        "bytes": 49859583136,
+        "device": 66308,
+        "inode": 106208488,
+        "mtime_ns": 1790937784808778309,
+        "ctime_ns": 1790937784821778100
+      },
+      {
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+        "bytes": 49376141504,
+        "device": 66308,
+        "inode": 106208496,
+        "mtime_ns": 1790938850707596045,
+        "ctime_ns": 1790938850734595610
+      },
+      {
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+        "bytes": 12087983520,
+        "device": 66308,
+        "inode": 106208547,
+        "mtime_ns": 1790939114356256438,
+        "ctime_ns": 1790939114403255588
+      }
+    ],
+    "collected_artifacts_reverified": {
+      "manifest.json": {
+        "bytes": 6729,
+        "sha256": "2ca393d5d3acc78cccd60d712e40d8f281876b2338e6e1f418addc87571ac6eb"
+      },
+      "runner.py": {
+        "bytes": 172977,
+        "sha256": "e5037ecd3ac15aa18b3871e8d4961854aad4089513330bcf641dc9da87df85c2"
+      },
+      "http-recall-gate.py": {
+        "bytes": 21529,
+        "sha256": "5bce29df2a6d2f9f652986bd57dc61dbc31ee554157f353124c22d5285a678a4"
+      },
+      "http-recall-settings.json": {
+        "bytes": 163,
+        "sha256": "b7fbe713d45f4b3c83e3b87732ac50aea5285c7262bab873ea54bdc4d2ca14fb"
+      },
+      "result.json": {
+        "bytes": 174343,
+        "sha256": "c9fbd0b6611aeae7e36a06d3dd02f6189dce3e440a9953dfb95111f04c7af4be"
+      },
+      "telemetry.jsonl": {
+        "bytes": 256476,
+        "sha256": "c53743645d12685ddfcb8fc16d47c1f897ac0763085e5040d3d0b4d1691733d1"
+      },
+      "http-recall-result.json": {
+        "bytes": 2475,
+        "sha256": "adf5b368ead5710b722536366e0e9f1ccdcc04d0c01145a12c863a6a683579de"
+      },
+      "measurements.jsonl": {
+        "bytes": 71288,
+        "sha256": "4be9fbae605a69e0c92f1dd9e9d230da8987cd5d92291bbab1c46a3331ea5b16"
+      },
+      "requests.jsonl": {
+        "bytes": 9787,
+        "sha256": "408e50de0a35c6d90e48d6aec5dc3738591f0dd7eb8f6203ec81673d4f29d6de"
+      },
+      "server.log": {
+        "bytes": 92,
+        "sha256": "4e54b1206f90fe02391ce8ffcec923d32bad69dd5c13e77b8535b4628f31b0b6"
+      },
+      "client.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "client.stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout.log": {
+        "bytes": 70122,
+        "sha256": "cdf03c4cc48f5a0e9e85149fbe4e874bab34523fae570ee57fb1471dae6eef35"
+      },
+      "stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "distrobox-create.log": {
+        "bytes": 302,
+        "sha256": "19084fbf58ab47712a7ade2713ea5a8f09615586b9259652da84e1282879d820"
+      },
+      "distrobox.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "distrobox.stderr.log": {
+        "bytes": 1073,
+        "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+      },
+      "http-started.marker": {
+        "bytes": 6,
+        "sha256": "9ac71b1c91a740ed15e79f04c1a8d4f4762f6493d982a133e70278f4a7e9dbde"
+      }
+    },
+    "observation": {
+      "at": "2026-10-08T01:12:52.143426+00:00",
+      "kfd": [
+        {
+          "pid": 90167,
+          "start_ticks": 3786820,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "dri": [
+        {
+          "pid": 90167,
+          "start_ticks": 3786820,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "denied_fd": 417,
+      "temperatures": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "value_c": 33.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp2_input",
+          "value_c": 36.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp3_input",
+          "value_c": 33.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp1_input",
+          "value_c": 35.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp2_input",
+          "value_c": 34.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp3_input",
+          "value_c": 35.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon5/temp1_input",
+          "value_c": 40.0,
+          "limit_c": 98,
+          "guarded": false
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "value_c": 40.375,
+          "limit_c": 98,
+          "guarded": true
+        }
+      ],
+      "memory": {
+        "MemTotal": 132542644224,
+        "MemAvailable": 125794299904,
+        "SwapTotal": 21474828288,
+        "SwapFree": 21329448960
+      },
+      "kernel_kfd": [
+        90167
+      ],
+      "gpu": {
+        "gpu_busy_percent": 0,
+        "mem_info_gtt_total": 120259084288,
+        "mem_info_gtt_used": 18636800,
+        "mem_info_vram_total": 2147483648,
+        "mem_info_vram_used": 151187456
+      }
+    },
+    "GPU_build_run_or_service_mutation": false,
+    "standing_lease_waiter_reservation": false
+  },
+  "collection_artifacts": {
+    "manifest.json": {
+      "bytes": 6729,
+      "sha256": "2ca393d5d3acc78cccd60d712e40d8f281876b2338e6e1f418addc87571ac6eb"
+    },
+    "runner.py": {
+      "bytes": 172977,
+      "sha256": "e5037ecd3ac15aa18b3871e8d4961854aad4089513330bcf641dc9da87df85c2"
+    },
+    "http-recall-gate.py": {
+      "bytes": 21529,
+      "sha256": "5bce29df2a6d2f9f652986bd57dc61dbc31ee554157f353124c22d5285a678a4"
+    },
+    "http-recall-settings.json": {
+      "bytes": 163,
+      "sha256": "b7fbe713d45f4b3c83e3b87732ac50aea5285c7262bab873ea54bdc4d2ca14fb"
+    },
+    "result.json": {
+      "bytes": 174343,
+      "sha256": "c9fbd0b6611aeae7e36a06d3dd02f6189dce3e440a9953dfb95111f04c7af4be"
+    },
+    "telemetry.jsonl": {
+      "bytes": 256476,
+      "sha256": "c53743645d12685ddfcb8fc16d47c1f897ac0763085e5040d3d0b4d1691733d1"
+    },
+    "http-recall-result.json": {
+      "bytes": 2475,
+      "sha256": "adf5b368ead5710b722536366e0e9f1ccdcc04d0c01145a12c863a6a683579de"
+    },
+    "measurements.jsonl": {
+      "bytes": 71288,
+      "sha256": "4be9fbae605a69e0c92f1dd9e9d230da8987cd5d92291bbab1c46a3331ea5b16"
+    },
+    "requests.jsonl": {
+      "bytes": 9787,
+      "sha256": "408e50de0a35c6d90e48d6aec5dc3738591f0dd7eb8f6203ec81673d4f29d6de"
+    },
+    "server.log": {
+      "bytes": 92,
+      "sha256": "4e54b1206f90fe02391ce8ffcec923d32bad69dd5c13e77b8535b4628f31b0b6"
+    },
+    "client.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "client.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout.log": {
+      "bytes": 70122,
+      "sha256": "cdf03c4cc48f5a0e9e85149fbe4e874bab34523fae570ee57fb1471dae6eef35"
+    },
+    "stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "distrobox-create.log": {
+      "bytes": 302,
+      "sha256": "19084fbf58ab47712a7ade2713ea5a8f09615586b9259652da84e1282879d820"
+    },
+    "distrobox.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "distrobox.stderr.log": {
+      "bytes": 1073,
+      "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+    },
+    "http-started.marker": {
+      "bytes": 6,
+      "sha256": "9ac71b1c91a740ed15e79f04c1a8d4f4762f6493d982a133e70278f4a7e9dbde"
+    }
+  },
+  "four_current_peer_declarations": [
+    {
+      "peer": "Point",
+      "thread": "01a0fb73-1367-7313-b771-6e721a4155bc",
+      "evidence": "Completed response in turn 01a11909-34c7-75f3-b644-afe27fa55cfc to this exact delivered proposal",
+      "text": "Confermo il non-uso aggiornato: nessun job, client, build, handle, lease, finestra, waiter, prenotazione o piano su `.161` da questo worktree; nessun conflitto. Non uso `.157`/`.155`/`.158` e non ho avviato attivit\u00e0 remote. La mia conferma non \u00e8 ammissione o grant; restano necessarie preflight globale e lease fresca. Ci\u00f2 che descrivi \u00e8 un controllo breve con capacit\u00e0 YaRN 1M, non un prompt fisico da 1M n\u00e9 un benchmark."
+    },
+    {
+      "peer": "DGX",
+      "thread": "01a0fb43-105f-7bc3-98b8-84d12528db0d",
+      "evidence": "Actual direct message delivered to root after this proposal",
+      "text": "CURRENT OWN dgx-spark: .161 NONE, non uso e nessun piano in conflitto con recall-yarn4-8192-s77-ar-20261008-r1 SHA 2ca393d5d3acc78cccd60d712e40d8f281876b2338e6e1f418addc87571ac6eb/checkpoint711b59fa/runtime4c703b3d/r70. Tutti gli host NONE, nessun handle/build/lease/prenotazione. Lavoro solo sui sorgenti locali; build e test rinviati per istruzione dell'utente. Questo ACK specifico non \u00e8 un grant futuro."
+    },
+    {
+      "peer": "Q2",
+      "thread": "01a0f9e0-98e7-7ff2-8bd1-b4ce767f18a3",
+      "evidence": "Actual direct message delivered to root after this proposal",
+      "text": "Q2 CURRENT OWN .161 NONE: nessun job/build/client/GPUhandle/lease/waiter/piano o reservation sulla .161. ACK specifico di non-conflitto per SOLO recall-yarn4-8192-s77-ar-20261008-r1 SHA2ca393d5d3acc78cccd60d712e40d8f281876b2338e6e1f418addc87571ac6eb/checkpoint711b59fa/runtime4c703b3d/r70/boot7a966774/lease66308:105946405; restano vostri freshglobal/inlease e ACKaltriowner, nessun grant futuro. Q2 possiede solo .157 per curva ca98934d in corso; altri hostNONE."
+    },
+    {
+      "peer": "GLM",
+      "thread": "01a1173b-a1f8-7012-a112-37039d798596",
+      "evidence": "Actual direct message delivered to root after this proposal",
+      "text": "ACK specifico root SOLO .161 recall-yarn4-8192-s77-ar-20261008-r1, SHA 2ca393d5d3acc78cccd60d712e40d8f281876b2338e6e1f418addc87571ac6eb. CURRENT OWN .161/.157/.155/.158/TB NONE, nessun uso, lease, waiter, conflitto o prenotazione GLM sulla .161. Nessuna build, GPU, conversione o hash pesi GLM previsto. Serve la vostra fresh admission sul lease originale; questo ACK non vale per piani futuri. Sto correggendo l'allineamento GLM soltanto sul codice host."
+    }
+  ],
+  "raw": {
+    "path": "raw/recall-yarn4-8k-ar-point-2026-10-08.tar.gz",
+    "bytes": 148467,
+    "sha256": "6f277716e858963e18d5b275538136dc3f735cf466e62502190e49f8416677b3",
+    "members": 45,
+    "inventory": [
+      {
+        "path": "job/client.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "job/client.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "job/collection.json",
+        "bytes": 9905,
+        "sha256": "4d85f80e41344947637824bebe545c7200d9da53c128ecf861978fe3f128cf5d"
+      },
+      {
+        "path": "job/controller-result.json",
+        "bytes": 806,
+        "sha256": "d74f4d9937cfe4c3fdfb7beb798368bddb51e16d86ab36bf18b7c675280f7593"
+      },
+      {
+        "path": "job/controller-stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "job/controller-stdout.log",
+        "bytes": 158447,
+        "sha256": "123f53bb74dedca855572cc8caacc51ea1207f6695825c96e31e1ca22914374a"
+      },
+      {
+        "path": "job/distrobox-create.log",
+        "bytes": 302,
+        "sha256": "19084fbf58ab47712a7ade2713ea5a8f09615586b9259652da84e1282879d820"
+      },
+      {
+        "path": "job/distrobox.stderr.log",
+        "bytes": 1073,
+        "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+      },
+      {
+        "path": "job/distrobox.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "job/http-recall-gate.py",
+        "bytes": 21529,
+        "sha256": "5bce29df2a6d2f9f652986bd57dc61dbc31ee554157f353124c22d5285a678a4"
+      },
+      {
+        "path": "job/http-recall-result.json",
+        "bytes": 2475,
+        "sha256": "adf5b368ead5710b722536366e0e9f1ccdcc04d0c01145a12c863a6a683579de"
+      },
+      {
+        "path": "job/http-recall-settings.json",
+        "bytes": 163,
+        "sha256": "b7fbe713d45f4b3c83e3b87732ac50aea5285c7262bab873ea54bdc4d2ca14fb"
+      },
+      {
+        "path": "job/http-started.marker",
+        "bytes": 6,
+        "sha256": "9ac71b1c91a740ed15e79f04c1a8d4f4762f6493d982a133e70278f4a7e9dbde"
+      },
+      {
+        "path": "job/manifest.json",
+        "bytes": 6729,
+        "sha256": "2ca393d5d3acc78cccd60d712e40d8f281876b2338e6e1f418addc87571ac6eb"
+      },
+      {
+        "path": "job/measurements.jsonl",
+        "bytes": 71288,
+        "sha256": "4be9fbae605a69e0c92f1dd9e9d230da8987cd5d92291bbab1c46a3331ea5b16"
+      },
+      {
+        "path": "job/plan.json",
+        "bytes": 788,
+        "sha256": "11e5b4c60b2344fc585515ab9b6129b3b87d5282a92d7832a0696f51b01e39e3"
+      },
+      {
+        "path": "job/requests.jsonl",
+        "bytes": 9787,
+        "sha256": "408e50de0a35c6d90e48d6aec5dc3738591f0dd7eb8f6203ec81673d4f29d6de"
+      },
+      {
+        "path": "job/result.json",
+        "bytes": 174343,
+        "sha256": "c9fbd0b6611aeae7e36a06d3dd02f6189dce3e440a9953dfb95111f04c7af4be"
+      },
+      {
+        "path": "job/runner.py",
+        "bytes": 172977,
+        "sha256": "e5037ecd3ac15aa18b3871e8d4961854aad4089513330bcf641dc9da87df85c2"
+      },
+      {
+        "path": "job/server.log",
+        "bytes": 92,
+        "sha256": "4e54b1206f90fe02391ce8ffcec923d32bad69dd5c13e77b8535b4628f31b0b6"
+      },
+      {
+        "path": "job/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "job/stdout.log",
+        "bytes": 70122,
+        "sha256": "cdf03c4cc48f5a0e9e85149fbe4e874bab34523fae570ee57fb1471dae6eef35"
+      },
+      {
+        "path": "job/telemetry.jsonl",
+        "bytes": 256476,
+        "sha256": "c53743645d12685ddfcb8fc16d47c1f897ac0763085e5040d3d0b4d1691733d1"
+      },
+      {
+        "path": "control/recall-yarn4-8192-s77-ar-20261008-r1-manifest.json",
+        "bytes": 6729,
+        "sha256": "2ca393d5d3acc78cccd60d712e40d8f281876b2338e6e1f418addc87571ac6eb"
+      },
+      {
+        "path": "control/recall-yarn4-8192-s77-ar-20261008-r1-settings.json",
+        "bytes": 163,
+        "sha256": "b7fbe713d45f4b3c83e3b87732ac50aea5285c7262bab873ea54bdc4d2ca14fb"
+      },
+      {
+        "path": "control/recall-yarn4-8192-s77-ar-20261008-r1-readiness.json",
+        "bytes": 1593,
+        "sha256": "8e87530ba9446b8149052a77fe7aa20cdab5f9ba4364d85ba414ad341badbe06"
+      },
+      {
+        "path": "control/recall-yarn4-8192-s77-ar-20261008-r1-preparation-recipes.json",
+        "bytes": 1070,
+        "sha256": "f681bb179fd5421d4923b6b13aa71cacefb40c5f8b51354efffebf186013d6f3"
+      },
+      {
+        "path": "control/recall-yarn4-8192-s77-ar-20261008-r1-jobs-prepared.json",
+        "bytes": 5546,
+        "sha256": "5bb9aa5db8b803aa1c3ab52371d6413e3016ff2a71a32cc66af1a09abf207970"
+      },
+      {
+        "path": "control/recall-yarn4-8192-s77-ar-20261008-r1-peer-coordination-r2.json",
+        "bytes": 5807,
+        "sha256": "c4aea387fb6f59deed10f701f7776411d77fe1fbdbfccbf5eff3ab8fed50a81f"
+      },
+      {
+        "path": "control/recall-yarn4-8192-s77-ar-20261008-r1-closure-r2.json",
+        "bytes": 16877,
+        "sha256": "5369c09f085f60ccfdbe89252bb3694b7575077169a8f78a81a99f9e4638be0e"
+      },
+      {
+        "path": "control/before-recall-yarn4-8192-s77-ar-20261008-r1-fresh-r1.json",
+        "bytes": 6780,
+        "sha256": "8eed95745c59632159cfb37990a42d28aa62aa3fbb61b3bc7a2fa8045894f244"
+      },
+      {
+        "path": "control/launch-recall-yarn4-8192-s77-ar-20261008-r1.py",
+        "bytes": 3289,
+        "sha256": "bed96b14d61220d36e86291b4aef42ed824f69ea349ac0e175c33f0f9a7b4bbb"
+      },
+      {
+        "path": "control/observe-recall-yarn4-8192-s77-ar-20261008-r1.py",
+        "bytes": 4324,
+        "sha256": "37ecf01eab6a6ce42b0a8a3414869d07bd6e21b79590a59382f0ea8d437ff7ef"
+      },
+      {
+        "path": "control/close-recall-yarn4-8192-s77-ar-20261008-r1-r1.py",
+        "bytes": 8165,
+        "sha256": "8f7bf242c4b2b2248c093487816e3cb2c3ae5a460d8198f9e2440692d6c1a895"
+      },
+      {
+        "path": "control/close-recall-yarn4-8192-s77-ar-20261008-r1-r2.py",
+        "bytes": 9616,
+        "sha256": "b0f6470fac664924b40c836fd85cb1eb5740240b6e277bff2d4c9b5edc4db996"
+      },
+      {
+        "path": "control/prepare-recall-yarn4-8192-s77-ar-20261008-r1-remote.py",
+        "bytes": 5254,
+        "sha256": "bb96b82c78d1902be12a10193638610e5bef9ede6d7ba83780c363ea505b2bd6"
+      },
+      {
+        "path": "control/prepare-recall-yarn4-closure-r2.py",
+        "bytes": 3260,
+        "sha256": "e4875c62a8ae97b8478f51f0a3ac3ed5e835d378550db0bea8b0cb0e95f02f54"
+      },
+      {
+        "path": "control/recall-yarn4-closure-preparation-r2.json",
+        "bytes": 496,
+        "sha256": "a8152148cc85e24f513e656d164938c77d790797d4eacd94c0817ab5040ee3f7"
+      },
+      {
+        "path": "control/prepare-recall-yarn4-8192-s77-ar-20261008-r1-local.py",
+        "bytes": 6623,
+        "sha256": "c469ba41179afcce5925a43f1d5e8ef4976c937108e9755f97163468fe9d1552"
+      },
+      {
+        "path": "control/recall-yarn4-peer-notifications-r1.json",
+        "bytes": 4093,
+        "sha256": "99043eea2efe6de051ee2f54bfb73ce882f429cbb881a647441f5383ed93184b"
+      },
+      {
+        "path": "control/recall-yarn4-8192-s77-ar-20261008-r1-live-1.json",
+        "bytes": 5744,
+        "sha256": "e8036233bc84456e7a244015211dfde3184f9ce0e22c79c2b7176d3dc1a36aa6"
+      },
+      {
+        "path": "control/recall-yarn4-8192-s77-ar-20261008-r1-live-2.json",
+        "bytes": 7474,
+        "sha256": "e79a57ac5f1f84c8d133e23d20a2d52299148723338e0cb41e0fdc87950694f6"
+      },
+      {
+        "path": "recipe/seal-recall-yarn4-8192-s77-ar-20261008-r1.py",
+        "bytes": 12865,
+        "sha256": "fa71ba5fb78868799a6a7ca791f9edeeea6c52aafbf04c5eb8da7f794fa28935"
+      },
+      {
+        "path": "source/strix-point-bench-collect.py",
+        "bytes": 15600,
+        "sha256": "0a84261dcb52c2d82ff052a788da9304e4ae7b4139c0fa2bd80794e892bc1e59"
+      },
+      {
+        "path": "source/LICENSE",
+        "bytes": 1081,
+        "sha256": "7ea461cf01583ff889f2c0705702f4e97bc1751fd96d5381895754638dc1263d"
+      }
+    ]
+  },
+  "limitations": [
+    "Does not qualify other seeds, 128K/256K/512K/786K/1M physical inputs, other profiles or MTP.",
+    "Configured1048576 capacity is not a physical1M-input or long-recall result.",
+    "Quality outputs are not matched fixed-output performance.",
+    "Lifecycle witnesses do not establish concurrency, thread roles, latency distributions or reactive speedup.",
+    "No claim of vendor or natural-language quality.",
+    "All six root roadmap items remain open; Terminal Bench remains last."
+  ],
+  "current_root_remote_jobs_handles_leases_windows_waiters_reservations": [],
+  "actual_exit_code": 0
+}
