@@ -475,6 +475,43 @@ offline verifier removes only that Gufo-specific cache-control field when
 checking matched request bodies. Client declarations alone do not disable a
 server cache or raise its context capacity.
 
+## Terminal agent tasks: Core-19
+
+Core-19 is the 19-task full suite from the independently pinned
+[Terminal Bench Mini](https://github.com/kyuz0/terminal-bench-mini/tree/07034484346dc724d0e2c47c821fd196add1d6fb).
+It measures whether a terminal agent completes tasks, including debugging,
+repository recovery and configuration. It is separate from prefill/decode
+throughput measurements and from the 100-task OpenThoughts-TBLite dataset.
+
+With LIE serving one model on port 8000, run the external harness from its own
+directory:
+
+```sh
+python3 terminal_bench.py run --tier full \
+  --endpoint http://127.0.0.1:8000/v1 --model qwen3.8-flash-next \
+  --platform strix-halo --model-name Qwen3.8-Flash-Next \
+  --engine synapse-lie --backend rocm --backend-version 7.2.4 \
+  --quant UD-Q4_K_XL --inference-profile ar
+```
+
+Use the actual platform, backend version, quantization and serving profile.
+The default evaluates one task at a time, with up to two attempts per task;
+the second runs only after failure. Each attempt retains its three-hour agent
+timeout. Only a final reward of exactly `1` counts as a pass. Preserve the
+19-task denominator, attempt history, transcripts and infrastructure errors;
+partial progress is not a final pass rate. A quantization comparison must use
+the same server revision, context, sampling, cache and evaluation settings.
+
+Harbor 0.20.0 with Terminus-2 2.0.0 parses terminal commands from the model's
+assistant text. Trajectory `tool_calls` are synthesized after that parsing;
+they do not establish native OpenAI HTTP function calls. Core-19 therefore
+tests agentic command/observation loops, but native `tools`, `tool_choice`,
+call/result correlation, parallel calls, SSE and Responses require separate
+protocol tests or an agent that actually uses those contracts.
+
+Python belongs to this optional external evaluation harness. LIE's server,
+native `synapse-lie-bench`, reports and graphs remain independent of Python.
+
 ## Long-context recall and continuation
 
 Use a separately qualified server with the declared capacity and RoPE profile.
