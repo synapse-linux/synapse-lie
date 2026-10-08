@@ -1,0 +1,210 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: MIT -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#101b28">
+    <meta name="description" content="Synapse LIE: a C17 reactive local inference engine. Explore measured Q2 prefill and decode results and build prerequisites.">
+    <title>Synapse LIE — Local inference, measured</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="assets/site.css">
+    <script src="assets/site.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Synapse LIE home">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span>synapse<span class="brand-dot">.</span>lie</span>
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="#benchmarks">Benchmarks</a>
+        <a href="#install">Installation</a>
+        <a class="nav-source" href="https://github.com/synapse-linux/synapse-lie">Source <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <div class="hero-grid" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> LOCAL INFERENCE ENGINE / DEVELOPMENT PREVIEW</p>
+          <h1 id="hero-title">Inference you can <em>inspect.</em></h1>
+          <p class="hero-lede">A C17 reactive server and model flow for local GPU inference. Explore the real measurements, read the method, then build from source.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#benchmarks">Explore benchmarks <span aria-hidden="true">↗</span></a>
+            <a class="button button-ghost" href="#install">Build it locally <span aria-hidden="true">↓</span></a>
+          </div>
+          <p class="hero-footnote">Current Q2 measurements: AMD Strix Halo, original model weights, inference core. This is experimental software.</p>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="art-orbit art-orbit-outer"></div>
+          <div class="art-orbit art-orbit-inner"></div>
+          <div class="art-center"><span>PP</span><i></i><span>TG</span></div>
+          <div class="art-pill art-pill-one">C17 · CORE</div>
+          <div class="art-pill art-pill-two">GPU · GFX1151</div>
+          <div class="art-pill art-pill-three">CSV → CHART</div>
+          <div class="art-node art-node-one"></div>
+          <div class="art-node art-node-two"></div>
+          <div class="art-node art-node-three"></div>
+        </div>
+        <div class="hero-index" aria-hidden="true">01 / MEASURE &nbsp;&nbsp; 02 / BUILD</div>
+      </section>
+
+      <section class="benchmark-section section-shell" id="benchmarks" aria-labelledby="benchmark-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">01 / MEASURE</p>
+            <h2 id="benchmark-title">The whole curve.<br><span>The source data.</span></h2>
+          </div>
+          <p class="section-intro">One measured original-weight run at every point. Compare exact 2K steps from 2,048 to 8,192 prompt tokens and one to eight concurrent users.</p>
+        </div>
+
+        <div class="benchmark-summary" aria-label="Benchmark highlights">
+          <div class="summary-card">
+            <p>2K · C1 prefill</p>
+            <strong data-metric="prefill">—</strong>
+            <span>prompt tokens / second</span>
+          </div>
+          <div class="summary-card accent-card">
+            <p>2K · C8 decode</p>
+            <strong data-metric="decode">—</strong>
+            <span>output tokens / second, aggregate</span>
+          </div>
+          <div class="summary-card">
+            <p>8K · C8 wall</p>
+            <strong data-metric="wall">—</strong>
+            <span>output tokens / second, whole cohort</span>
+          </div>
+        </div>
+
+        <div class="benchmark-toolbar">
+          <div>
+            <p class="toolbar-title">Context per user</p>
+            <div class="context-filters" id="context-filters" role="group" aria-label="Show context lengths in charts and table">
+              <button type="button" class="context-filter" data-context="2048" aria-pressed="true"><span class="filter-swatch swatch-2048"></span>2K</button>
+              <button type="button" class="context-filter" data-context="4096" aria-pressed="true"><span class="filter-swatch swatch-4096"></span>4K</button>
+              <button type="button" class="context-filter" data-context="6144" aria-pressed="true"><span class="filter-swatch swatch-6144"></span>6K</button>
+              <button type="button" class="context-filter" data-context="8192" aria-pressed="true"><span class="filter-swatch swatch-8192"></span>8K</button>
+            </div>
+          </div>
+          <a class="download-link" href="data/q2-core-model-flow-2k8k.csv" download>Download full CSV <span aria-hidden="true">↗</span></a>
+        </div>
+
+        <p class="load-status" id="load-status" role="status">Loading benchmark CSV…</p>
+        <noscript><p class="load-status">Enable JavaScript to view the interactive charts and data table. The source CSV is available above.</p></noscript>
+        <div class="chart-grid" id="chart-grid" hidden>
+          <article class="chart-card chart-card-wide">
+            <div class="chart-heading"><div><p class="chart-number">FIG 01</p><h3>Prefill throughput</h3></div><span class="chart-unit">prompt tok/s</span></div>
+            <p class="chart-description">Prefill is serialized by the model owner. Each user receives the same full prompt.</p>
+            <div class="chart-surface" data-chart="prefill_tps"></div>
+          </article>
+          <article class="chart-card">
+            <div class="chart-heading"><div><p class="chart-number">FIG 02</p><h3>Decode throughput</h3></div><span class="chart-unit">output tok/s</span></div>
+            <p class="chart-description">Aggregate native decode rate across all users; 128 tokens per user.</p>
+            <div class="chart-surface" data-chart="decode_tps"></div>
+          </article>
+          <article class="chart-card">
+            <div class="chart-heading"><div><p class="chart-number">FIG 03</p><h3>Whole-cohort rate</h3></div><span class="chart-unit">output tok/s</span></div>
+            <p class="chart-description">Includes serialized prefill and decode; excludes model loading.</p>
+            <div class="chart-surface" data-chart="wall_output_tps"></div>
+          </article>
+        </div>
+
+        <div class="method-grid">
+          <div class="method-card">
+            <span class="method-icon">◎</span>
+            <h3>Measured path</h3>
+            <p>C17 model-owner prefill, then native batched decode. This is an inference-core result, without HTTP transport. The prompt is an exact token prefix of <i>I promessi sposi</i>.</p>
+          </div>
+          <div class="method-card">
+            <span class="method-icon">∑</span>
+            <h3>Read the rates correctly</h3>
+            <p>Prefill uses prompt tokens divided by model-owner prefill time. Decode charges each native batch once. Wall rate uses the complete request interval after model load.</p>
+          </div>
+          <div class="method-card method-warning">
+            <span class="method-icon">!</span>
+            <h3>Batch output differs</h3>
+            <p>C1 matches the saved single-user reference at all four depths. C2–C8 agree with one another, but their token continuations differ from C1. Batch output equivalence is <strong>not qualified</strong>. <a href="data/q2-core-model-flow-2k8k-quality.json">Inspect parity data ↗</a></p>
+          </div>
+        </div>
+
+        <details class="data-details">
+          <summary>Inspect all measured rows <span aria-hidden="true">↓</span></summary>
+          <div class="table-wrap">
+            <table id="benchmark-table">
+              <caption>Q2 model-owned benchmark. Rows follow the selected context filters; all rates are tokens per second.</caption>
+              <thead><tr><th scope="col">Prompt / user</th><th scope="col">Users</th><th scope="col">Prefill</th><th scope="col">Decode</th><th scope="col">Wall</th><th scope="col">PP time</th><th scope="col">TG time</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </details>
+        <p class="benchmark-provenance">Qwen3.8-Flash-Next-Q2 · Strix Halo/gfx1151 · context capacity 133,760 · 2,048-token chunks · greedy AR · cache off · no warmup · one sample per point. <a href="data/q2-core-model-flow-2k8k.csv">CSV and full counters</a> · data checkpoint <code>6d0098a0</code>.</p>
+      </section>
+
+      <section class="install-section" id="install" aria-labelledby="install-title">
+        <div class="section-shell">
+          <div class="section-heading install-heading">
+            <div><p class="section-kicker">02 / BUILD</p><h2 id="install-title">Bring your own<br><span>machine.</span></h2></div>
+            <p class="section-intro">Start with the portable C17 server build. GPU inference adds a supported ROCm stack and an explicit, separately built model adapter.</p>
+          </div>
+
+          <div class="install-layout">
+            <div class="install-selector" role="tablist" aria-label="Linux distribution family">
+              <button id="tab-arch" type="button" role="tab" aria-controls="panel-arch" aria-selected="true" tabindex="0" data-distro="arch"><span class="tab-index">01</span><span>Arch / CachyOS</span><span aria-hidden="true">↗</span></button>
+              <button id="tab-fedora" type="button" role="tab" aria-controls="panel-fedora" aria-selected="false" tabindex="-1" data-distro="fedora"><span class="tab-index">02</span><span>Fedora / RHEL</span><span aria-hidden="true">↗</span></button>
+              <button id="tab-debian" type="button" role="tab" aria-controls="panel-debian" aria-selected="false" tabindex="-1" data-distro="debian"><span class="tab-index">03</span><span>Debian / Ubuntu</span><span aria-hidden="true">↗</span></button>
+            </div>
+            <div class="install-content">
+              <div id="panel-arch" role="tabpanel" aria-labelledby="tab-arch" data-panel="arch">
+                <p class="panel-eyebrow">PACMAN FAMILY</p><h3>Arch Linux &amp; CachyOS</h3>
+                <p>Install the C17 build prerequisites from your enabled repositories. CachyOS follows the Arch package naming used below; availability can vary by repository snapshot.</p>
+                <div class="code-block"><div class="code-top"><span>CPU build prerequisites</span><button class="copy-button" type="button" aria-label="Copy Arch package command">Copy</button></div><pre><code>sudo pacman -S --needed base-devel cmake ninja pkgconf git python \
+  libuv llhttp json-c curl openssl icu libpng libjpeg-turbo</code></pre></div>
+                <p class="install-note">For the HIP build, the Arch repositories provide <code>rocm-hip-sdk</code> and <code>hipblaslt</code>. Check the AMD OS/GPU support matrix before expecting a qualified GPU run on either distribution.</p>
+                <p class="source-links"><a href="https://archlinux.org/packages/extra/x86_64/llhttp/">Arch llhttp package ↗</a><a href="https://archlinux.org/packages/extra/any/rocm-hip-sdk/">Arch ROCm HIP SDK ↗</a></p>
+              </div>
+              <div id="panel-fedora" role="tabpanel" aria-labelledby="tab-fedora" data-panel="fedora" hidden>
+                <p class="panel-eyebrow">DNF FAMILY</p><h3>Fedora &amp; Red Hat Enterprise Linux</h3>
+                <p>Fedora offers <code>llhttp-devel</code> in its package repositories. On RHEL 9, enable the appropriate development repositories and EPEL 9 first; check package availability for other RHEL releases.</p>
+                <div class="code-block"><div class="code-top"><span>Fedora / RHEL 9 after repositories are enabled</span><button class="copy-button" type="button" aria-label="Copy Fedora package command">Copy</button></div><pre><code>sudo dnf install gcc gcc-c++ cmake ninja-build pkgconf-pkg-config \
+  git python3 libuv-devel llhttp-devel json-c-devel \
+  libcurl-devel openssl-devel libicu-devel libpng-devel \
+  libjpeg-turbo-devel</code></pre></div>
+                <p class="install-note">For RHEL, enable EPEL/CodeReady Builder according to your organization’s policy before running the command. A source build requires <code>pkg-config --modversion libllhttp</code> to succeed.</p>
+                <p class="source-links"><a href="https://packages.fedoraproject.org/pkgs/llhttp/llhttp-devel/">Fedora / EPEL llhttp-devel ↗</a><a href="https://docs.fedoraproject.org/en-US/epel/getting-started/">EPEL setup ↗</a></p>
+              </div>
+              <div id="panel-debian" role="tabpanel" aria-labelledby="tab-debian" data-panel="debian" hidden>
+                <p class="panel-eyebrow">APT FAMILY</p><h3>Debian &amp; Ubuntu</h3>
+                <p>The package command below applies where <code>libllhttp-dev</code> exists in the configured repositories, including Debian 13 and Ubuntu 25.10/26.04 with Universe enabled.</p>
+                <div class="code-block"><div class="code-top"><span>Debian 13 / supported Ubuntu releases</span><button class="copy-button" type="button" aria-label="Copy Debian package commands">Copy</button></div><pre><code>sudo apt update
+sudo apt install build-essential cmake ninja-build pkg-config git \
+  python3 libuv1-dev libllhttp-dev libjson-c-dev \
+  libcurl4-openssl-dev libssl-dev libicu-dev libpng-dev \
+  libjpeg-dev</code></pre></div>
+                <p class="install-note">Debian 12 and Ubuntu 24.04 do not list <code>libllhttp-dev</code> in their standard package indexes. Supply a compatible llhttp development package from an approved source, then verify <code>pkg-config --modversion libllhttp</code>; substituting <code>libhttp-parser-dev</code> will not satisfy this build.</p>
+                <p class="source-links"><a href="https://packages.debian.org/search?keywords=libllhttp-dev">Debian package index ↗</a><a href="https://packages.ubuntu.com/questing/libllhttp-dev">Ubuntu package index ↗</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="build-steps">
+            <div class="build-step"><span class="step-count">01</span><div><h3>Build and verify the C17 server</h3><p>Run from a fresh Synapse LIE checkout after the distribution prerequisites are installed.</p></div></div>
+            <div class="code-block code-block-light"><div class="code-top"><span>Portable source build</span><button class="copy-button" type="button" aria-label="Copy C17 build commands">Copy</button></div><pre><code>cmake -S . -B build/debug -G Ninja -DCMAKE_BUILD_TYPE=Debug
+cmake --build build/debug -j1
+ctest --test-dir build/debug --output-on-failure</code></pre></div>
+            <div class="build-step"><span class="step-count">02</span><div><h3>Add the optional HIP adapter</h3><p>This requires C++20, HIP/ROCm, hipBLAS, hipBLASLt, rocBLAS, hipCUB/rocPRIM, ICU, OpenSSL, PNG and JPEG. Match your GPU and OS against AMD’s support matrix. The recorded Q2 run used gfx1151.</p></div></div>
+            <div class="code-block code-block-light"><div class="code-top"><span>Optional model-linked build</span><button class="copy-button" type="button" aria-label="Copy HIP build commands">Copy</button></div><pre><code>python3 -B tools/fetch-gufo.py
+python3 -B tools/build-gufo.py new-gufo-label --qwen-only
+python3 -B tools/verify-linked.py new-link-label build/new-gufo-label
+build/new-link-label/synapse-lie-server --build-info</code></pre></div>
+            <p class="build-disclaimer"><strong>Build status ≠ model qualification.</strong> The portable build and tests do not run original weights. The HIP adapter is an explicit development path; a GPU run requires the project’s coordination and model procedures. See the <a href="https://github.com/synapse-linux/synapse-lie/blob/develop/README.md">repository README</a> and <a href="https://rocm.docs.amd.com/en/latest/compatibility/compatibility-matrix.html">AMD ROCm support matrix</a>.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer"><div><span class="footer-brand">synapse<span>.</span>lie</span><p>Local inference, measured in the open.</p></div><div class="footer-links"><a href="#top">Back to top ↑</a><a href="https://github.com/synapse-linux/synapse-lie">GitHub ↗</a><a href="data/q2-core-model-flow-2k8k.csv">Benchmark CSV ↗</a></div><p class="footer-legal">Development preview · First-party site code MIT · Benchmark provenance in site README.</p></footer>
+  </body>
+</html>
