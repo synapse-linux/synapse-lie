@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
-The current r70 `.161` recall ladder passes both cold turns through 786K
+The current r70 `.161` recall ladder passes both cold turns through near-1M
 physical inputs with YaRN4 and seed 77. Original 100-pair FFN learning also
 passes complete capture, independent bank reconstruction and strong closure.
 The first held-out steering run saves 68/70 responses before HTTP429. After
@@ -11,9 +11,32 @@ fails. Baseline arithmetic is 6/10; twenty negative-scale outputs truncate.
 Collection, whole-container retirement, four-peer release and portable evidence
 verification pass. The separate `.161` 786K cohort now also passes both exact
 answers, independent saved-wire review, collection and complete retirement.
-Root now owns only a separately admitted near-1M recall window on `.161`;
-its result remains unqualified while running. No future window is reserved.
+The near-1M cohort now passes complete independent saved-wire review and
+whole-container retirement. Root owns no remote window; no future window is reserved.
 All six root tasks remain open; Terminal Bench stays last.
+
+## Current r70 YaRN4 near-1M recall verified and retired — 2026-10-08 UTC
+
+Both cold answers pass at physical 1,048,062/1,048,170 inputs and natural outputs
+38/74. Completed-call rates are PP 187.678/187.413 tok/s and TG 8.007/7.960 tok/s;
+TTFT is 5,586.228/5,594.716 s. Chunk/scratch 256, seed 77, YaRN4, capacity
+1,048,576 and RAM/SSD prefix cache off remain frozen. These are quality-workload
+timings, not repeated fixed-output performance comparisons.
+
+Original controller87744 and watcher55234 retire with exit0. Explicit HTTP
+collection verifies 18 files. Strong closure at 16:08:53.519479 UTC proves all
+five actual PID/start identities and the complete container/cgroup absent in
+two complete scans, ports8000/46787/60465 empty, four model stats unchanged,
+router391245 restored and original lease66308/105946405 free and released.
+Lease release is 16:07:24.373711 UTC. All four peers receive actual release.
+Independent full-SSE sealing and complete archive postcheck exit0.
+
+The [receipt and complete raw data](development/validation/recall-yarn4-near1m-ar-point-2026-10-08.json)
+retain the original review refusal and clarified fresh admission. The 8,965
+native thermal samples peak CPU83/GPU82/NVMe68.85 C without a guard trip.
+Read-only core progress and sampled thread counts do not establish reactive
+speedup. Six of 39 current-r70 AR profile/size/seed cohorts are now qualified;
+33 remain prepared and unadmitted. All six root tasks remain open.
 
 ## Current r70 YaRN4 near-1M recall admitted — 2026-10-08 UTC
 
@@ -107,7 +130,7 @@ closure, four releases and archive postcheck, the separate near-1M window is
 admitted as recorded above.
 
 The complete frozen r70 AR matrix has 39 profile/size/seed combinations:
-five verified YaRN4/seed77 cohorts, one current unqualified near1M run and
+six verified YaRN4/seed77 cohorts, including the completed near1M run, and
 33 locally prepared but unadmitted cohorts. All remaining
 33 sets of inputs and staging recipes are prepared without remote operations
 or a job queue; their local guard exits0. Historical native-RoPE r68 controls
