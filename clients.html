@@ -65,7 +65,7 @@ env PI_CODING_AGENT_DIR="$PI_LIE_PROFILE" PI_OFFLINE=1 PI_TELEMETRY=0 \
     { "provider": "synapse-lie-ud", "baseUrl": "http://SERVER-IP:8001/v1" }
   ]
 }</code></pre></div>
-            <p>The earlier <a href="https://github.com/synapse-linux/synapse-lie/blob/develop/config/pi-unsloth.models.json">fixed Unsloth profile</a> records the Pi 0.87.1 original-weight GPU tool test. The live catalog path has passed isolated HTTP and Pi 1.0 model-list tests; its original-weight GPU tool round trip is still pending.</p>
+            <p>The earlier <a href="https://github.com/synapse-linux/synapse-lie/blob/develop/config/pi-unsloth.models.json">fixed Unsloth profile</a> records the Pi 0.87.1 original-weight GPU tool test. The live catalog path also passed a Pi 1.0 original-weight Q2 GPU read → edit → read round trip on .155. That test used the optional legacy metadata fallback with 16,384 context; it was a functional client check, not a long-context benchmark.</p>
           </section>
 
           <section class="manual-section" id="codex"><p class="manual-kicker">Needs a Responses change</p><h2>Codex CLI</h2>
