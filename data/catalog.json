@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "platforms": [
+    {"id": "strix-halo", "name": "AMD Strix Halo", "detail": "HIP · gfx1151"},
+    {"id": "strix-point", "name": "AMD Strix Point", "detail": "HIP · gfx1150"},
+    {"id": "dgx-spark", "name": "NVIDIA DGX Spark", "detail": "CUDA"}
+  ],
+  "models": [
+    {"id": "qwen-q2", "name": "Qwen3.8 Flash Next · Q2", "detail": "Antirez compressed weights"},
+    {"id": "qwen-ud-q4", "name": "Qwen3.8 Flash Next · UD-Q4_K_XL", "detail": "Unsloth weights"},
+    {"id": "glm53-flash", "name": "GLM-5.3 Flash", "detail": "Awaiting an integrated benchmark"}
+  ],
+  "workloads": [
+    {"id": "single", "name": "One request", "detail": "A complete literary prompt and 128 generated tokens"},
+    {"id": "long", "name": "Long context", "detail": "Full prompt from empty state, measured through 128K"},
+    {"id": "concurrent", "name": "Several users", "detail": "Serialized prompts and native batched generation"}
+  ],
+  "datasets": [
+    {
+      "id": "q2-promessi-single",
+      "platform": "strix-halo",
+      "model": "qwen-q2",
+      "workload": "single",
+      "format": "core-flow-v1",
+      "csv": "data/q2-core-model-flow-2k8k.csv",
+      "title": "One request, from 2K to 8K",
+      "intro": "How long does one complete prompt take to read, and how quickly are 128 new tokens written? These four points use exact prefixes of I promessi sposi.",
+      "conditions": ["Original Q2 weights · Strix Halo/gfx1151", "Fresh complete prompt at each point · chunk 2K", "Greedy AR · 128 output tokens · no warmup", "Core inference only · model loading and HTTP excluded"],
+      "caveat": "One measured sample per point; no variability estimate. These are not the repeated-counting measurements shown in Long context."
+    },
+    {
+      "id": "q2-counting-long",
+      "platform": "strix-halo",
+      "model": "qwen-q2",
+      "workload": "long",
+      "format": "full-prefill-v1",
+      "row_model": "q2",
+      "csv": "data/q2-counting-curve128.csv",
+      "title": "Full-prompt context, through 128K",
+      "intro": "Each point starts with an empty sequence and reads every prompt token before generating 128 tokens. Choose the prefill chunk size to see how the same Q2 weights behave as the prompt grows.",
+      "conditions": ["Original Q2 weights · Strix Halo/gfx1151 · IOMMU on", "Repeated counting chat, not I promessi sposi", "One warmup + one measured pass per point · greedy AR", "Core inference only · context capacity 133,760"],
+      "caveat": "The repeated counting text is a controlled diagnostic. It is separate from the literary-prompt multi-user run; do not rank their rates as matched runs. Matching continuations here do not establish broad model quality."
+    },
+    {
+      "id": "ud-counting-long",
+      "platform": "strix-halo",
+      "model": "qwen-ud-q4",
+      "workload": "long",
+      "format": "full-prefill-v1",
+      "row_model": "ud",
+      "csv": "data/q2-counting-curve128.csv",
+      "title": "UD-Q4 full-prompt context, through 128K",
+      "intro": "This is the UD-Q4_K_XL control from the same repeated-counting campaign. Each measured point starts empty, reads the whole prompt and then generates 128 tokens.",
+      "conditions": ["Original UD-Q4_K_XL weights · Strix Halo/gfx1151 · IOMMU on", "Repeated counting chat · exact same physical prompts as Q2", "2K chunks · one warmup + one measured pass · greedy AR", "Core inference only · context capacity 133,760"],
+      "caveat": "This is one measured pass per point. The Q2 and UD continuations matched on these prompts, but that alone is not a broad quality or performance qualification."
+    },
+    {
+      "id": "q2-promessi-concurrent",
+      "platform": "strix-halo",
+      "model": "qwen-q2",
+      "workload": "concurrent",
+      "format": "core-flow-v1",
+      "csv": "data/q2-core-model-flow-2k8k.csv",
+      "quality": "data/q2-core-model-flow-2k8k-quality.json",
+      "title": "Several users, one GPU owner",
+      "intro": "Every user in a group receives the same complete literary prompt. Prompt reading is serialized; ready users generate together in native batches.",
+      "conditions": ["Original Q2 weights · Strix Halo/gfx1151 · IOMMU off", "Exact 2K/4K/6K/8K prefixes of I promessi sposi", "One run per arm · no warmup · 128 outputs per user", "Core inference only · model loading and HTTP excluded"],
+      "caveat": "C1 matches the saved single-user reference. C2–C8 agree with each other but produce different continuations from C1, so batch output equivalence is not qualified."
+    }
+  ]
+}
