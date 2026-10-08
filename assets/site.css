@@ -237,6 +237,7 @@ pre{overflow-x:auto;padding:19px 20px 21px;margin:0;font:12px/1.65 ui-monospace,
 @media(max-width:800px){.insight-grid{grid-template-columns:1fr 1fr}.method-panel{grid-template-columns:1fr}.dataset-heading{display:block}.dataset-heading .download-link{display:inline-block;margin-top:16px}.chart-toolbar{grid-template-columns:1fr auto;align-items:start}.toolbar-options{grid-column:1/-1;grid-row:2}.toolbar-reset{grid-column:2;grid-row:1}}
 @media(max-width:600px){.hero h1{font-size:clamp(50px,12vw,72px)}.hero-measure{padding:18px}.measure-top,.measure-bottom{font-size:8px}.measure-label strong{font-size:14px}.measure-value{font-size:22px}.filter-intro{display:block}.filter-intro>p{text-align:left;margin-top:7px}.filter-grid{grid-template-columns:1fr}.insight-grid{grid-template-columns:1fr}.explorer-controls{padding:22px 15px}.explorer-content{padding:21px 15px}.explorer-content .chart-card{padding:19px 13px}.dataset-heading h3{font-size:30px}.chart-toolbar{padding:13px}.site-header nav a:nth-child(1){display:none}}
 @media(max-width:700px){.hero{background-image:linear-gradient(180deg,rgba(16,27,40,.94) 0%,rgba(16,27,40,.86) 48%,rgba(16,27,40,.76) 100%),url("hero-compute-v1.webp");background-position:80% center}}
+@media(max-width:600px){.site-header nav a[href="#install"]{display:none}}
 .chart-plot{height:370px}
 
 /* Installation keeps the actual GPU build command above platform details. */

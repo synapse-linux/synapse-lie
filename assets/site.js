@@ -520,4 +520,4 @@ async function initExplorer() {
 
 initInstallTabs();
 initCopyButtons();
-initExplorer();
+if (document.getElementById("benchmark-status")) initExplorer();

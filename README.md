@@ -7,6 +7,16 @@ This is the static site published from `gh-pages` at
 ECharts, with no remote fonts, build step or CDN. Relative links work under the
 `/synapse-lie/` project path.
 
+`manual.html` is the first operator-facing usage manual for
+`synapse-lie-server` and `synapse-lie-bench`. Its commands and capability bounds
+were checked against `develop` at `30598a3d3a20a3c552fa3c93c769fcb355ae6e38`,
+especially `docs/guides/USAGE.md`, `docs/guides/BENCHMARKS.md`,
+`docs/guides/BUILD.md` and `src/server.c`. The manual uses the develop GPU output
+path `build/release/`. The site's installation shortcut `make strix-halo` comes
+from `feature/integrate-antirez-qwen` and produces `build/strix-halo/` instead;
+the manual calls out this distinction. It documents use of existing features,
+not a new original-weight qualification run.
+
 The first-screen artwork is `assets/hero-compute-v1.webp` (2048 × 768, WebP,
 SHA-256 `0004759fce289b6be41516df567b43bebbe2aa20d5ee1e716e6bc7d`). It
 was generated with the built-in imagegen tool for this site: a dark silicon
