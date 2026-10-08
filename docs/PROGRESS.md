@@ -1,6 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Core-19 comparison requested — 2026-10-08 UTC
+
+The owner selects the existing 19-task Core-19 suite on `.157` for UD-Q4 and
+original Q2/IQ2, using the qualified `develop` runtime. Preparation is on
+`feature/terminal-bench-lite`, based on `9e793a64`; no benchmark admission or
+score is implied by preparation. Both models will run serially on one machine.
+The [implementation TODOs](BACKEND.md#explicit-implementation-todos) distinguish
+missing work from implemented features awaiting broader qualification.
+
+The installed Terminus-2 executes commands parsed from assistant text and
+records them as trajectory tool calls. This is agentic terminal evaluation,
+but does not by itself test native OpenAI function-call request/response
+contracts. Existing source-bound tool-transition receipts remain separate.
+
 The current r70 `.161` recall ladder passes both cold turns through near-1M
 physical inputs with YaRN4 and seed 77. Original 100-pair FFN learning also
 passes complete capture, independent bank reconstruction and strong closure.

@@ -13,6 +13,42 @@ learning from real workloads; do not let the prototype define the final limits.
 
 ## Current roadmap — 2026-10-08 UTC
 
+### Explicit implementation TODOs
+
+The consolidated `develop` contains the shared reactive core, OpenAI tool
+contracts, native benchmark, DS4-format RAM/optional SSD prefix cache, explicit
+MTP and vision, steering and context admission through 1,048,576. These features
+do not close the following implementation and qualification work:
+
+- [ ] Measure and, if beneficial, introduce asynchronous readiness inside a
+  single model forward. Current reactive scheduling batches ready sequences;
+  each numerical forward remains synchronous.
+- [ ] Replace the remaining Gufo model/controller and numerical ownership with
+  the C17 executor in independently qualified slices.
+- [ ] Complete the broader MTP, vision, sampling, fault/resource and context
+  acceptance matrix and matched performance comparisons.
+- [ ] Correct and qualify learned steering quality. The recorded held-out
+  cohort failed; successful capture is not successful steering quality.
+- [ ] Qualify native OpenAI function calls in an end-to-end terminal agent.
+  Core-19 with Terminus-2 tests terminal command/observation loops, but commands
+  parsed from assistant text do not exercise native HTTP `tool_calls`.
+- [ ] Run unchanged Core-19 on current UD-Q4 and original Q2/IQ2, serially on
+  `.157`, and retain per-task attempts, rewards, errors, transcripts and timings.
+
+The owner now explicitly authorizes this Core-19 campaign before the remaining
+broader gates; the earlier "Terminal Bench last" order below is historical.
+The suite already installed on `.157` is the selected 19-task Core-19, not the
+distinct 100-task OpenThoughts-TBLite dataset. The two quantizations share one
+qualified server binary and the same serving/evaluation profile.
+
+High-ratio DS4 payload compression is **deferred**, as requested if upstream
+Antirez does not provide it. Do not describe the current generic checkpoint
+codec as that missing algorithm. SSD model-weight persistence/streaming remains
+a defined future capability, separate from `--kv-disk-*` prefix state.
+The original Q2 MXFP4 predictor remains unsupported; its numerical port and the
+separate DGX/CUDA and GLM branches stay with their assigned owners and are not
+added to this thread's active implementation queue.
+
 The frozen `90a88455`/r68 runtime passes the complete unchanged AR and MTP
 workloads: 71 tool-transition checks and five baseline controls in each mode.
 All three sampling
