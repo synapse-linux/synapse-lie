@@ -297,14 +297,15 @@ not establish latency distributions, thread-role attribution or reactive speedup
 Thread counts were not recorded in the 8K window. The
 [recall protocol](../../../../development/protocols/LONG-CONTEXT-RECALL-GPU-PROTOCOL.md)
 defines the remaining three-seed native/YaRN ladder through 1M. The newer
-YaRN4 8K, 128K, near-256K, near-512K and 786K controls are below; other seeds, 1M inputs,
+YaRN4 8K, 128K, near-256K, near-512K, 786K and near-1M controls are below; other seeds/profiles,
 MTP quality and matched comparisons remain pending.
 
 ### YaRN4 short recall control: current r70 runtime
 
 The separate `4c703b3d`/r70 runs use the same seed 77 questions, cold two-turn
 workload and chunk 256, with YaRN4 and capacity 1,048,576. Actual inputs cover
-8K, 128K, near-256K, near-512K and 786K. They do not establish 1M recall or compare scaling/runtime performance.
+8K, 128K, near-256K, near-512K, 786K and near-1M. These selected quality cohorts
+do not qualify other seeds/profiles or matched scaling/runtime performance.
 
 | Target / turn | Physical input | Output | Prefill tok/s (s) | Decode tok/s (s) | TTFT s | Wall s | Recall |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
@@ -318,6 +319,14 @@ workload and chunk 256, with YaRN4 and capacity 1,048,576. Actual inputs cover
 | Near-512K / start/end | 523,882 | 74 | 209.716 (2498.055) | 9.027 (8.198) | 2499.884 | 2508.019 | Pass |
 | 786K / middle | 786,430 | 38 | 198.139 (3969.079) | 8.409 (4.519) | 3970.928 | 3975.378 | Pass |
 | 786K / start/end | 786,538 | 74 | 197.833 (3975.766) | 8.436 (8.772) | 3977.603 | 3986.305 | Pass |
+| Near-1M / middle | 1,048,062 | 38 | 187.678 (5584.360) | 8.007 (4.746) | 5586.228 | 5590.895 | Pass |
+| Near-1M / start/end | 1,048,170 | 74 | 187.413 (5592.847) | 7.960 (9.297) | 5594.716 | 5603.938 | Pass |
+
+The [near-1M receipt and complete raw data](../../../../development/validation/recall-yarn4-near1m-ar-point-2026-10-08.json)
+verify both saved SSE answers, all 18 collected artifacts, five actual process
+identities and complete container/service/lease retirement. The 8,965 thermal
+samples peak CPU83/GPU82/NVMe68.85 C. Natural outputs remain below TG128;
+these results do not qualify a fixed-output throughput comparison.
 
 Both outputs stop naturally. The [receipt and complete raw data](../../../../development/validation/recall-yarn4-8k-ar-point-2026-10-08.json)
 bind independent saved-SSE answers, full continuation, all 18 collected hashes

@@ -1,5 +1,23 @@
 # DS4 / synapse-lie coordination
 
+## Current r70 YaRN4 near-1M recall verified and retired — 2026-10-08
+
+Manifest `57e76ff82` completes both exact cold answers at physical1048062/1048170,
+natural TG38/74. Original controller87744 and watcher55234 retire exit0; explicit
+HTTP collection saves and verifies all 18 artifacts. Original lease release is
+16:07:24.373711 UTC. Strong closure at 16:08:53.519479 UTC verifies supervisor,
+launcher, init, GPU server and native-client PID/start identities absent, the
+complete container/cgroup absent in two global scans and ports8000/46787/60465
+empty. Four original model stats match; router391245 is restored and the
+original lease66308/105946405 is free and released.
+
+All four peers receive final release. Independent complete saved-SSE sealing
+and portable archive postcheck exit0
+([receipt](development/validation/recall-yarn4-near1m-ar-point-2026-10-08.json)).
+Root owns no job, handle, lease, waiter, reservation or future grant on any
+remote host. A later window needs a new exact proposal and fresh admission;
+Terminal Bench remains last.
+
 ## Current r70 YaRN4 near-1M recall admitted — 2026-10-08
 
 The complete 786K cohort is independently verified and checkpointed at

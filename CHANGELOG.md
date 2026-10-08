@@ -7,6 +7,10 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Current r70 Strix Point recall passes both cold, cache-off YaRN4 turns near
+  one million physical tokens. The model/platform table includes prefill,
+  decode, TTFT and full durations, with independently verified raw evidence.
+
 - Shared C17 steering preparation now collects complete last-prompt-token
   activations and learns normalized directions from paired target/contrast
   prompts with explicit memory bounds. Provider capture hooks are added;
