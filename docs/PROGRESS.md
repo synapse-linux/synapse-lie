@@ -15,6 +15,37 @@ The near-1M cohort now passes complete independent saved-wire review and
 whole-container retirement. Root owns no remote window; no future window is reserved.
 All six root tasks remain open; Terminal Bench stays last.
 
+## Historical Q2 model-owned matrix — 2026-10-08 UTC
+
+These observations belong to the isolated Q2 capsule. They do not qualify
+the current provider composition; its C2+ continuation mismatch remains open.
+
+2026-10-08 15:47 UTC: Q2 model-owned core 2K/4K/6K/8K × C1/C2/C4/C6/C8
+completes on .157 (20/20 original-weight arms, 128 output tokens/user,
+exact Promessi physical prompts, chunk2048/cache off/IOMMU off). Serial PP
+at8K is1508.53 tok/s C1 and1472.41 C8; native TG grows27.95→91.33,
+while whole-cohort wall output grows12.70→18.22. All C2+ arms issue128
+native batches of full cohort width. Crucially, C1 outputs match the saved
+DS4 walk at all four depths, but C2+ continuations differ from C1 (first
+difference at output token14/7/10/15 for2K/4K/6K/8K); no batch output-parity
+claim. All205 result files/1,750,372bytes hash-verify on both hosts. Release
+SHA3b8764a6, independent strong closure15:47:47 SHA53cb819e:32 identities/
+31 groups retired, KFDempty, five free original leases, unchanged seven
+reference and GLM model stats. Four peer notices delivered. Q2 owns no host,
+job, lease, waiter or next reservation. [Full table, graph and limits](Q2-CORE-MULTI-2K8K.md).
+
+2026-10-08 15:21 UTC: prepare a model-owned core benchmark of exact
+Promessi 2K/4K/6K/8K physical prompts at C1/C2/C4/C6/C8. The benchmark
+submits jobs only; `src/worker.c` serializes prefill and sends ready rows to
+native reactive decode. Add unique model-owner phase counters and physical
+PP/TG rates to avoid summing overlapping per-job decode time. Focused Debug
+and ASan/UBSan CTests both pass 2/2; their synthetic fixture is not GPU
+evidence. The earlier `ds4-walk-multi` prefix-cloning prototype was reverted
+as a59f7228; its measurements must not represent independent users. GPU
+coordination and original-weight results remain pending.
+[Contract and planned matrix](CORE-MODEL-FLOW.md).
+
+
 ## Original Qwen IQ2/Q2 format source transfer — 2026-10-08 UTC
 
 The current provider recipe now applies the selected `patches/gufo-q2.patch`

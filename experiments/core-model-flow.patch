@@ -1,0 +1,326 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -430,6 +430,11 @@
+     $<TARGET_FILE:test-synthetic-lie-bench>
+     SimplifiedBenchmark.test_default_ds4_walk_advances_one_corpus_and_excludes_restore)
+   set_tests_properties(ds4-walk-accounting PROPERTIES TIMEOUT 30)
++  add_test(NAME model-flow-prefill-decode COMMAND ${Python3_EXECUTABLE}
++    ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_core_bench.py
++    $<TARGET_FILE:test-synthetic-lie-bench>
++    CoreBench.test_model_owner_serial_prefill_and_native_decode_batch)
++  set_tests_properties(model-flow-prefill-decode PROPERTIES TIMEOUT 30)
+   function(lie_feature_http name)
+     add_executable(test-${name}-http tests/test_feature_http.c)
+     target_link_libraries(test-${name}-http PRIVATE lie_bench_native)
+diff --git a/docs/reference/METRICS.md b/docs/reference/METRICS.md
+--- a/docs/reference/METRICS.md
++++ b/docs/reference/METRICS.md
+@@ -145,6 +145,16 @@
+ executed prefill time/calls and no PP rate. An EOS decode may have no confirmed
+ output while retaining its actual call time. Invalid phase records are refused
+ before a summary or graph is written.
++
++The model owner also exposes `prefill_executor_ns` and `decode_executor_ns`
++in `lie_core_info`. Each completed prefill call adds its duration once; each
++native decode dispatch adds its duration once, even when it serves several
++rows. The core benchmark takes before/after deltas for a cohort. Serial
++prefill rate divides all physically executed prompt tokens by the prefill
++delta; native batch decode rate divides all confirmed output tokens by the
++decode delta. The latter is not the sum of overlapping per-job decode times.
++Both executor rates exclude admission, queue, rendering and client delivery.
++The separate output-over-complete-wall rate includes those costs.
+ 
+ The direct `single`/`multi`/`fresh` benchmark records `timing_clock` as
+ `CLOCK_MONOTONIC`. A sample carries `sample_begin_monotonic_ns`,
+diff --git a/include/lie/core.h b/include/lie/core.h
+--- a/include/lie/core.h
++++ b/include/lie/core.h
+@@ -93,6 +93,9 @@
+     lie_mtp_info mtp;
+     lie_vision_info vision;
+     char error[256];
++    /* One owner call charged once, including native decode batches. These
++     * exclude queue, flow and rendering time. Per-job decode_ns overlaps. */
++    uint64_t prefill_executor_ns, decode_executor_ns;
+ } lie_core_info;
+ typedef struct {
+     unsigned prompt_tokens, output_tokens;
+diff --git a/src/worker.c b/src/worker.c
+--- a/src/worker.c
++++ b/src/worker.c
+@@ -117,7 +117,12 @@
+     lie_core *w=j->owner;
+     pthread_mutex_lock(&w->gate);
+     if (w->dispatch!=j) abort();
+-    if (prefill) ++w->info.prefill_returned;
++    if (prefill) {
++      ++w->info.prefill_returned;
++      if (started_ok && ended_ok && ended >= started &&
++          ended - started <= UINT64_MAX - w->info.prefill_executor_ns)
++        w->info.prefill_executor_ns += ended - started;
++    }
+     else ++w->info.decode_returned;
+     w->dispatch=NULL; j->executing=false; w->info.executor_phase=LIE_EXECUTOR_IDLE;
+     pthread_mutex_unlock(&w->gate);
+@@ -950,6 +955,9 @@
+       }
+     pthread_mutex_lock(&w->gate);
+     ++w->info.decode_returned;
++    if (a && b && ended >= started &&
++        ended - started <= UINT64_MAX - w->info.decode_executor_ns)
++      w->info.decode_executor_ns += ended - started;
+     w->info.executor_phase = LIE_EXECUTOR_IDLE;
+     for (size_t i = 0; i < n; ++i)
+       if (rows[i].selected)
+diff --git a/tests/test_core_bench.py b/tests/test_core_bench.py
+--- a/tests/test_core_bench.py
++++ b/tests/test_core_bench.py
+@@ -20,6 +20,55 @@
+ 
+ 
+ class CoreBench(unittest.TestCase):
++    def test_model_owner_serial_prefill_and_native_decode_batch(self):
++        with tempfile.TemporaryDirectory(prefix='lie-core-model-flow-') as tmp:
++            root=Path(tmp);source=root/'tokens.json';source.write_text(json.dumps(list(range(8))))
++            for users in (1,2,4,8):
++                output=root/f'c{users}.jsonl';trace=root/f'c{users}.trace';graphs=root/f'graphs{users}'
++                env=dict(os.environ,LIE_BENCH_TEST_TRACE=str(trace))
++                p=subprocess.run([BINARY,'--suite','core','--model',':fixture:',
++                                  '--output',str(output),'--tokens-file',str(source),
++                                  '--context','128','--chunk','4','--users',str(users),
++                                  '--tg','8','--warmups','0','--repetitions','1',
++                                  '--kv-cache-ram-mb','0','--kv-cache-policy','legacy',
++                                  '--graphs',str(graphs)],env=env,capture_output=True,text=True,timeout=15)
++                self.assertEqual(p.returncode,0,p.stderr)
++                rows=[json.loads(line) for line in output.read_text().splitlines()]
++                self.assertEqual(rows[0]['execution'],'shared-reactive-core')
++                self.assertEqual(rows[0]['prefill_dispatch'],'single-model-owner-serial')
++                self.assertEqual(rows[0]['decode_dispatch'],'reactive-ready-native-batch')
++                jobs=[r for r in rows if r['event']=='job']
++                self.assertEqual(len(jobs),users)
++                self.assertTrue(all(r['prefill_tokens']==8 and r['prefill_calls']==2 and
++                                    r['output_tokens']==8 for r in jobs))
++                sample=next(r for r in rows if r['event']=='sample')
++                self.assertEqual((sample['model_prefill_started'],sample['model_prefill_returned']),
++                                 (users*2,users*2))
++                self.assertEqual(sample['prefill_tokens_total'],users*8)
++                self.assertEqual(sample['prefill_executor_ns_total'],sum(r['prefill_ns'] for r in jobs))
++                self.assertAlmostEqual(sample['prefill_executor_tps'],
++                                       users*8e9/sample['prefill_executor_ns_total'])
++                self.assertEqual((sample['model_decode_started'],sample['model_decode_returned']),
++                                 (8,8))
++                self.assertGreater(sample['decode_executor_ns_total'],0)
++                self.assertAlmostEqual(sample['decode_executor_tps'],
++                                       users*8e9/sample['decode_executor_ns_total'])
++                self.assertEqual(sample['decode_batches'],8 if users>1 else 0)
++                self.assertEqual(sample['decode_batch_rows'],8*users if users>1 else 0)
++                self.assertEqual(sample['decode_single_calls'],8 if users==1 else 0)
++                calls=[tuple(map(int,line.split())) for line in trace.read_text().splitlines()]
++                self.assertEqual(len(calls),users*2)
++                self.assertEqual(sum(call[1:3]==(0,4) for call in calls),users)
++                self.assertEqual(sum(call[1:3]==(4,8) for call in calls),users)
++                self.assertTrue(all(a[4]<=b[3] for a,b in zip(calls,calls[1:])))
++                self.assertEqual(len(REPORT['read_result'](output)['configurations']),1)
++                self.assertGreater((graphs/'benchmark.png').stat().st_size,0)
++                bad=copy.deepcopy(rows)
++                next(r for r in bad if r['event']=='sample')['model_prefill_started']+=1
++                corrupt=root/f'corrupt{users}.jsonl'
++                corrupt.write_text(''.join(json.dumps(r)+'\n' for r in bad))
++                with self.assertRaises(ValueError):REPORT['read_result'](corrupt)
++
+     def test_direct_reactive_held_loan_peer_and_cancel(self):
+         with tempfile.TemporaryDirectory(prefix='lie-core-reactive-') as tmp:
+             root=Path(tmp);source=root/'tokens.json';source.write_text(json.dumps([0,1,2,3]))
+diff --git a/tools/bench-report.py b/tools/bench-report.py
+--- a/tools/bench-report.py
++++ b/tools/bench-report.py
+@@ -301,6 +301,24 @@
+         elapsed=sample['wall_ns'];tokens=sum(r['output_tokens'] for r in group)
+         if type(elapsed) is not int or elapsed<=0 or sample['output_tokens']!=tokens or not math.isfinite(sample['output_per_total_wall_tps']) or not math.isclose(sample['output_per_total_wall_tps'],tokens*1e9/elapsed,rel_tol=1e-12):
+             raise ValueError('core common-window accounting')
++        if identity.get('prefill_dispatch'):
++            if identity['prefill_dispatch']!='single-model-owner-serial' or identity.get('decode_dispatch')!='reactive-ready-native-batch':
++                raise ValueError('core model dispatch contract')
++            pp_calls=sum(r['prefill_calls'] for r in group)
++            pp_tokens=sum(r['prefill_tokens'] for r in group)
++            pp_ns=sum(r['prefill_ns'] for r in group)
++            if (sample.get('model_prefill_started'),sample.get('model_prefill_returned'),
++                sample.get('prefill_tokens_total'),sample.get('prefill_executor_ns_total'))!=(pp_calls,pp_calls,pp_tokens,pp_ns):
++                raise ValueError('core model-owner prefill counts')
++            value=sample.get('prefill_executor_tps')
++            if type(value) not in (int,float) or not math.isfinite(value) or not math.isclose(value,pp_tokens*1e9/pp_ns if pp_ns else 0,rel_tol=1e-12,abs_tol=1e-12):
++                raise ValueError('core serial prefill rate')
++            calls=sample.get('decode_batches',0)+sample.get('decode_single_calls',0)
++            if sample.get('model_decode_started')!=calls or sample.get('model_decode_returned')!=calls:
++                raise ValueError('core model decode dispatch counts')
++            tg_ns=sample.get('decode_executor_ns_total');tg_rate=sample.get('decode_executor_tps')
++            if type(tg_ns) is not int or tg_ns<0 or type(tg_rate) not in (int,float) or not math.isfinite(tg_rate) or not math.isclose(tg_rate,tokens*1e9/tg_ns if tg_ns else 0,rel_tol=1e-12,abs_tol=1e-12):
++                raise ValueError('core native batch decode rate')
+         for key in ['decode_batches','decode_batch_rows','decode_single_calls']:
+             if type(sample[key]) is not int or sample[key]<0:raise ValueError('core dispatch count')
+         if not 2*sample['decode_batches']<=sample['decode_batch_rows']<=users*sample['decode_batches']:
+@@ -326,6 +344,9 @@
+         total_ns=distribution([r['total_ns'] for r in measured]),
+         job_prefill_tps=distribution([r['prefill_tokens']*1e9/r['prefill_ns'] for r in measured if r['prefill_ns']]),
+         output_per_total_wall_tps=distribution([r['output_per_total_wall_tps'] for r in samples if not r['warmup']]))
++    if identity.get('prefill_dispatch'):
++        point['prefill_executor_tps']=distribution([r['prefill_executor_tps'] for r in samples if not r['warmup']])
++        point['decode_executor_tps']=distribution([r['decode_executor_tps'] for r in samples if not r['warmup']])
+     return {'identity':identity,'source':str(Path(path).resolve()),'source_sha256':hashlib.sha256(Path(path).read_bytes()).hexdigest(),
+         'configurations':[point],'jobs':jobs,'samples':samples,'loading':[r for r in rows if r['event']=='core_ready']}
+ 
+@@ -350,18 +371,20 @@
+     (out/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
+     series=[(label,result)]+([(reference_label,reference)] if reference else [])
+     with (out/'summary.csv').open('w',newline='') as f:
+-        writer=csv.writer(f);writer.writerow(['label','users','prompt_tokens','repetitions','job_prefill_median_tps','output_per_total_wall_median_tps','first_token_median_ms','total_median_ms','cache_policy','cached_tokens_median','cache_capture_median_ms','cache_restore_median_ms','ssd_cached_tokens_median','ssd_read_median_ms','cache_retention_policy','checkpoint_compression','cache_retained_bytes_median','cache_expanded_bytes_median','checkpoint_codec','state_format'])
++        writer=csv.writer(f);writer.writerow(['label','users','prompt_tokens','repetitions','job_prefill_median_tps','output_per_total_wall_median_tps','first_token_median_ms','total_median_ms','cache_policy','cached_tokens_median','cache_capture_median_ms','cache_restore_median_ms','ssd_cached_tokens_median','ssd_read_median_ms','cache_retention_policy','checkpoint_compression','cache_retained_bytes_median','cache_expanded_bytes_median','checkpoint_codec','state_format','serial_model_prefill_median_tps','native_decode_median_tps'])
+         for name,data in series:
+             r=data['configurations'][0]
+             value=lambda key,scale=1:r[key]['median']*scale if r[key] is not None else None
+-            writer.writerow([name,r['users'],r['prompt_tokens'],r['repetitions'],value('job_prefill_tps'),value('output_per_total_wall_tps'),value('first_token_ns',1e-6),value('total_ns',1e-6),r['cache_policy'],value('cached_tokens'),value('cache_capture_ns',1e-6),value('cache_restore_ns',1e-6),value('ssd_cached_tokens'),value('ssd_read_ns',1e-6),r['cache_retention_policy'],r['checkpoint_compression'],value('cache_retained_bytes'),value('cache_expanded_bytes'),r['checkpoint_codec'],r['state_format']])
++            writer.writerow([name,r['users'],r['prompt_tokens'],r['repetitions'],value('job_prefill_tps'),value('output_per_total_wall_tps'),value('first_token_ns',1e-6),value('total_ns',1e-6),r['cache_policy'],value('cached_tokens'),value('cache_capture_ns',1e-6),value('cache_restore_ns',1e-6),value('ssd_cached_tokens'),value('ssd_read_ns',1e-6),r['cache_retention_policy'],r['checkpoint_compression'],value('cache_retained_bytes'),value('cache_expanded_bytes'),r['checkpoint_codec'],r['state_format'],value('prefill_executor_tps') if 'prefill_executor_tps' in r else None,value('decode_executor_tps') if 'decode_executor_tps' in r else None])
+     os.environ.setdefault('MPLCONFIGDIR',str(out/'matplotlib-cache'))
+     import matplotlib
+     matplotlib.use('Agg')
+     import matplotlib.pyplot as plt
+     fig,axes=plt.subplots(1,3,figsize=(13,4),layout='constrained')
+-    for ax,key,scale,title in zip(axes,['job_prefill_tps','output_per_total_wall_tps','first_token_ns'],[1,1,1e-6],
+-            ['Per-job executor prefill tok/s','Aggregate output / complete wall tok/s','Client first confirmed token, ms']):
++    pp_key='prefill_executor_tps' if all('prefill_executor_tps' in data['configurations'][0] for _,data in series) else 'job_prefill_tps'
++    tg_key='decode_executor_tps' if all('decode_executor_tps' in data['configurations'][0] for _,data in series) else 'output_per_total_wall_tps'
++    for ax,key,scale,title in zip(axes,[pp_key,tg_key,'first_token_ns'],[1,1,1e-6],
++            ['Serial model prefill tok/s' if pp_key=='prefill_executor_tps' else 'Per-job executor prefill tok/s','Native batch decode tok/s' if tg_key=='decode_executor_tps' else 'Aggregate output / complete wall tok/s','Client first confirmed token, ms']):
+         for x,(name,data) in enumerate(series):
+             v=data['configurations'][0][key]
+             if v is None:
+diff --git a/tools/core-bench.c b/tools/core-bench.c
+--- a/tools/core-bench.c
++++ b/tools/core-bench.c
+@@ -122,6 +122,7 @@
+         if(interrupted||now()>=deadline){snprintf(error,256,"core retirement deadline");goto done;}
+         struct pollfd fd={lie_core_fd(c),POLLIN,0};if(poll(&fd,1,100)>0)lie_core_drain(c);
+     }
++    uint64_t prefill_tokens_total=0,prefill_ns_total=0;
+     for(unsigned i=0;i<users;++i){
+         lie_job_info info;lie_job_snapshot(rows[i].job,&info);size_t n=0;
+         int32_t *input=malloc((size_t)info.prompt_tokens*sizeof(*input));
+@@ -147,15 +148,30 @@
+         number(job,"max_decode_output_tokens",info.max_decode_output_tokens);
+         number(job,"mtp_drafted_tokens",info.mtp_drafted);number(job,"mtp_accepted_tokens",info.mtp_accepted);
+         number(job,"prefill_calls",info.prefill_calls);number(job,"decode_calls",info.decode_calls);
++        prefill_tokens_total+=info.prefill_tokens;prefill_ns_total+=info.prefill_ns;
+         number(job,"total_ns",rows[i].end-rows[i].start);
+         json_object_object_add(job,"first_token_ns",rows[i].first?json_object_new_uint64(rows[i].first-rows[i].start):NULL);
+         text(job,"finish",info.finish==LIE_FINISH_STOP?"stop":"length");json_object_object_add(job,"output_ids",ids_json(output,n));
+         if(!emit(f,job))goto done;
+     }
+     lie_core_info after;lie_core_snapshot(c,&after);
++    if(after.prefill_executor_ns<before.prefill_executor_ns ||
++       after.prefill_executor_ns-before.prefill_executor_ns!=prefill_ns_total){
++        snprintf(error,256,"model-owner prefill timing differs from completed jobs");goto done;
++    }
+     json_object *point=event("sample");number(point,"rep",rep);number(point,"warmup",warmup);number(point,"users",users);
+     uint64_t tokens=0;for(unsigned i=0;i<users;++i)tokens+=rows[i].tokens;
+     number(point,"output_tokens",tokens);number(point,"wall_ns",last-begin);
++    number(point,"model_prefill_started",after.prefill_started-before.prefill_started);
++    number(point,"model_prefill_returned",after.prefill_returned-before.prefill_returned);
++    number(point,"model_decode_started",after.decode_started-before.decode_started);
++    number(point,"model_decode_returned",after.decode_returned-before.decode_returned);
++    uint64_t model_pp_ns=after.prefill_executor_ns-before.prefill_executor_ns;
++    uint64_t model_tg_ns=after.decode_executor_ns-before.decode_executor_ns;
++    number(point,"prefill_tokens_total",prefill_tokens_total);number(point,"prefill_executor_ns_total",model_pp_ns);
++    number(point,"decode_executor_ns_total",model_tg_ns);
++    json_object_object_add(point,"prefill_executor_tps",json_object_new_double(model_pp_ns?prefill_tokens_total*1e9/model_pp_ns:0));
++    json_object_object_add(point,"decode_executor_tps",json_object_new_double(model_tg_ns?tokens*1e9/model_tg_ns:0));
+     json_object_object_add(point,"output_per_total_wall_tps",json_object_new_double(tokens*1e9/(last-begin)));
+     number(point,"decode_batches",after.decode_batches-before.decode_batches);number(point,"decode_batch_rows",after.decode_batch_rows-before.decode_batch_rows);
+     number(point,"decode_single_calls",after.decode_single_calls-before.decode_single_calls);
+@@ -373,6 +389,7 @@
+     if((encoder||image_path)&&(!LIE_VISION||!encoder||!*encoder||!image_path||!*image_path||!prompt_path))goto usage;
+     json_object *identity=event("identity");text(identity,"schema","synapse-lie.core-bench.v1");text(identity,"suite","core");
+     text(identity,"execution","shared-reactive-core");text(identity,"mode",mtp?(encoder?"mtp+vision":"mtp"):(encoder?"vision":"ar"));text(identity,"vision_model",encoder?encoder:"");text(identity,"mtp_model",mtp?mtp:"");number(identity,"mtp_draft_tokens_requested",mtp_drafts);text(identity,"provider",lie_backend_name());text(identity,"build_id",LIE_BUILD_ID);
++    text(identity,"prefill_dispatch","single-model-owner-serial");text(identity,"decode_dispatch","reactive-ready-native-batch");
+     text(identity,"ownership",lie_backend_ownership());text(identity,"source_pin",lie_backend_source_pin());
+     text(identity,"dense_sampling",lie_backend_dense_sampling());
+     json_object *generation=json_object_new_object();
+diff --git a/tools/native/report.c b/tools/native/report.c
+--- a/tools/native/report.c
++++ b/tools/native/report.c
+@@ -410,7 +410,8 @@
+               nb_number(s, "users") == (int64_t)users &&
+               flag(s, "warmup") == ((int64_t)rep < nb_number(id, "warmups")),
+           "Core sample ordering or warmup drift");
+-    int64_t tokens = 0, hits = 0;
++    int64_t tokens = 0, hits = 0, prefill_calls = 0,
++            prefill_tokens = 0, prefill_ns = 0;
+     for (size_t u = 0; u < users; u++) {
+       json_object *r = json_object_array_get_idx(jobs, rep * users + u);
+       CHECK(nb_number(r, "rep") == (int64_t)rep &&
+@@ -475,6 +476,9 @@
+         full = false;
+       tokens += tg;
+       hits += cached && !ssd;
++      prefill_calls += pp_calls;
++      prefill_tokens += nb_number(r, "prefill_tokens");
++      prefill_ns += pp_ns;
+     }
+     CHECK(!ram || (nb_number(s, "cache_hits") == hits &&
+                    nb_number(s, "cache_misses") == (int64_t)users - hits),
+@@ -504,6 +508,22 @@
+               rate(s, "output_per_total_wall_tps", tokens,
+                    nb_number(s, "wall_ns")),
+           "Invalid common-window rate");
++    if (nb_get(id, "prefill_dispatch"))
++      CHECK(eqs(id, "prefill_dispatch", "single-model-owner-serial") &&
++                eqs(id, "decode_dispatch", "reactive-ready-native-batch") &&
++                nb_number(s, "model_prefill_started") == prefill_calls &&
++                nb_number(s, "model_prefill_returned") == prefill_calls &&
++                nb_number(s, "prefill_tokens_total") == prefill_tokens &&
++                nb_number(s, "prefill_executor_ns_total") == prefill_ns &&
++                nb_number(s, "model_decode_started") ==
++                    nb_number(s, "decode_batches") + nb_number(s, "decode_single_calls") &&
++                nb_number(s, "model_decode_returned") == nb_number(s, "model_decode_started") &&
++                (tokens ? rate(s, "decode_executor_tps", tokens,
++                               nb_number(s, "decode_executor_ns_total")) :
++                          !nb_number(s, "decode_executor_ns_total")) &&
++                (prefill_tokens ? rate(s, "prefill_executor_tps", prefill_tokens, prefill_ns) :
++                                  (!prefill_ns && json_object_get_double(nb_get(s, "prefill_executor_tps")) == 0)),
++            "Model-owner prefill dispatch accounting differs");
+     CHECK(nonnegative(s, "decode_batches") &&
+               nonnegative(s, "decode_batch_rows") &&
+               nonnegative(s, "decode_single_calls") &&
+@@ -563,6 +583,11 @@
+                       "output_per_total_wall_tps"};
+   for (unsigned k = 0; k < 3; k++)
+     json_object_object_add(point, sm[k], metric(samples, sm[k], 1, true));
++  if (nb_get(id, "prefill_dispatch"))
++    for (unsigned k = 0; k < 2; ++k) {
++      const char *name = k ? "decode_executor_tps" : "prefill_executor_tps";
++      json_object_object_add(point, name, metric(samples, name, 1, true));
++    }
+   double pp_rates[880], tg_rates[880];
+   size_t pp_count = 0, tg_count = 0;
+   for (size_t i = 0; i < json_object_array_length(jobs); i++) {
+@@ -1123,11 +1148,16 @@
+            : ssd    ? "KV disk HTTP"
+                     : "direct executor");
+   if (iscore) {
+-    keys[0] = "job_prefill_tps";
+-    keys[1] = "output_per_total_wall_tps";
++    keys[0] = nb_get(nb_get(a, "identity"), "prefill_dispatch") &&
++              (!b || nb_get(nb_get(b, "identity"), "prefill_dispatch")) ?
++              "prefill_executor_tps" : "job_prefill_tps";
++    keys[1] = !strcmp(keys[0], "prefill_executor_tps") ?
++              "decode_executor_tps" : "output_per_total_wall_tps";
+     keys[2] = "job_decode_tps";
+-    titles[0] = "Per-job executor prefill";
+-    titles[1] = "Aggregate output / complete client wall";
++    titles[0] = !strcmp(keys[0], "prefill_executor_tps") ?
++                "Serial model-owner prefill" : "Per-job executor prefill";
++    titles[1] = !strcmp(keys[1], "decode_executor_tps") ?
++                "Native batched decode" : "Aggregate output / complete client wall";
+     titles[2] = "Per-job confirmed decode";
+     units[2] = "output tokens/s";
+     np = 3;
