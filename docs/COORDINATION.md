@@ -1,5 +1,31 @@
 # DS4 / synapse-lie coordination
 
+## Current r70 YaRN4 near-1M recall admitted — 2026-10-08
+
+The complete 786K cohort is independently verified and checkpointed at
+`bddff391` before proposing one new `.161` window, manifest `57e76ff82`.
+All four peers declare exact-scope non-use through run, collection, independent
+oracle, whole-container closure, original lease release and four-peer notices.
+Point's failed outgoing transport is retained; its actual completed declaration
+is received by direct thread read and explicitly acknowledged.
+
+Initial automatic review rejects the launch by applying another agent's `.157`
+stop request to this `.161` task. No launcher process is created. The owner
+clarifies that the instruction concerned the other agent; the unchanged action
+then passes review using a new 12:57:41 UTC global observation and original
+in-lease checks. The initial refusal, original recipes and both fresh records
+are preserved, with no source/runtime/workload criteria change.
+
+Actual controller87744 runs the frozen C1/greedy AR/YaRN4/seed77 cohort at
+capacity1048576, physical target1048064 and chunk/scratch256, three unscored
+calibrations plus two cold natural-TG128 turns, prefix caching off. The
+12:59:07 witness observes supervisor282037/start8037304 holding original
+lease66308/105946405 on FD3 and init282267/start8037442 in container
+`dc23c98e978b145acac203f699a8800517a6e3ad678a3bf5f0a27658ad5fa796`.
+No native GPU owner is observed yet. All four peers receive actual admission
+identities. Root owns `.161` only through collection/oracle/full closure and
+all four releases; `.155/.157/.158/TB` are NONE, with no future grant.
+
 ## Current r70 YaRN4 786K recall verified and retired — 2026-10-08
 
 After the complete steering failure is collected, independently reviewed,

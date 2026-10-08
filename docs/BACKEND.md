@@ -397,7 +397,8 @@ none of the six items.
    current-runtime cohorts also pass both answers at physical 261630/261738
    and 523774/523882, with the same complete independent wire/closure checks.
    The frozen current-r70 AR matrix contains 39 profile/size/seed combinations:
-   five are verified and 34 are prepared locally but unadmitted. The
+   five are verified, near1M/YaRN4/seed77 is running, and 33 are prepared locally
+   but unadmitted. The
    [786K cohort](development/validation/recall-yarn4-786k-ar-point-2026-10-08.json)
    passes both exact cold answers at physical786430/786538 and natural TG38/74,
    with independent saved-wire review, complete collection and five-identity

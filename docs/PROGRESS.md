@@ -11,8 +11,33 @@ fails. Baseline arithmetic is 6/10; twenty negative-scale outputs truncate.
 Collection, whole-container retirement, four-peer release and portable evidence
 verification pass. The separate `.161` 786K cohort now also passes both exact
 answers, independent saved-wire review, collection and complete retirement.
-No root GPU window or future reservation remains.
+Root now owns only a separately admitted near-1M recall window on `.161`;
+its result remains unqualified while running. No future window is reserved.
 All six root tasks remain open; Terminal Bench stays last.
+
+## Current r70 YaRN4 near-1M recall admitted — 2026-10-08 UTC
+
+After the 786K cohort is fully collected, closed, released, independently
+verified and checkpointed at `bddff391`, four new specific declarations cover
+one `.161` near-1M window. Manifest `57e76ff82` retains the r70/`4c703b3d`
+runtime, seed 77, YaRN4, capacity 1,048,576, physical target 1,048,064 and
+chunk/scratch 256. It runs three unscored calibrations and two cold natural
+TG128 turns, with RAM/SSD prefix caching disabled.
+
+Automatic review rejects the initial launch by applying another agent's
+`.157` stop request to this `.161` task. The user explicitly clarifies that
+the request concerned the other agent. The same action is then reviewed and
+accepted after new global checks at 12:57:41 UTC and original in-lease checks.
+Both the initial rejection and fresh admission records are retained; no
+launcher or GPU process was created by the rejected attempt.
+
+Controller87744 is live. At 12:59:07 UTC, supervisor282037/start8037304 holds
+original lease66308/105946405 on FD3, and init282267/start8037442 belongs to
+the full recorded container. GPU loading has not started at that observation;
+no native GPU identity or completed inference is inferred. All four peers
+receive actual admission identities. CPU98/NVMe85 guards and GPU-only
+observation remain unchanged. Root owns this window through collection,
+independent wire review, whole-container closure and all four release notices.
 
 ## Current r70 YaRN4 786K recall verified and retired — 2026-10-08 UTC
 
@@ -71,8 +96,8 @@ launcher requires the current run's collection, strong closure, four releases
 and successful archive postcheck first.
 
 The complete frozen r70 AR matrix has 39 profile/size/seed combinations:
-five verified YaRN4/seed77 cohorts and
-34 locally prepared but unadmitted cohorts, including near1M. All remaining
+five verified YaRN4/seed77 cohorts, one current unqualified near1M run and
+33 locally prepared but unadmitted cohorts. All remaining
 33 sets of inputs and staging recipes are prepared without remote operations
 or a job queue; their local guard exits0. Historical native-RoPE r68 controls
 remain reference evidence and do not count as current-r70 qualification.
