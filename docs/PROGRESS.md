@@ -43,6 +43,13 @@ CPU 48.125 C. No remote staging or next-window admission has occurred; its
 launcher requires the current run's collection, strong closure, four releases
 and successful archive postcheck first.
 
+The complete frozen r70 AR matrix has 39 profile/size/seed combinations:
+four verified YaRN4/seed77 cohorts, the one current unqualified 786K run and
+34 locally prepared but unadmitted cohorts, including near1M. All remaining
+33 sets of inputs and staging recipes are prepared without remote operations
+or a job queue; their local guard exits0. Historical native-RoPE r68 controls
+remain reference evidence and do not count as current-r70 qualification.
+
 ## Complete steering cohort fails quality; retention and closure pass — 2026-10-08 UTC
 
 Checkpoint `6deadec6` retains the failed first run and its HOST-qualified
