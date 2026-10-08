@@ -60,6 +60,7 @@ def main():
                              output_equal_to_2k=reference_output==sample['output_ids'],
                              first_output_difference_to_2k=first_difference))
     result = dict(schema='synapse-lie.q2-exact-bench128-results.v1',
+                  comparison_status='withdrawn-for-full-prefill-and-optimization-comparisons',
                   plan_sha256=sha(plan_path), corpus_sha256=plan['staged_sha256']['promessi_sposi.txt'],
                   binary_sha256=plan['staged_sha256']['synapse-lie-bench'],
                   scope='Incremental completed final chunk at exact raw corpus frontier; preceding prefix replay outside phase timers.',
@@ -71,6 +72,11 @@ def main():
     with (ROOT / 'docs/figures/q2-exact-bench128.csv').open('w') as out:
         writer=csv.DictWriter(out,fieldnames=list(rows[0])); writer.writeheader(); writer.writerows(rows)
     text = ['<!-- SPDX-License-Identifier: MIT -->', '', '# Exact Promessi sposi PP/TG curves', '',
+            '**Withdrawn as a full-prefill or optimization comparison (2026-10-08).**',
+            'These are final-chunk timings after untimed prefix replay, on a different',
+            'corpus from the retained counting reference. Exact counts do not make these',
+            'scopes comparable. Preserve this historical table and its raw evidence;',
+            'see [measurement correction](Q2-BENCHMARK-CORRECTION.md).', '',
             'Original Q2 on .157; IOMMU enabled; performance/120 W; C1 reactive AR.',
             'Each prefill measurement covers the final complete 2048/4096/8192-token block',
             'at the stated exact prompt frontier. Prior-prefix replay is outside PP/TG timers.',

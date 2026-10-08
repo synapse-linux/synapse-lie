@@ -3,9 +3,11 @@
 # Enabled-IOMMU prefill chunk measurements
 
 Historical unaligned HTTP observation. These prompt lengths do not satisfy
-the owner's requested exact 2K/4K/8K grid. The corrected native corpus
-contract is documented in [Q2-EXACT-BENCH.md](Q2-EXACT-BENCH.md); results from
-the two input corpora and timing scopes must not be merged.
+the owner's requested exact 2K/4K/8K grid. The later native corpus campaign
+also measured a different, final-chunk interval. Neither replaces the requested
+full-prefill counting-prompt comparison; see
+[the measurement correction](Q2-BENCHMARK-CORRECTION.md). Preserve both sets
+of historical data without merging their scopes or performance conclusions.
 
 One original eleven-request curve per chunk on .157, in 2048/4096/8192 order.
 The same server and native `synapse-lie-bench` run C1 AR at context capacity

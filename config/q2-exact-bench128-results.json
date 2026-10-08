@@ -1,5 +1,6 @@
 {
   "schema": "synapse-lie.q2-exact-bench128-results.v1",
+  "comparison_status": "withdrawn-for-full-prefill-and-optimization-comparisons",
   "plan_sha256": "28d9f5d6fc4d3d219d26587a8c3a8dbdb68697514ad6ffba694c5c3bd96e0ed0",
   "corpus_sha256": "f53e0d80cb2d4492d24ebd63c7000c397b16ae70f9bf09b3763e5d8323ec209f",
   "binary_sha256": "23b53980e10a6615dc9e514eeee78c46c50aec90d5d57010de9532a51ae23f7f",

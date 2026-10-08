@@ -26,13 +26,16 @@ def main():
         ax.set_xticks([2048,4096,8192,16384,32768,65536,131072],['2K','4K','8K','16K','32K','64K','128K'])
         ax.set_xlabel('Exact prompt tokens before generation'); ax.set_ylabel('Tokens / second')
         ax.set_xlim(1800,150000); ax.grid(alpha=.25); ax.legend()
-    fig.suptitle('Q2 on .157 — I promessi sposi — exact 2K / 4K / 8K chunks',fontsize=15)
+    fig.suptitle('Historical final-chunk timings — NOT a full-prefill comparison',fontsize=15)
     fig.text(.5,.045,'Native synapse-lie-bench; same raw corpus token prefixes; no partial prefill calls.\n'
              'Prefix replay outside PP/TG timers; C1 reactive AR; requested TG128; one measured run per point.\n'
              'IOMMU enabled; performance / 120 W. No comparison against the earlier HTTP corpus.',ha='center',fontsize=9)
     fig.tight_layout(rect=(0,.12,1,.94))
     for suffix in ('png','svg'):
-        fig.savefig(ROOT/('docs/figures/q2-exact-bench128.'+suffix),dpi=170)
+        path=ROOT/('docs/figures/q2-exact-bench128.'+suffix)
+        fig.savefig(path,dpi=170)
+        if suffix=='svg':
+            path.write_text('\n'.join(line.rstrip() for line in path.read_text().splitlines())+'\n')
     plt.close(fig)
 
 

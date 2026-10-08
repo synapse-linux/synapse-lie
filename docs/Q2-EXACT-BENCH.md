@@ -2,6 +2,11 @@
 
 # Exact native corpus benchmark
 
+**Historical incremental campaign; superseded for the user's full-prefill
+request.** The example below times the last chunk only. Its completed GPU
+runs do not establish the requested counting-prompt curve or target progress.
+See [the corrected contract](Q2-BENCHMARK-CORRECTION.md).
+
 The corrected native `synapse-lie-bench` uses the raw *I promessi sposi*
 corpus, with the same bytes as the owner's DS4 measurements. Provenance is in
 [`data/bench/README.md`](../data/bench/README.md). Behavioral reference:

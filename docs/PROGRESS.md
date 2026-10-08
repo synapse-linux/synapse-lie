@@ -1,5 +1,17 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+2026-10-08 measurement correction: withdraw the following exact-corpus
+table as a full-prefill or optimization comparison. It times the last chunk
+after untimed prefix replay, omits intermediate points and changes the input
+from the retained counting workload. Earlier unaligned HTTP results cannot
+replace the requested exact-count reference either. Preserve all raw data;
+no attribution of the observed rate difference to kernels is established.
+The replacement native fresh suite restores the original counting prompt,
+times every chunk between initial/final monotonic timestamps, and validates
+zero preceding depth and exact completed tokens/calls. Defaults include
+every chunk multiple through 128K. Source correction is in progress, with
+no replacement GPU result yet. [Fixed contract](Q2-BENCHMARK-CORRECTION.md).
+
 Exact native Promessi sposi curves complete on .157: 18/18 exact points,
 all TG128, full chunks 2048/4096/8192 through 131072 physical tokens. At 128K,
 incremental PP is 1008.92/1205.28/1215.65 token/s and TG 26.36/26.28/26.19.

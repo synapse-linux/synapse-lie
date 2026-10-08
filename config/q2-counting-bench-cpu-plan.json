@@ -1,0 +1,14 @@
+{
+  "schema": "synapse-lie.q2-counting-cpu-plan.v1",
+  "host": "192.168.5.157",
+  "remote": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-counting-bench-cpu-r1",
+  "synthetic": true,
+  "model_access": false,
+  "gpu_access": false,
+  "tests": 4,
+  "source_manifest_sha256": "1135282512c64dc81064f47e1de11cbb547274c99cd42ffa4cb15d15e74d585e",
+  "staged_manifest_sha256": "c925bfe54d0150f3357a2936c2afb1e2360cb7e6d040993de6aef5b365e52550",
+  "runtime_status": "WAIT_FOR_GLM_VERIFIED_RELEASE",
+  "remote_build": false,
+  "remote_cleanup": false
+}

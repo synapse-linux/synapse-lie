@@ -2,6 +2,12 @@
 
 # Exact Promessi sposi PP/TG curves
 
+**Withdrawn as a full-prefill or optimization comparison (2026-10-08).**
+These are final-chunk timings after untimed prefix replay, on a different
+corpus from the retained counting reference. Exact counts do not make these
+scopes comparable. Preserve this historical table and its raw evidence;
+see [measurement correction](Q2-BENCHMARK-CORRECTION.md).
+
 Original Q2 on .157; IOMMU enabled; performance/120 W; C1 reactive AR.
 Each prefill measurement covers the final complete 2048/4096/8192-token block
 at the stated exact prompt frontier. Prior-prefix replay is outside PP/TG timers.
