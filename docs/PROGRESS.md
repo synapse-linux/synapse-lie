@@ -34,6 +34,19 @@ tests. Read-only discovery finds existing native ROCm 7.2.4 and a ROCm 10
 toolchain image, without installing dependencies or starting a build/GPU job.
 The original `.161` near-1M window continues independently.
 
+The separate `.157` `gfx1151` build, manifest `ab718484`, now completes using
+the existing native ROCm 7.2.4 packages. Primary C17-sampling ON and matched
+OFF providers, product configuration with Python discovery disabled, and seven
+linked consumers all exit 0. CPU peaks at 72.375 C; no guard trips or model
+load occurs. Controller53221 retires 0; original lease descriptors close at
+15:07:48.726704 UTC. Independent collection/closure at 15:14:32.948099 UTC
+verifies 24 artifacts, 3,000 unchanged input source files, seven binary and six
+archive hashes, two complete process/group scans, unchanged model stats,
+empty KFD and all five original leases free. All four peers receive final
+verified release. Root holds no `.157` job, lease, waiter, reservation or
+future grant. Compilation alone qualifies neither original-weight inference
+nor numerical/performance parity; the selected Q2 ports remain pending.
+
 ## Current r70 YaRN4 near-1M recall admitted — 2026-10-08 UTC
 
 After the 786K cohort is fully collected, closed, released, independently
