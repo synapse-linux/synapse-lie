@@ -39,6 +39,16 @@ receive actual admission identities. CPU98/NVMe85 guards and GPU-only
 observation remain unchanged. Root owns this window through collection,
 independent wire review, whole-container closure and all four release notices.
 
+At 13:01:15 UTC, GPU server PID 283788 (start ticks 8047083) belongs to the same
+full container, using private API port 46787 and management port 60465. Three
+calibration replies complete. The 13:02:35 read-only native view then observes
+active scored prefill, with 115 calls started and 114 returned. The GET takes
+1.441 ms; CPU, GPU and NVMe readings are 76.875, 76 and 46.85 C respectively.
+Two exact own-process snapshots later count 28 OS threads over 10.002 seconds;
+one TID consumes 9.99 CPU seconds. These observations establish neither thread
+roles, a bottleneck nor reactive speedup. All four peers receive the actual
+GPU identity. Source/runtime and frozen quality criteria remain unchanged.
+
 ## Current r70 YaRN4 786K recall verified and retired — 2026-10-08 UTC
 
 After full steering collection, closure, four-peer release and checkpoint

@@ -143,8 +143,14 @@ Inspect the recorded physical token counts, since tokenization can differ by
 one token. `multi` uses 4,096 tokens of capacity per user. These are direct
 executor measurements; the HTTP layer is not involved.
 
-For a paired local Gufo control, run the same suite and workload options with
-`build/release/synapse-lie-bench-gufo-reference`, using a different output file.
+For a paired direct provider control, run the same suite and workload options
+with `build/release/synapse-lie-bench-gufo-reference`, using a different output
+file. This executable binds the Gufo API to the verified sampling-OFF provider
+build. It shares the upstream numerical engine and applicable provider ports;
+it compares call paths and batching, not independent numerical engines or an
+independently served official Gufo server. Use the HTTP commands above for that
+server comparison and retain each server's source/build identity.
+
 For a LIE serial control, use `--execution serial`. Keep model files, hardware,
 context, output budget and repetitions identical. The report checks physical
 inputs, outputs and completion before presenting an eligible comparison.
@@ -198,8 +204,10 @@ Without the flag, EOS ends generation normally. The server keeps that behavior.
 Raw JSONL and the summary record `eos_policy: stop|ignore`; paired reports require
 the same policy and interpret older records without it as `stop`. A fixed-budget
 run with short output or a stop finish fails, even if its numerical calls return
-success. This control is host-tested; a new declared GPU run is still required
-for physical 1M PP/TG128. The previous EOS43 failure remains unchanged.
+success. The historical [physical 1M run](../benchmarks/models/qwen3.8-flash-next/strix-point/README.md#physical-1m-context-and-fixed-generation)
+completes 1,048,448 input tokens and all 128 output tokens with its frozen
+runtime. It establishes that capacity/function result, not current-runtime
+recall or matched performance. The previous EOS43 failure remains unchanged.
 
 For a long regular core run, add `--progress-ms 1000` and redirect stderr to
 `results/core-progress.jsonl`. The native client reports completed prefill tokens,
