@@ -1,11 +1,37 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
-The current r70 `.161` recall ladder now passes both cold turns through
-near-512K physical inputs with YaRN4 and seed 77. The window is collected,
-independently wire-reviewed and strongly closed; root owns no remote job or
-standing reservation. The separately prepared 100-pair conciseness inputs
-have no GPU admission or learned bank yet.
+The current r70 `.161` recall ladder passes both cold turns through near-512K
+physical inputs with YaRN4 and seed 77. Original 100-pair FFN learning also
+passes complete capture, independent bank reconstruction and strong closure.
+Both windows are retired; root owns no remote job or future reservation.
+Held-out steering responses, larger recall inputs and wider gates remain
+pending. All six root tasks remain open; Terminal Bench stays last.
+
+## Original 100-pair FFN bank independently verified — 2026-10-08 UTC
+
+Two hundred original-weight prefills on `.161` yield 9,600 FFN rows from four
+branches, 393,216,000 raw bytes and one 491,520-byte DS4-format bank. Independent
+reconstruction matches every coordinate; maximum layer norm error is 2.820e-9.
+Inputs contain 8,168 physical tokens, 36–51 per prompt, with native RoPE,
+context 8192/chat/chunk256. Generated response quality remains unqualified.
+
+All control/native/collection/review/closure exits are 0; 19 hashes and four
+model stats verify. Release at 05:19:29 and strong closure at 05:27:11 retire
+the exact identities and entire container/cgroup. Lease is unchanged/free,
+router restored and all four peers receive release. The
+[receipt](development/validation/steering-conciseness-original100-point-2026-10-08.json)
+retains 67 independently verified portable members in five ordered gzip parts,
+each at most 80 MiB. No duplicate combined archive, model copy, new build directory
+or GPU repeat is created. Native source remains `4c703b3d`/r70.
+
+Native telemetry records 169 samples with CPU 68.375/GPU 69/NVMe 65.85 C. A saved
+live observation sees CPU 86.375 C during the post-native oracle; continuous
+sampling is not claimed for that phase. Local offline review peaks at 87.125 C.
+The native GPU owner has 27/43 observed OS threads; this establishes neither
+worker count nor reactive speedup. The completed receipt satisfies the held-out
+profile's full model/runtime/corpus/bank provenance checks. Its 70 original
+responses still require a separately coordinated GPU window.
 
 ## Steering response campaign dispatch integrated — 2026-10-08 UTC
 

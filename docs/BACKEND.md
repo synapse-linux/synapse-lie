@@ -497,6 +497,12 @@ none of the six items.
    mode, including synthetic 100-pair construction
    ([receipt](development/validation/steering-build-collection-host-2026-10-08.json)).
    This transfer path does not qualify original learning or strong closure.
+   A separate original 100-pair FFN cohort now passes 200 complete prefills and
+   independent reconstruction of 9,600 rows and the normalized bank on `.161`
+   ([receipt](development/validation/steering-conciseness-original100-point-2026-10-08.json)).
+   Nineteen hashes, four unchanged model stats, actual exits 0, exact identities/
+   whole-cgroup closure and all four release deliveries verify. The same receipt
+   satisfies the held-out profile's full model/runtime/corpus/bank provenance.
    The [held-out response protocol](development/protocols/STEERING-QUALITY-GPU-PROTOCOL.md)
    and independent checker now pass HOST/native-client fixtures
    ([receipt](development/validation/steering-quality-checker-host-2026-10-08.json));
@@ -513,8 +519,8 @@ none of the six items.
    seal, with eight dispatch checks per mode and all 89 existing ownership/
    restore checks passing
    ([receipt](development/validation/steering-quality-campaign-host-2026-10-08.json)).
-   Model servers and training metadata are simulated; original 100-pair learning
-   and learned-bank response execution remain pending.
+   Those HOST model servers and training metadata are simulated. Separate
+   original 100-pair learning now passes; learned-bank responses remain pending.
    Learned direction quality, independent graph/
    correction/fault, vision and matched cost remain open.
    Separate `modern-core-steering-admission` windows now qualify original-model

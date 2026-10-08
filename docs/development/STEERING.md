@@ -77,8 +77,20 @@ metadata and model servers remain simulated. The coordinator now selects
 `modern-steering-quality`, with eight dispatch checks per mode and 89 existing
 ownership/restore checks passing
 ([receipt](validation/steering-quality-campaign-host-2026-10-08.json)).
-Original 100-pair learning and original-weight response execution remain pending.
+Original 100-pair FFN learning now passes on Strix Point: 200 complete prefills,
+9,600 branch-major rows and exact independent normalized-bank reconstruction
+([receipt](validation/steering-conciseness-original100-point-2026-10-08.json)).
+The window is collected and strongly closed. Original response execution remains
+pending.
 Answer preservation and response length are separate from general quality.
+
+The receipt retains all raw rows and source/control artifacts in five ordered
+gzip-tar parts, each at most 80 MiB, with individual and combined hashes. List
+the portable evidence without creating a duplicate combined file:
+
+```sh
+cat docs/development/validation/raw/steering-conciseness-original100-point-2026-10-08.tar.gz.part-* | tar -tzf -
+```
 
 ## Native bank builder
 

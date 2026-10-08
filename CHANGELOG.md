@@ -30,6 +30,9 @@ stable release is declared. Detailed validation history is in
   immutable helper execution. Original 100-pair response qualification remains pending.
   Optional training artifact transfer now supports FFN-only captures and
   streamed raw files up to 512 MiB, retaining failures and refusing overwrite.
+  Original 100-pair FFN learning now passes on Strix Point: 200 complete prefills,
+  9,600 captured rows and exact independent normalized-bank reconstruction.
+  Complete collected/closed evidence is retained in ordered archive parts.
   Learned response quality and wider runtime
   qualification remain pending. Runtime `.f32` and DS4 cache formats are unchanged.
 

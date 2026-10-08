@@ -1,5 +1,40 @@
 # DS4 / synapse-lie coordination
 
+## Original 100-pair FFN learning verified and retired — 2026-10-08
+
+Four fresh specific Point/DGX/Q2/GLM non-use declarations and the 05:15:16 UTC
+global check admit `steering-conciseness-train100-point-20261008-r2`, manifest
+`3886b4da`, on `.161`. The native runtime remains `4c703b3d`/r70; coordinator
+`50c57efb`/`e68672b4` is the applied HOST-qualified route. Training uses 100
+frozen paired questions, FFN-only captures, native context8192/chat/chunk256,
+host256MiB/output512MiB and a 3600-second native deadline. It performs no decode,
+MTP, performance benchmark, model hash/conversion or remote build.
+
+At 05:16:18 UTC controller54396 is live; exact supervisor176361/start5262713
+owns original lease66308/105946405 at FD3. Init176628/start5262844 and full
+container `0a3542b093ed229958b0b9fcec523f6b3f5480b819bd5b4b366e6b204fb12e89`
+are observed alive. The first witness precedes model execution and establishes
+no original capture or learned quality result. The second witness observes the
+actual GPU owner 178165/start5272429 in that complete cgroup. Boot and filesystem
+identities remain pinned; native thermal/resource sampling and memory admission pass.
+
+All controller/native/collector/independent-review/strong-closure exits are 0.
+Two hundred successful prefills yield 9,600 FFN rows and an independently
+reconstructed 491,520-byte bank. Nineteen hashes and four model stats reverify.
+Lease release at 05:19:29.768901 UTC and strong closure at 05:27:11.683004 prove
+all four observed identities and the complete container/cgroup absent in two
+complete scans. Router 179296 is restored, original lease unchanged/free and
+foreign compute, guarded hot sensors and HTTP8000 empty. Four peers receive release.
+
+The [receipt](development/validation/steering-conciseness-original100-point-2026-10-08.json)
+retains 67 portable members in five parts of at most 80 MiB. Native telemetry
+records CPU 68.375/GPU 69/NVMe 65.85 C; an additional witness records CPU 86.375 C
+during the synchronous post-native oracle. Continuous thermal coverage applies
+to the owned child phase; all observed guarded readings remain within limits.
+Root now owns no remote job, handle, lease, window, waiter, reservation or future
+grant on any host. Held-out responses need fresh specific admission. All six
+tasks remain open; Terminal Bench stays last. Prepared-only r1 inputs stay unchanged.
+
 ## Current r70 YaRN4 near-512K recall verified and retired — 2026-10-08
 
 Four proposal-specific Point/DGX/Q2/GLM non-use declarations and fresh global
