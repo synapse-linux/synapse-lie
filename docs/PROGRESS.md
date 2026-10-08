@@ -15,6 +15,23 @@ The near-1M cohort now passes complete independent saved-wire review and
 whole-container retirement. Root owns no remote window; no future window is reserved.
 All six root tasks remain open; Terminal Bench stays last.
 
+## Source branch consolidation — 2026-10-08 UTC
+
+Checkpoint `78e5833e` includes the complete OpenAI/reactive `db2031a0`,
+million-context `f7879b34`, C17 sampling `43239127`, native Gufo curve `b598e4c1`
+and Q2 handoff `6d0098a0` histories. Current timeout, walk, prefill and source
+verification corrections are preserved. Historical Q2 numerical experiments
+are explicitly labeled and remain outside canonical product inputs; their
+C2+ output mismatch is retained. DGX/CUDA and GLM remain separate owned branches.
+
+An exact Git comparison verifies that canonical build, core, provider, native
+benchmark and test sources are unchanged from `f902ad45`; the walk and Q2 HOST
+receipts retain their qualified scope. No new GPU or remote operation occurs.
+`develop` remains at `30598a3`. Combined HIP compilation and original-weight
+walk/Q2 regression gates precede the final integration merge and push. Broader
+context/feature acceptance and matched performance remain open; Terminal Bench
+stays last.
+
 ## Historical Q2 model-owned matrix — 2026-10-08 UTC
 
 These observations belong to the isolated Q2 capsule. They do not qualify

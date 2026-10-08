@@ -115,10 +115,13 @@ core C1/C2 output parity, real batch dispatch and borrowed-output peer progress.
 The 13 generated WMMA comparisons are component evidence, distinct from model
 long-context or task quality. No matched performance gain is inferred.
 
-Strix Point integration is merged into `develop` at `30598a3`; current context
-and OpenAI work is being consolidated on `feature/integrate-antirez-qwen`.
-The production source preceding the context branch's last documentation commit
-is present there; selected final documentation is carried across separately.
+Strix Point integration is merged into `develop` at `30598a3`. The complete
+OpenAI/reactive, million-context, C17 sampling, native Gufo-curve and selected
+Q2 branch heads are now ancestors of `feature/integrate-antirez-qwen` at
+`78e5833e`. Documentation conflicts retain current deadlines and qualifications;
+historical Q2 experiments stay outside canonical product inputs. These final
+history merges change no production source compared with the selected-format
+checkpoint `f902ad45`.
 `develop` has not yet received that consolidated head. Recorded GPU
 results belong to their stated source and binary identities. They do not
 automatically qualify a later runtime or another model/platform.
