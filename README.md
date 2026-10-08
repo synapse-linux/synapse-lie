@@ -1,5 +1,9 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+[IOMMU-off comparison](docs/Q2-IOMMU-COMPARISON.md) is prepared with the
+identical retained executable and all176 points from the complete ON curves.
+Four CPU orchestration checks pass; GPU admission and measurements follow.
+
 [Benchmark correction](docs/Q2-BENCHMARK-CORRECTION.md): the latest corpus
 curve timed only the final chunk after untimed prefix replay. It is withdrawn
 as evidence for the requested full-prefill comparison. The earlier unaligned

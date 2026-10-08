@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2 .157 IOMMU-OFF comparison PREPARED — 2026-10-08 UTC: plan631ea5b1,
+runner2c1d99c6, retained benchmarkb701e948, bootbe3e89fd, predecessor current
+boot closure9afc50dc. Exact ON controlca98934d workloads:176 measured/352 total
+samples, serial Q2c2048/UDc2048/Q2c4096/Q2c8192 through131072. Enclosing
+scope includes collection/hash/release/strong closure with no interleaving.
+Core/GLM specific current .157 non-use received; Core intent is separately
+.161 only, GLM remains on owner GPU hold. Four CPU fixtures09:04:47/0 and
+five-original-lease verify09:05:07/0 pass. No GPU admission yet; Q2 actual OWN
+ALL hosts NONE. No build, cleanup, model/dependency/service/reboot/tuning action.
+[Plan](../config/q2-counting-curve128-off-plan.json).
+
 Q2 .157 IOMMU BOOT/SERVICE TRANSITION RELEASED — 2026-10-08 UTC:
 boot plan60345fc3, separate user-service plan60531161, explicit owner reboot
 and existing empty-queue stop/leave-stopped authorization. Fresh Core/GLM

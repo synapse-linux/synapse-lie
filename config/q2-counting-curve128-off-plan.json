@@ -1,0 +1,105 @@
+{
+  "schema": "synapse-lie.q2-counting-curve128-plan.v1",
+  "label": "q2-counting-curve128-off-r1",
+  "source_parent_commit": "96f7ccb6",
+  "source_manifest_sha256": "1135282512c64dc81064f47e1de11cbb547274c99cd42ffa4cb15d15e74d585e",
+  "runner_sha256": "2c1d99c649a4ac710554b1d5f461de2c6ed10b922c367e38aa9d7a962d68e4b5",
+  "order": [
+    "q2-c2048",
+    "ud-c2048",
+    "q2-c4096",
+    "q2-c8192"
+  ],
+  "output_tokens": 128,
+  "warmups": 1,
+  "repetitions": 1,
+  "previous_release": "q2-counting-iommu-boot-r1/closure.json",
+  "previous_release_sha256": "9afc50dc121ab87ebca4a318726e3d9b1a5a1557b3f49ac107b8371e43165690",
+  "boot_id": "be3e89fd-955b-47a4-a385-11c3ad98bb78",
+  "model_stats": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "device": 53,
+      "inode": 3116203,
+      "bytes": 147207127040,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "device": 53,
+      "inode": 3206497,
+      "bytes": 10946624,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "device": 53,
+      "inode": 3228516,
+      "bytes": 49859583136,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "device": 53,
+      "inode": 3211726,
+      "bytes": 49376141504,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "device": 53,
+      "inode": 3207513,
+      "bytes": 12087983520,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "device": 53,
+      "inode": 3206512,
+      "bytes": 2786568256,
+      "mtime_ns": 1790711824619908153,
+      "ctime_ns": 1790711826279892467
+    },
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q4.gguf",
+      "device": 53,
+      "inode": 3116346,
+      "bytes": 177280286720,
+      "mtime_ns": 1789871998360000000,
+      "ctime_ns": 1790258428459084412
+    }
+  ],
+  "staged_sha256": {
+    "synapse-lie-bench": "b701e948e8b0e1e241faf0197ebc40446720e7e96c0388d912231fe225f2ef62",
+    "q2-counting-curve128-window.py": "e6d26ccfb42f7e7eeae4ecc3f3380d8afd2504674f6d935574c0a999fac08cbd",
+    "cpu-tests.json": "ddb154b805bf2a1a17311813cad2eef516bd5f44b933e18941de485adbd6a82d",
+    "q2-counting-curve128-off-window.py": "2c1d99c649a4ac710554b1d5f461de2c6ed10b922c367e38aa9d7a962d68e4b5",
+    "q2_counting_curve128_off_test.py": "15c252224214bf6eb23cb99d4bffcccc6230142dfb59de3062373ccf0fef0c52",
+    "control-plan.json": "ca98934de387a4b37884262541e5e6f288345ccda67b36344b2d9690cdbee670"
+  },
+  "scope": "Repeat all 176 measured / 352 total points of control ca98934d with IOMMU off. Identical retained binary b701e948, exact repeated counting prompts, additive grids, complete-prefill timestamps, Q2 chunk2048/4096/8192 and UD chunk2048, capacity133760/C1reactive/greedyAR/MTPoff/TG128/warm1+measured1/no pauses. Same arm order, 98C inclusive gate and <=60C pre-arm cooldown. Enclosing .157 window includes collection/hash verification/release/strong closure without interleaving. No build, model hash, conversion, cleanup, dependency, service, reboot or tuning action.",
+  "gpu_admitted": false,
+  "remote_build": false,
+  "remote_cleanup": false,
+  "cpu_tests": {
+    "exit_code": 0,
+    "ctest_pass": 4,
+    "cli_cases_per_configuration": 38,
+    "full_grid_points_per_configuration": 112,
+    "receipt_sha256": "ddb154b805bf2a1a17311813cad2eef516bd5f44b933e18941de485adbd6a82d"
+  },
+  "context_capacity": 133760,
+  "prompt_limit": 131072,
+  "arm_timeout_seconds": 14400,
+  "total_points": 176,
+  "total_samples": 352,
+  "preparation_parent_commit": "2ba25fc1e68840dd90284271931ecc27f61ef378",
+  "control_plan_sha256": "ca98934de387a4b37884262541e5e6f288345ccda67b36344b2d9690cdbee670",
+  "control_label": "q2-counting-curve128-r1",
+  "iommu": "off"
+}

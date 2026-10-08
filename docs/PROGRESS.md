@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+2026-10-08 IOMMU-off comparison prepared: frozen plan631ea5b1 repeats all176
+ON points with retained binaryb701e948 and identical workloads. Four CPU
+orchestration fixtures pass on .157 at09:04:47; they verify unchanged benchmark
+functions/settings and reject stale boot/registry admission. Read-only08:58:59
+confirms bootbe3e89fd, IOMMUoff/zero groups, KFDempty, userComfyUIinactive and
+performance120W/fan82. Core/GLM give specific current non-use; fresh verify
+09:05:07 exits0 with five original leases. Admission/run remain separate steps.
+[Exact comparison protocol](Q2-IOMMU-COMPARISON.md).
+
 2026-10-08 authorized IOMMU-off reboot complete and released: all176 ON
 measurements and the full64-row comparative table were verified and presented
 before boot plan60345fc3. Seven guarded CPU fixtures pass on .157. Apply exits0
