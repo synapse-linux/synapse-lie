@@ -6,7 +6,9 @@ import { join } from "node:path";
 const timeoutMs = 10000;
 const maxCatalogBytes = 1024 * 1024;
 
-function endpoint(raw: unknown): { provider: string; baseUrl: string } {
+type LieEndpoint = { provider: string; baseUrl: string; contextWindow?: number; maxTokens?: number };
+
+function endpoint(raw: unknown): LieEndpoint {
   if (!raw || typeof raw !== "object" || Array.isArray(raw)) throw new Error("Pi LIE endpoint must be an object");
   const item = raw as Record<string, unknown>;
   if (typeof item.provider !== "string" || !/^[a-z][a-z0-9-]*$/.test(item.provider)) {
@@ -18,10 +20,18 @@ function endpoint(raw: unknown): { provider: string; baseUrl: string } {
       !/^\/v1\/?$/.test(url.pathname)) {
     throw new Error(`Pi LIE ${item.provider}: baseUrl must be an HTTP(S) origin ending in /v1`);
   }
-  return { provider: item.provider, baseUrl: `${url.origin}/v1` };
+  for (const field of ["contextWindow", "maxTokens"]) {
+    if (item[field] !== undefined && (!Number.isSafeInteger(item[field]) || (item[field] as number) <= 0)) {
+      throw new Error(`Pi LIE ${item.provider}: ${field} must be a positive integer`);
+    }
+  }
+  return { provider: item.provider, baseUrl: `${url.origin}/v1`,
+           contextWindow: item.contextWindow as number | undefined,
+           maxTokens: item.maxTokens as number | undefined };
 }
 
-async function discover(baseUrl: string, signal?: AbortSignal) {
+async function discover(entry: LieEndpoint, signal?: AbortSignal) {
+  const { baseUrl } = entry;
   const timeout = AbortSignal.timeout(timeoutMs);
   const response = await fetch(`${baseUrl}/models`, {
     headers: { Accept: "application/json" },
@@ -37,9 +47,11 @@ async function discover(baseUrl: string, signal?: AbortSignal) {
   }
   const seen = new Set<string>();
   return catalog.data.map((item: any) => {
+    const contextWindow = item?.context_length === undefined ? entry.contextWindow : item.context_length;
+    const maxTokens = item?.max_output_tokens === undefined ? entry.maxTokens : item.max_output_tokens;
     if (!item || typeof item.id !== "string" || !item.id || seen.has(item.id) ||
-        !Number.isSafeInteger(item.context_length) || item.context_length <= 0 ||
-        !Number.isSafeInteger(item.max_output_tokens) || item.max_output_tokens <= 0) {
+        !Number.isSafeInteger(contextWindow) || contextWindow <= 0 ||
+        !Number.isSafeInteger(maxTokens) || maxTokens <= 0) {
       throw new Error(`Pi LIE ${baseUrl}/models: invalid or duplicate model entry`);
     }
     seen.add(item.id);
@@ -48,8 +60,8 @@ async function discover(baseUrl: string, signal?: AbortSignal) {
       name: item.id,
       input: ["text"],
       reasoning: false,
-      contextWindow: item.context_length,
-      maxTokens: Math.min(item.max_output_tokens, item.context_length),
+      contextWindow,
+      maxTokens: Math.min(maxTokens, contextWindow),
       inputLimits: { maxRequestBytes: 8388608 },
       cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
       compat: { maxTokensField: "max_tokens", supportsReasoningEffort: false, supportsStrictMode: false },
@@ -76,8 +88,8 @@ export default async function (pi: any) {
       api: "openai-completions",
       apiKey: "local-development-not-a-secret",
       authHeader: false,
-      models: await discover(entry.baseUrl),
-      refreshModels: (context: { signal: AbortSignal }) => discover(entry.baseUrl, context.signal),
+      models: await discover(entry),
+      refreshModels: (context: { signal: AbortSignal }) => discover(entry, context.signal),
     });
   }
 }

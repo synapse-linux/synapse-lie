@@ -48,6 +48,7 @@ curl -fsSLo run/pi-profile/settings.json \
     { "provider": "synapse-lie", "baseUrl": "http://SERVER-IP:8000/v1" }
   ]
 }</code></pre></div>
+            <p>Older LIE builds may list the model ID without context and output limits. In that case, add <code>"contextWindow": 16384</code> and <code>"maxTokens": 2048</code> to that endpoint, matching its actual server settings. Pi still discovers the model ID. A newer server’s catalog values take precedence over these optional fallbacks.</p>
             <div class="code-block"><div class="code-top"><span>Check the catalog, then open Pi</span><button class="copy-button" type="button" aria-label="Copy Pi launch commands">Copy</button></div><pre><code>PI_LIE_PROFILE="$PWD/run/pi-profile"
 env PI_CODING_AGENT_DIR="$PI_LIE_PROFILE" PI_OFFLINE=1 PI_TELEMETRY=0 \
   pi --no-extensions --extension "$PI_LIE_PROFILE/pi-lie-discovery.ts" \
