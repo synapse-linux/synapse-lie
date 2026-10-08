@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: MIT
 """Validate all 176 Q2/UD full-prefill points and render exact tables and PP/TG plots."""
+import argparse
 import csv
 import hashlib
 import json
@@ -9,7 +10,6 @@ from pathlib import Path
 import struct
 
 ROOT = Path(__file__).resolve().parents[1]
-EVIDENCE = ROOT/'evidence/q2-counting-curve128-r1'
 ARMS = (('q2', 2048), ('ud', 2048), ('q2', 4096), ('q2', 8192))
 
 
@@ -22,20 +22,29 @@ def sha(path):
 
 
 def main():
-    plan_path = ROOT/'config/q2-counting-curve128-plan.json'
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--iommu-off', action='store_true', help='Validate the separate OFF cohort without replacing ON results')
+    args = parser.parse_args()
+    prefix = 'q2-counting-curve128' + ('-off' if args.iommu_off else '')
+    iommu = 'disabled' if args.iommu_off else 'enabled'
+    evidence = ROOT/'evidence'/(prefix+'-r1')
+    plan_path = ROOT/'config'/(prefix+'-plan.json')
     plan = read(plan_path)
-    summary = read(EVIDENCE/'results/native-result.json')
+    summary = read(evidence/'results/native-result.json')
     assert summary['state'] == 'COMPLETE' and summary['plan_sha256'] == sha(plan_path)
-    assert read(EVIDENCE/'run-command.json')['exit_code'] == 0
-    assert sha(EVIDENCE/'synapse-lie-bench') == plan['staged_sha256']['synapse-lie-bench']
+    assert read(evidence/'run-command.json')['exit_code'] == 0
+    host = read(evidence/'results/host-configuration.json')
+    assert ('amd_iommu=off' in host['cmdline'].split()) == args.iommu_off
+    assert (host['iommu_groups'] == 0) == args.iommu_off
+    assert sha(evidence/'synapse-lie-bench') == plan['staged_sha256']['synapse-lie-bench']
     rows, inputs, texts, outputs, raw_hashes = [], {}, {}, {}, {}
     for index, (model, chunk) in enumerate(ARMS):
         tag = f'{index:02d}-{model}-c{chunk}'
-        path = EVIDENCE/'results'/(tag+'.jsonl')
+        path = evidence/'results'/(tag+'.jsonl')
         records = [json.loads(line) for line in path.read_text().splitlines()]
         raw_hashes[str(path.relative_to(ROOT))] = sha(path)
         assert records[-1] == {'event': 'complete', 'exit_code': 0}
-        child = read(EVIDENCE/'results'/(tag+'.child.json'))
+        child = read(evidence/'results'/(tag+'.child.json'))
         assert child['exit_code'] == 0
         model_path = plan['model_stats'][1 if model == 'ud' else 0]['path']
         assert child['argv'][child['argv'].index('--model')+1] == model_path
@@ -104,8 +113,8 @@ def main():
                   shared_physical_inputs_identical=True,
                   full_output_budget_points=sum(row['full_output_budget'] for row in measured),
                   output_differences_from_chunk2048=output_differences, samples=rows)
-    (ROOT/'config/q2-counting-curve128-results.json').write_text(json.dumps(result, indent=2)+'\n')
-    with (ROOT/'docs/figures/q2-counting-curve128.csv').open('w') as f:
+    (ROOT/'config'/(prefix+'-results.json')).write_text(json.dumps(result, indent=2)+'\n')
+    with (ROOT/'docs/figures'/(prefix+'.csv')).open('w') as f:
         writer = csv.DictWriter(f, fieldnames=list(rows[0]), lineterminator='\n')
         writer.writeheader(); writer.writerows(rows)
     plot_config = ROOT/'.deps/q2-curve128-matplotlib'
@@ -127,9 +136,9 @@ def main():
     for ax in axes:
         ax.grid(True, alpha=.25); ax.legend(); ax.set_xlim(0, 130)
     axes[1].set_xticks([2, 8, 16, 32, 48, 64, 80, 96, 112, 128])
-    fig.suptitle('synapse-lie-bench · .157 GPU · IOMMU enabled · C1 greedy AR · warm1 + measured1')
+    fig.suptitle(f'synapse-lie-bench · .157 GPU · IOMMU {iommu} · C1 greedy AR · warm1 + measured1')
     for extension in ('png', 'svg'):
-        destination = ROOT/'docs/figures'/('q2-counting-curve128.'+extension)
+        destination = ROOT/'docs/figures'/(prefix+'.'+extension)
         fig.savefig(destination, dpi=160)
         if extension == 'svg':
             destination.write_text('\n'.join(line.rstrip() for line in
@@ -137,7 +146,7 @@ def main():
     plt.close(fig)
     lookup = {(r['prompt_tokens'], r['model'], r['prefill_chunk']): r for r in measured}
     lines = ['<!-- SPDX-License-Identifier: MIT -->', '', '# Complete Q2 and UD full-prefill curves through 128K', '',
-             'All 176 requested points complete on the .157 GPU with IOMMU enabled: 112 Q2 and 64 UD.',
+             f'All 176 requested points complete on the .157 GPU with IOMMU {iommu}: 112 Q2 and 64 UD.',
              'Retained numerical executable; exact repeated counting chat; capacity 133760;',
              'C1 reactive greedy AR, MTP off, no prefix-cache restore, TG limit 128.',
              'One warmup and one measured repetition per point, with no inserted pause.',
@@ -152,15 +161,15 @@ def main():
             r = lookup.get((n, model, chunk))
             cells.extend([f"{r['prefill_tps']:.6f}", f"{r['decode_tps']:.6f}"] if r else ['—', '—'])
         lines.append('| '+' | '.join(cells)+' |')
-    lines += ['', 'All rates are token/s. [Exact CSV with complete phase durations and warmups](figures/q2-counting-curve128.csv).',
+    lines += ['', f'All rates are token/s. [Exact CSV with complete phase durations and warmups](figures/{prefix}.csv).',
               f"Full TG128 measured points: {result['full_output_budget_points']}/176.",
               f"UD or larger-chunk measured continuations differing from Q2 chunk2K at the same input: {len(output_differences)}.",
               'Identical physical inputs are verified at every common prompt length.',
               'Counting continuations alone do not establish broad model quality or numerical equivalence.',
               'Historical fixed-2K and incremental/cached-depth results remain separate, unchanged records.', '',
-              '![Full-prefill and decode curves](figures/q2-counting-curve128.png)', '',
-              '[PNG](figures/q2-counting-curve128.png), [SVG](figures/q2-counting-curve128.svg).', '']
-    (ROOT/'docs/Q2-COUNTING-CURVE128.md').write_text('\n'.join(lines))
+              f'![Full-prefill and decode curves](figures/{prefix}.png)', '',
+              f'[PNG](figures/{prefix}.png), [SVG](figures/{prefix}.svg).', '']
+    (ROOT/'docs'/(prefix.upper()+'.md')).write_text('\n'.join(lines))
     print(json.dumps({k: v for k, v in result.items() if k != 'samples'}))
 
 
