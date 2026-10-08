@@ -14,8 +14,12 @@ The current C17 integration now implements the method in
 Use the [current CLI](guides/BENCHMARKS.md#incremental-raw-corpus-walk) rather
 than the capsule's options below. Focused Debug and unsuppressed sanitizer
 checks pass in the [HOST receipt](development/validation/ds4-walk-native-host-2026-10-08.json).
-Numerical-format transfer and current-provider GPU qualification are separate
-remaining gates. The following chain preserves the historical implementation
+The selected original-format source transfer is also present in the current
+provider's [exact recipe](../adapters/gufo-state/qwen-q2-format-edits.json),
+selected by default-ON `LIE_QWEN_Q2_FORMATS`. Its 15 files and 38 hunks match
+`patches/gufo-q2.patch` independently in pristine and current-feature composition.
+Current-provider HIP compilation and original-weight qualification remain
+separate gates. The following chain preserves the historical implementation
 and provenance; it is not a production build input.
 
 The DS4 advancing-walk implementation is the tracked

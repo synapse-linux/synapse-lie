@@ -86,6 +86,17 @@ source and archive hashes are verified before linking. The benchmark control
 uses a complete OFF provider, including its numerical/controller archives;
 mixing an OFF sampler with ON request-state layouts is rejected. Configure
 `-DLIE_GUFO_REFERENCE_BENCH=OFF` to build only LIE without this comparison control.
+
+Original IQ2/Q2 Qwen storage support is default ON in the owned provider
+(`LIE_QWEN_Q2_FORMATS`). To disable it, pass `-DLIE_QWEN_Q2_FORMATS=OFF` to both
+provider commands and the application configure command. The verifier binds
+the exact format recipe and patch and refuses mismatched selections or older
+receipts. This adds original IQ2_XXS experts, padded Q2_K down storage and exact
+F16 HC injection widening. Recognizing the unused MXFP4 predictor descriptor
+does not enable its MTP execution. The [format contract](../Q2-FORMAT-CONTRACT.md)
+states the supported geometry; current-provider GPU quality/performance remain
+under qualification.
+
 Prefill attention observation is default ON. To disable it, pass
 `-DLIE_ATTENTION_DISPATCH_STATS=OFF` to **both provider build commands and the
 application configure command**. Rebuild the complete private providers and

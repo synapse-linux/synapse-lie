@@ -1,6 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Provenance and dependency boundaries
 
+Original Qwen IQ2/Q2 format support uses the selected first-party
+`patches/gufo-q2.patch` against independently fetched official Gufo
+`f783fedb9bea2ec7de941f6da4e02f4a4596b29e`. The CMake-native
+`adapters/gufo-state/qwen-q2-format-edits.json` records its exact 38 hunks and
+15-file inventory. Derived files retain Gufo and its GGML numerical notices.
+No DS4 or sibling-workspace source, historical core capsule or local archive
+enters the current provider build. Receipts bind the recipe, patch and selected
+compile option for both providers and clients; numerical/quality/performance
+qualification belongs to each new binary.
+
 The native paired-prompt builder, activation observer, collector and direction
 learner are owned MIT C17 code. `activation-observer-edits.json` records four
 exact diagnostic hooks against the independently pinned official Gufo executor;

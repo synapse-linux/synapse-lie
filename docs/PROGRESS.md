@@ -15,6 +15,29 @@ The near-1M cohort now passes complete independent saved-wire review and
 whole-container retirement. Root owns no remote window; no future window is reserved.
 All six root tasks remain open; Terminal Bench stays last.
 
+## Original Qwen IQ2/Q2 format source transfer — 2026-10-08 UTC
+
+The current provider recipe now applies the selected `patches/gufo-q2.patch`
+through 38 exact JSON replacements in 15 official-Gufo files. Default-ON
+`LIE_QWEN_Q2_FORMATS` selects original IQ2_XXS AR experts, padded Q2_K down
+storage and exact F16 HC injection widening. The unused MXFP4 predictor has
+descriptor recognition only. Existing C17 core/state/sampling/reactive source
+remains unchanged; historical optimized provider/core capsules are excluded
+from canonical build inputs. Source/patch provenance and boolean selection
+are checked in both provider and client receipts, including coherent OFF
+controls and the Point build route. Older receipts require an explicit rebuild.
+
+The independent patch application matches every selected file in pristine and
+current-feature composition; unrelated provider hashes stay identical with
+the format option OFF/ON. Synthetic metadata checks preserve logical640 and
+physical768 widths, recognize only the pinned legacy RoPE profile and refuse
+malformed metadata. The [HOST receipt](development/validation/qwen-q2-formats-native-host-2026-10-08.json)
+records 5/5 Debug and 5/5 unsuppressed ASan/UBSan/LeakSanitizer checks, no skips.
+The initial relative-path test failure is retained; correcting test path
+normalization changes no numerical code or acceptance threshold. Peak CPU is
+89.625 C, below CPU98; no GPU/model or remote work occurs. Coherent HIP build
+and original-weight qualification of this new composition remain pending.
+
 ## Native C17 advancing walk — 2026-10-08 UTC
 
 The current `synapse-lie-bench` now selects `--suite ds4-walk` explicitly.

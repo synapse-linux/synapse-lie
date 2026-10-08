@@ -126,8 +126,9 @@ automatically qualify a later runtime or another model/platform.
 The native C17 `ds4-walk` source transfer now passes focused Debug and
 unsuppressed sanitizer checks, with [current usage](guides/BENCHMARKS.md#incremental-raw-corpus-walk)
 and [HOST evidence](development/validation/ds4-walk-native-host-2026-10-08.json).
-Selected Q2/IQ2 numerical-format integration into the current provider and
-combined HIP/weight qualification remain pending. This source consolidation
+Selected Q2/IQ2 numerical-format source integration also passes independent
+patch-equivalence, synthetic metadata and [HOST/sanitizer checks](development/validation/qwen-q2-formats-native-host-2026-10-08.json).
+Combined HIP/weight qualification remains pending. This source consolidation
 does not close the full context, quality or comparative-performance queue.
 
 This is the work queue owned by this thread. Separate DGX Spark/CUDA,

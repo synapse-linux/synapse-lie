@@ -7,6 +7,11 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Original Qwen IQ2_XXS/Q2_K storage support in the current provider, including
+  logical/physical down-width validation and exact F16 HC injection widening.
+  `LIE_QWEN_Q2_FORMATS` is default ON; provider/client selections and provenance
+  must match. The stored MXFP4 predictor remains unsupported for execution.
+
 - Native C17 `ds4-walk` benchmark for contiguous raw-corpus frontiers, with
   appended-token prefill accounting and separate checkpoint/restore timings.
   Snapshot and replay use the current state API; reports refuse incompatible

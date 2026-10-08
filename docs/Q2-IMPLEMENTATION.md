@@ -1,6 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Original Q2 compatibility — initial model screen
 
+This page retains the initial isolated qualification. The current provider
+now applies the selected format patch through its CMake-native
+[exact recipe](../adapters/gufo-state/qwen-q2-format-edits.json), with
+[build options](guides/BUILD.md#advanced-cmake-build-and-comparison-control).
+The current composition passes source/metadata HOST checks; its own HIP and
+original-weight qualification is required. Historical timings below remain
+bound to their recorded binaries.
+
 The implementation is a reviewable patch to official Gufo `f783fedb`, in the
 isolated `feature/antirez-compat-audit` worktree. No antirez Qwen engine or
 sibling project source is used. The C17 LIE core and server branch are unchanged.

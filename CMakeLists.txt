@@ -18,6 +18,7 @@ option(LIE_VISION_WEIGHT_DECODE "Decode F16/Q8 vision weights once into BF16" ON
 option(LIE_DIRECTIONAL_STEERING "Build directional activation operators (provider gates pending)" ON)
 option(LIE_ATTENTION_DISPATCH_STATS "Record completed prefill attention dispatch in the shared C core" ON)
 option(LIE_LONG_CONTEXT_WMMA "Enable sparse WMMA workspace through 1M tokens in the owned provider variant" ON)
+option(LIE_QWEN_Q2_FORMATS "Enable original IQ2/Q2 Qwen storage support in the owned provider variant" ON)
 option(LIE_SANITIZERS "Enable address and undefined behavior sanitizers" OFF)
 option(LIE_GUFO_HEADER_CHECK "Compile opt-in transitional Gufo adapter (object only; no link/inference)" OFF)
 option(LIE_GUFO_RUNTIME "Link explicitly selected embedded Gufo HIP runtime" OFF)
@@ -473,6 +474,11 @@ if(BUILD_TESTING)
     -P "${CMAKE_CURRENT_SOURCE_DIR}/tests/provider_sources.cmake")
   add_test(NAME native-provider-verification COMMAND ${CMAKE_COMMAND}
     -DREPOSITORY=${CMAKE_CURRENT_SOURCE_DIR} -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/provider_contract.cmake)
+  add_test(NAME qwen-q2-format-source-contract COMMAND ${CMAKE_COMMAND}
+    -DREPOSITORY=${CMAKE_CURRENT_SOURCE_DIR} -DSANITIZERS=${LIE_SANITIZERS}
+    -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/qwen_format_recipe.cmake)
+  set_tests_properties(qwen-q2-format-source-contract PROPERTIES TIMEOUT 180
+    SKIP_REGULAR_EXPRESSION "SKIP optional")
   add_test(NAME hip-provider-target-verification COMMAND ${CMAKE_COMMAND}
     -DTEST_DIR=${CMAKE_CURRENT_BINARY_DIR}/provider-target-test
     -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/provider_target_contract.cmake)

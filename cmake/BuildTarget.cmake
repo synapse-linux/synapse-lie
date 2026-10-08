@@ -103,6 +103,7 @@ if(EXISTS "${pointer}")
     "-DGUFO_BUILD=${provider}" -DLIE_GUFO_STATE_ACCESS=ON -DLIE_DS4_RUNTIME_CACHE=ON
     -DLIE_C17_SAMPLING=ON -DLIE_VISION_WEIGHT_DECODE=ON -DLIE_DIRECTIONAL_STEERING=ON
     -DLIE_ATTENTION_DISPATCH_STATS=ON -DLIE_LONG_CONTEXT_WMMA=ON
+    -DLIE_QWEN_Q2_FORMATS=ON
     -P "${LIE_SOURCE_ROOT}/cmake/provider/Verify.cmake")
   if(last_result STREQUAL "0")
     run_recorded(verify-target "${CMAKE_COMMAND}" "-DGUFO_BUILD=${provider}"
@@ -131,6 +132,7 @@ run_recorded(configure "${CMAKE_COMMAND}" -S "${LIE_SOURCE_ROOT}" -B "${build}" 
   -DLIE_GUFO_RUNTIME=ON -DLIE_GUFO_STATE_ACCESS=ON -DLIE_GUFO_REFERENCE_BENCH=OFF
   -DLIE_C17_SAMPLING=ON -DLIE_VISION_WEIGHT_DECODE=ON -DLIE_DIRECTIONAL_STEERING=ON
   -DLIE_ATTENTION_DISPATCH_STATS=ON -DLIE_LONG_CONTEXT_WMMA=ON -DLIE_DS4_RUNTIME_CACHE=ON
+  -DLIE_QWEN_Q2_FORMATS=ON
   "-DLIE_HIP_ARCHITECTURE=${architecture}" "-DGUFO_SOURCE=${source}" "-DGUFO_BUILD=${provider}")
 run_recorded(products "${CMAKE_COMMAND}" --build "${build}" --parallel "${LIE_BUILD_JOBS}"
   --target synapse-lie-server synapse-lie-bench synapse-lie-bench-report
