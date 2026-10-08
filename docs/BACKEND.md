@@ -108,6 +108,13 @@ requests. Independent saved-SSE reconstruction, all 18 artifact hashes, complete
 container retirement and original lease release pass. This is one selected
 quality cohort, not a fixed-output performance comparison.
 
+The same production runtime also passes selected Strix Halo native GPU
+[functional/parity checks](development/validation/halo-r70-functional-2026-10-08.json):
+original UD-Q4, physical2048/TG32, current C1 primary/reference logits and IDs,
+core C1/C2 output parity, real batch dispatch and borrowed-output peer progress.
+The 13 generated WMMA comparisons are component evidence, distinct from model
+long-context or task quality. No matched performance gain is inferred.
+
 Strix Point integration is merged into `develop` at `30598a3`; current context
 and OpenAI work remains on `feature/context-million-openai`. Recorded GPU
 results belong to their stated source and binary identities. They do not
@@ -118,7 +125,8 @@ Antirez weight-format/quantization and Strix Point port tasks stay with their
 assigned agents. Unspecified future weight streaming, additional model families
 and new client applications are not queued here. Their architectural boundaries
 do not constitute implementation tasks. GPU qualification in this queue uses
-`.161` with fresh coordination and admission for every run.
+`.161` or the additionally authorized `.157`, with fresh coordination and
+admission for every run.
 
 Item 1 records completed qualification. The active queue is items 2–7 below.
 The owner confirms this order: finish functional implementation, qualify the

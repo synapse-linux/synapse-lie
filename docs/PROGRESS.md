@@ -15,6 +15,36 @@ The near-1M cohort now passes complete independent saved-wire review and
 whole-container retirement. Root owns no remote window; no future window is reserved.
 All six root tasks remain open; Terminal Bench stays last.
 
+## Current r70 Strix Halo functional qualification closed — 2026-10-08 UTC
+
+The owner's `.157` authorization is used for one new exact window,
+`halo-r70-functional-20261008-r2`, manifest `5be81479`, after all four specific
+non-use declarations and fresh global/original-lease checks. The prior r1 is
+superseded before GPU admission after local metadata exposes an insufficient
+binary-size bound. Both preparations remain in portable evidence.
+
+All seven native commands and controller91074 exit0: HIP/rocBLAS, thirteen
+generated WMMA cases, original UD-Q4 C1 primary/reference, production core C1/C2
+and a direct-core output-loan/backpressure/cancellation probe. Physical2048,
+TG32, context4096, chunk256, greedy and cache-off settings are fixed. Complete
+frontier hashes and all output IDs match the reference; both C2 jobs also match
+C1. The core records 32 real decode batches and 64 rows. Independent raw-byte
+and output review exits0.
+
+Original five descriptors close at 16:28:42.084904 UTC. Collection and independent
+strong closure at 16:29:35.677619 UTC verify 88 files, eight actual PID/start
+identities/eight whole groups absent in two complete scans, empty KFD, unchanged
+seven reference model stats plus GLM stats, and all five original leases free.
+All four peers receive final release. CPU/GPU/NVMe peaks are 82.5/84/71.85 C;
+no guard trips. Root owns no remote job, handle, lease, waiter or reservation.
+
+The [receipt and full portable archive](development/validation/halo-r70-functional-2026-10-08.json)
+contain 137 members. The first local archive recipe exits1 on a wrong guard
+record path before publication; corrected sealing exits0 without GPU replay.
+This selected short UD-Q4 qualification is distinct from Q2's numerical lineage,
+model long-context acceptance, feature/task quality and matched performance.
+All six roadmap tasks remain open; Terminal Bench remains last.
+
 ## Current r70 YaRN4 near-1M recall verified and retired — 2026-10-08 UTC
 
 Both cold answers pass at physical 1,048,062/1,048,170 inputs and natural outputs

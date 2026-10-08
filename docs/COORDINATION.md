@@ -1,5 +1,29 @@
 # DS4 / synapse-lie coordination
 
+## Current r70 Strix Halo functional window closed — 2026-10-08
+
+Four actual exact-scope declarations admit `halo-r70-functional-20261008-r2`,
+manifest `5be81479`, using unchanged source `f5ca173c`/runtime `4c703b3d` and
+the already-compiled native ROCm7.2.4/gfx1151 consumers. Initial r1 preparation
+never acquires a lease or runs GPU work; its binary-size bound refusal is retained.
+Fresh global checks at 16:25:30.799978 UTC bind the prior Q2 release
+`3b8764a6`/strong closure `53cb819e`, all input/binary identities and five original
+leases. Supervisor13336/start3640852 holds those leases at FD3..7.
+
+All seven bounded native commands and controller91074 exit0. Original lease
+descriptors close at 16:28:42.084904 UTC. Independent collection/strong closure
+at 16:29:35.677619 UTC verifies all 88 native artifacts, eight exact identities
+and eight whole process groups absent in two complete scans, empty KFD, unchanged
+model stats and all five original leases free and released. Release SHA is
+`7913da30`; strong-closure SHA is `c3ba5e05`. Independent offline review exits0.
+
+All four peers receive actual final release. Root owns no job, handle, lease,
+waiter, reservation or future grant on any remote host. The
+[complete receipt](development/validation/halo-r70-functional-2026-10-08.json)
+limits acceptance to generated GPU components and selected original UD-Q4
+functional/output parity. No build, dependency installation, tuning, model
+hash/conversion, DS4 mutation, HTTP service or Terminal Bench occurs.
+
 ## Current r70 YaRN4 near-1M recall verified and retired — 2026-10-08
 
 Manifest `57e76ff82` completes both exact cold answers at physical1048062/1048170,
