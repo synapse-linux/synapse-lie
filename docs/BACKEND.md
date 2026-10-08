@@ -93,6 +93,10 @@ closure ([receipt](development/validation/recall-yarn4-128k-ar-point-2026-10-08.
 The separate near-256K cohort also passes both turns at physical 261630/261738,
 with the same independent wire/phase/hash and whole-container closure checks
 ([receipt](development/validation/recall-yarn4-near256k-ar-point-2026-10-08.json)).
+The near-512K cohort also passes both turns at physical 523774/523882 with
+prefill 210.096/209.716 tok/s, natural outputs 38/74 and complete independent
+wire/hash/closure proof
+([receipt](development/validation/recall-yarn4-near512k-ar-point-2026-10-08.json)).
 Earlier tool and native-RoPE recall results retain their frozen r68 identity;
 these selected scaled cohorts do not qualify the complete long-input ladder or those tools
 on this later runtime.
@@ -385,7 +389,12 @@ none of the six items.
    complete closure verify. A separate
    [YaRN4 128K cohort](development/validation/recall-yarn4-128k-ar-point-2026-10-08.json)
    also passes both answers at physical inputs 131070/131178 with complete saved-wire,
-   collection and whole-container closure. Other seeds, longer YaRN inputs, 512K–1M inputs
+   collection and whole-container closure. Separate
+   [near-256K](development/validation/recall-yarn4-near256k-ar-point-2026-10-08.json)
+   and [near-512K](development/validation/recall-yarn4-near512k-ar-point-2026-10-08.json)
+   current-runtime cohorts also pass both answers at physical 261630/261738
+   and 523774/523882, with the same complete independent wire/closure checks.
+   Other seeds/profiles, physical 786K/1M inputs
    and MTP remain pending; the historical native results keep their r68 binding.
    The historical `1bff953` `.161` run completes all
    **1,048,448 physical prefill tokens and 128 output tokens**

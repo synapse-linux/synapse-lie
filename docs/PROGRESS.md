@@ -1,11 +1,36 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
-The next `.161` recall cohort is now active at target 523776, YaRN4/capacity
-1048576, on the same frozen r70 runtime. Its first verified supervisor/init
-observation precedes model loading; a later actual native GPU witness confirms
-inference is running. No 512K result is inferred. The separately
-prepared 100-pair conciseness inputs have no GPU admission or learned bank yet.
+The current r70 `.161` recall ladder now passes both cold turns through
+near-512K physical inputs with YaRN4 and seed 77. The window is collected,
+independently wire-reviewed and strongly closed; root owns no remote job or
+standing reservation. The separately prepared 100-pair conciseness inputs
+have no GPU admission or learned bank yet.
+
+## Current r70 YaRN4 near-512K recall passes — 2026-10-08 UTC
+
+Both exact answers pass at physical inputs 523774/523882, with complete history,
+chunk 256, C1, RAM/SSD caching off and natural outputs 38/74. Prefill is
+210.096/209.716 tok/s and decode 9.026/9.027 tok/s. The
+[same platform table](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#yarn4-short-recall-control-current-r70-runtime)
+contains all eight current-runtime rows with full PP/TG durations, TTFT and wall
+time; this quality workload is separate from matched fixed-output benchmarks.
+
+All controller/native/collector/review/strong-closure exits are 0. Eighteen
+artifact hashes and four model stats reverify. The lease releases at 04:31:38
+UTC; strong closure at 04:34:42 retires supervisor 128106, launcher 128206,
+init 128334 and GPU 129537 by their exact start identities and proves the full
+container/cgroup absent in two complete 381-process scans. Router 175797 is
+restored, original lease 66308/105946405 free and all four peers receive verified
+release. The [receipt](development/validation/recall-yarn4-near512k-ar-point-2026-10-08.json)
+retains 53 portable members and 4104 thermal samples: CPU 80.5/GPU 81/NVMe
+65.85 C. Source remains `4c703b3d`/r70. Physical 786K/1M, other seeds/profiles,
+MTP and matched comparisons remain pending. All six root tasks stay open;
+Terminal Bench stays last. This completed window grants no subsequent run.
+The standalone postseal first expects `tg` inside the settings object and exits
+1; the corrected check uses the unchanged seven settings fields and both actual
+`max_tokens:128` requests. All 53 members, closure and table values then verify
+with exit 0, without repeating inference or changing qualified artifacts.
 
 ## Bounded steering training collection passes HOST checks — 2026-10-08 UTC
 
