@@ -1,6 +1,6 @@
 # DS4 / synapse-lie coordination
 
-## Current r70 YaRN4 786K recall admitted and running — 2026-10-08
+## Current r70 YaRN4 786K recall verified and retired — 2026-10-08
 
 After the complete steering failure is collected, independently reviewed,
 strongly closed, released to all four peers and checkpointed at `0fd741e6`,
@@ -25,15 +25,31 @@ and GPU observation remain active. A 10:30:36 read-only C-core view sees active
 prefill after three completed calibrations; no recall acceptance is claimed.
 All four peers receive actual admission identities. Root owns this `.161`
 scope; all other hosts and Terminal Bench are NONE. Collection, final exits and
-strong closure are pending; there is no lease waiter or future reservation.
+strong closure were pending at that observation; there was no lease waiter or
+future reservation.
 
 The 11:35:06 UTC read-only saved-wire observation sees the first scored response
 complete at physical786430/TG38 with an exact answer and natural stop. The
 second cold turn continues in the same original server/container/window.
-Full independent cohort review and all closure/release obligations remain
+Full independent cohort review and all closure/release obligations were then
 pending. Near1M inputs and private operations are prepared locally only;
 their launcher requires verified current collection/closure/four releases and
 archive postcheck before fresh specific peer/global/in-lease admission.
+
+Original controller92498 and observer73386 retire with exit0. Both cold answers
+pass at physical786430/786538, with natural outputs38/74. The lease is released
+at 12:41:19.193050 UTC. The initial generic seven-file collection and subsequent
+local pre-execution closure failure are retained; explicit `--kind http-recall`
+collects all 18 artifacts without GPU replay.
+
+The 12:43:37.773490 UTC strong closure verifies the actual supervisor, launcher,
+init, GPU server and native-client PID/start identities absent, the complete
+container/cgroup absent in two process scans, ports8000/60937/37939 empty,
+all 18 artifact hashes and four unchanged model stats. Original lease66308/105946405
+is free and released; router281566 is restored active and no foreign compute or
+guarded hot sensor remains. All four peers receive actual verified release.
+Independent saved-wire sealing and complete archive postcheck exit0. Root owns
+no host/window/lease/waiter/reservation; no future admission is inherited.
 
 ## Corrected held-out cohort collected and strongly closed — 2026-10-08
 

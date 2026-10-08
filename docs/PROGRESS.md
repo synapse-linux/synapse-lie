@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
-The current r70 `.161` recall ladder passes both cold turns through near-512K
+The current r70 `.161` recall ladder passes both cold turns through 786K
 physical inputs with YaRN4 and seed 77. Original 100-pair FFN learning also
 passes complete capture, independent bank reconstruction and strong closure.
 The first held-out steering run saves 68/70 responses before HTTP429. After
@@ -9,11 +9,12 @@ correcting response retention, the unchanged complete cohort finishes: all
 seventy wire responses and stored policies independently verify, but quality
 fails. Baseline arithmetic is 6/10; twenty negative-scale outputs truncate.
 Collection, whole-container retirement, four-peer release and portable evidence
-verification pass. Root now owns a separate `.161` 786K recall window; this
-larger input remains unqualified while running. No future window is reserved.
+verification pass. The separate `.161` 786K cohort now also passes both exact
+answers, independent saved-wire review, collection and complete retirement.
+No root GPU window or future reservation remains.
 All six root tasks remain open; Terminal Bench stays last.
 
-## Current r70 YaRN4 786K recall in progress — 2026-10-08 UTC
+## Current r70 YaRN4 786K recall verified and retired — 2026-10-08 UTC
 
 After full steering collection, closure, four-peer release and checkpoint
 `0fd741e6`, four new specific declarations and the 10:26:17 UTC global check
@@ -34,9 +35,35 @@ Bench and future windows remain unadmitted.
 At 11:35:06 UTC the first complete saved response matches its exact oracle at
 786,430 physical prompt tokens and stops naturally after 38 output tokens.
 Its completed-call rates are PP 198.139 tok/s and TG 8.409 tok/s; observed TTFT
-is 3,970.928 s and total request time is 3,975.378 s. The second cold turn is
-still running. These are preliminary single-request quality-workload timings;
-full independent wire review, collection and retirement remain pending.
+is 3,970.928 s and total request time is 3,975.378 s. The second cold turn was
+still running at that observation. The original controller and its read-only
+observer subsequently retire with exit0. Both responses stop naturally and pass
+independently reconstructed saved-SSE answers:
+
+| Turn | Physical input | Output | Prefill tok/s | Decode tok/s | TTFT s | Wall s |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Middle binding | 786,430 | 38 | 198.139 | 8.409 | 3,970.928 | 3,975.378 |
+| Start/end bindings, full history | 786,538 | 74 | 197.833 | 8.436 | 3,977.603 | 3,986.305 |
+
+These are single-request quality-workload timings, with chunk/scratch 256 and
+zero cached tokens. They are not repeated fixed-output performance comparisons.
+The [receipt and complete raw data](development/validation/recall-yarn4-786k-ar-point-2026-10-08.json)
+retain 18 verified remote artifacts, all five actual process identities, full
+container retirement, restored router and original lease release. All four peers
+receive the verified release. The 6,450 thermal observations peak CPU 80.75,
+GPU 82 and NVMe 68.85 C; CPU/NVMe guards do not trip.
+
+The initial generic collector saves seven files and exits0; a subsequent local
+closure check exits1 before remote execution because the HTTP helper file is
+missing locally. Recollection with explicit `--kind http-recall` saves all 18
+files. Both initial records are retained in the portable archive; no inference
+is repeated. Complete wire/archive review and postcheck exit0.
+
+Read-only progress observes 235 native views and a maximum observed loopback
+GET time of 5.397 ms. Two own-process snapshots count 28 OS threads and one busy
+TID over ten seconds; source has one model owner. This establishes neither
+thread roles nor an inference bottleneck or reactive speedup.
+
 The near-1M target 1,048,064 has locally prepared frozen inputs, admission,
 closure and offline-review recipes. Both local preparation guards exit0 at
 CPU 48.125 C. No remote staging or next-window admission has occurred; its
@@ -44,7 +71,7 @@ launcher requires the current run's collection, strong closure, four releases
 and successful archive postcheck first.
 
 The complete frozen r70 AR matrix has 39 profile/size/seed combinations:
-four verified YaRN4/seed77 cohorts, the one current unqualified 786K run and
+five verified YaRN4/seed77 cohorts and
 34 locally prepared but unadmitted cohorts, including near1M. All remaining
 33 sets of inputs and staging recipes are prepared without remote operations
 or a job queue; their local guard exits0. Historical native-RoPE r68 controls

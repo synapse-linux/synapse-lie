@@ -397,11 +397,12 @@ none of the six items.
    current-runtime cohorts also pass both answers at physical 261630/261738
    and 523774/523882, with the same complete independent wire/closure checks.
    The frozen current-r70 AR matrix contains 39 profile/size/seed combinations:
-   four are verified, 786K/YaRN4/seed77 is running, and 34 are prepared locally
-   but unadmitted. The first 786K response is exact at physical786430/TG38;
-   its second cold turn and complete independent wire/closure review remain
-   pending. Preparation creates no remote queue, waiter or future reservation.
-   Other seeds/profiles, physical 786K/1M inputs
+   five are verified and 34 are prepared locally but unadmitted. The
+   [786K cohort](development/validation/recall-yarn4-786k-ar-point-2026-10-08.json)
+   passes both exact cold answers at physical786430/786538 and natural TG38/74,
+   with independent saved-wire review, complete collection and five-identity
+   container closure. Preparation creates no remote queue, waiter or future reservation.
+   Other seeds/profiles, physical 1M inputs
    and MTP remain pending; the historical native results keep their r68 binding.
    The historical `1bff953` `.161` run completes all
    **1,048,448 physical prefill tokens and 128 output tokens**
