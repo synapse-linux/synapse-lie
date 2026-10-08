@@ -1,0 +1,694 @@
+{
+  "schema": "synapse-lie.steering-response-capacity-host.v1",
+  "at_utc": "2026-10-08T09:48:02.386656+00:00",
+  "state": "NATIVE_SYNTHETIC_RESPONSE_RETENTION_BOUNDARY_AND_COMPLETE_COHORT_VERIFIED_GPU_REPEAT_UNRUN",
+  "classification": "HOST_SYNTHETIC_CPU_FIXTURE_NOT_MODEL_INFERENCE",
+  "actual_exit_code": 0,
+  "supervisor_checks_per_mode": 13,
+  "profile_checks_per_mode": 17,
+  "focused_CTests_per_mode": 1,
+  "native_record_cohorts": {
+    "Debug": {
+      "output256-ram64": {
+        "records": 58,
+        "output_budget": 256,
+        "response_store_mib": 64,
+        "last_status": 429,
+        "actual_server_exit_code": 0
+      },
+      "output256-ram256": {
+        "records": 70,
+        "output_budget": 256,
+        "response_store_mib": 256,
+        "last_status": 200,
+        "actual_server_exit_code": 0
+      },
+      "output512-ram256": {
+        "records": 70,
+        "output_budget": 512,
+        "response_store_mib": 256,
+        "last_status": 200,
+        "actual_server_exit_code": 0
+      }
+    },
+    "ASan/UBSan": {
+      "output256-ram64": {
+        "records": 58,
+        "output_budget": 256,
+        "response_store_mib": 64,
+        "last_status": 429,
+        "actual_server_exit_code": 0
+      },
+      "output256-ram256": {
+        "records": 70,
+        "output_budget": 256,
+        "response_store_mib": 256,
+        "last_status": 200,
+        "actual_server_exit_code": 0
+      },
+      "output512-ram256": {
+        "records": 70,
+        "output_budget": 512,
+        "response_store_mib": 256,
+        "last_status": 200,
+        "actual_server_exit_code": 0
+      }
+    }
+  },
+  "response_store_bound_mib": 256,
+  "response_store_records": 128,
+  "preserved_seal_postcheck_failure": "evidence/steering-quality-response-capacity-seal-failed-r1/postseal-failure.json",
+  "preserved_failure_exits": {
+    "host-debug-guard-r1": 1,
+    "host-debug-guard-r2": 1,
+    "host-debug-guard-r3": 1,
+    "core-asan-guard-r1": 8
+  },
+  "failure_reasons": {
+    "host-debug-guard-r1": "Sandbox refuses socket creation before native server launch.",
+    "host-debug-guard-r2": "Stale local fixture server refuses new command option; temporary server log was not retained.",
+    "host-debug-guard-r3": "Same stale fixture server refusal, with actual Unknown option log retained.",
+    "core-asan-guard-r1": "LeakSanitizer refuses sandbox ptrace; the same unsuppressed test passes outside ptrace."
+  },
+  "guard_results": {
+    "host-debug-guard-r4": {
+      "argv": [
+        "env",
+        "LIE_STEERING_NATIVE_CLIENT=build/context-debug/test-synthetic-lie-bench",
+        "LIE_STEERING_NATIVE_SERVER=build/context-debug/test-synthetic-server",
+        "LIE_STEERING_CAPACITY_EVIDENCE=evidence/steering-quality-response-capacity-host-debug-r4",
+        "python3",
+        "-B",
+        "tests/test_strix_point_steering_quality_run.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 60.25
+      },
+      "elapsed_s": 4.216944869607687
+    },
+    "host-asan-guard-r1": {
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1",
+        "LIE_STEERING_NATIVE_CLIENT=build/tool-http-asan/test-synthetic-lie-bench",
+        "LIE_STEERING_NATIVE_SERVER=build/tool-http-asan/test-synthetic-server",
+        "LIE_STEERING_CAPACITY_EVIDENCE=evidence/steering-quality-response-capacity-host-asan-r1",
+        "python3",
+        "-B",
+        "tests/test_strix_point_steering_quality_run.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 49.625
+      },
+      "elapsed_s": 4.138489441014826
+    },
+    "profile-debug-guard-r1": {
+      "argv": [
+        "env",
+        "LIE_STEERING_NATIVE_CLIENT=build/context-debug/test-synthetic-lie-bench",
+        "python3",
+        "-B",
+        "tests/test_strix_point_steering_quality_profile.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 62.5
+      },
+      "elapsed_s": 2.1813970990478992
+    },
+    "profile-asan-guard-r1": {
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1",
+        "LIE_STEERING_NATIVE_CLIENT=build/tool-http-asan/test-synthetic-lie-bench",
+        "python3",
+        "-B",
+        "tests/test_strix_point_steering_quality_profile.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 62.625
+      },
+      "elapsed_s": 2.1352792400866747
+    },
+    "core-debug-guard-r1": {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-R",
+        "^openai-headless-controls-state$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 47.75
+      },
+      "elapsed_s": 1.0616681231185794
+    },
+    "core-asan-guard-r2": {
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1",
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-R",
+        "^openai-headless-controls-state$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 48.0
+      },
+      "elapsed_s": 1.0555532155558467
+    },
+    "debug-build-guard-r1": {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "--target",
+        "test-synthetic-server",
+        "test-openai-core",
+        "--parallel",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 55.625
+      },
+      "elapsed_s": 1.0562228104099631
+    },
+    "asan-build-guard-r1": {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "--target",
+        "test-synthetic-server",
+        "test-openai-core",
+        "--parallel",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 60.625
+      },
+      "elapsed_s": 2.0929125184193254
+    },
+    "host-debug-guard-r1": {
+      "argv": [
+        "env",
+        "LIE_STEERING_NATIVE_CLIENT=build/context-debug/test-synthetic-lie-bench",
+        "LIE_STEERING_NATIVE_SERVER=build/context-debug/test-synthetic-server",
+        "LIE_STEERING_CAPACITY_EVIDENCE=evidence/steering-quality-response-capacity-host-debug-r1",
+        "python3",
+        "-B",
+        "tests/test_strix_point_steering_quality_run.py"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 50.0
+      },
+      "elapsed_s": 1.062915112823248
+    },
+    "host-debug-guard-r2": {
+      "argv": [
+        "env",
+        "LIE_STEERING_NATIVE_CLIENT=build/context-debug/test-synthetic-lie-bench",
+        "LIE_STEERING_NATIVE_SERVER=build/context-debug/test-synthetic-server",
+        "LIE_STEERING_CAPACITY_EVIDENCE=evidence/steering-quality-response-capacity-host-debug-r2",
+        "python3",
+        "-B",
+        "tests/test_strix_point_steering_quality_run.py"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 45.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 49.5
+      },
+      "elapsed_s": 1.1247944654896855
+    },
+    "host-debug-guard-r3": {
+      "argv": [
+        "env",
+        "LIE_STEERING_NATIVE_CLIENT=build/context-debug/test-synthetic-lie-bench",
+        "LIE_STEERING_NATIVE_SERVER=build/context-debug/test-synthetic-server",
+        "LIE_STEERING_CAPACITY_EVIDENCE=evidence/steering-quality-response-capacity-host-debug-r3",
+        "python3",
+        "-B",
+        "tests/test_strix_point_steering_quality_run.py"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 45.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 49.625
+      },
+      "elapsed_s": 1.1273983400315046
+    },
+    "core-asan-guard-r1": {
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1",
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-R",
+        "^openai-headless-controls-state$"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 47.75
+      },
+      "elapsed_s": 1.0592216327786446
+    }
+  },
+  "native_fixture_binaries": {
+    "build/context-debug/test-synthetic-server": {
+      "bytes": 1763296,
+      "sha256": "65d9ed5f9bf2aef82ab32eb10a86b4f899ea4c7b1300dddf7e297af153592af3"
+    },
+    "build/tool-http-asan/test-synthetic-server": {
+      "bytes": 12563392,
+      "sha256": "a0bccee4a2f2cc1e6b85d7c9eb3d7afa07771f493a1987da760067666039645c"
+    },
+    "build/context-debug/test-synthetic-lie-bench": {
+      "bytes": 1054304,
+      "sha256": "7c2a98a5194c1a02bc46c78d4a4106432e2614af2ea5f2346b0749763099d563"
+    },
+    "build/tool-http-asan/test-synthetic-lie-bench": {
+      "bytes": 6652712,
+      "sha256": "d8ffe6129b70b34d1823d227e3e13a65db9a1ec2e407754cea5852823e0c9404"
+    }
+  },
+  "supervisor_source": {
+    "bytes": 13081,
+    "sha256": "2a8f95d783fc1a64ea5f98b226912e4bba518a1c64b010b8ac7e7939fc038fe5"
+  },
+  "regression_source": {
+    "bytes": 18544,
+    "sha256": "82c6b8bebd0324e86f69baf107bf87cd142e9353e420857aecfb01d7f0365da1"
+  },
+  "runtime_source_commit": "4c703b3d604c6c877d6a2214d7aee0b15a013f61",
+  "native_source_comparison_actual_exit_code": 0,
+  "maximum_local_CPU_c": 62.625,
+  "new_build_directories_created": false,
+  "default_product_dependency_changed": false,
+  "GPU_model_or_remote_operation": false,
+  "original_failure_receipt": "docs/development/validation/steering-conciseness-quality-failed-point-2026-10-08.json",
+  "original_failure_reclassified_as_success": false,
+  "original_HTTP429_body_was_not_captured": true,
+  "original_root_cause_scope": "Native synthetic reproduction and source analysis strongly support response-store exhaustion; original status-only wire does not independently identify its error code.",
+  "correctness_questions_scales_natural_stop_zero_parity_effect_thresholds_changed": false,
+  "raw": {
+    "path": "docs/development/validation/raw/steering-quality-response-capacity-host-2026-10-08.tar.gz",
+    "bytes": 124221,
+    "sha256": "a51ab2d3366bb512935bbd69476d8c05107d6446d0e7857619c53b1552c6f0ce",
+    "regular_members": 76,
+    "members": {
+      "LICENSE": {
+        "bytes": 1081,
+        "sha256": "7ea461cf01583ff889f2c0705702f4e97bc1751fd96d5381895754638dc1263d"
+      },
+      "evidence/seal-steering-quality-response-capacity-host-r1.py": {
+        "bytes": 7417,
+        "sha256": "ccc9dd51d515c47819f6b29c201d507f9fb7bbafb20a048ac779e5078d15114d"
+      },
+      "evidence/seal-steering-quality-response-capacity-host-r2.py": {
+        "bytes": 7631,
+        "sha256": "9450115ff79d5161af158a66a29207066f5b9f37432c5d068b41ef0e91fff820"
+      },
+      "evidence/steering-quality-response-capacity-asan-build-guard-r1/command.log": {
+        "bytes": 2310,
+        "sha256": "9ab49657fce9c3df58cd280e618ded53a3c26c4d21586cfe738a9878dfeee1f5"
+      },
+      "evidence/steering-quality-response-capacity-asan-build-guard-r1/plan.json": {
+        "bytes": 986,
+        "sha256": "d768a2f2051e7a8b7297e76f0fa28351101dfdb27d2cc11c029c6692eb290995"
+      },
+      "evidence/steering-quality-response-capacity-asan-build-guard-r1/result.json": {
+        "bytes": 484,
+        "sha256": "7a4d120c4701e0c28f9038a67f1e3488c165cc7f32857bfd4c92fba498ef8bd6"
+      },
+      "evidence/steering-quality-response-capacity-asan-build-guard-r1/temperatures.jsonl": {
+        "bytes": 2436,
+        "sha256": "8528c8313d7b308b306b80391c6ce8e1086013a4da9e57123179cc6339fc7590"
+      },
+      "evidence/steering-quality-response-capacity-core-asan-guard-r1/command.log": {
+        "bytes": 647,
+        "sha256": "7281ae51cfdb11f4c860c2c62cce59eb7db2d11e379a1f59d7b6c67f0cdd120a"
+      },
+      "evidence/steering-quality-response-capacity-core-asan-guard-r1/plan.json": {
+        "bytes": 1088,
+        "sha256": "220194b7a601bc8c3d7a22ca0cf19d5db3cb6cb8da76314fa2be4a191cd3465d"
+      },
+      "evidence/steering-quality-response-capacity-core-asan-guard-r1/result.json": {
+        "bytes": 585,
+        "sha256": "8f77752c94fcd0883e0e73e89dcc0669ecc0358a85e42df390c5885630d5586b"
+      },
+      "evidence/steering-quality-response-capacity-core-asan-guard-r1/temperatures.jsonl": {
+        "bytes": 1829,
+        "sha256": "5056090618f9eeed58ab0a5c1036ef2020351799c142ff919a2186376716a2b2"
+      },
+      "evidence/steering-quality-response-capacity-core-asan-guard-r2/command.log": {
+        "bytes": 307,
+        "sha256": "d5d4074e211ed2138fa3f11966ea20a52919f99d92802ec40519190fc33ade82"
+      },
+      "evidence/steering-quality-response-capacity-core-asan-guard-r2/plan.json": {
+        "bytes": 1094,
+        "sha256": "58727fba531f0fe2516af962cebbb6bd7c072b0ed328b7e278b39c05ea2fd9a5"
+      },
+      "evidence/steering-quality-response-capacity-core-asan-guard-r2/result.json": {
+        "bytes": 584,
+        "sha256": "2e8ba1d0f91643f7ee8d0f97f0a3182e30198e741020d42a455eeae882c42f09"
+      },
+      "evidence/steering-quality-response-capacity-core-asan-guard-r2/temperatures.jsonl": {
+        "bytes": 1830,
+        "sha256": "3e15872af15096e00d9bb4eed07ac804cdf4255e9a3cdb9ceee013b7ea558f41"
+      },
+      "evidence/steering-quality-response-capacity-core-debug-guard-r1/command.log": {
+        "bytes": 306,
+        "sha256": "a9fb498666e4b6f18ae40585fe90af397c65d081af03d14d668b4dc1e1ed4232"
+      },
+      "evidence/steering-quality-response-capacity-core-debug-guard-r1/plan.json": {
+        "bytes": 969,
+        "sha256": "ac3da3a20ca42faa686c2bdb73f406c742eab72761c464b856c1fe147ef06c59"
+      },
+      "evidence/steering-quality-response-capacity-core-debug-guard-r1/result.json": {
+        "bytes": 466,
+        "sha256": "4def35f4b495f56a1e32125906ea0125a8634e6dae8ae82a3371e61d8bca7bf4"
+      },
+      "evidence/steering-quality-response-capacity-core-debug-guard-r1/temperatures.jsonl": {
+        "bytes": 1830,
+        "sha256": "8bd407cc59597009424a173405345553d84d4c47b6dd9740a4294ddd243463dc"
+      },
+      "evidence/steering-quality-response-capacity-debug-build-guard-r1/command.log": {
+        "bytes": 2310,
+        "sha256": "a9fd4e83fcda4b7b57b26260b1593665e2fb586deef3931203edccb85032b1f1"
+      },
+      "evidence/steering-quality-response-capacity-debug-build-guard-r1/plan.json": {
+        "bytes": 985,
+        "sha256": "45d538608c84260a561e3fb1e09960b7baa06c0d48a5278337955efb46deedb8"
+      },
+      "evidence/steering-quality-response-capacity-debug-build-guard-r1/result.json": {
+        "bytes": 483,
+        "sha256": "c27b9ed361ebbc76c1dae3f9a689b3c22936d6bc0021188763ecce126c864d3a"
+      },
+      "evidence/steering-quality-response-capacity-debug-build-guard-r1/temperatures.jsonl": {
+        "bytes": 1830,
+        "sha256": "077df8d2f0ed7a2e7e79912453640de93b0de6eaf183c68f778601b575a91f26"
+      },
+      "evidence/steering-quality-response-capacity-host-asan-guard-r1/command.log": {
+        "bytes": 112,
+        "sha256": "3937b9f9cbf2c2f293994630744eb534d9c4ddcf166f48135ea2849102e07c3f"
+      },
+      "evidence/steering-quality-response-capacity-host-asan-guard-r1/plan.json": {
+        "bytes": 1289,
+        "sha256": "914e5add2ae9ca04270311b8bb5453c671c463cdaacd30f43ee61c4b0b188ee3"
+      },
+      "evidence/steering-quality-response-capacity-host-asan-guard-r1/result.json": {
+        "bytes": 780,
+        "sha256": "b1a377886b22c3c223aa3d557ae1bf01b41601e2a8fe64980d0bb72f959366ee"
+      },
+      "evidence/steering-quality-response-capacity-host-asan-guard-r1/temperatures.jsonl": {
+        "bytes": 3655,
+        "sha256": "8435c4e555f089868fd8d7bcd0200d58d96486c0fd34316fe3fb0328cbdd6d29"
+      },
+      "evidence/steering-quality-response-capacity-host-asan-r1/output256-ram256.json": {
+        "bytes": 105117,
+        "sha256": "d71115555828fb6f5d673dd44e8edbd08ba33b48e67b812857e9d02d022c4420"
+      },
+      "evidence/steering-quality-response-capacity-host-asan-r1/output256-ram256.server.log": {
+        "bytes": 100,
+        "sha256": "ef8ab375fb8bf924825963b48ff33fcac268d8d9890b1ede75984e1b609e8832"
+      },
+      "evidence/steering-quality-response-capacity-host-asan-r1/output256-ram64.json": {
+        "bytes": 87537,
+        "sha256": "d50425e98db1552ebf7e3beb65e0737c47bea59bf90c4800822bab9d6b4a3cec"
+      },
+      "evidence/steering-quality-response-capacity-host-asan-r1/output256-ram64.server.log": {
+        "bytes": 100,
+        "sha256": "ca324315f82e214829edb0e78367ca43541fa240bdced891a375fd647f362dd6"
+      },
+      "evidence/steering-quality-response-capacity-host-asan-r1/output512-ram256.json": {
+        "bytes": 105109,
+        "sha256": "15d38a2e28f2718b9817e89b9c7e5b2033dc65fa15f26ef5b057890cc6656b4e"
+      },
+      "evidence/steering-quality-response-capacity-host-asan-r1/output512-ram256.server.log": {
+        "bytes": 100,
+        "sha256": "606f02404693186e28bf5fc69f03a9cd6094aea35c34898fe10041f394b1a69b"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-guard-r1/command.log": {
+        "bytes": 2711,
+        "sha256": "b25b61de6a2a30f52f576d05cbcc496de900abe6d834ed934086d5ef790b5d43"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-guard-r1/plan.json": {
+        "bytes": 1175,
+        "sha256": "06a87e86bd2d099076ddd47ba72c40c503325a1eedd547c5b60a45aadcbdf205"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-guard-r1/result.json": {
+        "bytes": 670,
+        "sha256": "030859e217d498ede0c91ffb6d5200fb69879d0eb8cc2dc2d15139ba00e86e2a"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-guard-r1/temperatures.jsonl": {
+        "bytes": 1828,
+        "sha256": "1c281e28196346de70b85daae5380273e9e6cafdd11744ac3a204d96ad77e79b"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-guard-r2/command.log": {
+        "bytes": 1323,
+        "sha256": "f49626fa28ce78fd7a3775e6ddf3b36ca212c96bff800ecff0121eb5e4d19e76"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-guard-r2/plan.json": {
+        "bytes": 1181,
+        "sha256": "24deb7e4226e4250ad99e018b9b54944353799a6a3400b1ceda6f45a67327ce0"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-guard-r2/result.json": {
+        "bytes": 671,
+        "sha256": "856ee86b30ed3a3ccc81a91a08fa1c4e0c37d42841abd5e7f0dd98c5415781f0"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-guard-r2/temperatures.jsonl": {
+        "bytes": 1826,
+        "sha256": "fb2650269e30cdf3aac70d3664572329b1de5bd731063f3f72d0482ce12ee70f"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-guard-r3/command.log": {
+        "bytes": 1323,
+        "sha256": "72080189e128d869265da6cbe98c7b14dd7bc4cd109fb124e2e62e620e52743b"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-guard-r3/plan.json": {
+        "bytes": 1181,
+        "sha256": "41bac3ce9d3c199e1246343f794e6554238fbc87ac7c50f6b37b84c20dbdfa5c"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-guard-r3/result.json": {
+        "bytes": 673,
+        "sha256": "487904c63737d996f88738ca45a138ba48eeabe0d77f081eac42b0ab4628b1fe"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-guard-r3/temperatures.jsonl": {
+        "bytes": 1827,
+        "sha256": "cf4278af77ccf52ace7a3de3eadd7fa592bb882f3922a991c0f0876bfef3e022"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-guard-r4/command.log": {
+        "bytes": 112,
+        "sha256": "67ee81e958e24015a97a3e7d3eb80b77d0922fa2154b135a99c3ac3549714fdf"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-guard-r4/plan.json": {
+        "bytes": 1181,
+        "sha256": "d53e52856352c438d98530b0d56180d9603e2e19edc96db38b891d11396808a1"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-guard-r4/result.json": {
+        "bytes": 671,
+        "sha256": "6a20a13cea162f7ddf642beb6273dfeac123055f2c13365ad9b0018848a0352a"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-guard-r4/temperatures.jsonl": {
+        "bytes": 3649,
+        "sha256": "50327504fb9dc98bd90d626f255f7d402ae693dbfd4dd8ee33b5ee121ff2d772"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-r3/output256-ram64.server.log": {
+        "bytes": 15,
+        "sha256": "3fb9df1d84690d6f890f141615c6be0f9594c906b15756da7c0077684c28e0c7"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-r4/output256-ram256.json": {
+        "bytes": 104977,
+        "sha256": "b86a1038d39a97c44288b7cb0edb70943cbb23bbb30d69d1bc1fe4ff19f1a3b3"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-r4/output256-ram256.server.log": {
+        "bytes": 100,
+        "sha256": "9b950f7eed607c54217d4238cb0456b2bbe83ff03167f82b0a93a3bc92f9c5be"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-r4/output256-ram64.json": {
+        "bytes": 87405,
+        "sha256": "cb06d47be754b45f2fef45cfba06e4754a83ac8cb6aabf1690c3e9eaff977690"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-r4/output256-ram64.server.log": {
+        "bytes": 100,
+        "sha256": "6783c1e7e4b70e0b74eebc3dbd5cd3b8102abf1f3aba5d27690e0198fcc6bb4c"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-r4/output512-ram256.json": {
+        "bytes": 104933,
+        "sha256": "29c4d015c829594bcc4fb4c75b5f6d1ddd3e310480bbb62de06639e32b04afc3"
+      },
+      "evidence/steering-quality-response-capacity-host-debug-r4/output512-ram256.server.log": {
+        "bytes": 100,
+        "sha256": "05626122e973db0a2ad5c03f54ae8b143a05e5a82f22c66f5e0ffc733db28292"
+      },
+      "evidence/steering-quality-response-capacity-profile-asan-guard-r1/command.log": {
+        "bytes": 116,
+        "sha256": "efea28c8d6485e1cf6a527e0cfea4fffbbe74337b42d6e1adbb9bdcd987c4a82"
+      },
+      "evidence/steering-quality-response-capacity-profile-asan-guard-r1/plan.json": {
+        "bytes": 1121,
+        "sha256": "588f0e0ca32acf039eec5df6ea906c2da989eff57a2670ae70f7012b5447fab5"
+      },
+      "evidence/steering-quality-response-capacity-profile-asan-guard-r1/result.json": {
+        "bytes": 613,
+        "sha256": "1f17fcb3cfc9472d576e6f6cc996794e3165027c09bd9b6d5408a704b0e71257"
+      },
+      "evidence/steering-quality-response-capacity-profile-asan-guard-r1/temperatures.jsonl": {
+        "bytes": 2440,
+        "sha256": "e289b8eb381a5d7ef986e1da3dfa84d257e1c04f778421ec2d77dbfbab7ba2c7"
+      },
+      "evidence/steering-quality-response-capacity-profile-debug-guard-r1/command.log": {
+        "bytes": 116,
+        "sha256": "8cab7eb46251cae88bbba018b5b76c7eb3976a1626c4570ff1e3e27d9dcfa5e9"
+      },
+      "evidence/steering-quality-response-capacity-profile-debug-guard-r1/plan.json": {
+        "bytes": 1013,
+        "sha256": "c6f2316d911dcada56b350dae8d7baeaf7bc70eaa15a0e0ed247002f89442e49"
+      },
+      "evidence/steering-quality-response-capacity-profile-debug-guard-r1/result.json": {
+        "bytes": 503,
+        "sha256": "437c0dadacb35400d4730b80dd7b72669e5bb38588bdb976de3d61d28c0d7c7c"
+      },
+      "evidence/steering-quality-response-capacity-profile-debug-guard-r1/temperatures.jsonl": {
+        "bytes": 2435,
+        "sha256": "aebecece4317a4fc6d5daf389089a6f0d27edb0b048c997be8e444483335eb8b"
+      },
+      "evidence/steering-quality-response-capacity-public-seal-guard-r1/command.log": {
+        "bytes": 1235,
+        "sha256": "97ad618547eb2944b0561e029c37b9e699def7a10cbb286b690afd5773d7c63f"
+      },
+      "evidence/steering-quality-response-capacity-public-seal-guard-r1/plan.json": {
+        "bytes": 926,
+        "sha256": "25d217d1d8c8503826dbb30eb7b546064f9c6086d08bd5d5b013ef29503c1a73"
+      },
+      "evidence/steering-quality-response-capacity-public-seal-guard-r1/result.json": {
+        "bytes": 423,
+        "sha256": "d4cf9f12dde8edb3a5c0b1eead6e6541680dc17b7a1b592ba6cd08106d5d13e6"
+      },
+      "evidence/steering-quality-response-capacity-public-seal-guard-r1/temperatures.jsonl": {
+        "bytes": 1829,
+        "sha256": "fbd3241b95548d505457aa9df5a50d6bf5d53e723c8f79ab9399f630e73d671c"
+      },
+      "evidence/steering-quality-response-capacity-seal-failed-r1/postseal-failure.json": {
+        "bytes": 1448,
+        "sha256": "44b16a8b1fe51c9cdc9eca43d1c2aaf91eb36257ebc7141dec6c1e993164bfab"
+      },
+      "evidence/steering-quality-response-capacity-seal-failed-r1/raw.tar.gz": {
+        "bytes": 58448,
+        "sha256": "102482a1872e60d140f6b9603684ddfbc159718b4261dc8e6e58b0ec1fbe6f3f"
+      },
+      "evidence/steering-quality-response-capacity-seal-failed-r1/receipt.json": {
+        "bytes": 27546,
+        "sha256": "a71925cd939f046b94f1f45b1d2261b7f9314b6af562e35c1b080b0f8090a5a0"
+      },
+      "evidence/test_strix_point_steering_quality_run_before_capacity_failure_logging_r1.py": {
+        "bytes": 18390,
+        "sha256": "49fdefab187945d16979c6e021410eedb392a13f7a6c8e02cf53ee9ad7283e45"
+      },
+      "tests/test_strix_point_steering_quality_profile.py": {
+        "bytes": 20373,
+        "sha256": "792fc5c236713a6d34b74bcf81c3a9a74b67dcbc2179bc3ddd57b101837135b3"
+      },
+      "tests/test_strix_point_steering_quality_run.py": {
+        "bytes": 18544,
+        "sha256": "82c6b8bebd0324e86f69baf107bf87cd142e9353e420857aecfb01d7f0365da1"
+      },
+      "tools/strix-point-steering-quality-gate.py": {
+        "bytes": 22189,
+        "sha256": "d548a4cac15cb79e4f936f0d29808b80cf837d38efa773ad4be53f77b3027321"
+      },
+      "tools/strix-point-steering-quality-run.py": {
+        "bytes": 13081,
+        "sha256": "2a8f95d783fc1a64ea5f98b226912e4bba518a1c64b010b8ac7e7939fc038fe5"
+      }
+    },
+    "all_archived_and_current_members_verified": true
+  },
+  "roadmap": {
+    "open_items": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "terminal_bench_last": true,
+    "full_goal_complete": false
+  }
+}

@@ -520,7 +520,21 @@ none of the six items.
    restore checks passing
    ([receipt](development/validation/steering-quality-campaign-host-2026-10-08.json)).
    Those HOST model servers and training metadata are simulated. Separate
-   original 100-pair learning now passes; learned-bank responses remain pending.
+   original 100-pair learning now passes. The first original response run saves
+   68/70 replies before HTTP429; the bank client exits1, and its applied-policy
+   snapshots remain unavailable
+   ([failed receipt](development/validation/steering-conciseness-quality-failed-point-2026-10-08.json)).
+   Independent partial wire reconstruction and full seven-identity/cgroup
+   closure pass. Baseline arithmetic is 6/10 and twenty negative-scale replies
+   reach the token limit; the full effect and learned quality remain unqualified.
+   Native synthetic serving reproduces the response-store refusal after 58
+   retained records at 64 MiB. The corrected optional supervisor uses 256 MiB;
+   all seventy records fit at both supported output-budget endpoints without
+   eviction. Thirteen supervision/seventeen profile checks and one CTest pass
+   per Debug/unsuppressed sanitizer mode
+   ([HOST receipt](development/validation/steering-quality-response-capacity-host-2026-10-08.json)).
+   This changes no native source or quality criterion; a new original run
+   requires new helper hashes and fresh separate admission.
    The optional response collector now retains both phases' full/partial wire
    with frozen-input checks, bounded transfer and complete local rehash. Twelve
    [HOST checks](development/validation/steering-quality-collection-host-r2-2026-10-08.json)

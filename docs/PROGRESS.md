@@ -4,11 +4,49 @@
 The current r70 `.161` recall ladder passes both cold turns through near-512K
 physical inputs with YaRN4 and seed 77. Original 100-pair FFN learning also
 passes complete capture, independent bank reconstruction and strong closure.
-Both windows are retired; root owns no remote job or future reservation.
-Held-out steering responses, larger recall inputs and wider gates remain
-pending. The next response launch was rejected before process creation by
-automatic approval review; root still owns no remote job or reservation.
+The subsequent held-out steering run saves 68/70 responses, then the bank
+client fails with HTTP429. Its complete quality gate remains unqualified;
+partial reconstruction, collection, whole-container retirement and four-peer
+release pass. Root owns no remote job or future reservation. Larger recall
+inputs and wider gates remain pending.
 All six root tasks remain open; Terminal Bench stays last.
+
+## Response storage corrected for the frozen steering cohort — 2026-10-08 UTC
+
+The optional supervisor now gives retained responses 256 MiB instead of 64 MiB.
+The actual C17 synthetic server reproduces `response_store_full` after 58 records
+at the old bound. The new bound retains all seventy records at both 256- and
+512-token output budgets, without evicting early snapshots. Thirteen supervision
+and seventeen profile checks, plus one focused CTest, pass in Debug and
+unsuppressed ASan/UBSan modes
+([receipt](development/validation/steering-quality-response-capacity-host-2026-10-08.json)).
+This is HOST fixture evidence. Native source, ABI/state/metrics, the Python-free
+default products and original quality criteria remain unchanged. Two existing
+builds are reused; local CPU peaks at 62.625 C. Sandbox socket/LeakSanitizer refusals
+and the stale fixture-server option refusal remain recorded with actual exits.
+The first archive includes its own still-changing guard; postcheck detects this,
+retains the complete attempt and seals only closed artifacts. Independent
+verification passes without repeating tests. A new original cohort still needs
+fresh helper/model/admission bindings.
+
+## Held-out steering failure retained and machine released — 2026-10-08 UTC
+
+The unchanged original r70 runtime and 100-pair FFN bank produce ten absent-bank
+and 58/60 bank replies before HTTP429. Independent partial review checks every
+saved SSE, actual request and available absent-policy snapshot. Six of ten
+baseline arithmetic answers are correct; absent and zero outputs match 10/10.
+Twenty negative-scale outputs reach the 256-token limit. Bank applied-policy
+snapshots are unavailable after the client failure, so neither the full effect
+nor bank application is qualified. Questions, scales and thresholds are unchanged.
+
+The [failed receipt](development/validation/steering-conciseness-quality-failed-point-2026-10-08.json)
+retains 97 independently verified portable members. Original control/container
+exits are 1; collection, partial review and strong closure are 0. All seven
+process identities, the complete container/cgroup and five ports retire; 37
+hashes/four model stats match, original lease is free and router191210 restored.
+Four peers receive verified release. Native CPU/GPU/NVMe peaks are
+69.625/75/67.85 C. A separate local 786K recall plan is prepared only; it grants
+no subsequent admission.
 
 ## Complete steering response collection prepared — 2026-10-08 UTC
 
@@ -31,7 +69,8 @@ telemetry; both clients, supervisor, launcher, init and entire cgroup must retir
 Four exact-scope non-use renewals and the 05:58:56 UTC global observation pass,
 but automatic approval review again rejects the launch as conflicting with an
 earlier test deferral. No process, handle or lease is created. The owner has
-been asked to confirm this specific launch; expired observations grant no run.
+subsequently confirmed proceeding with this specific launch; current peer/global
+admission must be renewed, and expired observations grant no run.
 All six tasks stay open and Terminal Bench stays last.
 
 ## Original 100-pair FFN bank independently verified — 2026-10-08 UTC

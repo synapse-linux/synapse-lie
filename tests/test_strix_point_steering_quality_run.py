@@ -2,6 +2,7 @@
 """HOST own-child supervision fixtures; no original model or GPU serving."""
 import copy
 import hashlib
+import http.client
 import http.server
 import importlib.util
 import json
@@ -27,6 +28,7 @@ def module(name, path):
 runner = module('steering_quality_supervision', ROOT/'tools/strix-point-steering-quality-run.py')
 fixture = module('steering_quality_HOST', ROOT/'tests/test_strix_point_steering_quality.py')
 NATIVE = os.environ.get('LIE_STEERING_NATIVE_CLIENT')
+NATIVE_SERVER = os.environ.get('LIE_STEERING_NATIVE_SERVER')
 
 
 def child(pid, exit_code=0, timeout=False):
@@ -222,6 +224,78 @@ class NativeSupervisedWire(unittest.TestCase):
                     self.assertGreater(result['phases'][phase]['client_identity']['start_ticks'],0)
         finally:
             server.shutdown();server.server_close();thread.join(timeout=5);self.assertFalse(thread.is_alive())
+
+
+@unittest.skipUnless(NATIVE_SERVER, 'Optional actual C17 server with synthetic CPU executor')
+class NativeResponseCapacity(unittest.TestCase):
+    def cohort(self, output, mib):
+        config = fixture.config()
+        config.update(context=8192, chunk=256, output_tokens=output)
+        api, management = runner.owned.private_ports()
+        args = types.SimpleNamespace(server=NATIVE_SERVER, model=':fixture:', bank=Path('/HOST-unused'), load_timeout=30)
+        command = runner.server_command(args, config, 'absent', api, management)
+        command[command.index('--response-store-ram-mb')+1] = str(mib)
+        with tempfile.TemporaryDirectory() as temporary:
+            destination = os.environ.get('LIE_STEERING_CAPACITY_EVIDENCE')
+            directory = Path(destination) if destination else Path(temporary)
+            directory.mkdir(parents=True, exist_ok=True)
+            log = directory/f'output{output}-ram{mib}.server.log'
+            observations, responses, proc = [], [], None
+            with log.open('xb') as stream:
+                proc = subprocess.Popen(command, stdout=stream, stderr=subprocess.STDOUT)
+                identity = runner.owned.process_identity(proc)
+                try:
+                    runner.ready(proc, api, config['model_id'], 30)
+                    info = json.loads(runner.get(management, '/actuator/info')['body'])
+                    self.assertTrue(info['backend']['synthetic'])
+                    self.assertFalse(info['inference_verified'])
+                    for index in range(70):
+                        connection = http.client.HTTPConnection('127.0.0.1', api, timeout=10)
+                        body = {'model': config['model_id'], 'messages': [{'role':'user', 'content':'normal'}],
+                                'max_tokens': output, 'temperature': 0, 'store': True}
+                        try:
+                            connection.request('POST', '/v1/chat/completions', json.dumps(body), {'Content-Type':'application/json'})
+                            response = connection.getresponse()
+                            observed = {'index': index, 'status': response.status, 'body': json.loads(response.read())}
+                        finally:
+                            connection.close()
+                        observations.append(observed)
+                        if observed['status'] != 200:
+                            break
+                        self.assertIn('NOT-INFERENCE', observed['body']['system_fingerprint'])
+                        responses.append(observed['body']['id'])
+                    # Every successful record must remain readable; no eviction
+                    # or snapshot deletion is used to make the cohort fit.
+                    for identifier in responses:
+                        snapshot = runner.get(api, '/v1/chat/completions/'+identifier+'/steering')
+                        self.assertEqual(snapshot['status'], 200)
+                        self.assertIsNone(json.loads(snapshot['body'])['policy'])
+                finally:
+                    actual_exit = runner.owned.retire(proc)
+            self.assertEqual(actual_exit, 0, log.read_text())
+            record = {'state': 'HOST_SYNTHETIC_NATIVE_RESPONSE_CAPACITY', 'model_inference': False,
+                      'output_budget': output, 'response_store_mib': mib, 'server_argv': command,
+                      'server_identity': identity, 'server_exit_code': actual_exit,
+                      'retained_successful_records': len(responses), 'observations': observations,
+                      'server_log': log.read_text()}
+            if destination:
+                path = Path(destination)
+                path.mkdir(parents=True, exist_ok=True)
+                with (path/f'output{output}-ram{mib}.json').open('x') as stream:
+                    json.dump(record, stream, indent=2)
+                    stream.write('\n')
+            return record
+
+    def test_complete_cohort_fits_without_evicting_early_applied_policy_records(self):
+        constrained = self.cohort(256, 64)
+        self.assertLess(constrained['retained_successful_records'], 60)
+        self.assertEqual(constrained['observations'][-1]['status'], 429)
+        self.assertEqual(constrained['observations'][-1]['body']['error']['code'], 'response_store_full')
+        for output in (256, 512):
+            with self.subTest(output_budget=output):
+                complete = self.cohort(output, runner.RESPONSE_STORE_MIB)
+                self.assertEqual(complete['retained_successful_records'], 70)
+                self.assertTrue(all(row['status'] == 200 for row in complete['observations']))
 
 
 if __name__=='__main__':unittest.main()

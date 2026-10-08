@@ -22,6 +22,11 @@ SNAPSHOT_TIMEOUT_SECONDS = 3
 # 70 bounded snapshot reads (210 s), two client deadline margins (60 s),
 # four owned retirements (120 s), plus container setup and bounded I/O slack.
 SUPERVISION_OVERHEAD_SECONDS = 600
+# Keep all sixty bank-phase records until their applied-policy snapshots are
+# collected. The native store reserves the output budget, semantic journal and
+# retained job, even for short answers. 64 MiB refused the 59th original request;
+# 256 MiB covers this protocol's maximum 512-token budget without eviction.
+RESPONSE_STORE_MIB = 256
 
 
 def module(name, path):
@@ -62,7 +67,7 @@ def server_command(args, config, phase, api, management):
                '--rope-scaling', 'native', '--prefill-chunk', str(config['chunk']),
                '--prefill-capacity', str(config['chunk']), '--max-active', '1',
                '--kv-cache-ram-mb', '0', '--request-timeout-ms', str(1000*config['request_timeout_seconds']),
-               '--response-store-records', '128', '--response-store-ram-mb', '64',
+               '--response-store-records', '128', '--response-store-ram-mb', str(RESPONSE_STORE_MIB),
                '--response-store-ttl-seconds', str(container_timeout(config, args.load_timeout))]
     if phase == 'bank':
         command += ['--dir-steering-file', str(args.bank), '--dir-steering-ffn', '0', '--dir-steering-attn', '0']

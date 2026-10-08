@@ -9,7 +9,10 @@ fixtures are implemented. The coordinator now selects
 SHA-checked profile bytes before its full input/model provenance checks.
 Original 100-pair FFN learning is now
 [independently verified](../validation/steering-conciseness-original100-point-2026-10-08.json);
-held-out original response execution remains pending. The dispatch
+the first held-out run retains
+[68/70 replies and HTTP429](../validation/steering-conciseness-quality-failed-point-2026-10-08.json),
+with independent partial review and full closure but no accepted quality.
+The dispatch
 hook was applied after the admitted near-512K recall window was collected,
 strongly closed, released to all four peers and independently sealed.
 
@@ -94,8 +97,15 @@ admitted input identities must remain unchanged, including byte-identical inode
 replacement. These checks execute inside the existing owned campaign; they do
 not acquire a lease or replace outer admission and closure.
 
-Response storage is bounded to 128 records/64 MiB, with TTL covering the complete
+Response storage is bounded to 128 records/256 MiB, with TTL covering the complete
 workload deadline so early responses do not expire while later scales run.
+The original 64 MiB budget refused the 59th bank request. A real C17 synthetic
+server reproduces `response_store_full` at the same boundary; 256 MiB retains
+all seventy records at both 256- and 512-token output budgets without eviction.
+This changes the development harness's storage bound only. The original
+manifest, partial responses and actual exit1 remain unchanged; a new original
+run needs new helper hashes and fresh admission. The correctness, natural-stop,
+zero-parity and response-length criteria above are unchanged.
 The deadline is two model-load bounds plus 70 request bounds and 600 seconds
 for 70 three-second snapshot reads, two client margins, four owned retirements
 and setup/I/O. The earlier 180-second allowance omitted these costs. Configurations

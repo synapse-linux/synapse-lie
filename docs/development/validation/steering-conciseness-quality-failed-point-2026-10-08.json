@@ -1,0 +1,1597 @@
+{
+  "schema": "synapse-lie.original-steering-response-failure.v1",
+  "at_utc": "2026-10-08T09:36:00.664259+00:00",
+  "state": "PARTIAL_ORIGINAL_STEERING_RESPONSES_FAILED_COLLECTED_STRONGLY_CLOSED",
+  "job_label": "steering-conciseness-quality-point-20261008-r1",
+  "target": "pop@192.168.5.161",
+  "platform": "strix-point",
+  "runtime_source_commit": "4c703b3d604c6c877d6a2214d7aee0b15a013f61",
+  "manifest_sha256": "bb7c4fb8f2ff95607982757044bbbe8d2120cbc95d4c4588bcfbf02346eb0f19",
+  "coordinator_sha256": "e68672b4e2b43ae981daf65462809c98232ba3a9248d634727fa812c4d3dd035",
+  "native_artifacts": {
+    "runtime/bin/lie-attention-qualify": "76a30ac62bcf274ff1bd0fc0cabcb81c4c1100eea0eeb47818ee48930ce05623",
+    "runtime/bin/lie-hip-probe": "98b71ab97ef470bbf59e3eee7a56d578e5d10dc2fc53d5cb62aa5eaa7705fc01",
+    "runtime/bin/lie-sampling-capture": "8a9e3e84093a9a3ec95e325c5cd01cce8804fb955b5adc0199efe8d21f6ead74",
+    "runtime/bin/lie-steering-build": "d4f4ee1f98b031dc883546654c37e036dadcae7614fdac53633c8b59fb16e3e4",
+    "runtime/bin/synapse-lie-bench": "b9cd41993627d2d0337da3526d4e8b903b06a55daa252c4e9180decde29082f9",
+    "runtime/bin/synapse-lie-bench-gufo-reference": "8935adb66865ba75f5afcbe8fe966a5b2d37c76ad6523c4ef7100fde210690ab",
+    "runtime/bin/synapse-lie-server": "136952d52765e96607e25878609f5bb74d3fe3dbfa8b25c1e257f2bdaa6c1191"
+  },
+  "source_model": {
+    "schema": "synapse-lie.model-source.v1",
+    "repository": "unsloth/Qwen3.8-Flash-Next-GGUF",
+    "revision": "38bb39ee97821de2c9009abb7e93950eec396e66",
+    "target": "pop@192.168.5.161",
+    "destination": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee",
+    "total_bytes": 111334654784,
+    "files": [
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "bytes": 10946624,
+        "sha256": "4448186216b3af4cc558bbce2c3213f01608f8f8b2e5267a9767971dd3ec8082",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+        "bytes": 49859583136,
+        "sha256": "3f342f1c1580473f1ee94ddd5b28206e8c07a70fa1a366f59d1d6c922919a6c9",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+        "bytes": 49376141504,
+        "sha256": "56758f40269cad5cd9b0d3d6fbae0f40f6d5be6de49e4ab392dbe83157d9cbd3",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+        "bytes": 12087983520,
+        "sha256": "753bda48b98ba4f1636134a90a967de1b2d3908a236c026e464777342e53510a",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf"
+      }
+    ],
+    "verification": "Independent official repository metadata agrees with historical SHA-256; target payloads not downloaded or hashed",
+    "metadata_receipt": "evidence/strix-point-model-metadata-r1",
+    "metadata_sha256": "1866707f788ee7c6df4b6c94c8a3d82abc7cc377bdc5f22bdd4f7707b46c144b"
+  },
+  "settings": {
+    "model_id": "qwen3.8-flash-next",
+    "fingerprint": "gufo-embedded-f783fedb",
+    "context": 8192,
+    "chunk": 256,
+    "seed": 77,
+    "output_tokens": 256,
+    "request_timeout_seconds": 120,
+    "bank_sha256": "27d1ba7593c55f288ce4e214cf62e4f87eba7823422f48bca6e35a3f0dce603b"
+  },
+  "actual_exits": {
+    "controller": 1,
+    "supervisor": 1,
+    "container": 1,
+    "native_absent_client": 0,
+    "native_bank_client": 1,
+    "absent_server_retirement": 0,
+    "bank_server_retirement": 0,
+    "collector": 0,
+    "partial_independent_review": 0,
+    "strong_closure": 0
+  },
+  "failure": {
+    "event": "failed",
+    "exit_code": 1,
+    "error": "HTTP request failed: status 429, No error"
+  },
+  "partial_quality": {
+    "state": "PARTIAL_ORIGINAL_RESPONSES_INDEPENDENTLY_RECONSTRUCTED_INFRASTRUCTURE_FAILURE",
+    "at_utc": "2026-10-08T09:30:47.487792+00:00",
+    "actual_exit_code": 0,
+    "actual_supervisor_exit_code": 1,
+    "actual_container_exit_code": 1,
+    "actual_native_exit_codes": {
+      "absent": 0,
+      "bank": 1
+    },
+    "bank_source": {
+      "training_pairs": 100,
+      "layers": 48,
+      "width": 2560,
+      "ffn_branches": 4,
+      "bank": {
+        "bytes": 491520,
+        "sha256": "27d1ba7593c55f288ce4e214cf62e4f87eba7823422f48bca6e35a3f0dce603b"
+      },
+      "corpus": {
+        "bytes": 6482,
+        "sha256": "602354e607a5738958b12f01913473aac6dd4e8ec08cef7f1dfd9023084b14a4"
+      },
+      "quality_already_qualified": false
+    },
+    "all_collected_content_reverified": true,
+    "observed_complete_SSE_samples": 68,
+    "expected_samples": 70,
+    "correct_answers_in_observed_samples": 30,
+    "natural_stops_in_observed_samples": 48,
+    "observed_absent_zero_wire_parity_cases": 10,
+    "missing_cases": [
+      "plus2-held-08",
+      "plus2-held-09"
+    ],
+    "retained_stored_snapshots": 10,
+    "bank_applied_policy_snapshots_available": false,
+    "native_terminal_events": {
+      "absent": {
+        "event": "complete",
+        "exit_code": 0
+      },
+      "bank": {
+        "event": "failed",
+        "exit_code": 1,
+        "error": "HTTP request failed: status 429, No error"
+      }
+    },
+    "scores": {
+      "absent-held-00": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 46,
+        "content": "{\n  \"answer\": \"129\",\n  \"explanation\": \"First, calculate the total number of pears received by multiplying the number of crates (7) by the number of pears per crate (24), which equals 168 pears. Then, subtract the number of pears sold (39) from the total to find the remaining amount: 168 - 39 = 129.\"\n}",
+        "prompt_tokens": 64,
+        "output_tokens": 96
+      },
+      "absent-held-01": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 57,
+        "content": "{\n  \"answer\": \"368\",\n  \"explanation\": \"First, calculate the total number of passengers initially on the buses by multiplying the number of buses (9) by the number of passengers per bus (48), which equals 432. Then, subtract the number of passengers who left at the destination (64) from the total initial passengers (432) to find the remaining number of passengers, which is 368.\"\n}",
+        "prompt_tokens": 62,
+        "output_tokens": 100
+      },
+      "absent-held-02": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 43,
+        "content": "{\n  \"answer\": \"209\",\n  \"explanation\": \"Maya starts with 125 dollars. She saves 18 dollars per week for 7 weeks, which totals 18 * 7 = 126 dollars. Adding this to her initial savings gives 125 + 126 = 251 dollars. She then spends 42 dollars, leaving her with 251 - 42 = 209 dollars.\"\n}",
+        "prompt_tokens": 71,
+        "output_tokens": 107
+      },
+      "absent-held-03": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 64,
+        "content": "{\n  \"answer\": \"1600\",\n  \"explanation\": \"First, convert the total length of the rope from meters to centimeters by multiplying 36 by 100, which equals 3600 centimeters. Next, calculate the total length of the pieces cut by multiplying 8 pieces by 250 centimeters each, resulting in 2000 centimeters. Finally, subtract the cut length (2000 cm) from the total length (3600 cm) to find the remaining length, which is 1600 centimeters.\"\n}",
+        "prompt_tokens": 65,
+        "output_tokens": 130
+      },
+      "absent-held-04": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 54,
+        "content": "{\n  \"answer\": \"73\",\n  \"explanation\": \"First, calculate the total number of rolls baked by multiplying the number of trays (3) by the rolls per tray (16), which equals 48 rolls. Add this to the initial 54 rolls to get a total of 102 rolls. Finally, subtract the 29 rolls sold from the total to find that 73 rolls remain.\"\n}",
+        "prompt_tokens": 69,
+        "output_tokens": 94
+      },
+      "absent-held-05": {
+        "correct": false,
+        "natural_stop": true,
+        "explanation_words": null,
+        "content": "{\n  \"answer\": \"1020\",\n  \"explanation\": \"First, calculate the total amount of water added to the pool by multiplying the flow rate (35 liters per minute) by the duration (12 minutes), which equals 420 liters. Add this to the initial volume of 960 liters to get 1380 liters. Finally, subtract the 180 liters lost from the pool, resulting in 1020 liters remaining.\"\n}",
+        "prompt_tokens": 72,
+        "output_tokens": 106
+      },
+      "absent-held-06": {
+        "correct": false,
+        "natural_stop": true,
+        "explanation_words": null,
+        "content": "{\n  \"answer\": \"404\",\n  \"explanation\": \"First, calculate the total distance covered in the first 3 days by multiplying the daily distance (135 km) by the number of days (3), which equals 405 km. Then, add the additional 87 km traveled afterwards to get the total distance covered so far: 405 + 87 = 492 km. Finally, subtract this total covered distance from the total trip length (800 km) to find the remaining distance: 800 - 492 = 404 km.\"\n}",
+        "prompt_tokens": 73,
+        "output_tokens": 135
+      },
+      "absent-held-07": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 47,
+        "content": "{\n  \"answer\": \"73\",\n  \"explanation\": \"First, calculate the total number of seats by multiplying the number of tables (14) by the number of seats per table (6), which equals 84 seats. Then, subtract the number of broken seats (11) from the total to find the number of usable seats: 84 - 11 = 73.\"\n}",
+        "prompt_tokens": 60,
+        "output_tokens": 89
+      },
+      "absent-held-08": {
+        "correct": false,
+        "natural_stop": true,
+        "explanation_words": null,
+        "content": "{\n  \"answer\": \"251\",\n  \"explanation\": \"First, calculate the total number of new books received by multiplying the number of boxes (5) by the number of books per box (17), which equals 85 books. Add these new books to the initial count of 236, resulting in 321 books. Finally, subtract the 68 donated books from this total to find the remaining number of books, which is 251.\"\n}",
+        "prompt_tokens": 69,
+        "output_tokens": 106
+      },
+      "absent-held-09": {
+        "correct": false,
+        "natural_stop": true,
+        "explanation_words": null,
+        "content": "{\n  \"answer\": \"1200\",\n  \"explanation\": \"First, calculate the total cost of the notebooks: 3 notebooks multiplied by 275 cents each equals 825 cents. Next, calculate the total cost of the pens: 2 pens multiplied by 125 cents each equals 250 cents. Add these two amounts together to find the total expenditure: 825 + 250 = 1075 cents. Finally, subtract the total expenditure from the initial amount in the wallet: 2000 - 1075 = 1200 cents remaining.\"\n}",
+        "prompt_tokens": 71,
+        "output_tokens": 139
+      },
+      "minus1-held-00": {
+        "correct": false,
+        "natural_stop": false,
+        "explanation_words": null,
+        "content": "\n\t\t\t    \t\n\t\t\t    \t\t    \t\t\t    \t {\"answer\":\"'ToscriptIdToToapiro\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5febapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroToToscriptIdapiroscriptIdToscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptId",
+        "prompt_tokens": 64,
+        "output_tokens": 256
+      },
+      "minus1-held-01": {
+        "correct": false,
+        "natural_stop": false,
+        "explanation_words": null,
+        "content": "\n\t\t\t    \t\n\t\t\t    \t\t    \t\t\t    \t {\"answer\":\"'ToscriptIdToToToToToapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroToToscriptIdapiroscriptIdToscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptId",
+        "prompt_tokens": 62,
+        "output_tokens": 256
+      },
+      "minus1-held-02": {
+        "correct": false,
+        "natural_stop": false,
+        "explanation_words": null,
+        "content": "\n\t\t\t    \t\n\t\t\t    \t\t    \t\t\t    \t {\"answer\":\"'ToscriptIdToToToToToapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroToToscriptIdapiroscriptIdToscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptId",
+        "prompt_tokens": 71,
+        "output_tokens": 256
+      },
+      "minus1-held-03": {
+        "correct": false,
+        "natural_stop": false,
+        "explanation_words": null,
+        "content": "\n\t\t\t    \t\n\t\t\t    \t\t    \t\t\t    \t {\"answer\":\"'apiroscriptIdToToToToToToapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroToapiro\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5febapiroapiroToToscriptIdapiroscriptIdToscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptId",
+        "prompt_tokens": 65,
+        "output_tokens": 256
+      },
+      "minus1-held-04": {
+        "correct": false,
+        "natural_stop": false,
+        "explanation_words": null,
+        "content": "\n\t\t\t    \t\n\t\t\t    \t\t    \t\t\t    \t {\"answer\":\"'ToscriptIdToToapiroscriptIdapiroToToscriptIdapiroToapiroscriptIdapiroToToscriptIdapiroscriptIdapiroscriptIdapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroToToscriptIdToToToToToToToToToToToToToToToToToToTo?keyapiroscriptIdToscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptId",
+        "prompt_tokens": 69,
+        "output_tokens": 256
+      },
+      "minus1-held-05": {
+        "correct": false,
+        "natural_stop": false,
+        "explanation_words": null,
+        "content": "\n\t\t\t    \t\n\t\t\t    \t\t    \t\t\t    \t {\"answer\":\"'ToscriptIdToToapiroscriptIdapiroToToscriptIdapiroToToscriptIdapiroscriptIdToscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptId",
+        "prompt_tokens": 72,
+        "output_tokens": 256
+      },
+      "minus1-held-06": {
+        "correct": false,
+        "natural_stop": false,
+        "explanation_words": null,
+        "content": "\n\t\t\t    \t\n\t\t\t    \t\t    \t\t\t    \t {\"answer\":\"'ToscriptIdToToapiroscriptIdapiroToToscriptIdapiroscriptIdapiroToapiro\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5febapiroapiroToToscriptIdapiroscriptIdToscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptId",
+        "prompt_tokens": 73,
+        "output_tokens": 256
+      },
+      "minus1-held-07": {
+        "correct": false,
+        "natural_stop": false,
+        "explanation_words": null,
+        "content": "\n\t\t\t    \t\n\t\t\t    \t\t    \t\t\t    \t {\"answer\":\"'ToscriptIdToToToapiroscriptIdapiroToToscriptIdapiroToToscriptIdapiroscriptIdToscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptId",
+        "prompt_tokens": 60,
+        "output_tokens": 256
+      },
+      "minus1-held-08": {
+        "correct": false,
+        "natural_stop": false,
+        "explanation_words": null,
+        "content": "\n\t\t\t    \t\n\t\t\t    \t\t    \t\t\t    \t {\"answer\":\"'ToscriptIdToToapiroscriptIdToToToToToToapiro\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5febapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroapiroToToscriptIdapiroscriptIdToscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptId",
+        "prompt_tokens": 69,
+        "output_tokens": 256
+      },
+      "minus1-held-09": {
+        "correct": false,
+        "natural_stop": false,
+        "explanation_words": null,
+        "content": "\n\t\t\t    \t\n\t\t\t    \t\t    \t\t\t    \t {\"answer\":\"'ToscriptIdToToapiroscriptIdapiroToToscriptIdapiroToapiroscriptIdapiroTo\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5171\u5febapiroapiroToToscriptIdapiroscriptIdToscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptIdscriptId",
+        "prompt_tokens": 71,
+        "output_tokens": 256
+      },
+      "minus05-held-00": {
+        "correct": false,
+        "natural_stop": false,
+        "explanation_words": null,
+        "content": "\n\n  \n\n     \t\t\t    \t     \t\t\t    \t{          \t\t\t    \t\n\n\n           \"answer\":\"'\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c18\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634apiroTo\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634Toapiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634 thereof\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634 thereof\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634logic\u4e00\u54c1 thereof\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1 thereof\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634",
+        "prompt_tokens": 64,
+        "output_tokens": 256
+      },
+      "minus05-held-01": {
+        "correct": false,
+        "natural_stop": false,
+        "explanation_words": null,
+        "content": "\n\n\n\n {\t\t\t    \t     \t\t\t    \t           \"answer\":\"'\u4e00\u54c18 Anything thereof\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1 thereof thereof\u4e00\u54c1\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1 thereof\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1 thereof\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To thereof\u4e00\u54c1\u5171\u0627\u06cc\u0634\u4e00\u54c1\u5171\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c18\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1 thereof\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634\u6447\u6446\u4e00\u54c1\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634 thereof\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634 thereof\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1 thereof\u0627\u06cc\u0634 thereof\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1",
+        "prompt_tokens": 62,
+        "output_tokens": 256
+      },
+      "minus05-held-02": {
+        "correct": false,
+        "natural_stop": false,
+        "explanation_words": null,
+        "content": "\n\n      \t\t\t    \t\t\t\t    \t\t\t\t    \t{\"answer\":\"'\u5171\u0627\u06cc\u0634\u4e00\u54c1\u5171\u0627\u06cc\u0634\u4e00\u54c1 thereof\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1 thereof\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1 thereof\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634Toapiroapiro\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1 thereof\u0627\u06cc\u0634apiro\u6e38\u8d70\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634\u6e38\u8d70\u5171\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634 thereof\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634 thereof\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1 thereof\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634",
+        "prompt_tokens": 71,
+        "output_tokens": 256
+      },
+      "minus05-held-03": {
+        "correct": false,
+        "natural_stop": false,
+        "explanation_words": null,
+        "content": "\n\n\n\n    \n    \n    \n    \n  \n\n\n\n {\t\t\t    \t     \t\t\t    \t           \"answer\":\"'\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1 thereof\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4ecd\u65e7\u4e00\u54c1\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1",
+        "prompt_tokens": 65,
+        "output_tokens": 256
+      },
+      "minus05-held-04": {
+        "correct": false,
+        "natural_stop": false,
+        "explanation_words": null,
+        "content": "\n\n  \n\n     \t\t\t    \t     \t\t\t    \t{          \t\t\t    \t\n\n\n           \"answer\":\"'\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634logicapiro\u6447\u6446\u4e00\u54c1\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To ** thereof\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To Kh\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634",
+        "prompt_tokens": 69,
+        "output_tokens": 256
+      },
+      "minus05-held-05": {
+        "correct": false,
+        "natural_stop": false,
+        "explanation_words": null,
+        "content": "\n\n\n\n\n     \n\t    \t\t\t     \t\t\t    \t{          \t\t\t    \t\t\t\t    \t    \t \"answer\":\"'\u4e00\u54c1\u6447\u6446\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634ahamiapiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634 thereof\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c18\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c18\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u6447\u6446\u4e00\u54c1\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634\u0627\u06cc\u0634",
+        "prompt_tokens": 72,
+        "output_tokens": 256
+      },
+      "minus05-held-06": {
+        "correct": false,
+        "natural_stop": false,
+        "explanation_words": null,
+        "content": "\n\n\n\n                          {\t\t\t    \t     \t\t\t    \t         \t \"answer\":\"'\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To thereof\u4e00\u54c1\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To8\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4ecd\u65e7\u4e00\u54c1\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u6c42\u0627\u06cc\u0634\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To8\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634",
+        "prompt_tokens": 73,
+        "output_tokens": 256
+      },
+      "minus05-held-07": {
+        "correct": false,
+        "natural_stop": false,
+        "explanation_words": null,
+        "content": "\n\n  \n\n     \t\t\t    \t     \t\t\t    \t{          \t\t\t    \t  \n\n      \n\n \n\"answer\":\"'\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1 thereof\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634Toapiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4ecd\u65e7\u4e00\u54c1\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634logic\u4e00\u54c1\u5171\u0627\u06cc\u0634\u4e00\u54c1\u5171\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634",
+        "prompt_tokens": 60,
+        "output_tokens": 256
+      },
+      "minus05-held-08": {
+        "correct": false,
+        "natural_stop": false,
+        "explanation_words": null,
+        "content": "\n\n\n\n      \t\t\t    \t\t\t\t    \t {          \t\t\t    \t\t\t\t    \t      \"answer\":\"'\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4ecd\u65e7\u4e00\u54c1\u4e00\u54c1apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4ecd\u65e7\u4e00\u54c1\u5171 thereof\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To thereof\u4e00\u54c1\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1 thereof\u0627\u06cc\u0634 Determine\u4e00\u54c1apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1",
+        "prompt_tokens": 69,
+        "output_tokens": 256
+      },
+      "minus05-held-09": {
+        "correct": false,
+        "natural_stop": false,
+        "explanation_words": null,
+        "content": "\n\n  \n\n     \t\t\t    \t     \t\t\t    \t{          \t\t\t    \t  \n\n      \n\n \n\"answer\":\"'\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To8\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4ecd\u65e7\u4e00\u54c1\u4e00\u54c1\u6447\u6446\u4e00\u54c1\u4e00\u54c1\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634apiro\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634To\u0627\u06cc\u0634\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1\u0627\u06cc\u0634\u4e00\u54c1",
+        "prompt_tokens": 71,
+        "output_tokens": 256
+      },
+      "zero-held-00": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 46,
+        "content": "{\n  \"answer\": \"129\",\n  \"explanation\": \"First, calculate the total number of pears received by multiplying the number of crates (7) by the number of pears per crate (24), which equals 168 pears. Then, subtract the number of pears sold (39) from the total to find the remaining amount: 168 - 39 = 129.\"\n}",
+        "prompt_tokens": 64,
+        "output_tokens": 96
+      },
+      "zero-held-01": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 57,
+        "content": "{\n  \"answer\": \"368\",\n  \"explanation\": \"First, calculate the total number of passengers initially on the buses by multiplying the number of buses (9) by the number of passengers per bus (48), which equals 432. Then, subtract the number of passengers who left at the destination (64) from the total initial passengers (432) to find the remaining number of passengers, which is 368.\"\n}",
+        "prompt_tokens": 62,
+        "output_tokens": 100
+      },
+      "zero-held-02": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 43,
+        "content": "{\n  \"answer\": \"209\",\n  \"explanation\": \"Maya starts with 125 dollars. She saves 18 dollars per week for 7 weeks, which totals 18 * 7 = 126 dollars. Adding this to her initial savings gives 125 + 126 = 251 dollars. She then spends 42 dollars, leaving her with 251 - 42 = 209 dollars.\"\n}",
+        "prompt_tokens": 71,
+        "output_tokens": 107
+      },
+      "zero-held-03": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 64,
+        "content": "{\n  \"answer\": \"1600\",\n  \"explanation\": \"First, convert the total length of the rope from meters to centimeters by multiplying 36 by 100, which equals 3600 centimeters. Next, calculate the total length of the pieces cut by multiplying 8 pieces by 250 centimeters each, resulting in 2000 centimeters. Finally, subtract the cut length (2000 cm) from the total length (3600 cm) to find the remaining length, which is 1600 centimeters.\"\n}",
+        "prompt_tokens": 65,
+        "output_tokens": 130
+      },
+      "zero-held-04": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 54,
+        "content": "{\n  \"answer\": \"73\",\n  \"explanation\": \"First, calculate the total number of rolls baked by multiplying the number of trays (3) by the rolls per tray (16), which equals 48 rolls. Add this to the initial 54 rolls to get a total of 102 rolls. Finally, subtract the 29 rolls sold from the total to find that 73 rolls remain.\"\n}",
+        "prompt_tokens": 69,
+        "output_tokens": 94
+      },
+      "zero-held-05": {
+        "correct": false,
+        "natural_stop": true,
+        "explanation_words": null,
+        "content": "{\n  \"answer\": \"1020\",\n  \"explanation\": \"First, calculate the total amount of water added to the pool by multiplying the flow rate (35 liters per minute) by the duration (12 minutes), which equals 420 liters. Add this to the initial volume of 960 liters to get 1380 liters. Finally, subtract the 180 liters lost from the pool, resulting in 1020 liters remaining.\"\n}",
+        "prompt_tokens": 72,
+        "output_tokens": 106
+      },
+      "zero-held-06": {
+        "correct": false,
+        "natural_stop": true,
+        "explanation_words": null,
+        "content": "{\n  \"answer\": \"404\",\n  \"explanation\": \"First, calculate the total distance covered in the first 3 days by multiplying the daily distance (135 km) by the number of days (3), which equals 405 km. Then, add the additional 87 km traveled afterwards to get the total distance covered so far: 405 + 87 = 492 km. Finally, subtract this total covered distance from the total trip length (800 km) to find the remaining distance: 800 - 492 = 404 km.\"\n}",
+        "prompt_tokens": 73,
+        "output_tokens": 135
+      },
+      "zero-held-07": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 47,
+        "content": "{\n  \"answer\": \"73\",\n  \"explanation\": \"First, calculate the total number of seats by multiplying the number of tables (14) by the number of seats per table (6), which equals 84 seats. Then, subtract the number of broken seats (11) from the total to find the number of usable seats: 84 - 11 = 73.\"\n}",
+        "prompt_tokens": 60,
+        "output_tokens": 89
+      },
+      "zero-held-08": {
+        "correct": false,
+        "natural_stop": true,
+        "explanation_words": null,
+        "content": "{\n  \"answer\": \"251\",\n  \"explanation\": \"First, calculate the total number of new books received by multiplying the number of boxes (5) by the number of books per box (17), which equals 85 books. Add these new books to the initial count of 236, resulting in 321 books. Finally, subtract the 68 donated books from this total to find the remaining number of books, which is 251.\"\n}",
+        "prompt_tokens": 69,
+        "output_tokens": 106
+      },
+      "zero-held-09": {
+        "correct": false,
+        "natural_stop": true,
+        "explanation_words": null,
+        "content": "{\n  \"answer\": \"1200\",\n  \"explanation\": \"First, calculate the total cost of the notebooks: 3 notebooks multiplied by 275 cents each equals 825 cents. Next, calculate the total cost of the pens: 2 pens multiplied by 125 cents each equals 250 cents. Add these two amounts together to find the total expenditure: 825 + 250 = 1075 cents. Finally, subtract the total expenditure from the initial amount in the wallet: 2000 - 1075 = 1200 cents remaining.\"\n}",
+        "prompt_tokens": 71,
+        "output_tokens": 139
+      },
+      "plus05-held-00": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 43,
+        "content": "{\n  \"answer\": \"129\",\n  \"explanation\": \"First, calculate the total number of pears received by multiplying the number of crates (7) by the number of pears per crate (24), which equals 168 pears. Then, subtract the number of pears sold (39) from the total, resulting in 129 pears remaining.\"\n}",
+        "prompt_tokens": 64,
+        "output_tokens": 87
+      },
+      "plus05-held-01": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 45,
+        "content": "{\n  \"answer\": \"368\",\n  \"explanation\": \"First, calculate the total number of passengers initially on the buses by multiplying the number of buses (9) by the passengers per bus (48), which equals 432. Then, subtract the 64 passengers who left at the destination from the total, resulting in 368 passengers remaining.\"\n}",
+        "prompt_tokens": 62,
+        "output_tokens": 83
+      },
+      "plus05-held-02": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 39,
+        "content": "{\n  \"answer\": \"209\",\n  \"explanation\": \"Maya starts with 125 dollars. She saves 18 dollars per week for 7 weeks, totaling 126 dollars added (18 * 7). Her new total is 251 dollars (125 + 126). After spending 42 dollars, she has 209 dollars remaining (251 - 42).\"\n}",
+        "prompt_tokens": 71,
+        "output_tokens": 100
+      },
+      "plus05-held-03": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 41,
+        "content": "{\n  \"answer\": \"1600\",\n  \"explanation\": \"First, convert the total rope length from meters to centimeters (36 meters = 3600 cm). Then, calculate the total length cut: 8 pieces * 250 cm = 2000 cm. Finally, subtract the cut length from the total length: 3600 cm - 2000 cm = 1600 cm.\"\n}",
+        "prompt_tokens": 65,
+        "output_tokens": 102
+      },
+      "plus05-held-04": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 23,
+        "content": "{\n  \"answer\": \"73\",\n  \"explanation\": \"The baker starts with 54 rolls, adds 48 rolls from baking 3 trays of 16, and then sells 29 rolls, leaving 73 rolls.\"\n}",
+        "prompt_tokens": 69,
+        "output_tokens": 57
+      },
+      "plus05-held-05": {
+        "correct": false,
+        "natural_stop": true,
+        "explanation_words": null,
+        "content": "{\n  \"answer\": \"1020\",\n  \"explanation\": \"The pool starts with 960 liters. It gains 35 liters per minute for 12 minutes, adding a total of 420 liters (35 * 12). This brings the total to 1380 liters. Then, 180 liters are lost, leaving 1020 liters.\"\n}",
+        "prompt_tokens": 72,
+        "output_tokens": 92
+      },
+      "plus05-held-06": {
+        "correct": false,
+        "natural_stop": true,
+        "explanation_words": null,
+        "content": "{\n  \"answer\": \"404\",\n  \"explanation\": \"The driver traveled 135 km/day for 3 days, totaling 405 km. Adding the subsequent 87 km gives a total distance traveled of 492 km. Subtracting this from the total trip length of 800 km leaves 404 km remaining.\"\n}",
+        "prompt_tokens": 73,
+        "output_tokens": 82
+      },
+      "plus05-held-07": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 20,
+        "content": "{\n  \"answer\": \"73\",\n  \"explanation\": \"There are 14 tables with 6 seats each, totaling 84 seats. Subtracting the 11 broken seats leaves 73 usable seats.\"\n}",
+        "prompt_tokens": 60,
+        "output_tokens": 52
+      },
+      "plus05-held-08": {
+        "correct": false,
+        "natural_stop": true,
+        "explanation_words": null,
+        "content": "{\n  \"answer\": \"251\",\n  \"explanation\": \"The library starts with 236 books. It receives 5 boxes of 17 books each, adding 85 books (5 * 17). Then, it donates 68 books. The final count is 236 + 85 - 68 = 251.\"\n}",
+        "prompt_tokens": 69,
+        "output_tokens": 86
+      },
+      "plus05-held-09": {
+        "correct": false,
+        "natural_stop": true,
+        "explanation_words": null,
+        "content": "{\n  \"answer\": \"1200\",\n  \"explanation\": \"The total cost of the three notebooks is 3 * 275 = 825 cents. The total cost of the two pens is 2 * 125 = 250 cents. The combined cost is 825 + 250 = 1075 cents. Subtracting this from the initial 2000 cents leaves 2000 - 1075 = 1200 cents.\"\n}",
+        "prompt_tokens": 71,
+        "output_tokens": 118
+      },
+      "plus1-held-00": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 18,
+        "content": "{\n  \"answer\": \"129\",\n  \"explanation\": \"There are 7 crates with 24 pears each, totaling 168 pears. After selling 39 pears, 129 pears remain.\"\n}",
+        "prompt_tokens": 64,
+        "output_tokens": 57
+      },
+      "plus1-held-01": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 17,
+        "content": "{\n  \"answer\": \"368\",\n  \"explanation\": \"There are 9 buses with 48 passengers each, totaling 432 passengers. After 64 passengers leave, 368 remain.\"\n}",
+        "prompt_tokens": 62,
+        "output_tokens": 52
+      },
+      "plus1-held-02": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 39,
+        "content": "{\n  \"answer\": \"209\",\n  \"explanation\": \"Maya starts with 125 dollars. She saves 18 dollars per week for 7 weeks, totaling 126 dollars added (18 * 7). Her new total is 251 dollars (125 + 126). After spending 42 dollars, she has 209 dollars remaining (251 - 42).\"\n}",
+        "prompt_tokens": 71,
+        "output_tokens": 100
+      },
+      "plus1-held-03": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 30,
+        "content": "{\n  \"answer\": \"1600\",\n  \"explanation\": \"The rope is 36 meters long, which equals 3600 centimeters. Eight pieces of 250 centimeters each are cut, totaling 2000 centimeters. Subtracting this from the original length leaves 1600 centimeters.\"\n}",
+        "prompt_tokens": 65,
+        "output_tokens": 78
+      },
+      "plus1-held-04": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 20,
+        "content": "{\n  \"answer\": \"73\",\n  \"explanation\": \"The baker starts with 54 rolls, adds 48 rolls (3 trays of 16), and then sells 29, leaving 73 rolls.\"\n}",
+        "prompt_tokens": 69,
+        "output_tokens": 54
+      },
+      "plus1-held-05": {
+        "correct": false,
+        "natural_stop": true,
+        "explanation_words": null,
+        "content": "{\n  \"answer\": \"1020\",\n  \"explanation\": \"The pool starts with 960 liters. It gains 35 liters per minute for 12 minutes, adding 420 liters (35 * 12). This brings the total to 1380 liters. Then, 180 liters are lost, leaving 1200 liters.\"\n}",
+        "prompt_tokens": 72,
+        "output_tokens": 89
+      },
+      "plus1-held-06": {
+        "correct": false,
+        "natural_stop": true,
+        "explanation_words": null,
+        "content": "{\n  \"answer\": \"404\",\n  \"explanation\": \"The driver traveled 135 km/day for 3 days (405 km) plus an additional 87 km, totaling 492 km. Subtracting this from the total trip distance of 800 km leaves 404 km remaining.\"\n}",
+        "prompt_tokens": 73,
+        "output_tokens": 76
+      },
+      "plus1-held-07": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 20,
+        "content": "{\n  \"answer\": \"73\",\n  \"explanation\": \"There are 14 tables with 6 seats each, totaling 84 seats. Subtracting the 11 broken seats leaves 73 usable seats.\"\n}",
+        "prompt_tokens": 60,
+        "output_tokens": 52
+      },
+      "plus1-held-08": {
+        "correct": false,
+        "natural_stop": true,
+        "explanation_words": null,
+        "content": "{\n  \"answer\": \"251\",\n  \"explanation\": \"The library starts with 236 books, adds 85 books (5 boxes of 17), and then removes 68 books, resulting in 251 books.\"\n}",
+        "prompt_tokens": 69,
+        "output_tokens": 59
+      },
+      "plus1-held-09": {
+        "correct": false,
+        "natural_stop": true,
+        "explanation_words": null,
+        "content": "{\n  \"answer\": \"1200\",\n  \"explanation\": \"The total cost of the notebooks is 3 * 275 = 825 cents. The total cost of the pens is 2 * 125 = 250 cents. The total spent is 825 + 250 = 1075 cents. Subtracting this from the initial 2000 cents leaves 925 cents.\"\n}",
+        "prompt_tokens": 71,
+        "output_tokens": 103
+      },
+      "plus2-held-00": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 18,
+        "content": "{\n  \"answer\": \"129\",\n  \"explanation\": \"There are 7 crates with 24 pears each, totaling 168 pears. After selling 39 pears, 129 pears remain.\"\n}",
+        "prompt_tokens": 64,
+        "output_tokens": 57
+      },
+      "plus2-held-01": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 17,
+        "content": "{\n  \"answer\": \"368\",\n  \"explanation\": \"There are 9 buses with 48 passengers each, totaling 432 passengers. After 64 passengers leave, 368 remain.\"\n}",
+        "prompt_tokens": 62,
+        "output_tokens": 52
+      },
+      "plus2-held-02": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 27,
+        "content": "{\n  \"answer\": \"209\",\n  \"explanation\": \"Maya starts with 125 dollars, adds 18 dollars per week for 7 weeks (totaling 126 dollars added), and then spends 42 dollars, leaving her with 209 dollars.\"\n}",
+        "prompt_tokens": 71,
+        "output_tokens": 68
+      },
+      "plus2-held-03": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 30,
+        "content": "{\n  \"answer\": \"1600\",\n  \"explanation\": \"The rope is 36 meters long, which equals 3600 centimeters. Eight pieces of 250 centimeters each are cut, totaling 2000 centimeters. Subtracting this from the original length leaves 1600 centimeters.\"\n}",
+        "prompt_tokens": 65,
+        "output_tokens": 78
+      },
+      "plus2-held-04": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 19,
+        "content": "{\n  \"answer\": \"73\",\n  \"explanation\": \"The baker starts with 54 rolls, adds 48 rolls (3 trays of 16), and sells 29, leaving 73 rolls.\"\n}",
+        "prompt_tokens": 69,
+        "output_tokens": 53
+      },
+      "plus2-held-05": {
+        "correct": false,
+        "natural_stop": true,
+        "explanation_words": null,
+        "content": "{\n  \"answer\": \"1020\",\n  \"explanation\": \"The pool starts with 960 liters. It gains 35 liters per minute for 12 minutes, adding 420 liters (35 * 12). This brings the total to 1380 liters. Then, 180 liters are lost, leaving 1020 liters.\"\n}",
+        "prompt_tokens": 72,
+        "output_tokens": 89
+      },
+      "plus2-held-06": {
+        "correct": false,
+        "natural_stop": true,
+        "explanation_words": null,
+        "content": "{\n  \"answer\": \"398\",\n  \"explanation\": \"The driver traveled 135 km/day for 3 days (405 km) plus an additional 87 km, totaling 492 km. Subtracting this from the total trip distance of 800 km leaves 398 km remaining.\"\n}",
+        "prompt_tokens": 73,
+        "output_tokens": 76
+      },
+      "plus2-held-07": {
+        "correct": true,
+        "natural_stop": true,
+        "explanation_words": 20,
+        "content": "{\n  \"answer\": \"73\",\n  \"explanation\": \"There are 14 tables with 6 seats each, totaling 84 seats. Subtracting the 11 broken seats leaves 73 usable seats.\"\n}",
+        "prompt_tokens": 60,
+        "output_tokens": 52
+      }
+    },
+    "conciseness_effect": {
+      "evaluated": false,
+      "passed": false
+    },
+    "quality_accepted": false,
+    "failure_qualified_as_complete_quality_result": false,
+    "GPU_or_model_inference_executed": false,
+    "scope": "Independently checked partial wire, declared requests and ten absent-policy snapshots only; bank application and the full matrix remain unqualified."
+  },
+  "per_scale_observations": [
+    {
+      "label": "absent",
+      "ffn_scale_declared": null,
+      "samples": 10,
+      "expected_samples": 10,
+      "correct_answers": 6,
+      "natural_stops": 10,
+      "median_explanation_words_among_correct": 50.5
+    },
+    {
+      "label": "minus1",
+      "ffn_scale_declared": -1,
+      "samples": 10,
+      "expected_samples": 10,
+      "correct_answers": 0,
+      "natural_stops": 0,
+      "median_explanation_words_among_correct": null
+    },
+    {
+      "label": "minus05",
+      "ffn_scale_declared": -0.5,
+      "samples": 10,
+      "expected_samples": 10,
+      "correct_answers": 0,
+      "natural_stops": 0,
+      "median_explanation_words_among_correct": null
+    },
+    {
+      "label": "zero",
+      "ffn_scale_declared": 0,
+      "samples": 10,
+      "expected_samples": 10,
+      "correct_answers": 6,
+      "natural_stops": 10,
+      "median_explanation_words_among_correct": 50.5
+    },
+    {
+      "label": "plus05",
+      "ffn_scale_declared": 0.5,
+      "samples": 10,
+      "expected_samples": 10,
+      "correct_answers": 6,
+      "natural_stops": 10,
+      "median_explanation_words_among_correct": 40.0
+    },
+    {
+      "label": "plus1",
+      "ffn_scale_declared": 1,
+      "samples": 10,
+      "expected_samples": 10,
+      "correct_answers": 6,
+      "natural_stops": 10,
+      "median_explanation_words_among_correct": 20.0
+    },
+    {
+      "label": "plus2",
+      "ffn_scale_declared": 2,
+      "samples": 8,
+      "expected_samples": 10,
+      "correct_answers": 6,
+      "natural_stops": 8,
+      "median_explanation_words_among_correct": 19.5
+    }
+  ],
+  "quality_accepted": false,
+  "complete_quality_result": false,
+  "unchanged_bank": true,
+  "closure": {
+    "state": "WHOLE_CONTAINER_AND_EXACT_GPU_IDENTITIES_CLOSED_NO_STANDING_RESERVATION",
+    "at_utc": "2026-10-08T09:25:10.605878+00:00",
+    "boot_id": "7a966774-3424-46c3-8045-34f759ea58a1",
+    "filesystem_uuid": "720d3f3a-db4b-4287-bf9c-77cc76bcb7cb",
+    "evidence_scope": "Entire recorded container cgroup absent, all actual GPU PID/start_ticks and launcher/supervisor absent; no inferred missing-PID success",
+    "observed_container_init_PID_available": true,
+    "original_init_PID_absence_claimed": true,
+    "identities": [
+      {
+        "role": "supervisor",
+        "pid": 180263,
+        "start_ticks": 6639385,
+        "exact_identity_absent": true
+      },
+      {
+        "role": "Distrobox launcher",
+        "pid": 180362,
+        "start_ticks": 6639457,
+        "exact_identity_absent": true
+      },
+      {
+        "role": "observed container init",
+        "pid": 180508,
+        "start_ticks": 6639496,
+        "exact_identity_absent": true
+      },
+      {
+        "role": "observed native GPU owner",
+        "pid": 181802,
+        "start_ticks": 6646550,
+        "cgroup": "0::/system.slice/docker-b9f8a7a06dbcc6db847cc82269b2bd81823d6864ad310a31630010905513d78c.scope\n",
+        "exact_identity_absent": true
+      },
+      {
+        "role": "observed native GPU owner",
+        "pid": 183016,
+        "start_ticks": 6659140,
+        "cgroup": "0::/system.slice/docker-b9f8a7a06dbcc6db847cc82269b2bd81823d6864ad310a31630010905513d78c.scope\n",
+        "exact_identity_absent": true
+      },
+      {
+        "role": "native HTTP client absent",
+        "pid": 181990,
+        "start_ticks": 6648082,
+        "exact_identity_absent": true
+      },
+      {
+        "role": "native HTTP client bank",
+        "pid": 183269,
+        "start_ticks": 6661475,
+        "exact_identity_absent": true
+      }
+    ],
+    "whole_container_process_scans": [
+      {
+        "pass": 0,
+        "processes_checked": 385,
+        "owned_cgroup_matches": [],
+        "unreadable": [],
+        "vanished_during_read": []
+      },
+      {
+        "pass": 1,
+        "processes_checked": 385,
+        "owned_cgroup_matches": [],
+        "unreadable": [],
+        "vanished_during_read": []
+      }
+    ],
+    "container_cgroup": {
+      "path": "/sys/fs/cgroup/system.slice/docker-b9f8a7a06dbcc6db847cc82269b2bd81823d6864ad310a31630010905513d78c.scope",
+      "exists": false,
+      "empty": true
+    },
+    "container_inspect": {
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: b9f8a7a06dbcc6db847cc82269b2bd81823d6864ad310a31630010905513d78c\n"
+    },
+    "label_listing": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "original_lease": {
+      "device": 66308,
+      "inode": 105946405,
+      "free_briefly": true,
+      "released": true
+    },
+    "service": {
+      "MainPID": "191210",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "http_listeners_on_observed_ports": [],
+    "observed_ports": [
+      8000,
+      32907,
+      54559,
+      55873,
+      57933
+    ],
+    "foreign_compute_clients": [],
+    "guarded_hot": [],
+    "model_stats_reverified_unchanged": true,
+    "models_at_strong_closure": [
+      {
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "bytes": 10946624,
+        "device": 66308,
+        "inode": 106208485,
+        "mtime_ns": 1790931367673069984,
+        "ctime_ns": 1790931367683069853
+      },
+      {
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+        "bytes": 49859583136,
+        "device": 66308,
+        "inode": 106208488,
+        "mtime_ns": 1790937784808778309,
+        "ctime_ns": 1790937784821778100
+      },
+      {
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+        "bytes": 49376141504,
+        "device": 66308,
+        "inode": 106208496,
+        "mtime_ns": 1790938850707596045,
+        "ctime_ns": 1790938850734595610
+      },
+      {
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+        "bytes": 12087983520,
+        "device": 66308,
+        "inode": 106208547,
+        "mtime_ns": 1790939114356256438,
+        "ctime_ns": 1790939114403255588
+      }
+    ],
+    "collected_artifacts_reverified": {
+      "manifest.json": {
+        "bytes": 8017,
+        "sha256": "bb7c4fb8f2ff95607982757044bbbe8d2120cbc95d4c4588bcfbf02346eb0f19"
+      },
+      "result.json": {
+        "bytes": 533942,
+        "sha256": "f92d8c69b90c699ae66fcf273a3b419fed2d4190e76a994b8476fd57b0efe764"
+      },
+      "runner.py": {
+        "bytes": 174893,
+        "sha256": "e68672b4e2b43ae981daf65462809c98232ba3a9248d634727fa812c4d3dd035"
+      },
+      "corpus.json": {
+        "bytes": 6482,
+        "sha256": "602354e607a5738958b12f01913473aac6dd4e8ec08cef7f1dfd9023084b14a4"
+      },
+      "steering-quality-settings.json": {
+        "bytes": 274,
+        "sha256": "6f1b51cfac0e1e9792281c05103a79b76331291e5d1d5fe160c3e081287b9e4a"
+      },
+      "steering-training-receipt.json": {
+        "bytes": 79756,
+        "sha256": "6367619cb08765ccc39395f05023cc69b13a3f0dfedba406bba45c338035ac12"
+      },
+      "direction.ffn.f32": {
+        "bytes": 491520,
+        "sha256": "27d1ba7593c55f288ce4e214cf62e4f87eba7823422f48bca6e35a3f0dce603b"
+      },
+      "strix-point-steering-quality-profile.py": {
+        "bytes": 19120,
+        "sha256": "98d16c07475205505ff1d5346a740b6f4425e0951ef16e9bad0e2fb7c793540e"
+      },
+      "strix-point-steering-quality-run.py": {
+        "bytes": 12723,
+        "sha256": "c936a6f5570fde93c83ebca2aadfd8a18d08f4897bf969c9625905c501fa7417"
+      },
+      "strix-point-steering-quality-gate.py": {
+        "bytes": 22189,
+        "sha256": "d548a4cac15cb79e4f936f0d29808b80cf837d38efa773ad4be53f77b3027321"
+      },
+      "strix-point-steering-build-gate.py": {
+        "bytes": 19154,
+        "sha256": "218a71af2eca71709a9cf00ff55ad3eb1190d1909a3857ebed358d964d8d6f3f"
+      },
+      "strix-point-http-recall-gate.py": {
+        "bytes": 21529,
+        "sha256": "5bce29df2a6d2f9f652986bd57dc61dbc31ee554157f353124c22d5285a678a4"
+      },
+      "steering-quality-result.json": {
+        "bytes": 6025,
+        "sha256": "52f65c05fbd7fd4d8f1a1b0f764d8f1b442c592bdf401d5516bd438db718c791"
+      },
+      "telemetry.jsonl": {
+        "bytes": 1616684,
+        "sha256": "ef8d16f6e21d0d9d8699348eb8a92a0500a8b853f44a2584576efc9cb05eed27"
+      },
+      "http-started.marker": {
+        "bytes": 7,
+        "sha256": "ac3fa288e8ce8f7709d37eb504a398b0cd6e174f473fdd2253128e22f185015c"
+      },
+      "stdout.log": {
+        "bytes": 70252,
+        "sha256": "373efdc65be2e87fd4e065dc572d4afbd9b089316d29c333018036526b927681"
+      },
+      "stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "distrobox-create.log": {
+        "bytes": 275,
+        "sha256": "c3dace70bba26d18162143a2c2f7bf96c4572f81cb0fbcfe4d38104634ffb65a"
+      },
+      "distrobox.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "distrobox.stderr.log": {
+        "bytes": 1073,
+        "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+      },
+      "steering-quality/absent/client.stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "steering-quality/absent/client.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "steering-quality/absent/input.jsonl": {
+        "bytes": 6664,
+        "sha256": "d49eb8cee830f5daa3b41aab2235740735ba4dfc2367758827ebc9f1de5ec1e6"
+      },
+      "steering-quality/absent/measurements.jsonl": {
+        "bytes": 351571,
+        "sha256": "deb250c3a2dfa762edaf1d051b619a65c06c103b65683d76c31bcf535d4dd92e"
+      },
+      "steering-quality/absent/requests.jsonl": {
+        "bytes": 6284,
+        "sha256": "11b896c5699c00d204263fd05e009a224cfceed2b3cd834dc86fbc8557995e02"
+      },
+      "steering-quality/absent/server.log": {
+        "bytes": 92,
+        "sha256": "e4851f9ddddab7d4b67d14814085532ce6dbdd11ec5fd7e8ee9ef799a9c0c1fc"
+      },
+      "steering-quality/bank/client.stderr.log": {
+        "bytes": 42,
+        "sha256": "1a282f45d844e919f5bbf2807eeeaf3f539fb8a8acf5690bb9d83cfabdee62ca"
+      },
+      "steering-quality/bank/client.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "steering-quality/bank/input.jsonl": {
+        "bytes": 43974,
+        "sha256": "873ae361e81fdf4807eb3a97f65daa214280c2e4d774e59f26246cccd7194d59"
+      },
+      "steering-quality/bank/measurements.jsonl": {
+        "bytes": 2636660,
+        "sha256": "bb0928191dddd73d71d34011ed009920f336601035544922811886e9574b301b"
+      },
+      "steering-quality/bank/requests.jsonl": {
+        "bytes": 41274,
+        "sha256": "708066e382c2828c39946621aed84bce6f5a55cc7de4f665688379954e02f774"
+      },
+      "steering-quality/bank/server.log": {
+        "bytes": 92,
+        "sha256": "bba9f3e668f3435b05fdbfe20119bfb4f73afae0f3333d568258fcc1e9be57de"
+      },
+      "steering-quality/contrast-prompts.txt": {
+        "bytes": 14224,
+        "sha256": "01ea33ce0d2ac41beb2608856d599166568b3d9f7d1b713c473244a0d8d12e53"
+      },
+      "steering-quality/execution.json": {
+        "bytes": 4743,
+        "sha256": "34210002fffe7619f8b757845e1aea45dd3346f07695dcc06bac04c4e2f1072b"
+      },
+      "steering-quality/snapshots-raw.jsonl": {
+        "bytes": 3282,
+        "sha256": "f102335bfe40950cc6e9c403fd94bf469ee5dfd94ae065a8725bc8fce7800ffc"
+      },
+      "steering-quality/snapshots.json": {
+        "bytes": 2794,
+        "sha256": "8ebf966e5d869f164e1933a06c6efafa895126dfe961dd7f5dc29c6daf068a34"
+      },
+      "steering-quality/target-prompts.txt": {
+        "bytes": 12224,
+        "sha256": "0765a6c8ce1fcfeb492fd64211746ae37cf4bdb7ade727bdf400e2292762fa55"
+      }
+    },
+    "observation": {
+      "at": "2026-10-08T09:25:10.478949+00:00",
+      "kfd": [
+        {
+          "pid": 191210,
+          "start_ticks": 6744121,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "dri": [
+        {
+          "pid": 191210,
+          "start_ticks": 6744121,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "denied_fd": 373,
+      "temperatures": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "value_c": 39.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp2_input",
+          "value_c": 43.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp3_input",
+          "value_c": 39.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp1_input",
+          "value_c": 39.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp2_input",
+          "value_c": 36.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp3_input",
+          "value_c": 39.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon5/temp1_input",
+          "value_c": 44.0,
+          "limit_c": 98,
+          "guarded": false
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "value_c": 44.375,
+          "limit_c": 98,
+          "guarded": true
+        }
+      ],
+      "memory": {
+        "MemTotal": 132542644224,
+        "MemAvailable": 123084382208,
+        "SwapTotal": 21474828288,
+        "SwapFree": 21348925440
+      },
+      "kernel_kfd": [
+        191210
+      ],
+      "gpu": {
+        "gpu_busy_percent": 0,
+        "mem_info_gtt_total": 120259084288,
+        "mem_info_gtt_used": 18636800,
+        "mem_info_vram_total": 2147483648,
+        "mem_info_vram_used": 151183360
+      }
+    },
+    "GPU_build_run_or_service_mutation": false,
+    "standing_lease_waiter_reservation": false
+  },
+  "ownership": {
+    "all_four_specific_current_non_use": true,
+    "all_four_verified_release_notifications": true,
+    "original_lease": {
+      "device": 66308,
+      "inode": 105946405,
+      "free_briefly": true,
+      "released": true
+    },
+    "actual_release_at_utc": "2026-10-08T09:22:53.763626+00:00",
+    "strong_closure_at_utc": "2026-10-08T09:25:10.605878+00:00",
+    "current_root_own_all_hosts": "NONE",
+    "standing_reservation_or_future_grant": false
+  },
+  "thermal": {
+    "policy": "cpu-98-nvme-85-gpu-observe-v1",
+    "native_phase_samples": 857,
+    "peaks_c": {
+      "k10temp": 69.625,
+      "amdgpu": 75.0,
+      "nvme": 67.85
+    },
+    "CPU_guard_c": 98,
+    "NVMe_guard_c": 85,
+    "GPU_temperature_is_observation_only": true
+  },
+  "resources": {
+    "max_observed_gtt_bytes": 84235739136,
+    "min_observed_available_ram_bytes": 37897232384
+  },
+  "qualification_limits": [
+    "68/70 partial wire only; missing two cases and all sixty bank applied-policy snapshots.",
+    "Only six of ten baseline arithmetic answers correct; twenty negative-scale outputs reach the token limit.",
+    "HTTP429 body unavailable on original run; response-store-budget explanation is an inference until separately checked.",
+    "No accepted steering quality, complete effect, general quality, comparative performance or reactive speedup."
+  ],
+  "raw": {
+    "path": "docs/development/validation/raw/steering-conciseness-quality-failed-point-2026-10-08.tar.gz",
+    "bytes": 940057,
+    "sha256": "8651a746ba94b3baca439f6d41fe89944cdf7bab3ce0a7de1d9377dc97034a21",
+    "regular_members": 97,
+    "members": {
+      "LICENSE": {
+        "bytes": 1081,
+        "sha256": "7ea461cf01583ff889f2c0705702f4e97bc1751fd96d5381895754638dc1263d"
+      },
+      "docs/development/protocols/STEERING-QUALITY-GPU-PROTOCOL.md": {
+        "bytes": 9314,
+        "sha256": "df4feb62cfd17d9e7fc3930e4c31c1c2e8db6da244c699860ea3edd4faf0d984"
+      },
+      "docs/development/validation/steering-build-point-build-2026-10-07.json": {
+        "bytes": 42041,
+        "sha256": "52e808e29799b3c18133c7f5f8aa33d9c97923fe599f8cd5335bd084885428db"
+      },
+      "docs/development/validation/steering-conciseness-original100-point-2026-10-08.json": {
+        "bytes": 79756,
+        "sha256": "6367619cb08765ccc39395f05023cc69b13a3f0dfedba406bba45c338035ac12"
+      },
+      "evidence/before-steering-conciseness-quality-point-20261008-r1-fresh-r1.py": {
+        "bytes": 6864,
+        "sha256": "11185ea5b5b539ff72ff67d6c83bfe18bec0499b14701223ee84df34a147baf4"
+      },
+      "evidence/before-steering-conciseness-quality-point-20261008-r1-fresh-r2.py": {
+        "bytes": 6864,
+        "sha256": "9e53777b48b5f430852119d0890cd29161a97912a14a0fa32058ed9e7a45d7dd"
+      },
+      "evidence/before-steering-conciseness-quality-point-20261008-r1-fresh-r3.py": {
+        "bytes": 6864,
+        "sha256": "5cb62a246d02f9791eeff342ff0bc58fcee4fd624a59dab4ef690c2149ab4665"
+      },
+      "evidence/before-steering-conciseness-quality-point-20261008-r1-fresh-r4.py": {
+        "bytes": 6864,
+        "sha256": "36e2955a441c4e754de2699c4b684cd195a16c37bc1f131fb24540d0eebd8d49"
+      },
+      "evidence/close-steering-conciseness-quality-point-20261008-r1-r1.py": {
+        "bytes": 10809,
+        "sha256": "5036bdea62f1808b3a0670f13dcdc7bb53dd7c690f32ba654129633142f6c2ef"
+      },
+      "evidence/launch-steering-conciseness-quality-point-20261008-r1-unexecuted-before-renewal-r1.py": {
+        "bytes": 4234,
+        "sha256": "4650df0c45e79ef2cb9d3c87427dd5169b89ded68c710ab616a29d1fb69bc460"
+      },
+      "evidence/launch-steering-conciseness-quality-point-20261008-r1-unexecuted-before-renewal-r2.py": {
+        "bytes": 4234,
+        "sha256": "81389f6bb584145599aa3e72856977b3c6290909ed7579a8e5fa5c2694a53234"
+      },
+      "evidence/launch-steering-conciseness-quality-point-20261008-r1-unexecuted-before-renewal-r3.py": {
+        "bytes": 4234,
+        "sha256": "ab40006aacf8cb0b4bf41c512f3bd9e2bf8bd3f4c97ea08237cc23c668f86018"
+      },
+      "evidence/launch-steering-conciseness-quality-point-20261008-r1.py": {
+        "bytes": 4234,
+        "sha256": "e85d0fd5a626d5b266725bde314653699ccf8dd26eb3a3c4ad92ac758083c34a"
+      },
+      "evidence/observe-steering-conciseness-quality-point-20261008-r1.py": {
+        "bytes": 4588,
+        "sha256": "794ef7542442e7cabdaa5d74c05d5ac53260d9c5b976af55cf07635eef4328cc"
+      },
+      "evidence/prepare-steering-conciseness-quality-operations-r1.py": {
+        "bytes": 4036,
+        "sha256": "7df50ae2ef1be2059afb42e20309c56a56c4825ddad51abf1ab312a90e70bf00"
+      },
+      "evidence/prepare-steering-conciseness-quality-r1.py": {
+        "bytes": 6761,
+        "sha256": "d63692d02b401c8281dd4e23b676cf24702d11c2ee88f92abd03d4af13cabc29"
+      },
+      "evidence/review-steering-conciseness-quality-partial-r1.py": {
+        "bytes": 6550,
+        "sha256": "76fbc7275776c848b6a3e88de07a3f8c0220965c306023061cfcdbebe92a5e92"
+      },
+      "evidence/review-steering-conciseness-quality-point-20261008-r1.py": {
+        "bytes": 3745,
+        "sha256": "69ed1e2d86c8bbe4032e2fcc94bd55461818a8ee68b96e9d114eb515d0df4441"
+      },
+      "evidence/seal-steering-conciseness-quality-partial-r1.py": {
+        "bytes": 10727,
+        "sha256": "0f3580b30f301b36c6cea572f052668b6fd0c5ba4d7ca1292eb26ed05c5fcada"
+      },
+      "evidence/seal-steering-conciseness-quality-r1.py": {
+        "bytes": 15926,
+        "sha256": "1ca3935445507097f14b07d51e3ee3f7c8768b3fcefef84a093519250aba68cb"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-automatic-review-rejection-r1.json": {
+        "bytes": 1038,
+        "sha256": "cee563f454123b508160a3f7f5a73dcd355263814e5d01cb96e689b9702c4107"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-automatic-review-rejection-r2.json": {
+        "bytes": 826,
+        "sha256": "9dc17daee6bb4ebd399228c974abdd7a3824a5b5412560e50eacc107f5f0cd6d"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-closure-prepared-r1.json": {
+        "bytes": 801,
+        "sha256": "98e107da9be213827461633d1929016cc653c53492f723ffe522a7f94c9e6ad7"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-closure-r1.json": {
+        "bytes": 24286,
+        "sha256": "96aa3cc1ded085476d9a74da742110f77a249636592a51ee2f570539b5b6ad0c"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-fresh-r1.json": {
+        "bytes": 9336,
+        "sha256": "58e8efd9dbcbec1c24e67bcd093118c2798465771f3317e933c6df0e6f83b010"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-fresh-r2.json": {
+        "bytes": 9334,
+        "sha256": "7f43fb3f37cb822442d540323c3766d3da055a6f1546be42b624022dc4301ed1"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-fresh-r3.json": {
+        "bytes": 9332,
+        "sha256": "f2db836d5df9db9d0013a20518dbac94dc239935f38a5685909f0918a9fb085b"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-fresh-r4.json": {
+        "bytes": 9336,
+        "sha256": "f6ede6681a4fc17bbbadef52464805f1d252a80fd28924726b21d5388b0f61ef"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-live-1.json": {
+        "bytes": 7409,
+        "sha256": "ad237b3806f58d2b54e8e564c2a75f20069199c1d3d4c4eaad5b756d9cf8ad61"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-live-2.json": {
+        "bytes": 7413,
+        "sha256": "15e7ff3de9d57e686ecb876bdc4131a05115f25dcaa2a16a6a7dd31c0e0f0af7"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-live-3.json": {
+        "bytes": 7411,
+        "sha256": "ac089a60b32c9d6ef09e4d077260222717f7282f2919a5a1a74295f054e085c1"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-live-4.json": {
+        "bytes": 7411,
+        "sha256": "dc7899b4469c5d0c648b6a3d59820dc72aa5127ab398784709d8551486e74ce7"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-live-5.json": {
+        "bytes": 7415,
+        "sha256": "87451e40b930972d05dd266936d45ceb7c86241b79480b4cf4f88464502179a0"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-live-6.json": {
+        "bytes": 7413,
+        "sha256": "2a478167928936725af75306cb79e554c3d32e7231007bd8ed71291e6fd93903"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-live-7.json": {
+        "bytes": 7413,
+        "sha256": "6f495814474bc29b696322efc15684f4d8708246f3d200341eecbf2abc7ee56a"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-live-8.json": {
+        "bytes": 7409,
+        "sha256": "9bb82965c996292d3bc9a50492a21610ebb58c2f552e252d5b625566bb961e0e"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-live-9.json": {
+        "bytes": 21852,
+        "sha256": "85214216e903303cc3980989536ed1d7ee7442862202afe8f1c50ef398b1341d"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-live-notifications-r1.json": {
+        "bytes": 2101,
+        "sha256": "faa4691476360ad51bf319ac83580200536a9fad2d4513f02c77583f41156ede"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-owner-proceed-r1.json": {
+        "bytes": 528,
+        "sha256": "921fcac658dfceca5067b2573ff2dfc652043415550eca3caad0d7111e50b292"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-partial-review-r1.json": {
+        "bytes": 83067,
+        "sha256": "6690a9690bf8b0dd2ecc3583ba5b679291fefc3b9e49820964d539ec0a80cd69"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-peer-coordination-r1.json": {
+        "bytes": 3343,
+        "sha256": "408c5a74f05be927e4cf8de2ba298dd0704f6fbab050f853d272a4c1176c0f36"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-peer-coordination-r2.json": {
+        "bytes": 4087,
+        "sha256": "1825701e42f3cbae4f8820c915286e767a24000adf38d415060d53299a555b9a"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-peer-coordination-r3.json": {
+        "bytes": 3585,
+        "sha256": "4a94c9813edb857adc208c694fd12de9dc531815973e425ffb469c6cf1d1e04c"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-peer-raw-r1.json": {
+        "bytes": 7671,
+        "sha256": "cbab712e7606e67923f861892e27f1a7be8b17a0eddb47f9ef47bde33363d0ae"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-peer-raw-r2.json": {
+        "bytes": 8362,
+        "sha256": "1866c866b2b26e2ff5446cff049e551283f6f2d48b576641eff5d3a5d4435f40"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-peer-raw-r3.json": {
+        "bytes": 7835,
+        "sha256": "cd91637bfe062a1280558e3e1d6520ee20b605d1898b2757ef16d9a8b140f62f"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-release-notifications-r1.json": {
+        "bytes": 2258,
+        "sha256": "896733ea66b27acc5c116c486cbbc0e427bb9b643c3f00e9f32cac8384945b42"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-renewal-preparation-failure-r1.json": {
+        "bytes": 421,
+        "sha256": "223cd6976982dbaf6e59e20560a6c397eadf4858fdcfcd6bbd58aef66ae6474b"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-renewal-preparation-r2.json": {
+        "bytes": 716,
+        "sha256": "c73b82b0780f7000e37ab8194d808fe31ad7ecff41d3ec551f74f4a6c6eecf03"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-renewal-preparation-r3.json": {
+        "bytes": 877,
+        "sha256": "00800d2239f45c15724b2b9cebe180e0132e3f9be75da2c2aa117184a720c5cb"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-stage-r1.json": {
+        "bytes": 4114,
+        "sha256": "0261e5124116a6ba074466f9c3a0121731720b823a59b483c3dd1095291dec8d"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1-unlaunched-notifications-r1.json": {
+        "bytes": 1491,
+        "sha256": "164b939e2e29594eb07012f73db8f68b53e3b8dd539550b8560ff228e2b62098"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/collection.json": {
+        "bytes": 26128,
+        "sha256": "27288bf4244d0219aa6a56cebf298fdcc439d0d7ab8149c723c62f21b2284766"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/controller-result.json": {
+        "bytes": 929,
+        "sha256": "baa1c7bdb29d91234e40fa8ff71ee1607070f13dd1e371a9c02977e3d08bc1f3"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/controller-stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/controller-stdout.log": {
+        "bytes": 460084,
+        "sha256": "0150a646ee952b7e7bab72cc8067af73abb70f5e0ffa4228406d878b76e9d981"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/corpus.json": {
+        "bytes": 6482,
+        "sha256": "602354e607a5738958b12f01913473aac6dd4e8ec08cef7f1dfd9023084b14a4"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/direction.ffn.f32": {
+        "bytes": 491520,
+        "sha256": "27d1ba7593c55f288ce4e214cf62e4f87eba7823422f48bca6e35a3f0dce603b"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/distrobox-create.log": {
+        "bytes": 275,
+        "sha256": "c3dace70bba26d18162143a2c2f7bf96c4572f81cb0fbcfe4d38104634ffb65a"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/distrobox.stderr.log": {
+        "bytes": 1073,
+        "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/distrobox.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/http-started.marker": {
+        "bytes": 7,
+        "sha256": "ac3fa288e8ce8f7709d37eb504a398b0cd6e174f473fdd2253128e22f185015c"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/manifest.json": {
+        "bytes": 8017,
+        "sha256": "bb7c4fb8f2ff95607982757044bbbe8d2120cbc95d4c4588bcfbf02346eb0f19"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/plan.json": {
+        "bytes": 911,
+        "sha256": "c44b7fb42d2993fe0c291003638943cb603b8bb47a0e21fb73b2809643e9d446"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/result.json": {
+        "bytes": 533942,
+        "sha256": "f92d8c69b90c699ae66fcf273a3b419fed2d4190e76a994b8476fd57b0efe764"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/runner.py": {
+        "bytes": 174893,
+        "sha256": "e68672b4e2b43ae981daf65462809c98232ba3a9248d634727fa812c4d3dd035"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/stdout.log": {
+        "bytes": 70252,
+        "sha256": "373efdc65be2e87fd4e065dc572d4afbd9b089316d29c333018036526b927681"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/steering-quality-result.json": {
+        "bytes": 6025,
+        "sha256": "52f65c05fbd7fd4d8f1a1b0f764d8f1b442c592bdf401d5516bd438db718c791"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/steering-quality-settings.json": {
+        "bytes": 274,
+        "sha256": "6f1b51cfac0e1e9792281c05103a79b76331291e5d1d5fe160c3e081287b9e4a"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/steering-quality/absent/client.stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/steering-quality/absent/client.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/steering-quality/absent/input.jsonl": {
+        "bytes": 6664,
+        "sha256": "d49eb8cee830f5daa3b41aab2235740735ba4dfc2367758827ebc9f1de5ec1e6"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/steering-quality/absent/measurements.jsonl": {
+        "bytes": 351571,
+        "sha256": "deb250c3a2dfa762edaf1d051b619a65c06c103b65683d76c31bcf535d4dd92e"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/steering-quality/absent/requests.jsonl": {
+        "bytes": 6284,
+        "sha256": "11b896c5699c00d204263fd05e009a224cfceed2b3cd834dc86fbc8557995e02"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/steering-quality/absent/server.log": {
+        "bytes": 92,
+        "sha256": "e4851f9ddddab7d4b67d14814085532ce6dbdd11ec5fd7e8ee9ef799a9c0c1fc"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/steering-quality/bank/client.stderr.log": {
+        "bytes": 42,
+        "sha256": "1a282f45d844e919f5bbf2807eeeaf3f539fb8a8acf5690bb9d83cfabdee62ca"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/steering-quality/bank/client.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/steering-quality/bank/input.jsonl": {
+        "bytes": 43974,
+        "sha256": "873ae361e81fdf4807eb3a97f65daa214280c2e4d774e59f26246cccd7194d59"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/steering-quality/bank/measurements.jsonl": {
+        "bytes": 2636660,
+        "sha256": "bb0928191dddd73d71d34011ed009920f336601035544922811886e9574b301b"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/steering-quality/bank/requests.jsonl": {
+        "bytes": 41274,
+        "sha256": "708066e382c2828c39946621aed84bce6f5a55cc7de4f665688379954e02f774"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/steering-quality/bank/server.log": {
+        "bytes": 92,
+        "sha256": "bba9f3e668f3435b05fdbfe20119bfb4f73afae0f3333d568258fcc1e9be57de"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/steering-quality/contrast-prompts.txt": {
+        "bytes": 14224,
+        "sha256": "01ea33ce0d2ac41beb2608856d599166568b3d9f7d1b713c473244a0d8d12e53"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/steering-quality/execution.json": {
+        "bytes": 4743,
+        "sha256": "34210002fffe7619f8b757845e1aea45dd3346f07695dcc06bac04c4e2f1072b"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/steering-quality/snapshots-raw.jsonl": {
+        "bytes": 3282,
+        "sha256": "f102335bfe40950cc6e9c403fd94bf469ee5dfd94ae065a8725bc8fce7800ffc"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/steering-quality/snapshots.json": {
+        "bytes": 2794,
+        "sha256": "8ebf966e5d869f164e1933a06c6efafa895126dfe961dd7f5dc29c6daf068a34"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/steering-quality/target-prompts.txt": {
+        "bytes": 12224,
+        "sha256": "0765a6c8ce1fcfeb492fd64211746ae37cf4bdb7ade727bdf400e2292762fa55"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/steering-training-receipt.json": {
+        "bytes": 79756,
+        "sha256": "6367619cb08765ccc39395f05023cc69b13a3f0dfedba406bba45c338035ac12"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/strix-point-http-recall-gate.py": {
+        "bytes": 21529,
+        "sha256": "5bce29df2a6d2f9f652986bd57dc61dbc31ee554157f353124c22d5285a678a4"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/strix-point-steering-build-gate.py": {
+        "bytes": 19154,
+        "sha256": "218a71af2eca71709a9cf00ff55ad3eb1190d1909a3857ebed358d964d8d6f3f"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/strix-point-steering-quality-gate.py": {
+        "bytes": 22189,
+        "sha256": "d548a4cac15cb79e4f936f0d29808b80cf837d38efa773ad4be53f77b3027321"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/strix-point-steering-quality-profile.py": {
+        "bytes": 19120,
+        "sha256": "98d16c07475205505ff1d5346a740b6f4425e0951ef16e9bad0e2fb7c793540e"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/strix-point-steering-quality-run.py": {
+        "bytes": 12723,
+        "sha256": "c936a6f5570fde93c83ebca2aadfd8a18d08f4897bf969c9625905c501fa7417"
+      },
+      "evidence/steering-conciseness-quality-point-20261008-r1/telemetry.jsonl": {
+        "bytes": 1616684,
+        "sha256": "ef8d16f6e21d0d9d8699348eb8a92a0500a8b853f44a2584576efc9cb05eed27"
+      },
+      "evidence/steering-conciseness-quality-prepared-r1.json": {
+        "bytes": 2824,
+        "sha256": "c0ecb3b00d3475591e5b9e990a9c30bc82f07d0da78565cf34156d8966ef27c7"
+      },
+      "tools/strix-point-steering-build-collect.py": {
+        "bytes": 13022,
+        "sha256": "1d72bd097f01c80e1ad057e746aa1f26690f7845deb820e1b3ee508afba6d3ff"
+      },
+      "tools/strix-point-steering-quality-collect.py": {
+        "bytes": 11805,
+        "sha256": "fb9bc33841d8eda682a29987cd4d99f92034d406033d38d59e9d81f42e195ce6"
+      }
+    },
+    "uncompressed_bytes": 7239155,
+    "all_archived_and_current_members_verified": true,
+    "original_training_capture_not_duplicated": true
+  },
+  "roadmap": {
+    "open_items": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "terminal_bench_last": true,
+    "full_goal_complete": false
+  },
+  "GPU_repeat_or_model_hash_conversion_tuning_install_or_publication": false
+}

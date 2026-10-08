@@ -20,14 +20,14 @@ stable release is declared. Detailed validation history is in
   match byte for byte. The optional checking route now admits 128 pairs and
   reads raw activations by row, with 100-pair fixture and mutation checks.
   A held-out arithmetic/conciseness protocol and independent saved-SSE checker
-  now have native-client HOST coverage; original response execution remains pending.
+  now have native-client HOST coverage; original response quality remains unqualified.
   Optional own-child supervision now records serial server lifetimes and stored
   application snapshots, with timeout/signal/retirement and bank-identity checks.
   The separate qualification campaign body binds original training provenance,
   corpus, model/runtime and bank identities and independently reviews all saved
   responses. Its deadline now includes snapshot reads and owned retirement.
   The `modern-steering-quality` coordination profile is integrated with bounded
-  immutable helper execution. Original 100-pair response qualification remains pending.
+  immutable helper execution.
   Optional training artifact transfer now supports FFN-only captures and
   streamed raw files up to 512 MiB, retaining failures and refusing overwrite.
   Original 100-pair FFN learning now passes on Strix Point: 200 complete prefills,
@@ -35,8 +35,11 @@ stable release is declared. Detailed validation history is in
   Complete collected/closed evidence is retained in ordered archive parts.
   Optional held-out response collection now retains both server phases' full
   wire and partial failures, binds frozen inputs and verifies transferred
-  content without replaying inference. Twelve local transfer checks pass;
-  original response execution remains pending.
+  content without replaying inference. Twelve local transfer checks pass.
+  The first original held-out run retains 68/70 responses before storage refusal;
+  partial wire and full process retirement are independently verified. The
+  qualification supervisor now reserves 256 MiB for stored responses, with
+  native synthetic-server coverage of the old limit and the complete cohort.
   Learned response quality and wider runtime
   qualification remain pending. Runtime `.f32` and DS4 cache formats are unchanged.
 

@@ -1,5 +1,40 @@
 # DS4 / synapse-lie coordination
 
+## Held-out steering test fails before full collection; .161 retired — 2026-10-08
+
+After the summary of completed work, remaining GPU checks and the automatic
+review block, the owner explicitly replies `procedi`. This authorizes the
+prepared 70-response `.161` test. The frozen manifest `bb7c4fb8`, native
+`4c703b3d`/r70 and coordinator `e68672b4` are unchanged; current checkpoint
+`113cf1b4` adds only local collection and documentation.
+All four current exact-scope non-use declarations are retained at 09:05:01 UTC.
+The 09:05:05 UTC global observation verifies the pinned boot/filesystem,
+original lease 66308/105946405, source/bundle hashes, image and memory admission.
+The direct launch then succeeds; controller 84308 is the original handle.
+The earlier 08:58:41 UTC observation expires unused and remains evidence.
+
+At 09:10:35 UTC supervisor 180263/start6639385 holds the original lease at FD3.
+Init 180508/start6639496 and full container
+`b9f8a7a06dbcc6db847cc82269b2bd81823d6864ad310a31630010905513d78c`
+are observed alive. The second serial GPU server 183016/start6659140 owns KFD
+in that complete cgroup. The absent client exits 0; the bank client exits 1
+after 58/60 responses with HTTP429. All 68 complete SSE observations are
+independently reconstructed, but only the ten absent-policy snapshots exist.
+The full quality gate is not evaluated or accepted. Controller, supervisor and
+container exit 1; collector, partial review and strong closure exit 0.
+
+Lease release at 09:22:53.763626 UTC and strong closure at 09:25:10.605878 verify
+all seven actual identities absent: supervisor, launcher, init, two serial GPU
+servers and both native clients. The complete container/cgroup is absent in two
+full scans; all 37 hashes and four model stats reverify. Router191210 is active,
+the unchanged original lease is free, and foreign compute, guarded hot sensors
+and all five recorded ports are empty. Four peers receive verified release.
+Root now owns no remote job, handle, lease, window, waiter, reservation or future
+grant. The [failed receipt](development/validation/steering-conciseness-quality-failed-point-2026-10-08.json)
+retains 97 portable members and actual failures. A new run requires its own
+manifest, qualified helper and fresh specific peer/global/original-lease admission.
+Historical rejections below remain unchanged evidence. Terminal Bench stays last.
+
 ## Held-out steering response launch rejected before admission — 2026-10-08
 
 The frozen `steering-conciseness-quality-point-20261008-r1` manifest `bb7c4fb8`
@@ -14,8 +49,9 @@ Automatic approval review rejects the direct launch before process creation,
 citing previous requests to defer tests and avoid occupying shared machines.
 The earlier rejection and renewed attempt are retained under local `evidence/`;
 neither creates a process, controller result, handle, lease, waiter or reservation.
-An explicit owner confirmation is pending. No indirect launch or workaround is
-used, and the expired observation cannot admit a later run. Other threads'
+An explicit owner confirmation was requested and subsequently received, as
+recorded above. No indirect launch or workaround is used, and the expired
+observation cannot admit a later run. Other threads'
 source-only deferrals remain scoped to their respective owners. Root owns no
 host activity; all six tasks remain open and Terminal Bench stays last.
 
