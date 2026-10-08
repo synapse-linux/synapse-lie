@@ -30,7 +30,7 @@
           <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> OPERATOR GUIDE / DEVELOPMENT PREVIEW</p>
           <h1 id="manual-title">Run the model.<br><span>Measure the work.</span></h1>
           <p>From a GPU-enabled build to an OpenAI request and a reproducible prefill/decode report. Commands on this page follow the more complete <a href="https://github.com/synapse-linux/synapse-lie/tree/develop">develop branch</a>.</p>
-          <div class="manual-hero-links"><a href="#server">Use the server <span aria-hidden="true">↓</span></a><a href="#bench">Run a benchmark <span aria-hidden="true">↓</span></a></div>
+          <div class="manual-hero-links"><a href="#server">Use the server <span aria-hidden="true">↓</span></a><a href="#bench">Run a benchmark <span aria-hidden="true">↓</span></a><a href="clients.html">Agent clients <span aria-hidden="true">↗</span></a><a href="reference.html">All CLI options <span aria-hidden="true">↗</span></a></div>
           <div class="manual-version"><span>DOCUMENTED SOURCE</span><strong>develop · 30598a3d</strong><span>GPU build path: build/release/</span></div>
         </div>
       </section>
@@ -43,12 +43,14 @@
             <a href="#server">Server quick start</a>
             <a href="#server-api">Call the API</a>
             <a href="#server-options">Context &amp; cache</a>
-            <a href="#server-pi">Use with Pi</a>
+            <a href="clients.html#pi">Configure Pi</a>
+            <a href="clients.html#codex">Codex &amp; Claude Code</a>
             <a href="#bench">Benchmark quick start</a>
             <a href="#bench-suites">Choose a suite</a>
             <a href="#bench-http">Measure HTTP</a>
             <a href="#bench-report">Export graphs</a>
             <a href="#troubleshooting">Troubleshooting</a>
+            <a href="reference.html">Every CLI option</a>
           </nav>
           <a class="manual-sidebar-source" href="https://github.com/synapse-linux/synapse-lie/tree/develop/docs/guides">Full source guides ↗</a>
         </aside>
@@ -59,6 +61,7 @@
             <h2>Before you start</h2>
             <p>Run these commands from the repository root after the <a href="https://github.com/synapse-linux/synapse-lie/blob/develop/docs/guides/BUILD.md#gpu-inference-build">GPU build on develop</a>. A C17-only build can start the HTTP interface, but it cannot infer original model weights. The <a href="index.html#install">site installation section</a> lists distribution packages.</p>
             <div class="manual-callout"><strong>Build path matters.</strong> The examples below use <code>build/release/</code>, the output of develop’s GPU build. The home page’s <code>make strix-halo</code> shortcut lives on the integration branch; if you use that branch, substitute <code>build/strix-halo/</code> in these commands. Check that your chosen branch supports each option with <code>--help</code>.</div>
+            <div class="manual-next-links"><a href="clients.html"><strong>Agent clients</strong><span>Full Pi JSON profile; Codex and Claude Code compatibility status →</span></a><a href="reference.html"><strong>CLI option reference</strong><span>Every documented server and benchmark flag, grouped by suite →</span></a></div>
             <p>The documented model is <a href="https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/tree/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL">Unsloth Qwen3.8 Flash Next UD-Q4_K_XL</a>. Keep all four GGUF shards together and pass the first shard to the loader. The weights are downloaded separately.</p>
           </section>
 
@@ -105,6 +108,7 @@ curl --fail http://127.0.0.1:8000/v1/models</code></pre></div>
 
           <section class="manual-section" id="server-pi">
             <p class="manual-kicker">04 / CLIENT</p><h2>Connect Pi over HTTP</h2>
+            <p>The <a href="clients.html#pi">agent client guide</a> contains the complete Pi <code>models.json</code> and <code>settings.json</code> profiles, plus the current Codex and Claude Code integration status.</p>
             <p>Develop includes a Pi OpenAI-provider profile. Copy it into a private directory, edit <code>baseUrl</code> in <code>models.json</code> to your server’s <code>http://SERVER-IP:8000/v1</code>, and set <code>contextWindow</code> to the configured context. The profile’s API key is a client placeholder, not server-side access control.</p>
             <div class="code-block"><div class="code-top"><span>Prepare profile and launch Pi</span><button class="copy-button" type="button" aria-label="Copy Pi setup commands">Copy</button></div><pre><code>mkdir -p run
 mkdir -m 700 run/pi-profile
@@ -176,6 +180,6 @@ mkdir -p results</code></pre></div>
       </div>
     </main>
 
-    <footer class="site-footer"><div><span class="footer-brand">synapse<span>.</span>lie</span><p>Use the tool, preserve the measurement, inspect the method.</p></div><div class="footer-links"><a href="#main">Back to top ↑</a><a href="index.html#benchmarks">Benchmark explorer ↗</a><a href="index.html#install">Installation ↗</a><a href="https://github.com/synapse-linux/synapse-lie/tree/develop">Develop source ↗</a></div><p class="footer-legal">Development preview · Manual based on develop 30598a3d · First-party site code MIT.</p></footer>
+    <footer class="site-footer"><div><span class="footer-brand">synapse<span>.</span>lie</span><p>Use the tool, preserve the measurement, inspect the method.</p></div><div class="footer-links"><a href="#main">Back to top ↑</a><a href="clients.html">Agent clients ↗</a><a href="reference.html">Every CLI option ↗</a><a href="index.html#benchmarks">Benchmark explorer ↗</a><a href="index.html#install">Installation ↗</a><a href="https://github.com/synapse-linux/synapse-lie/tree/develop">Develop source ↗</a></div><p class="footer-legal">Development preview · Manual based on develop 30598a3d · First-party site code MIT.</p></footer>
   </body>
 </html>

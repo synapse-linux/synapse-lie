@@ -17,6 +17,18 @@ from `feature/integrate-antirez-qwen` and produces `build/strix-halo/` instead;
 the manual calls out this distinction. It documents use of existing features,
 not a new original-weight qualification run.
 
+The manual now links two deeper pages: `clients.html` contains the complete Pi
+profile and an honest Codex/Claude Code interoperability status;
+`reference.html` explains the options accepted by every server and benchmark
+suite parser on the pinned develop commit. A local Codex CLI 0.159.3 probe used
+an isolated configuration and ephemeral loopback mock only. It confirmed
+provider selection and `/v1/responses` routing, but exposed unsupported
+`reasoning`, `reasoning.encrypted_content`, `prompt_cache_key` and
+`client_metadata` request fields in LIE develop. No original-weight Codex or
+Claude Code qualification is claimed. The Claude Code protocol boundary is
+documented against Anthropic's official gateway documentation; Codex provider
+syntax against official OpenAI configuration documentation.
+
 The first-screen artwork is `assets/hero-compute-v1.webp` (2048 × 768, WebP,
 SHA-256 `0004759fce289b6be41516df567b43bebbe2aa20d5ee1e716e6bc7d`). It
 was generated with the built-in imagegen tool for this site: a dark silicon
