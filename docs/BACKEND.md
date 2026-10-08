@@ -509,8 +509,12 @@ none of the six items.
    supervision HOST checks pass per normal/sanitizer mode, with two focused
    CTests per mode
    ([receipt](development/validation/steering-quality-profile-host-2026-10-08.json)).
-   Model servers and training metadata are simulated. Coordinator dispatch,
-   original 100-pair learning and learned-bank response execution remain pending.
+   The coordinator dispatch hook is now integrated after the near-512K recall
+   seal, with eight dispatch checks per mode and all 89 existing ownership/
+   restore checks passing
+   ([receipt](development/validation/steering-quality-campaign-host-2026-10-08.json)).
+   Model servers and training metadata are simulated; original 100-pair learning
+   and learned-bank response execution remain pending.
    Learned direction quality, independent graph/
    correction/fault, vision and matched cost remain open.
    Separate `modern-core-steering-admission` windows now qualify original-model

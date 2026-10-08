@@ -26,7 +26,8 @@ stable release is declared. Detailed validation history is in
   The separate qualification campaign body binds original training provenance,
   corpus, model/runtime and bank identities and independently reviews all saved
   responses. Its deadline now includes snapshot reads and owned retirement.
-  Coordinator dispatch and original 100-pair response qualification remain pending.
+  The `modern-steering-quality` coordination profile is integrated with bounded
+  immutable helper execution. Original 100-pair response qualification remains pending.
   Optional training artifact transfer now supports FFN-only captures and
   streamed raw files up to 512 MiB, retaining failures and refusing overwrite.
   Learned response quality and wider runtime

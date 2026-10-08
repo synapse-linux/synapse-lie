@@ -73,8 +73,11 @@ with four actual C clients consuming 140 synthetic responses and two focused
 native CTests per mode
 ([receipt](validation/steering-quality-profile-host-2026-10-08.json)).
 The bounded deadline now includes snapshot reads and child retirement. Training
-metadata and model servers remain simulated. Coordinator dispatch, original
-100-pair learning and original-weight response execution remain pending.
+metadata and model servers remain simulated. The coordinator now selects
+`modern-steering-quality`, with eight dispatch checks per mode and 89 existing
+ownership/restore checks passing
+([receipt](validation/steering-quality-campaign-host-2026-10-08.json)).
+Original 100-pair learning and original-weight response execution remain pending.
 Answer preservation and response length are separate from general quality.
 
 ## Native bank builder

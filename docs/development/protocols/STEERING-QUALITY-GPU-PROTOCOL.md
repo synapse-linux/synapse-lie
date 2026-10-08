@@ -4,9 +4,12 @@
 This protocol checks a learned conciseness direction on original weights. It is
 separate from bank construction, general model quality and throughput. Its
 checker, serial server/client supervision, campaign body and native-client HOST
-fixtures are implemented. Coordinator dispatch and original-weight execution
-remain pending. The coordinator stays frozen while the admitted long-context
-recall window uses its recorded hash.
+fixtures are implemented. The coordinator now selects
+`bench_profile: "modern-steering-quality"` and executes exactly the bounded,
+SHA-checked profile bytes before its full input/model provenance checks.
+Original-weight learning and response execution remain pending. The dispatch
+hook was applied after the admitted near-512K recall window was collected,
+strongly closed, released to all four peers and independently sealed.
 
 The owned [corpus](../../../tests/fixtures/steering-conciseness-v1.json) contains
 100 unique training questions and ten disjoint held-out arithmetic problems.
@@ -104,6 +107,15 @@ do not qualify GPU admission, model loading, applied numerical steering or
 original-weight response quality. The earlier eleven-case supervisor
 [receipt](../validation/steering-quality-supervision-host-2026-10-08.json)
 retains its original sources and deadline; it is historical evidence.
+
+Eight dispatch checks pass per normal/native-sanitizer mode, including two
+actual C clients consuming 70 synthetic replies per mode, and all 89 existing
+ownership/restore coordinator checks pass
+([receipt](../validation/steering-quality-campaign-host-2026-10-08.json)).
+Symlink/FIFO/directory/hash failures refuse before a model opens. A source swap
+after hashing cannot execute unchecked bytes; the full profile detects the
+remaining content drift. This is HOST checking-code evidence, without GPU
+admission or an original learned bank.
 
 Passing establishes arithmetic-answer preservation and a response-length
 effect on this held-out corpus. It does not establish semantic explanation

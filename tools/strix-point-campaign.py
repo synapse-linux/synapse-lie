@@ -1582,6 +1582,8 @@ class Campaign:
             self.check_model_after(rows)
     def bench(self):
         profile = self.m.get('bench_profile')
+        if profile == 'modern-steering-quality':
+            return self.modern_steering_quality()
         if profile == 'modern-steering-build':
             return self.modern_steering_build()
         if profile == 'modern-attention-fixture':
@@ -2504,6 +2506,35 @@ class Campaign:
             if (self.root/'steering-restart-result.json').exists():
                 self.r['steering_restart_partial'] = {'result_sha256': sha(self.root/'steering-restart-result.json')}
             self.check_model_after(rows)
+    def modern_steering_quality(self):
+        name = 'strix-point-steering-quality-profile.py'
+        helpers = self.m.get('steering_quality_helpers')
+        if (type(helpers) is not dict or type(helpers.get(name)) is not str or
+                not re.fullmatch(r'[0-9a-f]{64}', helpers[name])):
+            raise ValueError('Missing explicitly admitted steering profile hash')
+        helper = checked_path(self.root/name)
+        fd = os.open(helper, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW | os.O_NONBLOCK)
+        try:
+            before = os.fstat(fd)
+            if not stat.S_ISREG(before.st_mode) or before.st_uid != os.getuid() or not 1 <= before.st_size <= 2**20:
+                raise ValueError('Invalid bounded steering profile source')
+            with os.fdopen(fd, 'rb', closefd=False) as stream:
+                payload = stream.read(2**20+1)
+            after, named = os.fstat(fd), helper.stat(follow_symlinks=False)
+            fields = ('st_dev', 'st_ino', 'st_size', 'st_mtime_ns', 'st_ctime_ns')
+            if (len(payload) != before.st_size or not stat.S_ISREG(named.st_mode) or
+                    any(getattr(before, key) != getattr(after, key) or
+                        getattr(after, key) != getattr(named, key) for key in fields) or
+                    hashlib.sha256(payload).hexdigest() != helpers[name]):
+                raise ValueError('Steering profile source changed or differs from admission')
+        finally:
+            os.close(fd)
+        # Execute exactly the checked immutable bytes, avoiding an import reread.
+        spec = importlib.util.spec_from_file_location('lie_steering_quality_profile', helper)
+        profile = importlib.util.module_from_spec(spec)
+        exec(compile(payload, str(helper), 'exec'), profile.__dict__)
+        return profile.run(self)
+
     def modern_steering_build(self):
         if (self.m.get('stack') != 'rocm10-fedora43' or self.m.get('transport') != 'distrobox' or
                 any(key in self.m for key in ('decode_mode', 'predictor_plan', 'projector_plan')) or

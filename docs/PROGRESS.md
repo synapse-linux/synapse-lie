@@ -7,6 +7,25 @@ independently wire-reviewed and strongly closed; root owns no remote job or
 standing reservation. The separately prepared 100-pair conciseness inputs
 have no GPU admission or learned bank yet.
 
+## Steering response campaign dispatch integrated — 2026-10-08 UTC
+
+After the near-512K recall seal, the coordinator now dispatches the existing
+steering response body through its ordinary owned campaign. The entry checks
+bounded regular source through one stable descriptor and executes the exact
+admitted bytes. Hash/type/symlink/FIFO/directory failures and a post-hash source
+swap refuse before model opening; complete training provenance and independent
+saved-wire checks stay in the shared qualification body.
+
+Eight dispatch checks pass per Debug/native unsuppressed sanitizer mode,
+including two actual C clients and 70 synthetic replies per mode; all 89
+existing ownership/restore checks pass. The
+[receipt](development/validation/steering-quality-campaign-host-2026-10-08.json)
+retains the candidate and actual-source checks. Source r70/`4c703b3d`, native
+runtime/ABI/state/metrics and Python-free default products remain unchanged.
+No GPU model, new build directory or second window is opened. Original
+100-pair learning and response quality remain pending. All six root tasks
+stay open; Terminal Bench stays last.
+
 ## Current r70 YaRN4 near-512K recall passes — 2026-10-08 UTC
 
 Both exact answers pass at physical inputs 523774/523882, with complete history,
