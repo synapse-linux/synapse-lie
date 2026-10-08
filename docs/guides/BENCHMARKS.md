@@ -51,8 +51,10 @@ lifetime maxima. Availability is explicit: null totals mean unsupported or
 non-exact observation, while supported fully cached samples can have zero new
 calls. This field does not alter PP/TG timing or prove a reactive improvement.
 [The contract](../reference/METRICS.md#prefill-attention-dispatch) specifies
-cancellation, epoch and overflow semantics. The producer's matching HIP build,
-GPU dispatch and cost qualification wait for the integrated final phase.
+cancellation, epoch and overflow semantics. The matching r70 HIP build is
+qualified. The [sparse-attention component gate](../development/validation/attention-fixture-point-2026-10-07.json)
+checks generated inputs through 1M; actual original-weight dispatch and matched
+observer cost remain open.
 
 ## Canonical Gufo conversation curve
 
