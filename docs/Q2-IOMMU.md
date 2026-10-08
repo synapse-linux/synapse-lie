@@ -1,76 +1,68 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-# User-authorized IOMMU measurement on .157
+# IOMMU-off transition on .157
 
-Current request, 2026-10-08: the owner explicitly authorizes a .157 reboot
-with IOMMU off after the complete counting-prompt campaign. All176 points
-(Q2 chunks2K/4K/8K and UD chunk2K through128K) now finish with352 samples,
-allTG128 and exact common inputs verified. All61 raw artifacts are collected
-and hash-verified before release36a39711 at06:06:52; strong06:07:17 finds
-77 retired identities/groups, KFD empty, five free leases and unchanged models.
-The complete tables are presented before the boot transition. The new scoped
-plan must bind this actual release, with fresh specific peer non-use and the
-seven guarded CPU fixtures on .157. No boot change has occurred yet.
-The historical server-based plan below remains deferred and is not reused.
+The owner-authorized reboot completes on 2026-10-08 after all 176 IOMMU-enabled
+measurements, 352 total samples, verified evidence collection and presentation
+of the full comparative table. [All Q2/UD curves](Q2-COUNTING-CURVE128.md) use
+exact counting prompts and full prefill from empty state. No inference or
+performance measurement has run with IOMMU disabled yet.
 
-Read-only inspection02:45:16 confirms Limine12.7.0, one-shot entry support,
-the unchanged original configuration SHA8c7c6387 and32 IOMMU groups.
+The new boot is `be3e89fd-955b-47a4-a385-11c3ad98bb78`; the prior boot was
+`8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653`. Kernel `7.2.2-1-cachyos` and its
+initramfs are unchanged. The command line contains `amd_iommu=off`, and the
+IOMMU group count changes from 32 to zero. Limine selects the temporary
+`Synapse-LIE-IOMMU-off` entry and consumes the one-shot request.
+The exact original configuration SHA256
+`8c7c638757fa2d6bb48533eef5c1dea317bea2eba92fd5cef9ea6c0dcf0e3349`
+is restored at 06:21:15 UTC, preserving mode0700 and the original default.
+IOMMU remains disabled in this running boot; future normal boots use the
+restored original configuration.
+
+Readbacks retain APU performance mode at120W and all three fan curves:
+ramp-up40,50,60,70,82; ramp-down35,45,55,65,78. No power/fan tuning is applied.
+The kernel logs `amdxdna ... aie2_init: Running without IOMMU not supported`;
+NPU initialization is therefore unavailable in this boot.
+
+The user ComfyUI unit autostarts as PID1073/start980 after reboot. The separate
+service-only plan60531161 uses the owner's existing authorization to stop it
+with an empty queue and leave it stopped. Both queue counts are zero; the
+exact user-unit stop exits0 at06:28:52. Its configuration and enabled state
+remain unchanged. The earlier system-manager readback alone did not describe
+this user-manager instance. Final KFD is empty.
+
+Boot plan60345fc3 binds the actual curve release36a39711, complete table
+presentation and fresh Core/GLM non-use. Seven private CPU fixture tests pass
+on .157 at06:18:19; their boot commands are mocked. Apply exits0 at06:18:52.
+The remote reboot command has actual exit0 at06:19:07; its SSH transport exits
+255 when the host closes the connection. The absent outer invocation receipt
+is preserved as absent. Restore, epoch bootstrap and authorized service stop
+all exit0. No GPU fixture, build, model conversion, installation or cleanup
+is performed by the transition.
+
+All23 transition artifacts/241189bytes hash-verify at06:30:49, followed by three
+final closure artifacts. Strong closure06:33:49 SHA
+`9afc50dc121ab87ebca4a318726e3d9b1a5a1557b3f49ac107b8371e43165690`
+checks all five original leases free, model identities unchanged, the service
+process retired and KFD empty. New-boot baseline01919b3c preserves its initial
+ComfyUI observation; the final `boot_transition_release` supersedes it for
+readiness. The old ledger records `host_reboot_completed`. Q2 owns no host,
+job, lease, window or reservation; no future GPU admission is granted.
+
+[Machine-readable result](../config/q2-counting-iommu-boot-result.json),
+[release](../config/q2-counting-iommu-window-release.json),
+[boot plan](../config/q2-counting-iommu-boot-plan.json),
+[separate service plan](../config/q2-counting-iommu-comfyui-stop-plan.json).
+Raw receipts remain under `evidence/q2-counting-iommu-transition-r1` and
+`evidence/q2-counting-curve128-preparation`.
+
+The earlier f8716328 server-based boot proposal remains deferred and unapplied.
+Its unaligned130925-token IOMMU-enabled observations (1076.934433/1321.570237
+prefill,25.567541/26.097557 decode) and the earlier chunk tables are preserved
+as historical evidence, not substituted for the corrected counting curves.
+Any OFF comparison must retain the exact native inputs, executable, timing
+contract and all recorded conditions of the completed ON campaign.
+
 The [Linux7.2 parameter documentation](https://www.kernel.org/doc/html/v7.2/admin-guide/kernel-parameters.html)
-defines `amd_iommu=off`; the [Limine12 configuration documentation](https://github.com/limine-bootloader/limine/blob/v12.x/CONFIG.md)
-documents one-shot selection. The prepared entry keeps the current kernel
-and initramfs and is selected for one boot. After reconnect, restore the
-original configuration exactly and verify the running command line and
-IOMMU state. Any subsequent performance comparison must use the retained
-native executable and the corrected exact counting/full-prefill contract.
-
-The owner explicitly requests disabling IOMMU and measuring the result,
-then clarifies that the4K/8K curves must run first with IOMMU enabled.
-Initial readback: kernel7.2.2-1-cachyos, Limine12.7.0, 32 IOMMU groups and no
-IOMMU override on the command line. Group presence alone does not identify
-translated versus passthrough mode.
-
-Use the retained R3 server (SHA f8a5210c), saved native C benchmark client
-(87d856cf), original four requests (fcee51ef), chunk2048, context133760, C1 AR,
-zero cached tokens and unchanged original130925/8 prefix. Two separately
-started server runs per boot expose first-run versus repeated-run effects;
-all rates are reported individually, including thermal/clock observations.
-The default-boot and disabled-IOMMU tests use the same binaries and inputs.
-No4K/8K chunk change is mixed into this A/B.
-
-The prepared boot change appends a temporary entry using the current kernel
-and initramfs with their existing hashes, adding only `amd_iommu=off` to the
-kernel arguments. It temporarily disables remembered-entry selection, keeps
-the original default and uses the bootloader's one-shot selection for the
-test entry. The original configuration is restored byte-for-byte once the
-host reconnects. No persistent kernel argument or BIOS setting is changed.
-The explicit exception covers this boot test and its restoration, not general
-driver/service tuning. DMA isolation is absent during the test boot and NPU
-availability can change.
-
-GLM R3 on .157 has released all ownership and preserved its evidence. The
-owner directs future GLM tests to .155. Every Q2 GPU admission still needs
-fresh coordination, the five original leases and executable/input/model-stat
-checks. After reboot, a new persistent boot epoch rebinds surviving inode
-identities; old-boot PID numbers cannot establish current ownership.
-
-Preparation and measurements live under `evidence/q2-iommu-preparation` and
-separate `q2-iommu-{on,off}-native128-r1` directories. No model or .157 evidence
-is removed. Source/checkpoint and the rollback configuration are persistent.
-The enabled baseline completes both original130925/8 runs: first1076.934433
-PP /25.567541 TG; repeat1321.570237 PP /26.097557 TG. All56 artifacts verify
-before release d4022589 at22:32:38 UTC; independent closure22:32:58 checks
-39 retired identities/groups, empty KFD, five free leases and unchanged model
-stats. The two values are retained individually; neither replaces the prior
-qualified R3 measurement.
-
-Boot plan f8716328 is deferred without application. Configuration and EFI
-variables are untouched and no reboot has been requested. A replacement plan
-must name the new predecessor release after the chunk curves. The prepared
-disabled-IOMMU measurement is not an observed result.
-
-The enabled chunk curves are now complete and released at22:58:03 UTC,
-receipt a6110bdf, with independent closure22:58:18. The owner requires the
-complete2K/4K/8K tables before reboot, so execution stops after presenting
-them. At22:59:01 the original boot ID,32 IOMMU groups and exact original
-Limine SHA8c7c6387 still match. No boot plan is applied. Any later transition
-must bind the new release and freshly coordinate all ownership checks.
+defines `amd_iommu=off`. The [Limine12 configuration documentation](https://github.com/limine-bootloader/limine/blob/v12.x/CONFIG.md)
+describes one-shot entry precedence and remembered-entry behavior.

@@ -1,5 +1,21 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+2026-10-08 authorized IOMMU-off reboot complete and released: all176 ON
+measurements and the full64-row comparative table were verified and presented
+before boot plan60345fc3. Seven guarded CPU fixtures pass on .157. Apply exits0
+at06:18:52, remote reboot exits0 at06:19:07; SSH transport255 reflects the host
+closing the connection. New boot be3e89fd-955b-47a4-a385-11c3ad98bb78 uses the
+same7.2.2 kernel with amd_iommu=off and zero groups. Exact original Limine bytes
+restore06:21:15; performance120W and fan40/50/60/70/82 remain. The kernel reports
+NPU initialization unsupported without IOMMU. User ComfyUI autostarts, then the
+separately scoped prior-authorized empty0/0-queue stop60531161 exits0 at06:28:52;
+unit configuration and enabled state remain unchanged. All23 files/241189bytes
+hash-verify06:30:49; final3 closure artifacts also verify. Release06:33:49 SHA
+9afc50dc verifies five free original leases, unchanged reference/GLM models,
+retired service1073/start980 and empty KFD. Old/new epoch ledgers close; peers
+receive actual closure. Q2 OWN ALL hosts NONE. No OFF inference or performance
+measurement has run. [Boot result](Q2-IOMMU.md).
+
 2026-10-08 complete exact-counting curves: all176 requested measurements and
 352 total samples finish01:01:53–06:04:08 UTC on .157, four children and runner
 exit0. Same retained b701e948 executable; Q2 chunks2K/4K/8K and UD chunk2K,
@@ -18,7 +34,7 @@ All61 files/111488084bytes hash-verify06:06:29 before release06:06:52 SHA
 36a39711; strong06:07:17 verifies77 retired identities/groups, empty KFD,
 five original leases free and all reference/GLM model stats unchanged.
 Analysis exits0. Complete tables are presented before the user-authorized
-IOMMU-off reboot. Q2 currently owns no host. The new boot plan must bind this
+IOMMU-off reboot. Q2 currently owns no host. Boot plan60345fc3 binds this
 actual release; the old f871 proposal remains unapplied.
 
 2026-10-08 requested UD2K comparison completes on .157 with the same native

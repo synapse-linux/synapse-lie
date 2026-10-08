@@ -1,5 +1,25 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2 .157 IOMMU BOOT/SERVICE TRANSITION RELEASED — 2026-10-08 UTC:
+boot plan60345fc3, separate user-service plan60531161, explicit owner reboot
+and existing empty-queue stop/leave-stopped authorization. Fresh Core/GLM
+specific non-use precedes each scope. Seven CPU fixtures0; apply06:18:52/0,
+remote reboot06:19:07/0 (SSH255 as the host disconnects), original configuration
+restore06:21:15/0, epoch bootstrap06:21:36/0. New boot
+be3e89fd-955b-47a4-a385-11c3ad98bb78, kernel7.2.2 unchanged, amd_iommu=off,
+zero IOMMU groups. Baseline01919b3c records the initial ComfyUI user autostart;
+separate exact-unit empty0/0-queue stop06:28:52/0 retires1073/start980 while
+preserving the enabled unit/configuration. All23 files/241189bytes hash-verify
+06:30:49 before strong final closure06:33:49, SHA
+9afc50dc121ab87ebca4a318726e3d9b1a5a1557b3f49ac107b8371e43165690.
+Three final artifacts hash-verify too. Five original leases are free; seven
+reference models and GLM stat tuples remain unchanged; KFD is empty.
+Current epoch latest event is boot_transition_release; old epoch records
+host_reboot_completed. Core/GLM receive actual closure. Q2 CURRENT OWN ALL
+hosts/TB NONE: no job, handle, lease, window, waiter, reservation or future
+grant. No IOMMU-off GPU test has run. Any further hardware work needs a new
+exact plan bound to this boot/closure. [Release](../config/q2-counting-iommu-window-release.json).
+
 Q2/UD complete curves .157 RELEASED — 2026-10-08 UTC: plan ca98934d,
 source96f7ccb6/manifest11352825, retained binaryb701e948, runner e6d26ccf.
 All176 measured/352 total samples complete01:01:53–06:04:08, four native
@@ -13,13 +33,10 @@ OWN ALL hosts/TB NONE: no job, handle, lease, window, waiter, reservation or
 future grant. Final analysis exits0; all exact physical inputs and counting
 continuations match. Complete tables are presented before the authorized boot.
 
-The owner explicitly authorizes the .157 IOMMU-off reboot after this complete
-campaign. Prepare a NEW scoped plan bound to release36a39711, fresh specific
-peer declarations and guarded CPU fixtures under the original leases. The
-historical f8716328 proposal remains unapplied. The one-shot entry adds only
-amd_iommu=off to the current kernel and restores the exact original Limine
-configuration after reconnect. New-boot coordination metadata and actual
-IOMMU/power/fan/service readbacks follow; this is not new GPU-test admission.
+The subsequently executed boot plan60345fc3 binds release36a39711 and the
+complete table-presentation receipt. The historical f8716328 proposal remains
+unapplied. See the newer boot/service closure above; neither transition grants
+new GPU-test admission.
 
 Q2 requested UD2K .157 released — 2026-10-08 UTC: plan1b8b792a, source65afe48c,
 binaryb701e948, predecessor d5be8bf0. Specific Core/GLM current non-use ACKs

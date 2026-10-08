@@ -30,9 +30,12 @@ original130925-token prompt, prefill measures1302.02/1265.10/1232.32 token/s;
 decode25.80/25.55/26.02. Larger chunks do not provide a general prefill gain,
 so2048 remains the default. These unaligned HTTP prompts do not satisfy the
 owner's requested exact-grid comparison. All4K replies match2K; one short8K reply differs.
-The owner has now authorized the [IOMMU-off transition](docs/Q2-IOMMU.md)
-after all four exact counting curves finish and their full tables are shown.
-A new boot draft is prepared; no boot change or reboot has occurred yet.
+The authorized [IOMMU-off transition](docs/Q2-IOMMU.md) is complete after all
+four exact curves and the full table presentation. The new .157 boot uses the
+same kernel with `amd_iommu=off` and zero IOMMU groups. The exact original
+Limine configuration is restored for later boots; performance120W/fan82 remain.
+The authorized empty-queue user ComfyUI stop leaves KFD empty. No GPU benchmark
+has run with IOMMU off yet, so no OFF performance improvement is claimed.
 
 The deferred [prefill SSM candidate](docs/Q2-SSM-STAGE-Q8.md) packs the original Q8
 bytes into contiguous operand stages, charging packing on every call. Local
