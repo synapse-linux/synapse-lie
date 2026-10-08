@@ -2,15 +2,17 @@
 "use strict";
 
 const CATALOG_URL = "data/catalog.json";
-const SVG_NS = "http://www.w3.org/2000/svg";
 const FORMAT = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2, minimumFractionDigits: 2 });
 const INTEGER = new Intl.NumberFormat("en-US");
 const SERIES_COLORS = new Map([[2048, "#1b9f9a"], [4096, "#e88147"], [6144, "#5272d8"], [8192, "#9472d9"]]);
+const LONG_COLORS = ["#1b9f9a", "#e88147", "#5272d8", "#9472d9"];
 const csvCache = new Map();
-const state = { platform: "strix-halo", model: "qwen-q2", workload: "single", chunk: 2048, contexts: [2048, 4096, 6144, 8192], request: 0 };
+const state = { platform: "strix-halo", model: "qwen-q2", workload: "single", contexts: [2048, 4096, 6144, 8192], selectedSeries: [], request: 0 };
 let catalog = null;
 let activeRows = [];
 let activeDataset = null;
+let activeLongSeries = [];
+let chartInstances = [];
 
 function formatContext(value) {
   return value >= 1024 && value % 1024 === 0 ? INTEGER.format(value / 1024) + "K" : INTEGER.format(value);
@@ -58,7 +60,7 @@ async function readCsv(path) {
 
 function normalizedRows(dataset, csv) {
   const coreColumns = ["tokens", "users", "prefill_tps", "decode_tps", "wall_output_tps", "prefill_seconds", "decode_seconds", "wall_seconds"];
-  const longColumns = ["model", "prompt_tokens", "prefill_chunk", "warmup", "repetition", "prefill_tps", "decode_tps", "prefill_seconds", "decode_seconds", "output_tokens"];
+  const longColumns = ["model", "prompt_tokens", "prefill_chunk", "warmup", "repetition", "physical_ids_sha256", "prefill_tps", "decode_tps", "prefill_seconds", "decode_seconds", "output_tokens"];
   const required = dataset.format === "core-flow-v1" ? coreColumns : dataset.format === "full-prefill-v1" ? longColumns : null;
   if (!required || required.some(column => !csv.headers.includes(column))) throw new Error("The CSV does not match its catalog schema.");
   const rows = [];
@@ -75,6 +77,7 @@ function normalizedRows(dataset, csv) {
       if (raw.repetition !== "1" || Number(raw.output_tokens) !== 128) throw new Error("Unexpected full-context measurement contract.");
       rows.push({
         prompt: numeric(raw, "prompt_tokens"), users: 1, chunk: numeric(raw, "prefill_chunk"),
+        promptSha: raw.physical_ids_sha256,
         prefillTps: numeric(raw, "prefill_tps"), decodeTps: numeric(raw, "decode_tps"),
         prefillSeconds: numeric(raw, "prefill_seconds"), decodeSeconds: numeric(raw, "decode_seconds")
       });
@@ -94,18 +97,6 @@ function element(tag, className, content) {
   const node = document.createElement(tag);
   if (className) node.className = className;
   if (content !== undefined) node.textContent = content;
-  return node;
-}
-
-function svg(tag, attributes) {
-  const node = document.createElementNS(SVG_NS, tag);
-  for (const [key, value] of Object.entries(attributes || {})) node.setAttribute(key, String(value));
-  return node;
-}
-
-function svgText(content, attributes) {
-  const node = svg("text", attributes);
-  node.textContent = content;
   return node;
 }
 
@@ -146,9 +137,16 @@ function renderOptions() {
 }
 
 function rowsForView() {
-  if (state.workload === "long") return activeRows.filter(row => row.chunk === state.chunk);
+  if (state.workload === "long") {
+    return selectedLongSeries().flatMap(series => series.rows.map(row => ({ ...row, seriesLabel: series.label })))
+      .sort((a, b) => a.prompt - b.prompt || a.seriesLabel.localeCompare(b.seriesLabel));
+  }
   if (state.workload === "concurrent") return activeRows.filter(row => state.contexts.includes(row.prompt));
   return activeRows;
+}
+
+function selectedLongSeries() {
+  return activeLongSeries.filter(series => state.selectedSeries.includes(series.id));
 }
 
 function makeInsight(label, value, note, accent) {
@@ -161,27 +159,26 @@ function renderInsights(rows) {
   const target = document.getElementById("insight-grid");
   target.replaceChildren();
   if (state.workload === "single") {
-    const first = rows[0], last = rows[rows.length - 1];
-    target.append(
-      makeInsight("2K prompt read", FORMAT.format(first.prefillSeconds) + " s", "before answer generation begins", true),
-      makeInsight("2K answer generation", FORMAT.format(first.decodeTps), "output tokens per second"),
-      makeInsight("8K prompt read", FORMAT.format(last.prefillSeconds) + " s", "for " + INTEGER.format(last.prompt) + " input tokens")
-    );
-  } else if (state.workload === "long") {
     const last = rows[rows.length - 1];
     target.append(
-      makeInsight(formatContext(last.prompt) + " prompt read", FORMAT.format(last.prefillSeconds) + " s", "full prompt from an empty sequence", true),
-      makeInsight("Prompt reading rate", FORMAT.format(last.prefillTps), "input tokens per second at " + formatContext(last.prompt)),
-      makeInsight("Answer generation rate", FORMAT.format(last.decodeTps), "output tokens per second at " + formatContext(last.prompt))
+      makeInsight(formatContext(last.prompt) + " prefill", FORMAT.format(last.prefillTps), "input tokens per second", true),
+      makeInsight(formatContext(last.prompt) + " decode", FORMAT.format(last.decodeTps), "output tokens per second")
     );
+  } else if (state.workload === "long") {
+    for (const series of selectedLongSeries()) {
+      const last = series.rows[series.rows.length - 1];
+      target.append(
+        makeInsight(series.label + " · " + formatContext(last.prompt) + " prefill", FORMAT.format(last.prefillTps), "input tokens per second", series.model === state.model),
+        makeInsight(series.label + " · " + formatContext(last.prompt) + " decode", FORMAT.format(last.decodeTps), "output tokens per second")
+      );
+    }
   } else {
     const context = Math.min(...state.contexts);
     const subset = rows.filter(row => row.prompt === context);
-    const first = subset[0], last = subset[subset.length - 1];
+    const last = subset[subset.length - 1];
     target.append(
-      makeInsight(formatContext(context) + " · C1 decode", FORMAT.format(first.decodeTps), "group output tokens per second"),
-      makeInsight(formatContext(context) + " · C" + last.users + " decode", FORMAT.format(last.decodeTps), "native batch output tokens per second", true),
-      makeInsight("Whole group at C" + last.users, FORMAT.format(last.wallTps), "output tokens per second including prompt reading")
+      makeInsight(formatContext(context) + " · C" + last.users + " prefill", FORMAT.format(last.prefillTps), "group input tokens per second", true),
+      makeInsight(formatContext(context) + " · C" + last.users + " decode", FORMAT.format(last.decodeTps), "group output tokens per second")
     );
   }
 }
@@ -192,19 +189,22 @@ function renderToolbar() {
   toolbar.hidden = state.workload === "single";
   if (toolbar.hidden) return;
   const heading = element("div", "toolbar-copy");
-  heading.append(element("strong", "", state.workload === "long" ? "Prompt chunk" : "Prompt per user"),
-    element("span", "", state.workload === "long" ? "Each line is one chunk setting." : "Toggle context lengths to focus the curves."));
+  heading.append(element("strong", "", state.workload === "long" ? "Overlay measured series" : "Prompt per user"),
+    element("span", "", state.workload === "long" ? "Select one or more lines for direct visual comparison." : "Toggle context lengths to focus the curves."));
   const group = element("div", "toolbar-options");
   group.setAttribute("role", "group");
-  group.setAttribute("aria-label", state.workload === "long" ? "Prefill chunk size" : "Prompt length per user");
-  const choices = state.workload === "long" ? [...new Set(activeRows.map(row => row.chunk))].sort((a, b) => a - b) : [...new Set(activeRows.map(row => row.prompt))].sort((a, b) => a - b);
+  group.setAttribute("aria-label", state.workload === "long" ? "Measured model and chunk series" : "Prompt length per user");
+  const choices = state.workload === "long" ? activeLongSeries : [...new Set(activeRows.map(row => row.prompt))].sort((a, b) => a - b);
   for (const value of choices) {
-    const selected = state.workload === "long" ? state.chunk === value : state.contexts.includes(value);
-    const button = element("button", "toolbar-option", formatContext(value));
+    const selected = state.workload === "long" ? state.selectedSeries.includes(value.id) : state.contexts.includes(value);
+    const button = element("button", "toolbar-option", state.workload === "long" ? value.label : formatContext(value));
     button.type = "button";
     button.setAttribute("aria-pressed", String(selected));
     button.addEventListener("click", () => {
-      if (state.workload === "long") state.chunk = value;
+      if (state.workload === "long") {
+        if (selected && state.selectedSeries.length === 1) return;
+        state.selectedSeries = selected ? state.selectedSeries.filter(id => id !== value.id) : [...state.selectedSeries, value.id];
+      }
       else if (selected && state.contexts.length > 1) state.contexts = state.contexts.filter(item => item !== value);
       else if (!selected) state.contexts.push(value);
       renderDataset();
@@ -216,91 +216,81 @@ function renderToolbar() {
 
 function chartConfigurations() {
   const prompt = state.workload !== "concurrent";
-  const common = [
-    { key: "prefillTps", title: "Prompt reading speed", description: "Input tokens processed per second. The vertical scale is zoomed to reveal changes.", unit: "input tok/s", color: "#1b9f9a", zoom: true },
-    { key: "decodeTps", title: "Answer generation speed", description: prompt ? "Output tokens generated per second for one user. Zoomed vertical scale." : "Combined output across the group, not per-user speed.", unit: "output tok/s", color: "#e88147", zoom: prompt }
+  return [
+    { key: "prefillTps", title: "Prefill throughput", description: "Input tokens processed per second. The vertical axis starts at zero.", unit: "input tok/s", color: "#1b9f9a" },
+    { key: "decodeTps", title: "Decode throughput", description: prompt ? "Output tokens generated per second for one user. The vertical axis starts at zero." : "Combined output across the group, not per-user speed. The vertical axis starts at zero.", unit: "output tok/s", color: "#e88147" }
   ];
-  if (prompt) common.splice(1, 0, { key: "prefillSeconds", title: "Time spent reading", description: "Seconds spent processing the complete prompt before generation.", unit: "seconds", color: "#5272d8", zoom: false });
-  else common.push({ key: "wallTps", title: "Whole-group output rate", description: "Includes every serialized prompt and all batched generation.", unit: "output tok/s", color: "#5272d8", zoom: false },
-    { key: "prefillSeconds", title: "Time spent reading all prompts", description: "The group waits for serialized prompt reading to finish.", unit: "seconds", color: "#9472d9", zoom: false });
-  return common;
 }
 
-function axisValue(value) {
-  return value >= 1000 ? INTEGER.format(Math.round(value)) : value >= 100 ? String(Math.round(value)) : FORMAT.format(value);
+function chartSeries(rows, config) {
+  if (state.workload === "long") {
+    return selectedLongSeries().map(series => ({ name: series.label, color: series.color, model: series.model, rows: series.rows }));
+  }
+  if (state.workload === "concurrent") {
+    return [...new Set(rows.map(row => row.prompt))].sort((a, b) => a - b).map(prompt => ({
+      name: formatContext(prompt) + " prompt", color: SERIES_COLORS.get(prompt), rows: rows.filter(row => row.prompt === prompt)
+    }));
+  }
+  return [{ name: "One request", color: config.color, rows }];
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]);
 }
 
 function drawChart(host, config, rows, index) {
-  const article = element("article", "chart-card" + (index === 0 ? " chart-card-wide" : ""));
+  if (!window.echarts) throw new Error("The chart library could not be loaded.");
+  const article = element("article", "chart-card");
   const heading = element("div", "chart-heading");
   const title = element("div");
   title.append(element("p", "chart-number", "CHART " + String(index + 1).padStart(2, "0")), element("h4", "", config.title));
   heading.append(title, element("span", "chart-unit", config.unit));
   article.append(heading, element("p", "chart-description", config.description));
-  const surface = element("div", "chart-surface");
-  const width = 760, height = 310, margin = { left: 68, right: 20, top: 20, bottom: 48 };
-  const innerWidth = width - margin.left - margin.right, innerHeight = height - margin.top - margin.bottom;
-  const multi = state.workload === "concurrent";
-  const xValues = rows.map(row => multi ? row.users : row.prompt);
-  const xMin = Math.min(...xValues), xMax = Math.max(...xValues);
-  const values = rows.map(row => row[config.key]);
-  const low = Math.min(...values), high = Math.max(...values);
-  const yMin = config.zoom ? Math.max(0, Math.floor((low - Math.max(2, (high - low) * .16)) / (high > 100 ? 25 : 1)) * (high > 100 ? 25 : 1)) : 0;
-  const yMax = Math.max(yMin + 1, high + Math.max(2, (high - yMin) * .08));
-  const x = value => margin.left + ((value - xMin) / Math.max(1, xMax - xMin)) * innerWidth;
-  const y = value => margin.top + innerHeight * (1 - (value - yMin) / (yMax - yMin));
-  const picture = svg("svg", { viewBox: "0 0 " + width + " " + height, role: "group", "aria-label": config.title + " by " + (multi ? "concurrent users" : "prompt length") });
-  for (let tick = 0; tick <= 4; tick++) {
-    const value = yMin + (yMax - yMin) * tick / 4, py = y(value);
-    picture.append(svg("line", { x1: margin.left, x2: width - margin.right, y1: py, y2: py, class: "grid-line" }));
-    picture.append(svgText(axisValue(value), { x: margin.left - 10, y: py + 4, "text-anchor": "end", class: "axis-text" }));
-  }
-  const ticks = multi ? [...new Set(xValues)].sort((a, b) => a - b) : xMax > 16384 ? [xMin, 32768, 65536, 98304, xMax] : [...new Set(xValues)].sort((a, b) => a - b);
-  for (const value of ticks) {
-    picture.append(svgText(multi ? "C" + value : formatContext(value), { x: x(value), y: height - 23, "text-anchor": "middle", class: "axis-text" }));
-  }
-  picture.append(svgText(multi ? "CONCURRENT USERS" : "PROMPT TOKENS", { x: margin.left + innerWidth / 2, y: height - 3, "text-anchor": "middle", class: "axis-title" }));
-  const tip = element("div", "chart-tooltip");
-  tip.hidden = true;
-  tip.setAttribute("aria-hidden", "true");
-  const series = multi ? [...new Set(rows.map(row => row.prompt))].sort((a, b) => a - b).map(prompt => rows.filter(row => row.prompt === prompt)) : [rows];
-  for (const lineRows of series) {
-    const sorted = [...lineRows].sort((a, b) => (multi ? a.users - b.users : a.prompt - b.prompt));
-    const color = multi ? SERIES_COLORS.get(sorted[0].prompt) : config.color;
-    const points = sorted.map((row, point) => (point ? "L" : "M") + x(multi ? row.users : row.prompt).toFixed(2) + "," + y(row[config.key]).toFixed(2)).join(" ");
-    picture.append(svg("path", { d: points, stroke: color, class: "series-line" }));
-    for (const row of sorted) {
-      const readout = formatContext(row.prompt) + " prompt" + (multi ? " · " + row.users + " users" : "") + " · " + FORMAT.format(row[config.key]) + " " + config.unit;
-      const circle = svg("circle", { cx: x(multi ? row.users : row.prompt), cy: y(row[config.key]), r: multi ? 5 : 4, fill: color, class: "data-point", tabindex: "0", "aria-label": readout });
-      const pointTitle = svg("title", {});
-      pointTitle.textContent = readout;
-      circle.append(pointTitle);
-      const show = () => {
-        tip.textContent = readout;
-        tip.hidden = false;
-        const point = circle.getBoundingClientRect(), bounds = surface.getBoundingClientRect();
-        tip.style.left = point.left + point.width / 2 - bounds.left + surface.scrollLeft + "px";
-        tip.style.top = point.top - bounds.top + surface.scrollTop - 4 + "px";
-      };
-      circle.addEventListener("pointerenter", show);
-      circle.addEventListener("focus", show);
-      circle.addEventListener("pointerleave", () => { tip.hidden = true; });
-      circle.addEventListener("blur", () => { tip.hidden = true; });
-      picture.append(circle);
-    }
-  }
-  surface.append(picture, tip);
-  if (multi) {
-    const legend = element("div", "chart-legend");
-    for (const lineRows of series) {
-      const prompt = lineRows[0].prompt, item = element("span", "legend-item", formatContext(prompt) + " prompt");
-      item.style.setProperty("--legend-color", SERIES_COLORS.get(prompt));
-      legend.append(item);
-    }
-    surface.append(legend);
-  }
-  article.append(surface);
+  const plot = element("div", "chart-plot");
+  plot.setAttribute("role", "img");
+  plot.setAttribute("aria-label", config.title + " by " + (state.workload === "concurrent" ? "concurrent users" : "prompt length") + ". Vertical axis begins at zero. Values are in the table below.");
+  article.append(plot);
   host.append(article);
+  const multi = state.workload === "concurrent", long = state.workload === "long";
+  const series = chartSeries(rows, config);
+  const chart = window.echarts.init(plot, null, { renderer: "svg" });
+  chartInstances.push(chart);
+  chart.setOption({
+    animation: false,
+    color: series.map(item => item.color),
+    grid: { top: series.length > 1 ? 59 : 24, left: 16, right: 23, bottom: long ? 77 : 42, containLabel: true },
+    legend: { show: series.length > 1, type: "scroll", top: 8, textStyle: { color: "#526674", fontSize: 11 }, itemWidth: 19, itemHeight: 4 },
+    tooltip: {
+      trigger: "axis", confine: true, axisPointer: { type: "line" },
+      formatter: items => {
+        const at = multi ? "C" + items[0].value[0] : formatContext(items[0].value[0]) + " prompt";
+        return "<strong>" + escapeHtml(at) + "</strong><br>" + items.map(item =>
+          escapeHtml(item.seriesName) + ": <strong>" + FORMAT.format(item.value[1]) + " " + escapeHtml(config.unit) + "</strong>"
+        ).join("<br>");
+      }
+    },
+    xAxis: {
+      type: "value", min: multi ? 1 : 0, minInterval: multi ? 1 : undefined,
+      name: multi ? "Concurrent users" : "Prompt tokens", nameLocation: "middle", nameGap: 28,
+      axisLabel: { color: "#657987", hideOverlap: true, formatter: value => multi ? "C" + value : window.innerWidth < 600 && value >= 1000 ? INTEGER.format(value / 1000) + "k" : formatContext(value) },
+      axisLine: { lineStyle: { color: "#aebfc5" } }, splitLine: { show: false }
+    },
+    yAxis: {
+      type: "value", min: 0, scale: false, name: config.unit, nameTextStyle: { color: "#657987" },
+      axisLabel: { color: "#657987", formatter: value => INTEGER.format(value) },
+      axisLine: { show: true, lineStyle: { color: "#aebfc5" } },
+      splitLine: { lineStyle: { color: "#e8eeec" } }
+    },
+    dataZoom: long ? [
+      { type: "inside", xAxisIndex: 0, filterMode: "none" },
+      { type: "slider", xAxisIndex: 0, filterMode: "none", bottom: 7, height: 20, borderColor: "#d3dfd8", fillerColor: "rgba(27,159,154,.12)" }
+    ] : [],
+    series: series.map(item => ({
+      name: item.name, type: "line", smooth: false, showSymbol: item.rows.length <= 12, symbolSize: 7,
+      lineStyle: { width: long && item.model === state.model ? 3.3 : 2.4 }, emphasis: { focus: "series" },
+      data: item.rows.map(row => [multi ? row.users : row.prompt, row[config.key]])
+    }))
+  });
 }
 
 function renderTable(rows) {
@@ -308,8 +298,8 @@ function renderTable(rows) {
   const head = table.querySelector("thead"), body = table.querySelector("tbody");
   const multi = state.workload === "concurrent", long = state.workload === "long";
   const columns = multi
-    ? [["Prompt / user", "prompt"], ["Users", "users"], ["Prefill tok/s", "prefillTps"], ["Decode tok/s", "decodeTps"], ["Whole-group tok/s", "wallTps"], ["Prompt time", "prefillSeconds"], ["Decode time", "decodeSeconds"]]
-    : [["Prompt tokens", "prompt"], ...(long ? [["Chunk tokens", "chunk"]] : []), ["Prefill tok/s", "prefillTps"], ["Prompt time", "prefillSeconds"], ["Decode tok/s", "decodeTps"], ["Decode time", "decodeSeconds"]];
+    ? [["Prompt / user", "prompt"], ["Users", "users"], ["Prefill t/s", "prefillTps"], ["Decode t/s", "decodeTps"], ["Whole-group t/s", "wallTps"], ["Prefill seconds", "prefillSeconds"], ["Decode seconds", "decodeSeconds"]]
+    : [...(long ? [["Series", "seriesLabel"]] : []), ["Prompt tokens", "prompt"], ...(long ? [["Chunk tokens", "chunk"]] : []), ["Prefill t/s", "prefillTps"], ["Decode t/s", "decodeTps"], ["Prefill seconds", "prefillSeconds"], ["Decode seconds", "decodeSeconds"]];
   const tr = element("tr");
   for (const [label] of columns) {
     const th = element("th", "", label);
@@ -321,19 +311,27 @@ function renderTable(rows) {
   for (const row of rows) {
     const record = element("tr");
     for (const [, field] of columns) {
-      const value = ["prompt", "users", "chunk"].includes(field) ? INTEGER.format(row[field]) : FORMAT.format(row[field]) + (field.endsWith("Seconds") ? " s" : "");
+      const value = field === "seriesLabel" ? row[field] : ["prompt", "users", "chunk"].includes(field) ? INTEGER.format(row[field]) : FORMAT.format(row[field]) + (field.endsWith("Seconds") ? " s" : "");
       record.append(element("td", "", value));
     }
     body.append(record);
   }
-  document.getElementById("benchmark-caption").textContent = rows.length + " measured rows for the selected model, workload and filters. Rates are tokens per second.";
+  document.getElementById("benchmark-caption").textContent = rows.length + " measured rows for the selected workload and series. Rates are tokens per second.";
 }
 
 function renderDataset() {
   const rows = rowsForView();
   renderToolbar();
+  const comparisonNote = document.getElementById("comparison-note");
+  comparisonNote.hidden = state.workload !== "long";
+  const hasMatchedQ2Ud = activeLongSeries.some(series => series.model === "qwen-q2" && series.chunk === 2048) && activeLongSeries.some(series => series.model === "qwen-ud-q4" && series.chunk === 2048);
+  comparisonNote.textContent = hasMatchedQ2Ud
+    ? "Matched model comparison: Q2 2K and UD-Q4 2K use the same physical prompts and measurement contract. Q2 4K/8K change the chunk size; compare those as a separate diagnostic."
+    : "Only series from the same platform and measurement campaign are shown. Different chunk sizes are a separate diagnostic.";
   renderInsights(rows);
   const host = document.getElementById("chart-grid");
+  for (const chart of chartInstances) chart.dispose();
+  chartInstances = [];
   host.replaceChildren();
   chartConfigurations().forEach((config, index) => drawChart(host, config, rows, index));
   renderTable(rows);
@@ -342,7 +340,8 @@ function renderDataset() {
 function renderMethod(dataset) {
   const list = document.getElementById("dataset-conditions");
   list.replaceChildren(...dataset.conditions.map(value => element("li", "", value)));
-  document.getElementById("dataset-caveat").textContent = dataset.caveat;
+  const hasMatchedQ2Ud = dataset.workload === "long" && activeLongSeries.some(series => series.model === "qwen-q2" && series.chunk === 2048) && activeLongSeries.some(series => series.model === "qwen-ud-q4" && series.chunk === 2048);
+  document.getElementById("dataset-caveat").textContent = dataset.caveat + (hasMatchedQ2Ud ? " Q2/UD at 2K are matched; Q2 at 4K/8K changes the chunk size." : "");
   const quality = document.getElementById("quality-link");
   quality.hidden = !dataset.quality;
   if (dataset.quality) quality.href = dataset.quality;
@@ -367,11 +366,39 @@ async function showSelection() {
   status.textContent = "Loading measured CSV…";
   try {
     const rows = normalizedRows(dataset, await readCsv(dataset.csv));
+    let longSeries = [];
+    if (dataset.workload === "long") {
+      const comparable = dataset.comparison_group
+        ? catalog.datasets.filter(item => item.workload === "long" && item.platform === dataset.platform && item.format === dataset.format && item.comparison_group === dataset.comparison_group)
+        : [dataset];
+      const sources = await Promise.all(comparable.map(async item => ({ item, rows: normalizedRows(item, await readCsv(item.csv)) })));
+      const promptHashes = new Map();
+      for (const source of sources) {
+        for (const row of source.rows) {
+          if (!/^[0-9a-f]{64}$/.test(row.promptSha)) throw new Error("Invalid physical prompt hash in long-context CSV.");
+          if (promptHashes.has(row.prompt) && promptHashes.get(row.prompt) !== row.promptSha) throw new Error("Comparison series use different physical prompts.");
+          promptHashes.set(row.prompt, row.promptSha);
+        }
+      }
+      for (const source of sources) {
+        const model = catalog.models.find(item => item.id === source.item.model);
+        for (const chunk of [...new Set(source.rows.map(row => row.chunk))].sort((a, b) => a - b)) {
+          longSeries.push({
+            id: source.item.id + ":" + chunk,
+            label: (model.chart_name || model.name) + " · " + formatContext(chunk) + " chunk",
+            model: source.item.model, chunk, rows: source.rows.filter(row => row.chunk === chunk)
+          });
+        }
+      }
+      longSeries.sort((a, b) => a.chunk - b.chunk || a.model.localeCompare(b.model));
+      longSeries.forEach((series, index) => { series.color = LONG_COLORS[index % LONG_COLORS.length]; });
+    }
     if (request !== state.request) return;
     activeDataset = dataset;
     activeRows = rows;
-    const chunks = [...new Set(rows.map(row => row.chunk))];
-    if (!chunks.includes(state.chunk)) state.chunk = chunks[0];
+    activeLongSeries = longSeries;
+    state.selectedSeries = longSeries.filter(series => series.chunk === 2048).map(series => series.id);
+    if (longSeries.length && !state.selectedSeries.length) state.selectedSeries = [longSeries[0].id];
     const contexts = [...new Set(rows.map(row => row.prompt))];
     state.contexts = state.contexts.filter(value => contexts.includes(value));
     if (!state.contexts.length) state.contexts = contexts;
@@ -380,9 +407,9 @@ async function showSelection() {
     document.getElementById("dataset-intro").textContent = dataset.intro;
     document.getElementById("dataset-download").href = dataset.csv;
     renderMethod(dataset);
-    renderDataset();
     available.hidden = false;
-    status.textContent = rows.length + " measured rows loaded from the source CSV.";
+    renderDataset();
+    status.textContent = rowsForView().length + " measured rows loaded from the source CSV.";
   } catch (error) {
     if (request !== state.request) return;
     available.hidden = true;
@@ -449,6 +476,7 @@ function initCopyButtons() {
 
 async function initExplorer() {
   const status = document.getElementById("benchmark-status");
+  window.addEventListener("resize", () => { for (const chart of chartInstances) chart.resize(); });
   try {
     const response = await fetch(CATALOG_URL);
     if (!response.ok) throw new Error("Catalog returned HTTP " + response.status + ".");
@@ -456,8 +484,8 @@ async function initExplorer() {
     renderOptions();
     const core = await readCsv("data/q2-core-model-flow-2k8k.csv");
     const example = normalizedRows(catalog.datasets.find(item => item.id === "q2-promessi-single"), core).find(row => row.prompt === 2048);
-    document.querySelector("[data-hero='prefill']").textContent = FORMAT.format(example.prefillSeconds) + " s";
-    document.querySelector("[data-hero='decode']").textContent = FORMAT.format(example.decodeSeconds) + " s";
+    document.querySelector("[data-hero='prefill']").textContent = FORMAT.format(example.prefillTps);
+    document.querySelector("[data-hero='decode']").textContent = FORMAT.format(example.decodeTps);
     await showSelection();
   } catch (error) {
     status.classList.add("error");

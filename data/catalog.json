@@ -6,8 +6,8 @@
     {"id": "dgx-spark", "name": "NVIDIA DGX Spark", "detail": "CUDA"}
   ],
   "models": [
-    {"id": "qwen-q2", "name": "Qwen3.8 Flash Next · Q2", "detail": "Antirez compressed weights"},
-    {"id": "qwen-ud-q4", "name": "Qwen3.8 Flash Next · UD-Q4_K_XL", "detail": "Unsloth weights"},
+    {"id": "qwen-q2", "name": "Qwen3.8 Flash Next · Q2", "chart_name": "Q2", "detail": "Antirez compressed weights"},
+    {"id": "qwen-ud-q4", "name": "Qwen3.8 Flash Next · UD-Q4_K_XL", "chart_name": "UD-Q4", "detail": "Unsloth weights"},
     {"id": "glm53-flash", "name": "GLM-5.3 Flash", "detail": "Awaiting an integrated benchmark"}
   ],
   "workloads": [
@@ -24,7 +24,7 @@
       "format": "core-flow-v1",
       "csv": "data/q2-core-model-flow-2k8k.csv",
       "title": "One request, from 2K to 8K",
-      "intro": "How long does one complete prompt take to read, and how quickly are 128 new tokens written? These four points use exact prefixes of I promessi sposi.",
+      "intro": "Prefill and decode throughput for one complete request at each prompt length. These four points use exact prefixes of I promessi sposi and 128 output tokens.",
       "conditions": ["Original Q2 weights · Strix Halo/gfx1151", "Fresh complete prompt at each point · chunk 2K", "Greedy AR · 128 output tokens · no warmup", "Core inference only · model loading and HTTP excluded"],
       "caveat": "One measured sample per point; no variability estimate. These are not the repeated-counting measurements shown in Long context."
     },
@@ -34,6 +34,7 @@
       "model": "qwen-q2",
       "workload": "long",
       "format": "full-prefill-v1",
+      "comparison_group": "counting-full-prompt-2026",
       "row_model": "q2",
       "csv": "data/q2-counting-curve128.csv",
       "title": "Full-prompt context, through 128K",
@@ -47,6 +48,7 @@
       "model": "qwen-ud-q4",
       "workload": "long",
       "format": "full-prefill-v1",
+      "comparison_group": "counting-full-prompt-2026",
       "row_model": "ud",
       "csv": "data/q2-counting-curve128.csv",
       "title": "UD-Q4 full-prompt context, through 128K",

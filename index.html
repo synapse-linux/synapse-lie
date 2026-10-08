@@ -9,6 +9,7 @@
     <title>Synapse LIE — Measured local inference</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="stylesheet" href="assets/site.css">
+    <script src="assets/vendor/echarts-6.1.0.min.js" defer></script>
     <script src="assets/site.js" defer></script>
   </head>
   <body>
@@ -31,28 +32,25 @@
         <div class="hero-grid" aria-hidden="true"></div>
         <div class="hero-copy">
           <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> OPEN MEASUREMENTS / DEVELOPMENT PREVIEW</p>
-          <h1 id="hero-title">What happens between your prompt and the answer?</h1>
-          <p class="hero-lede">Synapse LIE brings local inference to the Synapse Linux ecosystem. Explore how it reads a prompt and writes a response on a shared-memory Strix Halo system; every plotted result comes from a downloadable measurement file.</p>
+          <h1 id="hero-title">Prefill and decode across real contexts.</h1>
+          <p class="hero-lede">Synapse LIE brings local inference to the Synapse Linux ecosystem. Compare input and output throughput on a shared-memory Strix Halo system; every plotted result comes from a downloadable measurement file.</p>
           <div class="hero-actions"><a class="button button-primary" href="#benchmarks">Explore results <span aria-hidden="true">↗</span></a><a class="button button-ghost" href="#how-to-read">Understand the numbers <span aria-hidden="true">↓</span></a></div>
           <p class="hero-footnote">Measured today: two Qwen weight formats on AMD Strix Halo, where CPU and GPU share system memory. Other platforms and model families appear as results become available.</p>
         </div>
-        <div class="hero-measure" aria-label="Example of a measured single-user request">
-          <div class="measure-top"><span class="measure-pulse" aria-hidden="true"></span><span>A REAL REQUEST / Q2 / STRIX HALO</span><span>2K PROMPT</span></div>
-          <div class="measure-row"><div class="measure-step">01</div><div class="measure-label"><strong>Read the prompt</strong><span>2,048 input tokens</span></div><strong class="measure-value" data-hero="prefill">—</strong></div>
-          <div class="measure-track"><span class="track-prefill"></span></div>
-          <div class="measure-row"><div class="measure-step">02</div><div class="measure-label"><strong>Write the answer</strong><span>128 output tokens</span></div><strong class="measure-value" data-hero="decode">—</strong></div>
-          <div class="measure-track"><span class="track-decode"></span></div>
-          <div class="measure-bottom"><span>GPU inference time only</span><span>Model load &amp; HTTP excluded</span></div>
+        <div class="hero-measure" aria-label="Example of measured single-user prefill and decode throughput">
+          <div class="measure-top"><span class="measure-pulse" aria-hidden="true"></span><span>Q2 / STRIX HALO / C1</span><span>2K PROMPT</span></div>
+          <div class="measure-row"><div class="measure-step">01</div><div class="measure-label"><strong>Prefill</strong><span>Input tokens per second</span></div><strong class="measure-value" data-hero="prefill">—</strong></div>
+          <div class="measure-row"><div class="measure-step">02</div><div class="measure-label"><strong>Decode</strong><span>Output tokens per second</span></div><strong class="measure-value" data-hero="decode">—</strong></div>
+          <div class="measure-bottom"><span>2,048 input · 128 output</span><span>Core inference only</span></div>
         </div>
         <div class="hero-index" aria-hidden="true">01 / UNDERSTAND &nbsp;&nbsp; 02 / EXPLORE &nbsp;&nbsp; 03 / BUILD</div>
       </section>
 
       <section class="read-section" id="how-to-read" aria-labelledby="read-title"><div class="section-shell">
-        <div class="section-heading"><div><p class="section-kicker">01 / UNDERSTAND</p><h2 id="read-title">A response has<br><span>more than one clock.</span></h2></div><p class="section-intro">A single “tokens per second” number hides the wait before the first word. We show each phase and the full group time separately.</p></div>
+        <div class="section-heading"><div><p class="section-kicker">01 / UNDERSTAND</p><h2 id="read-title">Two phases.<br><span>Two throughput rates.</span></h2></div><p class="section-intro">Prefill and decode both use tokens per second, but they measure different work. The charts keep those rates separate for every prompt length.</p></div>
         <div class="reading-rail" aria-label="Stages of a request">
-          <article class="reading-card"><div class="reading-number">01</div><div><h3>Read the prompt <span>Prefill</span></h3><p>The GPU processes input tokens. More prompt tokens mean a longer wait before generation begins. The chart reports input tokens per second and the measured phase time.</p></div><div class="reading-symbol" aria-hidden="true">↘</div></article>
-          <article class="reading-card"><div class="reading-number">02</div><div><h3>Write the answer <span>Decode</span></h3><p>The model generates new tokens. With several users, the decode rate is the combined output of the whole group, not the speed each person sees.</p></div><div class="reading-symbol" aria-hidden="true">→</div></article>
-          <article class="reading-card"><div class="reading-number">03</div><div><h3>Count the whole wait <span>Wall</span></h3><p>For a user group, this rate includes serialized prompt reading and batched generation. It tells a different story from decode throughput alone.</p></div><div class="reading-symbol" aria-hidden="true">↗</div></article>
+          <article class="reading-card"><div class="reading-number">01</div><div><h3>Read the prompt <span>Prefill t/s</span></h3><p>Input tokens processed per second. The context curves show how this throughput changes as the complete prompt grows.</p></div><div class="reading-symbol" aria-hidden="true">↘</div></article>
+          <article class="reading-card"><div class="reading-number">02</div><div><h3>Write the answer <span>Decode t/s</span></h3><p>Output tokens generated per second. In multi-user runs this is the combined output of the group, not the speed each person sees.</p></div><div class="reading-symbol" aria-hidden="true">→</div></article>
         </div>
       </div></section>
 
@@ -70,9 +68,10 @@
               <div class="dataset-heading"><div><p class="dataset-overline" id="dataset-overline">MEASURED</p><h3 id="dataset-title"></h3><p id="dataset-intro"></p></div><a id="dataset-download" class="download-link" href="data/q2-core-model-flow-2k8k.csv" download>Download source CSV ↗</a></div>
               <div class="insight-grid" id="insight-grid" aria-label="Key readings"></div>
               <div class="chart-toolbar" id="chart-toolbar" hidden></div>
+              <p id="comparison-note" class="comparison-note" hidden></p>
               <div class="chart-grid" id="chart-grid"></div>
               <div class="method-panel"><div><p class="method-eyebrow">MEASUREMENT CONTRACT</p><h3>What was actually measured</h3><ul id="dataset-conditions"></ul></div><aside><p class="method-eyebrow">READ BEFORE COMPARING</p><p id="dataset-caveat"></p><a id="quality-link" href="data/q2-core-model-flow-2k8k-quality.json" hidden>Inspect output-parity data ↗</a></aside></div>
-              <details class="data-details"><summary>Open the complete measured table <span aria-hidden="true">↓</span></summary><div class="table-wrap"><table id="benchmark-table"><caption id="benchmark-caption"></caption><thead></thead><tbody></tbody></table></div></details>
+              <details class="data-details"><summary>Complete source measurements <span aria-hidden="true">↓</span></summary><div class="table-wrap"><table id="benchmark-table"><caption id="benchmark-caption"></caption><thead></thead><tbody></tbody></table></div></details>
             </div>
             <div id="dataset-empty" class="dataset-empty" hidden><div class="empty-glyph" aria-hidden="true">∅</div><p class="dataset-overline">AWAITING VERIFIED DATA</p><h3>No result for this combination yet.</h3><p id="empty-description">We will show a chart here when a measured CSV and its method are available.</p><p class="empty-help">Choose Qwen Q2, AMD Strix Halo and “One request” to see a measured result.</p></div>
           </div>

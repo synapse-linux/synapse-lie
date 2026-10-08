@@ -3,8 +3,8 @@
 # Synapse LIE GitHub Pages site
 
 This is the static site published from `gh-pages` at
-<https://synapse-linux.github.io/synapse-lie/>. It has no third-party
-JavaScript, remote fonts, build step or CDN. Relative links work under the
+<https://synapse-linux.github.io/synapse-lie/>. It uses locally bundled Apache
+ECharts, with no remote fonts, build step or CDN. Relative links work under the
 `/synapse-lie/` project path.
 
 The benchmark explorer is driven by `data/catalog.json`. It lists workloads,
@@ -16,11 +16,23 @@ method, quality limits and source hash here. Current formats are:
 | Format | CSV fields read | Display |
 | --- | --- | --- |
 | `core-flow-v1` | `tokens`, `users`, phase rates and seconds | One complete literary prompt; or serialized prefill plus native batch decode. |
-| `full-prefill-v1` | `model`, `prompt_tokens`, `prefill_chunk`, measured `warmup=False` rows and phase rates/seconds | Full prompt from empty state through 128K. |
+| `full-prefill-v1` | `model`, `prompt_tokens`, `prefill_chunk`, `physical_ids_sha256`, measured `warmup=False` rows and phase rates/seconds | Full prompt from empty state through 128K. |
 
-The UI does not overlay results from these two protocols. Prefill and decode
-remain distinct. A model/platform without a measured CSV never receives a
+The UI leads with prefill and decode throughput in tokens per second. Measured
+phase times remain only in the expanded source table as diagnostics. Both rate
+axes start at zero. The long-context view can overlay Q2 and UD-Q4 from the
+same campaign: their 2K-chunk series use identical physical prompts and
+conditions. Q2 4K and 8K chunks can also be shown, but changing chunk size is
+a separate diagnostic. The literary-prompt and repeated-counting protocols
+are never overlaid. A model/platform without a measured CSV never receives a
 fabricated number.
+
+The chart library is Apache ECharts 6.1.0, copied from the
+[official release](https://github.com/apache/echarts/releases/tag/6.1.0) into
+`assets/vendor/echarts-6.1.0.min.js` (SHA-256
+`b66b25aeb4df84e33199dc21694014d336d222cbd9deb0e5a7c14bd6aa0d0fd0`).
+Its Apache-2.0 LICENSE and NOTICE are kept beside the file. ECharts runs only
+in the browser; the LIE server has no JavaScript or Python runtime dependency.
 
 ## Source and quality
 
