@@ -17,6 +17,9 @@ stable release is declared. Detailed validation history is in
   Snapshot and replay use the current state API; reports refuse incompatible
   measurement contracts and RoPE profiles. CSV, JSON, SVG and PNG need no Python.
 
+- Prepared HTTP graphs use short concurrency labels so C8 remains visible;
+  multi-case labels refer to case indices, with full identifiers in CSV/JSON.
+
 - Build the GPU server and tools with `make strix-halo` or `make strix-point`.
   These native CMake entry points fetch the pinned provider, reuse verified
   builds and require no Python interpreter.

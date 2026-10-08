@@ -4577,6 +4577,27 @@ restored service and free lease are preserved. A subsequent build selects an
 explicit non-PIE executable link in the private recipe; it does not change
 upstream Gufo source or install packages.
 
+## HTTP comparison binaries prepared — 2026-10-04 UTC
+
+Local device-masked builds prepare the frozen `128f490` LIE HIP server, an
+unchanged official Gufo `f783fedb` full HTTP control for `gfx1151`, and a separate
+Release C benchmark client without HIP/HSA, C++ or Python link dependencies.
+Post-build verification checks all 1,019 official source hashes, three reused
+provider archives and five owned sampler/decoder files. Gufo's isolated build
+uses private, licensed upstream rocWMMA headers; no installation occurs.
+The missing dependency/version-header failures and an audit-count error remain
+recorded before their successful corrections. This is build preparation,
+separate from model serving or GPU performance qualification.
+
+Short graph ticks keep C1–C8 visible without changing validation, statistics or
+CSV/JSON exports. The focused ASan/UBSan/LeakSanitizer CTest passes 1/1; the actual
+Release client passes the native wire fixture. Four synthetic graph panels are
+visually checked privately and are not published as inference results. Across
+16 supervised host commands, CPU peaks at 93.75 C under the CPU98 guard; GPU
+temperature is observe-only and SSD bounds remain separate. Root has no GPU
+lease, job or model access during this preparation.
+[Source, binary hashes, commands and exits](development/validation/http-multi-preparation-2026-10-04.json).
+
 ## Point reactive/vision evidence integrated — 2026-10-04 UTC
 
 Root integrates Point `c3e9916`, preserving the native prepared HTTP client,

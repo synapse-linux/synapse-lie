@@ -579,6 +579,8 @@ interval and includes client/server overhead. Preparation wall time and the
 mean executed per-request PP rate are recorded separately. A preparation
 cohort made entirely of cache hits has no executed PP rate. Graphs put PP,
 the two decode metrics and TTFT in four panels with separate scales.
+Single-case graphs label concurrency as C1–C8. Multi-case graphs use the
+one-based case index followed by concurrency; CSV/JSON retain the full case IDs.
 
 The default has one excluded warmup cohort and three measured cohorts for
 statistics. `--warmups 0 --repetitions 1` selects a single prepared cohort,
@@ -634,7 +636,7 @@ Use a new output directory for each report: existing artifacts are not replaced.
 
 | Published workload | LIE coverage |
 | --- | --- |
-| AR single user at eight prefix depths. | Canonical `http-curve` is implemented and CPU-qualified; its new GPU campaign remains separate. Direct LIE/Gufo GPU comparisons and fresh, cache-disabled [served HTTP AR](../benchmarks/2026-10-04/strix-point/http-depth/README.md) reach near 256K on Strix Point with two measured repetitions per engine. Separate physical 1M PP/TG128 and current YaRN4/seed77 recall through 786K are qualified in the [model/platform results](../benchmarks/models/qwen3.8-flash-next/strix-point/README.md); near-1M recall and matched long-context performance remain open. |
+| AR single user at eight prefix depths. | Canonical `http-curve` is implemented and CPU-qualified; its new GPU campaign remains separate. Direct LIE/Gufo GPU comparisons and fresh, cache-disabled [served HTTP AR](../benchmarks/2026-10-04/strix-point/http-depth/README.md) reach near 256K on Strix Point with two measured repetitions per engine. Separate physical 1M PP/TG128 and current YaRN4/seed77 recall through near 1M are qualified in the [model/platform results](../benchmarks/models/qwen3.8-flash-next/strix-point/README.md); other recall seeds/profiles and matched long-context performance remain open. |
 | AR multiple users. | Native batching and the [served 4K HTTP campaign](../benchmarks/2026-10-04/strix-point/http-multi/README.md) both compare LIE and official Gufo through C8. The HTTP campaign includes fresh sessions=C and fixed eight-session capacity. Long-context multi-client HTTP is still open. |
 | MTP single and multiple users. | Direct core and the [served 4K HTTP campaign](../benchmarks/2026-10-04/strix-point/http-multi/README.md) compare AR/MTP and LIE/Gufo through C8 on prose and repetition. The cold served [long-context campaign](../benchmarks/2026-10-04/strix-point/http-depth/README.md) matches MTP and AR through near 256K at C1, with prefill, draft acceptance, decode and wall time. Long-context multi-client HTTP is still open. |
 | Cold-file loading to HTTP readiness. | Still missing; `loading` measures model construction with uncontrolled OS file-cache state. |
