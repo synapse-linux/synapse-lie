@@ -7,11 +7,17 @@ This is the static site published from `gh-pages` at
 ECharts, with no remote fonts, build step or CDN. Relative links work under the
 `/synapse-lie/` project path.
 
-The benchmark explorer is driven by `data/catalog.json`. It lists workloads,
-model weights and GPU platforms independently; a combination without qualified
-data displays an explicit empty state. To add a result, place the qualified CSV
-under `data/`, add a catalog entry with a supported `format`, and document its
-method, quality limits and source hash here. Current formats are:
+The benchmark explorer is driven by `data/catalog.json`. It has two request
+modes: one request and concurrent requests. The one-request view offers the
+literary-prompt and repeated-counting campaigns through one prompt-length chart
+layout; it never merges their differing measurement rules. The concurrent view
+plots prompt length on the horizontal axis and lets readers choose any measured
+request counts C1/C2/C4/C6/C8 as overlaid curves. Model and GPU filters stay
+compact dropdowns, while series selection is a separate, scalable control.
+Unavailable combinations display an explicit empty state. To add a result, put
+the qualified CSV under `data/`, add its campaign and dataset entries with a
+supported `format`, and document its method, quality limits and source hash
+here. Current formats are:
 
 | Format | CSV fields read | Display |
 | --- | --- | --- |
@@ -20,8 +26,8 @@ method, quality limits and source hash here. Current formats are:
 
 The UI leads with prefill and decode throughput in tokens per second. Measured
 phase times remain only in the expanded source table as diagnostics. Both rate
-axes start at zero. The long-context view can overlay Q2 and UD-Q4 from the
-same campaign: their 2K-chunk series use identical physical prompts and
+axes start at zero. The counting campaign can overlay Q2 and UD-Q4: their
+2K-chunk series use identical physical prompts and
 conditions. Q2 4K and 8K chunks can also be shown, but changing chunk size is
 a separate diagnostic. The literary-prompt and repeated-counting protocols
 are never overlaid. A model/platform without a measured CSV never receives a
@@ -49,7 +55,7 @@ Both source CSVs are copied byte-for-byte from
 The literary-prompt dataset has 20 original-weight GPU arms, with one sample
 per arm, no warmup, model loading excluded. It uses exact 2K/4K/6K/8K
 prefixes of *I promessi sposi*, Strix Halo/gfx1151 and IOMMU off. For one
-user, the four C1 rows form the site's “One request” view. For several users,
+user, the four C1 rows form the site's literary-prompt one-request campaign. For several users,
 prefill is serialized and native decode is batched. C1 output matches the
 saved single-user reference; C2–C8 output differs from C1, so batch output
 equivalence is **not qualified**. See `docs/Q2-CORE-MULTI-2K8K.md` at the

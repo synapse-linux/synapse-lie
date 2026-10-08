@@ -11,9 +11,13 @@
     {"id": "glm53-flash", "name": "GLM-5.3 Flash", "detail": "Awaiting an integrated benchmark"}
   ],
   "workloads": [
-    {"id": "single", "name": "One request", "detail": "A complete literary prompt and 128 generated tokens"},
-    {"id": "long", "name": "Long context", "detail": "Full prompt from empty state, measured through 128K"},
-    {"id": "concurrent", "name": "Several users", "detail": "Serialized prompts and native batched generation"}
+    {"id": "single", "name": "One request", "detail": "Complete prompts from 2K to 128K"},
+    {"id": "concurrent", "name": "Several requests", "detail": "Serialized prompts and native batched generation"}
+  ],
+  "campaigns": [
+    {"id": "counting-full", "name": "Counting · 2K–128K", "detail": "Repeated counting chat · warmup + measured pass · IOMMU on"},
+    {"id": "promessi-single", "name": "Promessi · C1", "detail": "I promessi sposi · one measured pass · IOMMU off"},
+    {"id": "promessi-concurrent", "name": "Promessi · C1–C8", "detail": "I promessi sposi · native batch · IOMMU off"}
   ],
   "datasets": [
     {
@@ -21,32 +25,35 @@
       "platform": "strix-halo",
       "model": "qwen-q2",
       "workload": "single",
+      "campaign": "promessi-single",
       "format": "core-flow-v1",
       "csv": "data/q2-core-model-flow-2k8k.csv",
       "title": "One request, from 2K to 8K",
       "intro": "Prefill and decode throughput for one complete request at each prompt length. These four points use exact prefixes of I promessi sposi and 128 output tokens.",
       "conditions": ["Original Q2 weights · Strix Halo/gfx1151", "Fresh complete prompt at each point · chunk 2K", "Greedy AR · 128 output tokens · no warmup", "Core inference only · model loading and HTTP excluded"],
-      "caveat": "One measured sample per point; no variability estimate. These are not the repeated-counting measurements shown in Long context."
+      "caveat": "One measured sample per point; no variability estimate. These are separate from the repeated-counting campaign."
     },
     {
       "id": "q2-counting-long",
       "platform": "strix-halo",
       "model": "qwen-q2",
-      "workload": "long",
+      "workload": "single",
+      "campaign": "counting-full",
       "format": "full-prefill-v1",
       "comparison_group": "counting-full-prompt-2026",
       "row_model": "q2",
       "csv": "data/q2-counting-curve128.csv",
-      "title": "Full-prompt context, through 128K",
+      "title": "One request, through 128K",
       "intro": "Each point starts with an empty sequence and reads every prompt token before generating 128 tokens. Choose the prefill chunk size to see how the same Q2 weights behave as the prompt grows.",
       "conditions": ["Original Q2 weights · Strix Halo/gfx1151 · IOMMU on", "Repeated counting chat, not I promessi sposi", "One warmup + one measured pass per point · greedy AR", "Core inference only · context capacity 133,760"],
-      "caveat": "The repeated counting text is a controlled diagnostic. It is separate from the literary-prompt multi-user run; do not rank their rates as matched runs. Matching continuations here do not establish broad model quality."
+      "caveat": "The repeated counting text is a controlled diagnostic. It is separate from the literary-prompt runs; do not rank their rates as matched runs. Matching continuations here do not establish broad model quality."
     },
     {
       "id": "ud-counting-long",
       "platform": "strix-halo",
       "model": "qwen-ud-q4",
-      "workload": "long",
+      "workload": "single",
+      "campaign": "counting-full",
       "format": "full-prefill-v1",
       "comparison_group": "counting-full-prompt-2026",
       "row_model": "ud",
@@ -61,6 +68,7 @@
       "platform": "strix-halo",
       "model": "qwen-q2",
       "workload": "concurrent",
+      "campaign": "promessi-concurrent",
       "format": "core-flow-v1",
       "csv": "data/q2-core-model-flow-2k8k.csv",
       "quality": "data/q2-core-model-flow-2k8k-quality.json",

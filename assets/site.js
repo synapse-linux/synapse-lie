@@ -4,14 +4,12 @@
 const CATALOG_URL = "data/catalog.json";
 const FORMAT = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2, minimumFractionDigits: 2 });
 const INTEGER = new Intl.NumberFormat("en-US");
-const SERIES_COLORS = new Map([[2048, "#1b9f9a"], [4096, "#e88147"], [6144, "#5272d8"], [8192, "#9472d9"]]);
-const LONG_COLORS = ["#1b9f9a", "#e88147", "#5272d8", "#9472d9"];
+const SERIES_COLORS = ["#1b9f9a", "#e88147", "#5272d8", "#9472d9", "#a3a02f", "#375a72"];
 const csvCache = new Map();
-const state = { platform: "strix-halo", model: "qwen-q2", workload: "single", contexts: [2048, 4096, 6144, 8192], selectedSeries: [], request: 0 };
+const state = { platform: "strix-halo", model: "qwen-q2", workload: "single", campaign: "counting-full", selectedSeries: [], request: 0 };
 let catalog = null;
-let activeRows = [];
 let activeDataset = null;
-let activeLongSeries = [];
+let activeSeries = [];
 let chartInstances = [];
 
 function formatContext(value) {
@@ -37,12 +35,12 @@ function numeric(row, field) {
 }
 
 function validateCatalog(value) {
-  if (value.schema_version !== 1 || !Array.isArray(value.datasets) || !Array.isArray(value.models) || !Array.isArray(value.platforms) || !Array.isArray(value.workloads)) {
+  if (value.schema_version !== 1 || !Array.isArray(value.datasets) || !Array.isArray(value.models) || !Array.isArray(value.platforms) || !Array.isArray(value.workloads) || !Array.isArray(value.campaigns)) {
     throw new Error("Unsupported benchmark catalog.");
   }
   for (const dataset of value.datasets) {
-    if (!value.models.some(model => model.id === dataset.model) || !value.platforms.some(platform => platform.id === dataset.platform) || !value.workloads.some(workload => workload.id === dataset.workload)) {
-      throw new Error("A dataset references an unknown model, platform or workload.");
+    if (!value.models.some(model => model.id === dataset.model) || !value.platforms.some(platform => platform.id === dataset.platform) || !value.workloads.some(workload => workload.id === dataset.workload) || !value.campaigns.some(campaign => campaign.id === dataset.campaign)) {
+      throw new Error("A dataset references an unknown model, platform, workload or campaign.");
     }
   }
   return value;
@@ -100,53 +98,61 @@ function element(tag, className, content) {
   return node;
 }
 
-function hasResult(type, id) {
-  return catalog.datasets.some(dataset => dataset[type] === id);
+function campaignsForWorkload() {
+  const ids = new Set(catalog.datasets.filter(dataset => dataset.workload === state.workload).map(dataset => dataset.campaign));
+  return catalog.campaigns.filter(campaign => ids.has(campaign.id));
+}
+
+function chooseCampaign() {
+  const candidates = catalog.datasets.filter(dataset => dataset.workload === state.workload);
+  const selected = candidates.find(dataset => dataset.campaign === state.campaign && dataset.model === state.model && dataset.platform === state.platform);
+  if (selected) return;
+  const next = candidates.find(dataset => dataset.model === state.model && dataset.platform === state.platform)
+    || candidates.find(dataset => dataset.model === state.model)
+    || candidates[0];
+  if (next) state.campaign = next.campaign;
 }
 
 function select(type, id) {
   state[type] = id;
-  if (type === "model" && !catalog.datasets.some(dataset => dataset.platform === state.platform && dataset.model === state.model && dataset.workload === state.workload)) {
-    const first = catalog.datasets.find(dataset => dataset.platform === state.platform && dataset.model === state.model);
-    if (first) state.workload = first.workload;
-  }
+  if (type === "workload" || type === "model") chooseCampaign();
   renderOptions();
   showSelection();
 }
 
-function renderOptionList(containerId, items, type) {
-  const container = document.getElementById(containerId);
-  container.replaceChildren();
-  for (const item of items) {
-    const button = element("button", "selector-option");
-    button.type = "button";
-    button.setAttribute("aria-pressed", String(state[type] === item.id));
-    const title = element("strong", "", item.name);
-    const detail = element("small", "", item.detail);
-    const badge = element("span", hasResult(type, item.id) ? "option-badge" : "option-badge pending", hasResult(type, item.id) ? "Measured" : "Awaiting data");
-    button.append(title, detail, badge);
-    button.addEventListener("click", () => select(type, item.id));
-    container.append(button);
-  }
+function fillSelect(id, items, type) {
+  const control = document.getElementById(id);
+  control.replaceChildren(...items.map(item => {
+    const option = element("option", "", item.name);
+    option.value = item.id;
+    return option;
+  }));
+  control.value = state[type];
 }
 
 function renderOptions() {
-  renderOptionList("workload-options", catalog.workloads, "workload");
-  renderOptionList("model-options", catalog.models, "model");
-  renderOptionList("platform-options", catalog.platforms, "platform");
+  const workload = document.getElementById("workload-options");
+  workload.replaceChildren();
+  for (const item of catalog.workloads) {
+    const button = element("button", "mode-option", item.name);
+    button.type = "button";
+    button.setAttribute("aria-pressed", String(state.workload === item.id));
+    button.addEventListener("click", () => select("workload", item.id));
+    workload.append(button);
+  }
+  fillSelect("model-select", catalog.models, "model");
+  fillSelect("platform-select", catalog.platforms, "platform");
+  fillSelect("campaign-select", campaignsForWorkload(), "campaign");
+  document.getElementById("campaign-detail").textContent = catalog.campaigns.find(item => item.id === state.campaign)?.detail || "Select a measured campaign.";
+}
+
+function selectedSeries() {
+  return activeSeries.filter(series => state.selectedSeries.includes(series.id));
 }
 
 function rowsForView() {
-  if (state.workload === "long") {
-    return selectedLongSeries().flatMap(series => series.rows.map(row => ({ ...row, seriesLabel: series.label })))
-      .sort((a, b) => a.prompt - b.prompt || a.seriesLabel.localeCompare(b.seriesLabel));
-  }
-  if (state.workload === "concurrent") return activeRows.filter(row => state.contexts.includes(row.prompt));
-  return activeRows;
-}
-
-function selectedLongSeries() {
-  return activeLongSeries.filter(series => state.selectedSeries.includes(series.id));
+  return selectedSeries().flatMap(series => series.rows.map(row => ({ ...row, seriesLabel: series.label })))
+    .sort((a, b) => a.prompt - b.prompt || a.users - b.users || a.seriesLabel.localeCompare(b.seriesLabel));
 }
 
 function makeInsight(label, value, note, accent) {
@@ -155,90 +161,68 @@ function makeInsight(label, value, note, accent) {
   return card;
 }
 
-function renderInsights(rows) {
+function renderInsights() {
   const target = document.getElementById("insight-grid");
   target.replaceChildren();
-  if (state.workload === "single") {
-    const last = rows[rows.length - 1];
-    target.append(
-      makeInsight(formatContext(last.prompt) + " prefill", FORMAT.format(last.prefillTps), "input tokens per second", true),
-      makeInsight(formatContext(last.prompt) + " decode", FORMAT.format(last.decodeTps), "output tokens per second")
-    );
-  } else if (state.workload === "long") {
-    for (const series of selectedLongSeries()) {
-      const last = series.rows[series.rows.length - 1];
-      target.append(
-        makeInsight(series.label + " · " + formatContext(last.prompt) + " prefill", FORMAT.format(last.prefillTps), "input tokens per second", series.model === state.model),
-        makeInsight(series.label + " · " + formatContext(last.prompt) + " decode", FORMAT.format(last.decodeTps), "output tokens per second")
-      );
-    }
-  } else {
-    const context = Math.min(...state.contexts);
-    const subset = rows.filter(row => row.prompt === context);
-    const last = subset[subset.length - 1];
-    target.append(
-      makeInsight(formatContext(context) + " · C" + last.users + " prefill", FORMAT.format(last.prefillTps), "group input tokens per second", true),
-      makeInsight(formatContext(context) + " · C" + last.users + " decode", FORMAT.format(last.decodeTps), "group output tokens per second")
-    );
-  }
+  const choices = selectedSeries();
+  const focused = state.workload === "concurrent"
+    ? choices[choices.length - 1]
+    : choices.find(series => series.model === state.model && series.chunk === 2048) || choices.find(series => series.model === state.model) || choices[0];
+  const last = focused.rows[focused.rows.length - 1];
+  const label = focused.label + " · " + formatContext(last.prompt);
+  target.append(
+    makeInsight(label + " prefill", FORMAT.format(last.prefillTps), "input tokens per second · longest measured prompt", true),
+    makeInsight(label + " decode", FORMAT.format(last.decodeTps), state.workload === "concurrent" ? "combined output tokens per second · longest prompt" : "output tokens per second · longest measured prompt")
+  );
 }
 
 function renderToolbar() {
   const toolbar = document.getElementById("chart-toolbar");
   toolbar.replaceChildren();
-  toolbar.hidden = state.workload === "single";
+  toolbar.hidden = !activeSeries.length;
   if (toolbar.hidden) return;
   const heading = element("div", "toolbar-copy");
-  heading.append(element("strong", "", state.workload === "long" ? "Overlay measured series" : "Prompt per user"),
-    element("span", "", state.workload === "long" ? "Select one or more lines for direct visual comparison." : "Toggle context lengths to focus the curves."));
+  heading.append(element("strong", "", state.workload === "concurrent" ? "Concurrent requests" : "Measured curves"),
+    element("span", "", state.selectedSeries.length + " of " + activeSeries.length + " selected · choose any combination"));
   const group = element("div", "toolbar-options");
   group.setAttribute("role", "group");
-  group.setAttribute("aria-label", state.workload === "long" ? "Measured model and chunk series" : "Prompt length per user");
-  const choices = state.workload === "long" ? activeLongSeries : [...new Set(activeRows.map(row => row.prompt))].sort((a, b) => a - b);
-  for (const value of choices) {
-    const selected = state.workload === "long" ? state.selectedSeries.includes(value.id) : state.contexts.includes(value);
-    const button = element("button", "toolbar-option", state.workload === "long" ? value.label : formatContext(value));
+  group.setAttribute("aria-label", state.workload === "concurrent" ? "Concurrent request counts" : "Measured model and chunk curves");
+  for (const series of activeSeries) {
+    const selected = state.selectedSeries.includes(series.id);
+    const button = element("button", "toolbar-option", series.label);
     button.type = "button";
     button.setAttribute("aria-pressed", String(selected));
+    button.style.setProperty("--series-color", series.color);
     button.addEventListener("click", () => {
-      if (state.workload === "long") {
-        if (selected && state.selectedSeries.length === 1) return;
-        state.selectedSeries = selected ? state.selectedSeries.filter(id => id !== value.id) : [...state.selectedSeries, value.id];
-      }
-      else if (selected && state.contexts.length > 1) state.contexts = state.contexts.filter(item => item !== value);
-      else if (!selected) state.contexts.push(value);
+      if (selected && state.selectedSeries.length === 1) return;
+      state.selectedSeries = selected ? state.selectedSeries.filter(id => id !== series.id) : [...state.selectedSeries, series.id];
       renderDataset();
     });
     group.append(button);
   }
-  toolbar.append(heading, group);
+  const all = element("button", "toolbar-reset", "Show all");
+  all.type = "button";
+  all.disabled = state.selectedSeries.length === activeSeries.length;
+  all.addEventListener("click", () => { state.selectedSeries = activeSeries.map(series => series.id); renderDataset(); });
+  toolbar.append(heading, group, all);
 }
 
 function chartConfigurations() {
-  const prompt = state.workload !== "concurrent";
   return [
     { key: "prefillTps", title: "Prefill throughput", description: "Input tokens processed per second. The vertical axis starts at zero.", unit: "input tok/s", color: "#1b9f9a" },
-    { key: "decodeTps", title: "Decode throughput", description: prompt ? "Output tokens generated per second for one user. The vertical axis starts at zero." : "Combined output across the group, not per-user speed. The vertical axis starts at zero.", unit: "output tok/s", color: "#e88147" }
+    { key: "decodeTps", title: "Decode throughput", description: state.workload === "single" ? "Output tokens generated per second for one request. The vertical axis starts at zero." : "Combined output across the selected request group, not per-user speed. The vertical axis starts at zero.", unit: "output tok/s", color: "#e88147" }
   ];
 }
 
-function chartSeries(rows, config) {
-  if (state.workload === "long") {
-    return selectedLongSeries().map(series => ({ name: series.label, color: series.color, model: series.model, rows: series.rows }));
-  }
-  if (state.workload === "concurrent") {
-    return [...new Set(rows.map(row => row.prompt))].sort((a, b) => a - b).map(prompt => ({
-      name: formatContext(prompt) + " prompt", color: SERIES_COLORS.get(prompt), rows: rows.filter(row => row.prompt === prompt)
-    }));
-  }
-  return [{ name: "One request", color: config.color, rows }];
+function chartSeries() {
+  return selectedSeries().map(series => ({ name: series.label, color: series.color, model: series.model, rows: series.rows }));
 }
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]);
 }
 
-function drawChart(host, config, rows, index) {
+function drawChart(host, config, index) {
   if (!window.echarts) throw new Error("The chart library could not be loaded.");
   const article = element("article", "chart-card");
   const heading = element("div", "chart-heading");
@@ -246,33 +230,44 @@ function drawChart(host, config, rows, index) {
   title.append(element("p", "chart-number", "CHART " + String(index + 1).padStart(2, "0")), element("h4", "", config.title));
   heading.append(title, element("span", "chart-unit", config.unit));
   article.append(heading, element("p", "chart-description", config.description));
+  const long = activeDataset.format === "full-prefill-v1";
+  const series = chartSeries();
+  const key = element("div", "chart-key");
+  key.setAttribute("aria-label", "Visible curves");
+  for (const item of series) {
+    const label = element("span", "chart-key-item");
+    const marker = element("span", "chart-key-marker");
+    marker.style.backgroundColor = item.color;
+    marker.setAttribute("aria-hidden", "true");
+    label.append(marker, document.createTextNode(item.name));
+    key.append(label);
+  }
+  article.append(key);
   const plot = element("div", "chart-plot");
   plot.setAttribute("role", "img");
-  plot.setAttribute("aria-label", config.title + " by " + (state.workload === "concurrent" ? "concurrent users" : "prompt length") + ". Vertical axis begins at zero. Values are in the table below.");
+  plot.setAttribute("aria-label", config.title + " by prompt length for the selected curves. Vertical axis begins at zero. Values are in the table below.");
   article.append(plot);
   host.append(article);
-  const multi = state.workload === "concurrent", long = state.workload === "long";
-  const series = chartSeries(rows, config);
   const chart = window.echarts.init(plot, null, { renderer: "svg" });
   chartInstances.push(chart);
   chart.setOption({
     animation: false,
     color: series.map(item => item.color),
-    grid: { top: series.length > 1 ? 59 : 24, left: 16, right: 23, bottom: long ? 77 : 42, containLabel: true },
-    legend: { show: series.length > 1, type: "scroll", top: 8, textStyle: { color: "#526674", fontSize: 11 }, itemWidth: 19, itemHeight: 4 },
+    grid: { top: 24, left: 16, right: 23, bottom: long ? 77 : 42, containLabel: true },
+    legend: { show: false },
     tooltip: {
       trigger: "axis", confine: true, axisPointer: { type: "line" },
       formatter: items => {
-        const at = multi ? "C" + items[0].value[0] : formatContext(items[0].value[0]) + " prompt";
+        const at = formatContext(items[0].value[0]) + " prompt";
         return "<strong>" + escapeHtml(at) + "</strong><br>" + items.map(item =>
           escapeHtml(item.seriesName) + ": <strong>" + FORMAT.format(item.value[1]) + " " + escapeHtml(config.unit) + "</strong>"
         ).join("<br>");
       }
     },
     xAxis: {
-      type: "value", min: multi ? 1 : 0, minInterval: multi ? 1 : undefined,
-      name: multi ? "Concurrent users" : "Prompt tokens", nameLocation: "middle", nameGap: 28,
-      axisLabel: { color: "#657987", hideOverlap: true, formatter: value => multi ? "C" + value : window.innerWidth < 600 && value >= 1000 ? INTEGER.format(value / 1000) + "k" : formatContext(value) },
+      type: "value", min: 0,
+      name: "Prompt tokens", nameLocation: "middle", nameGap: 28,
+      axisLabel: { color: "#657987", hideOverlap: true, formatter: value => window.innerWidth < 600 && value >= 1000 ? INTEGER.format(value / 1000) + "k" : formatContext(value) },
       axisLine: { lineStyle: { color: "#aebfc5" } }, splitLine: { show: false }
     },
     yAxis: {
@@ -287,8 +282,8 @@ function drawChart(host, config, rows, index) {
     ] : [],
     series: series.map(item => ({
       name: item.name, type: "line", smooth: false, showSymbol: item.rows.length <= 12, symbolSize: 7,
-      lineStyle: { width: long && item.model === state.model ? 3.3 : 2.4 }, emphasis: { focus: "series" },
-      data: item.rows.map(row => [multi ? row.users : row.prompt, row[config.key]])
+      lineStyle: { width: item.model === state.model ? 3.3 : 2.4 }, emphasis: { focus: "series" },
+      data: item.rows.map(row => [row.prompt, row[config.key]])
     }))
   });
 }
@@ -296,10 +291,15 @@ function drawChart(host, config, rows, index) {
 function renderTable(rows) {
   const table = document.getElementById("benchmark-table");
   const head = table.querySelector("thead"), body = table.querySelector("tbody");
-  const multi = state.workload === "concurrent", long = state.workload === "long";
-  const columns = multi
-    ? [["Prompt / user", "prompt"], ["Users", "users"], ["Prefill t/s", "prefillTps"], ["Decode t/s", "decodeTps"], ["Whole-group t/s", "wallTps"], ["Prefill seconds", "prefillSeconds"], ["Decode seconds", "decodeSeconds"]]
-    : [...(long ? [["Series", "seriesLabel"]] : []), ["Prompt tokens", "prompt"], ...(long ? [["Chunk tokens", "chunk"]] : []), ["Prefill t/s", "prefillTps"], ["Decode t/s", "decodeTps"], ["Prefill seconds", "prefillSeconds"], ["Decode seconds", "decodeSeconds"]];
+  const long = activeDataset.format === "full-prefill-v1";
+  const columns = [
+    ["Series", "seriesLabel"], ["Prompt tokens", "prompt"],
+    ...(state.workload === "concurrent" ? [["Requests", "users"]] : []),
+    ...(long ? [["Chunk tokens", "chunk"]] : []),
+    ["Prefill t/s", "prefillTps"], ["Decode t/s", "decodeTps"],
+    ...(state.workload === "concurrent" ? [["Whole-group t/s", "wallTps"]] : []),
+    ["Prefill seconds", "prefillSeconds"], ["Decode seconds", "decodeSeconds"]
+  ];
   const tr = element("tr");
   for (const [label] of columns) {
     const th = element("th", "", label);
@@ -321,26 +321,30 @@ function renderTable(rows) {
 
 function renderDataset() {
   const rows = rowsForView();
+  document.getElementById("benchmark-status").textContent = rows.length + " measured rows shown from the selected campaign.";
   renderToolbar();
   const comparisonNote = document.getElementById("comparison-note");
-  comparisonNote.hidden = state.workload !== "long";
-  const hasMatchedQ2Ud = activeLongSeries.some(series => series.model === "qwen-q2" && series.chunk === 2048) && activeLongSeries.some(series => series.model === "qwen-ud-q4" && series.chunk === 2048);
-  comparisonNote.textContent = hasMatchedQ2Ud
-    ? "Matched model comparison: Q2 2K and UD-Q4 2K use the same physical prompts and measurement contract. Q2 4K/8K change the chunk size; compare those as a separate diagnostic."
-    : "Only series from the same platform and measurement campaign are shown. Different chunk sizes are a separate diagnostic.";
-  renderInsights(rows);
+  const long = activeDataset.format === "full-prefill-v1";
+  comparisonNote.hidden = !long;
+  if (long) {
+    const matched = activeSeries.some(series => series.model === "qwen-q2" && series.chunk === 2048) && activeSeries.some(series => series.model === "qwen-ud-q4" && series.chunk === 2048);
+    comparisonNote.textContent = matched
+      ? "Matched model comparison: Q2 2K and UD-Q4 2K use the same physical prompts and measurement contract. Q2 4K/8K change the chunk size; read those as a separate diagnostic."
+      : "Only curves from the same platform and campaign are shown. Different chunk sizes are a separate diagnostic.";
+  }
+  renderInsights();
   const host = document.getElementById("chart-grid");
   for (const chart of chartInstances) chart.dispose();
   chartInstances = [];
   host.replaceChildren();
-  chartConfigurations().forEach((config, index) => drawChart(host, config, rows, index));
+  chartConfigurations().forEach((config, index) => drawChart(host, config, index));
   renderTable(rows);
 }
 
 function renderMethod(dataset) {
   const list = document.getElementById("dataset-conditions");
   list.replaceChildren(...dataset.conditions.map(value => element("li", "", value)));
-  const hasMatchedQ2Ud = dataset.workload === "long" && activeLongSeries.some(series => series.model === "qwen-q2" && series.chunk === 2048) && activeLongSeries.some(series => series.model === "qwen-ud-q4" && series.chunk === 2048);
+  const hasMatchedQ2Ud = dataset.format === "full-prefill-v1" && activeSeries.some(series => series.model === "qwen-q2" && series.chunk === 2048) && activeSeries.some(series => series.model === "qwen-ud-q4" && series.chunk === 2048);
   document.getElementById("dataset-caveat").textContent = dataset.caveat + (hasMatchedQ2Ud ? " Q2/UD at 2K are matched; Q2 at 4K/8K changes the chunk size." : "");
   const quality = document.getElementById("quality-link");
   quality.hidden = !dataset.quality;
@@ -349,29 +353,31 @@ function renderMethod(dataset) {
 
 async function showSelection() {
   const request = ++state.request;
-  const dataset = catalog.datasets.find(item => item.platform === state.platform && item.model === state.model && item.workload === state.workload);
+  const dataset = catalog.datasets.find(item => item.platform === state.platform && item.model === state.model && item.workload === state.workload && item.campaign === state.campaign);
   const available = document.getElementById("dataset-available"), empty = document.getElementById("dataset-empty"), status = document.getElementById("benchmark-status");
   if (!dataset) {
     activeDataset = null;
+    activeSeries = [];
+    renderToolbar();
     available.hidden = true;
     empty.hidden = false;
     status.textContent = "No qualified CSV for this selection.";
     const platform = catalog.platforms.find(item => item.id === state.platform);
     const model = catalog.models.find(item => item.id === state.model);
-    document.getElementById("empty-description").textContent = model.name + " on " + platform.name + " has no integrated " + state.workload + " measurement yet. We leave the chart empty instead of inventing a number.";
+    const campaign = catalog.campaigns.find(item => item.id === state.campaign);
+    document.getElementById("empty-description").textContent = model.name + " on " + platform.name + " has no integrated measurement for " + campaign.name + ". We leave the chart empty instead of inventing a number.";
     return;
   }
   available.hidden = true;
   empty.hidden = true;
   status.textContent = "Loading measured CSV…";
   try {
-    const rows = normalizedRows(dataset, await readCsv(dataset.csv));
-    let longSeries = [];
-    if (dataset.workload === "long") {
-      const comparable = dataset.comparison_group
-        ? catalog.datasets.filter(item => item.workload === "long" && item.platform === dataset.platform && item.format === dataset.format && item.comparison_group === dataset.comparison_group)
-        : [dataset];
-      const sources = await Promise.all(comparable.map(async item => ({ item, rows: normalizedRows(item, await readCsv(item.csv)) })));
+    const comparable = dataset.format === "full-prefill-v1" && dataset.comparison_group
+      ? catalog.datasets.filter(item => item.workload === dataset.workload && item.platform === dataset.platform && item.campaign === dataset.campaign && item.format === dataset.format && item.comparison_group === dataset.comparison_group)
+      : [dataset];
+    const sources = await Promise.all(comparable.map(async item => ({ item, rows: normalizedRows(item, await readCsv(item.csv)) })));
+    const series = [];
+    if (dataset.format === "full-prefill-v1") {
       const promptHashes = new Map();
       for (const source of sources) {
         for (const row of source.rows) {
@@ -383,35 +389,51 @@ async function showSelection() {
       for (const source of sources) {
         const model = catalog.models.find(item => item.id === source.item.model);
         for (const chunk of [...new Set(source.rows.map(row => row.chunk))].sort((a, b) => a - b)) {
-          longSeries.push({
+          series.push({
             id: source.item.id + ":" + chunk,
             label: (model.chart_name || model.name) + " · " + formatContext(chunk) + " chunk",
             model: source.item.model, chunk, rows: source.rows.filter(row => row.chunk === chunk)
           });
         }
       }
-      longSeries.sort((a, b) => a.chunk - b.chunk || a.model.localeCompare(b.model));
-      longSeries.forEach((series, index) => { series.color = LONG_COLORS[index % LONG_COLORS.length]; });
+      series.sort((a, b) => a.chunk - b.chunk || a.model.localeCompare(b.model));
+    } else if (state.workload === "concurrent") {
+      const rows = sources[0].rows;
+      for (const users of [...new Set(rows.map(row => row.users))].sort((a, b) => a - b)) {
+        series.push({
+          id: dataset.id + ":C" + users,
+          label: "C" + users + " · " + users + (users === 1 ? " request" : " requests"),
+          model: dataset.model, users, rows: rows.filter(row => row.users === users)
+        });
+      }
+    } else {
+      const model = catalog.models.find(item => item.id === dataset.model);
+      series.push({ id: dataset.id, label: (model.chart_name || model.name) + " · C1", model: dataset.model, users: 1, rows: sources[0].rows });
     }
+    series.forEach((item, index) => { item.color = SERIES_COLORS[index % SERIES_COLORS.length]; });
     if (request !== state.request) return;
+    const sameCampaign = activeDataset && activeDataset.campaign === dataset.campaign && activeDataset.platform === dataset.platform && activeDataset.workload === dataset.workload;
+    const previous = sameCampaign ? state.selectedSeries.filter(id => series.some(item => item.id === id)) : [];
     activeDataset = dataset;
-    activeRows = rows;
-    activeLongSeries = longSeries;
-    state.selectedSeries = longSeries.filter(series => series.chunk === 2048).map(series => series.id);
-    if (longSeries.length && !state.selectedSeries.length) state.selectedSeries = [longSeries[0].id];
-    const contexts = [...new Set(rows.map(row => row.prompt))];
-    state.contexts = state.contexts.filter(value => contexts.includes(value));
-    if (!state.contexts.length) state.contexts = contexts;
-    document.getElementById("dataset-overline").textContent = state.workload === "long" ? "CONTROLLED FULL-PROMPT TEST" : state.workload === "concurrent" ? "NATIVE BATCH TEST" : "SINGLE REQUEST TEST";
+    activeSeries = series;
+    state.selectedSeries = previous.length ? previous : dataset.format === "full-prefill-v1" ? series.filter(item => item.chunk === 2048).map(item => item.id) : series.map(item => item.id);
+    if (!state.selectedSeries.length) state.selectedSeries = [series[0].id];
+    if (dataset.format === "full-prefill-v1" && !series.some(item => item.model === state.model && state.selectedSeries.includes(item.id))) {
+      const focused = series.find(item => item.model === state.model && item.chunk === 2048) || series.find(item => item.model === state.model);
+      if (focused) state.selectedSeries.push(focused.id);
+    }
+    document.getElementById("dataset-overline").textContent = state.workload === "concurrent" ? "NATIVE BATCH TEST" : "SINGLE REQUEST TEST";
     document.getElementById("dataset-title").textContent = dataset.title;
     document.getElementById("dataset-intro").textContent = dataset.intro;
     document.getElementById("dataset-download").href = dataset.csv;
     renderMethod(dataset);
     available.hidden = false;
     renderDataset();
-    status.textContent = rowsForView().length + " measured rows loaded from the source CSV.";
   } catch (error) {
     if (request !== state.request) return;
+    activeDataset = null;
+    activeSeries = [];
+    renderToolbar();
     available.hidden = true;
     empty.hidden = false;
     status.textContent = "Could not load the benchmark: " + error.message;
@@ -477,6 +499,9 @@ function initCopyButtons() {
 async function initExplorer() {
   const status = document.getElementById("benchmark-status");
   window.addEventListener("resize", () => { for (const chart of chartInstances) chart.resize(); });
+  for (const [id, type] of [["model-select", "model"], ["platform-select", "platform"], ["campaign-select", "campaign"]]) {
+    document.getElementById(id).addEventListener("change", event => select(type, event.target.value));
+  }
   try {
     const response = await fetch(CATALOG_URL);
     if (!response.ok) throw new Error("Catalog returned HTTP " + response.status + ".");

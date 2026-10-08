@@ -55,25 +55,29 @@
       </div></section>
 
       <section class="benchmark-section section-shell" id="benchmarks" aria-labelledby="benchmark-title">
-        <div class="section-heading benchmark-heading"><div><p class="section-kicker">02 / EXPLORE</p><h2 id="benchmark-title">Choose a question.<br><span>See the evidence.</span></h2></div><p class="section-intro">Each view keeps its own prompt, timing and warmup rules. Switching workloads changes the dataset rather than silently merging unlike measurements.</p></div>
+        <div class="section-heading benchmark-heading"><div><p class="section-kicker">02 / EXPLORE</p><h2 id="benchmark-title">Compare the curves.<br><span>Keep the context.</span></h2></div><p class="section-intro">One-request measurements share a prompt-length view. Choose the source campaign, GPU and model, then select the curves to compare. Different campaigns retain their own measurement rules.</p></div>
         <div class="explorer-frame">
           <div class="explorer-controls">
-            <div class="selector-block"><div class="selector-header"><span class="selector-number">01</span><div><h3>What do you want to learn?</h3><p>Pick the workload first.</p></div></div><div class="option-list workload-options" id="workload-options" role="group" aria-label="Benchmark workload"></div></div>
-            <div class="selector-block"><div class="selector-header"><span class="selector-number">02</span><div><h3>Which model weights?</h3><p>Formats are separate measured builds.</p></div></div><div class="option-list model-options" id="model-options" role="group" aria-label="Model weights"></div></div>
-            <div class="selector-block"><div class="selector-header"><span class="selector-number">03</span><div><h3>On which GPU?</h3><p>Unmeasured platforms remain visible.</p></div></div><div class="option-list platform-options" id="platform-options" role="group" aria-label="GPU platform"></div></div>
+            <div class="filter-intro"><div><p class="dataset-overline">BENCHMARK FILTERS</p><h3>Build your comparison.</h3></div><p>Pick a run, then show only the measured series you need.</p></div>
+            <div class="filter-grid">
+              <fieldset class="filter-field filter-workload"><legend>Requests</legend><div class="workload-options" id="workload-options" role="group" aria-label="Request mode"></div></fieldset>
+              <label class="filter-field"><span>Model focus</span><select id="model-select" aria-label="Model focus"></select><small>Comparable model curves can remain overlaid.</small></label>
+              <label class="filter-field"><span>GPU platform</span><select id="platform-select" aria-label="GPU platform"></select><small>Unmeasured platforms show an empty state.</small></label>
+              <label class="filter-field"><span>Prompt source / campaign</span><select id="campaign-select" aria-label="Prompt source and measurement campaign"></select><small id="campaign-detail">Campaigns with different rules stay separate.</small></label>
+            </div>
+            <div class="chart-toolbar" id="chart-toolbar" hidden></div>
           </div>
           <div class="explorer-content">
             <p id="benchmark-status" class="load-status" role="status">Loading benchmark catalog…</p>
             <div id="dataset-available" hidden>
-              <div class="dataset-heading"><div><p class="dataset-overline" id="dataset-overline">MEASURED</p><h3 id="dataset-title"></h3><p id="dataset-intro"></p></div><a id="dataset-download" class="download-link" href="data/q2-core-model-flow-2k8k.csv" download>Download source CSV ↗</a></div>
+              <div class="dataset-heading"><div><p class="dataset-overline" id="dataset-overline">MEASURED</p><h3 id="dataset-title"></h3><p id="dataset-intro"></p></div><a id="dataset-download" class="download-link" href="data/q2-core-model-flow-2k8k.csv" download>Download focused CSV ↗</a></div>
               <div class="insight-grid" id="insight-grid" aria-label="Key readings"></div>
-              <div class="chart-toolbar" id="chart-toolbar" hidden></div>
               <p id="comparison-note" class="comparison-note" hidden></p>
               <div class="chart-grid" id="chart-grid"></div>
               <div class="method-panel"><div><p class="method-eyebrow">MEASUREMENT CONTRACT</p><h3>What was actually measured</h3><ul id="dataset-conditions"></ul></div><aside><p class="method-eyebrow">READ BEFORE COMPARING</p><p id="dataset-caveat"></p><a id="quality-link" href="data/q2-core-model-flow-2k8k-quality.json" hidden>Inspect output-parity data ↗</a></aside></div>
-              <details class="data-details"><summary>Complete source measurements <span aria-hidden="true">↓</span></summary><div class="table-wrap"><table id="benchmark-table"><caption id="benchmark-caption"></caption><thead></thead><tbody></tbody></table></div></details>
+              <details class="data-details"><summary>Measured rows for selected curves <span aria-hidden="true">↓</span></summary><div class="table-wrap"><table id="benchmark-table"><caption id="benchmark-caption"></caption><thead></thead><tbody></tbody></table></div></details>
             </div>
-            <div id="dataset-empty" class="dataset-empty" hidden><div class="empty-glyph" aria-hidden="true">∅</div><p class="dataset-overline">AWAITING VERIFIED DATA</p><h3>No result for this combination yet.</h3><p id="empty-description">We will show a chart here when a measured CSV and its method are available.</p><p class="empty-help">Choose Qwen Q2, AMD Strix Halo and “One request” to see a measured result.</p></div>
+            <div id="dataset-empty" class="dataset-empty" hidden><div class="empty-glyph" aria-hidden="true">∅</div><p class="dataset-overline">AWAITING VERIFIED DATA</p><h3>No result for this combination yet.</h3><p id="empty-description">We will show a chart here when a measured CSV and its method are available.</p><p class="empty-help">Choose Qwen Q2, AMD Strix Halo and a measured campaign to see the curves.</p></div>
           </div>
         </div>
         <p class="catalog-note">This explorer reads <a href="data/catalog.json">the dataset catalog</a>. New models and platforms need a qualified CSV and measurement contract before they show a graph.</p>
