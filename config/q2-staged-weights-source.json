@@ -1,0 +1,15 @@
+{
+  "scope": "Static preparation only; numerical and GPU benefit unproven",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-hc-moe-fused",
+  "candidate": ".deps/gufo-q2-bench-staged-weights",
+  "files": 1019,
+  "changed_files": [
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  ],
+  "base_sha256": "92faa287e2b5681d16f0f54c2f99a3eba0a14c5faaf398e631f8a12b7548cbad",
+  "candidate_sha256": "dc7df8a93e8e5b860ede6e825773e8a044714597863444bb9ac07343e612e858",
+  "patch_sha256": "59ae847db5cf555a7469066bab0c2911c1848153173f3e6658c5358280df555d",
+  "mechanism": "Packed Q2 only: one cooperative weight decode into LDS per stage; original activation planes and ordered WMMA accumulations unchanged",
+  "persistent_weight_storage": "Original Q2_K; no converted model or global dequantized cache"
+}

@@ -1,0 +1,65 @@
+{
+  "schema": "synapse-lie.q2-iq2-whole640-wave16-static.v1",
+  "source_manifest": "config/q2-iq2-fixed-bounds-source.json",
+  "source_manifest_sha256": "2e81463dbbe134190c300f2b008684d584f0d75f60f36f16eb25b765c2c4b45c",
+  "retained_provider_files": 1028,
+  "parent_assembly": "evidence/q2-iq2-fixed-bounds-preparation/candidate.s",
+  "parent_assembly_sha256": "10f77ab9fd463dea4da04fb3c613a69fd3a56686782119780f16eacee3a9d331",
+  "parent_recompiled": false,
+  "variants": {
+    "register": {
+      "draft": "experiments/q2-iq2-whole640-wave16-draft.inc",
+      "draft_sha256": "c08a259e79dc26e27558107c0e2b2cee57d1090901872f5cd261332a72bc8a58",
+      "assembly": "evidence/q2-iq2-whole640-wave16-preparation/candidate.s",
+      "assembly_sha256": "53a7ac7ce87246026e6c44a8ee18db629f67d26da2c845d56ae45bc0401ad8ba",
+      "command": "evidence/q2-iq2-whole640-wave16-preparation/assembly-command.json",
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm34RoutedIq2Whole640Wave16DraftKernelEPKvS4_PK6__halfPKiS9_S9_S9_PS5_Pf",
+      "resources": {
+        "group_segment_fixed_size": 20608,
+        "private_segment_fixed_size": 136,
+        "next_free_vgpr": 256,
+        "next_free_sgpr": 18,
+        "wavefront_size32": 1
+      },
+      "compiler_comments": {
+        "NumVgprs": 256,
+        "TotalNumSgprs": 20,
+        "NumVGPRsForWavesPerEU": 256,
+        "Occupancy": 5
+      },
+      "instructions": 1861,
+      "scratch_instructions": 38,
+      "original_kernels_exact": 164
+    },
+    "lds": {
+      "draft": "experiments/q2-iq2-whole640-wave16-lds-draft.inc",
+      "draft_sha256": "49643ef99749de83acf49886046dbfde82ce6bf479ac8ed9c4e22742152b5fbc",
+      "assembly": "evidence/q2-iq2-whole640-wave16-lds-preparation/candidate.s",
+      "assembly_sha256": "ddfbad02f7ba9c99e8a81746f9468ace2b9048c76f7c1a0b69e747b053d4c457",
+      "command": "evidence/q2-iq2-whole640-wave16-lds-preparation/assembly-command.json",
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm37RoutedIq2Whole640Wave16LdsDraftKernelEPKvS4_PK6__halfPKiS9_S9_S9_PS5_Pf",
+      "resources": {
+        "group_segment_fixed_size": 61568,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 169,
+        "next_free_sgpr": 18,
+        "wavefront_size32": 1
+      },
+      "compiler_comments": {
+        "NumVgprs": 96,
+        "TotalNumSgprs": 20,
+        "NumVGPRsForWavesPerEU": 169,
+        "Occupancy": 8
+      },
+      "instructions": 686,
+      "scratch_instructions": 0,
+      "original_kernels_exact": 164
+    }
+  },
+  "prompt_changed": false,
+  "production_selector": false,
+  "gpu_run": false,
+  "performance_measurement": false,
+  "numerical_acceptance": false,
+  "goal_met": false
+}

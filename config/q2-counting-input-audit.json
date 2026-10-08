@@ -1,0 +1,19 @@
+{
+  "schema": "synapse-lie.q2-counting-input-audit.v1",
+  "source": "evidence/q2-library-norm-model-candidate-r1/results/pp2048-input.i32",
+  "sha256": "75343e606f5b815fe01f69ddc6ce50a997e2de96d8a20304a82a7f24f1180b35",
+  "tokens": 2048,
+  "distinct_tokens": 32,
+  "most_frequent_token": [
+    [
+      830,
+      2009
+    ]
+  ],
+  "distinct_windows": {
+    "2": 40,
+    "3": 40,
+    "4": 40
+  },
+  "limitation": "Token statistics only; not a measurement of runtime n-gram misses, expert routing or causality."
+}

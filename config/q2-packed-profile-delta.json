@@ -1,0 +1,191 @@
+{
+  "scope": "Separate marked diagnostic profiles; kernel sums are not unprofiled model throughput. Decode source path is unchanged and profile variation is not a decode gain.",
+  "saved_profile_replay": [
+    {
+      "name": "arithmetic-0-last.f32",
+      "exact": true
+    },
+    {
+      "name": "arithmetic-0-output.u32",
+      "exact": true
+    },
+    {
+      "name": "arithmetic-0-prefill.f32",
+      "exact": true
+    },
+    {
+      "name": "arithmetic-input.i32",
+      "exact": true
+    },
+    {
+      "name": "counting-0-last.f32",
+      "exact": true
+    },
+    {
+      "name": "counting-0-output.u32",
+      "exact": true
+    },
+    {
+      "name": "counting-0-prefill.f32",
+      "exact": true
+    },
+    {
+      "name": "counting-input.i32",
+      "exact": true
+    },
+    {
+      "name": "profile2048-0-last.f32",
+      "exact": true
+    },
+    {
+      "name": "profile2048-0-output.u32",
+      "exact": true
+    },
+    {
+      "name": "profile2048-0-prefill.f32",
+      "exact": true
+    },
+    {
+      "name": "profile2048-input.i32",
+      "exact": true
+    },
+    {
+      "name": "warm2048-0-last.f32",
+      "exact": true
+    },
+    {
+      "name": "warm2048-0-output.u32",
+      "exact": true
+    },
+    {
+      "name": "warm2048-0-prefill.f32",
+      "exact": true
+    }
+  ],
+  "phases": {
+    "prefill": {
+      "reference_kernel_sum_ms": 1689.264072,
+      "packed_kernel_sum_ms": 1663.49602,
+      "groups": {
+        "explicit_activation_packing": {
+          "reference_calls": 362,
+          "packed_calls": 362,
+          "reference_ms": 84.847021,
+          "packed_ms": 85.020898,
+          "delta_ms": 0.173877
+        },
+        "hc_down_f16_gemv": {
+          "reference_calls": 1,
+          "packed_calls": 1,
+          "reference_ms": 0.112481,
+          "packed_ms": 0.118478,
+          "delta_ms": 0.005997
+        },
+        "hc_down_f16_wmma": {
+          "reference_calls": 96,
+          "packed_calls": 96,
+          "reference_ms": 131.792982,
+          "packed_ms": 131.133242,
+          "delta_ms": -0.65974
+        },
+        "hc_up_f16_wmma": {
+          "reference_calls": 96,
+          "packed_calls": 96,
+          "reference_ms": 87.345092,
+          "packed_ms": 88.353315,
+          "delta_ms": 1.008223
+        },
+        "other": {
+          "reference_calls": 1446,
+          "packed_calls": 1446,
+          "reference_ms": 805.150801,
+          "packed_ms": 804.007412,
+          "delta_ms": -1.143389
+        },
+        "other_f16_gemv": {
+          "reference_calls": 1,
+          "packed_calls": 1,
+          "reference_ms": 0.06368,
+          "packed_ms": 0.063599,
+          "delta_ms": -8.1e-05
+        },
+        "q8_dense_gemv": {
+          "reference_calls": 1,
+          "packed_calls": 1,
+          "reference_ms": 3.097181,
+          "packed_ms": 3.117903,
+          "delta_ms": 0.020722
+        },
+        "routed_down": {
+          "reference_calls": 48,
+          "packed_calls": 48,
+          "reference_ms": 311.965168,
+          "packed_ms": 286.172937,
+          "delta_ms": -25.792231
+        },
+        "routed_gate_up": {
+          "reference_calls": 48,
+          "packed_calls": 48,
+          "reference_ms": 264.889666,
+          "packed_ms": 265.508236,
+          "delta_ms": 0.61857
+        }
+      }
+    },
+    "decode": {
+      "reference_kernel_sum_ms": 604.331207,
+      "packed_kernel_sum_ms": 591.610481,
+      "groups": {
+        "explicit_activation_packing": {
+          "reference_calls": 4710,
+          "packed_calls": 4710,
+          "reference_ms": 6.612127,
+          "packed_ms": 6.627048,
+          "delta_ms": 0.014921
+        },
+        "hc_down_f16_gemv": {
+          "reference_calls": 1455,
+          "packed_calls": 1455,
+          "reference_ms": 69.758861,
+          "packed_ms": 69.602933,
+          "delta_ms": -0.155928
+        },
+        "other": {
+          "reference_calls": 9989,
+          "packed_calls": 9989,
+          "reference_ms": 75.50926,
+          "packed_ms": 75.875437,
+          "delta_ms": 0.366177
+        },
+        "other_f16_gemv": {
+          "reference_calls": 2715,
+          "packed_calls": 2715,
+          "reference_ms": 79.33036,
+          "packed_ms": 79.234242,
+          "delta_ms": -0.096118
+        },
+        "q8_dense_gemv": {
+          "reference_calls": 3285,
+          "packed_calls": 3285,
+          "reference_ms": 261.906258,
+          "packed_ms": 261.341066,
+          "delta_ms": -0.565192
+        },
+        "routed_down": {
+          "reference_calls": 720,
+          "packed_calls": 720,
+          "reference_ms": 35.130202,
+          "packed_ms": 35.075545,
+          "delta_ms": -0.054657
+        },
+        "routed_gate_up": {
+          "reference_calls": 720,
+          "packed_calls": 720,
+          "reference_ms": 76.084139,
+          "packed_ms": 63.85421,
+          "delta_ms": -12.229929
+        }
+      }
+    }
+  }
+}

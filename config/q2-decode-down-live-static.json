@@ -1,0 +1,41 @@
+{
+  "schema": "synapse-lie.q2-decode-down-live-static.v1",
+  "binary_sha256": "1a1fc05b6cd48fa4d25acc670021cfc6e6ace5f33137930ab3eebdf2f415c8b0",
+  "device_audit_sha256": "9a8aee75e52ce893a1e8b89cb26184828650236fec13839be1aedd4d3c0ede44",
+  "common_functions": 5,
+  "exact_common_functions": 5,
+  "changed_functions": [],
+  "kernels": {
+    "_ZN7qfn_mmqL16Q2DownRowsKernelILNS_9ggml_typeE10ELi4ELb0EEEvPKvS3_PKiPfjjjjjjjjjS3_": {
+      "sha256": "eb134f2cb51582ffe4d709aa50f2007061ce043319c0bfd4516e280b01f3ae85",
+      "bytes": 2928,
+      "bundle": "0",
+      "resources": {
+        "num_vgpr": 78,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    },
+    "_ZN7qfn_mmqL19Q2DownLive640KernelILNS_9ggml_typeE10ELi4ELb0EEEvPKvS3_PKiPfjjjjjjjjjS3_": {
+      "sha256": "2af4e7992e00db832ea4c8f27d7da4b0c7fff6432ae576183ac33744dceb5367",
+      "bytes": 2880,
+      "bundle": "0",
+      "resources": {
+        "num_vgpr": 80,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    },
+    "_ZN7qfn_mmqL13quantize_q8_1EPKfPvlllllj15HIP_vector_typeIjLj3EE": {
+      "sha256": "e19f029dae5664399b8d55f7a7345016bb0e00665e5194f19c6fd6eee626cc7d",
+      "bytes": 880,
+      "bundle": "1",
+      "resources": {
+        "num_vgpr": 11,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    }
+  },
+  "GPU_run": false
+}

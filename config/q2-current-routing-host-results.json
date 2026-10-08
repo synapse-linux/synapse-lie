@@ -1,0 +1,14 @@
+{
+  "capsule_sha256": "fe66f495732f8a3450d2dbfefa14b266c4be630eed9005c675d6aa3ca7125d5e",
+  "archive_sha256": "f89f62eeb7b95a654fde8f366f295313448dc2e585d3a52aa2641e36e0d95046",
+  "fixture_files_verified": 110,
+  "source_files_verified": 1020,
+  "result_sha256": "43991f702b0c7815c414dc48be24798db94e685db98e0b98555ec8852134c061",
+  "artifacts": 7,
+  "debug": 32,
+  "asan_ubsan": 32,
+  "gdb_cases_per_build": 7,
+  "gpu_run": false,
+  "ptrace_fixture_leak_detection": false,
+  "other_fixture_leak_detection": true
+}

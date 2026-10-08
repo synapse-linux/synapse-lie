@@ -1,0 +1,28 @@
+{
+  "objective": "Recover measured F16 HC down decode cost without changing original weight format. Overall Q2 must match UD; this is one component, not reduced acceptance scope.",
+  "change": "Four wave32 groups cooperate on one 320x10240 F16 output row; 16B shared reduction. Dispatch only F16 tokens1 m320 k10240. Other shapes unchanged.",
+  "reference": "Qualified original Q2 source .deps/gufo-q2-register-reference",
+  "independent_operator_relative_rms_max": 2e-05,
+  "independent_operator_error_over_peak_max": 2e-05,
+  "numerical_policy": "Report exact replay and all frontier drift; owner permits performance exploration before numerical correction. No promotion on throughput alone.",
+  "microbenchmark": "Rotate 16 distinct 6.55MB matrices beyond MALL cache; same original F16 input layout; HIP event wall GPU latency, warmup plus 5 batches of 128 launches. Microbench is not model throughput.",
+  "thermal_policy": "Fresh admission requires AMD CPU and GPU sensors; stop only owned process group at 85C or lower exposed max/crit threshold. Thermal abort is not a numerical failure.",
+  "target": "All runtime tests and benchmarks on .157 with coordinated window and four leases; no tuning/install/foreign termination.",
+  "model_screen": "If microbenchmark improves, run matched original Q2, four-wave Q2 and pristine UD C1 pp2048/tg128: one warmup plus three measured sessions, original model/inputs, MTP off. This bounded diagnostic does not narrow the overall parity goal or qualify long context. No profiler inside timings.",
+  "build_scope": "HC microbenchmark compiles the original kernels.hip.cpp translation unit plus its original w8a8_wave64 link dependency, with compile options inherited from the upstream numerical target and the original wave64 flag. No unrelated MMQ/executor compilation. Full-model benchmarks still link the complete original numerical target.",
+  "source_delta": {
+    "reference_files": 1019,
+    "candidate_files": 1019,
+    "changed": [
+      "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+    ],
+    "reference_sha256": "2902a6d771f954eddc7ef00ea9b1a493198472add3fd8300ebefb54b0743ecd1",
+    "candidate_sha256": "f7fff70df4021ef3d37b754b3748764d2d5c1f992573c0092513d28780d37581"
+  },
+  "model_build_jobs": 1,
+  "model_build_policy": "One compiler job per model arm to reduce CPU build heat; identical compiler/numerical flags and runtime policy. Stop at 85C, no automatic restart.",
+  "mmq_reuse": "Bounded 2K model arms reuse the unchanged MMQ archive from task-owned qualified q2-explore-reference-r1 or q2-explore-ud-r1. Verify all 1019 source files, permitting only kernels.hip.cpp to differ; verify prior model binary SHA and record/cross-check archive SHA before/after. Recompile current HC kernels, executor and harness with original flags. Earlier failed full rebuilds remain immutable.",
+  "model_cooldown": "All three matched bench2k arms use an explicit 15s idle interval before the warmup and before each measured independent session, outside PP/TG timing. Report wall duration separately. This measures isolated warm-model requests, not continuous serving throughput. Motivated by retained uncooled reference abort CPU85.750C after one measured sample; no thermal guard is relaxed.",
+  "uncooled_attempt": "evidence/q2-hc-model-reference-r3: thermal failure, one measured request only",
+  "cooled_reference_attempt": "evidence/q2-hc-model-reference-r4: thermal failure at CPU85.250C after two measured requests; 3-sample comparison is incomplete. Do not rewrite this as a pass or compare censored samples as an acceptance result."
+}

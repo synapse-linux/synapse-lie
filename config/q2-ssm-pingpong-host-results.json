@@ -1,0 +1,24 @@
+{
+  "schema": "synapse-lie.q2-ssm-pingpong-host.v1",
+  "capsule_sha256": "e682c820abf56ef52f3baf06b41f159ec5ca9554a74de95eea18f7b2ee10eed5",
+  "archive_sha256": "55bcc6fd752aed947b48532081a0c44328b77b40db2d51740a4a019057d223a4",
+  "fixture_files_verified": 90,
+  "source_files_verified": 1020,
+  "plan_sha256": "b9e639bd34d8c18429d6e64a46533218d5f77ca19cd54bc91b19d9ddb1527e15",
+  "test_counts": {
+    "debug": 27,
+    "asan_ubsan": 27
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts": 7,
+  "model_inference": false,
+  "gpu_run": false,
+  "goal_met": false
+}

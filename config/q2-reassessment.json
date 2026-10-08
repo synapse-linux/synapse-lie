@@ -1,0 +1,370 @@
+{
+  "scope": "Offline reassessment; no new GPU/model measurement or source import",
+  "goal_met": false,
+  "qualified_runtime_promoted": false,
+  "latest_model": {
+    "candidate": {
+      "path": "evidence/q2-hc-up-chains-model-r1",
+      "binary_sha256": "69527fc0003d51bba4ea6c01d13834c5b487aac6842d51e01ab4abc68dc76246",
+      "complete": true,
+      "runner_state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "thermal_stop": null,
+      "command_wall_s": 99.302471,
+      "mmq_reuse": null,
+      "thermal_max_mc": {
+        "amdgpu": 77000,
+        "k10temp": 89125
+      },
+      "finished_at": "2026-10-03T02:39:51.133305+00:00",
+      "measurements": {
+        "prefill_tok_s": {
+          "samples": [
+            1337.266845,
+            1335.836758,
+            1334.854704
+          ],
+          "min": 1334.854704,
+          "median": 1335.836758,
+          "max": 1337.266845
+        },
+        "decode_steps_s": {
+          "samples": [
+            24.08869063,
+            24.09152619,
+            24.09800006
+          ],
+          "min": 24.08869063,
+          "median": 24.09152619,
+          "max": 24.09800006
+        },
+        "prefill_s": {
+          "samples": [
+            1.531481924,
+            1.533121459,
+            1.534249378
+          ],
+          "min": 1.531481924,
+          "median": 1.533121459,
+          "max": 1.534249378
+        },
+        "decode_s": {
+          "samples": [
+            5.272183613,
+            5.27156308,
+            5.270146888
+          ],
+          "min": 5.270146888,
+          "median": 5.27156308,
+          "max": 5.272183613
+        }
+      }
+    },
+    "ud": {
+      "path": "evidence/q2-hc-up-chains-ud-r1",
+      "binary_sha256": "daf23f3a240f26af4c964a3e4bd8ee2f6124784c5a6b220b7629235bde160e34",
+      "complete": true,
+      "runner_state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "thermal_stop": null,
+      "command_wall_s": 107.813125,
+      "mmq_reuse": null,
+      "thermal_max_mc": {
+        "amdgpu": 81000,
+        "k10temp": 84000
+      },
+      "finished_at": "2026-10-03T02:44:39.484676+00:00",
+      "measurements": {
+        "prefill_tok_s": {
+          "samples": [
+            1674.111346,
+            1671.708994,
+            1622.068133
+          ],
+          "min": 1622.068133,
+          "median": 1671.708994,
+          "max": 1674.111346
+        },
+        "decode_steps_s": {
+          "samples": [
+            24.33283518,
+            24.31790001,
+            24.3349153
+          ],
+          "min": 24.31790001,
+          "median": 24.33283518,
+          "max": 24.3349153
+        },
+        "prefill_s": {
+          "samples": [
+            1.223335595,
+            1.225093606,
+            1.262585682
+          ],
+          "min": 1.223335595,
+          "median": 1.225093606,
+          "max": 1.262585682
+        },
+        "decode_s": {
+          "samples": [
+            5.219284931,
+            5.222490426,
+            5.218838793
+          ],
+          "min": 5.218838793,
+          "median": 5.219284931,
+          "max": 5.222490426
+        }
+      }
+    }
+  },
+  "required_prefill_rate_gain_pct": 25.14320960166303,
+  "required_prefill_time_reduction_pct": 20.091549250175877,
+  "current_prefill_wall_gap_ms": 308.027853,
+  "historical_profile": {
+    "precedes_latest_hc_up": true,
+    "arms": {
+      "q2": {
+        "trace": "evidence/q2-prefill-gap-q2-profile-r1/results/profile/q2_results.db",
+        "trace_sha256": "6cdc92b546c542c9038b39b08ebc5d530e3c11429d0751c747604c576d7a4795",
+        "kernel_sum_ns": 1582091201,
+        "inter_kernel_gap_ns": 5278219,
+        "fused_attention": [
+          {
+            "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::WmmaCausalAttentionKernel<16u, 16u, false, false>(float const*, float const*, __half const*, __half const*, unsigned int const*, unsigned int, float*, unsigned int, unsigned int, unsigned int)",
+            "calls": 12,
+            "total_ns": 44252107,
+            "max_ns": 3842470,
+            "kernel_time_percent": 2.7970642256293035
+          }
+        ],
+        "expert_down": [
+          {
+            "weight_type": 10,
+            "tile": 48,
+            "calls": 48,
+            "total_ns": 263114088
+          }
+        ]
+      },
+      "ud": {
+        "trace": "evidence/q2-prefill-gap-ud-profile-r1/results/profile/q2_results.db",
+        "trace_sha256": "e7440933a2d967ced87a7b1bead3daa01dcbe0e0b34d8a83e5e5fee3b2740b31",
+        "kernel_sum_ns": 1260996183,
+        "inter_kernel_gap_ns": 4467886,
+        "fused_attention": [
+          {
+            "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::WmmaCausalAttentionKernel<16u, 16u, false, false>(float const*, float const*, __half const*, __half const*, unsigned int const*, unsigned int, float*, unsigned int, unsigned int, unsigned int)",
+            "calls": 12,
+            "total_ns": 45696369,
+            "max_ns": 3932237,
+            "kernel_time_percent": 3.623830874038419
+          }
+        ],
+        "expert_down": [
+          {
+            "weight_type": 7,
+            "tile": 48,
+            "calls": 43,
+            "total_ns": 172073407
+          },
+          {
+            "weight_type": 8,
+            "tile": 48,
+            "calls": 5,
+            "total_ns": 21470448
+          }
+        ]
+      }
+    },
+    "groups": [
+      {
+        "group": "hc_down_projection",
+        "q2_ns": 128129115,
+        "ud_ns": 41066913,
+        "delta_ns": 87062202
+      },
+      {
+        "group": "routed_down",
+        "q2_ns": 263114088,
+        "ud_ns": 193543855,
+        "delta_ns": 69570233
+      },
+      {
+        "group": "explicit_activation_packing",
+        "q2_ns": 72224923,
+        "ud_ns": 7012460,
+        "delta_ns": 65212463
+      },
+      {
+        "group": "hc_up_projection",
+        "q2_ns": 108592495,
+        "ud_ns": 55807969,
+        "delta_ns": 52784526
+      },
+      {
+        "group": "routed_gate_up",
+        "q2_ns": 265851749,
+        "ud_ns": 242067340,
+        "delta_ns": 23784409
+      },
+      {
+        "group": "other",
+        "q2_ns": 741099895,
+        "ud_ns": 718372464,
+        "delta_ns": 22727431
+      },
+      {
+        "group": "q8_dense_gemv",
+        "q2_ns": 3078936,
+        "ud_ns": 3125182,
+        "delta_ns": -46246
+      }
+    ]
+  },
+  "attention_unchanged_since_initial_q2": {
+    "__launch_bounds__(256, 2) __global__ void WmmaCausalAttentionKernel(": "b52636a946ec36f327a7b2426a975efd53d906ebc23683cd73895c1fccedac27",
+    "bool WmmaCausalAttention(": "42286e577c1d379a5079ba3825184f9c009cdf407d10303a3acf039b21b7d4ce"
+  },
+  "historical_ds4": {
+    "use": "Read-only qualification evidence, not imported source/artifacts or a matched performance arm",
+    "sources": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/gufo-formats-closure-r1/result.json",
+        "sha256": "80ef9ec9a43c50283cbf01ea64913c1c6161c21a171db10dee7f81aae5ef9aef",
+        "bytes": 1220779
+      },
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/GUFO-FORMATS-RESULT-r2.md",
+        "sha256": "5ca9e91294291e8b7260cb23646b7dc6eede0e95e74d01e744bf17c8c0df5de3",
+        "bytes": 5107
+      },
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/GUFO-FORMATS-PROTOCOL.md",
+        "sha256": "ddcc365e1f475cf004f31d6a032d1dd9120dfebc2d266c385bcfb1bfaddb98fa",
+        "bytes": 4622
+      },
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/gufo-packed-audit-r1/REPORT.md",
+        "sha256": "2c859ed70f27a445cc4dc33fc3d116c1c56ece68ceaf564eebc4efb7b6318837",
+        "bytes": 7185
+      },
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/HC32-MODEL-RESULT-r1.md",
+        "sha256": "cb49ad39e5e61cab913a40c8e1e0b9a165b79aa6ba7db9531f2c0f1637b76f49",
+        "bytes": 4650
+      }
+    ],
+    "reported_medians": {
+      "Q2": [
+        {
+          "depth": 512,
+          "baseline_pp": 221.4688644473745,
+          "candidate_pp": 600.7136515725285,
+          "baseline_tg": 21.500350034013145,
+          "candidate_tg": 21.512329080413156,
+          "paired_pp_change_pct": 171.24067894215003,
+          "paired_tg_change_pct": 0.03182585487215839,
+          "pp_wins": 3,
+          "tg_wins": 2
+        },
+        {
+          "depth": 2048,
+          "baseline_pp": 338.46102379331217,
+          "candidate_pp": 1053.5005777640483,
+          "baseline_tg": 21.103765840441095,
+          "candidate_tg": 21.115111868705636,
+          "paired_pp_change_pct": 211.4151927531288,
+          "paired_tg_change_pct": 0.07622598724126295,
+          "pp_wins": 3,
+          "tg_wins": 3
+        },
+        {
+          "depth": 4096,
+          "baseline_pp": 335.0016289319257,
+          "candidate_pp": 1029.550581819205,
+          "baseline_tg": 21.069730226423527,
+          "candidate_tg": 21.077211212533626,
+          "paired_pp_change_pct": 207.2118946226838,
+          "paired_tg_change_pct": 0.03550584668008394,
+          "pp_wins": 3,
+          "tg_wins": 3
+        },
+        {
+          "depth": 8192,
+          "baseline_pp": 331.5473615581837,
+          "candidate_pp": 1009.7064843189082,
+          "baseline_tg": 20.95417833413392,
+          "candidate_tg": 20.947453227661125,
+          "paired_pp_change_pct": 204.57806604519376,
+          "paired_tg_change_pct": -0.014410796184705088,
+          "pp_wins": 3,
+          "tg_wins": 0
+        }
+      ],
+      "Q4": [
+        {
+          "depth": 512,
+          "baseline_pp": 393.88488091063334,
+          "candidate_pp": 662.5915097434068,
+          "baseline_tg": 21.652138452783262,
+          "candidate_tg": 21.551245922489752,
+          "paired_pp_change_pct": 68.14545970802126,
+          "paired_tg_change_pct": -0.2404912456053121,
+          "pp_wins": 3,
+          "tg_wins": 0
+        },
+        {
+          "depth": 2048,
+          "baseline_pp": 630.5945939393341,
+          "candidate_pp": 1097.5923845318837,
+          "baseline_tg": 21.169074195430262,
+          "candidate_tg": 21.032778213771934,
+          "paired_pp_change_pct": 74.23988301414468,
+          "paired_tg_change_pct": -0.6357030987524048,
+          "pp_wins": 3,
+          "tg_wins": 0
+        },
+        {
+          "depth": 4096,
+          "baseline_pp": 615.6637520204216,
+          "candidate_pp": 1033.321563600585,
+          "baseline_tg": 21.223435103807855,
+          "candidate_tg": 21.190657505167994,
+          "paired_pp_change_pct": 66.68164153787517,
+          "paired_tg_change_pct": -0.023019308244598413,
+          "pp_wins": 3,
+          "tg_wins": 1
+        },
+        {
+          "depth": 8192,
+          "baseline_pp": 541.5071157352003,
+          "candidate_pp": 872.6464095179299,
+          "baseline_tg": 21.098921554421473,
+          "candidate_tg": 21.05306256076178,
+          "paired_pp_change_pct": 61.184814185282235,
+          "paired_tg_change_pct": 0.0085559038070393,
+          "pp_wins": 3,
+          "tg_wins": 2
+        }
+      ]
+    },
+    "reported_state": "GUFO_PACKED_FORMAT_ADAPTATION_MATCHED_AR_PASS_NOT_FULL_MTP_QUALIFICATION",
+    "methodological_limits": [
+      "Different prompts, engine sources and numerical boundaries",
+      "DS4 times 128 greedy evaluations beyond EOS; LIE measures 127 decode calls",
+      "Later HC32 repeated performance series is Q4, not Q2",
+      "Self-baseline exactness does not establish a common independent teacher"
+    ]
+  },
+  "inputs": {
+    "config/q2-hc-up-chains-model-results.json": "4cdca70abd35d993ffd429c5d27c2a9d9c14e27a4380dad0056ac3dd28365d5f",
+    "config/q2-prefill-gap-profile.json": "7ba13d3564b21e9ebb8744b38c88890714f80bba8d059f235a591b566b389131",
+    "config/q2-down-tiles-results.json": "fb9a1f700959e20f6015474350c2b67b029dfdb523ef7fd2f1dc8d10c5d0432f",
+    "config/q2-ple-first-access-results.json": "4856f0c46530f0a7ba0c01a55a75aef2619722167c502c8a8daf26f18886dcb1",
+    "config/q2-logit-shift-audit.json": "40c887a0f7b49c10839d826c5ab7d0cf1ea90dd679c854ce33cfef42990eecb6"
+  },
+  "numerical_hypotheses": [
+    "Map DS4-documented F16 SwiGLU boundary to current compensated original-F32 contract before a new single-plane Q2 trial",
+    "Independently evaluate single-K16 HC reduction as an explicit arithmetic change, not an exact transplant",
+    "Retain original-F32 oracle failures; measure exploratory performance without silently accepting them"
+  ]
+}

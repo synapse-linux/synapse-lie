@@ -1,0 +1,24 @@
+{
+  "schema": "synapse-lie.q2-compact-expert-chain-host.v1",
+  "capsule_sha256": "d2855b5da5bb4f2e3f45fc0dd4987aac111b336ce81cd3c6f5452691ac124dcc",
+  "archive_sha256": "814d3370b667ed47e09d57473089ea9efaeac25b2c67b4b5a1c9746ce743771e",
+  "fixture_files_verified": 80,
+  "source_files_verified": 1020,
+  "plan_sha256": "0ac53afb05106845b050a848a1c6ad2cfc9cefc6a9770232e24353443597f0e5",
+  "test_counts": {
+    "debug": 27,
+    "asan_ubsan": 27
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts": 7,
+  "model_inference": false,
+  "gpu_run": false,
+  "goal_met": false
+}

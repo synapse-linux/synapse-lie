@@ -1,0 +1,19 @@
+{
+  "schema": "synapse-lie.q2-gdn-full-window-draft.v1",
+  "source_manifest": "config/q2-iq2-fixed-bounds-source.json",
+  "source_manifest_sha256": "2e81463dbbe134190c300f2b008684d584f0d75f60f36f16eb25b765c2c4b45c",
+  "donor": ".deps/gufo-q2-iq2-fixed-bounds-run/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+  "donor_sha256": "361722189d69208bd03b1ca64265a9e11b6fc159975574b36cc43ec105a8e4e6",
+  "include": "experiments/q2-gdn-full-window-draft.inc",
+  "include_sha256": "584155a74c944c2201b9ce76388df413b5e36786c94162deca58bec50116409f",
+  "generator": "tools/prepare-q2-gdn-full-window-draft.py",
+  "generator_sha256": "ff9ce785f65790fa2d91f4f5353907ac1770afced6aeb78d55494ea865b94d4b",
+  "proposed_guard": "n_tokens > 0 && n_tokens % 4 == 0; existing row-split dimension/snapshot guards",
+  "recurrence_order_changed": false,
+  "final_state_format_changed": false,
+  "previous_GPU_trials_rerun": false,
+  "provider_created": false,
+  "GPU_run": false,
+  "performance_claim": false,
+  "GPU_admission": false
+}

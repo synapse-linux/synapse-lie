@@ -1,0 +1,21 @@
+{
+  "schema": "synapse-lie.q2-q8-grouped-host.v1",
+  "capsule_sha256": "345ba563d63c74f86baad055e6a217c992607d19b6808bb3d6952578d7aef193",
+  "archive_sha256": "12d1dbe50e62419dcb2bf0383d6ef289800db182e9571f2eec4c6b94631d8aa6",
+  "fixture_files_verified": 26,
+  "source_files_verified": 1020,
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "debug_tests": 24,
+  "asan_ubsan_tests": 24,
+  "artifact_count": 7,
+  "gpu_run": false,
+  "model_inference": false,
+  "plan_sha256": "32a697d2581f1e3846561ffea6ccd85c9fc155c963137d19f003273cd4fba35f"
+}

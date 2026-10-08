@@ -1,0 +1,42 @@
+{
+  "schema": "synapse-lie.q2-mmq-reuse-audit.v1",
+  "at": "2026-10-05T05:17:48.608975+00:00",
+  "upstream_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "source_sha256": {
+    "config/gufo-source.json": "7bd70914a7b7739199972f909392003ebaac9c39fb85c9f7f6c81a3069605c9c",
+    "config/q2-iq2-raw-prefetch-source.json": "7224f191be0c0eb6360841e60fea9c0692d5982f15290a01741d785290198425",
+    ".deps/gufo-base/docs/models/qwen3.8-flash-next/EXPERIMENTS.md": "fac4ee7d17a14de9946a2b1d14d9dcf96fc3af77b371fe4f4a9cc9d3c376fdb3",
+    ".deps/gufo-base/src/models/deepseek_v4_flash/kernels/rocm/mmq/ds4_mmq.h": "da80ee6217dc408fa22aa76e6b836a909d489c90a03bad3bbbfcf2a026c7dcac",
+    ".deps/gufo-base/src/models/deepseek_v4_flash/kernels/rocm/mmq/ds4_mmq.hip.cpp": "337cdb8ad2a6779adaab3839ef89c38b53dbd0c8480621d488da06322c5492de",
+    ".deps/gufo-q2-iq2-raw-prefetch-run/src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "970759b2156f8f92a95997b41df2e706a12313e3e568c690c8534bda5430a5f8",
+    ".deps/gufo-q2-iq2-raw-prefetch-run/src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_mmq.h": "ba7b9a002f9ae0e3df2d1794471d7ef207967af99557ed58325a117ba38b3f64",
+    ".deps/gufo-q2-iq2-raw-prefetch-run/src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_mmq.hip.cpp": "5085ade562ff65c0260229b4981c9aa83a131ed4112d1d013f38730903dae09b"
+  },
+  "source_or_provider_changed": false,
+  "gpu_run": false,
+  "remote_build": false,
+  "performance_claim": false,
+  "findings": [
+    {
+      "id": "qfn-paired-raw-already-present",
+      "evidence": "GatedExperts passes both IQ2 weights to qfn_mmq_iq2_xxs_moe_raw. qfn_mmq_moe_impl performs one helper and one Q8_1 quantization before two matrix launches."
+    },
+    {
+      "id": "fixed-point-uses-wmma",
+      "evidence": "MoeExperts iq2_wmma dispatch: hidden2560, expert_ff640, stored down768; paired IQ2 gate/up, one scaled half plane, Q2 down. This bypasses the MMQ fallback at the fixed point."
+    },
+    {
+      "id": "qfn-logical-tail-already-present",
+      "evidence": "Q2 raw entry passes logical input_k640 separately from stored K768. Quantizer pads lanes without a new float buffer."
+    },
+    {
+      "id": "ds4-fused-route-is-not-drop-in",
+      "evidence": "Official pinned DS4 MMQ pair/fused entries require K and fused intermediate M multiples of256. Qwen intermediate640 needs explicit tail/stride adaptation. Producer-Q8 and aligned-SoA routes differ from current F16-WMMA arithmetic and storage."
+    },
+    {
+      "id": "k16-upstream-history",
+      "evidence": "Official upstream ledger already rejects shorter-lived K16 fragments and compiler scheduling. New Q8 phase composition is measured separately and slower nominally."
+    }
+  ],
+  "limits": "Read-only source audit of independently fetched official Gufo and this LIE retained provider. No owned DS4 source/artifacts imported or changed; no new numerical/performance qualification."
+}

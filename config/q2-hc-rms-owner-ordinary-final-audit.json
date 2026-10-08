@@ -1,0 +1,111 @@
+{
+  "schema": "synapse-lie.q2-hc-rms-owner-ordinary-final-audit.v1",
+  "plan_sha256": "f9d33dde523148666a1f274deeb9181f06459d68063c57e163aa1eea8004daab",
+  "model_result_sha256": "35d525802d95a7f4ab221eb83daf5ad9b8d3a2ae5aa9f8256101895655be5608",
+  "release_sha256": "6b3c8f27beb98a94162aee19d70a682aa4068fe216c12c193e88e155a3268851",
+  "qualified_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "command_receipts": {
+    "core-handover": {
+      "exit_code": 0,
+      "sha256": "362e466d821da26b8111f52965208168d76d103ff723eb883da835e180540d43"
+    },
+    "host-r3": {
+      "exit_code": 0,
+      "sha256": "72e3af2990ef94f5a00ba5a2fdb872d7f46ff959e82231659e7ddc98f3fba98a"
+    },
+    "collect-host-r3": {
+      "exit_code": 0,
+      "sha256": "c19b0012b4305a320a2bdc77347882f3f7e0eab5c035574f82dec98e749905a0"
+    },
+    "freeze": {
+      "exit_code": 0,
+      "sha256": "b6829ecfd8771a5309c50013127271b8abd577827c9f60d46c598eaded903c5e"
+    },
+    "transfer": {
+      "exit_code": 0,
+      "sha256": "c175275fe8f21dbba2b4615fc8de8eaf2b8a7cdac2a24d6671d2b6ab4a96aef1"
+    },
+    "admission": {
+      "exit_code": 0,
+      "sha256": "4725bc17d5bf11608d5ca4183b7eee654cbb5ce530c2e97994a56e1478813d61"
+    },
+    "publish-admission": {
+      "exit_code": 0,
+      "sha256": "083ac46ea553448017e7e834ef92861edab423546299a46ec81d15d07743424a"
+    },
+    "model": {
+      "exit_code": 0,
+      "sha256": "ef59f4cfd8c7c17b10e38448f85053d7f15f14fdd34efc8422da21488f250c01"
+    },
+    "collect-model": {
+      "exit_code": 0,
+      "sha256": "1ab112b892b97f49df3ac2f0b31eef4c8efbb81b2d64010feb29616ddb13f44d"
+    },
+    "release": {
+      "exit_code": 0,
+      "sha256": "47f83608b4c0217db222ba06b4b27d145d2240a0d956cc4439b0c1bcac31a925"
+    },
+    "publish-release": {
+      "exit_code": 0,
+      "sha256": "7effa206b76dc584ae34d4035f29c3a03783e8f755ab329c09b3e6206bfcafe6"
+    },
+    "analysis": {
+      "exit_code": 0,
+      "sha256": "a20a0229db7aaef0e3a09ff1998da37de9c300648ede2b1e695f771d9da77c47"
+    },
+    "plot": {
+      "exit_code": 0,
+      "sha256": "490cb706fa348a8a883157eea243b3523fa90144a0d0e613c49bc0ff26e0f355"
+    }
+  },
+  "preserved_CPU_failures": [
+    {
+      "label": "q2-hc-rms-owner-ordinary-host-r1",
+      "command_exits": [
+        0,
+        0,
+        8
+      ],
+      "artifacts": 4
+    },
+    {
+      "label": "q2-hc-rms-owner-ordinary-host-r2",
+      "command_exits": [
+        0,
+        0,
+        8
+      ],
+      "artifacts": 4
+    }
+  ],
+  "verified_artifacts": 41,
+  "frozen_files": 152,
+  "provider_files": 1028,
+  "exact_parent_files": 21,
+  "samples_exported": 16,
+  "retired_identities": 1408,
+  "retired_groups": 1127,
+  "controls_rerun": false,
+  "component_rerun": false,
+  "performance_default": "ssm-fixed-bounds",
+  "robust_model_speedup": false,
+  "independent_quality": false,
+  "goal_met": false,
+  "report_tool_sha256": "9ec1fbcd671e14e70934d8a02715d73f08bafd08193cf31a756c6aaf4bd1eb94",
+  "graph_hashes": {
+    ".csv": "2595a602118ccaf8208c52e1816c01a35894231717eeaae7d5621e9f8132a953",
+    ".svg": "4b8774652aedebf9703e7a077946af1c5c97700b1ccc95d36e1d6b74580a29a5",
+    ".png": "9a5c319b9bfad780eb98b87cb01e20ae1bef89a9f575b4f21242ed67214cd90b"
+  }
+}

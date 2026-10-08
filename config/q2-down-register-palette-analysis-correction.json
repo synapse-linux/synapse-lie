@@ -1,0 +1,32 @@
+{
+  "schema": "synapse-lie.q2-down-register-palette-analysis-correction.v1",
+  "plan_sha256": "83bd662250d2f4de56d4a779d82799e80883965a80f67b9104725695f83703bf",
+  "admission_sha256": "f4762895f2a358009d3871a31ebb04fb158a0dc46e63a23d67ca652788fa4aa6",
+  "original_frozen_files_preserved": {
+    "tools/analyze-q2-down-register-palette-component.py": "23e00025f27e6e4ad6f591adb70e90538593105395ffcd2fddba083b8e4598af",
+    "tools/analyze-q2-down-register-palette-model.py": "11bb25919e6dd42fbe1d5ccdc4f7bb13b56ab273fdbc86e2c027c4211ec4d7d4",
+    "tools/q2-down-register-palette-phase.py": "be1712d96bbbefa9c8a2b7354086974e2336014fb9e7fe1bdcf25e96c9f2a671"
+  },
+  "added_files": {
+    "tools/analyze-q2-down-register-palette-component-v2.py": "ff6e6219f8cfcc2b875361ac28e0ec133f7faf7ceff05c2b0e56921677073c9c",
+    "tools/analyze-q2-down-register-palette-model-v2.py": "0127ba30ff431e50127aff00f757e4183d89c12c69e122f8bec304ebfc194d0a",
+    "tools/q2-down-register-palette-phase-v2.py": "dbfa73815e30429d882f4c0e35fbf4f4f85178875c0696d93176fc8c4fa0e95c"
+  },
+  "component_receipt_sha256": "70177020edc4a822cc97605115cb2a08b041af544117cd0c088b991a6c3b8606",
+  "component_log_sha256": "b196fbc6241cb687ef2eac9df081bf03bb29c8374f96b24f07bd846322b34309",
+  "component_numerical_pairs": 123,
+  "component_numerical_exact": true,
+  "component_timing_samples": 70,
+  "component_timing_zeros": 70,
+  "component_timing_valid": false,
+  "initial_analysis_command": "evidence/q2-down-register-palette-preparation/component-analysis-command.json",
+  "initial_analysis_exit": 1,
+  "correction": "Reject component timing as unavailable instead of dividing zero. Preserve every timing sample and all original numerical, artifact, input, geometry, ownership and device-safety checks. Existing window explicitly permits original model measurement after timing rejection.",
+  "timing_cause": "Unresolved; HIP API returned success and all elapsed values zero",
+  "timing_threshold_or_finite_tolerance_changed": false,
+  "independent_quality": false,
+  "component_rerun": false,
+  "model_protocol_changed": false,
+  "model_performance_result": null,
+  "goal_met": false
+}

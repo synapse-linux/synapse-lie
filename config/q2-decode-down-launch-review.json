@@ -1,0 +1,66 @@
+{
+  "schema": "synapse-lie.q2-decode-down-launch-review.v1",
+  "source_manifest_sha256": "e53280b48151f5a3a5d7a163944e90320d8e856fd249239df2a2b8c5253d1ea9",
+  "build_manifest_sha256": "6f9720ac5d78a51796c6ab7d41e1aa1d9890c9e7a025da5bcfacdb4277a8eb46",
+  "reviewed_source_sha256": {
+    "executor.cpp": "a398a43fccfa1146e3e2027f44bbc435332560b7c9524a271ecd2bccc07f2f42",
+    "q2_decode_down_rows.hip": "edff269ef57ac3e0616be202eda47e0d490d49f5549108f5b3a858236c550c8a",
+    "q2_decode_down_rows.inc": "5721e2818fae494367a080f35ec4c238191eaae9d6c18013d6720357ddb7cb1f",
+    "mmq/qfn_mmq.hip.cpp": "5085ade562ff65c0260229b4981c9aa83a131ed4112d1d013f38730903dae09b",
+    "mmq/mmvq.hip.cpp": "f868ab8ae8fb55a520aed7eaf695fa8197db1ce322f9906559ed45fa9bff166a",
+    "mmq/common.hpp": "7941dddf305366d426a43faa874b98baa53e2f934f9de6e01de3af5d8dd4c0b7",
+    "mmq/ggml-common.h": "3a6ac624e0c93e18168e31fd6c2b0f418dc6528723e2f489d6b272393bd6555b"
+  },
+  "server_sha256": "f8a5210cc0b2244a8767b6d98042d61f412fc137ba03d410853f3a5104fa781b",
+  "context_and_wrapper_symbols": [
+    "0000000001bd6a50 b guard variable for qfn_mmq::get_ctx_for_device(int)::cached",
+    "00000000019d0ac0 T gufo::models::qwen38_flash_next::rocm::Q2DecodeDownRows4(void const*, float const*, int const*, float*, ihipStream_t*)",
+    "0000000001abcfe0 T qfn_mmq::get_ctx_for_device(int)",
+    "0000000001bd69d0 b qfn_mmq::get_ctx_for_device(int)::cached"
+  ],
+  "original_and_candidate_quantizer_dimensions": [
+    640,
+    640,
+    640,
+    6400,
+    1024,
+    1,
+    10,
+    1
+  ],
+  "original_and_candidate_consumer_dimensions": [
+    768,
+    2560,
+    3,
+    32,
+    2560,
+    7680,
+    2560,
+    10,
+    1
+  ],
+  "input_f32_bytes": 25600,
+  "packed_q8_1_pool_bytes": 11520,
+  "output_f32_bytes": 102400,
+  "output_elements_singly_owned": 25600,
+  "expert_id_elements_read": 10,
+  "max_q2_block_index_for_id_511": 3932159,
+  "weight_tensor_bytes": 330301440,
+  "original_blocks": 2560,
+  "candidate_blocks": 1280,
+  "new_persistent_allocations": 0,
+  "source_review": "Same original context, pool reservation and RAII release; same stream and quantizer. Only rows per wave and x-grid differ.",
+  "assumptions": [
+    "Router IDs are negative (inactive) or in [0,511], as required by the original path.",
+    "Original device allocations cover the declared model geometry."
+  ],
+  "limits": [
+    "Argument lists are a source review, not runtime packet capture.",
+    "Address-domain accounting does not execute the quantized dot product or allocator.",
+    "No GPU fault, numerical, performance or task-quality qualification.",
+    "The outstanding .157 model run still requires logs and verified closure."
+  ],
+  "gpu_executed": false,
+  "model_accessed": false,
+  "audit_tool_sha256": "3287a4919f5e0340ca1757b3f0884c3cc4cc1730ef16dd63fb2751325e7e786e"
+}

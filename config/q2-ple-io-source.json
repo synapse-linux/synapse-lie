@@ -1,0 +1,20 @@
+{
+  "scope": "Diagnostic-only per-descriptor advice and BF16 cache budgets; no model arithmetic changes",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "variants": {
+    "q2": {
+      "base": ".deps/gufo-ple-q2",
+      "base_ngram_sha256": "4bdf53fe33420f2df34f609fc9f24b21e8e110c4b7d8a05f4cb51a0899296f35",
+      "ngram_sha256": "84556b0f3c4f0d66f4d8f332ee1718f49c855b72963708d9fc76510f2c4cb464",
+      "added_header_sha256": "59ef18f781027f4969594e54abb2def49254813f1c2cf1d7b32bfad098b46831",
+      "patch_sha256": "7e4e410d866d9151f2369278e86a119624c5e3bc34a00f63770a8bd036282069"
+    },
+    "ud": {
+      "base": ".deps/gufo-ple-ud",
+      "base_ngram_sha256": "4bdf53fe33420f2df34f609fc9f24b21e8e110c4b7d8a05f4cb51a0899296f35",
+      "ngram_sha256": "84556b0f3c4f0d66f4d8f332ee1718f49c855b72963708d9fc76510f2c4cb464",
+      "added_header_sha256": "59ef18f781027f4969594e54abb2def49254813f1c2cf1d7b32bfad098b46831",
+      "patch_sha256": "7e4e410d866d9151f2369278e86a119624c5e3bc34a00f63770a8bd036282069"
+    }
+  }
+}

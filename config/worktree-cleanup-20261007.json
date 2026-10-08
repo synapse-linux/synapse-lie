@@ -1,0 +1,101 @@
+{
+  "schema": "synapse-lie.local-worktree-cleanup.v1",
+  "at": "2026-10-07T16:59:18.988547+00:00",
+  "scope": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit",
+  "owner_request": "cancella tutto quello che non serve piu o che si pu\u00f2 ricreare",
+  "before_allocated_bytes": 58851442688,
+  "after_allocated_bytes": 20447780864,
+  "allocated_reduction_bytes": 38403661824,
+  "allocated_reduction_percent": 65.25525980322422,
+  "accounting": "du -x -s -B1 over this worktree, counting hard-linked files once; not a claim of exclusive physical bytes on Btrfs or of all filesystem free-space changes",
+  "transport_archives_removed": 664,
+  "transport_archive_bytes_removed": 15847769635,
+  "generated_cmake_directories_removed": 55,
+  "generated_build_bytes_removed": 373654487,
+  "source_trees_removed": 246,
+  "source_tree_bytes_removed": 4882265396,
+  "new_source_capsule_bytes": 250273069,
+  "compacted_diagnostics": 231,
+  "diagnostic_compaction_reduction_bytes": 2839339300,
+  "numerical_deduplication": {
+    "duplicate_files_replaced_with_hardlinks": 4521,
+    "logical_duplicate_bytes_removed": 14132466168,
+    "all_paths_and_sha256_preserved": true,
+    "immutable_numerical_evidence_only": true
+  },
+  "integrity": {
+    "at": "2026-10-07T16:56:46.452454+00:00",
+    "transport_payload_file_instances_verified": 18423,
+    "transport_payload_bytes_verified": 21869951293,
+    "retained_binaries_verified": 98,
+    "source_capsules_verified": 208,
+    "recoverable_source_trees": 246,
+    "compacted_diagnostics_verified": 231,
+    "original_full_prefill_reference_exact": true,
+    "all_checks_pass": true,
+    "remote_changes": false
+  },
+  "restore_roundtrips": [
+    [
+      {
+        "argv": [
+          "python3",
+          "tools/restore-q2-retained-artifact.py",
+          ".deps/gufo-base"
+        ],
+        "exit_code": 0,
+        "stdout": "Restored and verified: .deps/gufo-base\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "python3",
+          "tools/restore-q2-retained-artifact.py",
+          "evidence/q2-producer-q8-preparation/down-rolled.s"
+        ],
+        "exit_code": 0,
+        "stdout": "Restored and verified: evidence/q2-producer-q8-preparation/down-rolled.s\n",
+        "stderr": ""
+      }
+    ],
+    {
+      "path": ".deps/gufo-594a623",
+      "new_capsule_roundtrip": true,
+      "exit_code": 0,
+      "stdout": "Restored and verified: .deps/gufo-594a623\n",
+      "stderr": ""
+    }
+  ],
+  "recovery_tool": "tools/restore-q2-retained-artifact.py",
+  "source_index": "config/q2-retained-source-index.json",
+  "diagnostics_index": "config/q2-compacted-diagnostics-index.json",
+  "journal_files_sha256": {
+    "evidence/worktree-cleanup-20261007/additional-source-compaction.jsonl": "52bbaa6663068b7d330057972be4b58017f3f9be76f1e68e13c83e502b4279d6",
+    "evidence/worktree-cleanup-20261007/diagnostic-compaction.jsonl": "380733054ad39c34b6ec15495710a05a8739a5597a79182ef899943a70727b85",
+    "evidence/worktree-cleanup-20261007/final-integrity-check.json": "b2aef919b9c06297fe9ee6f09acc37f780a19c1b1d55f94d228ff7426c0e5c30",
+    "evidence/worktree-cleanup-20261007/generated-build-plan.json": "3a5a40202abbeca3ac5ce5b9b461ea7a05f74eb5220c162c985a6dafb822a59b",
+    "evidence/worktree-cleanup-20261007/generated-build-removal.jsonl": "43d64a4c77955a12832b1208eb35935bb2d3408b1cb3228702e464455dbdac7d",
+    "evidence/worktree-cleanup-20261007/new-source-capsule-roundtrip.json": "8f1417c4b991df62992358c83aaa75c621789b5711c31b8ba3791a2daf750857",
+    "evidence/worktree-cleanup-20261007/numerical-deduplication-result.json": "92b5811cc4e02571592b652c04e21e7e25ccde47267dac7849c045a37fff0afb",
+    "evidence/worktree-cleanup-20261007/numerical-deduplication.jsonl": "b80dadbeebfe04d96d697fbe3eaae37962dd8344b2573822fb7e12c34727a3f2",
+    "evidence/worktree-cleanup-20261007/numerical-duplicates-plan.json": "d73db69e391218d7bde37a8913b22145c1b3c830fa39d75fccb28220917bfa9a",
+    "evidence/worktree-cleanup-20261007/restore-roundtrip.json": "085e6ea86331ae5ee4863167e9900cc0f0aa9399300fc10947a8e9b11a7bd6fc",
+    "evidence/worktree-cleanup-20261007/retained-build-binaries.json": "4842cc9a24c42d6f3f8d854789b68ca3373ac7e38a56575cbd700b5c0c249d07",
+    "evidence/worktree-cleanup-20261007/retained-build-verification-after.json": "b972c36b2b1720d6f8b57b3916e13dfa0a74acb3791e904ba13a4f6fea535839",
+    "evidence/worktree-cleanup-20261007/source-archive-hashes.json": "013b0556c4397a0ea152b0849154ffab56f5737e67fb12f89f2c39ceb3f23d94",
+    "evidence/worktree-cleanup-20261007/source-tree-archive-index.jsonl": "a2976a3a3a69c51d5bb061e81b0b593d91d5a9f1a4baf9eefc7d0a49ed4d0d8f",
+    "evidence/worktree-cleanup-20261007/source-tree-removal.jsonl": "cb2f4d013c36ebfa648b96a796266f155a88fa13c9b4bfa1be347d412c13230d",
+    "evidence/worktree-cleanup-20261007/source-trees-local.json": "ad7f77fdd08e60c9afeaef49cd1c339aa5295fdfffec4dd718ef0e43c9cab2b2",
+    "evidence/worktree-cleanup-20261007/transport-archives-r2.jsonl": "cc72eaf2049244b4f31ab0f0a214ecb9649daad148251a2cc258c943a11e092e",
+    "evidence/worktree-cleanup-20261007/transport-archives.jsonl": "b009b25a541ef91cd30208460941becb9e9896c9979ddbe9a1dd886f896c9723"
+  },
+  "remote_changes": false,
+  "ds4_changes": false,
+  "other_worktrees_changed": false,
+  "model_or_runtime_source_changes": false,
+  "new_model_or_gpu_test": false,
+  "codex_glm_session": {
+    "thread_id": "01a1173b-a1f8-7012-a112-37039d798596",
+    "title": "LIE \u00b7 GLM5.3-Flash antirez"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "synapse-lie.q2-decode-q8-planar-source.v1",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "parent_manifest": "config/q2-decode-down-rows-model-source.json",
+  "parent_manifest_sha256": "e53280b48151f5a3a5d7a163944e90320d8e856fd249239df2a2b8c5253d1ea9",
+  "verified_parent_files": 1032,
+  "files": {
+    "experiments/q2-decode-q8-planar.inc": "1f8444b05f0f54e9237a36f14d0afa72b22c4eae35257315f32aa38cb24018db",
+    "experiments/q2-decode-q8-control.inc": "3f91d04b00bab5e62d4f9b5370e453b5c5f0152a560e65312ae79e3d2cae1fcb",
+    "tests/q2_decode_q8_planar.hip": "5f7bbf3c86e8ea17c203dd7a60dc87d0e27e020e79a9efc5d39bc73a8d3d4ff8",
+    "tools/q2-decode-q8-planar-window.py": "71c410dda9870644a9db8202d5177b0955c810e8cd982df61f651fe945833879",
+    "tests/q2_decode_q8_planar_window_test.py": "77c8e5975e9e1b61589b53505fe45e1a153b615bd4df963bc72c5c5ab34b5f02",
+    "tools/q2-native128-profile-window.py": "fadf40de9ef661cfab2e703c3219224269724148483dbf4e51aa91caf0702c73",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9"
+  },
+  "scope": "Synthetic Q8 scalar consumer. Identical 34-byte payload separated into aligned code words and exact 16-bit scales. Original dot/reduction retained, no new quantization or model dispatch. Quantization excluded equally; one-time GPU packing reported separately with additional resident bytes.",
+  "new_quantization": false,
+  "model_dispatch_changed": false,
+  "model_access": false,
+  "gpu_run": false,
+  "all_65536_scale_patterns": true,
+  "allocation_end_inputs": true,
+  "graph_calls": 64,
+  "warmup_rounds": 2,
+  "measured_rounds": 6,
+  "balanced_order": true,
+  "every_timed_output_compared": true,
+  "finite_mismatch_retains_timing": true
+}

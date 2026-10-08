@@ -1,0 +1,115 @@
+{
+  "schema": "synapse-lie.q2-ssm-compact-lds-final.v1",
+  "plan_sha256": "1728b448eafd740b19f91d154441cd0b18fddb05632c57bce534ebfbd1c574d1",
+  "model_result_sha256": "1e271c753b45c089d770bcddd702e06ff9e8807e03bb79d66a67370a676a1cbf",
+  "component_result_sha256": "60621cbc1fbf2ae47dfaac3e1c6089c113b6c7703a84f623415032c534ed58a6",
+  "release_sha256": "a47f405b1f4624e30efab76eba4d5ad1968498fccfe623dd7804ac60e8dc8abd",
+  "runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 37,
+  "new_artifacts_verified": 30,
+  "reused_host_artifacts": 7,
+  "host_reused": true,
+  "host_rerun": false,
+  "reused_host_label": "q2-compressed-cache-host-r2",
+  "new_runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "reused_host_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "frozen_fixtures_verified": 102,
+  "frozen_manifests_verified": 15,
+  "provider_files_verified": 1027,
+  "retired_identities": 1219,
+  "retired_groups": 973,
+  "thermal_max_c": {
+    "q2-compressed-cache-host-r2": {
+      "amdgpu": 38.0,
+      "k10temp": 65.125
+    },
+    "q2-ssm-compact-lds-component-r1": {
+      "amdgpu": 43.0,
+      "k10temp": 62.5
+    },
+    "q2-ssm-compact-lds-model-r1": {
+      "amdgpu": 71.0,
+      "k10temp": 80.375
+    }
+  },
+  "resources": [
+    {
+      "event": "ssm_compact_lds_resources",
+      "candidate": false,
+      "shared_bytes": 49152,
+      "local_bytes": 0,
+      "registers": 222,
+      "max_blocks_per_multiprocessor": 1,
+      "device_shared_bytes_per_multiprocessor": 65536,
+      "measured_active_blocks": false
+    },
+    {
+      "event": "ssm_compact_lds_resources",
+      "candidate": true,
+      "shared_bytes": 32768,
+      "local_bytes": 0,
+      "registers": 207,
+      "max_blocks_per_multiprocessor": 2,
+      "device_shared_bytes_per_multiprocessor": 65536,
+      "measured_active_blocks": false
+    }
+  ],
+  "component_parent_exact": true,
+  "independent_operator_pass": true,
+  "parent_model_checks": {
+    "input_exact": true,
+    "output_tokens_exact": true,
+    "changed_files": [],
+    "max_matched_history_kl": 0.0
+  },
+  "retained_best_model_checks": {
+    "input_exact": true,
+    "output_tokens_exact": true,
+    "changed_files": [],
+    "max_matched_history_kl": 0.0
+  },
+  "retained_best_rerun": false,
+  "within_arm_exact": true,
+  "figures": {
+    "docs/figures/q2-ssm-compact-lds-component.csv": "b2890078d69233dea21319ce9c6e1c13ce288e2fa6492561425ba7904dec89db",
+    "docs/figures/q2-ssm-compact-lds-component.svg": "2881717494fd44b27cee96f3abdb360b5c7a18228a720740fc28ea01959a0424",
+    "docs/figures/q2-ssm-compact-lds-component.png": "bb21e41a786d8926d7295f07cfccf470b04ab1ac59fdbbdc0c58b41903fe7748",
+    "docs/figures/q2-ssm-compact-lds-model-wrapped.csv": "64e70f9f1f4878bd7c79ac085b0368426c8ad40f812a5ffb573fcf9bf5f48285",
+    "docs/figures/q2-ssm-compact-lds-model-wrapped.svg": "4ffebd69df768b7fb9032a43bcf8e30b9051a59febd2683f09e235cf836e3444",
+    "docs/figures/q2-ssm-compact-lds-model-wrapped.png": "e9d392dab205d8d632f80b11bf7e36a5181db2ccd544bfdd12e38e0fe94089cc"
+  },
+  "preserved_nonzero_exits": {},
+  "controls_rerun": false,
+  "independent_quality": false,
+  "full_curve": false,
+  "goal_met": false
+}

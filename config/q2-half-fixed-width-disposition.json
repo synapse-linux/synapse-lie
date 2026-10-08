@@ -1,0 +1,80 @@
+{
+  "schema": "synapse-lie.q2-half-fixed-width-disposition.v1",
+  "decision": "RETAIN_RESULT_KEEP1571_PARENT",
+  "model_result_sha256": "f3b8e79ceb684975b9e6bbc59b2409137a8296c32f48cda56dc80313760c6579",
+  "component_result_sha256": "89f736b388321de3ff69a3ce0096ba1bb132f264d4d5d9d4e018612bd710233e",
+  "final_audit_sha256": "30bc4d6b91146aa24eb0a066397ba410c64ab19fa54c0045f062bf3edd3cf581",
+  "candidate_pp": 1569.533792,
+  "candidate_tg": 25.16043516,
+  "parent_pp": 1571.716479,
+  "parent_tg": 25.20732109,
+  "changes": {
+    "fixed_q2": {
+      "prefill_tok_s": 8.71810559559405,
+      "decode_steps_s": 0.2569345140509327,
+      "prefill_s": -8.019000635390883,
+      "decode_s": -0.25627603905775675
+    },
+    "fixed_ud": {
+      "prefill_tok_s": -6.895532069550747,
+      "decode_steps_s": 3.3633280348096095,
+      "prefill_s": 7.406231091932525,
+      "decode_s": -3.25388908034393
+    },
+    "best_parent": {
+      "prefill_tok_s": -0.13887282020410563,
+      "decode_steps_s": -0.1860012408006373,
+      "prefill_s": 0.13906598060640096,
+      "decode_s": 0.18634786022642125
+    }
+  },
+  "absolute_pp_gain": -2.182686999999987,
+  "required_pp_increase_to_ud_percent": 7.4062311109514445,
+  "parent_model_files_compared": 21,
+  "parent_model_exact": false,
+  "model_parent_tokens_exact": true,
+  "changed_parent_files": [
+    "pp2048-0-last.f32",
+    "pp2048-0-prefill.f32",
+    "pp2048-1-last.f32",
+    "pp2048-1-prefill.f32",
+    "pp2048-2-last.f32",
+    "pp2048-2-prefill.f32",
+    "pp2048-3-last.f32",
+    "pp2048-3-prefill.f32"
+  ],
+  "max_parent_kl": 0.0074115411775890015,
+  "within_arm_replays": {
+    "checks": 9,
+    "exact": 9
+  },
+  "inherited_quality_source": "config/q2-down-half-storage-disposition.json",
+  "inherited_quality_source_sha256": "41bc75e7ab6eaf21c2d39de1cca51bbb28c629f7def6f44a9caf0ac9770a58c5",
+  "component_output_pairs": 105,
+  "component_immutable_cases": 35,
+  "component_timings": 42,
+  "component_parent_exact": false,
+  "new_component_numerical_pass": false,
+  "saved_array_differences_sha256": "7b0d582f27cb8b7814886d889b55bc9561d4f718aca8a72ac17620dac98e3306",
+  "thermal_peaks_c": {
+    "q2-half-fixed-width-component-r1": {
+      "amdgpu": 41.0,
+      "k10temp": 68.625
+    },
+    "q2-half-fixed-width-model-r1": {
+      "amdgpu": 74.0,
+      "k10temp": 77.625
+    }
+  },
+  "nominally_faster": false,
+  "observed_pp_ranges_nonoverlapping": true,
+  "collection_completed_before_release": true,
+  "model_collection_finished_at": "2026-10-05T14:11:14.088325+00:00",
+  "release_at": "2026-10-05T14:11:27.395434+00:00",
+  "controls_rerun": false,
+  "full_curve_admitted": false,
+  "quality_accepted": false,
+  "promoted": false,
+  "goal_met": false,
+  "reason": "Original fixed2048/tg128 model and component evidence retained separately. Historical observed ranges are descriptive, not contemporaneous causal qualification. New component normalization differences are preserved separately from model replay; inherited half-storage and new task-quality acceptance remain open. Preserve sources, all samples and any marginal/negative result without changing UD target or comparator."
+}

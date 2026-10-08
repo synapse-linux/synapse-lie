@@ -1,0 +1,288 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -785,8 +785,8 @@
+       !half_bf16_) {
+     return;
+   }
+-  NarrowActivations(x, s_.x_half, false, static_cast<std::size_t>(rows) * cols,
+-                    stream_);
++  NarrowPrefillActivations(prefill_phase, x, s_.x_half, false,
++                           static_cast<std::size_t>(rows) * cols, stream_);
+   half_src_ = x;
+   half_rows_ = rows;
+   half_cols_ = cols;
+@@ -870,8 +870,8 @@
+   const hipDataType type = bf16 ? HIP_R_16BF : HIP_R_16F;
+   if (!(half_src_ == x && half_rows_ == n_tokens && half_cols_ == w.cols &&
+         half_bf16_ == bf16)) {
+-    NarrowActivations(x, s_.x_half, bf16, static_cast<std::size_t>(n) * k,
+-                      stream_);
++    NarrowPrefillActivations(prefill_phase, x, s_.x_half, bf16,
++                             static_cast<std::size_t>(n) * k, stream_);
+     half_src_ = x;
+     half_rows_ = n_tokens;
+     half_cols_ = w.cols;
+@@ -1179,9 +1179,9 @@
+     if (fused_raw_projection) {
+       // The full gate tensor is dead on this route. Its prefix holds the
+       // same narrowed low-rank rows that the separate up GEMM would read.
+-      NarrowActivations(s_.lo, s_.hc_gate, false,
+-                        static_cast<std::size_t>(n_tokens) * c.hc_low_rank,
+-                        stream_);
++      NarrowPrefillActivations(
++          prefill_phase, s_.lo, s_.hc_gate, false,
++          static_cast<std::size_t>(n_tokens) * c.hc_low_rank, stream_);
+     } else if (!Dense(m.up, s_.lo, s_.hc_gate, n_tokens, error_msg)) {
+       return false;
+     }
+@@ -1262,6 +1262,11 @@
+ 
+ bool Executor::PleFetch(Session& session, std::span<const std::int32_t> tokens,
+                         bool speculative, std::string* error_msg) const {
++  if (prepared_ple_ != nullptr) {
++    // ForwardPrepared checked the IDs and owns the borrow through GPU drain.
++    session.ngram_ = prepared_history_;
++    return true;
++  }
+   if (ple_pending_ && !WaitPle(error_msg)) {
+     return false;
+   }
+@@ -1307,10 +1312,12 @@
+   const std::size_t emb_count =
+       static_cast<std::size_t>(n) * c.PleEmbeddingDim();
+   if (!embeddings_ready &&
+-      (!WaitPle(error_msg) ||
+-       !Check(hipMemcpyAsync(s_.ple_emb, host_emb_, emb_count * sizeof(float),
+-                             hipMemcpyHostToDevice, stream_),
+-              "n-gram upload", error_msg))) {
++      ((prepared_ple_ == nullptr && !WaitPle(error_msg)) ||
++       !Check(
++           hipMemcpyAsync(
++               s_.ple_emb, prepared_ple_ != nullptr ? prepared_ple_ : host_emb_,
++               emb_count * sizeof(float), hipMemcpyHostToDevice, stream_),
++           "n-gram upload", error_msg))) {
+     return false;
+   }
+   const std::uint32_t hc_dim = c.HcDim();
+@@ -1662,9 +1669,9 @@
+                   stream_);
+     if (!(half_src_ == x && half_rows_ == n_tokens &&
+           half_cols_ == c.hidden_size && !half_bf16_)) {
+-      NarrowActivations(x, s_.x_half, false,
+-                        static_cast<std::size_t>(n_tokens) * c.hidden_size,
+-                        stream_);
++      NarrowPrefillActivations(
++          prefill_phase, x, s_.x_half, false,
++          static_cast<std::size_t>(n_tokens) * c.hidden_size, stream_);
+       half_src_ = x;
+       half_rows_ = n_tokens;
+       half_cols_ = c.hidden_size;
+@@ -1696,9 +1703,9 @@
+     // usually left them in s_.x_half already.
+     if (!(half_src_ == x && half_rows_ == n_tokens &&
+           half_cols_ == c.hidden_size && !half_bf16_)) {
+-      NarrowActivations(x, s_.x_half, false,
+-                        static_cast<std::size_t>(n_tokens) * c.hidden_size,
+-                        stream_);
++      NarrowPrefillActivations(
++          prefill_phase, x, s_.x_half, false,
++          static_cast<std::size_t>(n_tokens) * c.hidden_size, stream_);
+       half_src_ = x;
+       half_rows_ = n_tokens;
+       half_cols_ = c.hidden_size;
+@@ -1909,6 +1916,75 @@
+          Check(hipStreamSynchronize(stream_), "forward", error_msg);
+ }
+ 
++bool Executor::ForwardPrepared(Session& session,
++                               std::span<const std::int32_t> tokens,
++                               std::uint32_t n_logits, float* logits,
++                               std::span<const std::uint32_t> rows,
++                               std::span<const float> embeddings,
++                               bool* input_released,
++                               std::string* error_msg) const {
++  if (input_released == nullptr) {
++    AssignError(error_msg, "prepared input release output is required");
++    return false;
++  }
++  *input_released = true;
++  const Config& c = config();
++  if (session.owner_ != this || session.mtp_enabled_ || c.ple_layer < 0 ||
++      ngram_ == nullptr || ple_pending_ || prepared_ple_ != nullptr ||
++      tokens.empty() || tokens.size() > options_.max_batch ||
++      session.position_ > session.max_context_ ||
++      tokens.size() > session.max_context_ - session.position_ ||
++      rows.size() != tokens.size() * c.ple_heads ||
++      embeddings.size() != tokens.size() * c.PleEmbeddingDim() ||
++      n_logits > tokens.size() || n_logits > options_.max_logit_rows) {
++    AssignError(error_msg, "invalid prepared AR prefill input or session");
++    return false;
++  }
++  for (const auto token : tokens) {
++    if (token < 0 || static_cast<std::uint32_t>(token) >= c.vocab_size) {
++      AssignError(error_msg, "prepared token out of range");
++      return false;
++    }
++  }
++  auto next = session.ngram_;
++  auto expected = std::span(host_rows_).first(rows.size());
++  HashNgramRows(c, next, tokens, expected);
++  if (!std::equal(rows.begin(), rows.end(), expected.begin())) {
++    AssignError(error_msg, "prepared PLE rows do not match session history");
++    return false;
++  }
++  prepared_history_ = next;
++  prepared_ple_ = embeddings.data();
++  *input_released = false;
++  // Also drain on cancellation, an eager launch failure, or an exception.
++  // Never turn a failed HIP fence into a claim that the host slot is reusable.
++  hipError_t drain = hipSuccess;
++  const auto finish = [&] {
++    drain = hipStreamSynchronize(stream_);
++    prepared_ple_ = nullptr;
++    *input_released = drain == hipSuccess;
++  };
++  bool ok = false;
++  try {
++    ok = Forward(session, tokens, n_logits, logits, ForwardMode::kPrefill,
++                 error_msg);
++  } catch (...) {
++    finish();
++    throw;
++  }
++  finish();
++  if (drain != hipSuccess) {
++    if (error_msg != nullptr) {
++      if (!error_msg->empty())
++        *error_msg += "; ";
++      *error_msg +=
++          std::string("prepared input drain: ") + hipGetErrorString(drain);
++    }
++    return false;
++  }
++  return ok;
++}
++
+ bool Executor::Forward(Session& session, std::span<const std::int32_t> tokens,
+                        std::uint32_t n_logits, float* logits, ForwardMode mode,
+                        std::string* error_msg) const {
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.hpp
+@@ -176,6 +176,22 @@
+                              std::span<const std::int32_t> tokens,
+                              std::uint32_t n_logits, float* logits,
+                              ForwardMode mode, std::string* error_msg) const;
++
++  /// Experimental AR prefill only. The caller owns pinned PLE embeddings
++  /// and their row IDs until input_released is true. IDs are rehashed against
++  /// the current session before any mutation; embedding content is trusted.
++  /// Exactly one caller may use this executor. The producer alone may read
++  /// the table during prepared prefill. No callback or borrowed input escapes.
++  /// A failed call invalidates the session. If draining the HIP stream fails,
++  /// input_released stays false: quarantine all resources and retire the owned
++  /// process; do not release/reuse the slot or attempt another model call.
++  [[nodiscard]] bool ForwardPrepared(Session& session,
++                                     std::span<const std::int32_t> tokens,
++                                     std::uint32_t n_logits, float* logits,
++                                     std::span<const std::uint32_t> rows,
++                                     std::span<const float> embeddings,
++                                     bool* input_released,
++                                     std::string* error_msg) const;
+ 
+   struct BatchItem {
+     Session* session;
+@@ -520,6 +536,8 @@
+   float* host_emb_{nullptr};
+   mutable std::vector<std::uint32_t> host_rows_;
+   mutable bool ple_pending_{false};
++  mutable const float* prepared_ple_{nullptr};
++  mutable NgramHistory prepared_history_;
+   // Pinned host staging the launched (or captured) work reads and writes.
+   Session::Control* control_host_{nullptr};
+   std::int32_t* tokens_host_{nullptr};
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -4926,6 +4926,8 @@
+   }
+ }
+ 
++#include "q2_narrow_vector.inc"
++
+ std::size_t Q8TiledBytes(std::size_t batch, std::size_t k) {
+   // The GEMM stages whole 128-token macro tiles, so the buffer is sized to
+   // the batch rounded up to one (the padding tiles are never read as
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
+@@ -158,6 +158,11 @@
+ void NarrowActivations(const float* x, void* out, bool bf16, std::size_t count,
+                        hipStream_t stream);
+ 
++// Cumulative experiment: existing scalar path remains available for replay.
++bool NarrowF16Vector(const float*, __half*, std::size_t, hipStream_t);
++void NarrowPrefillActivations(bool, const float*, void*, bool, std::size_t,
++                              hipStream_t);
++
+ /// W8A8 route for wide batches over Q8_0 weights: activations quantized per
+ /// 32-wide block into the tiled fragment layout (`Q8TiledBytes(batch, k)`
+ /// bytes, padded to the GEMM's 128-token macro tile), then an int8 WMMA
+--- /dev/null
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_narrow_vector.inc
+@@ -0,0 +1,58 @@
++// SPDX-License-Identifier: MIT
++// Component-only experiment: same scalar F16 conversion, wider memory access.
++__global__ void NarrowF16VectorKernel(const float* x, __half* out,
++                                      std::size_t count) {
++  const std::size_t i =
++      4 * (blockIdx.x * static_cast<std::size_t>(blockDim.x) + threadIdx.x);
++  if (i >= count)
++    return;
++  if (count - i >= 4) {
++    const float4 values = *reinterpret_cast<const float4*>(x + i);
++    const __half a(values.x), b(values.y), c(values.z), d(values.w);
++    const auto lo = std::uint32_t(__builtin_bit_cast(std::uint16_t, a)) |
++                    (std::uint32_t(__builtin_bit_cast(std::uint16_t, b)) << 16);
++    const auto hi = std::uint32_t(__builtin_bit_cast(std::uint16_t, c)) |
++                    (std::uint32_t(__builtin_bit_cast(std::uint16_t, d)) << 16);
++    *reinterpret_cast<uint2*>(out + i) = make_uint2(lo, hi);
++  } else {
++    // The final allocation ends at count; no padded vector read or write.
++    for (std::size_t j = i; j < count; ++j)
++      out[j] = __half(x[j]);
++  }
++}
++
++bool NarrowF16Vector(const float* x, __half* out, std::size_t count,
++                     hipStream_t stream) {
++  if (count == 0)
++    return true;
++  // Bound both vector launch and scalar alignment fallback before arithmetic.
++  if (!x || !out || count > std::size_t{0xFFFFFFFFU} * kThreads)
++    return false;
++  if ((reinterpret_cast<std::uintptr_t>(x) & 15U) != 0 ||
++      (reinterpret_cast<std::uintptr_t>(out) & 7U) != 0) {
++    NarrowActivations(x, out, false, count, stream);
++  } else {
++    const std::size_t vectors = count / 4 + (count % 4 != 0);
++    hipLaunchKernelGGL(NarrowF16VectorKernel, dim3(Blocks(vectors)),
++                       dim3(kThreads), 0, stream, x, out, count);
++  }
++  return hipGetLastError() == hipSuccess;
++}
++
++// Preserve the original asynchronous launch/error contract. Scalar decode,
++// BF16 and unaligned inputs retain NarrowActivations; no error is consumed.
++void NarrowPrefillActivations(bool prefill, const float* x, void* out,
++                              bool bf16, std::size_t count,
++                              hipStream_t stream) {
++  if (prefill && !bf16 && count >= 1024 && x && out &&
++      count <= std::size_t{0xFFFFFFFFU} * kThreads &&
++      (reinterpret_cast<std::uintptr_t>(x) & 15U) == 0 &&
++      (reinterpret_cast<std::uintptr_t>(out) & 7U) == 0) {
++    const std::size_t vectors = count / 4 + (count % 4 != 0);
++    hipLaunchKernelGGL(NarrowF16VectorKernel, dim3(Blocks(vectors)),
++                       dim3(kThreads), 0, stream, x, static_cast<__half*>(out),
++                       count);
++  } else {
++    NarrowActivations(x, out, bf16, count, stream);
++  }
++}

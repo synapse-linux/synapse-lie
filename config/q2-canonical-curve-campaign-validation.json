@@ -1,0 +1,245 @@
+{
+  "at": "2026-10-03T22:10:45.274130+00:00",
+  "runs": {
+    "q2-curve-host-r1": {
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "source_files": 1020,
+      "source_capsule_sha256": "924a045628fb06712fabe3fedbde4f70c59cec2237b65ef0941916e03c86b2da",
+      "archive_sha256": "c9fc2ae7cc08a5e4af7f9caf28ab376d95a553a1f0a19ae373bdbb1180a903c1"
+    },
+    "q2-curve-host-r2": {
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "source_files": 1020,
+      "source_capsule_sha256": "a3af86140b4f6cafc460f9edec1a807895aa6030ed1a96eb639544c0eadd66b9",
+      "archive_sha256": "953c030cfc3327393d2e5083f8e1dad6131814ee25c0c8e829761d2f91e2d59b"
+    },
+    "q2-canonical-http-q2-r1": {
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 30,
+      "source_files": 1353,
+      "source_capsule_sha256": "b6cabe39565b19b02d2c4da96399311c5c9fa099a2b29cf364792800652ac14a",
+      "archive_sha256": "89fb57b96e2c72f4dfc7d41a6315b8d705f46bb6220545660f0c72287d113e87"
+    },
+    "q2-canonical-http-ud-r1": {
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 30,
+      "source_files": 1352,
+      "source_capsule_sha256": "739b1e2da6f9beb3a7e58c476c071e25826cd5ca8d6e392aa8916a3de8096aae",
+      "archive_sha256": "4c0c32904a9582d12bae3994625de6387f2b6a138d9a0e40083719bfce07e3ac"
+    }
+  },
+  "total_artifacts": 74,
+  "source_file_instances": 4745,
+  "total_commands": 22,
+  "files_sha256": {
+    "CMakeLists.txt": "f74bae7bdde950d7fe8ffd27f7faed79a922f7a9aaac27109e3ef2bab4964043",
+    "README.md": "658e8a783a20e8c1e2383c3a28e748114d691654a87f0c2021354e6b6b14d0d7",
+    "third_party/README.md": "5d14526879b34b9f8e4a5da7b33d453b3818c95f3966814762cbc22c7a5ee1aa",
+    "docs/PROGRESS.md": "736783fba0ecc9c3df827689b80e5bc6198c060eb9d86e2b58a0c20945589772",
+    "docs/COORDINATION.md": "742a95feeb55794e58ba82a3432b3b040980e898a29e31741d7cb4bc774bc8dc",
+    "docs/Q2-CURVE-PARITY.md": "5d472352d022b15bdd72fffcf09077b0478ccec4bee1e696db657c93682bc25a",
+    "docs/Q2-CANONICAL-HTTP.md": "41ca49e165aca42e5ba20c428bd83bf8b7414afc0f6a84187d400ae77a1c5c83",
+    "cmake/curve/CMakeLists.txt": "2fa346505e20bfd95110a8088949a39c3304f74ad0419be9d62a02559ccace57",
+    "tools/prepare-q2-curve.py": "dcd5e47554c3049686a77980acb812cce0cb4dd1ff66bebaf66c10e443d7db45",
+    "tools/q2-canonical-http.py": "2e24990582d62d202f9571fa94f0a1284c4dd3c911dd858aad5ae0116c5be5a3",
+    "tools/q2-curve-session.py": "4ef548bb4348e5871942e1b0d8ff9d476e609db3cd5136e475c0c3725c1707f4",
+    "tools/q2-remote.py": "576f17a72f8f9319cffc73dfbc0c0a56272cb13c39a13c00586ec63a13f02be2",
+    "tools/q2-runner.py": "c099f7aa919eb54e38db4b893e6ecc02ed8ee434ed7529d0a956ec8fcb1a465e",
+    "tools/analyze-q2-curve.py": "cb5e15a83bfaa26e694e1a77a2a5fba9a071ce3ea9f9dac6f50e46cc83ef76e3",
+    "tools/plot-q2-curve.py": "65f2841c451720f5ef2c0f96f49718e256a5030b4dd3a5722596c3f8d3e21156",
+    "tests/q2_canonical_http_test.py": "751a49eba68a33cb3e77e10c9e68e095a0136d3d5b78790b52e71864146c9b45",
+    "tests/q2_remote_test.py": "02f2239a2087e340b0b0fc37937c5846564c799b31d1257bd1486543c844a530",
+    "config/q2-curve-source.json": "53a35366f2ee3699c7fd9adf371e55c5b71c883c3abdbbb7df104cbd28453540",
+    "config/q2-curve-parity-plan.json": "ccad43b37743b433e89b6f6043927594fd6707772cc2f9c9737c24f0c781ef53",
+    "config/q2-canonical-http-results.json": "45c1af919a92ebc33ac134860d16a113eeba98f58c01ac4cd2e05c471bd92dbb",
+    "config/q2-canonical-curve-window-release.json": "60e678ace6251dedb700b15054bd0a1597daa5765d16a596a37dd248db14cba9",
+    "docs/figures/q2-canonical-http-r1/curve.png": "6a7f2b1480ae2c00d743e44a81dfead76479c9f2a81b27a26448e146c30d47be",
+    "docs/figures/q2-canonical-http-r1/curve.svg": "39893fdd66a50891c696b1a99c92471cb3c8d2ba75c20c8339551406d8a20043",
+    "docs/figures/q2-canonical-http-r1/samples.csv": "2a5d7da4f7f2cd76eb6770e461147752bfe7e3000104659c33c678fd46740f26"
+  },
+  "release": {
+    "at": "2026-10-03T22:06:58.501157+00:00",
+    "state": "Q2_CANONICAL_HTTP_CURVE_WINDOW_RELEASED",
+    "labels": [
+      "q2-curve-host-r1",
+      "q2-curve-host-r2",
+      "q2-canonical-http-q2-r1",
+      "q2-canonical-http-ud-r1"
+    ],
+    "command_exits": {
+      "q2-curve-host-r1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "q2-curve-host-r2": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "q2-canonical-http-q2-r1": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "q2-canonical-http-ud-r1": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "checked_pids": [
+      3251901,
+      3251905,
+      3251980,
+      3252074,
+      3252313,
+      3252383,
+      3252515,
+      3253225,
+      3253226,
+      3253296,
+      3253421,
+      3253648,
+      3253719,
+      3253845,
+      3254348,
+      3254384,
+      3254795,
+      3256343,
+      3256344,
+      3256345,
+      3256346,
+      3256463,
+      3261449,
+      3261480,
+      3261943,
+      3263427,
+      3263428,
+      3263430,
+      3263431,
+      3263594
+    ],
+    "live_owned": [],
+    "live_owned_groups": [],
+    "kfd": [],
+    "unreadable_or_retired_proc_entries": 0,
+    "leases": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067,
+        "free_verified_ex_nb": true
+      }
+    ],
+    "thermal": [
+      {
+        "path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "device": "amdgpu",
+        "temperature_mc": 43000,
+        "limit_mc": null,
+        "inclusive": false,
+        "limit_source": "no_exposed_gpu_threshold",
+        "over_limit": false
+      },
+      {
+        "path": "/sys/class/hwmon/hwmon3/temp1_input",
+        "device": "k10temp",
+        "temperature_mc": 44625,
+        "limit_mc": 98000,
+        "inclusive": true,
+        "limit_source": "owner_cpu_limit",
+        "over_limit": false
+      }
+    ],
+    "gpu_reserved": false,
+    "restart_scheduled": false,
+    "qualification": "Full pinned Gufo prose depth workload measured on Q2 and UD over common C17 HTTP; same completed-executor timer. One observation per point, no numerical promotion or parity acceptance; historical counting results remain separate."
+  },
+  "initial_static_failure": {
+    "argv": [
+      "clang++",
+      "-std=c++20",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wpedantic",
+      "-DLIE_GUFO_ADAPTER_OPT_IN=1",
+      "-DLIE_GUFO_STATE_ACCESS=1",
+      "-DLIE_C17_SAMPLING=0",
+      "-DENGINE_ENABLE_HIP=1",
+      "-D__HIP_PLATFORM_AMD__=1",
+      "-I",
+      ".deps/lie-q2-curve-core/include",
+      "-I",
+      ".deps/gufo-q2-curve-q2",
+      "-isystem",
+      "/opt/rocm/include",
+      "-fsyntax-only",
+      ".deps/lie-q2-curve-core/adapters/gufo.cpp"
+    ],
+    "exit_code": 1,
+    "tool_chunk": "5c5e17",
+    "failure": "Four undeclared LIE_MTP/LIE_VISION errors; explicit disabled feature definitions added to isolated composition."
+  },
+  "full_curve_parity_observed": false,
+  "numerical_qualified": false,
+  "promoted": false,
+  "goal_met": false
+}

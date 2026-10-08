@@ -1,0 +1,103 @@
+{
+  "at": "2026-10-03T17:37:05.108908+00:00",
+  "state": "Q2_DECODE_BASELINE_WINDOW_RELEASED",
+  "labels": [
+    "q2-decode-baseline-host-r1",
+    "q2-decode-baseline-q2-r1",
+    "q2-decode-baseline-ud-r1"
+  ],
+  "command_exits": {
+    "q2-decode-baseline-host-r1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-decode-baseline-q2-r1": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-decode-baseline-ud-r1": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "checked_pids": [
+    3169982,
+    3170012,
+    3170089,
+    3170212,
+    3170416,
+    3170486,
+    3170651,
+    3171164,
+    3171165,
+    3171379,
+    3172477,
+    3172482,
+    3173691,
+    3173692,
+    3173887,
+    3174768,
+    3174801
+  ],
+  "live_owned": [],
+  "live_owned_groups": [],
+  "kfd": [],
+  "unreadable_or_retired_proc_entries": 0,
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "thermal": [
+    {
+      "path": "/sys/class/hwmon/hwmon2/temp1_input",
+      "device": "amdgpu",
+      "temperature_mc": 39000,
+      "limit_mc": null,
+      "inclusive": false,
+      "limit_source": "no_exposed_gpu_threshold",
+      "over_limit": false
+    },
+    {
+      "path": "/sys/class/hwmon/hwmon3/temp1_input",
+      "device": "k10temp",
+      "temperature_mc": 41250,
+      "limit_mc": 98000,
+      "inclusive": true,
+      "limit_source": "owner_cpu_limit",
+      "over_limit": false
+    }
+  ],
+  "restart_scheduled": false,
+  "model_access": true,
+  "qualification": "Corrected benchmark plus historical2042 completed128 Q2/UD comparison; numerical failures retained, no parity or promotion claim"
+}

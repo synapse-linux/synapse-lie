@@ -1,0 +1,191 @@
+{
+  "scope": "Offline source/capsule/artifact verification of completed .157 checks",
+  "arms": [
+    {
+      "label": "q2-hc-phased-reference-r1",
+      "mode": "hc-pp-bench",
+      "source_files_verified": 1019,
+      "generated_analysis_bytecode_verified": [],
+      "artifacts_verified": 48,
+      "source_capsule_sha256": "6ff7b4eee5507a497618921d8a4855a694c50ae6064aea465fb9f44c208d407e",
+      "archive_sha256": "49dc6df593fa26d604169c92dc7756d12dc8914bcbdc644123a8debb9e0a1e4b",
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "finished_at": "2026-10-03T13:41:40.004214+00:00"
+    },
+    {
+      "label": "q2-hc-phased-candidate-r1",
+      "mode": "hc-pp-bench",
+      "source_files_verified": 1019,
+      "generated_analysis_bytecode_verified": [],
+      "artifacts_verified": 48,
+      "source_capsule_sha256": "9b48c682c64bee41954740019602182ed5a454ad69354984d08279a686a5e85b",
+      "archive_sha256": "956ef2d1f3c2df872d778700adc6fd7a09d54853e7b0150ded5063047f2f5e71",
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "finished_at": "2026-10-03T13:42:51.371589+00:00"
+    },
+    {
+      "label": "q2-hc-phased-free-r1",
+      "mode": "hc-pp-bench",
+      "source_files_verified": 1019,
+      "generated_analysis_bytecode_verified": [],
+      "artifacts_verified": 48,
+      "source_capsule_sha256": "a9e20e718f881a5384188a89034aee5939b2abfcdd640418c9797a70577c0d75",
+      "archive_sha256": "b49843f525dbfdbfbfdb6a4160ddf7cf743a03001572655463553f2d07766cf4",
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "finished_at": "2026-10-03T13:50:01.879653+00:00"
+    },
+    {
+      "label": "q2-hc-row160-wide-r1",
+      "mode": "hc-pp-bench",
+      "source_files_verified": 1019,
+      "generated_analysis_bytecode_verified": [],
+      "artifacts_verified": 48,
+      "source_capsule_sha256": "a13e4f869d4d953c92413f702f24470c2bd856768eabf0e694f33a7cccf4d09b",
+      "archive_sha256": "1cfb6559c013c6fe810789a26d20f8479e3a1f9ff96267f811eca21db52d7801",
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "finished_at": "2026-10-03T13:56:15.897073+00:00"
+    },
+    {
+      "label": "q2-hc-row160-loads-r1",
+      "mode": "hc-pp-bench",
+      "source_files_verified": 1019,
+      "generated_analysis_bytecode_verified": [],
+      "artifacts_verified": 48,
+      "source_capsule_sha256": "5665dfe00e62d658266520086fa9e5824f55d24684568f75039fadca28b23650",
+      "archive_sha256": "985f427f095b60063e482692e5fb077f6b9b8f20d69c6b3f20dac98a2adc7176",
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "finished_at": "2026-10-03T14:11:56.030205+00:00"
+    },
+    {
+      "label": "q2-hc-row160-wide-r2",
+      "mode": "hc-pp-bench",
+      "source_files_verified": 1019,
+      "generated_analysis_bytecode_verified": [],
+      "artifacts_verified": 48,
+      "source_capsule_sha256": "efda4966d1e366b93d20b02b236408cd044f6e905d13b0a171a05bf3410cba6e",
+      "archive_sha256": "3248dfd8134d0562be60323aa0c2bb14ae3202fa1334d11109135725e5710efb",
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "finished_at": "2026-10-03T14:13:27.338871+00:00"
+    },
+    {
+      "label": "q2-hc-row160-loads-r2",
+      "mode": "hc-pp-bench",
+      "source_files_verified": 1019,
+      "generated_analysis_bytecode_verified": [],
+      "artifacts_verified": 48,
+      "source_capsule_sha256": "1499181f7ee7f28739f044d50bffcb7dc08224056a64e697219d3b51701dfbca",
+      "archive_sha256": "02da1249c3a4443b2b8c3eac1eea36f2f76d19b3394544e3db417ad0ab84bf0c",
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "finished_at": "2026-10-03T14:15:02.399656+00:00"
+    },
+    {
+      "label": "q2-hc-phased-host-r1",
+      "mode": "cpu",
+      "source_files_verified": 1019,
+      "generated_analysis_bytecode_verified": [],
+      "artifacts_verified": 7,
+      "source_capsule_sha256": "1ed2d9ec5ab2b3cbc6ef130107e843d545382c7cae04703b893e45867196a734",
+      "archive_sha256": "e38fee4fffe50cbbb689b9d6d52f0d0ed8e1a7f363d8091fd1877430b795bc54",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "finished_at": "2026-10-03T13:40:23.856291+00:00"
+    },
+    {
+      "label": "q2-hc-phased-free-host-r1",
+      "mode": "cpu",
+      "source_files_verified": 1019,
+      "generated_analysis_bytecode_verified": [],
+      "artifacts_verified": 7,
+      "source_capsule_sha256": "d1f4152ba8a56bfb2d7e16d064f7edb644e5fdb46640bbc224a47528644bf9b7",
+      "archive_sha256": "5772782651c23cce01794eb856ea1aedd11439ccdc221f6b09b2f832a54c6c02",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "finished_at": "2026-10-03T13:48:39.846298+00:00"
+    },
+    {
+      "label": "q2-hc-row160-wide-host-r1",
+      "mode": "cpu",
+      "source_files_verified": 1019,
+      "generated_analysis_bytecode_verified": [],
+      "artifacts_verified": 7,
+      "source_capsule_sha256": "3baeac0d17c5ae85bb8b121d4c477ae30ecacb85c3b304d4c94b5f4cdf2b5141",
+      "archive_sha256": "b9b4eea5bf3200b2990ffef0ce8bee7e8c2086d684bae2d04db0ce65fe7bcb33",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "finished_at": "2026-10-03T13:54:35.364598+00:00"
+    },
+    {
+      "label": "q2-hc-row160-loads-host-r1",
+      "mode": "cpu",
+      "source_files_verified": 1019,
+      "generated_analysis_bytecode_verified": [
+        "source/tools/prof/__pycache__/isa_mix.cpython-314.pyc"
+      ],
+      "artifacts_verified": 7,
+      "source_capsule_sha256": "e1be2b48fd4ed6b2a58a0e7ab00e4f0b4057b06c95012ed0c4c2e55e10c3c34a",
+      "archive_sha256": "1c1e8e521bfc7189f3251eff345f1c27a8fa1ae991493bb4b92c5809d26fe6fb",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "finished_at": "2026-10-03T14:10:39.799728+00:00"
+    }
+  ],
+  "total_artifacts_verified": 364,
+  "total_source_files_verified": 11209,
+  "fixture_sha256": "9bf7453ef0f3db7e75fabc73ee882938095a5ca9ecaf8d724b45b91b4cd7dfb2",
+  "final_host_guard_capsule_matches": true,
+  "release_receipt_sha256": "dabdf46001b111f77f8cdcb2ec0d5cc8ef0d826291fcce3d9fdcd8afc6433103",
+  "promoted": false,
+  "goal_met": false
+}

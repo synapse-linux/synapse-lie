@@ -1,0 +1,9 @@
+scope,arm,unit,minimum,median,maximum
+HC down: 100 MiB rotating weights,Original,Microseconds / call,47.5599393249,47.7958843112,48.0146259069
+HC down: 100 MiB rotating weights,Sixteen waves,Microseconds / call,30.1809217781,30.2399843931,30.274046585
+Prefill: 2048 tokens,Q2 (n=3),Tokens / second,1286.889766,1294.041322,1297.143947
+Prefill: 2048 tokens,Q2 HC (n=3),Tokens / second,1290.518008,1291.807941,1293.373483
+Prefill: 2048 tokens,UD (n=3),Tokens / second,1594.683527,1650.347716,1653.495313
+Decode: 127 calls,Q2 (n=3),Calls / second,23.16836602,23.17051391,23.20427864
+Decode: 127 calls,Q2 HC (n=3),Calls / second,24.0514823,24.05547823,24.06994669
+Decode: 127 calls,UD (n=3),Calls / second,24.12627546,24.13637006,24.14306703

@@ -1,0 +1,31 @@
+{
+  "schema": "synapse-lie.q2-attention-v-blocks-window-plan.v1",
+  "label": "q2-attention-v-blocks-component-r1",
+  "source_commit": "45e84406ba9f223881cec24bf0821c00cdc6bea9",
+  "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+  "component_only": true,
+  "model_access": false,
+  "remote_build": false,
+  "remote_cleanup": false,
+  "timeout_seconds": 300,
+  "previous_release": "q2-attention-v-tiles-component-r1/release.json",
+  "previous_release_sha256": "2a4264681b27fa1fd4277d00393e1239c1631ea9e85a4132ef61eeb0605e5e34",
+  "staged_sha256": {
+    "candidate.inc": "ad20e6b6ea22a28972cb66570c5f3c952eb4c34844298c4a2eb1cc7e926f4e99",
+    "control.inc": "c0a3dcfd2bbfc5a456bb0cdc742421310b04bddc699696ee2e4e21cc501c4142",
+    "fixture.hip": "f9c93645fd0ff9329c9883dd2f9c841c56d0e1c475673eb5dde5321179e70efc",
+    "q2-attention-v-blocks-window.py": "e3c8b0e40035ad1d2805785a5abf7218dc825f40aaf4ec1e52cd0707556e6a9b",
+    "q2-native128-profile-window.py": "fadf40de9ef661cfab2e703c3219224269724148483dbf4e51aa91caf0702c73",
+    "q2_attention_v_blocks_check": "059061ab562dd744a028a40bbcf86920197ffd8958328b919179a363c8ed5523",
+    "q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "record-command.py": "6135e7d115cd217a6a230adddf01c666abd140619e68547c32a7a0fc7ed0c842",
+    "source-manifest.json": "e23a833f9a698b16e3acf616dcb1b6272774a864b578eb0285f548f7da02f0f8",
+    "static-manifest.json": "fb26b29dde2024b731874eabf46d5c974d2859b2d4084dfdd015bd69eefa4a55"
+  },
+  "cpu_check_sha256": {
+    "cpu-test-command.json": "83c0844d257005627e924eb3bb9939bb17fdf65b13c3c2482c491acbb1bec2b9",
+    "cpu-test.stdout": "3b7fdf945b2a8f02f1a43401c792209d6cbe9c09dad7ab322759baef3d30c3e9",
+    "cpu-test.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "scope": "Synthetic exact prefill V layout within original four-key blocks, original masks/arithmetic/early-late dispatch; complete packing plus attention timed, two pp2048 depths and numerical tails. Every timed output compared, FP64 samples retained, six balanced measured pairs. No original model, dispatch/precision change, remote build/tuning/cleanup."
+}

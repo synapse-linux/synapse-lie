@@ -1,0 +1,67 @@
+{
+  "schema": "synapse-lie.q2-iq2-tail16-static.v1",
+  "manifest_sha256": "fd8eff58fd7d7d25cee16f043ef2ccee3a5e9550f36d3d28f25495a9360d2af7",
+  "provider_files": 1029,
+  "changed_files": [
+    "src/models/qwen38_flash_next/CMakeLists.txt",
+    "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+    "src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
+    "src/models/qwen38_flash_next/kernels/rocm/q2_iq2_tail16.c",
+    "src/models/qwen38_flash_next/kernels/rocm/q2_iq2_tail16.h"
+  ],
+  "numerical_sources_unchanged": 13,
+  "source_patch_reconstruction_exact": true,
+  "descriptor_count_unchanged": true,
+  "captured_fixture_layers": [
+    0,
+    3,
+    22
+  ],
+  "captured_fixture_identity_exact": true,
+  "synthetic_route_slots_unique": true,
+  "captured_source": "config/q2-fixed-input-route-fixtures.json",
+  "captured_source_sha256": "1f3b62e2fc29d1169c6d73b8182c096d2265569326cbfa949aae7bac57efcee2",
+  "component": "tests/q2_iq2_tail16.hip",
+  "component_sha256": "cf79136c60515b4e6a6bda9dc39308303d50f555de29aa35e79042fd0eae0a7e",
+  "resource_reference": "config/q2-route-opportunities.json",
+  "resource_reference_sha256": "8cf4f396a216a86808c037675e9a1cde521773942f9190d47869fa8e32637d98",
+  "expected_output_pairs": 96,
+  "expected_timing_samples": 56,
+  "commands": {
+    "generation": {
+      "argv": [
+        "python3",
+        "tools/prepare-q2-iq2-tail16.py"
+      ],
+      "started_at": "2026-10-06T02:38:00.228786+00:00",
+      "finished_at": "2026-10-06T02:38:00.464846+00:00",
+      "exit_code": 0
+    },
+    "fixture-host": {
+      "argv": [
+        "python3",
+        "evidence/q2-iq2-tail16-preparation/compile-local.py",
+        "fixture-host"
+      ],
+      "started_at": "2026-10-06T02:42:16.729199+00:00",
+      "finished_at": "2026-10-06T02:42:18.640664+00:00",
+      "exit_code": 0
+    },
+    "fixture-device": {
+      "argv": [
+        "python3",
+        "evidence/q2-iq2-tail16-preparation/compile-local.py",
+        "fixture-device"
+      ],
+      "started_at": "2026-10-06T02:42:26.545481+00:00",
+      "finished_at": "2026-10-06T02:42:28.523676+00:00",
+      "exit_code": 0
+    }
+  },
+  "gpu_build": false,
+  "gpu_run": false,
+  "numerical_acceptance": false,
+  "model_measured": false,
+  "goal_met": false,
+  "limits": "Source identity and row ownership do not prove GPU numerical equality or speed. Existing BN16 resource metadata is reused without rebuilding saved binaries. Actual component and original fixed2048/tg128 model remain required."
+}

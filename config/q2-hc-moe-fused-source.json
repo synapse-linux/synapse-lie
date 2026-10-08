@@ -1,0 +1,26 @@
+{
+  "scope": "Isolated source identity; no runtime evidence",
+  "base": "measured byte-exact HC up vector source",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "file_count": 1019,
+  "changed_files": {
+    "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": {
+      "base_sha256": "dc401c561b4f05aff71fa6507ffd82217320c2f2d85f3ff4bbef1037ae61deb0",
+      "candidate_sha256": "b527672b4bb79566438ee2b3e9e501f8fc10a8cea90f81e44d293528911728cc"
+    },
+    "src/models/qwen38_flash_next/kernels/rocm/executor.hpp": {
+      "base_sha256": "035dd25594b03f477753d509568daa745624ca0ca04d6c16f60c5e29c57d33be",
+      "candidate_sha256": "65bc2a863cf1c45d608d9f942097d2080b4279ca043ee862ad979f95b1cd1f99"
+    },
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": {
+      "base_sha256": "567bcbfd70233069ffbd03d24972bd3e3b8fc90457fbadaffade51b6d68e10b8",
+      "candidate_sha256": "92faa287e2b5681d16f0f54c2f99a3eba0a14c5faaf398e631f8a12b7548cbad"
+    },
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp": {
+      "base_sha256": "1b9d5ccfa515ab0d0f42ae109290f1175c7c6124f6cfeb4615fe280e90924c23",
+      "candidate_sha256": "7276c8a714fc5eef58e63b967b777586374dfcc69526ea1454733dbd0da8750e"
+    }
+  },
+  "patch_sha256": "dc00aa9ad2f22f23205db70f66e2db0fc5b84ed1658e6c6a6ff4566f714d447c",
+  "generator": "tools/prepare-q2-hc-moe-fused.py"
+}

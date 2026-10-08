@@ -1,0 +1,59 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5754,11 +5754,16 @@
+          bool kHalfWeights = false, bool kHcUpChains = false>
+ __launch_bounds__(kHcUpChains ? 512 : 256) __global__ void DenseF16GEMMKernel(
+     const void* __restrict__ w, const __half* __restrict__ x,
+-    float* __restrict__ y, std::size_t batch, std::size_t m, std::size_t k,
++    float* __restrict__ y, std::size_t batch, std::size_t runtime_m,
++    std::size_t runtime_k,
+     const std::conditional_t<kHalfWeights, float, __half>* xn = nullptr,
+     __half* mixed_half = nullptr, void* mixed_q8 = nullptr,
+     const float* conv_w = nullptr, float* conv_out = nullptr,
+     AttentionProjectionOutput attention = {}) {
++  // DenseF16SsmGemm already requires this M/K shape before launch.
++  // Keep batch dynamic, including ragged token tiles and history tails.
++  const std::size_t m = kSsmConv ? 16384 : runtime_m;
++  const std::size_t k = kSsmConv ? 2560 : runtime_k;
+   static_assert(WM * WN == 8, "256 threads is 8 waves");
+   static_assert(BM % (16 * WM) == 0 && BN % (16 * WN) == 0);
+   constexpr int kRowTiles = BM / 16;
+@@ -5816,7 +5821,8 @@
+   for (int p = 0; p < kAPer; ++p) {
+     const int idx = (p * kBlockThreads) + tid;
+     const int r = r_block + (idx / BK);
+-    a_live[p] = idx < kAUnits && r < m_i;
++    // SSM launches64 full output-row blocks and two full K32 blocks.
++    a_live[p] = kSsmConv || (idx < kAUnits && r < m_i);
+     // Interleave the four gate streams within the tile, without repacking
+     // weights. Each group of four rows produces one mixed hidden element.
+     const int weight_row = kHcMix ? (r % 4) * (m_i / 4) + r / 4 : r;
+@@ -5842,7 +5848,7 @@
+ #pragma unroll
+     for (int p = 0; p < kAPer; ++p) {
+       const int kb = kb0 + (((p * kBlockThreads) + tid) % BK);
+-      const bool live = a_live[p] && kb < num_kb;
++      const bool live = kSsmConv || (a_live[p] && kb < num_kb);
+       if constexpr (kHalfWeights) {
+         const auto* src = reinterpret_cast<const uint4*>(
+             a_ptr[p] + static_cast<std::size_t>(kb) * 64);
+@@ -5861,7 +5867,7 @@
+ #pragma unroll
+     for (int p = 0; p < kBPer; ++p) {
+       const int kb = kb0 + (((p * kBlockThreads) + tid) % BK);
+-      if (b_ptr[p] != nullptr && kb < num_kb) {
++      if (b_ptr[p] != nullptr && (kSsmConv || kb < num_kb)) {
+         const auto* src = reinterpret_cast<const uint4*>(b_ptr[p] + (kb * 32));
+ #pragma unroll
+         for (int c = 0; c < 4; ++c) {
+@@ -6256,8 +6262,7 @@
+ #pragma unroll
+             for (int v = 0; v < 4; ++v) {
+               const unsigned row = r0 + row_l + v * 4;
+-              if (row >= m)
+-                continue;
++              // Every float4 row fits the SSM M16384 grid.
+               const float4 current = src[v];
+               if (row >= channels || tok_l < 3 || tok_l >= kOutputTokens - 3 ||
+                   tok + 3 >= batch) {

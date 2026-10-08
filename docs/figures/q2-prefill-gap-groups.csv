@@ -1,0 +1,15 @@
+phase,group,q2_ns,ud_ns,delta_ns
+prefill,hc_down_projection,128129115,41066913,87062202
+prefill,routed_down,263114088,193543855,69570233
+prefill,explicit_activation_packing,72224923,7012460,65212463
+prefill,hc_up_projection,108592495,55807969,52784526
+prefill,routed_gate_up,265851749,242067340,23784409
+prefill,other,741099895,718372464,22727431
+prefill,q8_dense_gemv,3078936,3125182,-46246
+decode,other,119256505,83972302,35284203
+decode,hc_down_projection,44567339,25189818,19377521
+decode,other_f16_gemv,28598991,28427437,171554
+decode,explicit_activation_packing,6669015,10056453,-3387438
+decode,routed_gate_up,63991587,69547588,-5556001
+decode,routed_down,35465600,47375949,-11910349
+decode,q8_dense_gemv,261505439,285423761,-23918322

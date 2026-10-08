@@ -1,0 +1,189 @@
+{
+  "schema": "synapse-lie.q2-iq2-stage-layout-component-results.v1",
+  "plan_sha256": "8fc063a62edfd1721a14f27196b802a020cc59cd181014d0d6f306b32dbce88b",
+  "release_sha256": "2ac6b4ded0694cec5cebcc6071d8c0afefd689ea711b5c83a0c36a7f8e79241a",
+  "archive_sha256": "7a267f391f342854ebd8ddb10f6cd791fff3668e159d2992c3218787e5eb9475",
+  "timed_log_sha256": "817f8e06e1de781623f0767cbc7a24f3ab43b841828ac2ea3293a9f9af6a6e69",
+  "command_exits": [
+    0,
+    0,
+    0
+  ],
+  "event_counts": {
+    "iq2_stage_layout_map": 15,
+    "iq2_stage_layout_replay": 51,
+    "iq2_stage_layout_timing": 84,
+    "iq2_stage_layout_complete": 1
+  },
+  "exact_route_maps": 15,
+  "exact_guarded_whole_output_replays": 51,
+  "hip_event_durations_valid": 0,
+  "wall_time_repetitions_per_arm": 5,
+  "cases": {
+    "real-layer0": {
+      "retained_wall_us": [
+        5201.47966667,
+        5216.57933333,
+        5185.194,
+        5230.92566667,
+        5203.54666667
+      ],
+      "candidate_wall_us": [
+        5201.57,
+        5219.466,
+        5241.292,
+        5270.07466667,
+        5214.01633333
+      ],
+      "retained_median_us": 5203.54666667,
+      "candidate_median_us": 5219.466,
+      "median_time_change_percent": 0.3059323640156375,
+      "paired_time_change_percent": [
+        0.0017366852470557248,
+        0.05533638972108346,
+        1.0818881607901343,
+        0.74841438197919,
+        0.20120251302944148
+      ],
+      "paired_median_percent": 0.20120251302944148
+    },
+    "real-layer22": {
+      "retained_wall_us": [
+        5515.178,
+        5493.81866667,
+        5508.56133333,
+        5506.94833333,
+        5501.455
+      ],
+      "candidate_wall_us": [
+        5514.758,
+        5520.381,
+        5534.69066667,
+        5511.19133333,
+        5504.128
+      ],
+      "retained_median_us": 5506.94833333,
+      "candidate_median_us": 5514.758,
+      "median_time_change_percent": 0.14181478011574544,
+      "paired_time_change_percent": [
+        -0.007615348044975878,
+        0.4834949047581194,
+        0.4743404268171103,
+        0.07704811709090542,
+        0.0485871464912524
+      ],
+      "paired_median_percent": 0.07704811709090542
+    },
+    "real-layer3": {
+      "retained_wall_us": [
+        4231.56666667,
+        4348.82666667,
+        4365.653,
+        4264.176,
+        4233.09633333
+      ],
+      "candidate_wall_us": [
+        4224.41366667,
+        4295.085,
+        4346.29666667,
+        4396.462,
+        4201.25766667
+      ],
+      "retained_median_us": 4264.176,
+      "candidate_median_us": 4295.085,
+      "median_time_change_percent": 0.7248528203338545,
+      "paired_time_change_percent": [
+        -0.16903904779147494,
+        -1.235773940632845,
+        -0.4433777336403044,
+        3.102264071651817,
+        -0.7521365958367832
+      ],
+      "paired_median_percent": -0.4433777336403044
+    },
+    "skew-e64": {
+      "retained_wall_us": [
+        3755.48,
+        3764.44966667,
+        3774.74566667,
+        3777.85933333,
+        3779.78566667
+      ],
+      "candidate_wall_us": [
+        3698.05466667,
+        3689.06833333,
+        3695.45833333,
+        3681.36166667,
+        3700.238
+      ],
+      "retained_median_us": 3774.74566667,
+      "candidate_median_us": 3695.45833333,
+      "median_time_change_percent": -2.1004682259810448,
+      "paired_time_change_percent": [
+        -1.529107686101372,
+        -2.00245294836634,
+        -2.1004682259810448,
+        -2.5542948571073976,
+        -2.1045549585376855
+      ],
+      "paired_median_percent": -2.1004682259810448
+    },
+    "uniform-e160": {
+      "retained_wall_us": [
+        3608.75066667,
+        3608.114,
+        3626.73333333,
+        3629.61633333,
+        3614.167
+      ],
+      "candidate_wall_us": [
+        3556.86866667,
+        3550.65866667,
+        3544.60566667,
+        3553.27233333,
+        3547.43566667
+      ],
+      "retained_median_us": 3614.167,
+      "candidate_median_us": 3550.65866667,
+      "median_time_change_percent": -1.7572052793907944,
+      "paired_time_change_percent": [
+        -1.4376720586206204,
+        -1.5923924058386163,
+        -2.2645080051858058,
+        -2.103362807218745,
+        -1.8463821215234377
+      ],
+      "paired_median_percent": -1.8463821215234377
+    },
+    "uniform-e512": {
+      "retained_wall_us": [
+        5485.242,
+        5491.13533333,
+        5481.339,
+        5519.99766667,
+        5455.46633333
+      ],
+      "candidate_wall_us": [
+        5499.07833333,
+        5498.12833333,
+        5502.29133333,
+        5508.98833333,
+        5455.40266667
+      ],
+      "retained_median_us": 5485.242,
+      "candidate_median_us": 5499.07833333,
+      "median_time_change_percent": 0.2522465431789467,
+      "paired_time_change_percent": [
+        0.2522465431789467,
+        0.12735071302201195,
+        0.3822484493296363,
+        -0.199444528871362,
+        -0.0011670250737561005
+      ],
+      "paired_median_percent": 0.12735071302201195
+    }
+  },
+  "model_run": false,
+  "production_dispatch_changed": false,
+  "decision": "Do not promote: saved routing layers are effectively flat or slower; no complete-model gain established."
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "synapse-lie.q2-counting-iommu-boot-draft.v1",
+  "state": "LOCAL_PREPARATION_ONLY",
+  "user_authorized": true,
+  "user_instruction": "finito il test riavvia per iommu=off",
+  "before_boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+  "before_window": "q2-counting-curve128-r1",
+  "before_release_sha256": null,
+  "boot_entry": "Synapse-LIE-IOMMU-off",
+  "boot_parameter": "amd_iommu=off",
+  "default_kernel_unchanged": true,
+  "restore_exact_original_after_reconnect": true,
+  "complete_tables_before_reboot": true,
+  "gpu_run": false,
+  "future_admission": false,
+  "fresh_peer_declarations_required": true,
+  "configuration_original_sha256": "8c7c638757fa2d6bb48533eef5c1dea317bea2eba92fd5cef9ea6c0dcf0e3349",
+  "source_helpers": [
+    "tools/q2-counting-iommu-boot.py",
+    "tools/q2-counting-iommu-epoch.py"
+  ],
+  "references": [
+    "https://www.kernel.org/doc/html/v7.2/admin-guide/kernel-parameters.html",
+    "https://github.com/limine-bootloader/limine/blob/v12.x/CONFIG.md"
+  ],
+  "at": "2026-10-08T02:47:57.459652+00:00"
+}

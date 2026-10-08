@@ -1,0 +1,22 @@
+{
+  "schema": "synapse-lie.q2-shared-down-runtime-source.v1",
+  "manifest": "config/q2-shared-down-fixed-source.json",
+  "bindings": {
+    "config/q2-shared-down-fixed-source.json": "42d2ad8f4c08826be52188cd82a523c5ee9efc4a0823a32358cdab6bc21f0852",
+    "config/q2-shared-down-static.json": "f56ff9dccceaf5811ad62857afff47d6a59ae6543e3e351b2f02c363c56401e4",
+    "tests/q2_shared_down_mirror.hip": "a169b998f2857b6fd915b35ac18d6d9bd0f1139400d5b1d886a4774344b57807"
+  },
+  "runtime_before": {
+    "tools/q2-remote.py": "1000dbdef1cbf5685b9ae06179006fdb94e455f8635c0214992b0e742b09f1a5",
+    "tools/q2-runner.py": "71b2b36dd5039667a60475bdd2899a6d8b04f47425ae8bb52cf171083bd4bbf6",
+    "cmake/hip/CMakeLists.txt": "ad8765305f615a50d345970e22865b0ae8fea98d55557bfdddb1c03d0b4216e9"
+  },
+  "runtime_after": {
+    "tools/q2-remote.py": "157d1a92881824ccd52178fda3fab234dbcbbffc65ab7ed93e56272a755bd045",
+    "tools/q2-runner.py": "0f121fc9e632b7085b42d3617b8caf9240d8afa38c7eb54ed56e7091300e76c3",
+    "cmake/hip/CMakeLists.txt": "77f2e0014b35ceb7c5e4fee944f4afeb2c10d78371a5eca108d709cf95b65a65"
+  },
+  "component_only": true,
+  "model_dispatch_changed": false,
+  "gpu_run": false
+}

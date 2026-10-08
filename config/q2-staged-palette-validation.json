@@ -1,0 +1,94 @@
+{
+  "scope": "Staged palette component campaign, not model throughput",
+  "goal_met": false,
+  "promoted": false,
+  "runs": {
+    "q2-staged-palette-host-r1": {
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "commands": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "source_files_exact": 1019,
+      "capsule_sha256": "5b9ed2894081e08533c51df23632c29b94321b2e8b7933f3bc6b301207885b5c",
+      "collection_sha256": "d77c96c13475ac727aeec812224a0e8f4941042f2b8ec9440bb035317ac04265",
+      "thermal_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 75625
+      }
+    },
+    "q2-staged-palette-operators-r1": {
+      "state": "SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED",
+      "commands": [
+        0,
+        0,
+        0
+      ],
+      "artifacts": 66,
+      "source_files_exact": 1019,
+      "capsule_sha256": "4c1781f91d9bdd2c9ea4962e23576a0b2a2f96af73d179454987852560b36656",
+      "collection_sha256": "31f00368f43e8fb3800d355a2eed2a459a81f406dbd765af89dfe10be2aeb26c",
+      "thermal_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 79125
+      }
+    },
+    "q2-staged-palette-micro-ref-r1": {
+      "state": "SYNTHETIC_Q2_PACKED_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "commands": [
+        0,
+        0,
+        0
+      ],
+      "artifacts": 5,
+      "source_files_exact": 1019,
+      "capsule_sha256": "a9c600d84c19415e312a7fba8372c84632a7efb45ab33b7abd71f3970765d0b1",
+      "collection_sha256": "9d7d4c64c7589857ef68164c0e3069720cdec5eb09a66ba5d40520b0df7b8e6d",
+      "thermal_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 79750
+      }
+    },
+    "q2-staged-palette-micro-r1": {
+      "state": "SYNTHETIC_Q2_PACKED_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "commands": [
+        0,
+        0,
+        0
+      ],
+      "artifacts": 5,
+      "source_files_exact": 1019,
+      "capsule_sha256": "b9b4e8b256c44951d5fb8f40b7230151e44615b15849e0543a76e599413e8b61",
+      "collection_sha256": "afd3bc7fcf3f060f23ea8bd9c45d226f69f3ce26b9c3aa1d2ee858f54316e5c5",
+      "thermal_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 80625
+      }
+    }
+  },
+  "closure": {
+    "released_at": "2026-10-03T05:26:44.312600+00:00",
+    "observer_retired_at": "2026-10-03T05:27:14.653613+00:00",
+    "original_models_opened": 0,
+    "leases_free": 4
+  },
+  "checks": {
+    "exit_code": 0,
+    "runners": 4,
+    "commands": 15,
+    "artifacts": 83,
+    "host": "12/12 Debug and 12/12 ASan/UBSan on .157",
+    "independent_operator_cases": 30,
+    "exact_saved_operator_buffers": 62,
+    "shaped_output_values_per_arm": 52428800,
+    "independent_dots_per_arm": 1024,
+    "timing_samples": 20,
+    "candidate_rejected": true,
+    "model_benchmarks_run": false
+  }
+}

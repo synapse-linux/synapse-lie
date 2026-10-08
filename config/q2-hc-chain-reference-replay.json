@@ -1,0 +1,30 @@
+{
+  "reference": "evidence/q2-hc-chain-model-ref-r1",
+  "retained_control": "evidence/q2-affine-palette-model-r1",
+  "compared": 21,
+  "files": [
+    "arithmetic-0-last.f32",
+    "arithmetic-0-output.u32",
+    "arithmetic-0-prefill.f32",
+    "arithmetic-input.i32",
+    "counting-0-last.f32",
+    "counting-0-output.u32",
+    "counting-0-prefill.f32",
+    "counting-input.i32",
+    "pp2048-0-last.f32",
+    "pp2048-0-output.u32",
+    "pp2048-0-prefill.f32",
+    "pp2048-1-last.f32",
+    "pp2048-1-output.u32",
+    "pp2048-1-prefill.f32",
+    "pp2048-2-last.f32",
+    "pp2048-2-output.u32",
+    "pp2048-2-prefill.f32",
+    "pp2048-3-last.f32",
+    "pp2048-3-output.u32",
+    "pp2048-3-prefill.f32",
+    "pp2048-input.i32"
+  ],
+  "changed": [],
+  "exact": true
+}

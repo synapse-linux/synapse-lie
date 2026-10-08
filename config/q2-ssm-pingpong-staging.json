@@ -1,0 +1,22 @@
+{
+  "schema": "synapse-lie.q2-ssm-pingpong-staging.v1",
+  "arms": [
+    {
+      "mode": "ssm-pingpong-check",
+      "capsule_sha256": "f70730161b8c643b66788772c2a6ad854735ecbc555e5bee631122b9212674cf",
+      "provider_files": 1027,
+      "fixture_files": 90,
+      "capsule_path": "evidence/q2-ssmp-stage-component/source.tar.gz",
+      "ssh_executed": false
+    },
+    {
+      "mode": "q2-counting-ssm-pingpong",
+      "capsule_sha256": "24bbc34af33133aac366196df5b786c9cd19f91a41c3286ffe55b0ebf683037f",
+      "provider_files": 1027,
+      "fixture_files": 90,
+      "capsule_path": "evidence/q2-ssmp-stage-model/source.tar.gz",
+      "ssh_executed": false
+    }
+  ],
+  "gpu_run": false
+}

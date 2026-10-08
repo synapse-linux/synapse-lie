@@ -1,0 +1,16 @@
+{
+  "scope": "Isolated half-row sequence; runtime benefit unproven",
+  "base": ".deps/gufo-q2-bench-hc-sequence",
+  "output": ".deps/gufo-q2-bench-hc-sequence-half-row",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "input_patches": {
+    "experiments/q2-hc-full-row.patch": "c611583f6dd0b6d9ca5480fbc9f61f83488bc5c9b99abacad06455705875baf0",
+    "experiments/q2-hc-half-row.patch": "d015d0c4ee43c3589a8c1b6a58bf719836453b2bb3d2bffbcadd1c7a5c37a703"
+  },
+  "changed_files": [
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  ],
+  "base_sha256": "b832e97c62d682874acca9dad06adaa10787b77c823debe634694b9516953194",
+  "candidate_sha256": "86fb4ec1bd0de7245a43917cb2343e2195e0ac0e331986f469e2868e50f12e9c",
+  "patch_sha256": "793e578e136956fa35782286c98b4c489c32917379391c44bd31504832b688d2"
+}

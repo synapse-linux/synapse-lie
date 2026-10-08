@@ -1,0 +1,171 @@
+{
+  "at": "2026-10-03T15:12:14.894157+00:00",
+  "state": "Q2_COMBINED_WINDOW_RELEASED",
+  "labels": [
+    "q2-combined-reference-r1",
+    "q2-combined-retained-model-r1",
+    "q2-combined-scaled-model-r1",
+    "q2-combined-scaled-control-r1",
+    "q2-combined-ud-r1",
+    "q2-combined-ple-r1",
+    "q2-combined-retained-narrow-r1",
+    "q2-combined-scaled-narrow-r1",
+    "q2-combined-host-r1"
+  ],
+  "command_exits": {
+    "q2-combined-reference-r1": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-combined-retained-model-r1": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-combined-scaled-model-r1": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-combined-scaled-control-r1": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-combined-ud-r1": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-combined-ple-r1": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-combined-retained-narrow-r1": [
+      0,
+      0,
+      0
+    ],
+    "q2-combined-scaled-narrow-r1": [
+      0,
+      0,
+      0
+    ],
+    "q2-combined-host-r1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "checked_pids": [
+    3107123,
+    3107127,
+    3107202,
+    3107295,
+    3107526,
+    3107596,
+    3107721,
+    3108256,
+    3108257,
+    3108458,
+    3108597,
+    3108788,
+    3108789,
+    3109018,
+    3109126,
+    3109553,
+    3109555,
+    3109750,
+    3110849,
+    3110854,
+    3113099,
+    3113102,
+    3113306,
+    3114442,
+    3114453,
+    3115284,
+    3115286,
+    3115518,
+    3116618,
+    3116623,
+    3117263,
+    3117264,
+    3117488,
+    3118588,
+    3118593,
+    3119291,
+    3119293,
+    3119488,
+    3120350,
+    3120384,
+    3121120,
+    3121121,
+    3121348,
+    3122432,
+    3122437
+  ],
+  "live_owned": [],
+  "live_owned_groups": [],
+  "kfd": [],
+  "unreadable_or_retired_proc_entries": 0,
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "thermal": [
+    {
+      "path": "/sys/class/hwmon/hwmon2/temp1_input",
+      "device": "amdgpu",
+      "temperature_mc": 42000,
+      "limit_mc": null,
+      "inclusive": false,
+      "limit_source": "no_exposed_gpu_threshold",
+      "over_limit": false
+    },
+    {
+      "path": "/sys/class/hwmon/hwmon3/temp1_input",
+      "device": "k10temp",
+      "temperature_mc": 44375,
+      "limit_mc": 98000,
+      "inclusive": true,
+      "limit_source": "owner_cpu_limit",
+      "over_limit": false
+    }
+  ],
+  "restart_scheduled": false,
+  "model_access": true,
+  "qualification": "Cumulative C1 model timing and 8K PLE replay; inherited numeric rejection and Q2/UD parity remain open"
+}

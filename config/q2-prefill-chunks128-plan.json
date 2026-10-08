@@ -1,0 +1,138 @@
+{
+  "schema": "synapse-lie.q2-prefill-chunks128-plan.v1",
+  "label": "q2-prefill-chunks128-r1",
+  "source_commit": "dc37ef013ced2441719f2053017d644ea1de3915",
+  "runner_sha256": "1bc898a37b1b0ae551421d2905c4dec059d777c47659cfeb7ccd1f5d3a9cfd1c",
+  "order": [
+    "2048",
+    "4096",
+    "8192"
+  ],
+  "port": 8000,
+  "capacity": 133760,
+  "prefix_tokens": 130925,
+  "output_tokens": 8,
+  "previous_release": "q2-iommu-on-native128-r1/release.json",
+  "previous_release_sha256": "d4022589cd47dab9d7d44da702ac799a742e5604aaa997f66314641e1d67714a",
+  "staged_sha256": {
+    "q2-prefill-chunks128-window.py": "1bc898a37b1b0ae551421d2905c4dec059d777c47659cfeb7ccd1f5d3a9cfd1c",
+    "requests.jsonl": "a6144ae1c72b80869cfacfcf6ee58a645e691ac184ee5e3af1a1a36394b0a7db",
+    "synapse-lie-server": "f6772a1eb2210a415f0c7e951c03f3c1bb8430114134cdb14a87a28311e66039",
+    "record-command.py": "84b41d0cd5b2e17f6ff2ffad7f2f7e470438a3125f308245d7ab26e6437654c8"
+  },
+  "candidate_server": {
+    "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-prefill-chunks128-r1/synapse-lie-server",
+    "sha256": "f6772a1eb2210a415f0c7e951c03f3c1bb8430114134cdb14a87a28311e66039"
+  },
+  "client": {
+    "label": "saved native C client",
+    "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-native-row-ud-r1/build/native-bench/synapse-lie-bench",
+    "sha256": "87d856cf454d5114f93d7d4260d54b58f6e92800f70e4013a505aa16973560c9"
+  },
+  "requests": {
+    "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-prefill-chunks128-r1/requests.jsonl",
+    "sha256": "a6144ae1c72b80869cfacfcf6ee58a645e691ac184ee5e3af1a1a36394b0a7db"
+  },
+  "model_stats": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "device": 54,
+      "inode": 3116203,
+      "bytes": 147207127040,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "device": 54,
+      "inode": 3206497,
+      "bytes": 10946624,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "device": 54,
+      "inode": 3228516,
+      "bytes": 49859583136,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "device": 54,
+      "inode": 3211726,
+      "bytes": 49376141504,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "device": 54,
+      "inode": 3207513,
+      "bytes": 12087983520,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "device": 54,
+      "inode": 3206512,
+      "bytes": 2786568256,
+      "mtime_ns": 1790711824619908153,
+      "ctime_ns": 1790711826279892467
+    },
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q4.gguf",
+      "device": 54,
+      "inode": 3116346,
+      "bytes": 177280286720,
+      "mtime_ns": 1789871998360000000,
+      "ctime_ns": 1790258428459084412
+    }
+  ],
+  "saved_reference_sha256": {
+    "evidence/q2-full-prefill128-final-r1/results/full-prefill.jsonl": "34cb33c48be8d9f1782a7eb44877a43cb5b06bf55f43f38993b41c69d421d3f5",
+    "evidence/q2-full-prefill128-final-r1/results/full-prefill.requests.jsonl": "fcee51efeebfcbd25209ba90d09064d37aead6d3b0c6bbe7a9f97f328a4f24ef",
+    "config/q2-full-prefill128-results.json": "74a7d49e94d1c68bf350fa127289326520427f086d35480e8182b69723b446e6",
+    "config/q2-full-prefill128-decode-results.json": "68831086fef31f2b66a58e2a196f6c79da9480729697b2ab914bf5edd2d734ad",
+    "config/q2-hc-scalar-native128-isolated-results.json": "7bc2a479f4a8f082934e4b1eacceb9330564e318d0afa9e64524592e09adf632",
+    "config/q2-decode-down-rows-native128-performance-results.json": "308b766a26f90fe8eb1bdba87adb005163c4f9f539b0ee714b6cc03b16e35477"
+  },
+  "remote_build": false,
+  "remote_cleanup": false,
+  "run_controls": true,
+  "changed_request_bytes": false,
+  "scope": "One complete original11-request cold curve per chunk2048/4096/8192, same new bounded-capacity server f6772a1e with all923 device functions byte-exact R3, same frozen native client. IOMMU remains enabled, context133760, C1 AR, actual natural tails, zero cache hits, performance120W, CPU98. Show complete PP/TG tables to owner before any reboot. No boot, service, dependency or other tuning changes; no reference binary rebuild.",
+  "cpu_check_sha256": {
+    "cpu-test-command.json": "f735d8c8e82442c722ce1a24e45879faeb8ed9a34efdcc15daed54f510663e58",
+    "cpu-test.stdout": "90dc2a04f26ce46ec611694e27f5b9cc490bd9dc706c0a2f53671c440194270c",
+    "cpu-test.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+  "expected_power": {
+    "apu_power_mode": "performance",
+    "tdp_watts": 120,
+    "restored_by_owner": true,
+    "agent_tuning": false
+  },
+  "iommu_mode": "on",
+  "previous_state": "Q2_IOMMU_NATIVE128_RELEASED",
+  "previous_event": "window_release",
+  "chunks": [
+    2048,
+    4096,
+    8192
+  ],
+  "prior_host_contract_tests": {
+    "path": "q2-iommu-on-native128-r1/cpu-test-command.json",
+    "sha256": "2efdb1e90ea3445f9793932c5e67412fdf2b33ad72a1ce9a1af0511934aea653",
+    "count": 9,
+    "debug_and_asan_ubsan": true
+  },
+  "prior_device_code_check": {
+    "all_functions": 923,
+    "all_byte_exact": true,
+    "sha256": "7aa16719b6437ccd31174d0aae58b012458743cde6f30b259c2d9763c45c17d8"
+  }
+}

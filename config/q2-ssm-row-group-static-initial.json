@@ -1,0 +1,404 @@
+{
+  "schema": "synapse-lie.q2-ssm-row-group-static.v1",
+  "source_manifest_sha256": "0ff9af05f495586ec908089a5dcd787b33e7fc2b80fcb5e40a30609fda64a74b",
+  "provider_files": 1027,
+  "literal_source_changes": 2,
+  "source_reconstruction_exact": true,
+  "parent_assembly_path": "evidence/q2-scaled-wave-pack-preparation/candidate.s",
+  "parent_assembly_sha256": "7974279c45bc933d7dbcf148da8342293318e4cd4321d5fcc063855e6a78dc50",
+  "candidate_assembly_path": "evidence/q2-ssm-row-group-preparation/candidate.s",
+  "candidate_assembly_sha256": "dfa7f048d01786d88c3e71b01fce8b2993df435e846102249d900b978a3f5349",
+  "parent_recompiled": false,
+  "other_kernels_instruction_operand_resource_exact": 161,
+  "parent_kernel": {
+    "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb1ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+    "resources": {
+      "group_segment_fixed_size": 49152,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 241,
+      "next_free_sgpr": 23,
+      "wavefront_size32": 1
+    },
+    "instructions": 4027,
+    "mnemonics": {
+      "buffer_gl0_inv": 2,
+      "ds_load_b128": 208,
+      "ds_store_2addr_b32": 64,
+      "ds_store_b128": 12,
+      "global_load_b128": 144,
+      "global_load_u16": 4,
+      "global_store_b128": 64,
+      "s_add_i32": 3,
+      "s_and_b32": 116,
+      "s_and_not1_b32": 1,
+      "s_and_saveexec_b32": 41,
+      "s_ashr_i32": 1,
+      "s_barrier": 2,
+      "s_branch": 3,
+      "s_cbranch_execz": 114,
+      "s_cbranch_scc1": 1,
+      "s_cbranch_vccnz": 3,
+      "s_clause": 39,
+      "s_cmp_ge_i32": 1,
+      "s_cmp_gt_i32": 1,
+      "s_cselect_b32": 1,
+      "s_delay_alu": 690,
+      "s_endpgm": 1,
+      "s_load_b128": 3,
+      "s_load_b64": 2,
+      "s_lshl_b32": 2,
+      "s_lshr_b64": 1,
+      "s_mov_b32": 42,
+      "s_mul_hi_i32": 1,
+      "s_mul_i32": 1,
+      "s_nop": 1,
+      "s_or_b32": 76,
+      "s_or_not1_b32": 1,
+      "s_sendmsg": 1,
+      "s_waitcnt": 253,
+      "s_xor_b32": 32,
+      "v_add3_u32": 11,
+      "v_add_co_ci_u32_e64": 115,
+      "v_add_co_u32": 115,
+      "v_add_f32_e32": 66,
+      "v_add_nc_u32_e32": 23,
+      "v_and_b32_e32": 6,
+      "v_ashrrev_i32_e32": 3,
+      "v_bfe_u32": 3,
+      "v_cmp_gt_i32_e32": 3,
+      "v_cmp_gt_i32_e64": 2,
+      "v_cmp_gt_u32_e32": 3,
+      "v_cmp_gt_u32_e64": 35,
+      "v_cmp_gt_u64_e32": 2,
+      "v_cmp_gt_u64_e64": 14,
+      "v_cmp_lt_u32_e32": 3,
+      "v_cmp_lt_u32_e64": 1,
+      "v_cmp_ne_u64_e64": 1,
+      "v_cmpx_gt_u64_e64": 32,
+      "v_cndmask_b32_e64": 8,
+      "v_dual_add_f32": 25,
+      "v_dual_fmac_f32": 97,
+      "v_dual_mov_b32": 55,
+      "v_dual_mul_f32": 109,
+      "v_exp_f32_e32": 128,
+      "v_fmac_f32_e32": 200,
+      "v_lshl_add_u32": 6,
+      "v_lshl_or_b32": 2,
+      "v_lshlrev_b32_e32": 10,
+      "v_lshlrev_b64": 98,
+      "v_lshrrev_b32_e32": 3,
+      "v_mad_i64_i32": 4,
+      "v_mad_u32_u24": 4,
+      "v_mad_u64_u32": 27,
+      "v_mov_b32_e32": 311,
+      "v_mul_f32_e32": 168,
+      "v_mul_i32_i24_e32": 1,
+      "v_mul_lo_u32": 22,
+      "v_mul_u32_u24_e32": 3,
+      "v_or_b32_e32": 65,
+      "v_perm_b32": 32,
+      "v_pk_add_f16": 32,
+      "v_pk_fma_f16": 32,
+      "v_rcp_f32_e32": 128,
+      "v_sub_nc_u32_e32": 1,
+      "v_wmma_f32_16x16x16_f16": 64,
+      "v_xor_b32_e32": 22
+    },
+    "body_sha256": "c32442b403043cee1a58501dc832e729ecfc4c92f090dd0fe24e2bfc4f773483",
+    "compiler_comments": {}
+  },
+  "candidate_kernel": {
+    "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi4ELb0ELb1ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+    "resources": {
+      "group_segment_fixed_size": 49152,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 241,
+      "next_free_sgpr": 23,
+      "wavefront_size32": 1
+    },
+    "instructions": 4037,
+    "mnemonics": {
+      "buffer_gl0_inv": 2,
+      "ds_load_b128": 208,
+      "ds_store_2addr_b32": 64,
+      "ds_store_b128": 12,
+      "global_load_b128": 144,
+      "global_load_u16": 4,
+      "global_store_b128": 64,
+      "s_add_i32": 4,
+      "s_and_b32": 120,
+      "s_and_not1_b32": 1,
+      "s_and_saveexec_b32": 41,
+      "s_ashr_i32": 1,
+      "s_barrier": 2,
+      "s_branch": 3,
+      "s_cbranch_execz": 114,
+      "s_cbranch_scc1": 1,
+      "s_cbranch_vccnz": 3,
+      "s_clause": 40,
+      "s_cmp_ge_i32": 1,
+      "s_cmp_gt_i32": 1,
+      "s_cselect_b32": 1,
+      "s_delay_alu": 690,
+      "s_endpgm": 1,
+      "s_load_b128": 3,
+      "s_load_b32": 1,
+      "s_load_b64": 2,
+      "s_lshl_b32": 2,
+      "s_lshr_b64": 1,
+      "s_mov_b32": 42,
+      "s_mul_hi_i32": 1,
+      "s_mul_i32": 2,
+      "s_nop": 1,
+      "s_or_b32": 77,
+      "s_or_not1_b32": 1,
+      "s_sendmsg": 1,
+      "s_waitcnt": 253,
+      "s_xor_b32": 32,
+      "v_add3_u32": 11,
+      "v_add_co_ci_u32_e64": 115,
+      "v_add_co_u32": 115,
+      "v_add_f32_e32": 66,
+      "v_add_nc_u32_e32": 24,
+      "v_and_b32_e32": 6,
+      "v_ashrrev_i32_e32": 3,
+      "v_bfe_u32": 3,
+      "v_cmp_gt_i32_e32": 3,
+      "v_cmp_gt_i32_e64": 2,
+      "v_cmp_gt_u32_e32": 3,
+      "v_cmp_gt_u32_e64": 35,
+      "v_cmp_gt_u64_e32": 2,
+      "v_cmp_gt_u64_e64": 14,
+      "v_cmp_lt_u32_e32": 3,
+      "v_cmp_lt_u32_e64": 1,
+      "v_cmp_ne_u64_e64": 1,
+      "v_cmpx_gt_u64_e64": 32,
+      "v_cndmask_b32_e64": 8,
+      "v_dual_add_f32": 25,
+      "v_dual_fmac_f32": 97,
+      "v_dual_mov_b32": 54,
+      "v_dual_mul_f32": 109,
+      "v_exp_f32_e32": 128,
+      "v_fmac_f32_e32": 200,
+      "v_lshl_add_u32": 5,
+      "v_lshl_or_b32": 3,
+      "v_lshlrev_b32_e32": 10,
+      "v_lshlrev_b64": 98,
+      "v_lshrrev_b32_e32": 3,
+      "v_mad_i64_i32": 4,
+      "v_mad_u32_u24": 4,
+      "v_mad_u64_u32": 27,
+      "v_mov_b32_e32": 312,
+      "v_mul_f32_e32": 168,
+      "v_mul_i32_i24_e32": 1,
+      "v_mul_lo_u32": 22,
+      "v_mul_u32_u24_e32": 3,
+      "v_or_b32_e32": 65,
+      "v_perm_b32": 32,
+      "v_pk_add_f16": 32,
+      "v_pk_fma_f16": 32,
+      "v_rcp_f32_e32": 128,
+      "v_sub_nc_u32_e32": 1,
+      "v_wmma_f32_16x16x16_f16": 64,
+      "v_xor_b32_e32": 22
+    },
+    "body_sha256": "cec257e12d77518edbbba721c05dbef75e9c27021d1ae37cf4b0956f082c1843",
+    "compiler_comments": {}
+  },
+  "selected_instruction_counts": {
+    "v_wmma_f32_16x16x16_f16": [
+      64,
+      64
+    ],
+    "s_barrier": [
+      2,
+      2
+    ],
+    "global_load_b128": [
+      144,
+      144
+    ],
+    "ds_load_b128": [
+      208,
+      208
+    ],
+    "ds_store_b128": [
+      12,
+      12
+    ]
+  },
+  "symbolic_mapping": {
+    "grid_shapes": 1292,
+    "tiles_checked": 1896192,
+    "token_range": [
+      1024,
+      1048576
+    ],
+    "convolution_mask_class_checks": 33408,
+    "fixed2048_blocks": 1024,
+    "first16_grid_enumerated_tiles": {
+      "1": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          0,
+          10
+        ],
+        [
+          0,
+          11
+        ],
+        [
+          0,
+          12
+        ],
+        [
+          0,
+          13
+        ],
+        [
+          0,
+          14
+        ],
+        [
+          0,
+          15
+        ]
+      ],
+      "4": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          3
+        ]
+      ]
+    },
+    "fixed2048_tile_sets_equal": true,
+    "hardware_execution_order_tested": false,
+    "floating_arithmetic_tested": false
+  },
+  "commands": {
+    "generation": {
+      "argv": [
+        "python3",
+        "tools/prepare-q2-ssm-row-group.py"
+      ],
+      "started_at": "2026-10-05T19:29:40.898509+00:00",
+      "finished_at": "2026-10-05T19:29:41.190086+00:00",
+      "exit_code": 0
+    },
+    "assembly": {
+      "argv": [
+        "python3",
+        "evidence/q2-ssm-row-group-preparation/compile-local.py"
+      ],
+      "started_at": "2026-10-05T19:29:47.411054+00:00",
+      "finished_at": "2026-10-05T19:29:57.448066+00:00",
+      "exit_code": 0
+    }
+  },
+  "logical_weight_activation_output_bytes_unchanged": true,
+  "cpu_checks_are_not_gpu_or_model_evidence": true,
+  "gpu_run": false,
+  "model_inference": false,
+  "numerical_acceptance": false,
+  "performance_gain": false,
+  "goal_met": false
+}

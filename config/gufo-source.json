@@ -1,0 +1,11 @@
+{
+  "schema": "synapse-lie.official-source.v1",
+  "repository": "https://github.com/gufo-org/gufo",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "archive_url": "https://api.github.com/repos/gufo-org/gufo/tarball/f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "archive_sha256": "4b61a3f23e5ab51f7c95d6a7b6d2d82c8f7976e39f9566196f75323ab5eb2110",
+  "archive_bytes": 5486734,
+  "origin": "Downloaded independently from official upstream; no sibling project source or artifacts",
+  "omitted": "Editor symlinks only; source and notices retained",
+  "patch": "patches/gufo-q2.patch"
+}

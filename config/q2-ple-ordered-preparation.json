@@ -1,0 +1,59 @@
+{
+  "schema": "synapse-lie.q2-ple-ordered-preparation.v1",
+  "at": "2026-10-04T03:15:34.813137+00:00",
+  "source_manifest_sha256": "a627395e3294e32b26e08a6bb3557a62663d4ae429fbf481bbac474ee0a975ae",
+  "provider_files": 1020,
+  "unchanged_from_ordered_control": 1019,
+  "changed_files": [
+    "src/models/qwen38_flash_next/ngram.cpp"
+  ],
+  "checks": {
+    "configure": {
+      "exit_code": 0,
+      "log_sha256": "2292a5f30b9a9f8c011df7006e6b4e95d693a251876403c7780cf88776da01f3"
+    },
+    "build-graph": {
+      "exit_code": 0,
+      "log_sha256": "2c5750ed8b6c6b6f76d3ac089c04c63ddf3eec34da3bd889d2e4a52ecf64069e"
+    },
+    "reanalysis": {
+      "exit_code": 0,
+      "log_sha256": "0cb12dc1abcf6d712336e257c695b38e1243b195ce16eb6bc43fb0a6b07bfeef"
+    }
+  },
+  "python_ast_files": [
+    "tools/prepare-q2-ple-ordered.py",
+    "tools/q2-remote.py",
+    "tools/q2-runner.py",
+    "tools/q2-canonical-http.py",
+    "tools/q2-curve-session.py",
+    "tools/analyze-q2-curve.py",
+    "tools/analyze-q2-iq2-curve.py",
+    "tools/plot-q2-curve.py",
+    "tests/q2_remote_test.py",
+    "tests/q2_canonical_http_test.py"
+  ],
+  "artifact_sha256": {
+    "tools/prepare-q2-ple-ordered.py": "f94e9669bbcc844b4344505cd96709fa9a1d52473a194ef6ae0da4e71e369093",
+    "tools/q2-remote.py": "8c20c40c2a2e52c00ac8e4e3848278d2d1225e8876b30ae6405e3adbe18e3f68",
+    "tools/q2-runner.py": "64d97f7e8435a8989930ce84ac9abcbdbb6c5d898673a83954b1a57824caa0fb",
+    "tools/q2-canonical-http.py": "ffd63982f89906bbe7d78d37e1bbaaef9798d9bb34193a40d752d3067ecf6832",
+    "tools/q2-curve-session.py": "96ea79c52d4abf33c9b0fd6890ad888ee09b851d68d19058ebfaaecd42957551",
+    "tools/analyze-q2-curve.py": "d5dbf123518e68ef4586262c857708a6e459e880a8585973433cd50929998eb5",
+    "tools/analyze-q2-iq2-curve.py": "cf0af6bf6afe6d497a1f1730232ceacd4713d2d98934986a17aa1aac45e5c409",
+    "tools/plot-q2-curve.py": "e6be554d2894fb380824c2c381edc3751bda74c28a20dc8c569ec068089593d9",
+    "tests/q2_remote_test.py": "c651f0718eb0492963b6fa962ff3dff8edc82809ac58a2b3784541fbef363aaf",
+    "tests/q2_canonical_http_test.py": "5c99fdb2fd320c46458945635eea2badb621b2421c7505fd0ffff6fea2929017",
+    "CMakeLists.txt": "4cdf53bf4e324a17f022ca2386c1a427fc3d9f67e594ba7765311784f985d02c",
+    "cmake/curve/CMakeLists.txt": "0b0c1ef767049479e5c7cd3a9f8e0680906b2258223e4f76032ff2f561d4b113"
+  },
+  "retained_canonical_reanalysis_exact": true,
+  "host_result": "config/q2-ple-ordered-host-results.json",
+  "host_result_sha256": "967f42d4f886fa930132794e32bf37a41dd3fa1174917e890db64ccd6f5b91fa",
+  "host_debug_tests": 21,
+  "host_sanitizer_tests": 21,
+  "canonical_model_state": "FIRST_CONTROL_BUILDING",
+  "model_performance_validated": false,
+  "promoted": false,
+  "goal_met": false
+}

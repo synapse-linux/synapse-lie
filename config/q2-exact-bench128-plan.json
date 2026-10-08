@@ -1,0 +1,90 @@
+{
+  "schema": "synapse-lie.q2-exact-bench128-plan.v1",
+  "label": "q2-exact-bench128-r1",
+  "source_parent_commit": "26139e9fb0e207193f167dbef409d2c762a74624",
+  "source_manifest_sha256": "2dca7edb8702b7644f04ab76629c629347ef1c121a519386a31e68c38f9258f5",
+  "runner_sha256": "0cff9d86b2e13b51512bf41914abe3844d82c30850067884a96e5164e3fc9890",
+  "order": [
+    "2048",
+    "4096",
+    "8192"
+  ],
+  "capacity": 133760,
+  "output_tokens": 128,
+  "previous_release": "q2-prefill-chunks128-r1/release.json",
+  "previous_release_sha256": "a6110bdffbc0b39a398b4d88de4bb66b7f0922615f58ecc5a4e808001dfb471b",
+  "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+  "model_stats": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "device": 54,
+      "inode": 3116203,
+      "bytes": 147207127040,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "device": 54,
+      "inode": 3206497,
+      "bytes": 10946624,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "device": 54,
+      "inode": 3228516,
+      "bytes": 49859583136,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "device": 54,
+      "inode": 3211726,
+      "bytes": 49376141504,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "device": 54,
+      "inode": 3207513,
+      "bytes": 12087983520,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "device": 54,
+      "inode": 3206512,
+      "bytes": 2786568256,
+      "mtime_ns": 1790711824619908153,
+      "ctime_ns": 1790711826279892467
+    },
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q4.gguf",
+      "device": 54,
+      "inode": 3116346,
+      "bytes": 177280286720,
+      "mtime_ns": 1789871998360000000,
+      "ctime_ns": 1790258428459084412
+    }
+  ],
+  "staged_sha256": {
+    "synapse-lie-bench": "23b53980e10a6615dc9e514eeee78c46c50aec90d5d57010de9532a51ae23f7f",
+    "promessi_sposi.txt": "f53e0d80cb2d4492d24ebd63c7000c397b16ae70f9bf09b3763e5d8323ec209f",
+    "q2-exact-bench128-window.py": "0cff9d86b2e13b51512bf41914abe3844d82c30850067884a96e5164e3fc9890"
+  },
+  "scope": "Raw Promessi sposi exact-token prefixes; native single suite, timed final chunk at 2K/4K/8K/16K/32K/64K/128K frontiers (omit frontiers below chunk); preceding prefix replay outside PP/TG timers; C1 AR reactive; greedy up to128 tokens with EOS respected. Same923 device functions byte-exact retained R3. No cold-file claim or numerical promotion. IOMMU on, no reboot, tuning, service, dependency or remote build/cleanup.",
+  "cpu_tests": {
+    "receipt_sha256": "a1902def6ed84f1826493380b0489bd6b72dc0c5b570119650691db6cccccb69",
+    "exit_code": 0,
+    "ctest": 2,
+    "cli_invocations_each": 23
+  },
+  "remote_build": false,
+  "remote_cleanup": false,
+  "gpu_admitted": false
+}

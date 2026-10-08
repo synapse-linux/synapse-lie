@@ -1,0 +1,20 @@
+{
+  "capsule_sha256": "b92ba05128755295f1aa4774ebc957756ec6ed088030b16d1f9001ae634adc98",
+  "archive_sha256": "3b8ca56ffe4ac041922dc5bd8feb6447342f608e5daffca0a9f5f65124ade4a8",
+  "fixture_files_verified": 107,
+  "source_files_verified": 1020,
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 7,
+  "result_sha256": "f6b3eea5bf0877a726e7efd0379275b22111a8748205371945368054c7ceb4af",
+  "debug": 31,
+  "asan_ubsan": 31,
+  "gpu_run": false,
+  "model_inference": false
+}

@@ -1,0 +1,47 @@
+{
+  "scope": "Local syntax only, no fixture or GPU execution",
+  "checks": [
+    {
+      "variant": "q2",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "-fsyntax-only",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DGGML_HIP_NO_VMM",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-curve-q2/src/models/qwen38_flash_next/kernels/rocm/mmq",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-iq2-signs-fixture-static-r1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests/q2_iq2_signs.hip"
+      ],
+      "at": "2026-10-03T23:28:38.710932+00:00",
+      "exit_code": 0
+    },
+    {
+      "variant": "iq2-signs",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "-fsyntax-only",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DGGML_HIP_NO_VMM",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-curve-iq2-signs/src/models/qwen38_flash_next/kernels/rocm/mmq",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-iq2-signs-fixture-static-r1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests/q2_iq2_signs.hip"
+      ],
+      "at": "2026-10-03T23:28:41.716666+00:00",
+      "exit_code": 0
+    }
+  ]
+}

@@ -1,0 +1,525 @@
+{
+  "scope": "Two diagnostic profiles, CPU guards and three HC component arms; no new full-model throughput result",
+  "goal_met": false,
+  "qualified_runtime_promoted": false,
+  "selected_development_source": ".deps/gufo-q2-bench-affine-palette",
+  "runs": {
+    "q2-prefill-gap-q2-profile-r1": {
+      "mode": "q2-profile",
+      "source_variant": "affine-palette",
+      "started_at": "2026-10-02T22:45:15.227790+00:00",
+      "finished_at": "2026-10-02T22:48:13.234056+00:00",
+      "state": "DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "capsule_sha256": "8f8611999ef0892fde4f1f44911d0da8f649a38d88ba10b203e284570f7e5abf",
+      "collection_sha256": "1f05522622fe27b0ad4ce90d82c9e0c00b9cb901a32580c640305a93a67a0a9c",
+      "binary_sha256": "f0f7e1b985b52dfbc2b1ed012e66459732333303b6b61a716f8e799ee54cf6f8",
+      "kernel_sha256": "4de114a41d58e2b6f74038abfbf27bef8dc285dadf4b95ef69ae3b51b6b8a9fe",
+      "thermal_max_mc": {
+        "amdgpu": 71000,
+        "k10temp": 91000
+      }
+    },
+    "q2-prefill-gap-ud-profile-r1": {
+      "mode": "ud-profile",
+      "source_variant": "qualified",
+      "started_at": "2026-10-02T22:50:00.077627+00:00",
+      "finished_at": "2026-10-02T22:52:25.343699+00:00",
+      "state": "DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "capsule_sha256": "045bd19e2db5a50728ec7a67b9376d64826fbd52468c87b6adf007321d02010d",
+      "collection_sha256": "656de81f873ab28e7699359182127b3760e77b007049048f40a253fc3fc420d6",
+      "binary_sha256": "68e1ac581119dc3a5495a8dcf4b349bfe2494df4a50b417b8435d11311f3ee3a",
+      "kernel_sha256": "45f73e260494ca2a7b801485e6a4c1df464998c57c048a519dfdbf49b4d80d25",
+      "thermal_max_mc": {
+        "amdgpu": 79000,
+        "k10temp": 92750
+      }
+    },
+    "q2-prefill-gap-host-r1": {
+      "mode": "cpu",
+      "source_variant": "qualified",
+      "started_at": "2026-10-02T22:55:49.537634+00:00",
+      "finished_at": "2026-10-02T22:56:16.226759+00:00",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "capsule_sha256": "9aee1cb92dac2c2e99752aa9df6d8acfe97ed125e30f6cc4339bb89fd33f62be",
+      "collection_sha256": "94490c2893ae65ff9c12d8eb487828df887f09483e286019f1876bc6c9ab6a01",
+      "binary_sha256": null,
+      "kernel_sha256": "2902a6d771f954eddc7ef00ea9b1a493198472add3fd8300ebefb54b0743ecd1",
+      "thermal_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 76000
+      }
+    },
+    "q2-prefill-gap-hc-ref-r1": {
+      "mode": "hc-pp-bench",
+      "source_variant": "affine-palette",
+      "started_at": "2026-10-02T22:59:01.455593+00:00",
+      "finished_at": "2026-10-02T22:59:21.074357+00:00",
+      "state": "FAILED",
+      "transport_exit": 1,
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "artifacts": 48,
+      "capsule_sha256": "eec43395d79372a4b84b53db9de4cdd21c9dd1ed25122422c37591ba3c4d016d",
+      "collection_sha256": "1cc7b211fb91db2b6e18eb99b36dbbbe514354bb2ff9655c348298d28d8ba1d8",
+      "binary_sha256": "a2f37b638285c1da0d2a96233d7223c3b8e0274255889522128ec75921796eac",
+      "kernel_sha256": "4de114a41d58e2b6f74038abfbf27bef8dc285dadf4b95ef69ae3b51b6b8a9fe",
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 78125
+      }
+    },
+    "q2-prefill-gap-hc-token-r1": {
+      "mode": "hc-pp-bench",
+      "source_variant": "hc-fragment-bound",
+      "started_at": "2026-10-02T23:05:35.998381+00:00",
+      "finished_at": "2026-10-02T23:05:56.122522+00:00",
+      "state": "FAILED",
+      "transport_exit": 1,
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "artifacts": 48,
+      "capsule_sha256": "f9783db62a0f015f972227cbb2ac4746bb362970684f7d8b12aaae0c70d1da7b",
+      "collection_sha256": "131398e9429e6af55fc60497d7e72ec1a7a596c0c8a419fc6d454ce106152918",
+      "binary_sha256": "87020cc9f5559300ee52fc1834c61e8be18fa49d9dba6e13516690a3a69f429f",
+      "kernel_sha256": "0049f4a20438efdf1a4b04d53be0b24e482312f161b1e8e3848841146a7527fa",
+      "thermal_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 77250
+      }
+    },
+    "q2-prefill-gap-hc-stage-r1": {
+      "mode": "hc-pp-bench",
+      "source_variant": "hc-stage-bound",
+      "started_at": "2026-10-02T23:06:51.414848+00:00",
+      "finished_at": "2026-10-02T23:07:10.520617+00:00",
+      "state": "FAILED",
+      "transport_exit": 1,
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "artifacts": 48,
+      "capsule_sha256": "41f5450963bcc311dea2f8b6118ec4affc057efd7658381f3a7a48b73cdd75ba",
+      "collection_sha256": "d7ba40272a0351b2cdeab2f37594057cab8d08a10bd08a46ce34c124ab9c9e39",
+      "binary_sha256": "3b02822fecae7525ce28756cb427d0e5edda3c86611727f225a44f08d622ad08",
+      "kernel_sha256": "f5c63f859df486b00791d59128b24a45ab0168ee1600d0a1658e8016bcdc150c",
+      "thermal_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 77125
+      }
+    }
+  },
+  "checks": {
+    "exit_code": 0,
+    "runs": 6,
+    "commands": 29,
+    "artifacts": 203,
+    "profile_control_replays_exact": 28,
+    "component_comparisons_exact": 44,
+    "retained_component_failures": "Four identical library control failures per arm; actual exit 1 in all three arms",
+    "host_tests": "12/12 Debug and 12/12 ASan/UBSan"
+  },
+  "retained_local_failures": [
+    "Two whole-upstream formatting exits 1 in unchanged files",
+    "Initial assembly-symbol parser exit 1, corrected in retained second analysis"
+  ],
+  "closure": {
+    "at": "2026-10-02T23:11:56.422703+00:00",
+    "state": "Q2_PREFILL_GAP_WINDOW_RELEASED",
+    "runners": [
+      {
+        "label": "q2-prefill-gap-q2-profile-r1",
+        "pid": 2727252,
+        "absent": true,
+        "finished_at": "2026-10-02T22:48:13.234056+00:00"
+      },
+      {
+        "label": "q2-prefill-gap-ud-profile-r1",
+        "pid": 2729229,
+        "absent": true,
+        "finished_at": "2026-10-02T22:52:25.343699+00:00"
+      },
+      {
+        "label": "q2-prefill-gap-host-r1",
+        "pid": 2731488,
+        "absent": true,
+        "finished_at": "2026-10-02T22:56:16.226759+00:00"
+      },
+      {
+        "label": "q2-prefill-gap-hc-ref-r1",
+        "pid": 2733036,
+        "absent": true,
+        "finished_at": "2026-10-02T22:59:21.074357+00:00"
+      },
+      {
+        "label": "q2-prefill-gap-hc-token-r1",
+        "pid": 2735194,
+        "absent": true,
+        "finished_at": "2026-10-02T23:05:56.122522+00:00"
+      },
+      {
+        "label": "q2-prefill-gap-hc-stage-r1",
+        "pid": 2735843,
+        "absent": true,
+        "finished_at": "2026-10-02T23:07:10.520617+00:00"
+      }
+    ],
+    "commands": [
+      {
+        "label": "q2-prefill-gap-q2-profile-r1",
+        "pid": 2727253,
+        "start_ticks": 154650952,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-q2-profile-r1",
+        "pid": 2727485,
+        "start_ticks": 154651155,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-q2-profile-r1",
+        "pid": 2728585,
+        "start_ticks": 154666732,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-q2-profile-r1",
+        "pid": 2728590,
+        "start_ticks": 154666786,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-q2-profile-r1",
+        "pid": 2728722,
+        "start_ticks": 154668591,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-q2-profile-r1",
+        "pid": 2728729,
+        "start_ticks": 154668643,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-q2-profile-r1",
+        "pid": 2728730,
+        "start_ticks": 154668696,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-ud-profile-r1",
+        "pid": 2729230,
+        "start_ticks": 154679437,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-ud-profile-r1",
+        "pid": 2729425,
+        "start_ticks": 154679590,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-ud-profile-r1",
+        "pid": 2730345,
+        "start_ticks": 154691010,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-ud-profile-r1",
+        "pid": 2730350,
+        "start_ticks": 154691063,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-ud-profile-r1",
+        "pid": 2730542,
+        "start_ticks": 154693802,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-ud-profile-r1",
+        "pid": 2730543,
+        "start_ticks": 154693854,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-ud-profile-r1",
+        "pid": 2730544,
+        "start_ticks": 154693907,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-host-r1",
+        "pid": 2731489,
+        "start_ticks": 154714383,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-host-r1",
+        "pid": 2731559,
+        "start_ticks": 154714435,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-host-r1",
+        "pid": 2731657,
+        "start_ticks": 154714888,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-host-r1",
+        "pid": 2731858,
+        "start_ticks": 154715542,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-host-r1",
+        "pid": 2731928,
+        "start_ticks": 154715595,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-host-r1",
+        "pid": 2732061,
+        "start_ticks": 154716348,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-hc-ref-r1",
+        "pid": 2733037,
+        "start_ticks": 154733575,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-hc-ref-r1",
+        "pid": 2733236,
+        "start_ticks": 154733778,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-hc-ref-r1",
+        "pid": 2733380,
+        "start_ticks": 154735183,
+        "exit_code": 1,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-hc-token-r1",
+        "pid": 2735195,
+        "start_ticks": 154773029,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-hc-token-r1",
+        "pid": 2735429,
+        "start_ticks": 154773232,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-hc-token-r1",
+        "pid": 2735579,
+        "start_ticks": 154774637,
+        "exit_code": 1,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-hc-stage-r1",
+        "pid": 2735844,
+        "start_ticks": 154780571,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-hc-stage-r1",
+        "pid": 2736072,
+        "start_ticks": 154780723,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-prefill-gap-hc-stage-r1",
+        "pid": 2736216,
+        "start_ticks": 154782128,
+        "exit_code": 1,
+        "absent": true
+      }
+    ],
+    "live_owned": [],
+    "kfd": [],
+    "leases": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067,
+        "free_verified_ex_nb": true
+      }
+    ],
+    "observer": {
+      "pid": 2737607,
+      "state": "R",
+      "group": 2737604,
+      "session": 2737604,
+      "start_ticks": 154811067
+    },
+    "models": [
+      {
+        "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+        "bytes": 147207127040,
+        "device": 52,
+        "inode": 3116203,
+        "mtime_ns": 1789830972390000000,
+        "ctime_ns": 1790245042601989314
+      },
+      {
+        "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "bytes": 10946624,
+        "device": 52,
+        "inode": 3206497,
+        "mtime_ns": 1790711324843554872,
+        "ctime_ns": 1790711324862554699
+      },
+      {
+        "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+        "bytes": 49859583136,
+        "device": 52,
+        "inode": 3228516,
+        "mtime_ns": 1790736177583897747,
+        "ctime_ns": 1790736200535707812
+      },
+      {
+        "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+        "bytes": 49376141504,
+        "device": 52,
+        "inode": 3211726,
+        "mtime_ns": 1790722377225361874,
+        "ctime_ns": 1790722399329150549
+      },
+      {
+        "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+        "bytes": 12087983520,
+        "device": 52,
+        "inode": 3207513,
+        "mtime_ns": 1790713947624076845,
+        "ctime_ns": 1790713953424001688
+      }
+    ],
+    "result_sha256": {
+      "q2-prefill-gap-q2-profile-r1": "fe3831813d303b268a62667aa8fd398051a984e13037d576afda04d65dbc7eb3",
+      "q2-prefill-gap-ud-profile-r1": "6311075b31f005ce64761102c66d8cfccdd7fdb48196273ab6cab48f3fb07de7",
+      "q2-prefill-gap-host-r1": "09139e3b8d9f358810bfa46177bc8060d3ac4c1c29d4ca2f6e0145001d4a570b",
+      "q2-prefill-gap-hc-ref-r1": "658af607b0aee1ab357c101d50fc038e6e9764cb326d9a13ca702b2cb35caab8",
+      "q2-prefill-gap-hc-token-r1": "636407568a7e85d874c40550dfe9196491276bcd8dcb0a670add8f75c92b91ad",
+      "q2-prefill-gap-hc-stage-r1": "52df4540b5e3aff8c0a3c72adf823fe6dd7d73f123f66ef75939db144ad6afb8"
+    },
+    "thermal": {
+      "/sys/class/hwmon/hwmon4/temp1_input": "46500",
+      "/sys/class/hwmon/hwmon2/temp1_input": "46000",
+      "/sys/class/hwmon/hwmon0/temp1_input": "46000",
+      "/sys/class/hwmon/hwmon5/temp1_input": "49000",
+      "/sys/class/hwmon/hwmon3/temp1_input": "47000",
+      "/sys/class/hwmon/hwmon1/temp6_input": "41850",
+      "/sys/class/hwmon/hwmon1/temp3_input": "41850",
+      "/sys/class/hwmon/hwmon1/temp7_input": "41850",
+      "/sys/class/hwmon/hwmon1/temp4_input": "41850",
+      "/sys/class/hwmon/hwmon1/temp8_input": "41850",
+      "/sys/class/hwmon/hwmon1/temp1_input": "42850",
+      "/sys/class/hwmon/hwmon1/temp9_input": "42850",
+      "/sys/class/hwmon/hwmon1/temp2_input": "53850"
+    }
+  },
+  "retirement": {
+    "at": "2026-10-02T23:12:27.986027+00:00",
+    "expected": {
+      "pid": 2737607,
+      "state": "R",
+      "group": 2737604,
+      "session": 2737604,
+      "start_ticks": 154811067
+    },
+    "live": [],
+    "kfd": [],
+    "observer_retired": true
+  }
+}

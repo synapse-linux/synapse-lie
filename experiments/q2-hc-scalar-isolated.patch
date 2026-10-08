@@ -1,0 +1,57 @@
+--- a/src/models/qwen38_flash_next/CMakeLists.txt
++++ b/src/models/qwen38_flash_next/CMakeLists.txt
+@@ -49,6 +49,7 @@
+ 
+   set(QFN_HIP_SOURCES
+     ${QFN_ROCM_DIR}/kernels.hip.cpp
++    ${QFN_ROCM_DIR}/hc_scalar_up_mix.hip
+     ${QFN_ROCM_DIR}/w8a8_wave64.hip
+     ${QFN_ROCM_DIR}/blaslt.cpp
+     ${QFN_ROCM_DIR}/device_model.cpp
+@@ -60,6 +61,10 @@
+   set_target_properties(gufo_qwen38_flash_next PROPERTIES
+     C_STANDARD 17 C_STANDARD_REQUIRED ON C_EXTENSIONS OFF)
+   set_source_files_properties(${QFN_ROCM_DIR}/kernels.hip.cpp PROPERTIES LANGUAGE HIP)
++  # Keep the measured scalar component codegen local. The common backend
++  # retains the saved RelWithDebInfo flags and its prefill instruction stream.
++  set_source_files_properties(${QFN_ROCM_DIR}/hc_scalar_up_mix.hip
++    PROPERTIES COMPILE_OPTIONS "-g0")
+   set_source_files_properties(${QFN_ROCM_DIR}/w8a8_wave64.hip
+     PROPERTIES COMPILE_OPTIONS "-mwavefrontsize64")
+   target_compile_definitions(gufo_qwen38_flash_next PRIVATE QFN_ROCM_BUILD=1)
+--- /dev/null
++++ b/src/models/qwen38_flash_next/kernels/rocm/hc_scalar_up_mix.hip
+@@ -0,0 +1,22 @@
++// SPDX-License-Identifier: MIT
++// Original Gufo F16/F32 scalar HC arithmetic, pin
++// f783fedb9bea2ec7de941f6da4e02f4a4596b29e. Helpers are exact excerpts of
++// kernels.hip.cpp; upstream notices are retained. A separate translation unit
++// prevents decode codegen from changing prefill.
++#include <hip/hip_fp16.h>
++
++#include "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp"
++namespace gufo::models::qwen38_flash_next::rocm {
++namespace {
++__device__ __forceinline__ float SigmoidF(float x) {
++  return 1.0f / (1.0f + __expf(-x));
++}
++__device__ __forceinline__ float WaveSum(float v) {
++  for (int offset = warpSize / 2; offset > 0; offset >>= 1) {
++    v += __shfl_xor(v, offset);
++  }
++  return v;
++}
++}  // namespace
++#include "q2_hc_scalar_up_mix.inc"
++}  // namespace gufo::models::qwen38_flash_next::rocm
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5091,8 +5091,6 @@
+ 
+ }  // namespace
+ 
+-#include "q2_hc_scalar_up_mix.inc"
+-
+ void EmbedTokens(const void* table, WeightType type, const std::int32_t* tokens,
+                  float* res, std::uint32_t n_tokens, std::uint32_t hidden,
+                  std::uint32_t streams, hipStream_t stream) {

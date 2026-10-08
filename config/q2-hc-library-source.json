@@ -1,0 +1,39 @@
+{
+  "scope": "Synthetic algorithm screen; no measured result yet",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "source": ".deps/gufo-q2-bench-affine-palette",
+  "kernel_sha256": "4de114a41d58e2b6f74038abfbf27bef8dc285dadf4b95ef69ae3b51b6b8a9fe",
+  "files": {
+    "tests/q2_hc_pp.cpp": "d8d8fb62a4fd644fa94f4d2806e24070e8fe26fba8630a23348d7a73702a2173",
+    "tests/q2_remote_test.py": "faf85f034b740dfdbddb5baaede5e8b09dac0a0e43afaac2fd6bff53e249506f",
+    "tools/q2-remote.py": "22fdc3e3d39b95f5eceb040006ca3ad20548b31c736ef6ef6974ed6a28118bc9",
+    "tools/q2-runner.py": "336be4e1c3385a4d7498f479dbab635f83ad6867b3f4d54657d13aa770519103",
+    "cmake/hip/CMakeLists.txt": "f7aa23cb1245cb0fcea3c63b7353407da2804ba559a61760e7cb5b844834a886"
+  },
+  "shapes": [
+    {
+      "m": 320,
+      "k": 10240,
+      "n": 2048
+    },
+    {
+      "m": 10240,
+      "k": 320,
+      "n": 2048
+    }
+  ],
+  "workspace_caps_bytes": [
+    0,
+    67108864
+  ],
+  "heuristic_choices_per_cap": 32,
+  "rotations": 16,
+  "weight_bytes": 104857600,
+  "timing_batches": 5,
+  "launches_per_batch": 16,
+  "native_control": "Before and after each shape algorithm sweep",
+  "oracle": "Existing sampled FP64 formula, relative RMS and error/peak <= 2e-5; full output finite, guarded and SHA256; repeated identical rows checked at every token position",
+  "failures": "Numerical failures retain exit 1 after timing, including four inherited native library controls; no automatic adoption",
+  "api_reference": "https://rocm.docs.amd.com/projects/hipBLASLt/en/docs-7.2.4/reference/ext-reference.html",
+  "limit": "Primary shapes only; independent model quality, cross-batch/ragged algorithm qualification and complete-model performance are later gates"
+}

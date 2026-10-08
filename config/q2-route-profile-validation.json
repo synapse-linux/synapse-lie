@@ -1,0 +1,40 @@
+{
+  "schema": "synapse-lie.q2-route-profile-validation.v1",
+  "host_debug_tests": 20,
+  "host_sanitizer_tests": 20,
+  "complete_depths": [
+    0,
+    4096,
+    8192,
+    12288,
+    16384,
+    32768,
+    65536,
+    131072
+  ],
+  "forward_observations": 1385,
+  "routing_observations": 7248,
+  "history_exact": true,
+  "verified_artifacts": 37,
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "retired_processes": 15,
+  "retired_groups": 11,
+  "model_stats_unchanged": true,
+  "release_sha256": "e8b81c54690b78c5ff075d5234c0258900d7c78095a6c2adc68f83e1555bb94e",
+  "headline_eligible": false,
+  "performance_gain_established": false,
+  "promoted": false,
+  "goal_met": false
+}

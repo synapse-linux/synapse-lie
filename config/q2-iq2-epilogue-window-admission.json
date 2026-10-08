@@ -1,0 +1,766 @@
+{
+  "schema": "synapse-lie.q2-iq2-epilogue-window-admission.v1",
+  "at": "2026-10-04T06:30:58.718575+00:00",
+  "state": "Q2_IQ2_EPILOGUE_WINDOW_ADMITTED",
+  "owner": "synapse-lie-q2",
+  "release": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-http-multi-window-release.json",
+  "release_sha256": "dbbae9d785b1895da0b43420b7d676717e583f6d485cf725d4d35be339354840",
+  "retired_identities": [
+    {
+      "pid": 3431283,
+      "start_ticks": 165807324
+    },
+    {
+      "pid": 3431284,
+      "start_ticks": 165807326
+    },
+    {
+      "pid": 3431321,
+      "start_ticks": 165807577
+    },
+    {
+      "pid": 3431497,
+      "start_ticks": 165809784
+    },
+    {
+      "pid": 3431595,
+      "start_ticks": 165811969
+    },
+    {
+      "pid": 3431604,
+      "start_ticks": 165812053
+    },
+    {
+      "pid": 3431647,
+      "start_ticks": 165812349
+    },
+    {
+      "pid": 3431773,
+      "start_ticks": 165814454
+    },
+    {
+      "pid": 3431883,
+      "start_ticks": 165816588
+    },
+    {
+      "pid": 3431890,
+      "start_ticks": 165816643
+    },
+    {
+      "pid": 3431929,
+      "start_ticks": 165816985
+    },
+    {
+      "pid": 3432064,
+      "start_ticks": 165819065
+    },
+    {
+      "pid": 3432217,
+      "start_ticks": 165821596
+    },
+    {
+      "pid": 3432218,
+      "start_ticks": 165821692
+    },
+    {
+      "pid": 3432233,
+      "start_ticks": 165822039
+    },
+    {
+      "pid": 3432424,
+      "start_ticks": 165824550
+    },
+    {
+      "pid": 3432531,
+      "start_ticks": 165827267
+    },
+    {
+      "pid": 3432560,
+      "start_ticks": 165827352
+    },
+    {
+      "pid": 3432569,
+      "start_ticks": 165827817
+    },
+    {
+      "pid": 3432764,
+      "start_ticks": 165830602
+    },
+    {
+      "pid": 3432906,
+      "start_ticks": 165833735
+    },
+    {
+      "pid": 3432907,
+      "start_ticks": 165833787
+    },
+    {
+      "pid": 3432922,
+      "start_ticks": 165834306
+    },
+    {
+      "pid": 3433122,
+      "start_ticks": 165836410
+    },
+    {
+      "pid": 3433298,
+      "start_ticks": 165839672
+    },
+    {
+      "pid": 3433299,
+      "start_ticks": 165839748
+    },
+    {
+      "pid": 3433314,
+      "start_ticks": 165840344
+    },
+    {
+      "pid": 3433585,
+      "start_ticks": 165844856
+    },
+    {
+      "pid": 3433893,
+      "start_ticks": 165849498
+    },
+    {
+      "pid": 3433895,
+      "start_ticks": 165849581
+    },
+    {
+      "pid": 3433944,
+      "start_ticks": 165850064
+    },
+    {
+      "pid": 3434081,
+      "start_ticks": 165852271
+    },
+    {
+      "pid": 3434253,
+      "start_ticks": 165855794
+    },
+    {
+      "pid": 3434254,
+      "start_ticks": 165855875
+    },
+    {
+      "pid": 3434299,
+      "start_ticks": 165856344
+    },
+    {
+      "pid": 3434459,
+      "start_ticks": 165858803
+    },
+    {
+      "pid": 3434667,
+      "start_ticks": 165863209
+    },
+    {
+      "pid": 3434668,
+      "start_ticks": 165863292
+    },
+    {
+      "pid": 3434715,
+      "start_ticks": 165863914
+    },
+    {
+      "pid": 3434910,
+      "start_ticks": 165866773
+    },
+    {
+      "pid": 3435192,
+      "start_ticks": 165871975
+    },
+    {
+      "pid": 3435228,
+      "start_ticks": 165872047
+    },
+    {
+      "pid": 3435271,
+      "start_ticks": 165872607
+    },
+    {
+      "pid": 3435398,
+      "start_ticks": 165874788
+    },
+    {
+      "pid": 3435506,
+      "start_ticks": 165876544
+    },
+    {
+      "pid": 3435507,
+      "start_ticks": 165876615
+    },
+    {
+      "pid": 3435551,
+      "start_ticks": 165877070
+    },
+    {
+      "pid": 3435675,
+      "start_ticks": 165879228
+    },
+    {
+      "pid": 3435756,
+      "start_ticks": 165881001
+    },
+    {
+      "pid": 3435777,
+      "start_ticks": 165881070
+    },
+    {
+      "pid": 3435831,
+      "start_ticks": 165881544
+    },
+    {
+      "pid": 3435956,
+      "start_ticks": 165883701
+    },
+    {
+      "pid": 3436094,
+      "start_ticks": 165886011
+    },
+    {
+      "pid": 3436095,
+      "start_ticks": 165886113
+    },
+    {
+      "pid": 3436104,
+      "start_ticks": 165886587
+    },
+    {
+      "pid": 3436264,
+      "start_ticks": 165888742
+    },
+    {
+      "pid": 3436387,
+      "start_ticks": 165891126
+    },
+    {
+      "pid": 3436398,
+      "start_ticks": 165891205
+    },
+    {
+      "pid": 3436442,
+      "start_ticks": 165891663
+    },
+    {
+      "pid": 3436597,
+      "start_ticks": 165893818
+    },
+    {
+      "pid": 3436777,
+      "start_ticks": 165897049
+    },
+    {
+      "pid": 3436779,
+      "start_ticks": 165897118
+    },
+    {
+      "pid": 3436823,
+      "start_ticks": 165897674
+    },
+    {
+      "pid": 3436977,
+      "start_ticks": 165899832
+    },
+    {
+      "pid": 3437122,
+      "start_ticks": 165902878
+    },
+    {
+      "pid": 3437123,
+      "start_ticks": 165902974
+    },
+    {
+      "pid": 3437134,
+      "start_ticks": 165903442
+    },
+    {
+      "pid": 3437323,
+      "start_ticks": 165905675
+    },
+    {
+      "pid": 3437465,
+      "start_ticks": 165909353
+    },
+    {
+      "pid": 3437466,
+      "start_ticks": 165909434
+    },
+    {
+      "pid": 3437517,
+      "start_ticks": 165910003
+    },
+    {
+      "pid": 3437709,
+      "start_ticks": 165912635
+    },
+    {
+      "pid": 3437951,
+      "start_ticks": 165916980
+    },
+    {
+      "pid": 3437953,
+      "start_ticks": 165917074
+    },
+    {
+      "pid": 3438024,
+      "start_ticks": 165917650
+    },
+    {
+      "pid": 3438150,
+      "start_ticks": 165919830
+    },
+    {
+      "pid": 3438476,
+      "start_ticks": 165924911
+    },
+    {
+      "pid": 3438477,
+      "start_ticks": 165924974
+    },
+    {
+      "pid": 3438514,
+      "start_ticks": 165925640
+    },
+    {
+      "pid": 3438675,
+      "start_ticks": 165927824
+    },
+    {
+      "pid": 3438861,
+      "start_ticks": 165932033
+    },
+    {
+      "pid": 3438897,
+      "start_ticks": 165932140
+    },
+    {
+      "pid": 3438934,
+      "start_ticks": 165932714
+    },
+    {
+      "pid": 3439058,
+      "start_ticks": 165934946
+    },
+    {
+      "pid": 3439128,
+      "start_ticks": 165936014
+    },
+    {
+      "pid": 3439130,
+      "start_ticks": 165936104
+    },
+    {
+      "pid": 3439139,
+      "start_ticks": 165936562
+    },
+    {
+      "pid": 3439391,
+      "start_ticks": 165938741
+    },
+    {
+      "pid": 3439440,
+      "start_ticks": 165939776
+    },
+    {
+      "pid": 3439447,
+      "start_ticks": 165939838
+    },
+    {
+      "pid": 3439491,
+      "start_ticks": 165940295
+    },
+    {
+      "pid": 3439619,
+      "start_ticks": 165942450
+    },
+    {
+      "pid": 3439705,
+      "start_ticks": 165943866
+    },
+    {
+      "pid": 3439708,
+      "start_ticks": 165943926
+    },
+    {
+      "pid": 3439759,
+      "start_ticks": 165944388
+    },
+    {
+      "pid": 3439922,
+      "start_ticks": 165946572
+    },
+    {
+      "pid": 3439992,
+      "start_ticks": 165947935
+    },
+    {
+      "pid": 3439999,
+      "start_ticks": 165948030
+    },
+    {
+      "pid": 3440008,
+      "start_ticks": 165948498
+    },
+    {
+      "pid": 3440171,
+      "start_ticks": 165950655
+    },
+    {
+      "pid": 3440268,
+      "start_ticks": 165952559
+    },
+    {
+      "pid": 3440269,
+      "start_ticks": 165952664
+    },
+    {
+      "pid": 3440280,
+      "start_ticks": 165953137
+    },
+    {
+      "pid": 3440479,
+      "start_ticks": 165955343
+    },
+    {
+      "pid": 3440595,
+      "start_ticks": 165957497
+    },
+    {
+      "pid": 3440596,
+      "start_ticks": 165957566
+    },
+    {
+      "pid": 3440645,
+      "start_ticks": 165958127
+    },
+    {
+      "pid": 3440798,
+      "start_ticks": 165960307
+    },
+    {
+      "pid": 3441007,
+      "start_ticks": 165963350
+    },
+    {
+      "pid": 3441026,
+      "start_ticks": 165963458
+    },
+    {
+      "pid": 3441118,
+      "start_ticks": 165964023
+    },
+    {
+      "pid": 3441273,
+      "start_ticks": 165966182
+    },
+    {
+      "pid": 3441405,
+      "start_ticks": 165968728
+    },
+    {
+      "pid": 3441407,
+      "start_ticks": 165968825
+    },
+    {
+      "pid": 3441425,
+      "start_ticks": 165969396
+    },
+    {
+      "pid": 3441585,
+      "start_ticks": 165971603
+    },
+    {
+      "pid": 3441739,
+      "start_ticks": 165974670
+    },
+    {
+      "pid": 3441768,
+      "start_ticks": 165974811
+    },
+    {
+      "pid": 3441785,
+      "start_ticks": 165975386
+    },
+    {
+      "pid": 3441945,
+      "start_ticks": 165977640
+    },
+    {
+      "pid": 3442195,
+      "start_ticks": 165981474
+    },
+    {
+      "pid": 3442927,
+      "start_ticks": 165995892
+    },
+    {
+      "pid": 3442928,
+      "start_ticks": 165995895
+    },
+    {
+      "pid": 3442943,
+      "start_ticks": 165996051
+    },
+    {
+      "pid": 3443077,
+      "start_ticks": 165998156
+    },
+    {
+      "pid": 3443221,
+      "start_ticks": 166000270
+    },
+    {
+      "pid": 3443223,
+      "start_ticks": 166000347
+    },
+    {
+      "pid": 3443232,
+      "start_ticks": 166000690
+    },
+    {
+      "pid": 3443362,
+      "start_ticks": 166002772
+    },
+    {
+      "pid": 3443491,
+      "start_ticks": 166004921
+    }
+  ],
+  "retired_groups": [
+    3431284,
+    3431321,
+    3431497,
+    3431595,
+    3431604,
+    3431647,
+    3431773,
+    3431883,
+    3431890,
+    3431929,
+    3432064,
+    3432217,
+    3432218,
+    3432233,
+    3432424,
+    3432531,
+    3432560,
+    3432569,
+    3432764,
+    3432906,
+    3432907,
+    3432922,
+    3433122,
+    3433298,
+    3433299,
+    3433314,
+    3433585,
+    3433893,
+    3433895,
+    3433944,
+    3434081,
+    3434253,
+    3434254,
+    3434299,
+    3434459,
+    3434667,
+    3434668,
+    3434715,
+    3434910,
+    3435192,
+    3435228,
+    3435271,
+    3435398,
+    3435506,
+    3435507,
+    3435551,
+    3435675,
+    3435756,
+    3435777,
+    3435831,
+    3435956,
+    3436094,
+    3436095,
+    3436104,
+    3436264,
+    3436387,
+    3436398,
+    3436442,
+    3436597,
+    3436777,
+    3436779,
+    3436823,
+    3436977,
+    3437122,
+    3437123,
+    3437134,
+    3437323,
+    3437465,
+    3437466,
+    3437517,
+    3437709,
+    3437951,
+    3437953,
+    3438024,
+    3438150,
+    3438476,
+    3438477,
+    3438514,
+    3438675,
+    3438861,
+    3438897,
+    3438934,
+    3439058,
+    3439128,
+    3439130,
+    3439139,
+    3439391,
+    3439440,
+    3439447,
+    3439491,
+    3439619,
+    3439705,
+    3439708,
+    3439759,
+    3439922,
+    3439992,
+    3439999,
+    3440008,
+    3440171,
+    3440268,
+    3440269,
+    3440280,
+    3440479,
+    3440595,
+    3440596,
+    3440645,
+    3440798,
+    3441007,
+    3441026,
+    3441118,
+    3441273,
+    3441405,
+    3441407,
+    3441425,
+    3441585,
+    3441739,
+    3441768,
+    3441785,
+    3441945,
+    3442195,
+    3442928,
+    3442943,
+    3443077,
+    3443221,
+    3443223,
+    3443232,
+    3443362,
+    3443491
+  ],
+  "owned_group_members": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "unchanged_free_EX_NB": true
+    }
+  ],
+  "kfd": [],
+  "models": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "bytes": 147207127040,
+      "device": 52,
+      "inode": 3116203,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 52,
+      "inode": 3206497,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 52,
+      "inode": 3228516,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 52,
+      "inode": 3211726,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 52,
+      "inode": 3207513,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "bytes": 2786568256,
+      "device": 52,
+      "inode": 3206512,
+      "mtime_ns": 1790711824619908153,
+      "ctime_ns": 1790711826279892467
+    }
+  ],
+  "model_stats_unchanged": true,
+  "thermal": [
+    {
+      "driver": "amdgpu",
+      "path": "/sys/class/hwmon/hwmon2/temp1_input",
+      "temperature_mc": 36000,
+      "exposed_limits_mc": {}
+    },
+    {
+      "driver": "k10temp",
+      "path": "/sys/class/hwmon/hwmon3/temp1_input",
+      "temperature_mc": 37875,
+      "exposed_limits_mc": {}
+    }
+  ],
+  "previous_registry_event": {
+    "owner": "synapse-lie",
+    "event": "window_release",
+    "at": "2026-10-04T06:26:51.843491+00:00",
+    "campaign": "gpu-http-multi-r1 + AR-reference-r1",
+    "receipt": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-http-multi-window-release.json",
+    "sha256": "dbbae9d785b1895da0b43420b7d676717e583f6d485cf725d4d35be339354840",
+    "next_window_owner": "Q2",
+    "state": "WINDOW_RELEASED"
+  },
+  "scope": "Three fixed GPU component arms: unchanged ordered IQ2 reference, continue guard, break guard. Qualified host21Debug/21ASan unchanged. Synthetic weights/activations with exact observed routing; no model forward, hardware changes or dependencies.",
+  "source_checkpoint": "aa2ee8e",
+  "restart_scheduled": false
+}

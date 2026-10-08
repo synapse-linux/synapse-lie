@@ -1,0 +1,149 @@
+{
+  "at": "2026-10-04T00:07:51.297211+00:00",
+  "state": "Q2_IQ2_SIGNS_WINDOW_RELEASED",
+  "labels": [
+    "q2-iq2-signs-host-r1",
+    "q2-iq2-signs-reference-r1",
+    "q2-iq2-signs-candidate-r1",
+    "q2-iq2-signs-host-r2",
+    "q2-iq2-signs-ordered-r1",
+    "q2-iq2-signs-reference-r2"
+  ],
+  "command_exits": {
+    "q2-iq2-signs-host-r1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-iq2-signs-reference-r1": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-iq2-signs-candidate-r1": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-iq2-signs-host-r2": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-iq2-signs-ordered-r1": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-iq2-signs-reference-r2": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "checked_pids": [
+    3301352,
+    3301381,
+    3301458,
+    3301585,
+    3301798,
+    3301902,
+    3302038,
+    3302557,
+    3302558,
+    3302791,
+    3303645,
+    3303650,
+    3304145,
+    3304146,
+    3304347,
+    3305254,
+    3305267,
+    3307064,
+    3307067,
+    3307140,
+    3307277,
+    3307511,
+    3307588,
+    3307729,
+    3308276,
+    3308277,
+    3308475,
+    3309350,
+    3309356,
+    3309668,
+    3309669,
+    3309865,
+    3310805,
+    3310810
+  ],
+  "checked_groups": [
+    3301381,
+    3301458,
+    3301585,
+    3301798,
+    3301902,
+    3302038,
+    3302558,
+    3302791,
+    3303645,
+    3303650,
+    3304146,
+    3304347,
+    3305254,
+    3305267,
+    3307067,
+    3307140,
+    3307277,
+    3307511,
+    3307588,
+    3307729,
+    3308277,
+    3308475,
+    3309350,
+    3309356,
+    3309669,
+    3309865,
+    3310805,
+    3310810
+  ],
+  "live_owned": [],
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067
+    }
+  ],
+  "artifacts": 474,
+  "gpu_reserved": false,
+  "restart_scheduled": false,
+  "numerical": "Initial packed signs pass independent operators but fail exact replay; analyzer exit1 retained. Ordered variant comparison recorded separately. No model throughput/quality promotion.",
+  "scope": "Six host/component cohorts only; no original model access. No Q2 waiter, restart or reservation remains. Next coordinated campaign requires fresh admission."
+}

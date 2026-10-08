@@ -1,0 +1,25 @@
+arm,source,metric,repetition,value
+Q2 sequential,evidence/q2-shared-overlap-reference-r1,prefill_tok_s,1,1336.259526
+Q2 sequential,evidence/q2-shared-overlap-reference-r1,prefill_tok_s,2,1335.845602
+Q2 sequential,evidence/q2-shared-overlap-reference-r1,prefill_tok_s,3,1337.12737
+Q2 two streams,evidence/q2-shared-overlap-candidate-r1,prefill_tok_s,1,1324.825005
+Q2 two streams,evidence/q2-shared-overlap-candidate-r1,prefill_tok_s,2,1322.253385
+Q2 two streams,evidence/q2-shared-overlap-candidate-r1,prefill_tok_s,3,1322.513714
+Q2 sequential,evidence/q2-shared-overlap-reference-r1,decode_steps_s,1,24.10692088
+Q2 sequential,evidence/q2-shared-overlap-reference-r1,decode_steps_s,2,24.05574946
+Q2 sequential,evidence/q2-shared-overlap-reference-r1,decode_steps_s,3,24.08694614
+Q2 two streams,evidence/q2-shared-overlap-candidate-r1,decode_steps_s,1,24.10543676
+Q2 two streams,evidence/q2-shared-overlap-candidate-r1,decode_steps_s,2,24.0906399
+Q2 two streams,evidence/q2-shared-overlap-candidate-r1,decode_steps_s,3,24.08968171
+Q2 sequential,evidence/q2-shared-overlap-reference-r1,prefill_s,1,1.532636408
+Q2 sequential,evidence/q2-shared-overlap-reference-r1,prefill_s,2,1.533111309
+Q2 sequential,evidence/q2-shared-overlap-reference-r1,prefill_s,3,1.531641672
+Q2 two streams,evidence/q2-shared-overlap-candidate-r1,prefill_s,1,1.545864542
+Q2 two streams,evidence/q2-shared-overlap-candidate-r1,prefill_s,2,1.548871058
+Q2 two streams,evidence/q2-shared-overlap-candidate-r1,prefill_s,3,1.548566172
+Q2 sequential,evidence/q2-shared-overlap-reference-r1,decode_s,1,5.268196658
+Q2 sequential,evidence/q2-shared-overlap-reference-r1,decode_s,2,5.279403172
+Q2 sequential,evidence/q2-shared-overlap-reference-r1,decode_s,3,5.27256545
+Q2 two streams,evidence/q2-shared-overlap-candidate-r1,decode_s,1,5.268521009
+Q2 two streams,evidence/q2-shared-overlap-candidate-r1,decode_s,2,5.27175702
+Q2 two streams,evidence/q2-shared-overlap-candidate-r1,decode_s,3,5.271966708

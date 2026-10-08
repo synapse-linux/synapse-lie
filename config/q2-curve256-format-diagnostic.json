@@ -1,0 +1,19 @@
+{
+  "schema": "synapse-lie.q2-curve256-format-diagnostic.v1",
+  "command": {
+    "argv": [
+      "python3",
+      ".deps/gufo-q2-curve256-headroom-q2/tools/ci/check-format.py"
+    ],
+    "started_at": "2026-10-06T14:29:43.911353+00:00",
+    "finished_at": "2026-10-06T14:29:45.879667+00:00",
+    "exit_code": 1
+  },
+  "diagnostics": 101,
+  "in_unchanged_files": 100,
+  "new_engine_helper_alignment": 1,
+  "passed": false,
+  "runtime_sources_mutated": false,
+  "log_sha256": "556081b0b5b7c7a821e8ec3618cf580d78ea517baaa4495481aa7e2b79bc57b3",
+  "followup": "Correct cosmetic helper alignment only after active frozen curve is collected, released and audited."
+}

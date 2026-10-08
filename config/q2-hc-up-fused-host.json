@@ -1,0 +1,25 @@
+{
+  "label": "q2-hc-up-fused-host-r1",
+  "scope": "CPU fixtures only, GPU visibility disabled, no model access; not HC fused inference qualification",
+  "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+  "debug_ctest": "9/9 pass",
+  "asan_ubsan_ctest": "9/9 pass",
+  "remote_guard_fixture": "5 methods, 9 refusal cases",
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "transport_exit": 0,
+  "finished_at": "2026-10-02T10:59:50.480447+00:00",
+  "verified_artifacts": 7,
+  "collection_sha256": "e5cc8b8b51b91ee449197383d45041c807b1416d3cd8bf73317d870b3f891dcd",
+  "source_capsule_sha256": "c88f3e00d6235b16d9791d5024b14d1939f57fed519340e964305081cd8b9c12",
+  "result_sha256": "bc8b9d6f657a956a12e7df18cd95324ec83ce19906e99e48e50a490a9dac63c9",
+  "retirement_receipt": "evidence/q2-hc-up-fused-host-retired.json",
+  "retired_at": "2026-10-02T11:06:10.620687+00:00",
+  "retired_commands": 6
+}

@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5754,11 +5754,16 @@
+          bool kHalfWeights = false, bool kHcUpChains = false>
+ __launch_bounds__(kHcUpChains ? 512 : 256) __global__ void DenseF16GEMMKernel(
+     const void* __restrict__ w, const __half* __restrict__ x,
+-    float* __restrict__ y, std::size_t batch, std::size_t m, std::size_t k,
++    float* __restrict__ y, std::size_t batch, std::size_t runtime_m,
++    std::size_t runtime_k,
+     const std::conditional_t<kHalfWeights, float, __half>* xn = nullptr,
+     __half* mixed_half = nullptr, void* mixed_q8 = nullptr,
+     const float* conv_w = nullptr, float* conv_out = nullptr,
+     AttentionProjectionOutput attention = {}) {
++  // DenseF16SsmGemm already requires this M/K shape before launch.
++  // Keep batch dynamic, including ragged token tiles and history tails.
++  const std::size_t m = kSsmConv ? 16384 : runtime_m;
++  const std::size_t k = kSsmConv ? 2560 : runtime_k;
+   static_assert(WM * WN == 8, "256 threads is 8 waves");
+   static_assert(BM % (16 * WM) == 0 && BN % (16 * WN) == 0);
+   constexpr int kRowTiles = BM / 16;

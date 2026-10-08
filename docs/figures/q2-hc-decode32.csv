@@ -1,0 +1,3 @@
+scope,arm,unit,minimum,median,maximum
+HC down: 100 MiB rotating weights,Original,Microseconds / call,47.5599393249,47.7958843112,48.0146259069
+HC down: 100 MiB rotating weights,32 waves,Microseconds / call,30.7277739048,30.757766217,30.8718197048

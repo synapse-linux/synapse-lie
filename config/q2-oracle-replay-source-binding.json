@@ -1,0 +1,24 @@
+{
+  "schema": "synapse-lie.q2-oracle-replay-source-binding.v1",
+  "arms": [
+    {
+      "label": "q2-shared-q8-producer-component-r3",
+      "capsule_sha256": "d2ac74170b70ca46d711cbe64c96252329150c1855b3d0b2ad3aba003bc80eca",
+      "provider_files": 1022,
+      "independent_oracle_sha256": "fec3cc9b8159986d8f281841574db0e0fadd4eb93d674065dc237d4928ad88af",
+      "compile_options_inherit_same_gufo_target": true
+    },
+    {
+      "label": "q2-shared-q8-oracle-replay-r3",
+      "capsule_sha256": "23a870d023bb38fd5752a507876ab41dbaca0b4a802955562320f8640ca3a208",
+      "provider_files": 1022,
+      "independent_oracle_sha256": "fec3cc9b8159986d8f281841574db0e0fadd4eb93d674065dc237d4928ad88af",
+      "compile_options_inherit_same_gufo_target": true
+    }
+  ],
+  "provider_files_exact": 1022,
+  "independent_gpu_math_exact": true,
+  "target_numerical_flags_unchanged": true,
+  "model_forward": false,
+  "original_replay_report_sha256": "030a1004c72510d8d0be7464869cfe9a0932912e6f7d4a659f75cca8a19fb144"
+}

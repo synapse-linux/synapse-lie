@@ -1,0 +1,37 @@
+arm,source,metric,repetition,value
+Q2 palette,evidence/q2-hc-up-chains-model-ref-r1,prefill_tok_s,1,1312.915386
+Q2 palette,evidence/q2-hc-up-chains-model-ref-r1,prefill_tok_s,2,1312.980727
+Q2 palette,evidence/q2-hc-up-chains-model-ref-r1,prefill_tok_s,3,1310.546272
+Q2 paired HC up,evidence/q2-hc-up-chains-model-r1,prefill_tok_s,1,1337.266845
+Q2 paired HC up,evidence/q2-hc-up-chains-model-r1,prefill_tok_s,2,1335.836758
+Q2 paired HC up,evidence/q2-hc-up-chains-model-r1,prefill_tok_s,3,1334.854704
+Fresh UD,evidence/q2-hc-up-chains-ud-r1,prefill_tok_s,1,1674.111346
+Fresh UD,evidence/q2-hc-up-chains-ud-r1,prefill_tok_s,2,1671.708994
+Fresh UD,evidence/q2-hc-up-chains-ud-r1,prefill_tok_s,3,1622.068133
+Q2 palette,evidence/q2-hc-up-chains-model-ref-r1,decode_steps_s,1,24.11111725
+Q2 palette,evidence/q2-hc-up-chains-model-ref-r1,decode_steps_s,2,24.13086822
+Q2 palette,evidence/q2-hc-up-chains-model-ref-r1,decode_steps_s,3,24.08165034
+Q2 paired HC up,evidence/q2-hc-up-chains-model-r1,decode_steps_s,1,24.08869063
+Q2 paired HC up,evidence/q2-hc-up-chains-model-r1,decode_steps_s,2,24.09152619
+Q2 paired HC up,evidence/q2-hc-up-chains-model-r1,decode_steps_s,3,24.09800006
+Fresh UD,evidence/q2-hc-up-chains-ud-r1,decode_steps_s,1,24.33283518
+Fresh UD,evidence/q2-hc-up-chains-ud-r1,decode_steps_s,2,24.31790001
+Fresh UD,evidence/q2-hc-up-chains-ud-r1,decode_steps_s,3,24.3349153
+Q2 palette,evidence/q2-hc-up-chains-model-ref-r1,prefill_s,1,1.559887272
+Q2 palette,evidence/q2-hc-up-chains-model-ref-r1,prefill_s,2,1.559809644
+Q2 palette,evidence/q2-hc-up-chains-model-ref-r1,prefill_s,3,1.562707127
+Q2 paired HC up,evidence/q2-hc-up-chains-model-r1,prefill_s,1,1.531481924
+Q2 paired HC up,evidence/q2-hc-up-chains-model-r1,prefill_s,2,1.533121459
+Q2 paired HC up,evidence/q2-hc-up-chains-model-r1,prefill_s,3,1.534249378
+Fresh UD,evidence/q2-hc-up-chains-ud-r1,prefill_s,1,1.223335595
+Fresh UD,evidence/q2-hc-up-chains-ud-r1,prefill_s,2,1.225093606
+Fresh UD,evidence/q2-hc-up-chains-ud-r1,prefill_s,3,1.262585682
+Q2 palette,evidence/q2-hc-up-chains-model-ref-r1,decode_s,1,5.267279764
+Q2 palette,evidence/q2-hc-up-chains-model-ref-r1,decode_s,2,5.262968529
+Q2 palette,evidence/q2-hc-up-chains-model-ref-r1,decode_s,3,5.273724941
+Q2 paired HC up,evidence/q2-hc-up-chains-model-r1,decode_s,1,5.272183613
+Q2 paired HC up,evidence/q2-hc-up-chains-model-r1,decode_s,2,5.27156308
+Q2 paired HC up,evidence/q2-hc-up-chains-model-r1,decode_s,3,5.270146888
+Fresh UD,evidence/q2-hc-up-chains-ud-r1,decode_s,1,5.219284931
+Fresh UD,evidence/q2-hc-up-chains-ud-r1,decode_s,2,5.222490426
+Fresh UD,evidence/q2-hc-up-chains-ud-r1,decode_s,3,5.218838793

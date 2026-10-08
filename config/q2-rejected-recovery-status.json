@@ -1,0 +1,367 @@
+{
+  "schema": "synapse-lie.q2-rejected-recovery-status.v1",
+  "original_inventory_sha256": "3a76a5bdef0bd3c26a8328fe0cfd04aed1f43a998447b4167ecc2a5d3083b9c0",
+  "original_reports_verified": [
+    {
+      "path": "config/q2-decode-baseline-results.json",
+      "sha256": "1fbf4a7c9de1d71eaf8ebfe8a71484d59dec96d1a4173cd4e63ef25bc1542fca",
+      "family": "baseline-quality-status",
+      "kind": "status"
+    },
+    {
+      "path": "config/q2-hc-deferred-norm-results.json",
+      "sha256": "19246d00a511afe41ec2c43b1f31a5b2b2518dc7cd509fc45e44a4520a22f4e1",
+      "family": "hc-deferred-norm",
+      "kind": "candidate"
+    },
+    {
+      "path": "config/q2-hc-library-ragged-model-results.json",
+      "sha256": "3413fb7e5add6d1bbf3abf230922fa321c7bf4277529bf96f8e16eae42ad132f",
+      "family": "hc-library-ragged",
+      "kind": "candidate"
+    },
+    {
+      "path": "config/q2-hc-library-ragged-results.json",
+      "sha256": "ea6539f340a4de8bf8a77e8b5e61c6f549c794ad61ca5c0758afbd06cc6c55d0",
+      "family": "hc-library-ragged",
+      "kind": "candidate"
+    },
+    {
+      "path": "config/q2-hc-sequence-results.json",
+      "sha256": "6ccd204ddec46d9366537cbe53fba09d2450b5a945d407673f1fe6058b0bba6e",
+      "family": "hc-sequence",
+      "kind": "candidate"
+    },
+    {
+      "path": "config/q2-iq2-mixed-host-results.json",
+      "sha256": "5d614a8beb6c57b0dab56cc1b78a8ae43ffbe94eb5f7d9a85febdff7e850bff5",
+      "family": "iq2-host-guard",
+      "kind": "host"
+    },
+    {
+      "path": "config/q2-library-norm-model-results.json",
+      "sha256": "b203cc1a3ead3773a7e96b9ce083f93eb3b35a64022c25436017ae463365cd47",
+      "family": "library-norm",
+      "kind": "candidate"
+    },
+    {
+      "path": "config/q2-library-norm-results.json",
+      "sha256": "2896757ae3fed886eb9d9d984f3d002da02f49f59af783c821f70c9f3ced0b6a",
+      "family": "library-norm",
+      "kind": "candidate"
+    },
+    {
+      "path": "config/q2-norm-fixed-results.json",
+      "sha256": "d7bb1e45df39149a410def9f8468b6bf0662e73b424dd3fc05ff892e07b1eb08",
+      "family": "norm-fixed",
+      "kind": "candidate"
+    },
+    {
+      "path": "config/q2-norm-ragged-host-results.json",
+      "sha256": "2b69080b7c3eedd74bee09051bdf70bbe82e59a692fb6be0a814a998dd149e0a",
+      "family": "norm-host-guard",
+      "kind": "host"
+    },
+    {
+      "path": "config/q2-norm-ragged-results.json",
+      "sha256": "baff5bea85a7a2f4bb82bce02660f63d1b8576c7ace3b061ddfe58d2453c58a7",
+      "family": "norm-ragged",
+      "kind": "candidate"
+    },
+    {
+      "path": "config/q2-original-baseline-results.json",
+      "sha256": "5abbf5c9d045862f7a336ec3b8afe0b5c1f7741f3f5fc766031873d380b288fe",
+      "family": "baseline-quality-status",
+      "kind": "status"
+    },
+    {
+      "path": "config/q2-scaled-input-results.json",
+      "sha256": "f12cdecfb3a9f499fe1e7ac57dbe1cbf2ed4b77d2453d1c9ee6836f0ccd26d71",
+      "family": "scaled-input",
+      "kind": "candidate"
+    },
+    {
+      "path": "config/q2-scaled-library-results.json",
+      "sha256": "02716f491b46cca76ca2e02ec5c118190c18ddbab2c5bd8dccaa813327a6c9b5",
+      "family": "scaled-library",
+      "kind": "candidate"
+    },
+    {
+      "path": "config/q2-scaled-row-results.json",
+      "sha256": "a0c2f9759ee1da25120d299b331f0727b07008b47ab6f494a2755deccc20710d",
+      "family": "scaled-row",
+      "kind": "candidate"
+    },
+    {
+      "path": "config/q2-scaled-tiles-results.json",
+      "sha256": "28609d9923560f92570324249e3c2915d80688cbd7ca591b2bf632f65acb484c",
+      "family": "scaled-tiles",
+      "kind": "candidate"
+    },
+    {
+      "path": "config/q2-shared-q8-producer-r1-results.json",
+      "sha256": "c0fee349540c2c801cece2d2d45c81933b2103c64713ca880fe1c26402135e7a",
+      "family": "shared-q8",
+      "kind": "candidate"
+    },
+    {
+      "path": "config/q2-shared-q8-producer-r2-results.json",
+      "sha256": "bca08a24585d804918b72ee767cfd04b2aa0e4cec88bd2db393264ca6d250ebe",
+      "family": "shared-q8",
+      "kind": "candidate"
+    },
+    {
+      "path": "config/q2-shared-q8-producer-r3-results.json",
+      "sha256": "ed0ce56feddd571e3ea9d900a79107ac3dc06a88db2bb02d9a376c1e0c73c9c3",
+      "family": "shared-q8",
+      "kind": "candidate"
+    }
+  ],
+  "original_report_count": 19,
+  "candidate_record_count": 15,
+  "candidate_family_count": 11,
+  "non_candidate_record_count": 4,
+  "families": [
+    {
+      "family": "hc-library-ragged",
+      "disposition": "already_in_fixed_reference",
+      "original_report_count": 2,
+      "confirmed_false_format_rejection": false,
+      "observation": "Entire library dispatch file matches fixed Q2."
+    },
+    {
+      "family": "library-norm",
+      "disposition": "already_in_fixed_reference",
+      "original_report_count": 2,
+      "confirmed_false_format_rejection": false,
+      "observation": "Paired norm bodies and fixed2048 dispatch match fixed Q2."
+    },
+    {
+      "family": "norm-ragged",
+      "disposition": "already_in_fixed_reference",
+      "original_report_count": 1,
+      "confirmed_false_format_rejection": false,
+      "observation": "Fixed2048 pairing is already present; ragged extension adds nothing here."
+    },
+    {
+      "family": "scaled-input",
+      "disposition": "already_in_fixed_reference",
+      "original_report_count": 1,
+      "confirmed_false_format_rejection": false,
+      "observation": "The same packing include is already in fixed Q2."
+    },
+    {
+      "family": "scaled-library",
+      "disposition": "already_in_fixed_reference",
+      "original_report_count": 1,
+      "confirmed_false_format_rejection": false,
+      "observation": "Packing and original-F16 HC library route are already in fixed Q2."
+    },
+    {
+      "family": "shared-q8",
+      "disposition": "new_composition_measured",
+      "original_report_count": 3,
+      "confirmed_false_format_rejection": true,
+      "observation": "Fixture race confirmed; production replay is exact and its gain is already composed."
+    },
+    {
+      "family": "scaled-row",
+      "disposition": "new_composition_measured",
+      "original_report_count": 1,
+      "confirmed_false_format_rejection": false,
+      "observation": "Q8 plus row reuse fixed model measured with all21 replay files exact."
+    },
+    {
+      "family": "norm-fixed",
+      "disposition": "new_composition_measured",
+      "original_report_count": 1,
+      "confirmed_false_format_rejection": false,
+      "observation": "Q8 plus row plus norm measured; prior norm logits reproduced, Q2 logits differ."
+    },
+    {
+      "family": "hc-sequence",
+      "disposition": "performance_measured_regression",
+      "original_report_count": 1,
+      "confirmed_false_format_rejection": false,
+      "observation": "Ordinary/MoE complete cycles were timed despite numeric rejection and both slowed."
+    },
+    {
+      "family": "hc-deferred-norm",
+      "disposition": "new_selective_integration_pending",
+      "original_report_count": 1,
+      "confirmed_false_format_rejection": false,
+      "observation": "MoE-only cycle advantage is marginal; feedback bytes differ and current consumers need integration."
+    },
+    {
+      "family": "scaled-tiles",
+      "disposition": "new_selective_integration_pending",
+      "original_report_count": 1,
+      "confirmed_false_format_rejection": false,
+      "observation": "Tile64 helps only the64-active synthetic routing; no equivalent adaptive model selector is measured."
+    }
+  ],
+  "disposition_family_counts": {
+    "already_in_fixed_reference": 5,
+    "new_composition_measured": 3,
+    "performance_measured_regression": 1,
+    "new_selective_integration_pending": 2
+  },
+  "confirmed_false_format_rejection_families": [
+    "shared-q8"
+  ],
+  "all_nineteen_false_confirmed": false,
+  "independent_additive_gains_established": false,
+  "fixed_measurements": {
+    "best_q2": {
+      "prefill_tok_s": {
+        "samples": [
+          1479.463683,
+          1477.969324,
+          1476.888762
+        ],
+        "min": 1476.888762,
+        "median": 1477.969324,
+        "max": 1479.463683
+      },
+      "decode_steps_s": {
+        "samples": [
+          25.11217203,
+          25.09514094,
+          25.1054536
+        ],
+        "min": 25.09514094,
+        "median": 25.1054536,
+        "max": 25.11217203
+      },
+      "prefill_s": {
+        "samples": [
+          1.384285416,
+          1.385685052,
+          1.386698885
+        ],
+        "min": 1.384285416,
+        "median": 1.385685052,
+        "max": 1.386698885
+      },
+      "decode_s": {
+        "samples": [
+          5.057308457,
+          5.060740655,
+          5.058661835
+        ],
+        "min": 5.057308457,
+        "median": 5.058661835,
+        "max": 5.060740655
+      }
+    },
+    "fixed_q2": {
+      "prefill_tok_s": {
+        "samples": [
+          1443.398207,
+          1443.672867,
+          1443.841794
+        ],
+        "min": 1443.398207,
+        "median": 1443.672867,
+        "max": 1443.841794
+      },
+      "decode_steps_s": {
+        "samples": [
+          25.10565683,
+          25.08698337,
+          25.09595499
+        ],
+        "min": 25.08698337,
+        "median": 25.09595499,
+        "max": 25.10565683
+      },
+      "prefill_s": {
+        "samples": [
+          1.41887387,
+          1.418603928,
+          1.418437954
+        ],
+        "min": 1.418437954,
+        "median": 1.418603928,
+        "max": 1.41887387
+      },
+      "decode_s": {
+        "samples": [
+          5.058620886,
+          5.062386263,
+          5.060576497
+        ],
+        "min": 5.058620886,
+        "median": 5.060576497,
+        "max": 5.062386263
+      }
+    },
+    "fixed_ud": {
+      "prefill_tok_s": {
+        "samples": [
+          1686.364042,
+          1685.777092,
+          1685.400011
+        ],
+        "min": 1685.400011,
+        "median": 1685.777092,
+        "max": 1686.364042
+      },
+      "decode_steps_s": {
+        "samples": [
+          24.34621613,
+          24.34174251,
+          24.15102104
+        ],
+        "min": 24.15102104,
+        "median": 24.34174251,
+        "max": 24.34621613
+      },
+      "prefill_s": {
+        "samples": [
+          1.214447147,
+          1.214869991,
+          1.215141798
+        ],
+        "min": 1.214447147,
+        "median": 1.214869991,
+        "max": 1.215141798
+      },
+      "decode_s": {
+        "samples": [
+          5.216416355,
+          5.217375049,
+          5.258576845
+        ],
+        "min": 5.216416355,
+        "median": 5.217375049,
+        "max": 5.258576845
+      }
+    }
+  },
+  "best_pp_gap_to_ud_percent": -12.327120174201545,
+  "best_pp_increase_needed_for_ud_percent": 14.060357317673278,
+  "bindings": {
+    "config/q2-rejected-test-reaudit.json": "3a76a5bdef0bd3c26a8328fe0cfd04aed1f43a998447b4167ecc2a5d3083b9c0",
+    "config/q2-rejected-test-reaudit-progress.json": "97c0cc18703db3ac8b0cb059fd63ae5fc1d8412b5affc26f9944047fdeb5fecc",
+    "config/q2-rejected-test-reaudit-oracle-update.json": "094535e64d35491f945148a510b2ffcb39fc9319a700f64883bad12163f4f337",
+    "config/q2-rejected-test-reaudit-hc-update.json": "0254787e8b70686098d766e95b219a4f38c814cc0a7914d27b0e4394d7df6354",
+    "config/q2-reaudit-composition-results.json": "cca63b54a4b70d05e517d2eb359bb1f68d56d0ca2a47cccb4a70ac8dafaf6a09",
+    "config/q2-hc-bk256-fixed-model-results.json": "bc98960636b4610451ab7b58a35de8019053825c923d285a4a520cc71ee1fa4c",
+    "config/q2-hc-deferred-norm-results.json": "19246d00a511afe41ec2c43b1f31a5b2b2518dc7cd509fc45e44a4520a22f4e1",
+    "config/q2-scaled-tiles-results.json": "28609d9923560f92570324249e3c2915d80688cbd7ca591b2bf632f65acb484c",
+    "config/q2-hc-bk128-component-results.json": "97e085c2bb3bada3dbb3cac15c7a1595e3571cdf086ebd889b0a50b38aaaeefc",
+    "config/q2-hc-bk128-selection.json": "20b60d0d8de875d3ad53723bd6028eee71b9f52ae297c9b28e3d38af728e4c88",
+    "config/q2-hc-bn64-component-results.json": "ba39ebf3c370ff5e644e8b4ac8547c02f030da09c84208d193b172d5ecf8cda0",
+    "config/q2-hc-bn64-selection.json": "8ba95e28378803c874e7ab6219acb04b981da9c3a02ea01edc38f310b6848b8a",
+    "config/q2-hc-bn64-run-window-release.json": "b92613d5bd00bb1daa40f83b1496ed93d86f0dd2d8e45d6f123eefd8b106a08d"
+  },
+  "gpu_run": false,
+  "model_run": false,
+  "qualified_controls_rerun": false,
+  "original_failures_preserved": true,
+  "entire_reaudit_complete": false,
+  "independent_model_quality_complete": false,
+  "goal_met": false,
+  "limits": "Recovery status is not numerical acceptance. Synthetic cycle gains are not additive model throughput. No exhaustive compilation-error audit or full context parity is claimed."
+}

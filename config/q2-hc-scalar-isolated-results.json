@@ -1,0 +1,91 @@
+{
+  "schema": "synapse-lie.q2-hc-scalar-up-mix-results.v1",
+  "artifact_hashes": {
+    "admission.json": "15c7e8802fb96437e6bb1b88a9082a658eb454dc5baa9c0c2177e9e895df9be9",
+    "admit.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "admit.stdout": "15c7e8802fb96437e6bb1b88a9082a658eb454dc5baa9c0c2177e9e895df9be9",
+    "component.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "component.stdout": "ad3cd7649c5b8c62743155899a9e4e9f3219aedaeeb5a93a3a6c122915caee66",
+    "cpu-fixture/tests/q2_hc_scalar_isolated_window_test.py": "e5de35e52dee2d4f71bee845563e0bec5163eeffd511e777bf7b7c7bdc2bb60b",
+    "cpu-fixture/tools/q2-hc-scalar-isolated-window.py": "ea3752d956d1d4f1b288a3a23a1e49edb254405408b1e0f11a13bfcc3ae06962",
+    "cpu-fixture/tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "cpu-fixture.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cpu-fixture.stdout": "15352b2f5521f2b32cb31759d1c451b016742f735c988aa793acea4441888571",
+    "fixture.hip": "2ac312fa48c387572767392f00a3a48df98c745552ce3850247c859bce94f0d1",
+    "kernel.inc": "232c4e2e421296d1e6b9b724ceb4dac0136d7cd0f7ec28eab6c81e42111a01f0",
+    "plan.json": "f95f4ad277fddb0dbdc7fcabdb378c2cf0c6a268db689b09dda2ad5416e2e433",
+    "preflight-commands.json": "90dd0064a0d204259c8f423e22735d4bfede1fa825a25ecd2dc163bf69abb0b2",
+    "preflight.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "preflight.stdout": "b4f758f8bf994b3f24edffa787c5b3d9e7f549d130a2c70b5198d12d0b6cec18",
+    "q2-hc-scalar-isolated-window.py": "ea3752d956d1d4f1b288a3a23a1e49edb254405408b1e0f11a13bfcc3ae06962",
+    "q2_hc_scalar_up_mix_check": "a94977da69e0ac8148ea6e43d1562455fda11ed86c4394f25ed4188311d130e6",
+    "q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "result.json": "90a427a645b5dd83fa77ad2abcbcd5c6723490515e90b87ddc7a2e85a49a267c",
+    "run-commands.json": "92c2896e28b858bedfd4e44edb4272e5b3fe52609fbbae1d3922727a71849140",
+    "run.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "run.stdout": "90a427a645b5dd83fa77ad2abcbcd5c6723490515e90b87ddc7a2e85a49a267c",
+    "source-manifest.json": "eb12a4783802ee991f88d896b8698f7f61abc6dac68b2ae7372d0795ee850810",
+    "static-report.json": "75b78d06e44c6d3c9f904fac498c23d99a17a672661612f73a283f3e83ed9239"
+  },
+  "release_sha256": "b0f1cf56a67110f0a96bc11679ada484bbe9abce70c5950c1def9d3a4c87f709",
+  "release_at": "2026-10-07T12:26:09.647555+00:00",
+  "component_exit_code": 0,
+  "exact_pairs": 64,
+  "independent_oracle_checks": 50,
+  "maximum_oracle_relative_rms": 2.52710553715e-07,
+  "maximum_oracle_peak_scaled_error": 1.8911414588e-07,
+  "invalid_gpu_event_times": 28,
+  "completed_wall_is_primary": true,
+  "modes": [
+    {
+      "injection": true,
+      "reference_wall_us": [
+        43.078265625,
+        42.933890625,
+        43.049671875,
+        43.249515625,
+        43.040453125
+      ],
+      "candidate_wall_us": [
+        34.702671875,
+        34.80046875,
+        34.770015625,
+        34.83734375,
+        34.822828125
+      ],
+      "reference_median_us": 43.049671875,
+      "candidate_median_us": 34.80046875,
+      "latency_change_percent": -19.162058073177825,
+      "all_five_pairs_faster": true
+    },
+    {
+      "injection": false,
+      "reference_wall_us": [
+        36.097015625,
+        35.943734375,
+        35.915765625,
+        35.751859375,
+        35.804203125
+      ],
+      "candidate_wall_us": [
+        34.213,
+        34.211734375,
+        34.20721875,
+        34.231109375,
+        34.237203125
+      ],
+      "reference_median_us": 35.915765625,
+      "candidate_median_us": 34.213,
+      "latency_change_percent": -4.740997707744111,
+      "all_five_pairs_faster": true
+    }
+  ],
+  "eligible_for_original_model_trial": true,
+  "model_run": false,
+  "model_throughput_gain_established": false,
+  "inherited_parent_task_quality_qualified": false,
+  "peak_cpu_mc": 41000,
+  "peak_gpu_mc": 39000,
+  "retired_identities": 1967,
+  "retired_groups": 1573
+}

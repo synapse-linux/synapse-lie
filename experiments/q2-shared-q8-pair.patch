@@ -1,0 +1,592 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -4064,6 +4064,8 @@
+     }
+   }
+ }
++
++#include "q2_shared_q8_pair.inc"
+ 
+ // Routed expert GEMMs: assignment rows are compacted by expert with every
+ // bucket padded to a 16-row tile (`pad_bounds`), so a token tile never
+@@ -4582,11 +4584,13 @@
+           const uint2 magnitude =
+               reinterpret_cast<const uint2*>(kIq2HalfHighGrid)[code];
+           const uint2 mask = reinterpret_cast<const uint2*>(ksigns64)[sign];
+-          const uint2 decoded = make_uint2(magnitude.x ^ (mask.x & 0x80808080U),
+-                                           magnitude.y ^ (mask.y & 0x80808080U));
++          const uint2 decoded =
++              make_uint2(magnitude.x ^ (mask.x & 0x80808080U),
++                         magnitude.y ^ (mask.y & 0x80808080U));
+           const int peer_row = (peer_tid >> 1) + (u * 128);
+           const int chunk = 2 * (peer_tid & 1) + (part >> 1);
+-          reinterpret_cast<uint2*>(s_codes + swizzle(peer_row, chunk))[part & 1] = decoded;
++          reinterpret_cast<uint2*>(
++              s_codes + swizzle(peer_row, chunk))[part & 1] = decoded;
+         }
+         const float scale =
+             __half2float(d) * float(2 * (group.y >> 28) + 1) * 0.125F;
+@@ -5359,6 +5363,18 @@
+   return true;
+ }
+ 
++bool SharedQ8PairHalf(const void* gate, const void* up, const void* x_tiled,
++                      __half* out, std::uint32_t batch, std::size_t m,
++                      std::size_t k, hipStream_t stream) {
++  if (batch < 96 || m != 640 || k != 2560 || gate == nullptr || up == nullptr ||
++      x_tiled == nullptr || out == nullptr)
++    return false;
++  hipLaunchKernelGGL((SharedQ8PairKernel<128, 128, 2, 4, 2>),
++                     dim3((batch + 127) / 128, (m + 63) / 64), dim3(kThreads),
++                     0, stream, gate, up, x_tiled, out, batch, m, k);
++  return hipGetLastError() == hipSuccess;
++}
++
+ bool W8A8Gemm(const void* w, const void* x_tiled, float* out, std::size_t batch,
+               std::size_t m, std::size_t k, hipStream_t stream) {
+   if (m == 0 || k == 0 || batch == 0 || k % 32 != 0) {
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
+@@ -185,6 +185,11 @@
+ std::size_t Q8TiledBytes(std::size_t batch, std::size_t k);
+ void QuantizeQ8Tiled(const float* x, void* out, std::size_t batch,
+                      std::size_t k, hipStream_t stream);
++/// Shared-expert pair; original W8A8 K32 updates and rounded SwiGLU F16.
++/// Supported shape m640/k2560/batch>=96; false without launching otherwise.
++bool SharedQ8PairHalf(const void* gate, const void* up, const void* x_tiled,
++                      __half* out, std::uint32_t batch, std::size_t m,
++                      std::size_t k, hipStream_t stream);
+ bool W8A8Gemm(const void* w, const void* x_tiled, float* out, std::size_t batch,
+               std::size_t m, std::size_t k, hipStream_t stream);
+ /// Native wave64 launch, selected by W8A8Gemm for wide output projections.
+@@ -223,10 +228,10 @@
+ /// format from rounded F32 mixed values. Q8 output is required and
+ /// must not overlap other inputs/outputs; launch errors return false.
+ bool HcMixRawQ8F16Gemm(const void* up, const __half* low_rank, const float* xn,
+-                     const float* inject_w, float* mixed, __half* mixed_half, void* mixed_q8,
+-                     float* inject, std::uint32_t n_tokens,
+-                     std::uint32_t hidden, std::uint32_t rank,
+-                     hipStream_t stream);
++                       const float* inject_w, float* mixed, __half* mixed_half,
++                       void* mixed_q8, float* inject, std::uint32_t n_tokens,
++                       std::uint32_t hidden, std::uint32_t rank,
++                       hipStream_t stream);
+ 
+ /// Exact Q8_0 HC up projection and F16-input mixer for the Flash Next
+ /// 2560-hidden, rank-320 geometry. Returns false below 96 tokens or for other
+@@ -602,8 +607,7 @@
+                               std::uint32_t inject_parts, const float* gamma,
+                               float* norm_scales, std::uint32_t n_tokens,
+                               std::uint32_t hidden, std::uint32_t streams,
+-                              float eps, hipStream_t stream,
+-                              __half* norm_half);
++                              float eps, hipStream_t stream, __half* norm_half);
+ bool ReconstructHcNorm(const float* residual, const float* scales,
+                        const float* gamma, float* out, std::uint32_t tokens,
+                        hipStream_t stream);
+@@ -615,20 +619,21 @@
+                        const float* norm_gamma);
+ 
+ // Experimental F16 storage between Q2 down and ordered MoE combine.
+-bool RoutedQ2ScaledHalfGemm(const void* w, const __half* x, const float* inverse,
+-                        const std::int32_t* tiles, std::uint32_t n_tiles,
+-                        std::uint32_t tile_rows, const std::int32_t* bounds,
+-                        const std::int32_t* slots, __half* out, std::size_t m,
+-                        std::size_t k, hipStream_t stream);
++bool RoutedQ2ScaledHalfGemm(const void* w, const __half* x,
++                            const float* inverse, const std::int32_t* tiles,
++                            std::uint32_t n_tiles, std::uint32_t tile_rows,
++                            const std::int32_t* bounds,
++                            const std::int32_t* slots, __half* out,
++                            std::size_t m, std::size_t k, hipStream_t stream);
+ bool HcCombineMoeHalfDeferredNorm(float* res, const __half* expert_out,
+-                              const float* weights, const float* shared_out,
+-                              const float* gate, std::uint32_t gate_stride,
+-                              std::uint32_t used, const float* inject,
+-                              std::uint32_t inject_parts, const float* gamma,
+-                              float* norm_scales, std::uint32_t n_tokens,
+-                              std::uint32_t hidden, std::uint32_t streams,
+-                              float eps, hipStream_t stream,
+-                              __half* norm_half);
++                                  const float* weights, const float* shared_out,
++                                  const float* gate, std::uint32_t gate_stride,
++                                  std::uint32_t used, const float* inject,
++                                  std::uint32_t inject_parts,
++                                  const float* gamma, float* norm_scales,
++                                  std::uint32_t n_tokens, std::uint32_t hidden,
++                                  std::uint32_t streams, float eps,
++                                  hipStream_t stream, __half* norm_half);
+ }  // namespace gufo::models::qwen38_flash_next::rocm
+ 
+ #endif  // GUFO_MODELS_QWEN38_FLASH_NEXT_KERNELS_ROCM_KERNELS_HPP_
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -748,6 +748,27 @@
+     }
+     return true;
+   }
++  // Pair the wide shared projections and write only their actual down input.
++  // Keep the existing tiled-Q8 identity and private F16 pending lifetime.
++  if (n_tokens >= 96 && n_tokens <= options_.max_batch && down != nullptr &&
++      up.type == GgmlType::kQ8_0 && gate.type == GgmlType::kQ8_0 &&
++      up.rows == 640 && gate.rows == up.rows && up.cols == 2560 &&
++      gate.cols == up.cols && down->cols == up.rows &&
++      DenseF16Route(*down, n_tokens)) {
++    if (!(q8t_src_ == x && q8t_rows_ == n_tokens && q8t_cols_ == up.cols)) {
++      QuantizeQ8Tiled(x, s_.x_q8t, n_tokens, up.cols, stream_);
++      q8t_src_ = x;
++      q8t_rows_ = n_tokens;
++      q8t_cols_ = up.cols;
++    }
++    if (!SharedQ8PairHalf(gate.data, up.data, s_.x_q8t, s_.shexp_half, n_tokens,
++                          up.rows, up.cols, stream_)) {
++      AssignError(error_msg, "paired shared Q8 prefill failed");
++      return false;
++    }
++    shexp_half_ready_ = true;
++    return true;
++  }
+   // Swiglu is in place over its first operand.
+   if (!Dense(gate, x, out, n_tokens, error_msg) ||
+       !Dense(up, x, s_.shexp_gate, n_tokens, error_msg)) {
+@@ -896,8 +917,8 @@
+       RoutedTileCols(n_tokens, config().num_experts_used, w.experts));
+ }
+ 
+-bool Executor::RouteHints(std::uint32_t n_tokens,
+-                          std::string* error_msg, bool mixed_iq2) const {
++bool Executor::RouteHints(std::uint32_t n_tokens, std::string* error_msg,
++                          bool mixed_iq2) const {
+   // Every column tile past an expert's bucket still costs a dispatch and a
+   // full shared-memory reservation, so the grid is cut to the real largest
+   // bucket. Counts are downloaded before the shared expert; wait only for
+@@ -944,8 +965,8 @@
+     const auto capacity = RoutedTileCapacity(
+         static_cast<std::size_t>(n_tokens) * c.num_experts_used, c);
+     if (!lie_iq2_mixed_tiles(counts_host_, c.num_experts, n_tokens,
+-                              c.num_experts_used, tiles_host_ + n_tiles,
+-                              capacity, &spans)) {
++                             c.num_experts_used, tiles_host_ + n_tiles,
++                             capacity, &spans)) {
+       AssignError(error_msg, "invalid IQ2 mixed expert map");
+       return false;
+     }
+@@ -1136,10 +1157,13 @@
+         // live beyond it; the fused up/inject consumers never overwrite them.
+         float* scales = s_.hc_gate + std::size_t(n_tokens) * c.hc_low_rank;
+         if (HcCombineMoeDeferredNorm(res, s_.down_e, s_.weights, s_.shexp_out,
+-              s_.router + c.num_experts, c.num_experts + 1, c.num_experts_used,
+-              s_.inject, inject_parts_, gamma, scales, n_tokens, c.hidden_size,
+-              c.hc_count, c.rms_eps, stream_, norm_half)) {
+-          lie_q2_deferred_norm_publish(&deferred_norm_, res, gamma, scales, n_tokens);
++                                     s_.router + c.num_experts,
++                                     c.num_experts + 1, c.num_experts_used,
++                                     s_.inject, inject_parts_, gamma, scales,
++                                     n_tokens, c.hidden_size, c.hc_count,
++                                     c.rms_eps, stream_, norm_half)) {
++          lie_q2_deferred_norm_publish(&deferred_norm_, res, gamma, scales,
++                                       n_tokens);
+           publish_half();
+           return;
+         }
+@@ -1175,11 +1199,13 @@
+     moe_q2_half_pending_ = false;
+     if (q2_half && produce_half && c.hc_low_rank == 320) {
+       float* scales = s_.hc_gate + std::size_t(n_tokens) * c.hc_low_rank;
+-      if (HcCombineMoeHalfDeferredNorm(res, down, s_.weights, s_.shexp_out,
+-            s_.router + c.num_experts, c.num_experts + 1, c.num_experts_used,
+-            s_.inject, inject_parts_, gamma, scales, n_tokens, c.hidden_size,
+-            c.hc_count, c.rms_eps, stream_, norm_half)) {
+-        lie_q2_deferred_norm_publish(&deferred_norm_, res, gamma, scales, n_tokens);
++      if (HcCombineMoeHalfDeferredNorm(
++              res, down, s_.weights, s_.shexp_out, s_.router + c.num_experts,
++              c.num_experts + 1, c.num_experts_used, s_.inject, inject_parts_,
++              gamma, scales, n_tokens, c.hidden_size, c.hc_count, c.rms_eps,
++              stream_, norm_half)) {
++        lie_q2_deferred_norm_publish(&deferred_norm_, res, gamma, scales,
++                                     n_tokens);
+         publish_half();
+         return;
+       }
+@@ -1247,7 +1273,7 @@
+        m.inject.type == GgmlType::kF32);
+   const auto deferred = deferred_norm_;
+   const bool consume_deferred = deferred.rows != 0 && normed && !xn_half_ &&
+-      fused_raw_projection && !produce_q8;
++                                fused_raw_projection && !produce_q8;
+   if (deferred.rows != 0) {
+     if (!lie_q2_deferred_norm_matches(&deferred, res, m.norm.f32(), n_tokens)) {
+       lie_q2_deferred_norm_clear(&deferred_norm_);
+@@ -1255,7 +1281,8 @@
+       return false;
+     }
+     if (!consume_deferred &&
+-        !ReconstructHcNorm(res, deferred.scales, deferred.gamma, s_.xn, n_tokens, stream_)) {
++        !ReconstructHcNorm(res, deferred.scales, deferred.gamma, s_.xn,
++                           n_tokens, stream_)) {
+       lie_q2_deferred_norm_clear(&deferred_norm_);
+       AssignError(error_msg, "deferred HC norm reconstruction failed");
+       return false;
+@@ -1331,8 +1358,9 @@
+       q8t_cols_ = c.hidden_size;
+     }
+   } else if (consume_deferred) {
+-    if (!HcMixDeferredNorm(m.up.data, reinterpret_cast<const __half*>(s_.hc_gate),
+-            res, fused_inject ? m.inject.f32() : nullptr, mixed,
++    if (!HcMixDeferredNorm(
++            m.up.data, reinterpret_cast<const __half*>(s_.hc_gate), res,
++            fused_inject ? m.inject.f32() : nullptr, mixed,
+             static_cast<__half*>(s_.x_half), inject, n_tokens, c.hidden_size,
+             c.hc_low_rank, stream_, deferred.scales, deferred.gamma)) {
+       AssignError(error_msg, "deferred raw F16 HC projection failed");
+@@ -1345,8 +1373,9 @@
+   } else if (fused_raw_projection && produce_q8) {
+     // The FFN shared gate/up reads these exact mixed rows next. Reuse the
+     // existing Q8 epilogue; publish its identity only after both launches pass.
+-    if (!HcMixRawQ8F16Gemm(m.up.data, reinterpret_cast<const __half*>(s_.hc_gate),
+-                           xn, fused_inject ? m.inject.f32() : nullptr, mixed,
++    if (!HcMixRawQ8F16Gemm(m.up.data,
++                           reinterpret_cast<const __half*>(s_.hc_gate), xn,
++                           fused_inject ? m.inject.f32() : nullptr, mixed,
+                            static_cast<__half*>(s_.x_half), s_.x_q8t, inject,
+                            n_tokens, c.hidden_size, c.hc_low_rank, stream_)) {
+       AssignError(error_msg, "fused raw HC Q8 producer failed");
+@@ -1781,10 +1810,10 @@
+                         l.ffn_down_exps.cols == 768;
+   // Only the measured wide Q2 path changes its transient storage.
+   // Reuse the existing F16-pending lifetime and keep F32 allocation capacity.
+-  const bool compact_down = iq2_wmma && !wide_mixer_ &&
+-      n_tokens == 2048 && c.hc_count == 4 && c.hc_low_rank == 320 &&
+-      c.num_experts_used > 0 && c.num_experts_used <= 32 &&
+-      out == s_.block_out;
++  const bool compact_down = iq2_wmma && !wide_mixer_ && n_tokens == 2048 &&
++                            c.hc_count == 4 && c.hc_low_rank == 320 &&
++                            c.num_experts_used > 0 &&
++                            c.num_experts_used <= 32 && out == s_.block_out;
+   if (!RouteHints(n_tokens, error_msg, iq2_wmma)) {
+     return false;
+   }
+@@ -1820,34 +1849,36 @@
+         scaled + static_cast<std::size_t>(n_tokens) * used * c.expert_ff);
+     const auto gate_up = [&](std::uint32_t offset, std::uint32_t count,
+                              std::uint32_t rows) {
+-      return RoutedGatedIQ2Gemm(
+-          l.ffn_gate_exps.data, l.ffn_up_exps.data,
+-          static_cast<const __half*>(s_.x_half), s_.routed_tiles + offset,
+-          count, rows, s_.routed_bounds, s_.rows_token, s_.rows_slot,
+-          s_.gate_e, c.expert_ff, c.hidden_size, stream_);
++      return RoutedGatedIQ2Gemm(l.ffn_gate_exps.data, l.ffn_up_exps.data,
++                                static_cast<const __half*>(s_.x_half),
++                                s_.routed_tiles + offset, count, rows,
++                                s_.routed_bounds, s_.rows_token, s_.rows_slot,
++                                s_.gate_e, c.expert_ff, c.hidden_size, stream_);
+     };
+-    const bool gate_ok = routed_iq2_mixed_
+-        ? ((!routed_pair_tiles_ ||
+-            gate_up(routed_pair_offset_, routed_pair_tiles_, 128)) &&
+-           (!routed_iq2_tail_tiles_ ||
+-            gate_up(routed_pair_offset_ + routed_pair_tiles_,
+-                    routed_iq2_tail_tiles_, 64)))
+-        : gate_up(pair_map ? routed_pair_offset_ : 0,
+-                  pair_map ? routed_pair_tiles_ : routed_n_tiles_,
+-                  pair_map ? routed_pair_rows_ : routed_tile_rows_);
++    const bool gate_ok =
++        routed_iq2_mixed_
++            ? ((!routed_pair_tiles_ ||
++                gate_up(routed_pair_offset_, routed_pair_tiles_, 128)) &&
++               (!routed_iq2_tail_tiles_ ||
++                gate_up(routed_pair_offset_ + routed_pair_tiles_,
++                        routed_iq2_tail_tiles_, 64)))
++            : gate_up(pair_map ? routed_pair_offset_ : 0,
++                      pair_map ? routed_pair_tiles_ : routed_n_tiles_,
++                      pair_map ? routed_pair_rows_ : routed_tile_rows_);
+     if (!gate_ok ||
+         !PackQ2ScaledRows(s_.gate_e, scaled, inverse, n_tokens * used,
+                           c.expert_ff, stream_) ||
+         !(compact_down
+-          ? RoutedQ2ScaledHalfGemm(l.ffn_down_exps.data, scaled, inverse,
+-                s_.routed_tiles, routed_n_tiles_, routed_tile_rows_,
+-                s_.routed_bounds, s_.rows_slot,
+-                reinterpret_cast<__half*>(s_.down_e),
+-                c.hidden_size, c.expert_ff, stream_)
+-          : RoutedQ2ScaledGemm(l.ffn_down_exps.data, scaled, inverse,
+-                s_.routed_tiles, routed_n_tiles_, routed_tile_rows_,
+-                s_.routed_bounds, s_.rows_slot, s_.down_e,
+-                c.hidden_size, c.expert_ff, stream_))) {
++              ? RoutedQ2ScaledHalfGemm(
++                    l.ffn_down_exps.data, scaled, inverse, s_.routed_tiles,
++                    routed_n_tiles_, routed_tile_rows_, s_.routed_bounds,
++                    s_.rows_slot, reinterpret_cast<__half*>(s_.down_e),
++                    c.hidden_size, c.expert_ff, stream_)
++              : RoutedQ2ScaledGemm(l.ffn_down_exps.data, scaled, inverse,
++                                   s_.routed_tiles, routed_n_tiles_,
++                                   routed_tile_rows_, s_.routed_bounds,
++                                   s_.rows_slot, s_.down_e, c.hidden_size,
++                                   c.expert_ff, stream_))) {
+       AssignError(error_msg, "routed IQ2 paired gate/up or Q2 down failed");
+       return false;
+     }
+@@ -2249,7 +2280,8 @@
+     // Each combine also norms the residual for the mixer that follows it,
+     // unless PLE rewrites the residual first.
+     Combine(s_.res, l.hc_ffn.norm.f32(), n);
+-    if (!HcMix(l.hc_ffn, s_.res, true, s_.mixed, s_.inject, n, error_msg, true) ||
++    if (!HcMix(l.hc_ffn, s_.res, true, s_.mixed, s_.inject, n, error_msg,
++               true) ||
+         !Moe(l, s_.mixed, s_.block_out, n, error_msg)) {
+       return false;
+     }
+--- a/src/models/qwen38_flash_next/kernels/rocm/q2_shared_q8_pair.inc
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_shared_q8_pair.inc
+@@ -0,0 +1,250 @@
++// SPDX-License-Identifier: MIT
++// Derived from the pinned Gufo W8A8 kernel; ordered K32 arithmetic retained.
++template<int BM, int BN, int BK, int WM, int WN>
++__launch_bounds__(256) __global__
++    void SharedQ8PairKernel(const void* __restrict__ gate,
++                            const void* __restrict__ up,
++                            const void* __restrict__ x_blocks,
++                            __half* __restrict__ y, std::size_t batch,
++                            std::size_t m, std::size_t k) {
++  static_assert(WM * WN == 8, "256 threads is 8 waves");
++  static_assert(BM % (16 * WM) == 0 && BN % (16 * WN) == 0);
++  static_assert(BN / 16 <= 8,
++                "the activation stage assigns one wave per token subtile");
++  constexpr int kRowTiles = BM / 16;
++  constexpr int kTokTiles = BN / 16;
++  constexpr int kWaveRowTiles = kRowTiles / WM;
++  constexpr int kWaveTokTiles = kTokTiles / WN;
++
++  // One LDS plane: codes and scales of both operands; the epilogue reuses
++  // the first 16 KB to transpose 16 x 32 result tiles per wave.
++  constexpr int kABytes = BK * kRowTiles * 32 * 16;
++  constexpr int kDwBytes = BK * kRowTiles * 16 * 4;
++  constexpr int kBBytes = BK * kTokTiles * 32 * 16;
++  constexpr int kDxBytes = BK * kTokTiles * 16 * 4;
++  constexpr int kLdsBytes = kABytes + kDwBytes + kBBytes + kDxBytes;
++  static_assert(kLdsBytes >= 8 * 512 * 4, "epilogue transposes 16 KB");
++  static_assert(kWaveRowTiles % 2 == 0, "the epilogue pairs row tiles");
++  __shared__ __attribute__((aligned(16))) std::uint8_t lds[kLdsBytes];
++  auto* s_a = reinterpret_cast<int32x4_t(*)[kRowTiles][32]>(lds);
++  auto* s_dw = reinterpret_cast<float (*)[kRowTiles][16]>(lds + kABytes);
++  auto* s_b =
++      reinterpret_cast<int32x4_t(*)[kTokTiles][32]>(lds + kABytes + kDwBytes);
++  auto* s_dx = reinterpret_cast<float (*)[kTokTiles][16]>(lds + kABytes +
++                                                          kDwBytes + kBBytes);
++
++  const auto* gate_blocks = static_cast<const Q8_0Block*>(gate);
++  const auto* up_blocks = static_cast<const Q8_0Block*>(up);
++  static_assert(kWaveRowTiles == 2, "one gate/up row-tile pair per wave");
++  const std::size_t num_blocks = k / 32;
++
++  const int tid = static_cast<int>(threadIdx.x);
++  const int wave_id = tid >> 5;
++  const int lane_id = tid & 31;
++  const int sub_lane = lane_id & 15;
++  const int half_id = lane_id >> 4;
++  const int wave_row = wave_id / WN;
++  const int wave_tok = wave_id % WN;
++
++  const std::size_t r_block = static_cast<std::size_t>(blockIdx.y) * (BM / 2);
++  const std::size_t t_block = static_cast<std::size_t>(blockIdx.x) * BN;
++  const std::size_t tt_block = t_block / kQ8ActTileTokens;
++
++  float acc[kWaveRowTiles][kWaveTokTiles][8];
++#pragma unroll
++  for (int i = 0; i < kWaveRowTiles; ++i) {
++#pragma unroll
++    for (int j = 0; j < kWaveTokTiles; ++j) {
++#pragma unroll
++      for (int l = 0; l < 8; ++l) {
++        acc[i][j][l] = 0.0F;
++      }
++    }
++  }
++
++  // Staging registers for the next K stage, fetched one stage ahead so the
++  // scattered 34-byte block reads overlap the WMMA work.
++  constexpr int kPrefetch = (BM * BK) / 256;
++  int32x4_t r_q0[kPrefetch];
++  int32x4_t r_q1[kPrefetch];
++  float r_dw[kPrefetch];
++  int32x4_t r_b[BK];
++  float r_dx[BK];
++  const int b_tile = wave_id;  // one wave per token subtile
++
++  const int num_kb = static_cast<int>(num_blocks);
++  const int m_i = static_cast<int>(m);
++  const Q8_0Block* w_row[kPrefetch];
++  float row_live[kPrefetch];
++#pragma unroll
++  for (int p = 0; p < kPrefetch; ++p) {
++    const int packed_row = ((p * 256) + tid) / BK;
++    const int row_tile = packed_row / 16;
++    const int r =
++        static_cast<int>(r_block) + (row_tile / 2) * 16 + packed_row % 16;
++    const int r_clamped = (r < m_i) ? r : (m_i - 1);
++    const auto* weights = (row_tile & 1) ? up_blocks : gate_blocks;
++    w_row[p] = weights + (static_cast<std::size_t>(r_clamped) * num_blocks);
++    row_live[p] = (r < m_i) ? 1.0F : 0.0F;
++  }
++  const auto* b_base = static_cast<const std::int8_t*>(x_blocks) +
++                       ((tt_block + static_cast<std::size_t>(b_tile)) *
++                        num_blocks * kQ8ActTileBytes);
++  const bool b_live = b_tile < kTokTiles;
++
++  const auto fetch_stage = [&](int kb0) {
++#pragma unroll
++    for (int p = 0; p < kPrefetch; ++p) {
++      const int kb = kb0 + (((p * 256) + tid) % BK);
++      const int kb_clamped = (kb < num_kb) ? kb : (num_kb - 1);
++      const Q8_0Block& blk = w_row[p][kb_clamped];
++      __builtin_memcpy(&r_q0[p], blk.qs + 0, 16);
++      __builtin_memcpy(&r_q1[p], blk.qs + 16, 16);
++      r_dw[p] = __half2float(blk.d) * ((kb < num_kb) ? row_live[p] : 0.0F);
++    }
++    if (b_live) {
++#pragma unroll
++      for (int i = 0; i < BK; ++i) {
++        const int kb = kb0 + i;
++        const int kb_clamped = (kb < num_kb) ? kb : (num_kb - 1);
++        const auto* tile =
++            b_base + (static_cast<std::size_t>(kb_clamped) * kQ8ActTileBytes);
++        r_b[i] = reinterpret_cast<const int32x4_t*>(tile)[lane_id];
++        r_dx[i] = ((kb < num_kb) ? 1.0F : 0.0F) *
++                  reinterpret_cast<const float*>(
++                      tile + kQ8ActScaleOffset)[lane_id & 15];
++      }
++    }
++  };
++
++  const auto commit_stage = [&]() {
++#pragma unroll
++    for (int p = 0; p < kPrefetch; ++p) {
++      const int idx = (p * 256) + tid;
++      const int rr = idx / BK;
++      const int kk = idx % BK;
++      const int rs = rr / 16;
++      const int rl = rr % 16;
++      s_a[kk][rs][rl] = r_q0[p];
++      s_a[kk][rs][16 + rl] = r_q1[p];
++      s_dw[kk][rs][(rl % 2 == 0) ? (rl / 2) : (8 + (rl / 2))] = r_dw[p];
++    }
++    if (b_live) {
++#pragma unroll
++      for (int i = 0; i < BK; ++i) {
++        s_b[i][b_tile][lane_id] = r_b[i];
++        if (lane_id < 16) {
++          s_dx[i][b_tile][lane_id] = r_dx[i];
++        }
++      }
++    }
++  };
++
++  fetch_stage(0);
++  for (int kb0 = 0; kb0 < num_kb; kb0 += BK) {
++    commit_stage();
++    __syncthreads();
++    if (kb0 + BK < num_kb) {
++      fetch_stage(kb0 + BK);
++    }
++
++#pragma unroll
++    for (int kb = 0; kb < BK; ++kb) {
++      int32x4_t a0[kWaveRowTiles];
++      int32x4_t a1[kWaveRowTiles];
++      float dw[kWaveRowTiles][8];
++#pragma unroll
++      for (int i = 0; i < kWaveRowTiles; ++i) {
++        const int rs = (wave_row * kWaveRowTiles) + i;
++        a0[i] = s_a[kb][rs][sub_lane];
++        a1[i] = s_a[kb][rs][16 + sub_lane];
++        const float4 lo =
++            *reinterpret_cast<const float4*>(&s_dw[kb][rs][half_id * 8]);
++        const float4 up =
++            *reinterpret_cast<const float4*>(&s_dw[kb][rs][(half_id * 8) + 4]);
++        dw[i][0] = lo.x;
++        dw[i][1] = lo.y;
++        dw[i][2] = lo.z;
++        dw[i][3] = lo.w;
++        dw[i][4] = up.x;
++        dw[i][5] = up.y;
++        dw[i][6] = up.z;
++        dw[i][7] = up.w;
++      }
++      // Token-tile operands are read one tile at a time to keep the live
++      // register set small enough for the BK=2 stage.
++#pragma unroll
++      for (int j = 0; j < kWaveTokTiles; ++j) {
++        const int ts = (wave_tok * kWaveTokTiles) + j;
++        const int32x4_t b0 = s_b[kb][ts][sub_lane];
++        const int32x4_t b1 = s_b[kb][ts][16 + sub_lane];
++        const float dx = s_dx[kb][ts][sub_lane];
++#pragma unroll
++        for (int i = 0; i < kWaveRowTiles; ++i) {
++          int32x8_t c = {0, 0, 0, 0, 0, 0, 0, 0};
++          c = WmmaI8(a0[i], b0, c);
++          c = WmmaI8(a1[i], b1, c);
++#pragma unroll
++          for (int l = 0; l < 8; ++l) {
++            acc[i][j][l] += (dw[i][l] * dx) * static_cast<float>(c[l]);
++          }
++        }
++      }
++#if __clang_major__ >= 23
++      // LLVM 23 hoists the next K block's operands above this one's WMMAs,
++      // which spills registers on gfx1151. ROCm 7.2.3 (LLVM 22) does not, and
++      // the fence costs it about 3%.
++      __builtin_amdgcn_sched_barrier(0);
++#endif
++    }
++    __syncthreads();
++  }
++
++  // Keep the original F32 transpose before applying rounded SwiGLU.
++  // Gate/up occupy the two halves of one token's 32-float scratch row.
++  // Each wave retains its own scratch; no cross-wave reduction.
++  __syncthreads();
++  auto* tile_scratch = reinterpret_cast<float*>(lds) + wave_id * 16 * 32;
++#pragma unroll
++  for (int j = 0; j < kWaveTokTiles; ++j) {
++#pragma unroll
++    for (int l = 0; l < 8; ++l) {
++      tile_scratch[sub_lane * 32 + 2 * l + half_id] = acc[0][j][l];
++      tile_scratch[sub_lane * 32 + 16 + 2 * l + half_id] = acc[1][j][l];
++    }
++    __builtin_amdgcn_wave_barrier();
++    const std::size_t r0 = r_block + wave_row * 16;
++    const std::size_t t0 = t_block + (wave_tok * kWaveTokTiles + j) * 16;
++    const std::size_t tok = t0 + (lane_id >> 1);
++    const std::size_t r = r0 + (lane_id & 1) * 8;
++    const int flat = (lane_id >> 1) * 32 + (lane_id & 1) * 8;
++    if (tok < batch) {
++#pragma unroll
++      for (int q = 0; q < 2; ++q) {
++        const float4 g =
++            *reinterpret_cast<const float4*>(tile_scratch + flat + q * 4);
++        const float4 u =
++            *reinterpret_cast<const float4*>(tile_scratch + flat + 16 + q * 4);
++        const __half2 lo =
++            __floats2half2_rn(SiluF(g.x) * u.x, SiluF(g.y) * u.y);
++        const __half2 hi =
++            __floats2half2_rn(SiluF(g.z) * u.z, SiluF(g.w) * u.w);
++        const std::size_t row = r + q * 4;
++        if (row + 4 <= m && m % 4 == 0 &&
++            reinterpret_cast<std::uintptr_t>(y) % 8 == 0) {
++          *reinterpret_cast<__half2*>(y + tok * m + row) = lo;
++          *reinterpret_cast<__half2*>(y + tok * m + row + 2) = hi;
++        } else {
++          __half values[4];
++          __builtin_memcpy(values, &lo, 4);
++          __builtin_memcpy(values + 2, &hi, 4);
++#pragma unroll
++          for (int v = 0; v < 4; ++v)
++            if (row + v < m)
++              y[tok * m + row + v] = values[v];
++        }
++      }
++    }
++    __builtin_amdgcn_wave_barrier();
++  }
++}

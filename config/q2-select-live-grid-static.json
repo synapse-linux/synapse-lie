@@ -1,0 +1,12 @@
+{
+  "schema": "synapse-lie.q2-select-live-grid-static.v1",
+  "parent_manifest_sha256": "2e81463dbbe134190c300f2b008684d584f0d75f60f36f16eb25b765c2c4b45c",
+  "original_device_bodies_exact": 164,
+  "include": "experiments/q2-select-live-grid.inc",
+  "include_sha256": "91c98c4f9cfd3d297d0c9f7a132ccd6d5c68b3379edf58284da6006e5116cfac",
+  "assembly": "evidence/q2-select-live-grid-preparation/candidate.s",
+  "assembly_sha256": "4bbbfbd3c9016500e4223a02409fcd481731726f431c9cd8c55fec0697c56ce7",
+  "compile_receipt_sha256": "f0ae630d2707eb711862da81757196d5a01a2e5a05e2db152811d3b0919c7a1e",
+  "all_numerical_resources_unchanged": true,
+  "GPU_run": false
+}

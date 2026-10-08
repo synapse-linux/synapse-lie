@@ -1,0 +1,12 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/q2_hc_down_bk256.inc
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_hc_down_bk256.inc
+@@ -175,7 +175,7 @@
+                         hipStream_t stream) {
+   if (!w || !x || !out || batch < 96 || batch > 2048 || m != 320 || k != 10240)
+     return false;
+-  hipLaunchKernelGGL((HcDownBk256Kernel<64, 32, 16, 16, 256, 1>),
++  hipLaunchKernelGGL((HcDownBk256Kernel<64, 32, 16, 16, 128, 1>),
+                      dim3(5, (batch + 31) / 32), dim3(256), 0, stream,
+                      static_cast<const std::uint16_t*>(w),
+                      reinterpret_cast<const std::uint16_t*>(x), out, 320, 10240,

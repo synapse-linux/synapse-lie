@@ -1,0 +1,18 @@
+{
+  "objective": "Q2 must match UD PP and TG; HC prefill is one component, not a reduced acceptance target.",
+  "change": "Use original F16 WMMA route for HC down/up, n>=96. Down64x128 BK2 WM2 WN4 rowgroup5; up128x128 BK1 WM4 WN2 rowgroup8. Preserve raw F16 weights, existing F16 input narrowing, two K16 FP32 accumulator chains and FP32 outputs. No new quantization/state allocations.",
+  "base": ".deps/gufo-q2-bench-hc with isolated four-wave decode experiment",
+  "patch": "Apply experiments/q2-hc-prefill-wmma.patch after experiments/q2-hc-four-wave.patch to qualified source. Do not apply to active runtime.",
+  "patch_sha256": "c4787ca6c0a9bc4ae19d015ac323f9bbe7b700a24ee241f123a7d357956fd491",
+  "operator_scope": "22 synthetic cases: both HC shapes at32/95/96/97/127/128/129/2048 rows; tiny and alternating inputs at129; adjacent shape controls. Exact-sized input/weight allocations, output guards, all outputs finite/written and full-output SHA256. FP64 oracle samples WMMA/macro-tile boundaries across every tile; it is not a full-output oracle. Save sample coordinates and values.",
+  "operator_relative_rms_max": 2e-05,
+  "operator_error_over_peak_max": 2e-05,
+  "microbenchmark": "Both shapes n2048;16 distinct original F16 weight matrices (100MiB) rotate beyond MALL. Warm16 then5x16 launches; HIP event latency and TFLOPS. Same hipMalloc allocation as model uploads; no model inference claim.",
+  "comparison": "Qualified source versus HC+prefill candidate through the same BlasLt::Gemm call. Decode HC4 does not affect synthetic prefill. If improved, compare original-weight C1 pp2048/tg128 HC4 baseline versus HC4+prefill with matching build/input/idle policy. UD remains the overall target.",
+  "numerical_policy": "Record all exact replay and frontier differences. Owner permits exploratory performance before numerical correction; no speed-only promotion, no tolerance relaxation.",
+  "mmq_reuse": "Model build may reuse task-owned qualified unchanged MMQ archive only after every source filename/hash matches apart from kernels.hip.cpp and blaslt.cpp; both HC translation units and model executor are recompiled. Header/MMQ/other changes refuse reuse. Verify prior model binary and copied/original archive SHA before/after.",
+  "execution": "Runtime on .157 only, fresh four leases, no foreign load. Owner updates limit to98C inclusive: stop above98000mC, or at a lower hardware sensor max/crit if exposed. Owned-process cleanup and real exits retained. No dependency installation/tuning.",
+  "candidate_status": "Measured: component2.04x/2.59x, model PP+8.22%; numerical differences retained; no promotion. Full Q2/UD parity remains unmet.",
+  "retained_initial_failure": "q2-hc-prefill-reference-r1: baseline first operator fails2e-5. Library changes stream formatting to two decimals; initial printed errors lose precision. Raw samples/coordinates remain. Restore explicit scientific precision at every event, rerun identical case without changed tolerance.",
+  "performance_exploration": "Preserve all22 numerical results at unchanged2e-5 limit. If only numerical tolerance fails, finish microbench but return actual exit1 and retain FAILED runner state. Nonfinite/unwritten/guard failure stops immediately. Explicit owner authorization allows exploratory speed before numerical fixes; never relabel numerical failure as PASS."
+}

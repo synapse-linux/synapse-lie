@@ -1,0 +1,138 @@
+{
+  "scope": "Editing-host device assembly only; no runtime or GPU/model access",
+  "argv": [
+    "/opt/rocm/llvm/bin/clang++",
+    "-x",
+    "hip",
+    "--offload-arch=gfx1151",
+    "--offload-device-only",
+    "-S",
+    "-std=c++20",
+    "-O3",
+    "-ffast-math",
+    "-fno-finite-math-only",
+    "-DQFN_ROCM_BUILD=1",
+    "-DENGINE_ENABLE_HIP=1",
+    "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-staged-weights",
+    "-isystem",
+    "/opt/rocm/include",
+    "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-staged-weights/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+    "-o",
+    "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-staged-weights-static-r1.s"
+  ],
+  "started_at": "2026-10-02T18:41:47.630756+00:00",
+  "exit_code": 0,
+  "finished_at": "2026-10-02T18:41:56.359271+00:00",
+  "assembly_sha256": "e5fe2ff9f2d404c0c101577f10a463a934ca53525bbd884d4cc402582e96bf8b",
+  "resources": {
+    "reference": [
+      {
+        "group_segment_fixed_size": 16640,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 112,
+        "next_free_sgpr": 24,
+        "tile": 16,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi16ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "wmma_instructions": 8,
+        "fma_mix_half_instructions": 64
+      },
+      {
+        "group_segment_fixed_size": 24832,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 144,
+        "next_free_sgpr": 30,
+        "tile": 48,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi48ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "wmma_instructions": 24,
+        "fma_mix_half_instructions": 64
+      },
+      {
+        "group_segment_fixed_size": 28928,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 169,
+        "next_free_sgpr": 31,
+        "tile": 64,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi64ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "wmma_instructions": 32,
+        "fma_mix_half_instructions": 64
+      }
+    ],
+    "candidate": [
+      {
+        "group_segment_fixed_size": 20736,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 158,
+        "next_free_sgpr": 24,
+        "tile": 16,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi16ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "wmma_instructions": 8,
+        "fma_mix_half_instructions": 32
+      },
+      {
+        "group_segment_fixed_size": 28928,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 169,
+        "next_free_sgpr": 30,
+        "tile": 48,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi48ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "wmma_instructions": 24,
+        "fma_mix_half_instructions": 32
+      },
+      {
+        "group_segment_fixed_size": 33024,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 217,
+        "next_free_sgpr": 31,
+        "tile": 64,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi64ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "wmma_instructions": 32,
+        "fma_mix_half_instructions": 32
+      }
+    ]
+  },
+  "source_checks": [
+    {
+      "kind": "reconstruct",
+      "argv": [
+        "patch",
+        "--batch",
+        "-p1",
+        "-i",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/q2-staged-weights.patch"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-staged-weights-reconstruct-r1.log"
+    },
+    {
+      "kind": "bench-syntax",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-host-only",
+        "-std=c++20",
+        "-fsyntax-only",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-staged-weights",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-staged-static-include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests/q2_packed_bench.cpp"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-staged-weights-bench-syntax-r1.log"
+    },
+    {
+      "kind": "changed-format",
+      "argv": [
+        "clang-format",
+        "--dry-run",
+        "--Werror",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-staged-weights/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests/q2_packed_bench.cpp"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-staged-weights-changed-format-r1.log"
+    }
+  ],
+  "reconstruction_files": 1019,
+  "same": true
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "synapse-lie.q2-ssm-pingpong-preparation.v1",
+  "files": {
+    "tools/prepare-q2-ssm-pingpong.py": "fe811c99eca4c260589aebfe2c30bf42d6c8da196dd2b3f68a8fea3ae999f496",
+    "tools/analyze-q2-ssm-pingpong-static.py": "0c6e655b6bdffcdc9548795ad9906f7562f14e78ee80c9096c00c1e9d87e65d3",
+    "config/q2-ssm-pingpong-source.json": "7551c688a47fcb1ef8358a92de88ed7d73aa5657e7f15aa48adc0fcc1cd6a4ad",
+    "config/q2-ssm-pingpong-static.json": "2101368f24243707dcb955afa92b644ba4d5571a4d66015818abce81485a93e1",
+    "experiments/q2-ssm-pingpong.patch": "7b3abd2519b450dbae33280bf4e8707a7254227ef1d72257e2c745271efd73c4",
+    "docs/Q2-SSM-PINGPONG.md": "37c11945b759f6746d1c65890853cce994272a41fd398c6ab01ca65f9cb001af",
+    "third_party/gufo/LIE-Q2-SSM-PINGPONG.md": "860b03fb8d00fc884873874694d01c8e5611ea8c7576f731cbc4b6635533bec3"
+  },
+  "frozen_fixtures": 88,
+  "frozen_manifests": 5,
+  "window_helper_unchanged": true,
+  "other_kernels_exact": 161,
+  "modeled_schedules": 129,
+  "modeled_stage_reads": 82560,
+  "unsafe_controls_detected": true,
+  "prepared_pairs": 30,
+  "prepared_fp64_checks": 60,
+  "prepared_timing_rows": 14,
+  "fixture_unchanged": true,
+  "remote_launcher_wired": false,
+  "gpu_run": false,
+  "model_inference": false,
+  "goal_met": false
+}

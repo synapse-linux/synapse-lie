@@ -1,0 +1,15 @@
+{
+  "scope": "Static preparation only; GPU replay and benefit unproven",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-hc-decode16",
+  "candidate": ".deps/gufo-q2-bench-affine-palette",
+  "base_sha256": "be038fa353b26feaa45aa9fde8d23bcb03a454639edeb6a5634f7d72f7ef4a37",
+  "candidate_sha256": "4de114a41d58e2b6f74038abfbf27bef8dc285dadf4b95ef69ae3b51b6b8a9fe",
+  "patch_sha256": "f31fa8a55bca8b69e9047abcc5e11fed588a9183615f6ece3f712d71a1956276",
+  "changed_files": [
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  ],
+  "mechanism": "Compute four F16 affine values per Q2 group and select their bytes with register permutes",
+  "unchanged": "Original model bytes, LDS plan, activation planes, WMMA order and residual correction; raw-input control and HC16 decode unchanged",
+  "numeric_contract": "Exact GPU operator/model replay required; constant folding must preserve original rounded values"
+}

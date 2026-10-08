@@ -1,0 +1,23 @@
+{
+  "schema": "synapse-lie.q2-hc-scalar-up-mix-window-plan.v1",
+  "label": "q2-hc-scalar-up-mix-component-r1",
+  "source_commit": "99d095d58ed0b242fa947225de54b102181bdcb3",
+  "previous_release": "q2-ssm-wave-balance-component-r1/release.json",
+  "previous_release_sha256": "f7703956a2bbddc82549e4a75605631dd50d00115be018b80a9eab9fa1181806",
+  "staged_sha256": {
+    "q2_hc_scalar_up_mix_check": "692b03790f0bd675225b6fa4926acfddaf5c5133ff7e55a930c1be053c1901d8",
+    "q2-hc-scalar-up-mix-window.py": "17bb9fe90fa5ff2f63706dedd1b4cbb48ddc3dc6ac775cd66733d5aea328a3cc",
+    "q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "fixture.hip": "e20549b11ae9d147eedff8d598d9b8cd3537108a30aeb354a9d73a4aa6e05e4f",
+    "kernel.inc": "232c4e2e421296d1e6b9b724ceb4dac0136d7cd0f7ec28eab6c81e42111a01f0",
+    "source-manifest.json": "85d013f882308cc6edea696eb23ea80dd8bfb167c4ed8f3fb99c4087331e5666",
+    "static-report.json": "8ee24420482109b56f92c1e1ce3f5d7e06f2eb46395e0930b323b8a08213e5b6"
+  },
+  "component_only": true,
+  "original_model_inference": false,
+  "model_access": false,
+  "remote_build": false,
+  "remote_cleanup": false,
+  "timeout_seconds": 300,
+  "scope": "One original-F16 scalar HC up/mix comparison, same F32 arithmetic. Guarded exact outputs, independent FP64 checks and complete graphs with100MiB rotating weights; no model or control rerun."
+}

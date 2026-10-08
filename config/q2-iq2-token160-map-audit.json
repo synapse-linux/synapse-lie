@@ -1,0 +1,16 @@
+{
+  "schema": "synapse-lie.q2-iq2-token160-map-audit.v1",
+  "original_routing": "config/q2-current-routing-v2-results.json",
+  "layers": 48,
+  "edge_shapes": 18,
+  "coverage_exact": true,
+  "original_model_run": false,
+  "wide160": 3512,
+  "wide128": 2883,
+  "tail64": 12184,
+  "selected_expert_pairs": 991,
+  "selected_real_rows": 508126,
+  "total_real_rows": 983040,
+  "selected_padded_rows": 515840,
+  "total_padded_rows": 1128752
+}

@@ -1,0 +1,14 @@
+{
+  "binary": ".deps/build-exact-bench-gpu/core/synapse-lie-bench",
+  "sha256": "23b53980e10a6615dc9e514eeee78c46c50aec90d5d57010de9532a51ae23f7f",
+  "retained_archives": {
+    ".deps/build-prefill-chunks/cmake/curve/libq2_curve_adapter.a": "b33c260807c1fd0ced661730dabfca3dcdb82dcbaf48fb45a5df1f70a4779795",
+    ".deps/build-prefill-chunks/cmake/hip/qwen/libgufo_qwen38_flash_next.a": "7064043d3ce0339ce3215d67d5017a0ac9aab0dbf89621be0c8e70e31cd9620e",
+    ".deps/build-prefill-chunks/libq2_host.a": "dfc418a77245d67eb3b850a9ef1b76a44deab06a008b3d8cc6033091893ae0a7",
+    ".deps/build-hc-scalar-matched/cmake/hip/qwen/libgufo_qwen38_flash_next_mmq.a": "5daa0088a8f461ef1908ec6bb1e1a9d1239ed1745ae81b5f49e1219f728f8d91"
+  },
+  "device_functions": 923,
+  "device_functions_byte_exact": 923,
+  "cpu_ctest_pass": 2,
+  "model_inference": false
+}

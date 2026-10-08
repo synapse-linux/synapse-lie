@@ -1,0 +1,54 @@
+{
+  "schema": "synapse-lie.q2-down-output-reuse-opportunity.v1",
+  "source_manifest_sha256": "9b96d0fc50542d94bb585774f8ebac4e8dc4d35e5ad5e5ad5306676329060845",
+  "source": ".deps/gufo-q2-iq2-lane-commit-run/src/models/qwen38_flash_next/kernels/rocm/q2_scaled_input.inc",
+  "source_sha256": "0c7d6d2374158fd340011601af4329e13fa5ccf9d1a2900e1743a44ee673ea0e",
+  "same_launcher_in_wide_pair_candidate": true,
+  "anchors": {
+    "RoutedF16GEMMKernel<WeightType::kQ2_K, 128, BN, 2, false, false, true>": 67,
+    "dim3(static_cast<unsigned>((m + 127) / 128), n_tiles)": 68,
+    "case 48:": 86
+  },
+  "comparison": [
+    {
+      "BM": 128,
+      "BN": 48,
+      "output_blocks": 20,
+      "accumulator_values_per_lane": 24,
+      "stage_lds_bytes": 18560,
+      "output_owners_verified": 122880
+    },
+    {
+      "BM": 256,
+      "BN": 48,
+      "output_blocks": 10,
+      "accumulator_values_per_lane": 48,
+      "stage_lds_bytes": 30848,
+      "output_owners_verified": 122880
+    }
+  ],
+  "original_logical_inner": 640,
+  "original_stored_inner": 768,
+  "mechanism": "Use existing generic BM256 row loop only for scaled Q2 BN48; double output rows sharing the activation stage, keep token routing maps, per-dot K order, inverse scale and F32 scatter.",
+  "prior_distinction": "Recorded scaled-tiles/selective experiments change BN48/64/128 token widths with BM128. This proposal changes output-row BM while retaining BN48.",
+  "unchanged": [
+    "Encoded weight bytes and affine palette",
+    "Scaled activation packing and row inverse",
+    "Original route descriptors and token counts",
+    "F32 output and later weighted combine",
+    "IQ2 gate/up, dense, scalar decode and attention"
+  ],
+  "hypothetical_activation_staging_factor_at_full_output_shape": 0.5,
+  "weight_decode_or_matrix_operations_reduced": false,
+  "risks": [
+    "LDS18560 to30848 bytes and doubled accumulators may reduce occupancy or spill.",
+    "Generic BM256 code is source availability, not a qualified scaled-Q2 dispatch.",
+    "Ragged M boundaries, logical640/stored768 tails and complete model comparison required."
+  ],
+  "implementation_prepared": false,
+  "candidate_compiled": false,
+  "gpu_run": false,
+  "model_inference": false,
+  "throughput_gain_established": false,
+  "goal_met": false
+}

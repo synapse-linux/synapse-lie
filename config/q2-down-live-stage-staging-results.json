@@ -1,0 +1,12 @@
+{
+  "schema": "synapse-lie.q2-down-live-stage-staging.v1",
+  "capsule_sha256": "0ca8a74a7e7e0a259177d7f3de13c2ae8f6e856c1f450baf8c3b272587a6750c",
+  "fixture_files_verified": 63,
+  "provider_files_verified": 1025,
+  "network_boundary_reached": true,
+  "network_calls_executed": 0,
+  "gpu_run": false,
+  "remote_build": false,
+  "model_inference": false,
+  "goal_met": false
+}

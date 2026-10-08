@@ -1,0 +1,29 @@
+{
+  "schema": "synapse-lie.q2-shared-down-preparation.v1",
+  "files": {
+    "tools/prepare-q2-shared-down-mirror.py": "ef858735e284f93982861f05c90b3ba3c654278c4a64443cad7f842dc1d47f8b",
+    "tools/prepare-q2-shared-down-fixed.py": "9baa29c5098602bf70e0580f3038519fe544b678519dcf7b5e19aeca07f256f4",
+    "tools/analyze-q2-shared-down-static.py": "300a69e163c031eace0f3f718449fe49f82cf10eccf376067175a0a85b71badf",
+    "config/q2-shared-down-mirror-source.json": "5a846200cb08e86fddb932f0cbd1a4e6fa2138a85923d1d3df1e97d722594805",
+    "config/q2-shared-down-fixed-source.json": "42d2ad8f4c08826be52188cd82a523c5ee9efc4a0823a32358cdab6bc21f0852",
+    "config/q2-shared-down-static.json": "f56ff9dccceaf5811ad62857afff47d6a59ae6543e3e351b2f02c363c56401e4",
+    "experiments/q2-shared-down-mirror.patch": "1cb30937d4225c288fbc8f551d2fb24a7ca9572be9f9b1322b13697654c4c1e8",
+    "experiments/q2-shared-down-fixed.patch": "1798b4bfc6280273fd44913c79021a8e8d7b643b324a2467df05fbabfd3f4aa1",
+    "tests/q2_shared_down_mirror.hip": "a169b998f2857b6fd915b35ac18d6d9bd0f1139400d5b1d886a4774344b57807",
+    "docs/Q2-SHARED-DOWN-MIRROR.md": "b4da701288a1ce7aae7992f1282a1c178e368ac81080f36899d39fddbda72060",
+    "third_party/gufo/LIE-Q2-SHARED-DOWN-MIRROR.md": "baa9f4b6b788a2d7c87559638dff5423f2f8a170d7453edb063dd2cac0edb4f1"
+  },
+  "frozen_fixtures": 88,
+  "frozen_manifests": 5,
+  "window_helper_unchanged": true,
+  "static_providers_verified": 2,
+  "original_kernels_exact": 162,
+  "prepared_pairs": 126,
+  "prepared_fp64_checks": 168,
+  "prepared_timing_rows": 28,
+  "model_dispatch_changed": false,
+  "remote_launcher_wired": false,
+  "gpu_run": false,
+  "model_inference": false,
+  "goal_met": false
+}

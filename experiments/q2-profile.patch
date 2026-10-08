@@ -1,0 +1,139 @@
+--- a/tests/q2_model.cpp
++++ b/tests/q2_model.cpp
+@@ -96,9 +96,11 @@
+ 
+ int main(int argc, char **argv) {
+   try {
+-    Require(argc == 3, "Usage: q2_model MODEL smoke|bench");
++    Require(argc == 3, "Usage: q2_model MODEL smoke|bench|profile");
+     const bool bench = std::string(argv[2]) == "bench";
+-    Require(bench || std::string(argv[2]) == "smoke", "Unsupported profile");
++    const bool profile = std::string(argv[2]) == "profile";
++    Require(bench || profile || std::string(argv[2]) == "smoke",
++            "Unsupported profile");
+     std::cout << std::unitbuf << std::setprecision(10);
+     std::string error;
+     const auto load_start = Clock::now();
+@@ -208,7 +210,11 @@
+                                 [](unsigned char x) { return x <= 32; }),
+                  answer.end());
+     Require(answer == "1,2,3,4,5", "Counting smoke returned unexpected output");
+-    if (bench) {
++    if (profile) {
++      const auto input = SizedPrompt(*tokenizer, 2048);
++      Save<std::int32_t>("profile2048-input.i32", input);
++      sample("profile2048", input, 0, 16);
++    } else if (bench) {
+       std::vector<std::vector<std::int32_t>> inputs;
+       for (std::size_t size : {512, 2048, 8192}) {
+         const auto input = SizedPrompt(*tokenizer, size);
+--- a/tools/q2-runner.py
++++ b/tools/q2-runner.py
+@@ -8,6 +8,7 @@
+ import os
+ from pathlib import Path
+ import signal
++import shutil
+ import subprocess
+ import sys
+ import time
+@@ -27,7 +28,7 @@
+ 
+ def main():
+     mode = sys.argv[1]
+-    model_mode = mode in ('q2-smoke','q2-bench','ud-base','ud-patched')
++    model_mode = mode in ('q2-smoke','q2-bench','q2-profile','ud-base','ud-patched')
+     if mode not in ('cpu', 'hip-build', 'operators') and not model_mode:
+         raise SystemExit('Unsupported mode')
+     result = {'state': 'RUNNING', 'mode': mode, 'started_at': now(),
+@@ -38,6 +39,11 @@
+     registered = False
+     def clients():
+         return sorted(int(p.name) for p in Path('/sys/class/kfd/kfd/proc').glob('*') if p.name.isdecimal())
++    def own_session(pid, leader):
++        try:
++            fields=Path('/proc',str(pid),'stat').read_text().split(') ',1)[1].split()
++            return int(fields[3])==leader
++        except FileNotFoundError: return False
+     def observation(pid=None):
+         row={'at':now(),'kfd':clients()}
+         for name in ['meminfo']:
+@@ -96,7 +102,7 @@
+                     if time.monotonic()>deadline:
+                         row['timeout']=True;raise RuntimeError('Owned command timed out')
+                     if mode!='cpu':
+-                        foreign=[pid for pid in clients() if pid!=child.pid]
++                        foreign=[pid for pid in clients() if not own_session(pid,child.pid)]
+                         if foreign:
+                             row['foreign_kfd']=foreign;raise RuntimeError('Foreign KFD client during run')
+                         if time.monotonic()>=next_observation:
+@@ -140,6 +146,11 @@
+                 raise RuntimeError('Foreign model handle before build/launch')
+             register('start');registered=True
+         if model_mode:
++            if mode=='q2-profile':
++                profiler=shutil.which('rocprofv3')
++                if profiler is None and Path('/opt/rocm/bin/rocprofv3').is_file(): profiler='/opt/rocm/bin/rocprofv3'
++                if profiler is None: raise RuntimeError('Installed rocprofv3 unavailable; no dependency installation attempted')
++                result['profiler']=profiler
+             inventory=json.loads((ROOT/'config/models-157.inventory.json').read_text())['files']
+             if mode.startswith('q2-'):
+                 selected=[f for f in inventory if f['path'].endswith('/Qwen3.8-Flash-Next-Q2.gguf')]
+@@ -177,12 +188,18 @@
+                 run(['ldd',str(binary)],env,30)
+                 result['model_access']=True
+                 save()
+-                run([str(binary),model_paths[0],'smoke' if mode=='q2-smoke' else 'bench'],
+-                    dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),1800)
++                if mode=='q2-profile':
++                    run([profiler,'--kernel-trace','-d',str(results/'profile'),'-o','q2','--',
++                         str(binary),model_paths[0],'profile'],dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),1800)
++                    run(['python3',str(ROOT/'source/tools/prof/prof.py'),'show',str(results/'profile/q2_results.db'),'--json'],env,120)
++                else:
++                    run([str(binary),model_paths[0],'smoke' if mode=='q2-smoke' else 'bench'],
++                        dict(env,HIP_VISIBLE_DEVICES='0',ROCR_VISIBLE_DEVICES='0'),1800)
+                 result['binary_sha256_after']=hashlib.sha256(binary.read_bytes()).hexdigest()
+                 if result['binary_sha256_after']!=result['binary_sha256']: raise RuntimeError('Binary changed')
+         result['state'] = 'CPU_FIXTURES_PASS_NO_MODEL_INFERENCE' if mode=='cpu' else 'HIP_BUILD_PASS_NOT_MODEL_QUALIFIED' if mode=='hip-build' else 'SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED'
+         if model_mode: result['state']='MODEL_SMOKE_PASS' if mode=='q2-smoke' else 'MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT'
++        if mode=='q2-profile': result['state']='DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK'
+     except Exception as ex:
+         result['state'] = 'FAILED'; result['error'] = repr(ex)
+     finally:
+@@ -195,7 +212,7 @@
+                 result['postflight_observers']=device_observers()
+                 result['postflight_locks']=[{'path':name,'device':os.stat(name).st_dev,'inode':os.stat(name).st_ino} for name in LOCKS[:len(held)]]
+                 if result['postflight_locks']!=result['locks']: raise RuntimeError('Lease identity changed after run')
+-            result['artifacts']={p.name:{'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in results.iterdir() if p.is_file() and p.name!='result.json'}
++            result['artifacts']={str(p.relative_to(results)):{'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in results.rglob('*') if p.is_file() and p.name!='result.json'}
+         except Exception as ex:
+             result['state']='FAILED';result['postflight_error']=repr(ex)
+         finally:
+--- a/tools/q2-remote.py
++++ b/tools/q2-remote.py
+@@ -18,7 +18,7 @@
+ 
+ def main():
+     p = argparse.ArgumentParser()
+-    p.add_argument('mode', choices=['cpu', 'hip-build', 'operators', 'q2-smoke', 'q2-bench', 'ud-base', 'ud-patched', 'status', 'collect'])
++    p.add_argument('mode', choices=['cpu', 'hip-build', 'operators', 'q2-smoke', 'q2-bench', 'q2-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
+     p.add_argument('label')
+     args = p.parse_args()
+     if not re.fullmatch(r'q2-[a-z0-9-]{1,48}', args.label):
+@@ -35,14 +35,14 @@
+         if rc: raise SystemExit(rc)
+         with tarfile.open(archive_path) as a:
+             members=a.getmembers()
+-            if sum(m.size for m in members)>64000000: raise ValueError('Oversized collection')
++            if sum(m.size for m in members)>128000000: raise ValueError('Oversized collection')
+             for m in members:
+                 pth=Path(m.name)
+                 if pth.is_absolute() or '..' in pth.parts or not (m.isdir() or m.isfile()): raise ValueError('Unsafe collection')
+             a.extractall(out,filter='data')
+         receipt=json.loads((out/'results/result.json').read_text())
+         for name,meta in receipt.get('artifacts',{}).items():
+-            if Path(name).name!=name: raise ValueError('Unsafe artifact name')
++            if Path(name).is_absolute() or '..' in Path(name).parts: raise ValueError('Unsafe artifact name')
+             payload=(out/'results'/name).read_bytes()
+             if len(payload)!=meta['bytes'] or hashlib.sha256(payload).hexdigest()!=meta['sha256']:
+                 raise ValueError('Artifact integrity mismatch')

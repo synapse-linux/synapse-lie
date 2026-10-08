@@ -1,0 +1,536 @@
+diff --git a/patches/gufo-q2.patch b/patches/gufo-q2.patch
+index be978e8..cc26f35 100644
+--- a/patches/gufo-q2.patch
++++ b/patches/gufo-q2.patch
+@@ -209,6 +209,38 @@
+        return false;
+      }
+    } else if (same_shape && a.type == GgmlType::kQ4_K) {
++@@ -1661,10 +1680,27 @@
++                       n_tokens, used, error_msg)) {
++       return false;
++     }
++-    // The down projection sees one (token, slot) row per expert id.
++-    if (!Experts(l.ffn_down_exps, s_.gate_e, s_.ids, s_.down_e, slots, 1,
++-                 n_tokens, error_msg)) {
++-      return false;
+++    // Q2 down consumes the existing F32 slot buffer, splitting activations
+++    // into F16 plus residual only inside each matrix tile.
+++    // Its packed weights retain physical K=768 while the live input is 640.
+++    if (ExpertMatrixRows(n_tokens) && l.ffn_down_exps.type == GgmlType::kQ2_K &&
+++        c.expert_ff == 640 && l.ffn_down_exps.cols == 768) {
+++      RoutedCompact(s_.ids, s_.expert_counts, s_.routed_bounds,
+++                    s_.routed_cursors, s_.rows_token, s_.rows_slot, n_tokens,
+++                    used, c.num_experts, stream_);
+++      if (!RoutedQ2Gemm(l.ffn_down_exps.data, s_.gate_e, s_.routed_tiles,
+++                        routed_n_tiles_, routed_tile_rows_, s_.routed_bounds,
+++                        s_.rows_slot, s_.down_e, c.hidden_size, c.expert_ff,
+++                        stream_)) {
+++        AssignError(error_msg, "routed Q2 F16 down GEMM failed");
+++        return false;
+++      }
+++    } else {
+++      // The down projection sees one (token, slot) row per expert id.
+++      if (!Experts(l.ffn_down_exps, s_.gate_e, s_.ids, s_.down_e, slots, 1,
+++                   n_tokens, error_msg)) {
+++        return false;
+++      }
++     }
++   }
++   if (wmma_experts) {
+ --- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+ +++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+ @@ -15,6 +15,13 @@
+@@ -225,7 +257,314 @@
+  
+  constexpr unsigned kThreads = 256;
+  
+-@@ -4485,6 +4492,13 @@
++@@ -3712,7 +3719,8 @@
++ 
++ template<WeightType kType>
++ __device__ __forceinline__ std::size_t RoutedF16RowBytes(std::size_t k) {
++-  return kType == WeightType::kQ4_K   ? (k / 256) * sizeof(Q4KBlock)
+++  return kType == WeightType::kQ2_K   ? ((k + 255) / 256) * 84
+++         : kType == WeightType::kQ4_K ? (k / 256) * sizeof(Q4KBlock)
++          : kType == WeightType::kQ5_K ? (k / 256) * kQ5KBlockBytes
++          : kType == WeightType::kQ5_1 ? (k / 32) * sizeof(Q5_1Block)
++                                       : (k / 32) * sizeof(Q8_0Block);
++@@ -3747,17 +3755,17 @@
++ }
++ 
++ template<WeightType kType, int BM, int BN, int BK, bool kPair = false>
++-__launch_bounds__(256) __global__
++-    void RoutedF16GEMMKernel(const void* __restrict__ w,
++-                             const __half* __restrict__ x,
++-                             const std::int32_t* __restrict__ tiles,
++-                             const std::int32_t* __restrict__ pad_bounds,
++-                             const std::int32_t* __restrict__ rows_in,
++-                             const std::int32_t* __restrict__ rows_out,
++-                             const float* __restrict__ swiglu_gate,
++-                             float* __restrict__ out,
++-                             __half* __restrict__ out_half, std::size_t m,
++-                             std::size_t k, const void* __restrict__ w_up) {
+++__launch_bounds__(256) __global__ void RoutedF16GEMMKernel(
+++    const void* __restrict__ w,
+++    const std::conditional_t<kType == WeightType::kQ2_K, float,
+++                             __half>* __restrict__ x,
+++    const std::int32_t* __restrict__ tiles,
+++    const std::int32_t* __restrict__ pad_bounds,
+++    const std::int32_t* __restrict__ rows_in,
+++    const std::int32_t* __restrict__ rows_out,
+++    const float* __restrict__ swiglu_gate, float* __restrict__ out,
+++    __half* __restrict__ out_half, std::size_t m, std::size_t k,
+++    const void* __restrict__ w_up) {
++   static_assert(BM == 128 || BM == 256, "eight waves, 16-row tiles");
++   static_assert(!kPair || BM == 128);
++   static_assert(BN % 16 == 0 && BN / 16 <= 8);
++@@ -3767,10 +3775,11 @@
++   constexpr bool kQ5 = kType == WeightType::kQ5_1;
++   constexpr bool kQ5K = kType == WeightType::kQ5_K;
++   constexpr bool kQ8 = kType == WeightType::kQ8_0;
+++  constexpr bool kQ2 = kType == WeightType::kQ2_K;
++   constexpr bool kKQuant = kType == WeightType::kQ4_K || kQ5K;
++   // 16-byte code chunks per row and stage: Q4_K's nibble pair and Q5_1's
++   // two nibble blocks are two, Q8_0's two byte blocks are four.
++-  constexpr int kChunks = kQ8 ? 2 * BK : BK;
+++  constexpr int kChunks = (kQ8 || kQ2) ? 2 * BK : BK;
++ 
++   // LDS plan (bytes): the code plane holds BM rows x kChunks 16-byte chunks
++   // with the chunks of nearby rows permuted so a fragment read (one row per
++@@ -3779,11 +3788,12 @@
++   // contiguous bytes; the epilogue reuses it all.
++   constexpr int kCodeBytes = BM * kChunks * 16;
++   constexpr int kHighBytes = (kQ5 || kQ5K) ? BK * BM * 4 : 0;
++-  constexpr int kScaleBytes = BK * BM * 4;
+++  constexpr int kScaleBytes = (kQ2 ? 4 : 1) * BK * BM * 4;
++   // One slot of padding per activation quarter plane: the eight chunks of
++   // a token then land on eight bank groups when they are written.
++   constexpr int kActStride = BN + 1;
++-  constexpr int kActBytes = BK * 4 * kActStride * 16;
+++  constexpr int kActPlaneBytes = BK * 4 * kActStride * 16;
+++  constexpr int kActBytes = (kQ2 ? 2 : 1) * kActPlaneBytes;
++   // The epilogue transposes one 16x16 tile per wave through the same
++   // bytes (8 KB), which the narrow tile's stages do not reach.
++   constexpr int kStageBytes = kCodeBytes + kHighBytes + kScaleBytes + kActBytes;
++@@ -3854,13 +3864,15 @@
++   int f_sb32[kWaveRowTiles];          ///< Q4_K: the K block in its superblock
++   constexpr int kActFetch = BN <= 64 ? 2 : 4;
++   uint4 a_data[kActFetch];
+++  uint4 a_residual[kActFetch];
++ 
++   // Activation fetch: BN tokens x (BK * 64) bytes per stage in 16-byte
++   // chunks, eight per token; each thread fetches consecutive 256-chunk
++   // strides, up to four for a 128-token tile.
++   constexpr int kActChunks = BN * BK * 4;
++   static_assert(kActChunks <= kActFetch * 256);
++-  const __half* a_src[kActFetch];
+++  using Activation = std::conditional_t<kQ2, float, __half>;
+++  const Activation* a_src[kActFetch];
++   int a_slot[kActFetch];
++ #pragma unroll
++   for (int i = 0; i < kActFetch; ++i) {
++@@ -3894,6 +3906,26 @@
++         f_codes[u] = make_uint4(w1.x, w1.y, w2.x, w2.y);
++         f_high[u] = w0.y;
++         f_dm[u] = w0.x;
+++      } else if constexpr (kQ2) {
+++        // Each Q2_K superblock stores 256 codes with independent affine
+++        // scales every 16 elements. The input's logical K may end halfway
+++        // through the last block; row storage remains padded to 256.
+++        const int sb32 = kb0 + f_c;
+++        const auto* blk = f_ptr[u] + ((sb32 / 8) * 84);
+++        const auto* codes = blk + 16 + ((sb32 % 8) / 4) * 32;
+++        __builtin_memcpy(&f_codes[u], codes, 16);
+++        __builtin_memcpy(&f_codes_hi[u], codes + 16, 16);
+++        __builtin_memcpy(&f_dm[u], blk + 80, 4);
+++        f_high[u] = blk[2 * (sb32 % 8)] |
+++                    (std::uint32_t(blk[2 * (sb32 % 8) + 1]) << 8U);
+++        const unsigned shift = 2U * unsigned(sb32 % 4);
+++        const auto unpack = [shift](uint4 v) {
+++          return make_uint4(
+++              (v.x >> shift) & 0x03030303U, (v.y >> shift) & 0x03030303U,
+++              (v.z >> shift) & 0x03030303U, (v.w >> shift) & 0x03030303U);
+++        };
+++        f_codes[u] = unpack(f_codes[u]);
+++        f_codes_hi[u] = unpack(f_codes_hi[u]);
++       } else if constexpr (kQ8) {
++         // block_q8_0 is 34 bytes, so the code loads are 2-byte aligned.
++         const auto* blk = f_ptr[u] + ((kb0 + f_c) * 34);
++@@ -3946,9 +3978,23 @@
++     }
++ #pragma unroll
++     for (int i = 0; i < kActFetch; ++i) {
++-      a_data[i] = a_src[i] != nullptr
++-                      ? *reinterpret_cast<const uint4*>(a_src[i] + (kb0 * 32))
++-                      : make_uint4(0u, 0u, 0u, 0u);
+++      if constexpr (kQ2) {
+++        __half hi[8], lo[8];
+++#pragma unroll
+++        for (int v = 0; v < 8; ++v) {
+++          const float value =
+++              a_src[i] != nullptr ? a_src[i][kb0 * 32 + v] : 0.0F;
+++          hi[v] = __float2half_rn(value);
+++          // Scale the residual to retain small/subnormal activations.
+++          lo[v] = __float2half_rn((value - __half2float(hi[v])) * 4096.0F);
+++        }
+++        __builtin_memcpy(&a_data[i], hi, 16);
+++        __builtin_memcpy(&a_residual[i], lo, 16);
+++      } else {
+++        a_data[i] = a_src[i] != nullptr
+++                        ? *reinterpret_cast<const uint4*>(a_src[i] + (kb0 * 32))
+++                        : make_uint4(0u, 0u, 0u, 0u);
+++      }
++     }
++   };
++ 
++@@ -3957,7 +4003,7 @@
++     for (int u = 0; u < kWaveRowTiles; ++u) {
++       const int row = (tid >> 1) + (u * 128);
++       std::uint32_t scale_bias = 0;
++-      if constexpr (kQ8) {
+++      if constexpr (kQ8 || kQ2) {
++         s_codes[swizzle(row, 2 * f_c)] = f_codes[u];
++         s_codes[swizzle(row, (2 * f_c) + 1)] = f_codes_hi[u];
++         scale_bias = f_live[u] ? f_dm[u] : 0U;  // half2 (d, 0)
++@@ -3967,7 +4013,22 @@
++       if constexpr (kQ5K) {
++         s_high[(f_c * BM) + row] = f_high[u];
++       }
++-      if constexpr (kQ8) {
+++      if constexpr (kQ2) {
+++        const __half2 dm = __builtin_bit_cast(__half2, f_dm[u]);
+++#pragma unroll
+++        for (int part = 0; part < 2; ++part) {
+++          const unsigned sm = (f_high[u] >> (8 * part)) & 0xFFU;
+++          const float d = f_live[u] ? __low2float(dm) * float(sm & 15U) : 0.0F;
+++          const float b =
+++              f_live[u] ? -__high2float(dm) * float(sm >> 4U) : 0.0F;
+++          // Keep the affine in F32. Rounding its coefficients separately
+++          // to F16 amplifies cancellation in small routed outputs.
+++          auto* affine = reinterpret_cast<float*>(s_scale) +
+++                         2 * (((2 * f_c + part) * BM) + row);
+++          affine[0] = d;
+++          affine[1] = b;
+++        }
+++      } else if constexpr (kQ8) {
++       } else if constexpr (kQ5) {
++         s_high[(f_c * BM) + row] = f_high[u];
++         const __half2 dm = __builtin_bit_cast(__half2, f_dm[u]);
++@@ -3996,22 +4057,28 @@
++         scale_bias = __builtin_bit_cast(std::uint32_t,
++                                         __floats2half2_rn(scale, -offset));
++       }
++-      s_scale[(f_c * BM) + row] = scale_bias;
+++      if constexpr (!kQ2)
+++        s_scale[(f_c * BM) + row] = scale_bias;
++     }
++ #pragma unroll
++     for (int i = 0; i < kActFetch; ++i) {
++       if (a_slot[i] >= 0) {
++         s_act[a_slot[i]] = a_data[i];
+++        if constexpr (kQ2)
+++          s_act[kActPlaneBytes / 16 + a_slot[i]] = a_residual[i];
++       }
++     }
++   };
++ 
++   v8f acc[kWaveRowTiles][kTokTiles];
+++  v8f acc_residual[kQ2 ? kWaveRowTiles : 1][kQ2 ? kTokTiles : 1];
++ #pragma unroll
++   for (int u = 0; u < kWaveRowTiles; ++u) {
++ #pragma unroll
++     for (int j = 0; j < kTokTiles; ++j) {
++       acc[u][j] = v8f{0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F};
+++      if constexpr (kQ2)
+++        acc_residual[u][j] = acc[u][j];
++     }
++   }
++ 
++@@ -4019,7 +4086,7 @@
++       __floats2half2_rn(kQ8 ? -1152.0F : -1024.0F, kQ8 ? -1152.0F : -1024.0F);
++   const auto compute_stage = [&]() {
++     uint4 raw[kWaveRowTiles][BK];
++-    if constexpr (!kQ8) {
+++    if constexpr (!kQ8 && !kQ2) {
++ #pragma unroll
++       for (int u = 0; u < kWaveRowTiles; ++u) {
++         const int row = (wave_id * 16) + (u * 128) + sub_lane;
++@@ -4037,11 +4104,12 @@
++       for (int u = 0; u < kWaveRowTiles; ++u) {
++         const int row = (wave_id * 16) + (u * 128) + sub_lane;
++         const __half2 sb =
++-            __builtin_bit_cast(__half2, s_scale[(kb * BM) + row]);
+++            kQ2 ? __float2half2_rn(0.0F)
+++                : __builtin_bit_cast(__half2, s_scale[(kb * BM) + row]);
++         const __half2 scale2 = __low2half2(sb);
++         const __half2 bias2 = __high2half2(sb);
++         std::uint32_t nib[8];
++-        if constexpr (kQ8) {
+++        if constexpr (kQ8 || kQ2) {
++           // Q8_0: the block's 32 signed bytes are chunks 2 kb and 2 kb + 1;
++           // flipping the sign bit carries q + 128, which the 1152 magic
++           // takes back out.
++@@ -4051,7 +4119,7 @@
++                                           c1.x, c1.y, c1.z, c1.w};
++ #pragma unroll
++           for (int i = 0; i < 8; ++i) {
++-            nib[i] = words[i] ^ 0x80808080U;
+++            nib[i] = kQ8 ? words[i] ^ 0x80808080U : words[i];
++           }
++         } else if constexpr (kQ5) {
++           // Q5_1: K block kb's 16 bytes are chunk kb; elements 0-15 take
++@@ -4087,14 +4155,26 @@
++         __half2 h[16];
++ #pragma unroll
++         for (int i = 0; i < 8; ++i) {
++-          CodesToHalves(nib[i], magic, scale2, bias2, h[2 * i], h[2 * i + 1]);
+++          if constexpr (kQ2) {
+++            const auto* affine = reinterpret_cast<const float*>(s_scale) +
+++                                 2 * (((2 * kb + (i / 4)) * BM) + row);
+++            const float d = affine[0], bias = affine[1];
+++            h[2 * i] =
+++                __floats2half2_rn(fmaf(float(nib[i] & 3U), d, bias),
+++                                  fmaf(float((nib[i] >> 8U) & 3U), d, bias));
+++            h[2 * i + 1] =
+++                __floats2half2_rn(fmaf(float((nib[i] >> 16U) & 3U), d, bias),
+++                                  fmaf(float((nib[i] >> 24U) & 3U), d, bias));
+++          } else {
+++            CodesToHalves(nib[i], magic, scale2, bias2, h[2 * i], h[2 * i + 1]);
+++          }
++         }
++         __builtin_memcpy(&a_lo[u], &h[0], 32);
++         __builtin_memcpy(&a_hi[u], &h[8], 32);
++       }
++ #pragma unroll
++       for (int j = 0; j < kTokTiles; ++j) {
++-        if constexpr (kPair || ((kQ5 || kQ8) && BN >= 48)) {
+++        if constexpr (kPair || ((kQ5 || kQ8 || kQ2) && BN >= 48)) {
++           // Keep one token tile's LDS fragments live at a time. Hoisting
++           // all eight tiles spills registers and defeats the wider tile's
++           // reuse of each weight decode. This is a compiler barrier only.
++@@ -4102,7 +4182,8 @@
++         }
++         // A short expert bucket has no output in the remaining token
++         // tiles, so omit their WMMA work.
++-        if constexpr ((kPair || ((kQ5 || kQ8) && BN >= 48)) && kTokTiles > 1) {
+++        if constexpr ((kPair || ((kQ5 || kQ8 || kQ2) && BN >= 48)) &&
+++                      kTokTiles > 1) {
++           if (j >= live_tok_tiles)
++             continue;
++         }
++@@ -4122,6 +4203,18 @@
++           acc[u][j] = Wmma(a_lo[u], b_lo, acc[u][j]);
++           acc[u][j] = Wmma(a_hi[u], b_hi, acc[u][j]);
++         }
+++        if constexpr (kQ2) {
+++#pragma unroll
+++          for (int q = 0; q < 4; ++q)
+++            b[q] = frag[kActPlaneBytes / 16 + q * kActStride];
+++          __builtin_memcpy(&b_lo, &b[0], 32);
+++          __builtin_memcpy(&b_hi, &b[2], 32);
+++#pragma unroll
+++          for (int u = 0; u < kWaveRowTiles; ++u) {
+++            acc_residual[u][j] = Wmma(a_lo[u], b_lo, acc_residual[u][j]);
+++            acc_residual[u][j] = Wmma(a_hi[u], b_hi, acc_residual[u][j]);
+++          }
+++        }
++       }
++     }
++   };
++@@ -4135,6 +4228,14 @@
++     }
++     compute_stage();
++     __syncthreads();
+++  }
+++
+++  if constexpr (kQ2) {
+++#pragma unroll
+++    for (int u = 0; u < kWaveRowTiles; ++u)
+++#pragma unroll
+++      for (int j = 0; j < kTokTiles; ++j)
+++        acc[u][j] += acc_residual[u][j] * (1.0F / 4096.0F);
++   }
++ 
++   if constexpr (kPair) {
++@@ -4485,6 +4586,13 @@
+                       stream, x, g, count);
+  }
+  
+@@ -239,9 +578,63 @@
+  void NarrowActivations(const float* x, void* out, bool bf16, std::size_t count,
+                         hipStream_t stream) {
+    if (bf16) {
++@@ -4591,6 +4699,45 @@
++   hipLaunchKernelGGL(RoutedScatterKernel, dim3(Blocks(slots)), dim3(kThreads),
++                      0, stream, ids, pad_bounds, cursors, rows_token, rows_slot,
++                      static_cast<std::uint32_t>(slots), k);
+++}
+++
+++template<int BN>
+++void LaunchRoutedQ2(const void* w, const float* x, const std::int32_t* tiles,
+++                    std::uint32_t n_tiles, const std::int32_t* pad_bounds,
+++                    const std::int32_t* rows_slot, float* out, std::size_t m,
+++                    std::size_t k, hipStream_t stream) {
+++  const dim3 grid(static_cast<unsigned>((m + 127) / 128), n_tiles);
+++  hipLaunchKernelGGL((RoutedF16GEMMKernel<WeightType::kQ2_K, 128, BN, 2>), grid,
+++                     dim3(kThreads), 0, stream, w, x, tiles, pad_bounds,
+++                     rows_slot, rows_slot, nullptr, out, nullptr, m, k,
+++                     nullptr);
+++}
+++
+++bool RoutedQ2Gemm(const void* w, const float* x, const std::int32_t* tiles,
+++                  std::uint32_t n_tiles, std::uint32_t tile_rows,
+++                  const std::int32_t* pad_bounds, const std::int32_t* rows_slot,
+++                  float* out, std::size_t m, std::size_t k,
+++                  hipStream_t stream) {
+++  if (w == nullptr || x == nullptr || out == nullptr || m == 0 || k != 640 ||
+++      n_tiles == 0)
+++    return false;
+++  switch (tile_rows) {
+++    case 16:
+++      LaunchRoutedQ2<16>(w, x, tiles, n_tiles, pad_bounds, rows_slot, out, m, k,
+++                         stream);
+++      break;
+++    case 48:
+++      LaunchRoutedQ2<48>(w, x, tiles, n_tiles, pad_bounds, rows_slot, out, m, k,
+++                         stream);
+++      break;
+++    case 64:
+++      LaunchRoutedQ2<64>(w, x, tiles, n_tiles, pad_bounds, rows_slot, out, m, k,
+++                         stream);
+++      break;
+++    default:
+++      return false;
+++  }
+++  return true;
++ }
++ 
++ template<int BN>
+ --- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
+ +++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
+-@@ -135,6 +135,10 @@
++@@ -40,6 +40,7 @@
++   kF16 = 1,
++   kQ5_1 = 7,
++   kQ8_0 = 8,
+++  kQ2_K = 10,
++   kQ4_K = 12,
++   kQ5_K = 13,
++   kBF16 = 30,
++@@ -135,6 +136,10 @@
+  /// out[t][m] = sum_k W[m][k] * x[t][k] for F32/BF16/F16 weights; meant for
+  /// the narrow projections (routers, alpha/beta, indexer, inject) that the
+  /// quantized tier does not cover.
+@@ -252,6 +645,21 @@
+  /// Converts `count` floats to BF16 (or F16) for a 16-bit hipBLAS GEMM.
+  void NarrowActivations(const float* x, void* out, bool bf16, std::size_t count,
+                         hipStream_t stream);
++@@ -229,6 +234,14 @@
++                    const std::int32_t* rows_in, const std::int32_t* rows_out,
++                    const float* swiglu_gate, float* out, __half* out_half,
++                    std::size_t m, std::size_t k, hipStream_t stream);
+++
+++/// Q2_K down, logical K640 in padded K768 rows. F32 slot inputs are split
+++/// into F16 plus a scaled F16 residual inside LDS; F32 WMMA accumulators
+++/// combine both products. Uses compact tile rows 16/48/64 and F32 slot output.
+++bool RoutedQ2Gemm(const void* w, const float* x, const std::int32_t* tiles,
+++                  std::uint32_t n_tiles, std::uint32_t tile_rows,
+++                  const std::int32_t* pad_bounds, const std::int32_t* rows_slot,
+++                  float* out, std::size_t m, std::size_t k, hipStream_t stream);
++ 
++ /// Paired Q4_K/Q5_K gate/up GEMM with SwiGLU and F16 output. Uses the same
++ /// routing layout as RoutedF16Gemm, with 64 or 128 token rows per tile. The two
+ --- a/src/models/qwen38_flash_next/kernels/rocm/mmq/mmvq.hip.cpp
+ +++ b/src/models/qwen38_flash_next/kernels/rocm/mmq/mmvq.hip.cpp
+ @@ -149,6 +149,8 @@
+diff --git a/tests/q2_operators.cpp b/tests/q2_operators.cpp
+index f3d83be..9623f70 100644
+--- a/tests/q2_operators.cpp
++++ b/tests/q2_operators.cpp
+@@ -190,6 +190,73 @@ void Case(int type, int tokens, bool tiled, bool tiny) {
+     Compare(other, ref_up, name + "/paired-up");
+ }
+ 
++void RoutedQ2Case(int tokens, int rows, int tile_rows, bool tiny) {
++  namespace q = gufo::models::qwen38_flash_next::rocm;
++  constexpr int experts = 512, used = 2, logical = 640, stored = 768;
++  const int slots = tokens * used;
++  auto w = Make(10, experts, rows, stored, 7);
++  std::vector<float> x(std::size_t(slots) * logical);
++  const float scale = tiny ? std::ldexp(1.f, -14) : std::ldexp(1.f, -8);
++  for (std::size_t i = 0; i < x.size(); ++i)
++    x[i] = (float(int((i * 17 + 31) % 251) - 125) + 0.137f) * scale;
++  std::vector<std::int32_t> ids(slots), tiles;
++  std::vector<std::uint32_t> counts(experts);
++  for (int t = 0; t < tokens; ++t) {
++    ids[t * used] = (t % 3 == 0 ? 17 : 0);
++    ids[t * used + 1] = 511;
++    ++counts[ids[t * used]];
++    ++counts[511];
++  }
++  for (int e = 0; e < experts; ++e) {
++    const int padded = int((counts[e] + 15) / 16 * 16);
++    for (int t = 0; t < padded; t += tile_rows)
++      tiles.push_back(e | ((t / tile_rows) << 16));
++  }
++  const auto compact_rows = q::RoutedCompactRows(slots, experts);
++  Device wd(w.bytes.size()), xd(x.size() * 4);
++  Device id(ids.size() * 4), cd(counts.size() * 4), td(tiles.size() * 4);
++  Device bounds((experts + 1) * 4), cursors(experts * 4);
++  Device row_token(compact_rows * 4), row_slot(compact_rows * 4);
++  Device out((std::size_t(slots) * rows + 16) * 4);
++  Hip(hipMemcpy(wd.data, w.bytes.data(), w.bytes.size(), hipMemcpyHostToDevice));
++  Hip(hipMemcpy(xd.data, x.data(), x.size() * 4, hipMemcpyHostToDevice));
++  Hip(hipMemcpy(id.data, ids.data(), ids.size() * 4, hipMemcpyHostToDevice));
++  Hip(hipMemcpy(cd.data, counts.data(), counts.size() * 4, hipMemcpyHostToDevice));
++  Hip(hipMemcpy(td.data, tiles.data(), tiles.size() * 4, hipMemcpyHostToDevice));
++  Hip(hipMemset(out.data, 0xA5, (std::size_t(slots) * rows + 16) * 4));
++  q::RoutedCompact(static_cast<const std::int32_t*>(id.data),
++                   static_cast<const std::uint32_t*>(cd.data),
++                   static_cast<std::int32_t*>(bounds.data),
++                   static_cast<std::int32_t*>(cursors.data),
++                   static_cast<std::int32_t*>(row_token.data),
++                   static_cast<std::int32_t*>(row_slot.data), tokens, used,
++                   experts, nullptr);
++  Check(q::RoutedQ2Gemm(wd.data, static_cast<const float*>(xd.data),
++                        static_cast<const std::int32_t*>(td.data), tiles.size(),
++                        tile_rows, static_cast<const std::int32_t*>(bounds.data),
++                        static_cast<const std::int32_t*>(row_slot.data),
++                        static_cast<float*>(out.data), rows, logical, nullptr),
++        "Q2 compensated routed dispatch failed");
++  Hip(hipDeviceSynchronize());
++  std::vector<float> got(std::size_t(slots) * rows + 16);
++  Hip(hipMemcpy(got.data(), out.data, got.size() * 4, hipMemcpyDeviceToHost));
++  for (std::size_t i = std::size_t(slots) * rows; i < got.size(); ++i)
++    Check(std::bit_cast<std::uint32_t>(got[i]) == 0xA5A5A5A5U,
++          "Q2 routed F16 output guard changed");
++  got.resize(std::size_t(slots) * rows);
++  std::vector<double> expected(got.size());
++  for (int slot = 0; slot < slots; ++slot)
++    for (int row = 0; row < rows; ++row)
++      for (int col = 0; col < logical; ++col)
++        expected[std::size_t(slot) * rows + row] +=
++            double(w.values[(std::size_t(ids[slot]) * rows + row) * stored + col]) *
++            x[std::size_t(slot) * logical + col];
++  Compare(got, expected, "Q2 routed F16 tokens=" + std::to_string(tokens) +
++                            " rows=" + std::to_string(rows) +
++                            " tile=" + std::to_string(tile_rows) +
++                            (tiny ? " tiny" : " ordinary"));
++}
++
+ int main() {
+   try {
+     Check(qfn_mmq_init(0) == 0, "HIP init failed");
+@@ -197,6 +264,11 @@ int main() {
+       for (int tokens : {1, 3, 8, 9, 33})
+         for (bool tiny : {false, true})
+           Case(type, tokens, tokens > 8, tiny);
++    for (int tile : {16, 48, 64})
++      for (bool tiny : {false, true}) {
++        RoutedQ2Case(17, 5, tile, tiny);
++        RoutedQ2Case(65, 129, tile, tiny);
++      }
+     // Every finite half value, including subnormals and signed zero, widens
+     // exactly.
+     std::vector<std::uint16_t> bits(65536);

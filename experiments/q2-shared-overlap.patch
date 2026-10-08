@@ -1,0 +1,367 @@
+--- a/src/models/qwen38_flash_next/CMakeLists.txt
++++ b/src/models/qwen38_flash_next/CMakeLists.txt
+@@ -55,7 +55,11 @@
+     ${QFN_ROCM_DIR}/executor.cpp
+     ${QFN_ROCM_DIR}/batch.cpp
+     engine.cpp)
+-  target_sources(gufo_qwen38_flash_next PRIVATE ${QFN_HIP_SOURCES})
++  target_sources(gufo_qwen38_flash_next PRIVATE ${QFN_HIP_SOURCES}
++    ${QFN_ROCM_DIR}/gpu_fork.c)
++  set_source_files_properties(${QFN_ROCM_DIR}/gpu_fork.c PROPERTIES
++    COMPILE_OPTIONS "-std=c17;-Wall;-Wextra;-Werror;-Wpedantic")
++  target_compile_definitions(gufo_qwen38_flash_next PUBLIC LIE_Q2_SHARED_FORK=1)
+   set_source_files_properties(${QFN_ROCM_DIR}/kernels.hip.cpp PROPERTIES LANGUAGE HIP)
+   set_source_files_properties(${QFN_ROCM_DIR}/w8a8_wave64.hip
+     PROPERTIES COMPILE_OPTIONS "-mwavefrontsize64")
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -13,6 +13,7 @@
+ #include <type_traits>
+ #include <vector>
+ 
++#include "q2_shared_fork.hpp"
+ #include "qfn_mmq.h"
+ #include "src/core/hip/snapshot_transfer.hpp"
+ #include "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp"
+@@ -255,6 +256,18 @@
+ }
+ 
+ Executor::~Executor() {
++  // A nonblocking branch is not covered by implicit legacy-stream ordering.
++  // Drain both owners before freeing any shared input or output allocation.
++  if (shared_stream_ != nullptr) {
++    (void)hipStreamSynchronize(shared_stream_);
++    (void)hipStreamSynchronize(stream_);
++  }
++  if (shared_ready_ != nullptr)
++    (void)hipEventDestroy(shared_ready_);
++  if (shared_done_ != nullptr)
++    (void)hipEventDestroy(shared_done_);
++  if (shared_stream_ != nullptr)
++    (void)hipStreamDestroy(shared_stream_);
+   // Readers write pinned staging memory; drain them before freeing it,
+   // including when a forward failed before reaching PLE.
+   if (ple_pending_) {
+@@ -318,6 +331,18 @@
+   }
+   const Config& c = model.config();
+   const std::size_t T = e->options_.max_batch;
++  if (T >= 96 && !model.layers().empty() &&
++      model.layers()[0].ffn_down_exps.type == GgmlType::kQ2_K) {
++    if (!Check(
++            hipStreamCreateWithFlags(&e->shared_stream_, hipStreamNonBlocking),
++            "shared branch stream", error_msg) ||
++        !Check(
++            hipEventCreateWithFlags(&e->shared_ready_, hipEventDisableTiming),
++            "shared branch input event", error_msg) ||
++        !Check(hipEventCreateWithFlags(&e->shared_done_, hipEventDisableTiming),
++               "shared branch completion event", error_msg))
++      return nullptr;
++  }
+   e->blaslt_ = BlasLt::Create(e->stream_, error_msg);
+   if (e->blaslt_ == nullptr) {
+     return nullptr;
+@@ -1589,24 +1614,60 @@
+       return false;
+     }
+   }
+-  // The shared expert (gated by the last router row) does not depend on
+-  // routing. Queue its GEMMs after the count download, then prepare the
+-  // routed dispatch on the CPU without waiting for these GEMMs to finish.
+-  shexp_half_ready_ = false;
+-  if (!GatedDense(l.shexp_up, l.shexp_gate, x, s_.shexp_up, n_tokens,
+-                  &l.shexp_down, error_msg)) {
+-    return false;
+-  }
+-  if (shexp_half_ready_) {
++  // Bound this experiment to the original Q2 prefill geometry and the
++  // exact existing Q8 W8A8 -> SwiGLU-half -> Q8/F16 shared-expert route.
++  const bool overlap =
++      shared_stream_ != nullptr && prefill_phase && n_tokens >= 96 &&
++      n_tokens <= options_.max_batch && !last_only && !wide_mixer_ &&
++      out == s_.block_out && c.hc_count == 4 && c.hidden_size == 2560 &&
++      c.expert_ff == 640 && c.shared_expert_ff == 640 &&
++      c.num_experts_used == 10 && l.ffn_gate_exps.type == GgmlType::kIQ2_XXS &&
++      l.ffn_up_exps.type == GgmlType::kIQ2_XXS &&
++      l.ffn_down_exps.type == GgmlType::kQ2_K && l.ffn_down_exps.cols == 768 &&
++      l.shexp_gate.type == GgmlType::kQ8_0 &&
++      l.shexp_up.type == GgmlType::kQ8_0 && l.shexp_gate.rows == 640 &&
++      l.shexp_up.rows == 640 && l.shexp_gate.cols == 2560 &&
++      l.shexp_up.cols == 2560 && l.shexp_down.rows == 2560 &&
++      l.shexp_down.cols == 640 && DenseF16Route(l.shexp_down, n_tokens);
++  LieSharedFork fork{
++      &shared_fork_, stream_,           shared_stream_,  shared_ready_,
++      shared_done_,  l.shexp_gate.data, l.shexp_up.data, l.shexp_down.data,
++      s_.x_q8t,      s_.shexp_up,       s_.shexp_gate,   s_.shexp_out,
++      s_.shexp_half, n_tokens,          c.hidden_size,   c.shared_expert_ff};
++  if (overlap) {
+     shexp_half_ready_ = false;
+-    if (!DenseF16Gemm(l.shexp_down.data, s_.shexp_half, s_.shexp_out, n_tokens,
+-                      l.shexp_down.rows, l.shexp_down.cols, stream_)) {
+-      AssignError(error_msg, "shared expert F16 GEMM failed");
+-      return false;
+-    }
+-  } else if (!Dense(l.shexp_down, s_.shexp_up, s_.shexp_out, n_tokens,
+-                    error_msg)) {
+-    return false;
++    if (!(q8t_src_ == x && q8t_rows_ == n_tokens &&
++          q8t_cols_ == c.hidden_size)) {
++      QuantizeQ8Tiled(x, s_.x_q8t, n_tokens, c.hidden_size, stream_);
++      q8t_src_ = x;
++      q8t_rows_ = n_tokens;
++      q8t_cols_ = c.hidden_size;
++    }
++    if (fork.Begin() != LIE_GPU_OK) {
++      AssignError(error_msg, "shared branch start or drain failed");
++      return false;
++    }
++  } else {
++    // The shared expert (gated by the last router row) does not depend on
++    // routing. Queue its GEMMs after the count download, then prepare the
++    // routed dispatch on the CPU without waiting for these GEMMs to finish.
++    shexp_half_ready_ = false;
++    if (!GatedDense(l.shexp_up, l.shexp_gate, x, s_.shexp_up, n_tokens,
++                    &l.shexp_down, error_msg)) {
++      return false;
++    }
++    if (shexp_half_ready_) {
++      shexp_half_ready_ = false;
++      if (!DenseF16Gemm(l.shexp_down.data, s_.shexp_half, s_.shexp_out,
++                        n_tokens, l.shexp_down.rows, l.shexp_down.cols,
++                        stream_)) {
++        AssignError(error_msg, "shared expert F16 GEMM failed");
++        return false;
++      }
++    } else if (!Dense(l.shexp_down, s_.shexp_up, s_.shexp_out, n_tokens,
++                      error_msg)) {
++      return false;
++    }
+   }
+   if (last_only && l.ffn_gate_exps.type == GgmlType::kQ8_0 &&
+       l.ffn_up_exps.type == GgmlType::kQ8_0 &&
+@@ -1780,6 +1841,13 @@
+         return false;
+       }
+     }
++  }
++  // Transfer the branch's output lifetime back to the parent stream before
++  // any weighted sum/HC consumer. No host wait is added on the success path.
++  if (shared_fork_.state != LIE_GPU_IDLE &&
++      lie_gpu_fork_join(&shared_fork_) != LIE_GPU_OK) {
++    AssignError(error_msg, "shared branch join or drain failed");
++    return false;
+   }
+   if (wmma_experts) {
+     // The combine that follows folds this epilogue into its own pass when
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.hpp
+@@ -15,6 +15,7 @@
+ #include <unordered_set>
+ #include <vector>
+ 
++#include "gpu_fork.h"
+ #include "src/core/session_mode.hpp"
+ #include "src/models/qwen/hip/ops/token.hpp"
+ #include "src/models/qwen/vision/device_input.hpp"
+@@ -145,6 +146,7 @@
+   };
+ 
+   ~Executor();
++  const lie_gpu_fork& SharedForkStats() const noexcept { return shared_fork_; }
+   [[nodiscard]] hipStream_t stream() const noexcept { return stream_; }
+   Executor(const Executor&) = delete;
+   Executor& operator=(const Executor&) = delete;
+@@ -402,6 +404,9 @@
+   Options options_;
+   hipStream_t stream_{nullptr};
+   hipEvent_t counts_ready_{nullptr};
++  hipStream_t shared_stream_{nullptr};
++  hipEvent_t shared_ready_{nullptr}, shared_done_{nullptr};
++  mutable lie_gpu_fork shared_fork_{};
+   hipblasHandle_t blas_{nullptr};
+   std::unique_ptr<BlasLt> blaslt_;
+ 
+--- /dev/null
++++ b/src/models/qwen38_flash_next/kernels/rocm/gpu_fork.c
+@@ -0,0 +1,67 @@
++/* SPDX-License-Identifier: MIT */
++#include "gpu_fork.h"
++
++lie_gpu_status lie_gpu_fork_abort(lie_gpu_fork *f) {
++  if (!f)
++    return LIE_GPU_INVALID;
++  if (f->state == LIE_GPU_IDLE)
++    return LIE_GPU_OK;
++  if (f->state == LIE_GPU_POISONED)
++    return LIE_GPU_DRAIN_FAILED;
++  if (f->state != LIE_GPU_ACTIVE || !f->ops || !f->ops->drain)
++    return LIE_GPU_INVALID;
++  f->drain_error = f->ops->drain(f->context);
++  ++f->drained;
++  if (f->drain_error) {
++    f->state = LIE_GPU_POISONED;
++    return LIE_GPU_DRAIN_FAILED;
++  }
++  f->state = LIE_GPU_IDLE;
++  f->ops = 0;
++  f->context = 0;
++  return LIE_GPU_OK;
++}
++
++static lie_gpu_status failed(lie_gpu_fork *f, int error) {
++  f->operation_error = error;
++  return lie_gpu_fork_abort(f) == LIE_GPU_OK ? LIE_GPU_FAILED
++                                             : LIE_GPU_DRAIN_FAILED;
++}
++
++lie_gpu_status lie_gpu_fork_begin(lie_gpu_fork *f, const lie_gpu_fork_ops *ops,
++                                  void *context) {
++  if (!f || !ops || !ops->ready || !ops->launch || !ops->join || !ops->drain)
++    return LIE_GPU_INVALID;
++  if (f->state == LIE_GPU_POISONED)
++    return LIE_GPU_DRAIN_FAILED;
++  if (f->state != LIE_GPU_IDLE)
++    return LIE_GPU_BUSY;
++  f->state = LIE_GPU_ACTIVE;
++  f->ops = ops;
++  f->context = context;
++  f->operation_error = f->drain_error = 0;
++  int rc = ops->ready(context);
++  if (rc)
++    return failed(f, rc);
++  rc = ops->launch(context);
++  if (!rc)
++    ++f->started;
++  return rc ? failed(f, rc) : LIE_GPU_OK;
++}
++
++lie_gpu_status lie_gpu_fork_join(lie_gpu_fork *f) {
++  if (!f)
++    return LIE_GPU_INVALID;
++  if (f->state == LIE_GPU_POISONED)
++    return LIE_GPU_DRAIN_FAILED;
++  if (f->state != LIE_GPU_ACTIVE || !f->ops || !f->ops->join)
++    return LIE_GPU_INVALID;
++  int rc = f->ops->join(f->context);
++  if (rc)
++    return failed(f, rc);
++  ++f->joined;
++  f->state = LIE_GPU_IDLE;
++  f->ops = 0;
++  f->context = 0;
++  return LIE_GPU_OK;
++}
+--- /dev/null
++++ b/src/models/qwen38_flash_next/kernels/rocm/gpu_fork.h
+@@ -0,0 +1,47 @@
++/* SPDX-License-Identifier: MIT */
++#ifndef LIE_EXPERIMENT_GPU_FORK_H
++#define LIE_EXPERIMENT_GPU_FORK_H
++#include <stdint.h>
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++typedef enum { LIE_GPU_IDLE, LIE_GPU_ACTIVE, LIE_GPU_POISONED } lie_gpu_state;
++typedef enum {
++  LIE_GPU_OK,
++  LIE_GPU_INVALID,
++  LIE_GPU_BUSY,
++  LIE_GPU_FAILED,
++  LIE_GPU_DRAIN_FAILED
++} lie_gpu_status;
++typedef struct {
++  int (*ready)(void *context);
++  int (*launch)(void *context);
++  int (*join)(void *context);
++  int (*drain)(void *context);
++} lie_gpu_fork_ops;
++typedef struct {
++  lie_gpu_state state;
++  const lie_gpu_fork_ops *ops;
++  void *context;
++  int operation_error, drain_error;
++  uint64_t started, joined, drained;
++} lie_gpu_fork;
++
++/* Zero-initialize once. One host owner, one outstanding branch, no allocation.
++ * ready orders the branch after parent input production; launch records its
++ * completion; join orders every subsequent parent consumer after that event.
++ * Successful join transfers lifetime back to the parent's ordered stream: it
++ * is not host-observed GPU completion. Parent completion is still mandatory.
++ * drain waits for BOTH streams, including partial launch/error/cancellation.
++ * Callbacks/context remain alive through join/abort and must not reenter this
++ * object or throw through C. Failed drain permanently poisons admission.
++ * No buffer may be released on a failed drain. No automatic retry/reset. */
++lie_gpu_status lie_gpu_fork_begin(lie_gpu_fork *fork,
++                                  const lie_gpu_fork_ops *ops, void *context);
++lie_gpu_status lie_gpu_fork_join(lie_gpu_fork *fork);
++lie_gpu_status lie_gpu_fork_abort(lie_gpu_fork *fork);
++#ifdef __cplusplus
++}
++#endif
++#endif
+--- /dev/null
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_shared_fork.hpp
+@@ -0,0 +1,61 @@
++// SPDX-License-Identifier: MIT
++#ifndef LIE_EXPERIMENT_Q2_SHARED_FORK_HPP
++#define LIE_EXPERIMENT_Q2_SHARED_FORK_HPP
++#include "gpu_fork.h"
++#include "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp"
++
++namespace gufo::models::qwen38_flash_next::rocm {
++// HIP adapter for one C-owned fork. All buffers already belong to the executor.
++// The routed branch reads x_half and writes gate_e/down_e; it never touches
++// the Q8 input or these three shared-expert outputs before the event join.
++struct LieSharedFork {
++  lie_gpu_fork *flow;
++  hipStream_t parent, branch;
++  hipEvent_t ready_event, done_event;
++  const void *gate_weight, *up_weight, *down_weight, *input_q8;
++  float *gate_output, *up_output, *down_output;
++  __half *swiglu_half;
++  std::uint32_t tokens, hidden, width;
++
++  static int Ready(void *context) noexcept {
++    auto &s = *static_cast<LieSharedFork *>(context);
++    auto rc = hipEventRecord(s.ready_event, s.parent);
++    return rc == hipSuccess ? hipStreamWaitEvent(s.branch, s.ready_event, 0)
++                            : rc;
++  }
++  static int Launch(void *context) noexcept {
++    auto &s = *static_cast<LieSharedFork *>(context);
++    if (!W8A8Gemm(s.gate_weight, s.input_q8, s.gate_output, s.tokens, s.width,
++                  s.hidden, s.branch) ||
++        !W8A8Gemm(s.up_weight, s.input_q8, s.up_output, s.tokens, s.width,
++                  s.hidden, s.branch))
++      return -1;
++    SwigluHalf(s.gate_output, s.up_output, s.swiglu_half,
++               std::size_t{s.tokens} * s.width, s.branch);
++    auto rc = hipGetLastError();
++    if (rc != hipSuccess)
++      return rc;
++    if (!DenseF16Gemm(s.down_weight, s.swiglu_half, s.down_output, s.tokens,
++                      s.hidden, s.width, s.branch))
++      return -2;
++    return hipEventRecord(s.done_event, s.branch);
++  }
++  static int Join(void *context) noexcept {
++    auto &s = *static_cast<LieSharedFork *>(context);
++    return hipStreamWaitEvent(s.parent, s.done_event, 0);
++  }
++  static int Drain(void *context) noexcept {
++    auto &s = *static_cast<LieSharedFork *>(context);
++    const auto branch_rc = hipStreamSynchronize(s.branch);
++    const auto parent_rc = hipStreamSynchronize(s.parent);
++    return branch_rc != hipSuccess ? branch_rc : parent_rc;
++  }
++  static inline const lie_gpu_fork_ops ops{Ready, Launch, Join, Drain};
++  lie_gpu_status Begin() noexcept {
++    return lie_gpu_fork_begin(flow, &ops, this);
++  }
++  // Error/exception unwinding drains unfinished work before stack context dies.
++  ~LieSharedFork() { (void)lie_gpu_fork_abort(flow); }
++};
++} // namespace gufo::models::qwen38_flash_next::rocm
++#endif

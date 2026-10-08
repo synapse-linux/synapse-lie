@@ -1,0 +1,18 @@
+{
+  "schema": "synapse-lie.q2-ple-row-bytes-binaries.v1",
+  "label": "q2-ple-row-bytes-r1",
+  "receipt_sha256": "e8bb3d3364bd0b05606c77a2fabc51bc58d58f5d0caa8c9a38d257cb54508da1",
+  "binary": "build/hip/cmake/curve/core/synapse-lie-server",
+  "binary_sha256": "8d15434df7f4c1ad72fde7d3b9a15c7ea93c5b6272e8a20a91bb5ba6b4a707eb",
+  "source_manifest": "config/q2-ple-row-bytes-source.json",
+  "source_manifest_sha256": "11758520254d9c6255863216b53a728a1b0c8bd45ab33323fc264e891b3a721b",
+  "context_capacity": 133760,
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ]
+}

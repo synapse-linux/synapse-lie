@@ -1,0 +1,693 @@
+{
+  "scope": "Diagnostic kernel trace; not an unprofiled wall benchmark",
+  "path": "evidence/q2-hc-moe-ref-profile-r1",
+  "binary_sha256": "18557617a22e918601b5a4b29c8aa577378a1e45605b67a8dafd2ef596a83771",
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "collection": {
+    "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-moe-ref-profile-r1/results.tar.gz",
+    "sha256": "3968168ca16cfaf6700c4d2b1e8b20363bdad2817640e4ec8cad654a559bd40f",
+    "verified_artifacts": 26
+  },
+  "phases": {
+    "prefill": {
+      "dispatches": 2003,
+      "kernel_sum_ns": 1637032025,
+      "gpu_busy_union_ns": 1637032025,
+      "kernel_span_ns": 1642456749,
+      "inter_kernel_gap_ns": 5424724,
+      "largest_inter_kernel_gaps_ns": [
+        388394,
+        11000,
+        10000,
+        9360,
+        8680,
+        8359,
+        7639,
+        7240,
+        7160,
+        7080
+      ],
+      "kernels": [
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)10, 128, 48, 2, false, true>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)10)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+          "calls": 48,
+          "total_ns": 298185245,
+          "max_ns": 6785743,
+          "kernel_time_percent": 18.21499154850071
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 64, 2, true, true>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+          "calls": 27,
+          "total_ns": 162186824,
+          "max_ns": 6258790,
+          "kernel_time_percent": 9.90737026051766
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::DenseF16GEMMKernel<256, 128, 2, 8, 1, 1, false, true, false, false>(void const*, __half const*, float*, unsigned long, unsigned long, unsigned long, std::conditional<false, float, __half>::type const*, __half*, void*, float const*, float*, gufo::models::qwen38_flash_next::rocm::AttentionProjectionOutput)",
+          "calls": 36,
+          "total_ns": 160054897,
+          "max_ns": 4617973,
+          "kernel_time_percent": 9.777139026953368
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::DenseF16GEMMKernel<64, 128, 2, 2, 4, 5, false, false, false, true>(void const*, __half const*, float*, unsigned long, unsigned long, unsigned long, std::conditional<true, float, __half>::type const*, __half*, void*, float const*, float*, gufo::models::qwen38_flash_next::rocm::AttentionProjectionOutput)",
+          "calls": 96,
+          "total_ns": 133957909,
+          "max_ns": 1972612,
+          "kernel_time_percent": 8.18297424572375
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcCombineVec4Kernel<float>(float*, float const*, float const*, unsigned int, float const*, float*, void*, unsigned int, float)",
+          "calls": 96,
+          "total_ns": 120797097,
+          "max_ns": 1373541,
+          "kernel_time_percent": 7.379030779804078
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::DenseF16GEMMKernel<128, 64, 1, 4, 2, 8, true, false, false, true>(void const*, __half const*, float*, unsigned long, unsigned long, unsigned long, std::conditional<true, float, __half>::type const*, __half*, void*, float const*, float*, gufo::models::qwen38_flash_next::rocm::AttentionProjectionOutput)",
+          "calls": 96,
+          "total_ns": 108407435,
+          "max_ns": 1230422,
+          "kernel_time_percent": 6.622193906072179
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 128, 2, true, true>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)",
+          "calls": 21,
+          "total_ns": 105348925,
+          "max_ns": 5810756,
+          "kernel_time_percent": 6.43536127523223
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::GdnRowSplitKernel(float const*, float const*, float const*, float*, float*, unsigned int, unsigned int, unsigned int)",
+          "calls": 36,
+          "total_ns": 83532638,
+          "max_ns": 2405925,
+          "kernel_time_percent": 5.102688079666615
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::DenseF16GEMMKernel<256, 128, 2, 8, 1, 1, false, false, false, false>(void const*, __half const*, float*, unsigned long, unsigned long, unsigned long, std::conditional<false, float, __half>::type const*, __half*, void*, float const*, float*, gufo::models::qwen38_flash_next::rocm::AttentionProjectionOutput)",
+          "calls": 36,
+          "total_ns": 70872255,
+          "max_ns": 2145249,
+          "kernel_time_percent": 4.329313899647137
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::NarrowKernel<__half>(float const*, __half*, unsigned long)",
+          "calls": 193,
+          "total_ns": 64085632,
+          "max_ns": 794269,
+          "kernel_time_percent": 3.9147451620563136
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::MoeEpilogueVec4Kernel<float>(float const*, float const*, float const*, float const*, unsigned int, float*, unsigned int, unsigned int)",
+          "calls": 48,
+          "total_ns": 55385158,
+          "max_ns": 1180143,
+          "kernel_time_percent": 3.383266616302146
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::DenseF16GEMMKernel<256, 128, 2, 8, 1, 1, false, false, true, false>(void const*, __half const*, float*, unsigned long, unsigned long, unsigned long, std::conditional<false, float, __half>::type const*, __half*, void*, float const*, float*, gufo::models::qwen38_flash_next::rocm::AttentionProjectionOutput)",
+          "calls": 12,
+          "total_ns": 47799153,
+          "max_ns": 4100421,
+          "kernel_time_percent": 2.9198667020579516
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::WmmaCausalAttentionKernel<16u, 16u, false, false>(float const*, float const*, __half const*, __half const*, unsigned int const*, unsigned int, float*, unsigned int, unsigned int, unsigned int)",
+          "calls": 12,
+          "total_ns": 44479519,
+          "max_ns": 3829545,
+          "kernel_time_percent": 2.7170830088067457
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcMixEpilogueVec4Kernel<float, false>(float const*, float const*, float const*, float*, float*, unsigned int)",
+          "calls": 96,
+          "total_ns": 38601400,
+          "max_ns": 415954,
+          "kernel_time_percent": 2.358011291807196
+        },
+        {
+          "kernel": "void gufo::hip::WKQuantA8BlockedWmmaGEMMKernel<128, 128, 2, 4, 1, (gufo::core::GgmlType)8, 64>(void const*, void const*, float*, unsigned long, unsigned long, unsigned long)",
+          "calls": 12,
+          "total_ns": 22367998,
+          "max_ns": 1878693,
+          "kernel_time_percent": 1.3663751019165309
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::GdnEpilogueKernel<false>(float const*, float const*, unsigned int, float const*, float*, void*, __half*, unsigned int, unsigned int, float, gufo::models::qwen38_flash_next::rocm::GdnBatchItem const*, unsigned int)",
+          "calls": 36,
+          "total_ns": 21869965,
+          "max_ns": 610151,
+          "kernel_time_percent": 1.3359521784553972
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::W8A8BlockedWmmaGEMMKernel<128, 128, 2, 4, 2, false>(void const*, void const*, std::conditional<false, __half, float>::type*, unsigned long, unsigned long, unsigned long)",
+          "calls": 96,
+          "total_ns": 20339984,
+          "max_ns": 217557,
+          "kernel_time_percent": 1.2424915144833528
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::DenseF16GEMMKernel<64, 64, 2, 2, 4, 1, false, false, false, true>(void const*, __half const*, float*, unsigned long, unsigned long, unsigned long, std::conditional<true, float, __half>::type const*, __half*, void*, float const*, float*, gufo::models::qwen38_flash_next::rocm::AttentionProjectionOutput)",
+          "calls": 84,
+          "total_ns": 20059510,
+          "max_ns": 386434,
+          "kernel_time_percent": 1.2253584348785114
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::DenseF16GEMMKernel<256, 128, 1, 4, 2, 1, false, false, false, false>(void const*, __half const*, float*, unsigned long, unsigned long, unsigned long, std::conditional<false, float, __half>::type const*, __half*, void*, float const*, float*, gufo::models::qwen38_flash_next::rocm::AttentionProjectionOutput)",
+          "calls": 50,
+          "total_ns": 15283059,
+          "max_ns": 3166554,
+          "kernel_time_percent": 0.9335833854563719
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::QuantizeQ8TiledVec4Kernel(float const*, void*, unsigned long, unsigned long)",
+          "calls": 72,
+          "total_ns": 10254972,
+          "max_ns": 286396,
+          "kernel_time_percent": 0.6264368591078724
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::GdnPrepKqKernel(float const*, float*, unsigned int, unsigned int, unsigned int, float)",
+          "calls": 36,
+          "total_ns": 6716782,
+          "max_ns": 188037,
+          "kernel_time_percent": 0.41030241909897885
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::SsmConvBoundaryKernel(float const*, float const*, float const*, float*, unsigned int, unsigned int, unsigned int)",
+          "calls": 36,
+          "total_ns": 5939269,
+          "max_ns": 174677,
+          "kernel_time_percent": 0.3628071356759194
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RmsNormKernel(float const*, float const*, float*, unsigned int, unsigned int, float)",
+          "calls": 6,
+          "total_ns": 4517894,
+          "max_ns": 963467,
+          "kernel_time_percent": 0.275980795183283
+        },
+        {
+          "kernel": "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+          "calls": 1,
+          "total_ns": 3104795,
+          "max_ns": 3104795,
+          "kernel_time_percent": 0.18966000374977393
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RouterTopKKernel<512u>(float const*, unsigned int, int*, float*, unsigned int, unsigned int)",
+          "calls": 48,
+          "total_ns": 3070956,
+          "max_ns": 68799,
+          "kernel_time_percent": 0.18759290918575647
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::PleGateKernel(float const*, float const*, float const*, float*, unsigned int, unsigned int)",
+          "calls": 1,
+          "total_ns": 1826973,
+          "max_ns": 1826973,
+          "kernel_time_percent": 0.11160276476570456
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::PleInjectKernel(float*, float const*, float const*, unsigned long)",
+          "calls": 1,
+          "total_ns": 1510938,
+          "max_ns": 1510938,
+          "kernel_time_percent": 0.0922974002295404
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::SiluScaleKernel(float*, float, unsigned long)",
+          "calls": 97,
+          "total_ns": 1212388,
+          "max_ns": 21439,
+          "kernel_time_percent": 0.07406012719879441
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::PleConvKernel(float const*, float const*, float const*, float*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int)",
+          "calls": 1,
+          "total_ns": 1175063,
+          "max_ns": 1175063,
+          "kernel_time_percent": 0.07178008628145195
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::SwigluHalfKernel(float const*, float const*, __half*, unsigned long)",
+          "calls": 48,
+          "total_ns": 902951,
+          "max_ns": 19200,
+          "kernel_time_percent": 0.05515780914548694
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::W8A8BlockedWmmaGEMMKernel<64, 128, 4, 2, 4, false>(void const*, void const*, std::conditional<false, __half, float>::type*, unsigned long, unsigned long, unsigned long)",
+          "calls": 12,
+          "total_ns": 845348,
+          "max_ns": 72759,
+          "kernel_time_percent": 0.05163906307819482
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::EmbedKernel(void const*, gufo::models::qwen38_flash_next::rocm::WeightType, int const*, float*, unsigned int, unsigned int)",
+          "calls": 1,
+          "total_ns": 416274,
+          "max_ns": 416274,
+          "kernel_time_percent": 0.02542858011589602
+        },
+        {
+          "kernel": "__amd_rocclr_copyBuffer",
+          "calls": 98,
+          "total_ns": 382598,
+          "max_ns": 11439,
+          "kernel_time_percent": 0.023371442595938218
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::GdnPrepAbKernel(float const*, float const*, float const*, float*, unsigned long, unsigned int)",
+          "calls": 36,
+          "total_ns": 245156,
+          "max_ns": 7919,
+          "kernel_time_percent": 0.014975638610368665
+        },
+        {
+          "kernel": "__amd_rocclr_fillBufferAligned",
+          "calls": 144,
+          "total_ns": 243837,
+          "max_ns": 2320,
+          "kernel_time_percent": 0.014895065965493254
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedPadBoundsKernel(unsigned int const*, int*, int*, unsigned int)",
+          "calls": 48,
+          "total_ns": 242235,
+          "max_ns": 5520,
+          "kernel_time_percent": 0.014797205937373156
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedScatterKernel(int const*, int const*, int*, int*, int*, unsigned int, unsigned int)",
+          "calls": 48,
+          "total_ns": 227477,
+          "max_ns": 5840,
+          "kernel_time_percent": 0.013895696389934705
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::ExpertCountsKernel(int const*, unsigned int*, unsigned long)",
+          "calls": 48,
+          "total_ns": 130199,
+          "max_ns": 3799,
+          "kernel_time_percent": 0.007953356929593359
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HistoryShiftKernel(float const*, unsigned int, float const*, float*, unsigned int, unsigned int, unsigned int)",
+          "calls": 37,
+          "total_ns": 119920,
+          "max_ns": 3640,
+          "kernel_time_percent": 0.007325452292236006
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcDownF16VecKernel(__half const*, float const*, float*)",
+          "calls": 1,
+          "total_ns": 116039,
+          "max_ns": 116039,
+          "kernel_time_percent": 0.007088376905760289
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::StoreRowsKernel(float const*, float*, unsigned int, unsigned int const*, unsigned int)",
+          "calls": 12,
+          "total_ns": 81639,
+          "max_ns": 7439,
+          "kernel_time_percent": 0.0049870130060528295
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::CopyKernel(float const*, float*, unsigned long)",
+          "calls": 37,
+          "total_ns": 68400,
+          "max_ns": 3080,
+          "kernel_time_percent": 0.0041782933354648335
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcUpF16VecKernel(__half const*, float const*, float*)",
+          "calls": 1,
+          "total_ns": 60839,
+          "max_ns": 60839,
+          "kernel_time_percent": 0.0037164208806483184
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcMixEpilogueKernel(float const*, float const*, float const*, float*, float*, unsigned int, unsigned int)",
+          "calls": 1,
+          "total_ns": 2400,
+          "max_ns": 2400,
+          "kernel_time_percent": 0.00014660678370052047
+        },
+        {
+          "kernel": "qfn_mmq::quantize_q8_1(float const*, void*, long, long, long, long, long, unsigned int, HIP_vector_type<unsigned int, 3u>)",
+          "calls": 1,
+          "total_ns": 2080,
+          "max_ns": 2080,
+          "kernel_time_percent": 0.00012705921254045106
+        }
+      ]
+    },
+    "decode": {
+      "dispatches": 23594,
+      "kernel_sum_ns": 583465708,
+      "gpu_busy_union_ns": 583465708,
+      "kernel_span_ns": 669900393,
+      "inter_kernel_gap_ns": 86434685,
+      "largest_inter_kernel_gaps_ns": [
+        5282304,
+        2713111,
+        2598803,
+        2472034,
+        2405245,
+        2387766,
+        2386306,
+        2380156,
+        2378216,
+        2354166
+      ],
+      "kernels": [
+        {
+          "kernel": "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+          "calls": 2565,
+          "total_ns": 248096555,
+          "max_ns": 3012676,
+          "kernel_time_percent": 42.521188751678956
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcDownF16VecKernel(__half const*, float const*, float*)",
+          "calls": 1455,
+          "total_ns": 69763548,
+          "max_ns": 61519,
+          "kernel_time_percent": 11.95675204959946
+        },
+        {
+          "kernel": "void qfn_mmq::mul_mat_vec_q_moe<(qfn_mmq::ggml_type)16, 2, true>(void const*, void const*, int const*, float*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, void const*)",
+          "calls": 720,
+          "total_ns": 63133260,
+          "max_ns": 327516,
+          "kernel_time_percent": 10.820389122165857
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcUpF16VecKernel(__half const*, float const*, float*)",
+          "calls": 1455,
+          "total_ns": 43788841,
+          "max_ns": 54079,
+          "kernel_time_percent": 7.504955372630057
+        },
+        {
+          "kernel": "void qfn_mmq::mul_mat_vec_q_moe<(qfn_mmq::ggml_type)10, 2, false>(void const*, void const*, int const*, float*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, void const*)",
+          "calls": 720,
+          "total_ns": 34817690,
+          "max_ns": 130718,
+          "kernel_time_percent": 5.967392688654806
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::SmallGemmKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)1, 1u, false>(void const*, float const*, float*, unsigned int, unsigned int)",
+          "calls": 1260,
+          "total_ns": 28471221,
+          "max_ns": 65679,
+          "kernel_time_percent": 4.879673408329937
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcMixEpilogueKernel(float const*, float const*, float const*, float*, float*, unsigned int, unsigned int)",
+          "calls": 1455,
+          "total_ns": 15185265,
+          "max_ns": 31120,
+          "kernel_time_percent": 2.602597683427181
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::GdnKernel<false>(float const*, float const*, float const*, float const*, float const*, float const*, float*, float*, gufo::models::qwen38_flash_next::rocm::RollbackRows, unsigned int, unsigned int, unsigned int, gufo::models::qwen38_flash_next::rocm::GdnBatchItem const*, unsigned int)",
+          "calls": 540,
+          "total_ns": 14400720,
+          "max_ns": 67519,
+          "kernel_time_percent": 2.4681347682561663
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::AttentionKernel(float const*, __half const*, __half const*, unsigned int const*, unsigned int, float*, float*, unsigned int const*, unsigned int, unsigned int, unsigned int, unsigned int)",
+          "calls": 180,
+          "total_ns": 14042039,
+          "max_ns": 80559,
+          "kernel_time_percent": 2.4066605470496647
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcCombineKernel<float>(float*, float const*, float const*, unsigned int, float const*, float*, void*, unsigned int, unsigned int, float)",
+          "calls": 1440,
+          "total_ns": 13315273,
+          "max_ns": 29960,
+          "kernel_time_percent": 2.282100356101819
+        },
+        {
+          "kernel": "void qfn_mmq::mul_mat_vec_q8<1, true, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+          "calls": 720,
+          "total_ns": 13238487,
+          "max_ns": 26919,
+          "kernel_time_percent": 2.2689400282629806
+        },
+        {
+          "kernel": "qfn_mmq::quantize_q8_1(float const*, void*, long, long, long, long, long, unsigned int, HIP_vector_type<unsigned int, 3u>)",
+          "calls": 4710,
+          "total_ns": 6571061,
+          "max_ns": 7559,
+          "kernel_time_percent": 1.1262120309562391
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RouterTopKKernel<512u>(float const*, unsigned int, int*, float*, unsigned int, unsigned int)",
+          "calls": 720,
+          "total_ns": 4364015,
+          "max_ns": 26600,
+          "kernel_time_percent": 0.7479471269972219
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::MoeEpilogueKernel(float const*, float const*, float const*, float const*, unsigned int, float*, unsigned int, unsigned int)",
+          "calls": 720,
+          "total_ns": 2156094,
+          "max_ns": 4600,
+          "kernel_time_percent": 0.36953225706968196
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::SsmConv4Kernel<true, false>(float const*, unsigned int, float const*, float*, float*, unsigned int, unsigned int, gufo::models::qwen38_flash_next::rocm::RollbackRows, gufo::models::qwen38_flash_next::rocm::GdnBatchItem const*, unsigned int)",
+          "calls": 540,
+          "total_ns": 1733338,
+          "max_ns": 10400,
+          "kernel_time_percent": 0.29707624222536144
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::GdnEpilogueKernel<false>(float const*, float const*, unsigned int, float const*, float*, void*, __half*, unsigned int, unsigned int, float, gufo::models::qwen38_flash_next::rocm::GdnBatchItem const*, unsigned int)",
+          "calls": 540,
+          "total_ns": 1609781,
+          "max_ns": 14159,
+          "kernel_time_percent": 0.2758998477422087
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::SiluScaleKernel(float*, float, unsigned long)",
+          "calls": 1455,
+          "total_ns": 1495858,
+          "max_ns": 4760,
+          "kernel_time_percent": 0.2563746214199104
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RmsNormKernel(float const*, float const*, float*, unsigned int, unsigned int, float)",
+          "calls": 270,
+          "total_ns": 1218025,
+          "max_ns": 25679,
+          "kernel_time_percent": 0.20875691292554935
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::GdnPrepKernel<false>(float const*, float*, float*, unsigned int, unsigned int, unsigned int, float, gufo::models::qwen38_flash_next::rocm::GdnBatchItem const*, unsigned int)",
+          "calls": 540,
+          "total_ns": 1068458,
+          "max_ns": 7320,
+          "kernel_time_percent": 0.18312267290951056
+        },
+        {
+          "kernel": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::PrepareAttentionKernel<1u>(float const*, unsigned int, float const*, float const*, float*, float*, __half*, __half*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int const*, float, float, gufo::models::qwen::vision::DeviceRope const*)",
+          "calls": 180,
+          "total_ns": 798391,
+          "max_ns": 5120,
+          "kernel_time_percent": 0.13683597665691777
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::SelectMarkKernel(unsigned int*, float const*, unsigned int const*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int)",
+          "calls": 180,
+          "total_ns": 641072,
+          "max_ns": 5200,
+          "kernel_time_percent": 0.10987312385460707
+        },
+        {
+          "kernel": "__amd_rocclr_copyBuffer",
+          "calls": 59,
+          "total_ns": 533433,
+          "max_ns": 15960,
+          "kernel_time_percent": 0.09142491027081921
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::AttentionMergeKernel(float const*, float*, unsigned int, unsigned int, unsigned int)",
+          "calls": 180,
+          "total_ns": 523557,
+          "max_ns": 3720,
+          "kernel_time_percent": 0.08973226580781334
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::SelectScoreKernel(float const*, __half const*, float*, unsigned int, unsigned int const*, unsigned int, unsigned int, unsigned int, unsigned int)",
+          "calls": 180,
+          "total_ns": 500237,
+          "max_ns": 3880,
+          "kernel_time_percent": 0.08573545850958562
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::PoolBlocksKernel(float const*, float const*, __half*, unsigned int const*, unsigned int const*, unsigned int, unsigned int, unsigned int, unsigned int, float, float, unsigned int, gufo::models::qwen::vision::DeviceRope const*)",
+          "calls": 180,
+          "total_ns": 409917,
+          "max_ns": 13800,
+          "kernel_time_percent": 0.07025554276447726
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::StoreRowsKernel(float const*, float*, unsigned int, unsigned int const*, unsigned int)",
+          "calls": 180,
+          "total_ns": 382149,
+          "max_ns": 2480,
+          "kernel_time_percent": 0.06549639417711932
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::EmbedKernel(void const*, gufo::models::qwen38_flash_next::rocm::WeightType, int const*, float*, unsigned int, unsigned int)",
+          "calls": 15,
+          "total_ns": 309035,
+          "max_ns": 22039,
+          "kernel_time_percent": 0.052965409237041225
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RopeKernel(float*, unsigned int, unsigned int, unsigned int, unsigned int const*, float, gufo::models::qwen::vision::DeviceRope const*)",
+          "calls": 180,
+          "total_ns": 301956,
+          "max_ns": 2640,
+          "kernel_time_percent": 0.051752141704273044
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::SigmoidMulKernel(float*, float const*, unsigned long)",
+          "calls": 180,
+          "total_ns": 290635,
+          "max_ns": 2240,
+          "kernel_time_percent": 0.04981183915610684
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::PleGateKernel(float const*, float const*, float const*, float*, unsigned int, unsigned int)",
+          "calls": 15,
+          "total_ns": 86879,
+          "max_ns": 18560,
+          "kernel_time_percent": 0.014890163862037972
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HistoryShiftKernel(float const*, unsigned int, float const*, float*, unsigned int, unsigned int, unsigned int)",
+          "calls": 15,
+          "total_ns": 75360,
+          "max_ns": 12480,
+          "kernel_time_percent": 0.012915926157566059
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::PleConvKernel(float const*, float const*, float const*, float*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int)",
+          "calls": 15,
+          "total_ns": 72959,
+          "max_ns": 10399,
+          "kernel_time_percent": 0.012504419539939783
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::CopyKernel(float const*, float*, unsigned long)",
+          "calls": 15,
+          "total_ns": 43639,
+          "max_ns": 8760,
+          "kernel_time_percent": 0.0074792741718421605
+        },
+        {
+          "kernel": "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::PleInjectKernel(float*, float const*, float const*, unsigned long)",
+          "calls": 15,
+          "total_ns": 26960,
+          "max_ns": 4760,
+          "kernel_time_percent": 0.004620665727282125
+        }
+      ]
+    }
+  },
+  "retained_packed_profile_replay": [
+    {
+      "name": "arithmetic-0-last.f32",
+      "bytes": 993280,
+      "exact": true
+    },
+    {
+      "name": "arithmetic-0-output.u32",
+      "bytes": 8,
+      "exact": true
+    },
+    {
+      "name": "arithmetic-0-prefill.f32",
+      "bytes": 993280,
+      "exact": true
+    },
+    {
+      "name": "arithmetic-input.i32",
+      "bytes": 108,
+      "exact": true
+    },
+    {
+      "name": "counting-0-last.f32",
+      "bytes": 993280,
+      "exact": true
+    },
+    {
+      "name": "counting-0-output.u32",
+      "bytes": 52,
+      "exact": true
+    },
+    {
+      "name": "counting-0-prefill.f32",
+      "bytes": 993280,
+      "exact": true
+    },
+    {
+      "name": "counting-input.i32",
+      "bytes": 112,
+      "exact": true
+    },
+    {
+      "name": "profile2048-0-last.f32",
+      "bytes": 993280,
+      "exact": true
+    },
+    {
+      "name": "profile2048-0-output.u32",
+      "bytes": 64,
+      "exact": true
+    },
+    {
+      "name": "profile2048-0-prefill.f32",
+      "bytes": 993280,
+      "exact": true
+    },
+    {
+      "name": "profile2048-input.i32",
+      "bytes": 8192,
+      "exact": true
+    },
+    {
+      "name": "warm2048-0-last.f32",
+      "bytes": 993280,
+      "exact": true
+    },
+    {
+      "name": "warm2048-0-output.u32",
+      "bytes": 64,
+      "exact": true
+    },
+    {
+      "name": "warm2048-0-prefill.f32",
+      "bytes": 993280,
+      "exact": true
+    }
+  ]
+}

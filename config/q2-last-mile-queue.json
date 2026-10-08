@@ -1,0 +1,62 @@
+{
+  "schema": "synapse-lie.q2-last-mile-queue.v1",
+  "current_model_reference": "config/q2-fixed-prefill-reference.json",
+  "stable_parent": "ssm-fixed-bounds",
+  "retained_experimental_parent": "iq2-fixed-bounds",
+  "retained_PP": 1587.893545,
+  "target_UD_PP": 1685.777092,
+  "required_PP_increase_percent": 6.164364563872593,
+  "required_prefill_ms_saved": 74.8890152008963,
+  "completed_new_model_trials": [
+    "iq2-half-sign-arithmetic",
+    "iq2-fixed-bounds",
+    "iq2-dpp-commit",
+    "iq2-table-lds",
+    "hc-inject-raw-q8",
+    "down-fixed-bounds",
+    "down-fixed-contract"
+  ],
+  "next": {
+    "mechanism": "Prioritize measured dynamic work and producer/consumer redesign over standalone static instruction reductions.",
+    "fixed_point_priority_retained": true,
+    "parallel_curve_requested_by_owner": true,
+    "parallel_curve_max_context": 262144,
+    "parallel_curve_runtime_admission": false,
+    "larger_unimplemented_mechanisms": [
+      "Expert down output consumption without the full intermediate",
+      "Whole640 gate/up producer plus packing",
+      "Dense Q8/F16 operand loading and reuse",
+      "GDN recurrence and epilogue scheduling"
+    ],
+    "compiler_only_GDN_draft": "config/q2-gdn-full-window-draft-static.json",
+    "GDN_register_growth": [
+      120,
+      157
+    ],
+    "GDN_GPU_admission": false,
+    "model_speedup_claim": false,
+    "old_component_rerun": false,
+    "parallel_curve_plan": "config/q2-curve256-v3-plan.json",
+    "partial_chunk_coverage": "Only the last chunk of contiguous prefill can be partial; extending current guards targets tails and cached-prefix continuations, not fixed2048 parity.",
+    "parallel_curve_admission": "config/q2-curve256-v3-window-admission.json",
+    "parallel_curve_completed": true,
+    "parallel_curve_release": "config/q2-curve256-v3-window-release.json",
+    "parallel_curve_results": "config/q2-curve256-results.json",
+    "separate_long_context_requirement": "Capacity266240 increases mask pitch2080 and disables sparse WMMA in both arms; distinguish allocated pitch from visible extent and qualify scan bounds before another comparable curve."
+  },
+  "deprioritized": [
+    "Compact AoS IQ2 table-LDS placement regresses12\u201320% operator time and1.627%model PP",
+    "Standalone table+DPP does not reduce BN128169VGPR; no GPU plan",
+    "Old negative SSM pingpong/compact LDS, Q8 mirrors and down live staging already measured; do not rerun",
+    "Raw-Q8 HC injection reuse measures1583.808188 PP; preserve finite numerical differences and all evidence, no parent replacement",
+    "Fixed down bounds alone measures1584.926383 PP with132 exact operator pairs/21 parent files; retained1587 unchanged",
+    "Down null contract measures1586.586480 PP; component time improves0.69\u20131.98%, preserve for composition without replacing1587."
+  ],
+  "controls_rebuilt_or_rerun": false,
+  "Q4_run": false,
+  "full_curve_admitted": true,
+  "goal_met": false,
+  "current_assessment": "docs/Q2-REMAINING-WORK.md",
+  "source_audit": "config/q2-remaining-work-audit.json",
+  "active_gpu_window": null
+}

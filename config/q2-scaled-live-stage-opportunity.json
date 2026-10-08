@@ -1,0 +1,1207 @@
+{
+  "schema": "synapse-lie.q2-scaled-live-stage-opportunity.v1",
+  "inspected_parent_manifest": "config/q2-iq2-live-compose-source.json",
+  "inspected_parent_manifest_sha256": "b815852389cef93b79ac0aad55b6fd59be7a76d7ce08816d0769e5af7db411cd",
+  "inspected_sources": {
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "278aa6fc6356a9ba93a4feb154e487a743ee3e4a88e0f85379d7b7b9f9662801",
+    "src/models/qwen38_flash_next/kernels/rocm/q2_scaled_input.inc": "0c7d6d2374158fd340011601af4329e13fa5ccf9d1a2900e1743a44ee673ea0e"
+  },
+  "mechanism": "Extend unread activation-store suppression only to active scaled-Q2 down at BN48/64. Its compute loop already omits these complete fragments. Keep BN16 and every partial live16-row fragment unchanged.",
+  "active_dispatch": "RoutedQ2ScaledGemm -> LaunchRoutedQ2Scaled<48/64> -> kQ2/kScaled, paired=false",
+  "distinction": "Current IQ2 live-stage predicate excludes kScaled down; prior BM256 output reuse changed output geometry, not activation-store ownership.",
+  "logical_input_width": 640,
+  "stored_weight_width": 768,
+  "coverage": [
+    {
+      "token_width": 16,
+      "remaining_rows": 0,
+      "live_fragments": 0,
+      "original_slots": 128,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 16,
+      "remaining_rows": 1,
+      "live_fragments": 1,
+      "original_slots": 128,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 16,
+      "remaining_rows": 2,
+      "live_fragments": 1,
+      "original_slots": 128,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 16,
+      "remaining_rows": 3,
+      "live_fragments": 1,
+      "original_slots": 128,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 16,
+      "remaining_rows": 4,
+      "live_fragments": 1,
+      "original_slots": 128,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 16,
+      "remaining_rows": 5,
+      "live_fragments": 1,
+      "original_slots": 128,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 16,
+      "remaining_rows": 6,
+      "live_fragments": 1,
+      "original_slots": 128,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 16,
+      "remaining_rows": 7,
+      "live_fragments": 1,
+      "original_slots": 128,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 16,
+      "remaining_rows": 8,
+      "live_fragments": 1,
+      "original_slots": 128,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 16,
+      "remaining_rows": 9,
+      "live_fragments": 1,
+      "original_slots": 128,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 16,
+      "remaining_rows": 10,
+      "live_fragments": 1,
+      "original_slots": 128,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 16,
+      "remaining_rows": 11,
+      "live_fragments": 1,
+      "original_slots": 128,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 16,
+      "remaining_rows": 12,
+      "live_fragments": 1,
+      "original_slots": 128,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 16,
+      "remaining_rows": 13,
+      "live_fragments": 1,
+      "original_slots": 128,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 16,
+      "remaining_rows": 14,
+      "live_fragments": 1,
+      "original_slots": 128,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 16,
+      "remaining_rows": 15,
+      "live_fragments": 1,
+      "original_slots": 128,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 16,
+      "remaining_rows": 16,
+      "live_fragments": 1,
+      "original_slots": 128,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 0,
+      "live_fragments": 0,
+      "original_slots": 384,
+      "candidate_slots": 0,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 1,
+      "live_fragments": 1,
+      "original_slots": 384,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 2,
+      "live_fragments": 1,
+      "original_slots": 384,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 3,
+      "live_fragments": 1,
+      "original_slots": 384,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 4,
+      "live_fragments": 1,
+      "original_slots": 384,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 5,
+      "live_fragments": 1,
+      "original_slots": 384,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 6,
+      "live_fragments": 1,
+      "original_slots": 384,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 7,
+      "live_fragments": 1,
+      "original_slots": 384,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 8,
+      "live_fragments": 1,
+      "original_slots": 384,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 9,
+      "live_fragments": 1,
+      "original_slots": 384,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 10,
+      "live_fragments": 1,
+      "original_slots": 384,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 11,
+      "live_fragments": 1,
+      "original_slots": 384,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 12,
+      "live_fragments": 1,
+      "original_slots": 384,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 13,
+      "live_fragments": 1,
+      "original_slots": 384,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 14,
+      "live_fragments": 1,
+      "original_slots": 384,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 15,
+      "live_fragments": 1,
+      "original_slots": 384,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 16,
+      "live_fragments": 1,
+      "original_slots": 384,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 17,
+      "live_fragments": 2,
+      "original_slots": 384,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 18,
+      "live_fragments": 2,
+      "original_slots": 384,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 19,
+      "live_fragments": 2,
+      "original_slots": 384,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 20,
+      "live_fragments": 2,
+      "original_slots": 384,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 21,
+      "live_fragments": 2,
+      "original_slots": 384,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 22,
+      "live_fragments": 2,
+      "original_slots": 384,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 23,
+      "live_fragments": 2,
+      "original_slots": 384,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 24,
+      "live_fragments": 2,
+      "original_slots": 384,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 25,
+      "live_fragments": 2,
+      "original_slots": 384,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 26,
+      "live_fragments": 2,
+      "original_slots": 384,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 27,
+      "live_fragments": 2,
+      "original_slots": 384,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 28,
+      "live_fragments": 2,
+      "original_slots": 384,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 29,
+      "live_fragments": 2,
+      "original_slots": 384,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 30,
+      "live_fragments": 2,
+      "original_slots": 384,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 31,
+      "live_fragments": 2,
+      "original_slots": 384,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 32,
+      "live_fragments": 2,
+      "original_slots": 384,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 33,
+      "live_fragments": 3,
+      "original_slots": 384,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 34,
+      "live_fragments": 3,
+      "original_slots": 384,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 35,
+      "live_fragments": 3,
+      "original_slots": 384,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 36,
+      "live_fragments": 3,
+      "original_slots": 384,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 37,
+      "live_fragments": 3,
+      "original_slots": 384,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 38,
+      "live_fragments": 3,
+      "original_slots": 384,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 39,
+      "live_fragments": 3,
+      "original_slots": 384,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 40,
+      "live_fragments": 3,
+      "original_slots": 384,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 41,
+      "live_fragments": 3,
+      "original_slots": 384,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 42,
+      "live_fragments": 3,
+      "original_slots": 384,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 43,
+      "live_fragments": 3,
+      "original_slots": 384,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 44,
+      "live_fragments": 3,
+      "original_slots": 384,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 45,
+      "live_fragments": 3,
+      "original_slots": 384,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 46,
+      "live_fragments": 3,
+      "original_slots": 384,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 47,
+      "live_fragments": 3,
+      "original_slots": 384,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 48,
+      "remaining_rows": 48,
+      "live_fragments": 3,
+      "original_slots": 384,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 0,
+      "live_fragments": 0,
+      "original_slots": 512,
+      "candidate_slots": 0,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 1,
+      "live_fragments": 1,
+      "original_slots": 512,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 2,
+      "live_fragments": 1,
+      "original_slots": 512,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 3,
+      "live_fragments": 1,
+      "original_slots": 512,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 4,
+      "live_fragments": 1,
+      "original_slots": 512,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 5,
+      "live_fragments": 1,
+      "original_slots": 512,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 6,
+      "live_fragments": 1,
+      "original_slots": 512,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 7,
+      "live_fragments": 1,
+      "original_slots": 512,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 8,
+      "live_fragments": 1,
+      "original_slots": 512,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 9,
+      "live_fragments": 1,
+      "original_slots": 512,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 10,
+      "live_fragments": 1,
+      "original_slots": 512,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 11,
+      "live_fragments": 1,
+      "original_slots": 512,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 12,
+      "live_fragments": 1,
+      "original_slots": 512,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 13,
+      "live_fragments": 1,
+      "original_slots": 512,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 14,
+      "live_fragments": 1,
+      "original_slots": 512,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 15,
+      "live_fragments": 1,
+      "original_slots": 512,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 16,
+      "live_fragments": 1,
+      "original_slots": 512,
+      "candidate_slots": 128,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 17,
+      "live_fragments": 2,
+      "original_slots": 512,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 18,
+      "live_fragments": 2,
+      "original_slots": 512,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 19,
+      "live_fragments": 2,
+      "original_slots": 512,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 20,
+      "live_fragments": 2,
+      "original_slots": 512,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 21,
+      "live_fragments": 2,
+      "original_slots": 512,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 22,
+      "live_fragments": 2,
+      "original_slots": 512,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 23,
+      "live_fragments": 2,
+      "original_slots": 512,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 24,
+      "live_fragments": 2,
+      "original_slots": 512,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 25,
+      "live_fragments": 2,
+      "original_slots": 512,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 26,
+      "live_fragments": 2,
+      "original_slots": 512,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 27,
+      "live_fragments": 2,
+      "original_slots": 512,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 28,
+      "live_fragments": 2,
+      "original_slots": 512,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 29,
+      "live_fragments": 2,
+      "original_slots": 512,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 30,
+      "live_fragments": 2,
+      "original_slots": 512,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 31,
+      "live_fragments": 2,
+      "original_slots": 512,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 32,
+      "live_fragments": 2,
+      "original_slots": 512,
+      "candidate_slots": 256,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 33,
+      "live_fragments": 3,
+      "original_slots": 512,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 34,
+      "live_fragments": 3,
+      "original_slots": 512,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 35,
+      "live_fragments": 3,
+      "original_slots": 512,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 36,
+      "live_fragments": 3,
+      "original_slots": 512,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 37,
+      "live_fragments": 3,
+      "original_slots": 512,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 38,
+      "live_fragments": 3,
+      "original_slots": 512,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 39,
+      "live_fragments": 3,
+      "original_slots": 512,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 40,
+      "live_fragments": 3,
+      "original_slots": 512,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 41,
+      "live_fragments": 3,
+      "original_slots": 512,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 42,
+      "live_fragments": 3,
+      "original_slots": 512,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 43,
+      "live_fragments": 3,
+      "original_slots": 512,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 44,
+      "live_fragments": 3,
+      "original_slots": 512,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 45,
+      "live_fragments": 3,
+      "original_slots": 512,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 46,
+      "live_fragments": 3,
+      "original_slots": 512,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 47,
+      "live_fragments": 3,
+      "original_slots": 512,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 48,
+      "live_fragments": 3,
+      "original_slots": 512,
+      "candidate_slots": 384,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 49,
+      "live_fragments": 4,
+      "original_slots": 512,
+      "candidate_slots": 512,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 50,
+      "live_fragments": 4,
+      "original_slots": 512,
+      "candidate_slots": 512,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 51,
+      "live_fragments": 4,
+      "original_slots": 512,
+      "candidate_slots": 512,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 52,
+      "live_fragments": 4,
+      "original_slots": 512,
+      "candidate_slots": 512,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 53,
+      "live_fragments": 4,
+      "original_slots": 512,
+      "candidate_slots": 512,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 54,
+      "live_fragments": 4,
+      "original_slots": 512,
+      "candidate_slots": 512,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 55,
+      "live_fragments": 4,
+      "original_slots": 512,
+      "candidate_slots": 512,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 56,
+      "live_fragments": 4,
+      "original_slots": 512,
+      "candidate_slots": 512,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 57,
+      "live_fragments": 4,
+      "original_slots": 512,
+      "candidate_slots": 512,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 58,
+      "live_fragments": 4,
+      "original_slots": 512,
+      "candidate_slots": 512,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 59,
+      "live_fragments": 4,
+      "original_slots": 512,
+      "candidate_slots": 512,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 60,
+      "live_fragments": 4,
+      "original_slots": 512,
+      "candidate_slots": 512,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 61,
+      "live_fragments": 4,
+      "original_slots": 512,
+      "candidate_slots": 512,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 62,
+      "live_fragments": 4,
+      "original_slots": 512,
+      "candidate_slots": 512,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 63,
+      "live_fragments": 4,
+      "original_slots": 512,
+      "candidate_slots": 512,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    },
+    {
+      "token_width": 64,
+      "remaining_rows": 64,
+      "live_fragments": 4,
+      "original_slots": 512,
+      "candidate_slots": 512,
+      "all_readers_written": true,
+      "final_live_fragment_padding_preserved": true
+    }
+  ],
+  "final_16_row_padding_unchanged": true,
+  "logical_or_static_only": true,
+  "assumptions": [
+    "New predicate must be restricted to kScaled/kQ2 with BN>=48.",
+    "Preserve existing K-tail zero filling, barriers, activation inverse, affine decoder, F32 WMMA and epilogue.",
+    "A new guarded component must test ragged rows and full output coverage; no old IQ2 component qualifies this down change.",
+    "No measured traffic reduction or model gain follows from these slot counts."
+  ],
+  "implementation_prepared": false,
+  "gpu_run": false,
+  "model_inference": false,
+  "goal_met": false
+}

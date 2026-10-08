@@ -1,0 +1,193 @@
+{
+  "at": "2026-10-02T21:09:00.311148+00:00",
+  "state": "Q2_CODE_REUSE_WINDOW_RELEASED",
+  "runners": [
+    {
+      "label": "q2-code-reuse-host-r1",
+      "pid": 2688985,
+      "absent": true,
+      "finished_at": "2026-10-02T21:02:29.427349+00:00"
+    },
+    {
+      "label": "q2-code-reuse-operators-r1",
+      "pid": 2689983,
+      "absent": true,
+      "finished_at": "2026-10-02T21:03:18.533374+00:00"
+    },
+    {
+      "label": "q2-code-reuse-micro-ref-r1",
+      "pid": 2690605,
+      "absent": true,
+      "finished_at": "2026-10-02T21:04:13.560134+00:00"
+    },
+    {
+      "label": "q2-code-reuse-micro-r1",
+      "pid": 2691928,
+      "absent": true,
+      "finished_at": "2026-10-02T21:08:10.261354+00:00"
+    }
+  ],
+  "commands": [
+    {
+      "label": "q2-code-reuse-host-r1",
+      "pid": 2688986,
+      "start_ticks": 154031753,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-code-reuse-host-r1",
+      "pid": 2689060,
+      "start_ticks": 154031805,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-code-reuse-host-r1",
+      "pid": 2689169,
+      "start_ticks": 154032258,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-code-reuse-host-r1",
+      "pid": 2689390,
+      "start_ticks": 154032912,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-code-reuse-host-r1",
+      "pid": 2689460,
+      "start_ticks": 154032965,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-code-reuse-host-r1",
+      "pid": 2689586,
+      "start_ticks": 154033718,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-code-reuse-operators-r1",
+      "pid": 2689985,
+      "start_ticks": 154037521,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-code-reuse-operators-r1",
+      "pid": 2690186,
+      "start_ticks": 154037724,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-code-reuse-operators-r1",
+      "pid": 2690323,
+      "start_ticks": 154039129,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-code-reuse-micro-ref-r1",
+      "pid": 2690606,
+      "start_ticks": 154042975,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-code-reuse-micro-ref-r1",
+      "pid": 2690808,
+      "start_ticks": 154043177,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-code-reuse-micro-ref-r1",
+      "pid": 2690941,
+      "start_ticks": 154044582,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-code-reuse-micro-r1",
+      "pid": 2691957,
+      "start_ticks": 154066644,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-code-reuse-micro-r1",
+      "pid": 2692166,
+      "start_ticks": 154066847,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-code-reuse-micro-r1",
+      "pid": 2692293,
+      "start_ticks": 154068252,
+      "exit_code": 0,
+      "absent": true
+    }
+  ],
+  "live_owned": [],
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "observer": {
+    "pid": 2692556,
+    "state": "R",
+    "group": 2692553,
+    "session": 2692553,
+    "start_ticks": 154073457
+  },
+  "result_sha256": {
+    "q2-code-reuse-host-r1": "e3bf73d846a7a372c1889f2fac65fff6e0fb3eb2d7195e3b40a6e05dd8e61067",
+    "q2-code-reuse-operators-r1": "3f1575d04468eb801dc6258c660a0d7ea33434f6a0b9652ddde9ecca55909112",
+    "q2-code-reuse-micro-ref-r1": "19ae49ad13c5ca90eef5f4b487d907ce5247fea07474550f446824c29f171eea",
+    "q2-code-reuse-micro-r1": "e40ef59a5188a4a10e64c70d6f3a7e27617b41dd53a3a2a50f949db12b1f539b"
+  },
+  "thermal": {
+    "/sys/class/hwmon/hwmon4/temp1_input": "47500",
+    "/sys/class/hwmon/hwmon2/temp1_input": "46000",
+    "/sys/class/hwmon/hwmon0/temp1_input": "47000",
+    "/sys/class/hwmon/hwmon5/temp1_input": "50000",
+    "/sys/class/hwmon/hwmon3/temp1_input": "47875",
+    "/sys/class/hwmon/hwmon1/temp6_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp3_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp7_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp4_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp8_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp1_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp9_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp2_input": "53850"
+  }
+}

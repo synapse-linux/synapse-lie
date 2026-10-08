@@ -1,0 +1,22 @@
+{
+  "schema": "synapse-lie.q2-ssm-fixed-shape-staging.v1",
+  "arms": [
+    {
+      "mode": "ssm-fixed-shape-check",
+      "capsule_sha256": "25597c365d1a3d2f0cafa98d7bc08e09c59594ca9b8ef51fa0c78aa152712669",
+      "provider_files": 1027,
+      "fixture_files": 90,
+      "capsule_path": "evidence/q2-ssmfs-stage-component/source.tar.gz",
+      "ssh_executed": false
+    },
+    {
+      "mode": "q2-counting-ssm-fixed-shape",
+      "capsule_sha256": "e0ff0fa17818134f9515189d447b608b84c6fbb663abdf7d13beb5fd2c514b27",
+      "provider_files": 1027,
+      "fixture_files": 90,
+      "capsule_path": "evidence/q2-ssmfs-stage-model/source.tar.gz",
+      "ssh_executed": false
+    }
+  ],
+  "gpu_run": false
+}

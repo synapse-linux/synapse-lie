@@ -1,0 +1,38 @@
+{
+  "schema": "synapse-lie.ds4-walk-local-tests.v1",
+  "recorded_at_utc": "2026-10-08T13:40:24.520728+00:00",
+  "results": [
+    {
+      "command": "ctest --test-dir .deps/build-counting-bench-debug -R simplified-bench-contract|native-benchmark-contract --output-on-failure",
+      "exit_code": 8,
+      "finding": "native-benchmark-contract test executable had not yet been built"
+    },
+    {
+      "command": "ctest --test-dir .deps/build-counting-bench-debug -R ^native-benchmark-contract$ --output-on-failure",
+      "exit_code": 8,
+      "finding": "local sandbox denied private ephemeral socket; CPU-only native fixture could not reach its HTTP section"
+    },
+    {
+      "command": "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 UBSAN_OPTIONS=halt_on_error=1 python3 .deps/lie-ds4-walk-bench/tests/test_lie_bench.py .deps/build-ds4-walk-asan/test-synthetic-lie-bench SimplifiedBenchmark.test_default_ds4_walk_advances_one_corpus_and_excludes_restore",
+      "exit_code": 1,
+      "finding": "all eight samples completed, but LeakSanitizer fatal environment error under ptrace"
+    },
+    {
+      "command": "ASAN_OPTIONS=detect_leaks=0:halt_on_error=1 UBSAN_OPTIONS=halt_on_error=1 ctest --test-dir .deps/build-ds4-walk-asan -R ^ds4-walk-accounting$ --output-on-failure",
+      "exit_code": 0,
+      "passed": 1,
+      "finding": "ASan/UBSan exact-step, snapshot, replay and clock enclosure fixture passed"
+    },
+    {
+      "command": "ctest --test-dir .deps/build-ds4-walk-debug -R ^ds4-walk-accounting$ --output-on-failure",
+      "exit_code": 0,
+      "passed": 1,
+      "finding": "Debug exact-step, snapshot, replay and clock enclosure fixture passed"
+    },
+    {
+      "command": "cmake --build .deps/build-ds4-walk-gpu --target synapse-lie-bench -j4",
+      "exit_code": 0,
+      "finding": "local-only link against hash-verified retained numerical HIP archives; no GPU inference"
+    }
+  ]
+}

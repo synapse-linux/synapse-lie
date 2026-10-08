@@ -1,0 +1,22 @@
+{
+  "schema": "synapse-lie.q2-ssm-row-group-staging.v1",
+  "arms": [
+    {
+      "mode": "ssm-row-group-check",
+      "capsule_sha256": "a83cd30fd9c28ea11ccbe82bb35b573435cd9d8f8e65bea528f2b62a8511963d",
+      "provider_files": 1027,
+      "fixture_files": 88,
+      "capsule_path": "evidence/q2-ssmg-stage-component/source.tar.gz",
+      "ssh_executed": false
+    },
+    {
+      "mode": "q2-counting-ssm-row-group",
+      "capsule_sha256": "bcccb807dc62553004da37d003c9fd28f382c3254989a5b65fa87c8eb2ad7124",
+      "provider_files": 1027,
+      "fixture_files": 88,
+      "capsule_path": "evidence/q2-ssmg-stage-model/source.tar.gz",
+      "ssh_executed": false
+    }
+  ],
+  "gpu_run": false
+}

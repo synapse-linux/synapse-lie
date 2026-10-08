@@ -1,0 +1,33 @@
+{
+  "schema": "synapse-lie.q2-down-half-storage-rounding-review.v1",
+  "component_report_sha256": "f18921bad054ddc31050b808fa1c698783ed8b14f587e2bc41f7994c3ef72b84",
+  "down_checks": 315,
+  "consumer_checks": 99,
+  "independent_rounding_mismatches": 0,
+  "nonfinite_values": 0,
+  "max_mixed_relative_l2": 0.000207501667841,
+  "max_absolute_error_all_cases": 0.00195217132568,
+  "worst_relative_case": {
+    "event": "down_half_storage_replay",
+    "case": "edge-w16-n1-m1",
+    "rotation": 2,
+    "values": 1,
+    "rounding_mismatches": 0,
+    "changed_parent_values": 1,
+    "nonfinite_values": 0,
+    "max_abs": 2.73782916338e-08,
+    "relative_l2": 0.129730166511,
+    "guards_exact": true,
+    "all_written": true,
+    "rounding_exact": true,
+    "reference_sha256": "033d2c7a567b3c3290b5824cb1e1553590f3d6cbddd0d7ebeccc53cda08bf969",
+    "candidate_sha256": "fcea7ef4e4a3dcea7b07c3f40059d880bee0f5566b8863a89462e26b71a9076c",
+    "weight_sha256": "e41f3444dd7a0211eb12eabb9371fdf26288b20a96ae114ca878ddc351f0c3e7"
+  },
+  "all_consumer_expanded_half_exact": true,
+  "consumer_parent_exact_count": 0,
+  "scope": "Binary storage rounding and consumer contract checked. Original F32 parent is numerically different; small-value F16 underflow is a real representation change. No independent task quality acceptance or harmlessness conclusion follows. Full-model performance must still run.",
+  "promoted": false,
+  "quality_accepted": false,
+  "goal_met": false
+}

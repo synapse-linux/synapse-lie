@@ -1,0 +1,91 @@
+{
+  "at": "2026-10-03T20:53:05.836245+00:00",
+  "state": "Q2_HC_LIBRARY_RAGGED_MODEL_DECISION",
+  "component_analyzer_exit": 1,
+  "analyzer_integrity_pass": true,
+  "component_result_sha256": "ea6539f340a4de8bf8a77e8b5e61c6f549c794ad61ca5c0758afbd06cc6c55d0",
+  "component_command_exits": [
+    0,
+    0,
+    1
+  ],
+  "supported_shapes": [
+    96,
+    97,
+    129,
+    502,
+    2042,
+    2047,
+    2048
+  ],
+  "median_us": {
+    "n502-moe0": {
+      "native": 798.420011997,
+      "library": 796.070039272,
+      "time_change_percent": -0.2943278837816421
+    },
+    "n502-moe1": {
+      "native": 978.557169437,
+      "library": 991.016864777,
+      "time_change_percent": 1.273272091723432
+    },
+    "n2042-moe0": {
+      "native": 5760.76364517,
+      "library": 3006.4496994,
+      "time_change_percent": -47.81161171365363
+    },
+    "n2042-moe1": {
+      "native": 6622.99585342,
+      "library": 3897.8164196,
+      "time_change_percent": -41.1472314664483
+    },
+    "n2047-moe0": {
+      "native": 5712.73708344,
+      "library": 3012.49456406,
+      "time_change_percent": -47.26705395225389
+    },
+    "n2047-moe1": {
+      "native": 6639.22786713,
+      "library": 3915.40884972,
+      "time_change_percent": -41.02614147189152
+    },
+    "n2048-moe0": {
+      "native": 5730.30948639,
+      "library": 3006.61969185,
+      "time_change_percent": -47.53128606768985
+    },
+    "n2048-moe1": {
+      "native": 6694.96679306,
+      "library": 3906.90159798,
+      "time_change_percent": -41.64419751820289
+    }
+  },
+  "numerical_pass": false,
+  "promoted": false,
+  "goal_met": false,
+  "decision": "Admit exploratory original-C17 full-model candidate/control/UD after fresh .157 host guards. Large n2042/n2047 complete-cycle saving justifies measurement; n502 has no useful component saving. Existing arithmetic and repeated-row failures remain explicit, no numerical/quality promotion.",
+  "planned": [
+    "q2-hc-library-ragged-model-host-r1",
+    "q2-hc-library-ragged-model-control-r1",
+    "q2-hc-library-ragged-model-candidate-r1",
+    "q2-hc-library-ragged-model-ud-r1"
+  ],
+  "protocol": {
+    "physical_prompts": [
+      502,
+      2042,
+      8191
+    ],
+    "context": 9216,
+    "chunk": 2048,
+    "completed_decode_steps": 128,
+    "warmups": 1,
+    "measured_rounds": 3,
+    "mtp": false,
+    "concurrency": 1,
+    "full_mmq_build": true,
+    "historical_ud_2042_tg": 26.049385991367725
+  },
+  "gpu_reserved": true,
+  "restart_scheduled": false
+}

@@ -1,0 +1,36 @@
+{
+  "schema": "synapse-lie.q2-hc-bn64-host.v1",
+  "label": "q2-hc-bn64-host-r1",
+  "capsule_sha256": "429642c78d3da738fb32487034c55bfb1e32270cff093696c8c9880063a7d916",
+  "archive_sha256": "b28c235c38be4987d11a88c5ae938ffcbc7d9f2bf90e60ffee05d9b78dc01b82",
+  "fixture_files": {
+    "CMakeLists.txt": "a76700516b9a689b75c45b890b102699e70ad0ae39563f8d6a4c8aaa2014c979",
+    "cmake/hip/CMakeLists.txt": "9925cde949b9f39b05791c2cc5a33c351dda71f084f0d2d0efaef76515d9ed24",
+    "tests/q2_hc_bk256.cpp": "d58035790ba10af5ba29ed9a3dee3df0a30646c8773b2362a1222c5c8abbb48e",
+    "tests/q2_hc_library_norm.cpp": "691590bfa9710e91578b75e0e351bef37cd90cca8038c1e12e827e991cd055c8",
+    "tests/q2_hc_sequence.cpp": "9949bf6df8e4119a0c2d1eda99b9cda4af3e69f94a5270fedbc607c694247b8a",
+    "tests/q2_hc_norm_half.cpp": "94aae9e5c7acaa14778b363e272a1d874ec7b222395c4b0a8d1d754a54f648c8",
+    "tests/q2_hc_moe_fused.cpp": "f743aed14d492b9bdc2de25e69f9b126c534964da61443d275e49c6bc14f4483",
+    "tests/q2_remote_test.py": "798ab2d9bc7429e06109dca4a39b09b167796d5e9ac938ae0cf2a6e0803e2996",
+    "tools/q2-remote.py": "9aab83260b693091cbe934bf9327d60d2c13c35f134f5b5c4c941fd33e3a53c0",
+    "tools/q2-runner.py": "63ae6721dff61f58751e51e11c031c28b7fa96477e623d2624f9f096d5986071",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "experiments/q2_hc_blaslt_control.cpp": "869d748e87e0a00f7317ed8200c687b383ba375e06355269ebba37eb787b17aa",
+    "experiments/q2_hc_blaslt_control.hpp": "a7d60e6be24acaed5570844a34eff4735573ceaf247db3df89d68298a98eacdb",
+    "experiments/counting-baseline/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+    "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867"
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "debug_tests": 23,
+  "sanitizer_tests": 23,
+  "model_forward": false,
+  "gpu_run": false
+}

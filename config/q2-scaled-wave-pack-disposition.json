@@ -1,0 +1,45 @@
+{
+  "schema": "synapse-lie.q2-scaled-wave-pack-disposition.v1",
+  "decision": "RETAIN_MARGINAL_PREFILL_CANDIDATE_AND_SAVED1573",
+  "next_composition_variant": "scaled-wave-pack",
+  "source_manifest": "config/q2-scaled-wave-pack-source.json",
+  "retained_parent_manifest": "config/q2-shared-q8-pair-source.json",
+  "model_result_sha256": "ee9e46c0ca12e7b3bf1724b016afc15ba5970322a5122bd8c54478473a103aa3",
+  "component_result_sha256": "3738b7f8d118e648ce4146d474dea7078125c01c82b672bc2d5457a6d5656bb7",
+  "final_audit_sha256": "c252264c83ae6c8abbbb7d3730727c1f79d4f16fb101b6fa618d6be639f11ec8",
+  "signed_zero_diagnosis_sha256": "e6b6edc2cdd683dfb9f21a19d20d45d4ad1ae2aa5271c64e0dd5d3b7ee0c5412",
+  "release_sha256": "6abd77bc99a836750801e741cdbc313e047be39d7080b2ab7e5f3493abfefa35",
+  "prefill_tok_s": 1574.505432,
+  "decode_steps_s": 25.17589001,
+  "nominal_pp_gain_percent": 0.05619084182635348,
+  "nominal_decode_change_percent": 0.24787677993522994,
+  "absolute_pp_gain": 0.8842309999999998,
+  "observed_historical_pp_ranges_overlap": true,
+  "required_pp_increase_to_fixed_ud_percent": 7.067086447498516,
+  "component_cycle_time_changes_percent": {
+    "pack": -3.993802218487974,
+    "pack_down": -0.6315483169070157
+  },
+  "all21_parent_files_exact": true,
+  "all52_component_pairs_exact": true,
+  "independent_scalar_oracle_pass": false,
+  "reported_oracle_failures_signed_zero_only": true,
+  "production_packing_oracle_pass": true,
+  "independent_quality": false,
+  "inherited_quality_record": "config/q2-down-half-storage-disposition.json",
+  "thermal_max_c": {
+    "q2-scaled-wave-pack-component-r1": {
+      "amdgpu": 41.0,
+      "k10temp": 65.375
+    },
+    "q2-scaled-wave-pack-model-r1": {
+      "amdgpu": 74.0,
+      "k10temp": 84.5
+    }
+  },
+  "controls_rerun": false,
+  "full_curve_admitted": false,
+  "promoted": false,
+  "goal_met": false,
+  "limits": "Marginal historical model PP difference with overlapping ranges. Scalar decode dispatch/bodies unchanged; observed TG difference not causally assigned. Component gain is distinct and not additive. Preserve actual oracle exit1: all errors are negative-to-positive zero in both parent/candidate; production packing oracle passes. Keep both sources; inherited F16 task quality and full PP/TG curve parity remain open."
+}

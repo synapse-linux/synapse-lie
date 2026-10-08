@@ -1,0 +1,70 @@
+{
+  "scope": "CPU/component receipt and frozen-source validation; model arms pending",
+  "validation_pass": true,
+  "runs": [
+    {
+      "label": "q2-hc-row80-host-r1",
+      "mode": "cpu",
+      "model_access": false,
+      "artifacts": 7,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "capsule_sha256": "e1023ada2b61d14c222ed4e4c87b06cc55e3564348fc18a1e1ce3b15aabcb0ec",
+      "source_files_verified": 1019,
+      "fixture_hashes": {
+        "tests/q2_hc_pp.cpp": "9bf7453ef0f3db7e75fabc73ee882938095a5ca9ecaf8d724b45b91b4cd7dfb2",
+        "tests/q2_remote_test.py": "bace11e62ed154e72dee00b4c111b25c1ae9f8dc7f1a7d98b614a04092733fb7",
+        "tools/q2-remote.py": "efeda67532c3cc8660f8686b8d24209c9bd417d36547843bfac82c47643d205c",
+        "tools/q2-runner.py": "fa5416e4f4b526670a41dc8f5eb8235a8894402d57f7d7589f7d28fe42982fd9",
+        "cmake/hip/CMakeLists.txt": "855b4d274b761057186cb3fc1ec9609a8c50683fe6cd34438a8ce0d10ab8540d"
+      }
+    },
+    {
+      "label": "q2-hc-row80-reference-r1",
+      "mode": "hc-pp-bench",
+      "model_access": false,
+      "artifacts": 48,
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "capsule_sha256": "4fc7298d5fdcb24d0dc4bd816ab5600a54ee4dedda13e03a79f5cb81756ebc43",
+      "source_files_verified": 1019,
+      "fixture_hashes": {
+        "tests/q2_hc_pp.cpp": "9bf7453ef0f3db7e75fabc73ee882938095a5ca9ecaf8d724b45b91b4cd7dfb2",
+        "tests/q2_remote_test.py": "bace11e62ed154e72dee00b4c111b25c1ae9f8dc7f1a7d98b614a04092733fb7",
+        "tools/q2-remote.py": "efeda67532c3cc8660f8686b8d24209c9bd417d36547843bfac82c47643d205c",
+        "tools/q2-runner.py": "fa5416e4f4b526670a41dc8f5eb8235a8894402d57f7d7589f7d28fe42982fd9",
+        "cmake/hip/CMakeLists.txt": "855b4d274b761057186cb3fc1ec9609a8c50683fe6cd34438a8ce0d10ab8540d"
+      }
+    },
+    {
+      "label": "q2-hc-row80-candidate-r1",
+      "mode": "hc-pp-bench",
+      "model_access": false,
+      "artifacts": 48,
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "capsule_sha256": "7cb902f168849408d268f981cadd20750937be5b44c4d09cf2e1981708954208",
+      "source_files_verified": 1019,
+      "fixture_hashes": {
+        "tests/q2_hc_pp.cpp": "9bf7453ef0f3db7e75fabc73ee882938095a5ca9ecaf8d724b45b91b4cd7dfb2",
+        "tests/q2_remote_test.py": "bace11e62ed154e72dee00b4c111b25c1ae9f8dc7f1a7d98b614a04092733fb7",
+        "tools/q2-remote.py": "efeda67532c3cc8660f8686b8d24209c9bd417d36547843bfac82c47643d205c",
+        "tools/q2-runner.py": "fa5416e4f4b526670a41dc8f5eb8235a8894402d57f7d7589f7d28fe42982fd9",
+        "cmake/hip/CMakeLists.txt": "855b4d274b761057186cb3fc1ec9609a8c50683fe6cd34438a8ce0d10ab8540d"
+      }
+    }
+  ],
+  "artifacts_verified": 103
+}

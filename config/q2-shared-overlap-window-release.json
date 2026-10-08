@@ -1,0 +1,273 @@
+{
+  "at": "2026-10-03T09:01:58.557499+00:00",
+  "state": "Q2_SHARED_OVERLAP_WINDOW_RELEASED",
+  "runners": [
+    {
+      "label": "q2-shared-overlap-host-r1",
+      "pid": 2933815,
+      "absent": true,
+      "finished_at": "2026-10-03T08:45:41.300264+00:00"
+    },
+    {
+      "label": "q2-shared-overlap-check-r1",
+      "pid": 2934839,
+      "absent": true,
+      "finished_at": "2026-10-03T08:46:33.204169+00:00"
+    },
+    {
+      "label": "q2-shared-overlap-reference-r1",
+      "pid": 2935439,
+      "absent": true,
+      "finished_at": "2026-10-03T08:51:46.590507+00:00"
+    },
+    {
+      "label": "q2-shared-overlap-candidate-r1",
+      "pid": 2937432,
+      "absent": true,
+      "finished_at": "2026-10-03T08:56:39.425747+00:00"
+    },
+    {
+      "label": "q2-shared-overlap-profile-r1",
+      "pid": 2939606,
+      "absent": true,
+      "finished_at": "2026-10-03T09:00:49.600154+00:00"
+    }
+  ],
+  "commands": [
+    {
+      "label": "q2-shared-overlap-host-r1",
+      "pid": 2933816,
+      "start_ticks": 158250991,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-host-r1",
+      "pid": 2933889,
+      "start_ticks": 158251044,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-host-r1",
+      "pid": 2933976,
+      "start_ticks": 158251496,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-host-r1",
+      "pid": 2934241,
+      "start_ticks": 158252150,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-host-r1",
+      "pid": 2934312,
+      "start_ticks": 158252203,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-host-r1",
+      "pid": 2934413,
+      "start_ticks": 158252905,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-check-r1",
+      "pid": 2934840,
+      "start_ticks": 158257089,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-check-r1",
+      "pid": 2935035,
+      "start_ticks": 158257292,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-check-r1",
+      "pid": 2935185,
+      "start_ticks": 158258696,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-reference-r1",
+      "pid": 2935468,
+      "start_ticks": 158263919,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-reference-r1",
+      "pid": 2935670,
+      "start_ticks": 158264122,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-reference-r1",
+      "pid": 2936731,
+      "start_ticks": 158279650,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-reference-r1",
+      "pid": 2936737,
+      "start_ticks": 158279703,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-candidate-r1",
+      "pid": 2937461,
+      "start_ticks": 158293605,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-candidate-r1",
+      "pid": 2937656,
+      "start_ticks": 158293808,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-candidate-r1",
+      "pid": 2938755,
+      "start_ticks": 158309335,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-candidate-r1",
+      "pid": 2938760,
+      "start_ticks": 158309387,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-profile-r1",
+      "pid": 2939607,
+      "start_ticks": 158326235,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-profile-r1",
+      "pid": 2939802,
+      "start_ticks": 158326438,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-profile-r1",
+      "pid": 2940885,
+      "start_ticks": 158341965,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-profile-r1",
+      "pid": 2940897,
+      "start_ticks": 158342018,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-profile-r1",
+      "pid": 2941055,
+      "start_ticks": 158344225,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-profile-r1",
+      "pid": 2941056,
+      "start_ticks": 158344278,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-shared-overlap-profile-r1",
+      "pid": 2941057,
+      "start_ticks": 158344332,
+      "exit_code": 0,
+      "absent": true
+    }
+  ],
+  "live_owned": [],
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "observer": {
+    "pid": 2941411,
+    "state": "R",
+    "group": 2941408,
+    "session": 2941408,
+    "start_ticks": 158351269
+  },
+  "models": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "bytes": 147207127040,
+      "device": 52,
+      "inode": 3116203,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    }
+  ],
+  "result_sha256": {
+    "q2-shared-overlap-host-r1": "3fc930728808e34de4ace7e017d815ae56a8da201fb4612978f9615f6906c09a",
+    "q2-shared-overlap-check-r1": "66bc4330797d013f280f9f7ff07687df4010a023a783e0816f3bb80e3516ecf2",
+    "q2-shared-overlap-reference-r1": "af6d745777db07cba388b092aa4a2294e7540fc5cb9e6930fb80fdcb51fc99bd",
+    "q2-shared-overlap-candidate-r1": "5e8dd592354ca0f2860143c237c9213c74d9c0f454e775229850275f03ea734a",
+    "q2-shared-overlap-profile-r1": "efff63d7937023b2a351184b87748e31d933676413786d48f818b107c7158d71"
+  },
+  "thermal": {
+    "/sys/class/hwmon/hwmon4/temp1_input": "46000",
+    "/sys/class/hwmon/hwmon2/temp1_input": "44000",
+    "/sys/class/hwmon/hwmon0/temp1_input": "45000",
+    "/sys/class/hwmon/hwmon5/temp1_input": "47000",
+    "/sys/class/hwmon/hwmon3/temp1_input": "45750",
+    "/sys/class/hwmon/hwmon1/temp6_input": "44850",
+    "/sys/class/hwmon/hwmon1/temp3_input": "44850",
+    "/sys/class/hwmon/hwmon1/temp7_input": "44850",
+    "/sys/class/hwmon/hwmon1/temp4_input": "45850",
+    "/sys/class/hwmon/hwmon1/temp8_input": "44850",
+    "/sys/class/hwmon/hwmon1/temp1_input": "46850",
+    "/sys/class/hwmon/hwmon1/temp9_input": "45850",
+    "/sys/class/hwmon/hwmon1/temp2_input": "55850"
+  }
+}

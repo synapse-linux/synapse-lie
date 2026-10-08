@@ -1,0 +1,62 @@
+{
+  "schema": "synapse-lie.q2-hc-rms-owner-ordinary-static.v1",
+  "source_manifest_sha256": "5db4c4800e38c55d1b9b4a6785a5ec744b1ed9f4131fb7c7e7ab00c75cf10741",
+  "commands": {
+    "ordinary-provider-generation": {
+      "path": "evidence/q2-hc-norm-owner-runtime-preparation/ordinary-provider-generation-command.json",
+      "sha256": "c9491494a9c21006c596410afa9c291e90a21bf66b0478eee0a9a852c81fae3f",
+      "exit_code": 0,
+      "argv": [
+        "python3",
+        "tools/prepare-q2-hc-rms-owner-ordinary.py"
+      ]
+    },
+    "ordinary-provider-assembly": {
+      "path": "evidence/q2-hc-norm-owner-runtime-preparation/ordinary-provider-assembly-command.json",
+      "sha256": "a903775395edce59c4143ddce28addb887b210e1d471e809b092076f5ae05929",
+      "exit_code": 0,
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-device-only",
+        "-std=c++23",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-hc-rms-owner-ordinary-run",
+        "-isystem",
+        "/opt/rocm/include",
+        "-S",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-hc-rms-owner-ordinary-run/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+        "-o",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-rms-owner-ordinary-preparation/candidate.s",
+        "-I",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit"
+      ]
+    }
+  },
+  "candidate_assembly": "evidence/q2-hc-rms-owner-ordinary-preparation/candidate.s",
+  "candidate_assembly_sha256": "01901f87800d25687646601817f8bdd8ab8261584ac59f73ce58524dda8404e6",
+  "GPU_qualified_assembly_sha256": "94780a4dc72048ba888776e8662cf1d9c0cabdb44396893c8de434d1d3aa3cb7",
+  "original_production_bodies_exact": 162,
+  "qualified_ordinary_body_exact": true,
+  "candidate_bodies_exact": 163,
+  "provider_file_inventory_exact": 1028,
+  "new_MoE_owner_body_omitted": true,
+  "MoE_dispatch_unchanged": true,
+  "n_below_96_dispatch_unchanged": true,
+  "new_persistent_bytes": 0,
+  "executor_lifetimes_changed": false,
+  "callbacks_or_streams_changed": false,
+  "original_model_run": false,
+  "remote_model_variant_registered": false,
+  "model_plan_frozen": false,
+  "independent_quality": false,
+  "production_adopted": false,
+  "new_model_rate": null,
+  "goal_met": false
+}

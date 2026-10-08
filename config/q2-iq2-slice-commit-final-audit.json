@@ -1,0 +1,184 @@
+{
+  "schema": "synapse-lie.q2-iq2-slice-commit-final-audit.v1",
+  "fixtures_verified": 50,
+  "manifests_verified": 4,
+  "provider_files_per_variant": 1025,
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifact_count": 67,
+  "variants": {
+    "iq2-slice-commit": {
+      "component_result_sha256": "4237d0929abebc052f57a9f3468c83282a2b064126e816e96f88dd6e70ae8eeb",
+      "model_result_sha256": "462b179b49032d0e850aab7fdb8e881af7d6de581971a184a8b5b09971d84cb8",
+      "component_numerical_exact": true,
+      "within_arm_exact": true,
+      "changed_parent_files": [],
+      "measurements": {
+        "prefill_tok_s": {
+          "samples": [
+            1493.182914,
+            1494.335482,
+            1490.965464
+          ],
+          "min": 1490.965464,
+          "median": 1493.182914,
+          "max": 1494.335482
+        },
+        "decode_steps_s": {
+          "samples": [
+            25.10419205,
+            25.10671289,
+            25.14215453
+          ],
+          "min": 25.10419205,
+          "median": 25.10671289,
+          "max": 25.14215453
+        },
+        "prefill_s": {
+          "samples": [
+            1.371566726,
+            1.370508848,
+            1.373606599
+          ],
+          "min": 1.370508848,
+          "median": 1.371566726,
+          "max": 1.373606599
+        },
+        "decode_s": {
+          "samples": [
+            5.058916046,
+            5.058408107,
+            5.051277521
+          ],
+          "min": 5.051277521,
+          "median": 5.058408107,
+          "max": 5.058916046
+        }
+      },
+      "changes": {
+        "fixed_q2": {
+          "prefill_tok_s": 3.4294505446295087,
+          "decode_steps_s": 0.04286706763814152,
+          "prefill_s": -3.315738880429775,
+          "decode_s": -0.04284867546781035
+        },
+        "fixed_ud": {
+          "prefill_tok_s": -11.424652696609316,
+          "decode_steps_s": 3.1426278528981166,
+          "prefill_s": 12.8982307704397,
+          "decode_s": -3.0468758812052243
+        },
+        "best_parent": {
+          "prefill_tok_s": -0.7952247977825566,
+          "decode_steps_s": -0.19171460048144073,
+          "prefill_s": 0.8015993348085448,
+          "decode_s": 0.1920828733199098
+        }
+      }
+    },
+    "iq2-pair-commit": {
+      "component_result_sha256": "93f6be44db0abc12d4acdaeb9624c8777bce18b99089ee8e11a03288684712ce",
+      "model_result_sha256": "50f72d59eb6eba26317f7a33283c2187bf79ef12fb1f868374f918769455d3af",
+      "component_numerical_exact": true,
+      "within_arm_exact": true,
+      "changed_parent_files": [],
+      "measurements": {
+        "prefill_tok_s": {
+          "samples": [
+            1500.783083,
+            1500.257769,
+            1503.417407
+          ],
+          "min": 1500.257769,
+          "median": 1500.783083,
+          "max": 1503.417407
+        },
+        "decode_steps_s": {
+          "samples": [
+            25.1372997,
+            25.19679414,
+            25.15862222
+          ],
+          "min": 25.1372997,
+          "median": 25.15862222,
+          "max": 25.19679414
+        },
+        "prefill_s": {
+          "samples": [
+            1.364620926,
+            1.365098747,
+            1.362229804
+          ],
+          "min": 1.362229804,
+          "median": 1.364620926,
+          "max": 1.365098747
+        },
+        "decode_s": {
+          "samples": [
+            5.052253087,
+            5.040323752,
+            5.047971184
+          ],
+          "min": 5.040323752,
+          "median": 5.047971184,
+          "max": 5.052253087
+        }
+      },
+      "changes": {
+        "fixed_q2": {
+          "prefill_tok_s": 3.955897302321465,
+          "decode_steps_s": 0.24971048133044516,
+          "prefill_s": -3.805361097237847,
+          "decode_s": -0.24908847850581006
+        },
+        "fixed_ud": {
+          "prefill_tok_s": -10.973812010965444,
+          "decode_steps_s": 3.3558801703058583,
+          "prefill_s": 12.326498811344822,
+          "decode_s": -3.2469175286233165
+        },
+        "best_parent": {
+          "prefill_tok_s": -0.290281264023462,
+          "decode_steps_s": 0.014643804389691262,
+          "prefill_s": 0.29112635862194036,
+          "decode_s": -0.014641659781999827
+        }
+      }
+    }
+  },
+  "original_admission_exit": 1,
+  "original_admission_failure_preserved": true,
+  "host_rerun": false,
+  "release_sha256": "ddac7b0d0a6c210dd2c03ab06ab1337c627bde773583f725764de22a8e121fe4",
+  "retired_identities": 802,
+  "retired_groups": 634,
+  "gpu_released": true,
+  "model_stats_unchanged": true,
+  "main_release_mirrors_exact": true,
+  "controls_rerun": false,
+  "component_rerun": false,
+  "q4_run": false,
+  "full_curve_run": false,
+  "promoted": false,
+  "goal_met": false
+}

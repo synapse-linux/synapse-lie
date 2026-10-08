@@ -1,0 +1,17 @@
+{
+  "status": "PREPARED_HOST_PASS_GPU_PENDING",
+  "goal": "Q2 PP/TG must match UD. No performance result exists for this prefetch candidate.",
+  "baseline_commit": "8dc2752",
+  "baseline_source": ".deps/gufo-q2-bench-packed",
+  "candidate_source": ".deps/gufo-q2-bench-hc-prefetch",
+  "independence": "Does not include the prepared HC up fusion. Measure each mechanism independently before composing any wins.",
+  "patch": "experiments/q2-hc-prefetch.patch",
+  "mechanism": "One-group-ahead original F16 HC down loads, fixed 128-thread loop and explicit baseline component FMA order. Machine scheduler boundary keeps next loads ahead of current arithmetic.",
+  "gpu_operator_cases": 11,
+  "microbench": "Existing q2_hc bench: independent FP64/guard checks first, then 16 hipMalloc matrices totaling 100 MiB, one warm rotation and five samples of 128 launches timed with HIP events. Compare all 11 saved F32 frontiers exactly to a fresh packed baseline.",
+  "model_protocol": "C1 pp2048/tg128, one warmup and three measured fresh sessions, 15 s idle outside timing, full MMQ rebuilds. Compare all 21 saved model buffers to packed baseline, and run a fresh UD control in the same window if candidate gain survives model timing.",
+  "numerical_policy": "Preserve every mismatch, failed arm and actual exit; no threshold changes. Exact replay against current packed baseline is the proposed contract. Earlier qualified-Q2 drift stays separate. Owner-authorized performance exploration may proceed after memory/launch safety checks without promoting a numerical failure.",
+  "static": "Scheduled prefetch: 20 VGPR, 12 SGPR, zero private bytes, 16 LDS bytes. Baseline: 13 VGPR. Static scheduling does not establish a gain.",
+  "cpu_host_receipt": "config/q2-hc-prefetch-host.json",
+  "gpu_ownership": "Core R5 completes9/9 at11:57:08UTC; core explicitly retains the enclosing window for R6 checkpoint comparisons. No Q2 GPU job/build or automatic waiter. Wait for verified core return, then fresh four-lease admission and 98C inclusive guard with lower strict exposed hardware limits."
+}

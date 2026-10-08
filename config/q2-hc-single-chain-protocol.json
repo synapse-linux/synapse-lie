@@ -1,0 +1,54 @@
+{
+  "scope": "Conditional complete unprofiled C1 screen after a useful HC component gain; no statistical parity or long-context claim",
+  "machine": "192.168.5.157",
+  "device": "gfx1151",
+  "prompt_tokens": 2048,
+  "output_tokens": 128,
+  "timed_decode_calls": 127,
+  "warmups": 1,
+  "measured_sessions": 3,
+  "idle_before_each_session_seconds": 15,
+  "idle_included_in_pp_tg": false,
+  "mtp": false,
+  "prefix_reuse": false,
+  "maximum_context": 9216,
+  "prefill_chunk": 2048,
+  "arm_order": [
+    "retained_hc_up_chains",
+    "hc_single_chain",
+    "ud"
+  ],
+  "full_mmq_rebuild": true,
+  "numerical_requirement": "Deliberate HC down reduction-order change. Preserve independent FP64 2e-5 operator limits and full frontier/token comparisons. Record numerical failures without automatic retry or threshold relaxation; owner permits isolated performance measurement with flags. No inherited DS4 numerical acceptance.",
+  "acceptance_goal": "Q2 no prefill or decode regression against UD; remains unproven by a short sequential screen",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "fixture_sha256": "c8d08efd85ef483911ffb3afeaa1034b4c3cdda5537374f04a607a0d8bd3de49",
+  "source_variants": [
+    "hc-up-chains",
+    "hc-single-chain",
+    "pristine gufo-base"
+  ],
+  "per_gpu_arm": "Four original leases acquired nonblocking; original model files read-only; 98 C inclusive and lower exposed hardware bounds",
+  "component": {
+    "mode": "hc-pp-bench",
+    "operators": 22,
+    "shapes": [
+      [
+        320,
+        10240
+      ],
+      [
+        10240,
+        320
+      ]
+    ],
+    "tokens": 2048,
+    "samples_per_shape": 5,
+    "launches_per_sample": 16,
+    "matrices": 16,
+    "rotating_weight_bytes": 104857600,
+    "fixture_sha256": "9bf7453ef0f3db7e75fabc73ee882938095a5ca9ecaf8d724b45b91b4cd7dfb2",
+    "controls": "Unchanged plain HC up and non-HC/fallback shapes, alongside original numerical flags"
+  },
+  "profile": "Fresh marked pp2048/tg16 Q2 and UD, each replayed against its own saved unprofiled reference; diagnostic trace time is not throughput."
+}

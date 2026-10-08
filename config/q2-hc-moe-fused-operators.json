@@ -1,0 +1,320 @@
+{
+  "scope": "Synthetic GPU F32 MoE/HC operators and microbenchmark on .157; not model throughput",
+  "path": "evidence/q2-hc-moe-micro-r1",
+  "command_exits": [
+    0,
+    0,
+    0
+  ],
+  "verified_artifacts": 34,
+  "cases": [
+    {
+      "event": "hc_moe_fused",
+      "label": "hc-moe-n16-p0-norm1-k8-parts3",
+      "values": 163840,
+      "exact_residual": true,
+      "exact_norm": true,
+      "residual_oracle_values": 163840,
+      "residual_rrms": 4.94539226434e-08,
+      "residual_scaled_max": 1.07867298364e-07,
+      "norm_oracle_values": 163840,
+      "norm_rrms": 7.0406638501e-08,
+      "norm_scaled_max": 1.95159957713e-07,
+      "independent_pass": true
+    },
+    {
+      "event": "hc_moe_fused",
+      "label": "hc-moe-n17-p1-norm1-k8-parts3",
+      "values": 174080,
+      "exact_residual": true,
+      "exact_norm": true,
+      "residual_oracle_values": 174080,
+      "residual_rrms": 4.73264988546e-08,
+      "residual_scaled_max": 1.18438486583e-07,
+      "norm_oracle_values": 174080,
+      "norm_rrms": 6.51962423975e-08,
+      "norm_scaled_max": 1.66613453371e-07,
+      "independent_pass": true
+    },
+    {
+      "event": "hc_moe_fused",
+      "label": "hc-moe-n33-p2-norm1-k8-parts3",
+      "values": 337920,
+      "exact_residual": true,
+      "exact_norm": true,
+      "residual_oracle_values": 337920,
+      "residual_rrms": 4.38405813908e-08,
+      "residual_scaled_max": 1.53346456045e-07,
+      "norm_oracle_values": 337920,
+      "norm_rrms": 6.35040965856e-08,
+      "norm_scaled_max": 2.58941103408e-07,
+      "independent_pass": true
+    },
+    {
+      "event": "hc_moe_fused",
+      "label": "hc-moe-n97-p0-norm1-k8-parts1",
+      "values": 993280,
+      "exact_residual": true,
+      "exact_norm": true,
+      "residual_oracle_values": 993280,
+      "residual_rrms": 4.51628928335e-08,
+      "residual_scaled_max": 1.31972856969e-07,
+      "norm_oracle_values": 993280,
+      "norm_rrms": 6.6963864705e-08,
+      "norm_scaled_max": 1.71537884649e-07,
+      "independent_pass": true
+    },
+    {
+      "event": "hc_moe_fused",
+      "label": "hc-moe-n129-p0-norm1-k8-parts3",
+      "values": 1320960,
+      "exact_residual": true,
+      "exact_norm": true,
+      "residual_oracle_values": 1320960,
+      "residual_rrms": 4.46635025934e-08,
+      "residual_scaled_max": 1.1486737468e-07,
+      "norm_oracle_values": 1320960,
+      "norm_rrms": 6.99751397054e-08,
+      "norm_scaled_max": 1.8435204351e-07,
+      "independent_pass": true
+    },
+    {
+      "event": "hc_moe_fused",
+      "label": "hc-moe-n16-p0-norm0-k8-parts3",
+      "values": 163840,
+      "exact_residual": true,
+      "exact_norm": true,
+      "residual_oracle_values": 163840,
+      "residual_rrms": 4.94539226434e-08,
+      "residual_scaled_max": 1.07867298364e-07,
+      "norm_oracle_values": 0,
+      "norm_rrms": 0,
+      "norm_scaled_max": 0,
+      "independent_pass": true
+    },
+    {
+      "event": "hc_moe_fused",
+      "label": "hc-moe-n17-p0-norm1-k1-parts3",
+      "values": 174080,
+      "exact_residual": true,
+      "exact_norm": true,
+      "residual_oracle_values": 174080,
+      "residual_rrms": 4.93765404027e-08,
+      "residual_scaled_max": 1.15716084202e-07,
+      "norm_oracle_values": 174080,
+      "norm_rrms": 7.27628252369e-08,
+      "norm_scaled_max": 1.89095692006e-07,
+      "independent_pass": true
+    },
+    {
+      "event": "hc_moe_fused",
+      "label": "hc-moe-n17-p0-norm1-k32-parts7",
+      "values": 174080,
+      "exact_residual": true,
+      "exact_norm": true,
+      "residual_oracle_values": 174080,
+      "residual_rrms": 4.34513695954e-08,
+      "residual_scaled_max": 8.78561281312e-08,
+      "norm_oracle_values": 174080,
+      "norm_rrms": 6.98680629837e-08,
+      "norm_scaled_max": 2.00281496754e-07,
+      "independent_pass": true
+    }
+  ],
+  "buffers": [
+    {
+      "label": "hc-moe-n16-p0-norm1-k8-parts3",
+      "output": "res",
+      "values": 163840,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    {
+      "label": "hc-moe-n16-p0-norm1-k8-parts3",
+      "output": "norm",
+      "values": 163840,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    {
+      "label": "hc-moe-n17-p1-norm1-k8-parts3",
+      "output": "res",
+      "values": 174080,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    {
+      "label": "hc-moe-n17-p1-norm1-k8-parts3",
+      "output": "norm",
+      "values": 174080,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    {
+      "label": "hc-moe-n33-p2-norm1-k8-parts3",
+      "output": "res",
+      "values": 337920,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    {
+      "label": "hc-moe-n33-p2-norm1-k8-parts3",
+      "output": "norm",
+      "values": 337920,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    {
+      "label": "hc-moe-n97-p0-norm1-k8-parts1",
+      "output": "res",
+      "values": 993280,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    {
+      "label": "hc-moe-n97-p0-norm1-k8-parts1",
+      "output": "norm",
+      "values": 993280,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    {
+      "label": "hc-moe-n129-p0-norm1-k8-parts3",
+      "output": "res",
+      "values": 1320960,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    {
+      "label": "hc-moe-n129-p0-norm1-k8-parts3",
+      "output": "norm",
+      "values": 1320960,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    {
+      "label": "hc-moe-n16-p0-norm0-k8-parts3",
+      "output": "res",
+      "values": 163840,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    {
+      "label": "hc-moe-n17-p0-norm1-k1-parts3",
+      "output": "res",
+      "values": 174080,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    {
+      "label": "hc-moe-n17-p0-norm1-k1-parts3",
+      "output": "norm",
+      "values": 174080,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    {
+      "label": "hc-moe-n17-p0-norm1-k32-parts7",
+      "output": "res",
+      "values": 174080,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    {
+      "label": "hc-moe-n17-p0-norm1-k32-parts7",
+      "output": "norm",
+      "values": 174080,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    }
+  ],
+  "compared_values": 6840320,
+  "all_exact": true,
+  "independent_fp64_limit": 2e-05,
+  "micro": {
+    "reference": {
+      "samples_us": [
+        2359.80963707,
+        2353.41000557,
+        2353.64508629,
+        2353.44648361,
+        2353.40309143
+      ],
+      "median_us": 2353.44648361,
+      "min_us": 2353.40309143,
+      "max_us": 2359.80963707
+    },
+    "fused": {
+      "samples_us": [
+        2165.59910774,
+        2155.11202812,
+        2143.42260361,
+        2144.57154274,
+        2143.51630211
+      ],
+      "median_us": 2144.57154274,
+      "min_us": 2143.42260361,
+      "max_us": 2165.59910774
+    }
+  },
+  "micro_speedup": 1.0973970495771534,
+  "micro_full_buffer_replays": [
+    {
+      "event": "hc_moe_microbench_replay",
+      "rep": 0,
+      "exact": true
+    },
+    {
+      "event": "hc_moe_microbench_replay",
+      "rep": 1,
+      "exact": true
+    },
+    {
+      "event": "hc_moe_microbench_replay",
+      "rep": 2,
+      "exact": true
+    },
+    {
+      "event": "hc_moe_microbench_replay",
+      "rep": 3,
+      "exact": true
+    },
+    {
+      "event": "hc_moe_microbench_replay",
+      "rep": 4,
+      "exact": true
+    }
+  ],
+  "binary_sha256": "6a135faf411e87025f8d3bd3094fde2f573f7383c0c28de2278cdff1ad0d2f3c",
+  "promotion": false
+}

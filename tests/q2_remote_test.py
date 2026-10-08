@@ -1,0 +1,3127 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
+"""Refuse unsafe experiment/archive combinations before any staging or SSH."""
+import contextlib
+import hashlib
+import importlib.util
+import io
+import json
+from pathlib import Path
+import sys
+import tarfile
+import tempfile
+import unittest
+from unittest.mock import Mock, patch
+
+path = Path(__file__).resolve().parents[1] / 'tools/q2-remote.py'
+sys.path.insert(0, str(path.parent))
+spec = importlib.util.spec_from_file_location('q2_remote', path)
+remote = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(remote)
+
+
+class RemoteGuardTests(unittest.TestCase):
+    def test_row_bytes_long_prefix_reuses_original_preparation_and_tail(self):
+        import q2_ple_row_bytes_model as model
+        from q2_full_prefill128 import inputs
+        root=path.parents[1]
+        for depth, tokens in ((65536,65440),(131072,130925)):
+            original, manifest, cases=inputs(root,depth)
+            self.assertEqual(model.inputs(root,depth),list(zip(cases,manifest['cases'])))
+            self.assertEqual([c['expected_prompt_tokens'] for c in cases],[13,3513,2055,tokens])
+            with tempfile.TemporaryDirectory() as temporary:
+                output=Path(temporary)/'samples.jsonl'
+                argv=model.client_argv(root,Path('/saved-bench'),output,depth)
+                self.assertIn('133760',argv)
+                selected={c['id'] for c in cases}
+                expected=b''.join(line for line in original.read_bytes().splitlines(keepends=True)
+                                  if json.loads(line)['id'] in selected)
+                self.assertEqual(output.with_suffix('.requests.jsonl').read_bytes(),expected)
+        with self.assertRaises(ValueError):
+            model.inputs(root,32768)
+        with tempfile.TemporaryDirectory() as temporary:
+            with self.assertRaises(FileNotFoundError):
+                model.verify_server(Path(temporary))
+
+    def test_row_bytes_candidate_preserves_native_inputs_and_rejects_rebuild(self):
+        import q2_ple_row_bytes_model as model
+        from q2_select_live_grid_model import inputs
+        root=path.parents[1]
+        self.assertEqual(model.inputs(root),inputs(root))
+        source=json.loads((root/model.MANIFEST).read_text())
+        base=json.loads((root/source['parent_manifest']).read_text())['variants']['iq2-fixed-bounds']['files']
+        self.assertEqual({n for n in base if base[n]!=source['files'][n]},
+                         {'src/models/qwen38_flash_next/ngram.cpp'})
+        self.assertEqual(model.sha(root/source['fixture']),source['files']['src/models/qwen38_flash_next/ngram.cpp'])
+        args=['q2-prefill-ple-row-bytes','q2-fixture','--source-variant','prefill-ple-row-bytes-q2']
+        self.refuse(args,'Live-grid prefill requires')
+        self.refuse(args+['--native-curve','--rebuild-mmq'],'Live-grid prefill requires')
+        self.refuse(args+['--native-curve','--profile-prefix32k'],'Prefix profiling requires')
+        with patch.object(sys,'argv',[str(path),*args,'--native-curve']), \
+             patch.object(Path,'mkdir',side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess,'run',side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError,'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_prefix32k_profile_preserves_original_bytes_and_validates_counts(self):
+        import q2_long_profile as profile
+        root = path.parents[1]
+        corpus, selected = profile.inputs(root)
+        self.assertEqual([c['expected_prompt_tokens'] for _, c, _ in selected], [13, 3513, 2055, 32711])
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)/'profile.jsonl'
+            argv = profile.client_argv(root, Path('/bench'), output)
+            options = dict(zip(argv[1::2], argv[2::2]))
+            raw = corpus.read_bytes().splitlines(keepends=True)
+            self.assertEqual(Path(options['--requests']).read_bytes(), b''.join(raw[i] for i, _, _ in selected))
+            self.assertEqual(options['--context-capacity'], '133760')
+            samples = [dict(event='sample', case=c['id'], request=c['body'],
+                           usage=dict(prompt_tokens=c['expected_prompt_tokens']),
+                           server_timings=dict(valid=True, scope='synchronous_executor_calls', decode_mode='ar',
+                               mtp_drafted_tokens=0, mtp_accepted_tokens=0, ssd_cached_tokens=0,
+                               cached_tokens=0, prefill_tokens=c['expected_prompt_tokens'],
+                               prefill_calls=(c['expected_prompt_tokens']+2047)//2048, prefill_ms=1))
+                       for _, c, _ in selected]
+            def save():
+                output.write_text(''.join(json.dumps(x)+'\n' for x in
+                                         [*samples, dict(event='complete', exit_code=0)]))
+            save()
+            self.assertFalse(profile.validate_result(root, output)['headline_eligible'])
+            samples[-1]['server_timings']['cached_tokens'] = 2048
+            save()
+            with self.assertRaisesRegex(ValueError, 'complete uncached'):
+                profile.validate_result(root, output)
+            samples[-1]['server_timings']['cached_tokens'] = 0
+            samples[-1]['server_timings']['prefill_calls'] = 17
+            save()
+            with self.assertRaisesRegex(ValueError, 'complete uncached'):
+                profile.validate_result(root, output)
+            with self.assertRaises(ValueError):
+                profile.client_argv(root, Path('/bench'), output, depth=65536)
+
+    def test_prefix32k_profile_cannot_rebuild_or_change_workload(self):
+        args = ['q2-prefill128', 'q2-fixture', '--source-variant', 'prefill128-q2',
+                '--native-curve', '--profile-prefix32k']
+        for extra in (['--prefill-only-depth','65536'], ['--point-only'], ['--rebuild-mmq'], ['--detach']):
+            self.refuse(args+extra, 'Prefix profiling requires')
+        self.refuse(['cpu','q2-fixture','--profile-prefix32k'], 'Prefix profiling requires')
+        with patch.object(sys,'argv',[str(path),*args]), \
+             patch.object(Path,'mkdir',side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess,'run',side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError,'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_prefix128k_profile_keeps_original_complete_request(self):
+        import q2_long_profile128 as profile
+        root = path.parents[1]
+        corpus, selected = profile.inputs(root)
+        self.assertEqual([c['expected_prompt_tokens'] for _, c, _ in selected],
+                         [13, 3513, 2055, 130925])
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)/'profile.jsonl'
+            argv = profile.client_argv(root, Path('/bench'), output)
+            options = dict(zip(argv[1::2], argv[2::2]))
+            raw = corpus.read_bytes().splitlines(keepends=True)
+            self.assertEqual(Path(options['--requests']).read_bytes(),
+                             b''.join(raw[i] for i, _, _ in selected))
+            self.assertEqual(options['--context-capacity'], '133760')
+            self.assertEqual(options['--server-label'],
+                             'diagnostic-retained-prefix128k-not-throughput')
+            self.assertEqual(profile.profiler_argv('/profiler', Path(temporary), ['/server'])[-2:],
+                             ['--', '/server'])
+            samples = [dict(event='sample', case=c['id'], request=c['body'],
+                            usage=dict(prompt_tokens=c['expected_prompt_tokens']),
+                            server_timings=dict(valid=True, scope='synchronous_executor_calls',
+                                decode_mode='ar', mtp_drafted_tokens=0, mtp_accepted_tokens=0,
+                                ssd_cached_tokens=0, cached_tokens=0,
+                                prefill_tokens=c['expected_prompt_tokens'],
+                                prefill_calls=(c['expected_prompt_tokens']+2047)//2048,
+                                prefill_ms=1)) for _, c, _ in selected]
+            def save():
+                output.write_text(''.join(json.dumps(x)+'\n' for x in
+                                          [*samples, dict(event='complete', exit_code=0)]))
+            save()
+            checked = profile.validate_result(root, output)
+            self.assertEqual((checked['physical_tokens'], checked['cached_tokens']),
+                             (130925, 0))
+            samples[-1]['server_timings']['prefill_calls'] = 65
+            save()
+            with self.assertRaisesRegex(ValueError, 'complete uncached'):
+                profile.validate_result(root, output)
+
+    def test_prefix128k_profile_rejects_other_modes_and_overrides(self):
+        args = ['q2-prefill128', 'q2-fixture', '--source-variant', 'prefill128-q2',
+                '--native-curve', '--profile-prefix128k']
+        for extra in (['--prefill-only-depth','131072'], ['--profile-prefix32k'],
+                      ['--point-only'], ['--rebuild-mmq'], ['--detach']):
+            self.refuse(args+extra, 'Prefix profiling requires')
+        self.refuse(['cpu','q2-fixture','--profile-prefix128k'], 'Prefix profiling requires')
+        with patch.object(sys,'argv',[str(path),*args]), \
+             patch.object(Path,'mkdir',side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess,'run',side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError,'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_live_grid_reuse_receipt_supports_existing_postflight(self):
+        import q2_select_live_grid_model as grid
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)/'candidate'
+            prior = Path(temporary)/'retained'
+            (root/'config').mkdir(parents=True)
+            (prior/'results').mkdir(parents=True)
+            files = {}
+            for name in ('executor.cpp', 'kernels.hpp', 'kernels.hip.cpp'):
+                relative = 'src/models/qwen38_flash_next/kernels/rocm/'+name
+                target = prior/'source'/relative
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(b'retained source')
+                files[relative] = grid.sha(target)
+            binary = prior/'build/hip/cmake/hip/q2_model'
+            binary.parent.mkdir(parents=True)
+            binary.write_bytes(b'qualified binary')
+            archive = binary.parent/'qwen/libgufo_qwen38_flash_next_mmq.a'
+            archive.parent.mkdir()
+            archive.write_bytes(b'qualified archive')
+            receipt = prior/'results/result.json'
+            receipt.write_text(json.dumps(dict(finished_at='closed', commands=[dict(exit_code=0)],
+                                               binary_sha256_after=grid.sha(binary))))
+            (root/'config/q2-curve128-binaries.json').write_text(json.dumps(dict(
+                numerical_qualification=dict(label='retained',receipt_sha256=grid.sha(receipt)))))
+            (root/'config/parent.json').write_text(json.dumps(dict(variants={
+                'iq2-fixed-bounds': dict(files=files)})))
+            (root/grid.MANIFEST).write_bytes(b'bound candidate manifest')
+            provider = dict(parent_manifest='config/parent.json', files={n:'changed' for n in files})
+            with patch.object(grid,'verify_provider',return_value=provider):
+                copy, reuse = grid.reuse_mmq(root)
+            # The existing runner postflight reads both paths and hashes them.
+            # This catches a completed model being marked failed by a missing
+            # receipt field without running or rebuilding the model itself.
+            self.assertEqual(Path(reuse['archive']), archive)
+            for target in (Path(reuse['archive']), copy):
+                self.assertEqual(grid.sha(target), reuse['sha256'])
+            self.assertEqual(archive.read_bytes(), b'qualified archive')
+
+    def test_live_grid_replays_original_prefix_history_through32k(self):
+        from q2_select_live_grid_model import inputs, client_argv
+        from q2_full_prefill128 import inputs as original_inputs
+        root = path.parents[1]
+        _, original, cases = original_inputs(root)
+        selected = inputs(root)
+        self.assertEqual(selected, list(zip(cases, original['cases']))[:9])
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)/'result.jsonl'
+            argv = client_argv(root, Path('/bench'), output)
+            options = dict(zip(argv[1::2], argv[2::2]))
+            self.assertEqual(options['--context-capacity'], '133760')
+            self.assertEqual(options['--warmups'], '0')
+            raw = (root/original['requests']).read_bytes().splitlines(keepends=True)
+            self.assertEqual(Path(options['--requests']).read_bytes(), b''.join(raw[:9]))
+            with self.assertRaises(ValueError):
+                client_argv(root, Path('/bench'), output, depth=4096)
+
+    def test_live_grid_requires_matched_native_mode_without_control_rebuild(self):
+        args = ['q2-prefill-live-grid', 'q2-fixture', '--source-variant', 'prefill-live-grid-q2']
+        self.refuse(args, 'Live-grid prefill requires')
+        self.refuse(args+['--native-curve','--rebuild-mmq'], 'Live-grid prefill requires')
+        self.refuse(args+['--native-curve','--prefill-only-depth','65536'], 'Saved prefill depth requires')
+        self.refuse(['q2-prefill-live-grid','q2-fixture','--source-variant','prefill128-q2','--native-curve'],
+                    'Canonical curve requires its matched')
+        with patch.object(sys, 'argv', [str(path), *args, '--native-curve']), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_full_prefill_recovery_preserves_original_messages(self):
+        from q2_full_prefill128 import inputs
+        root = path.parents[1]
+        _, all_manifest, all_cases = inputs(root)
+        for depth in (65536,131072):
+            _, manifest, selected = inputs(root, depth)
+            self.assertEqual(len(selected),4)
+            self.assertEqual([b['depth'] for b in manifest['cases'] if b['phase']=='prefix'],[depth])
+            for case in selected:
+                self.assertEqual(case, next(c for c in all_cases if c['id']==case['id']))
+        with self.assertRaises(ValueError):inputs(root,4096)
+        self.refuse(['cpu','q2-fixture','--prefill-only-depth','65536'], 'Saved prefill depth requires')
+        args=['q2-prefill128','q2-fixture','--source-variant','prefill128-q2','--native-curve','--prefill-only-depth','131072']
+        with patch.object(sys,'argv',[str(path),*args]), patch.object(Path,'mkdir',side_effect=RuntimeError('staging reached')):
+            with self.assertRaisesRegex(RuntimeError,'staging reached'):remote.main()
+
+    def test_full_prefill128_requires_matched_saved_binary_replay(self):
+        argv = ['q2-prefill128', 'q2-fixture', '--source-variant', 'prefill128-q2']
+        self.refuse(argv, 'Curve128 requires')
+        self.refuse(argv + ['--native-curve', '--rebuild-mmq'], 'Curve128 requires')
+        self.refuse(argv + ['--native-curve', '--point-only'], 'Focused point requires')
+        self.refuse(['q2-prefill128', 'q2-fixture', '--source-variant', 'curve128-q2', '--native-curve'],
+                    'Canonical curve requires its matched')
+        with patch.object(sys, 'argv', [str(path), *argv, '--native-curve']), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_retained128_reuses_only_native_full_curve_at_original_capacity(self):
+        from q2_native_curve import check_backend, client_argv
+        argv = ['q2-curve128', 'q2-fixture', '--source-variant', 'curve128-q2']
+        self.refuse(argv, 'Curve128 requires')
+        self.refuse(argv + ['--native-curve', '--rebuild-mmq'], 'Curve128 requires')
+        self.refuse(argv + ['--native-curve', '--point-only'], 'Focused point requires')
+        self.refuse(argv + ['--native-curve', '--replay-from', 'q2-norm-fixed-model-before-r1'],
+                    'Binary replay requires')
+        self.refuse(['q2-curve128', 'q2-fixture', '--source-variant', 'curve256-q2', '--native-curve'],
+                    'Canonical curve requires its matched')
+        with patch.object(sys, 'argv', [str(path), *argv, '--native-curve']), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+        command = client_argv(Path('/bench'), Path('/out'), Path('/graphs'), 'retained128')
+        options = dict(zip(command[1::2], command[2::2]))
+        self.assertEqual(options['--context-capacity'], '133760')
+        self.assertEqual(options['--depths'], '0,4096,8192,12288,16384,32768,65536,131072')
+        info = dict(schema='synapse-lie.llm.v1', ready=True,
+            backend=dict(synthetic=False, mtp=False, vision=False, prefix_state=True,
+                         model='bench', context_tokens=133760, build_id='q2-canonical-curve-retained256',
+                         source_pin='f783fedb9bea2ec7de941f6da4e02f4a4596b29e'),
+            cache=dict(budget_bytes=16384*1024*1024), scheduler=dict(queued=0, active=0, max_active=1))
+        check_backend(info, 'retained128')
+        info['backend']['context_tokens'] = 266240
+        with self.assertRaises(ValueError):
+            check_backend(info, 'retained128')
+
+    def test_attention_capacity_is_component_only(self):
+        mode, variant = remote.ATTENTION_CAPACITY_MODE, remote.ATTENTION_CAPACITY_VARIANT
+        self.refuse([mode, 'q2-fixture'], 'Attention capacity requires')
+        for wrong in ('cpu', 'operators', 'q2-bench', 'q2-curve'):
+            self.refuse([wrong, 'q2-fixture', '--source-variant', variant],
+                        'Attention capacity requires')
+        argv = [mode, 'q2-fixture', '--source-variant', variant]
+        for extra in (['--rebuild-mmq'], ['--detach'], ['--native-curve'],
+                      ['--point-only'], ['--replay-from', 'q2-norm-fixed-model-before-r1']):
+            self.refuse(argv + extra, 'Attention capacity component accepts no model')
+        with patch.object(sys, 'argv', [str(path), *argv]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_iq2_half_sign_arithmetic_has_only_two_matching_modes(self):
+        variant = remote.IQ2_HALF_SIGN_VARIANT
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-ssm-fixed-bounds'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 sign arithmetic requires its component or matched counting provider')
+        self.refuse([remote.IQ2_HALF_SIGN_MODE, 'q2-fixture'], 'IQ2 sign arithmetic requires')
+        self.refuse([remote.IQ2_HALF_SIGN_MODEL, 'q2-fixture'], 'Historical counting requires its matched provider')
+        component = [remote.IQ2_HALF_SIGN_MODE, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(component + [flag], 'IQ2 sign arithmetic component accepts no model')
+        model = [remote.IQ2_HALF_SIGN_MODEL, 'q2-fixture', '--source-variant', variant]
+        self.refuse(model, 'Historical counting requires a full MMQ rebuild')
+        self.refuse(model + ['--rebuild-mmq', '--detach'], 'Persistent launch is limited')
+        for extra in (['--native-curve'], ['--point-only'], ['--replay-from', 'q2-norm-fixed-model-before-r1']):
+            self.refuse(model + ['--rebuild-mmq'] + extra, 'IQ2 sign arithmetic accepts no curve')
+        for argv in (component, model + ['--rebuild-mmq']):
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+        self.assertEqual(remote.COUNTING_SOURCES[remote.IQ2_HALF_SIGN_MODEL], variant)
+
+    def test_iq2_whole640_chain_has_only_two_matching_modes(self):
+        variant = remote.IQ2_WHOLE640_CHAIN_VARIANT
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-ssm-fixed-bounds'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 whole640 chain requires its component or matched counting provider')
+        self.refuse([remote.IQ2_WHOLE640_CHAIN_MODE, 'q2-fixture'], 'IQ2 whole640 chain requires')
+        self.refuse([remote.IQ2_WHOLE640_CHAIN_MODEL, 'q2-fixture'], 'Historical counting requires its matched provider')
+        component = [remote.IQ2_WHOLE640_CHAIN_MODE, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(component + [flag], 'IQ2 whole640 chain component accepts no model')
+        model = [remote.IQ2_WHOLE640_CHAIN_MODEL, 'q2-fixture', '--source-variant', variant]
+        self.refuse(model, 'Historical counting requires a full MMQ rebuild')
+        self.refuse(model + ['--rebuild-mmq', '--detach'], 'Persistent launch is limited')
+        for extra in (['--native-curve'], ['--point-only'], ['--replay-from', 'q2-norm-fixed-model-before-r1']):
+            self.refuse(model + ['--rebuild-mmq'] + extra, 'IQ2 whole640 chain accepts no curve')
+        for argv in (component, model + ['--rebuild-mmq']):
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+        self.assertEqual(remote.COUNTING_SOURCES[remote.IQ2_WHOLE640_CHAIN_MODEL], variant)
+
+    def test_iq2_table_lds_has_only_two_matching_modes(self):
+        variant = remote.IQ2_TABLE_LDS_VARIANT
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-ssm-fixed-bounds'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 table LDS requires its component or matched counting provider')
+        self.refuse([remote.IQ2_TABLE_LDS_MODE, 'q2-fixture'], 'IQ2 table LDS requires')
+        self.refuse([remote.IQ2_TABLE_LDS_MODEL, 'q2-fixture'], 'Historical counting requires its matched provider')
+        component = [remote.IQ2_TABLE_LDS_MODE, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(component + [flag], 'IQ2 table LDS component accepts no model')
+        model = [remote.IQ2_TABLE_LDS_MODEL, 'q2-fixture', '--source-variant', variant]
+        self.refuse(model, 'Historical counting requires a full MMQ rebuild')
+        self.refuse(model + ['--rebuild-mmq', '--detach'], 'Persistent launch is limited')
+        for extra in (['--native-curve'], ['--point-only'], ['--replay-from', 'q2-norm-fixed-model-before-r1']):
+            self.refuse(model + ['--rebuild-mmq'] + extra, 'IQ2 table LDS accepts no curve')
+        for argv in (component, model + ['--rebuild-mmq']):
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+        self.assertEqual(remote.COUNTING_SOURCES[remote.IQ2_TABLE_LDS_MODEL], variant)
+
+    def test_iq2_dpp_commit_has_only_two_matching_modes(self):
+        variant = remote.IQ2_DPP_COMMIT_VARIANT
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-ssm-fixed-bounds'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 DPP commit requires its component or matched counting provider')
+        self.refuse([remote.IQ2_DPP_COMMIT_MODE, 'q2-fixture'], 'IQ2 DPP commit requires')
+        self.refuse([remote.IQ2_DPP_COMMIT_MODEL, 'q2-fixture'], 'Historical counting requires its matched provider')
+        component = [remote.IQ2_DPP_COMMIT_MODE, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(component + [flag], 'IQ2 DPP commit component accepts no model')
+        model = [remote.IQ2_DPP_COMMIT_MODEL, 'q2-fixture', '--source-variant', variant]
+        self.refuse(model, 'Historical counting requires a full MMQ rebuild')
+        self.refuse(model + ['--rebuild-mmq', '--detach'], 'Persistent launch is limited')
+        for extra in (['--native-curve'], ['--point-only'], ['--replay-from', 'q2-norm-fixed-model-before-r1']):
+            self.refuse(model + ['--rebuild-mmq'] + extra, 'IQ2 DPP commit accepts no curve')
+        for argv in (component, model + ['--rebuild-mmq']):
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+        self.assertEqual(remote.COUNTING_SOURCES[remote.IQ2_DPP_COMMIT_MODEL], variant)
+
+    def test_iq2_whole640_is_component_only_with_retained_provider(self):
+        mode = remote.IQ2_WHOLE640_MODE
+        variant = remote.IQ2_FIXED_BOUNDS_VARIANT
+        self.refuse([mode, 'q2-fixture'], 'IQ2 whole640 requires the retained')
+        component = [mode, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(component + [flag], 'IQ2 whole640 component accepts no model')
+        self.refuse(component + ['--replay-from', 'q2-norm-fixed-model-before-r1'],
+                    'IQ2 whole640 component accepts no model')
+        with patch.object(sys, 'argv', [str(path), *component]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_iq2_whole640_wave16_is_component_only_with_retained_provider(self):
+        mode = remote.IQ2_WHOLE640_WAVE16_MODE
+        variant = remote.IQ2_FIXED_BOUNDS_VARIANT
+        self.refuse([mode, 'q2-fixture'], 'IQ2 whole640 requires the retained')
+        component = [mode, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(component + [flag], 'IQ2 whole640 component accepts no model')
+        self.refuse(component + ['--replay-from', 'q2-norm-fixed-model-before-r1'],
+                    'IQ2 whole640 component accepts no model')
+        with patch.object(sys, 'argv', [str(path), *component]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_hc_up_short_chain_is_component_only_with_retained_provider(self):
+        mode = remote.HC_SHORT_CHAIN_MODE
+        variant = remote.IQ2_FIXED_BOUNDS_VARIANT
+        self.refuse([mode, 'q2-fixture'], 'HC up short chain requires the retained')
+        component = [mode, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(component + [flag], 'HC up short chain component accepts no model')
+        self.refuse(component + ['--replay-from', 'q2-norm-fixed-model-before-r1'],
+                    'HC up short chain component accepts no model')
+        with patch.object(sys, 'argv', [str(path), *component]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_ssm_resident_is_component_only_with_retained_provider(self):
+        mode = remote.SSM_RESIDENT_MODE
+        variant = remote.IQ2_FIXED_BOUNDS_VARIANT
+        self.refuse([mode, 'q2-fixture'], 'SSM resident requires the retained')
+        component = [mode, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(component + [flag], 'SSM resident component accepts no model')
+        self.refuse(component + ['--replay-from', 'q2-norm-fixed-model-before-r1'],
+                    'SSM resident component accepts no model')
+        with patch.object(sys, 'argv', [str(path), *component]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_hc_down_direct_weight_is_component_only_with_retained_provider(self):
+        mode = remote.HC_DIRECT_WEIGHT_MODE
+        variant = remote.IQ2_FIXED_BOUNDS_VARIANT
+        self.refuse([mode, 'q2-fixture'], 'HC direct weight requires the retained')
+        component = [mode, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(component + [flag], 'HC direct weight component accepts no model')
+        self.refuse(component + ['--replay-from', 'q2-norm-fixed-model-before-r1'],
+                    'HC direct weight component accepts no model')
+        with patch.object(sys, 'argv', [str(path), *component]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_decode_q8_rows4_is_component_only_with_retained_provider(self):
+        mode = remote.DECODE_Q8_ROWS4_MODE
+        variant = remote.IQ2_FIXED_BOUNDS_VARIANT
+        self.refuse([mode, 'q2-fixture'], 'Decode Q8 rows4 requires the retained')
+        component = [mode, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(component + [flag], 'Decode Q8 rows4 component accepts no model')
+        self.refuse(component + ['--replay-from', 'q2-norm-fixed-model-before-r1'],
+                    'Decode Q8 rows4 component accepts no model')
+        with patch.object(sys, 'argv', [str(path), *component]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_decode_q8_compact_is_component_only_with_retained_provider(self):
+        mode = remote.DECODE_Q8_COMPACT_MODE
+        variant = remote.IQ2_FIXED_BOUNDS_VARIANT
+        self.refuse([mode, 'q2-fixture'], 'Decode Q8 compact requires the retained')
+        component = [mode, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(component + [flag], 'Decode Q8 compact component accepts no model')
+        self.refuse(component + ['--replay-from', 'q2-norm-fixed-model-before-r1'],
+                    'Decode Q8 compact component accepts no model')
+        with patch.object(sys, 'argv', [str(path), *component]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_select_query_pair_is_component_only_with_retained_provider(self):
+        mode = remote.SELECT_QUERY_PAIR_MODE
+        variant = remote.IQ2_FIXED_BOUNDS_VARIANT
+        self.refuse([mode, 'q2-fixture'], 'Selector query pair requires the retained')
+        component = [mode, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(component + [flag], 'Selector query pair component accepts no model')
+        self.refuse(component + ['--replay-from', 'q2-norm-fixed-model-before-r1'],
+                    'Selector query pair component accepts no model')
+        with patch.object(sys, 'argv', [str(path), *component]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_select_live_grid_is_component_only_with_retained_provider(self):
+        mode = remote.SELECT_LIVE_GRID_MODE
+        variant = remote.IQ2_FIXED_BOUNDS_VARIANT
+        self.refuse([mode, 'q2-fixture'], 'Selector live grid requires the retained')
+        component = [mode, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(component + [flag], 'Selector live grid component accepts no model')
+        self.refuse(component + ['--replay-from', 'q2-norm-fixed-model-before-r1'],
+                    'Selector live grid component accepts no model')
+        with patch.object(sys, 'argv', [str(path), *component]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_attention_v_stage_is_component_only_with_retained_provider(self):
+        mode = remote.ATTENTION_V_STAGE_MODE
+        variant = remote.IQ2_FIXED_BOUNDS_VARIANT
+        self.refuse([mode, 'q2-fixture'], 'Attention V stage requires the retained')
+        component = [mode, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(component + [flag], 'Attention V stage component accepts no model')
+        self.refuse(component + ['--replay-from', 'q2-norm-fixed-model-before-r1'],
+                    'Attention V stage component accepts no model')
+        with patch.object(sys, 'argv', [str(path), *component]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_select_partition_is_component_only_with_retained_provider(self):
+        mode = remote.SELECT_PARTITION_MODE
+        variant = remote.IQ2_FIXED_BOUNDS_VARIANT
+        self.refuse([mode, 'q2-fixture'], 'Selector partition requires the retained')
+        component = [mode, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(component + [flag], 'Selector partition component accepts no model')
+        self.refuse(component + ['--replay-from', 'q2-norm-fixed-model-before-r1'],
+                    'Selector partition component accepts no model')
+        with patch.object(sys, 'argv', [str(path), *component]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_iq2_fixed_bounds_has_matching_modes(self):
+        variant = remote.IQ2_FIXED_BOUNDS_VARIANT
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-ssm-fixed-bounds'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 fixed bounds requires its component or matched counting provider')
+        self.refuse([remote.IQ2_FIXED_BOUNDS_MODE, 'q2-fixture'], 'IQ2 fixed bounds requires')
+        self.refuse([remote.IQ2_FIXED_BOUNDS_MODEL, 'q2-fixture'], 'Historical counting requires its matched provider')
+        component = [remote.IQ2_FIXED_BOUNDS_MODE, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(component + [flag], 'IQ2 fixed bounds component accepts no model')
+        model = [remote.IQ2_FIXED_BOUNDS_MODEL, 'q2-fixture', '--source-variant', variant]
+        self.refuse(model, 'Historical counting requires a full MMQ rebuild')
+        self.refuse(model + ['--rebuild-mmq', '--detach'], 'Persistent launch is limited')
+        for extra in (['--native-curve'], ['--point-only'], ['--replay-from', 'q2-norm-fixed-model-before-r1']):
+            self.refuse(model + ['--rebuild-mmq'] + extra, 'IQ2 fixed bounds accepts no curve')
+        for argv in (component, model + ['--rebuild-mmq']):
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+        self.assertEqual(remote.COUNTING_SOURCES[remote.IQ2_FIXED_BOUNDS_MODEL], variant)
+
+    def test_iq2_token256_is_private_component_only(self):
+        mode, variant = remote.IQ2_TOKEN256_MODE, remote.IQ2_TOKEN256_VARIANT
+        self.assertEqual(remote.iq2_token256_source(Mock()), '.deps/gufo-q2-iq2-token256-probe')
+        self.refuse([mode, 'q2-fixture'], 'IQ2 token256 requires its private component')
+        for other in ('cpu', 'operators', 'q2-bench', 'q2-curve',
+                      remote.IQ2_FIXED_BOUNDS_MODE):
+            self.refuse([other, 'q2-fixture', '--source-variant', variant],
+                        'IQ2 token256 requires its private component')
+        base = [mode, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(base + [flag], 'IQ2 token256 accepts no model')
+        self.refuse(base + ['--replay-from', 'q2-norm-fixed-model-before-r1'],
+                    'IQ2 token256 accepts no model')
+        with patch.object(sys, 'argv', [str(path), *base]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_iq2_stage_layout_is_private_component_only(self):
+        mode, variant = remote.IQ2_STAGE_LAYOUT_MODE, remote.IQ2_STAGE_LAYOUT_VARIANT
+        self.assertEqual(remote.iq2_stage_layout_source(Mock()),
+                         '.deps/gufo-q2-iq2-stage-layout')
+        self.refuse([mode, 'q2-fixture'],
+                    'IQ2 stage layout requires its private component')
+        for other in ('cpu', 'operators', 'q2-bench', 'q2-curve'):
+            self.refuse([other, 'q2-fixture', '--source-variant', variant],
+                        'IQ2 stage layout requires its private component')
+        base = [mode, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(base + [flag], 'IQ2 stage layout accepts no model')
+        self.refuse(base + ['--replay-from', 'q2-norm-fixed-model-before-r1'],
+                    'IQ2 stage layout accepts no model')
+        with patch.object(sys, 'argv', [str(path), *base]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run',
+                          side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_hc_injection_reuse_is_component_only(self):
+        variant = remote.HC_REUSE_VARIANT
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-ssm-fixed-bounds'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'HC injection reuse requires its component-only draft provider')
+        self.refuse([remote.HC_REUSE_MODE, 'q2-fixture'],
+                    'HC injection reuse requires its component-only draft provider')
+        base = [remote.HC_REUSE_MODE, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(base + [flag], 'HC injection reuse component accepts no model')
+        with patch.object(sys, 'argv', [str(path), *base]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_hc_ordinary_rms_is_new_model_only(self):
+        variant, mode = remote.HC_RMS_ORDINARY_VARIANT, remote.HC_RMS_ORDINARY_MODE
+        for other in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                      'q2-counting-ssm-fixed-bounds', remote.HC_OWNER_MODE):
+            message = ('HC RMS ownership requires its component-only draft provider'
+                       if other == remote.HC_OWNER_MODE else
+                       'Historical counting requires its matched provider'
+                       if other in remote.COUNTING_SOURCES else
+                       'HC ordinary RMS requires its matched historical counting provider')
+            self.refuse([other, 'q2-fixture', '--source-variant', variant], message)
+        self.refuse([mode, 'q2-fixture'], 'Historical counting requires its matched provider')
+        base = [mode, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base, 'Historical counting requires a full MMQ rebuild')
+        for flag in ('--detach', '--native-curve', '--point-only', '--replay-from'):
+            extra = [flag, 'q2-norm-fixed-model-before-r1'] if flag == '--replay-from' else [flag]
+            self.refuse(base + ['--rebuild-mmq'] + extra,
+                        'Persistent launch is limited' if flag == '--detach' else
+                        'HC ordinary RMS accepts no curve')
+        with patch.object(sys, 'argv', [str(path), *base, '--rebuild-mmq']), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+        self.assertEqual(remote.COUNTING_SOURCES[mode], variant)
+        self.assertEqual(remote.HC_RMS_ORDINARY_MANIFEST,
+                         'config/q2-hc-rms-owner-ordinary-source.json')
+
+    def test_hc_up_short_chain_model_is_new_model_only(self):
+        variant, mode = remote.HC_SHORT_MODEL_VARIANT, remote.HC_SHORT_MODEL_MODE
+        for other in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                      'q2-counting-ssm-fixed-bounds', remote.HC_OWNER_MODE):
+            message = ('HC RMS ownership requires its component-only draft provider'
+                       if other == remote.HC_OWNER_MODE else
+                       'Historical counting requires its matched provider'
+                       if other in remote.COUNTING_SOURCES else
+                       'HC up short chain requires its matched historical counting provider')
+            self.refuse([other, 'q2-fixture', '--source-variant', variant], message)
+        self.refuse([mode, 'q2-fixture'], 'Historical counting requires its matched provider')
+        base = [mode, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base, 'Historical counting requires a full MMQ rebuild')
+        for flag in ('--detach', '--native-curve', '--point-only', '--replay-from'):
+            extra = [flag, 'q2-norm-fixed-model-before-r1'] if flag == '--replay-from' else [flag]
+            self.refuse(base + ['--rebuild-mmq'] + extra,
+                        'Persistent launch is limited' if flag == '--detach' else
+                        'HC up short chain accepts no curve')
+        with patch.object(sys, 'argv', [str(path), *base, '--rebuild-mmq']), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+        self.assertEqual(remote.COUNTING_SOURCES[mode], variant)
+        self.assertEqual(remote.HC_SHORT_MODEL_MANIFEST,
+                         'config/q2-hc-up-short-chain-model-source.json')
+
+    def test_hc_rms_owner_is_component_only(self):
+        variant = remote.HC_OWNER_VARIANT
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-ssm-fixed-bounds'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'HC RMS ownership requires its component-only draft provider')
+        self.refuse([remote.HC_OWNER_MODE, 'q2-fixture'],
+                    'HC RMS ownership requires its component-only draft provider')
+        base = [remote.HC_OWNER_MODE, 'q2-fixture', '--source-variant', variant]
+        for flag in ('--rebuild-mmq', '--detach', '--native-curve', '--point-only'):
+            self.refuse(base + [flag], 'HC RMS ownership component accepts no model')
+        with patch.object(sys, 'argv', [str(path), *base]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_ssm_channel_bounds_matching_modes_only(self):
+        variant = 'ssm-channel-bounds'
+        for mode in ('cpu', 'q2-profile', 'q2-bench', 'q2-curve'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Q2 SSM follow-up requires its component or matched historical counting provider')
+        component = [variant + '-check', 'q2-fixture', '--source-variant', variant]
+        self.refuse([variant + '-check', 'q2-fixture'], 'Q2 SSM follow-up requires')
+        self.refuse(component + ['--rebuild-mmq'], 'Q2 SSM follow-up component builds')
+        model = ['q2-counting-' + variant, 'q2-fixture', '--source-variant', variant]
+        self.refuse(model, 'Historical counting requires a full MMQ rebuild')
+        for argv in (component, model + ['--rebuild-mmq']):
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_ssm_channel_registry_preserves_historical_registry(self):
+        historical = json.loads((remote.ROOT / remote.SSM_FOLLOWUP_MANIFEST).read_text())
+        current = json.loads((remote.ROOT / remote.SSM_CHANNEL_MANIFEST).read_text())
+        self.assertNotIn('ssm-channel-bounds', historical['variants'])
+        self.assertEqual(set(current['variants']), {'ssm-channel-bounds'})
+        self.assertEqual(current['variants']['ssm-channel-bounds']['event_prefix'], 'ssm_row_group')
+
+    def test_half_fixed_width_manifest_binding(self):
+        self.assertEqual(remote.HALF_FIXED_WIDTH_MANIFEST,
+                         'config/q2-half-fixed-width-source.json')
+        self.assertTrue((remote.ROOT / remote.HALF_FIXED_WIDTH_MANIFEST).is_file())
+
+    def test_half_fixed_width_new_component_or_matched_counting_only(self):
+        variant = 'half-fixed-width'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-iq2-raw-prefetch', 'q2-counting-iq2-slice-commit'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Q2 half fixed width requires its component or matched historical counting provider')
+        self.refuse([remote.HALF_FIXED_WIDTH_MODE, 'q2-fixture'], 'Q2 half fixed width requires')
+        base = [remote.HALF_FIXED_WIDTH_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Q2 half fixed width component builds')
+        for mode in (remote.HALF_FIXED_WIDTH_MODE, 'q2-counting-half-fixed-width'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_half_consumer_eight_manifest_binding(self):
+        self.assertEqual(remote.HALF_CONSUMER_EIGHT_MANIFEST,
+                         'config/q2-half-consumer-eight-source.json')
+        self.assertTrue((remote.ROOT / remote.HALF_CONSUMER_EIGHT_MANIFEST).is_file())
+
+    def test_half_consumer_eight_new_component_or_matched_counting_only(self):
+        variant = 'half-consumer-eight'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-iq2-raw-prefetch', 'q2-counting-iq2-slice-commit'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Q2 half consumer eight requires its component or matched historical counting provider')
+        self.refuse([remote.HALF_CONSUMER_EIGHT_MODE, 'q2-fixture'], 'Q2 half consumer eight requires')
+        base = [remote.HALF_CONSUMER_EIGHT_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Q2 half consumer eight component builds')
+        for mode in (remote.HALF_CONSUMER_EIGHT_MODE, 'q2-counting-half-consumer-eight'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_ssm_row_group_manifest_binding(self):
+        self.assertEqual(remote.SSM_ROW_GROUP_MANIFEST,
+                         'config/q2-ssm-row-group-compose-source.json')
+        self.assertTrue((remote.ROOT / remote.SSM_ROW_GROUP_MANIFEST).is_file())
+
+    def test_ssm_row_group_new_component_or_matched_counting_only(self):
+        variant = 'ssm-row-group'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-iq2-raw-prefetch', 'q2-counting-iq2-slice-commit'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Q2 SSM row group requires its component or matched historical counting provider')
+        self.refuse([remote.SSM_ROW_GROUP_MODE, 'q2-fixture'], 'Q2 SSM row group requires')
+        base = [remote.SSM_ROW_GROUP_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Q2 SSM row group component builds')
+        for mode in (remote.SSM_ROW_GROUP_MODE, 'q2-counting-ssm-row-group'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_down_register_scatter_manifest_binding(self):
+        self.assertEqual(remote.DOWN_REGISTER_SCATTER_MANIFEST,
+                         'config/q2-down-register-scatter-pair-source.json')
+        self.assertTrue((remote.ROOT / remote.DOWN_REGISTER_SCATTER_MANIFEST).is_file())
+
+    def test_down_register_scatter_new_component_or_matched_counting_only(self):
+        variant = 'down-register-scatter'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-iq2-raw-prefetch', 'q2-counting-iq2-slice-commit'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Q2 down register scatter requires its component or matched historical counting provider')
+        self.refuse([remote.DOWN_REGISTER_SCATTER_MODE, 'q2-fixture'], 'Q2 down register scatter requires')
+        base = [remote.DOWN_REGISTER_SCATTER_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Q2 down register scatter component builds')
+        for mode in (remote.DOWN_REGISTER_SCATTER_MODE, 'q2-counting-down-register-scatter'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_down_half_vector_manifest_binding(self):
+        self.assertEqual(remote.DOWN_HALF_VECTOR_MANIFEST,
+                         'config/q2-down-half-vector-source.json')
+        self.assertTrue((remote.ROOT / remote.DOWN_HALF_VECTOR_MANIFEST).is_file())
+
+    def test_down_half_vector_new_component_or_matched_counting_only(self):
+        variant = 'down-half-vector'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-iq2-raw-prefetch', 'q2-counting-iq2-slice-commit'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Q2 down half vector requires its component or matched historical counting provider')
+        self.refuse([remote.DOWN_HALF_VECTOR_MODE, 'q2-fixture'], 'Q2 down half vector requires')
+        base = [remote.DOWN_HALF_VECTOR_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Q2 down half vector component builds')
+        for mode in (remote.DOWN_HALF_VECTOR_MODE, 'q2-counting-down-half-vector'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_down_half_pair_manifest_binding(self):
+        self.assertEqual(remote.DOWN_HALF_PAIR_MANIFEST,
+                         'config/q2-down-half-pair-source.json')
+        self.assertTrue((remote.ROOT / remote.DOWN_HALF_PAIR_MANIFEST).is_file())
+
+    def test_down_half_pair_new_component_or_matched_counting_only(self):
+        variant = 'down-half-pair'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-iq2-raw-prefetch', 'q2-counting-iq2-slice-commit'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Q2 down half pair requires its component or matched historical counting provider')
+        self.refuse([remote.DOWN_HALF_PAIR_MODE, 'q2-fixture'], 'Q2 down half pair requires')
+        base = [remote.DOWN_HALF_PAIR_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Q2 down half pair component builds')
+        for mode in (remote.DOWN_HALF_PAIR_MODE, 'q2-counting-down-half-pair'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_down_half_storage_manifest_binding(self):
+        self.assertEqual(remote.DOWN_HALF_STORAGE_MANIFEST,
+                         'config/q2-down-half-storage-source.json')
+        self.assertTrue((remote.ROOT / remote.DOWN_HALF_STORAGE_MANIFEST).is_file())
+
+    def test_down_half_storage_new_component_or_matched_counting_only(self):
+        variant = 'down-half-storage'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-iq2-raw-prefetch', 'q2-counting-iq2-slice-commit'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Q2 down half storage requires its component or matched historical counting provider')
+        self.refuse([remote.DOWN_HALF_STORAGE_MODE, 'q2-fixture'], 'Q2 down half storage requires')
+        base = [remote.DOWN_HALF_STORAGE_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Q2 down half storage component builds')
+        for mode in (remote.DOWN_HALF_STORAGE_MODE, 'q2-counting-down-half-storage'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_down_live_stage_manifest_binding(self):
+        self.assertEqual(remote.DOWN_LIVE_STAGE_MANIFEST,
+                         'config/q2-down-live-stage-source.json')
+        self.assertTrue((remote.ROOT / remote.DOWN_LIVE_STAGE_MANIFEST).is_file())
+
+    def test_down_live_stage_new_component_or_matched_counting_only(self):
+        variant = 'down-live-stage'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-iq2-raw-prefetch', 'q2-counting-iq2-slice-commit'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Q2 down live stage requires its component or matched historical counting provider')
+        self.refuse([remote.DOWN_LIVE_STAGE_MODE, 'q2-fixture'], 'Q2 down live stage requires')
+        base = [remote.DOWN_LIVE_STAGE_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Q2 down live stage component builds')
+        for mode in (remote.DOWN_LIVE_STAGE_MODE, 'q2-counting-down-live-stage'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_down_output_reuse_manifest_binding(self):
+        self.assertEqual(remote.DOWN_OUTPUT_REUSE_MANIFEST,
+                         'config/q2-down-output-reuse-source.json')
+        self.assertTrue((remote.ROOT / remote.DOWN_OUTPUT_REUSE_MANIFEST).is_file())
+
+    def test_down_output_reuse_new_component_or_matched_counting_only(self):
+        variant = 'down-output-reuse'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-iq2-raw-prefetch', 'q2-counting-iq2-slice-commit'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Q2 down output reuse requires its component or matched historical counting provider')
+        self.refuse([remote.DOWN_OUTPUT_REUSE_MODE, 'q2-fixture'], 'Q2 down output reuse requires')
+        base = [remote.DOWN_OUTPUT_REUSE_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Q2 down output reuse component builds')
+        for mode in (remote.DOWN_OUTPUT_REUSE_MODE, 'q2-counting-down-output-reuse'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_iq2_wide_pair_manifest_binding(self):
+        self.assertEqual(remote.IQ2_WIDE_PAIR_MANIFEST,
+                         'config/q2-iq2-wide-pair-source.json')
+        self.assertTrue((remote.ROOT / remote.IQ2_WIDE_PAIR_MANIFEST).is_file())
+
+    def test_iq2_wide_pair_new_component_or_matched_counting_only(self):
+        variant = 'iq2-wide-pair'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-iq2-raw-prefetch', 'q2-counting-iq2-slice-commit'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 wide pair requires its component or matched historical counting provider')
+        self.refuse([remote.IQ2_WIDE_PAIR_MODE, 'q2-fixture'], 'IQ2 wide pair requires')
+        base = [remote.IQ2_WIDE_PAIR_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'IQ2 wide pair component builds')
+        for mode in (remote.IQ2_WIDE_PAIR_MODE, 'q2-counting-iq2-wide-pair'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_iq2_four_wave_manifest_binding(self):
+        self.assertEqual(remote.IQ2_FOUR_WAVE_MANIFEST,
+                         'config/q2-iq2-four-wave-source.json')
+        self.assertTrue((remote.ROOT / remote.IQ2_FOUR_WAVE_MANIFEST).is_file())
+
+    def test_iq2_four_wave_new_component_or_matched_counting_only(self):
+        variant = 'iq2-four-wave'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-iq2-raw-prefetch', 'q2-counting-iq2-slice-commit'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 four wave requires its component or matched historical counting provider')
+        self.refuse([remote.IQ2_FOUR_WAVE_MODE, 'q2-fixture'], 'IQ2 four wave requires')
+        base = [remote.IQ2_FOUR_WAVE_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'IQ2 four wave component builds')
+        for mode in (remote.IQ2_FOUR_WAVE_MODE, 'q2-counting-iq2-four-wave'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_iq2_lane_commit_manifest_binding(self):
+        self.assertEqual(remote.IQ2_LANE_COMMIT_MANIFEST,
+                         'config/q2-iq2-lane-commit-source.json')
+        self.assertTrue((remote.ROOT / remote.IQ2_LANE_COMMIT_MANIFEST).is_file())
+
+    def test_iq2_lane_commit_new_component_or_matched_counting_only(self):
+        variant = 'iq2-lane-commit'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-iq2-raw-prefetch', 'q2-counting-iq2-slice-commit'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 lane commit requires its component or matched historical counting provider')
+        self.refuse([remote.IQ2_LANE_COMMIT_MODE, 'q2-fixture'], 'IQ2 lane commit requires')
+        base = [remote.IQ2_LANE_COMMIT_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'IQ2 lane commit component builds')
+        for mode in (remote.IQ2_LANE_COMMIT_MODE, 'q2-counting-iq2-lane-commit'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_iq2_short_tiles_manifest_binding(self):
+        self.assertEqual(remote.IQ2_SHORT_TILES_MANIFEST,
+                         'config/q2-iq2-short-tiles-source-v2.json')
+        self.assertTrue((remote.ROOT / remote.IQ2_SHORT_TILES_MANIFEST).is_file())
+
+    def test_iq2_short_tiles_new_component_or_matched_counting_only(self):
+        variant = 'iq2-short-tiles'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-iq2-raw-prefetch', 'q2-counting-iq2-slice-commit'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 short tiles requires its component or matched historical counting provider')
+        self.refuse([remote.IQ2_SHORT_TILES_MODE, 'q2-fixture'], 'IQ2 short tiles requires')
+        base = [remote.IQ2_SHORT_TILES_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'IQ2 short tiles component builds')
+        for mode in (remote.IQ2_SHORT_TILES_MODE, 'q2-counting-iq2-short-tiles'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_iq2_tail16_manifest_binding(self):
+        self.assertEqual(remote.IQ2_TAIL16_MANIFEST,
+                         'config/q2-iq2-tail16-source-v2.json')
+        self.assertTrue((remote.ROOT / remote.IQ2_TAIL16_MANIFEST).is_file())
+
+    def test_iq2_tail16_new_component_or_matched_counting_only(self):
+        variant = 'iq2-tail16'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-iq2-raw-prefetch', 'q2-counting-iq2-slice-commit'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 tail16 requires its component or matched historical counting provider')
+        self.refuse([remote.IQ2_TAIL16_MODE, 'q2-fixture'], 'IQ2 tail16 requires')
+        base = [remote.IQ2_TAIL16_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'IQ2 tail16 component builds')
+        for mode in (remote.IQ2_TAIL16_MODE, 'q2-counting-iq2-tail16'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_iq2_register_stage_manifest_binding(self):
+        self.assertEqual(remote.IQ2_REGISTER_STAGE_MANIFEST,
+                         'config/q2-iq2-register-stage-source-v2.json')
+        self.assertTrue((remote.ROOT / remote.IQ2_REGISTER_STAGE_MANIFEST).is_file())
+
+    def test_iq2_register_stage_new_component_or_matched_counting_only(self):
+        variant = 'iq2-register-stage'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-iq2-raw-prefetch', 'q2-counting-iq2-slice-commit'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 register stage requires its component or matched historical counting provider')
+        self.refuse([remote.IQ2_REGISTER_STAGE_MODE, 'q2-fixture'], 'IQ2 register stage requires')
+        base = [remote.IQ2_REGISTER_STAGE_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'IQ2 register stage component builds')
+        for mode in (remote.IQ2_REGISTER_STAGE_MODE, 'q2-counting-iq2-register-stage'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_down_register_palette_manifest_binding(self):
+        self.assertEqual(remote.DOWN_REGISTER_PALETTE_MANIFEST,
+                         'config/q2-down-register-palette-source.json')
+        self.assertTrue((remote.ROOT / remote.DOWN_REGISTER_PALETTE_MANIFEST).is_file())
+
+    def test_down_register_palette_new_component_or_matched_counting_only(self):
+        variant = 'down-register-palette'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-iq2-raw-prefetch', 'q2-counting-iq2-slice-commit'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Q2 down register palette requires its component or matched historical counting provider')
+        self.refuse([remote.DOWN_REGISTER_PALETTE_MODE, 'q2-fixture'], 'Q2 down register palette requires')
+        base = [remote.DOWN_REGISTER_PALETTE_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Q2 down register palette component builds')
+        for mode in (remote.DOWN_REGISTER_PALETTE_MODE, 'q2-counting-down-register-palette'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_iq2_live_compose_manifest_binding(self):
+        self.assertEqual(remote.IQ2_LIVE_COMPOSE_MANIFEST,
+                         'config/q2-iq2-live-compose-source.json')
+        self.assertTrue((remote.ROOT / remote.IQ2_LIVE_COMPOSE_MANIFEST).is_file())
+
+    def test_iq2_live_compose_matched_new_counting_only(self):
+        variant = 'iq2-live-compose'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'scaled-tiles-check', 'q2-counting-scaled-selective',
+                     'q2-counting-iq2-raw-prefetch'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 live composition requires its matched historical counting provider')
+        argv = ['q2-counting-iq2-live-compose', 'q2-fixture', '--source-variant', variant]
+        self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+        argv += ['--rebuild-mmq']
+        self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+        self.refuse(argv + ['--native-curve'], 'Native curve requires')
+        with patch.object(sys, 'argv', [str(path), *argv]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_iq2_raw_selective_manifest_binding(self):
+        self.assertEqual(remote.IQ2_RAW_SELECTIVE_MANIFEST,
+                         'config/q2-iq2-raw-selective-source.json')
+        self.assertTrue((remote.ROOT / remote.IQ2_RAW_SELECTIVE_MANIFEST).is_file())
+
+    def test_iq2_raw_selective_matched_new_counting_only(self):
+        variant = 'iq2-raw-selective'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'scaled-tiles-check', 'q2-counting-scaled-selective',
+                     'q2-counting-iq2-raw-prefetch'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 raw selective composition requires its matched historical counting provider')
+        argv = ['q2-counting-iq2-raw-selective', 'q2-fixture', '--source-variant', variant]
+        self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+        argv += ['--rebuild-mmq']
+        self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+        self.refuse(argv + ['--native-curve'], 'Native curve requires')
+        with patch.object(sys, 'argv', [str(path), *argv]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_q8_mirror_manifest_binding(self):
+        self.assertEqual(remote.Q8_MIRROR_MANIFEST,
+                         'config/q2-q8-mirror-source.json')
+        self.assertTrue((remote.ROOT / remote.Q8_MIRROR_MANIFEST).is_file())
+
+    def test_q8_mirror_new_component_or_matched_counting_only(self):
+        variant = 'q8-mirror'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Q8 mirror requires its component or matched historical counting provider')
+        self.refuse([remote.Q8_MIRROR_MODE, 'q2-fixture'], 'Q8 mirror requires')
+        base = [remote.Q8_MIRROR_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Q8 mirror component builds')
+        for mode in (remote.Q8_MIRROR_MODE, 'q2-counting-q8-mirror'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_scaled_wave_pack_manifest_binding(self):
+        self.assertEqual(remote.SCALED_WAVE_PACK_MANIFEST,
+                         'config/q2-scaled-wave-pack-source.json')
+        self.assertTrue((remote.ROOT / remote.SCALED_WAVE_PACK_MANIFEST).is_file())
+
+    def test_scaled_wave_pack_new_component_or_matched_counting_only(self):
+        variant = 'scaled-wave-pack'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Scaled wave pack requires its component or matched historical counting provider')
+        self.refuse([remote.SCALED_WAVE_PACK_MODE, 'q2-fixture'], 'Scaled wave pack requires')
+        base = [remote.SCALED_WAVE_PACK_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Scaled wave pack component builds')
+        for mode in (remote.SCALED_WAVE_PACK_MODE, 'q2-counting-scaled-wave-pack'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_scaled_expert_order_manifest_binding(self):
+        self.assertEqual(remote.SCALED_EXPERT_ORDER_MANIFEST,
+                         'config/q2-scaled-expert-order-source.json')
+        self.assertTrue((remote.ROOT / remote.SCALED_EXPERT_ORDER_MANIFEST).is_file())
+
+    def test_scaled_expert_order_new_component_or_matched_counting_only(self):
+        variant = 'scaled-expert-order'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Scaled expert order requires its component or matched historical counting provider')
+        self.refuse([remote.SCALED_EXPERT_ORDER_MODE, 'q2-fixture'], 'Scaled expert order requires')
+        base = [remote.SCALED_EXPERT_ORDER_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Scaled expert order component builds')
+        for mode in (remote.SCALED_EXPERT_ORDER_MODE, 'q2-counting-scaled-expert-order'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_compact_expert_chain_manifest_binding(self):
+        self.assertEqual(remote.COMPACT_EXPERT_CHAIN_MANIFEST,
+                         'config/q2-compact-expert-chain-source.json')
+        self.assertTrue((remote.ROOT / remote.COMPACT_EXPERT_CHAIN_MANIFEST).is_file())
+
+    def test_compact_expert_chain_new_component_or_matched_counting_only(self):
+        variant = 'compact-expert-chain'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Compact expert chain requires its component or matched historical counting provider')
+        self.refuse([remote.COMPACT_EXPERT_CHAIN_MODE, 'q2-fixture'], 'Compact expert chain requires')
+        base = [remote.COMPACT_EXPERT_CHAIN_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Compact expert chain component builds')
+        for mode in (remote.COMPACT_EXPERT_CHAIN_MODE, 'q2-counting-compact-expert-chain'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_producer_q8_manifest_binding(self):
+        self.assertEqual(remote.PRODUCER_Q8_MANIFEST,
+                         'config/q2-producer-q8-source-v2.json')
+        self.assertTrue((remote.ROOT / remote.PRODUCER_Q8_MANIFEST).is_file())
+
+    def test_producer_q8_new_component_or_matched_counting_only(self):
+        variant = 'producer-q8'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Producer Q8 requires its component or matched historical counting provider')
+        self.refuse([remote.PRODUCER_Q8_MODE, 'q2-fixture'], 'Producer Q8 requires')
+        base = [remote.PRODUCER_Q8_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Producer Q8 component builds')
+        for mode in (remote.PRODUCER_Q8_MODE, 'q2-counting-producer-q8'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_shared_q8_pair_manifest_binding(self):
+        self.assertEqual(remote.SHARED_Q8_PAIR_MANIFEST,
+                         'config/q2-shared-q8-pair-source.json')
+        self.assertTrue((remote.ROOT / remote.SHARED_Q8_PAIR_MANIFEST).is_file())
+
+    def test_shared_q8_pair_new_component_or_matched_counting_only(self):
+        variant = 'shared-q8-pair'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Shared Q8 pair requires its component or matched historical counting provider')
+        self.refuse([remote.SHARED_Q8_PAIR_MODE, 'q2-fixture'], 'Shared Q8 pair requires')
+        base = [remote.SHARED_Q8_PAIR_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Shared Q8 pair component builds')
+        for mode in (remote.SHARED_Q8_PAIR_MODE, 'q2-counting-shared-q8-pair'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_q8_aligned_pair_manifest_binding(self):
+        self.assertEqual(remote.Q8_ALIGNED_PAIR_MANIFEST,
+                         'config/q2-q8-aligned-pair-source.json')
+        self.assertTrue((remote.ROOT / remote.Q8_ALIGNED_PAIR_MANIFEST).is_file())
+
+    def test_q8_aligned_pair_new_component_or_matched_counting_only(self):
+        variant = 'q8-aligned-pair'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Q8 aligned pair requires its component or matched historical counting provider')
+        self.refuse([remote.Q8_ALIGNED_PAIR_MODE, 'q2-fixture'], 'Q8 aligned pair requires')
+        base = [remote.Q8_ALIGNED_PAIR_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Q8 aligned pair component builds')
+        for mode in (remote.Q8_ALIGNED_PAIR_MODE, 'q2-counting-q8-aligned-pair'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_q8_k16_phases_manifest_binding(self):
+        self.assertEqual(remote.Q8_K16_PHASES_MANIFEST,
+                         'config/q2-q8-k16-phases-source.json')
+        self.assertTrue((remote.ROOT / remote.Q8_K16_PHASES_MANIFEST).is_file())
+
+    def test_q8_k16_phases_new_component_or_matched_counting_only(self):
+        variant = 'q8-k16-phases'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Q8 K16 phases requires its component or matched historical counting provider')
+        self.refuse([remote.Q8_K16_PHASES_MODE, 'q2-fixture'], 'Q8 K16 phases requires')
+        base = [remote.Q8_K16_PHASES_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Q8 K16 phases component builds')
+        for mode in (remote.Q8_K16_PHASES_MODE, 'q2-counting-q8-k16-phases'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_down_raw_prefetch_manifest_binding(self):
+        self.assertEqual(remote.DOWN_RAW_PREFETCH_MANIFEST,
+                         'config/q2-down-raw-prefetch-source.json')
+        self.assertTrue((remote.ROOT / remote.DOWN_RAW_PREFETCH_MANIFEST).is_file())
+
+    def test_down_raw_prefetch_new_component_or_matched_counting_only(self):
+        variant = 'down-raw-prefetch'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Q2 down raw prefetch requires its component or matched historical counting provider')
+        self.refuse([remote.DOWN_RAW_PREFETCH_MODE, 'q2-fixture'], 'Q2 down raw prefetch requires')
+        base = [remote.DOWN_RAW_PREFETCH_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Q2 down raw prefetch component builds')
+        for mode in (remote.DOWN_RAW_PREFETCH_MODE, 'q2-counting-down-raw-prefetch'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_iq2_fused_grid_manifest_binding(self):
+        self.assertEqual(remote.IQ2_FUSED_GRID_MANIFEST,
+                         'config/q2-iq2-fused-grid-source.json')
+        self.assertTrue((remote.ROOT / remote.IQ2_FUSED_GRID_MANIFEST).is_file())
+
+    def test_iq2_fused_grid_new_component_or_matched_counting_only(self):
+        variant = 'iq2-fused-grid'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 fused grid requires its component or matched historical counting provider')
+        self.refuse([remote.IQ2_FUSED_GRID_MODE, 'q2-fixture'], 'IQ2 fused grid requires')
+        base = [remote.IQ2_FUSED_GRID_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'IQ2 fused grid component builds')
+        for mode in (remote.IQ2_FUSED_GRID_MODE, 'q2-counting-iq2-fused-grid'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_iq2_slice_commit_manifest_binding(self):
+        self.assertEqual(remote.IQ2_SLICE_COMMIT_MANIFEST,
+                         'config/q2-iq2-slice-commit-source.json')
+        self.assertTrue((remote.ROOT / remote.IQ2_SLICE_COMMIT_MANIFEST).is_file())
+
+    def test_iq2_slice_commit_new_component_or_matched_counting_only(self):
+        variant = 'iq2-slice-commit'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred', 'q2-counting-iq2-pair-commit'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 slice commit requires its component or matched historical counting provider')
+        self.refuse([remote.IQ2_SLICE_COMMIT_MODE, 'q2-fixture'], 'IQ2 slice commit requires')
+        base = [remote.IQ2_SLICE_COMMIT_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'IQ2 slice commit component builds')
+        for mode in (remote.IQ2_SLICE_COMMIT_MODE, 'q2-counting-iq2-slice-commit'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_iq2_pair_commit_manifest_binding(self):
+        self.assertEqual(remote.IQ2_SLICE_COMMIT_MANIFEST,
+                         'config/q2-iq2-slice-commit-source.json')
+        self.assertTrue((remote.ROOT / remote.IQ2_SLICE_COMMIT_MANIFEST).is_file())
+
+    def test_iq2_pair_commit_new_component_or_matched_counting_only(self):
+        variant = 'iq2-pair-commit'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred', 'q2-counting-iq2-slice-commit'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 slice commit requires its component or matched historical counting provider')
+        self.refuse([remote.IQ2_SLICE_COMMIT_MODE, 'q2-fixture'], 'IQ2 slice commit requires')
+        base = [remote.IQ2_SLICE_COMMIT_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'IQ2 slice commit component builds')
+        for mode in (remote.IQ2_SLICE_COMMIT_MODE, 'q2-counting-iq2-pair-commit'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_iq2_sign_mask_manifest_binding(self):
+        self.assertEqual(remote.IQ2_SIGN_MASK_MANIFEST,
+                         'config/q2-iq2-sign-mask-source.json')
+        self.assertTrue((remote.ROOT / remote.IQ2_SIGN_MASK_MANIFEST).is_file())
+
+    def test_iq2_sign_mask_new_component_or_matched_counting_only(self):
+        variant = 'iq2-sign-mask'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 sign mask requires its component or matched historical counting provider')
+        self.refuse([remote.IQ2_SIGN_MASK_MODE, 'q2-fixture'], 'IQ2 sign mask requires')
+        base = [remote.IQ2_SIGN_MASK_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'IQ2 sign mask component builds')
+        for mode in (remote.IQ2_SIGN_MASK_MODE, 'q2-counting-iq2-sign-mask'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_iq2_raw_prefetch_manifest_binding(self):
+        self.assertEqual(remote.IQ2_RAW_PREFETCH_MANIFEST,
+                         'config/q2-iq2-raw-prefetch-source.json')
+        self.assertTrue((remote.ROOT / remote.IQ2_RAW_PREFETCH_MANIFEST).is_file())
+
+    def test_iq2_raw_prefetch_new_component_or_matched_counting_only(self):
+        variant = 'iq2-raw-prefetch'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 raw prefetch requires its component or matched historical counting provider')
+        self.refuse([remote.IQ2_RAW_PREFETCH_MODE, 'q2-fixture'], 'IQ2 raw prefetch requires')
+        base = [remote.IQ2_RAW_PREFETCH_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'IQ2 raw prefetch component builds')
+        for mode in (remote.IQ2_RAW_PREFETCH_MODE, 'q2-counting-iq2-raw-prefetch'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_ssm_row128_new_component_or_matched_counting_only(self):
+        variant = 'ssm-row128'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'SSM row128 requires its component or matched historical counting provider')
+        self.refuse([remote.SSM_ROW128_MODE, 'q2-fixture'], 'SSM row128 requires')
+        base = [remote.SSM_ROW128_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'SSM row128 component builds')
+        for mode in (remote.SSM_ROW128_MODE, 'q2-counting-ssm-row128'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_q8_halfpair_new_component_or_matched_counting_only(self):
+        variant = 'q8-halfpair'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Q8 halfpair requires its component or matched historical counting provider')
+        self.refuse([remote.Q8_HALFPAIR_MODE, 'q2-fixture'], 'Q8 halfpair requires')
+        base = [remote.Q8_HALFPAIR_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'Q8 halfpair component builds')
+        for mode in (remote.Q8_HALFPAIR_MODE, 'q2-counting-q8-halfpair'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_iq2_halfbyte_new_component_or_matched_counting_only(self):
+        variant = 'iq2-halfbyte-perm'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 halfbyte requires its component or matched historical counting provider')
+        self.refuse([remote.IQ2_HALFBYTE_MODE, 'q2-fixture'], 'IQ2 halfbyte requires')
+        base = [remote.IQ2_HALFBYTE_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'IQ2 halfbyte component builds')
+        for mode in (remote.IQ2_HALFBYTE_MODE, 'q2-counting-iq2-halfbyte'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_iq2_halfstage_new_component_or_matched_counting_only(self):
+        variant = 'iq2-halfstage'
+        for mode in ('cpu', 'operators', 'q2-profile', 'q2-bench', 'q2-curve',
+                     'q2-counting-hc-moe-deferred', 'q8-grouped-check'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'IQ2 halfstage requires its component or matched historical counting provider')
+        self.refuse([remote.IQ2_HALFSTAGE_MODE, 'q2-fixture'], 'IQ2 halfstage requires')
+        base = [remote.IQ2_HALFSTAGE_MODE, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base + ['--rebuild-mmq'], 'IQ2 halfstage component builds')
+        for mode in (remote.IQ2_HALFSTAGE_MODE, 'q2-counting-iq2-halfstage'):
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+                argv += ['--rebuild-mmq']
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            self.refuse(argv + ['--native-curve'], 'Native curve requires')
+            self.refuse(argv + ['--point-only'], 'Focused point requires')
+            self.refuse(argv + ['--replay-from', 'q2-norm-fixed-model-before-r1'],
+                        'Binary replay requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_q8_grouped_is_new_component_or_matched_counting_only(self):
+        variant='q8-grouped-store'
+        for mode in ('cpu','operators','q2-profile','q2-bench','q2-curve','q2-counting-hc-moe-deferred'):
+            self.refuse([mode,'q2-fixture','--source-variant',variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Q8 grouped requires its component or matched historical counting provider')
+        self.refuse([remote.Q8_GROUPED_MODE,'q2-fixture'], 'Q8 grouped requires')
+        argv=[remote.Q8_GROUPED_MODE,'q2-fixture','--source-variant',variant]
+        self.refuse(argv+['--rebuild-mmq'],'Q8 grouped component builds')
+        for mode in (remote.Q8_GROUPED_MODE,'q2-counting-q8-grouped'):
+            argv=[mode,'q2-fixture','--source-variant',variant]
+            if mode.startswith('q2-counting'):
+                self.refuse(argv,'Historical counting requires a full MMQ rebuild')
+                argv+=['--rebuild-mmq']
+            with patch.object(sys,'argv',[str(path),*argv]), \
+                 patch.object(Path,'mkdir',side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess,'run',side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError,'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+
+    def test_fixed_moe_profile_reuses_only_saved_candidate(self):
+        argv = [remote.FIXED_PROFILE_MODE, 'q2-fixture', '--source-variant', 'hc-moe-deferred']
+        for extra in (['--rebuild-mmq'], ['--native-curve'], ['--point-only'], ['--detach'],
+                      ['--replay-from', 'q2-norm-fixed-model-before-r1']):
+            self.refuse(argv + extra, 'Fixed MoE profile requires the saved candidate binary only')
+        self.refuse([remote.FIXED_PROFILE_MODE, 'q2-fixture'],
+                    'Fixed MoE profile requires the saved candidate binary only')
+        with patch.object(sys, 'argv', [str(path), *argv]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_current_best_profile_reuses_only_saved_candidate(self):
+        argv = [remote.CURRENT_PROFILE_MODE, 'q2-fixture', '--source-variant', 'half-consumer-eight']
+        for extra in (['--rebuild-mmq'], ['--native-curve'], ['--point-only'], ['--detach'],
+                      ['--replay-from', 'q2-norm-fixed-model-before-r1']):
+            self.refuse(argv + extra, 'Current best profile requires the saved candidate binary only')
+        self.refuse([remote.CURRENT_PROFILE_MODE, 'q2-fixture'],
+                    'Current best profile requires the saved candidate binary only')
+        with patch.object(sys, 'argv', [str(path), *argv]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_current_routing_reuses_only_saved1585(self):
+        argv = [remote.CURRENT_ROUTING_MODE, 'q2-fixture', '--source-variant', 'ssm-fixed-bounds']
+        for extra in (['--rebuild-mmq'], ['--native-curve'], ['--point-only'], ['--detach'],
+                      ['--replay-from', 'q2-norm-fixed-model-before-r1']):
+            self.refuse(argv + extra, 'Current routing requires the saved1585 binary only')
+        self.refuse([remote.CURRENT_ROUTING_MODE, 'q2-fixture'],
+                    'Current routing requires the saved1585 binary only')
+        with patch.object(sys, 'argv', [str(path), *argv]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_selective_scaled_fixed_counting_scope(self):
+        variant = 'scaled-selective'
+        for mode in ('cpu', 'q2-bench', 'q2-profile', 'q2-curve', 'scaled-tiles-check',
+                     'q8-grouped-check', 'q2-counting-hc-moe-deferred'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'Selective scaled tiles require their matched historical counting provider')
+        argv = ['q2-counting-scaled-selective', 'q2-fixture', '--source-variant', variant]
+        self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+        self.refuse(argv + ['--rebuild-mmq', '--detach'], 'Persistent launch is limited')
+        self.refuse(argv + ['--rebuild-mmq', '--native-curve'], 'Native curve requires')
+        self.refuse(argv + ['--replay-from', 'q2-norm-fixed-model-before-r1'], 'Binary replay requires')
+        self.refuse(['q2-counting-scaled-selective', 'q2-fixture', '--rebuild-mmq'],
+                    'Historical counting requires its matched provider')
+        with patch.object(sys, 'argv', [str(path), *argv, '--rebuild-mmq']), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_moe_deferred_fixed_counting_scope(self):
+        variant = 'hc-moe-deferred'
+        for mode in ('cpu', 'q2-bench', 'q2-profile', 'q2-curve', 'hc-bk256-bench',
+                     'hc-deferred-bench', 'q2-counting-hc-bk256-bounded'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Historical counting requires its matched provider' if mode in remote.COUNTING_SOURCES
+                        else 'MoE deferred norm requires its matched historical counting provider')
+        argv = ['q2-counting-hc-moe-deferred', 'q2-fixture', '--source-variant', variant]
+        self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+        self.refuse(argv + ['--rebuild-mmq', '--detach'], 'Persistent launch is limited')
+        self.refuse(argv + ['--rebuild-mmq', '--native-curve'], 'Native curve requires')
+        self.refuse(argv + ['--replay-from', 'q2-norm-fixed-model-before-r1'], 'Binary replay requires')
+        self.refuse(['q2-counting-hc-moe-deferred', 'q2-fixture', '--rebuild-mmq'],
+                    'Historical counting requires its matched provider')
+        with patch.object(sys, 'argv', [str(path), *argv, '--rebuild-mmq']), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_focused_norm_point_scope_and_driver(self):
+        for mode in ('cpu', 'q2-counting-iq2', 'q2-curve-scale', 'q2-curve-routes'):
+            self.refuse([mode, 'q2-fixture', '--native-curve', '--point-only'],
+                        'Focused point requires')
+        self.refuse(['q2-point-norm', 'q2-fixture', '--native-curve'],
+                    'Paired norm model requires the focused native point')
+        self.refuse(['q2-curve-iq2', 'q2-fixture', '--point-only'],
+                    'Focused point requires')
+        for mode, variant in [('q2-point-norm', 'point-norm-q2'),
+                              ('q2-curve-iq2', 'curve-iq2-q2'), ('ud-curve', 'curve-ud')]:
+            argv = [mode, 'q2-fixture', '--source-variant', variant,
+                    '--native-curve', '--point-only']
+            self.refuse(argv, 'Canonical curve requires a full MMQ rebuild')
+            with patch.object(sys, 'argv', [str(path), *argv, '--rebuild-mmq']), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+        from q2_native_curve import client_argv, check_backend
+        argv = client_argv(Path('/owned/bench'), Path('/owned/out'), Path('/owned/graphs'),
+                           'norm', point_only=True)
+        opts = dict(zip(argv[1::2], argv[2::2]))
+        self.assertEqual([opts[k] for k in ('--depths','--pp','--tg','--warmups','--repetitions')],
+                         ['0','2048','128','1','3'])
+        self.assertEqual(opts['--context-capacity'], '133760')
+        info = dict(schema='synapse-lie.llm.v1', ready=True,
+            backend=dict(synthetic=False, mtp=False, vision=False, prefix_state=True,
+                         model='bench', context_tokens=133760, build_id='q2-canonical-point-norm-ragged',
+                         source_pin='f783fedb9bea2ec7de941f6da4e02f4a4596b29e'),
+            cache=dict(budget_bytes=16384*1024*1024), scheduler=dict(queued=0, active=0, max_active=1))
+        check_backend(info, 'norm')
+        for variant in ('ordered','row','scale','ud'):
+            with self.assertRaises(ValueError): check_backend(info, variant)
+
+    def test_scaled_row_component_scope(self):
+        for variant in remote.ROW_VARIANTS:
+            for mode in ('cpu', 'q2-curve', 'q2-bench', 'q2-profile', 'operators'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                            'Scaled row reuse requires its isolated component mode and source')
+            argv = ['scaled-row-check', 'q2-fixture', '--source-variant', variant]
+            self.refuse(argv + ['--rebuild-mmq'], 'no MMQ selection')
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+        self.refuse(['scaled-row-check', 'q2-fixture'], 'Scaled row reuse requires')
+
+    def test_native_curve_host_uses_only_the_frozen_cpu_client(self):
+        for extra in (['--source-variant', 'curve-iq2-q2'], ['--rebuild-mmq']):
+            self.refuse(['native-curve-cpu', 'q2-fixture', *extra],
+                        'Native curve host conformance requires its fixed client and no GPU build')
+        self.refuse(['native-curve-cpu', 'q2-fixture', '--native-curve'],
+                    'Native curve requires an uninstrumented')
+        self.refuse(['native-curve-cpu', 'q2-fixture', '--detach'], 'Persistent launch is limited')
+        with patch.object(sys, 'argv', [str(path), 'native-curve-cpu', 'q2-fixture']), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_native_curve_rejects_fallback_and_wrong_provider(self):
+        self.refuse(['q2-curve-scale', 'q2-fixture', '--source-variant', 'curve-scale-q2',
+                     '--rebuild-mmq'], 'requires the native C canonical benchmark')
+        for mode in ('cpu', 'q2-counting-iq2', 'q2-curve-routes', 'q2-curve-iq2-mixed'):
+            self.refuse([mode, 'q2-fixture', '--native-curve'], 'Native curve requires')
+        for mode, variant in [('q2-curve-iq2', 'curve-iq2-q2'),
+                              ('q2-curve-scale', 'curve-scale-q2'),
+                              ('q2-curve-row', 'curve-row-q2'), ('ud-curve', 'curve-ud')]:
+            argv = [mode, 'q2-fixture', '--source-variant', variant, '--native-curve']
+            self.refuse(argv, 'Canonical curve requires a full MMQ rebuild')
+            self.refuse(argv + ['--rebuild-mmq', '--detach'], 'Persistent launch is limited')
+            with patch.object(sys, 'argv', [str(path), *argv, '--rebuild-mmq']), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+        self.refuse(['q2-curve-scale', 'q2-fixture', '--source-variant', 'curve-iq2-q2',
+                     '--native-curve', '--rebuild-mmq'], 'Canonical curve requires its matched')
+
+    def test_scaled_row_curve_identity_and_native_only(self):
+        self.refuse(['q2-curve-row', 'q2-fixture', '--source-variant', 'curve-row-q2',
+                     '--rebuild-mmq'], 'requires the native C canonical benchmark')
+        self.refuse(['q2-curve-row', 'q2-fixture', '--source-variant', 'curve-scale-q2',
+                     '--native-curve', '--rebuild-mmq'], 'Canonical curve requires its matched')
+        from q2_native_curve import check_backend
+        info = dict(schema='synapse-lie.llm.v1', ready=True,
+            backend=dict(synthetic=False, mtp=False, vision=False, prefix_state=True,
+                         model='bench', context_tokens=133760,
+                         build_id='q2-canonical-curve-scaled-row-reuse',
+                         source_pin='f783fedb9bea2ec7de941f6da4e02f4a4596b29e'),
+            cache=dict(budget_bytes=16384*1024*1024), scheduler=dict(queued=0, active=0, max_active=1))
+        check_backend(info, 'row')
+        for variant in ('ordered', 'scale', 'ud'):
+            with self.assertRaises(ValueError): check_backend(info, variant)
+
+    def test_native_curve_source_is_complete_and_frozen(self):
+        from q2_native_curve import verify_source, MANIFEST, sha
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root/'config').mkdir()
+            source = root/'source'
+            files = {}
+            for name in ('tools/native/http_curve.c', 'tools/native/gufo_workload.c',
+                         'tests/test_http_curve_native.c'):
+                p = source/name
+                p.parent.mkdir(parents=True, exist_ok=True)
+                p.write_text('fixture')
+                files[name] = sha(p)
+            receipt = dict(schema='synapse-lie.q2-native-bench-source.v1', source='source', files=files)
+            (root/MANIFEST).write_text(json.dumps(receipt))
+            self.assertEqual(verify_source(root)[0], source)
+            extra = source/'unexpected.c'
+            extra.write_text('extra')
+            with self.assertRaisesRegex(ValueError, 'inventory changed'):
+                verify_source(root)
+            extra.unlink()
+            (source/'tools/native/http_curve.c').write_text('changed')
+            with self.assertRaisesRegex(ValueError, 'inventory changed'):
+                verify_source(root)
+
+    def test_curve256_matching_native_scope_and_capacity(self):
+        from q2_curve256 import client_argv, check_backend
+        for mode, variant in [('q2-curve256', 'curve256-q2'), ('ud-curve256', 'curve256-ud')]:
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            self.refuse(argv, 'Curve256 requires')
+            for extra in (['--rebuild-mmq'], ['--point-only'], ['--replay-from', 'q2-norm-fixed-model-before-r1']):
+                self.refuse(argv + ['--native-curve'] + extra,
+                            'Binary replay requires' if extra[0] == '--replay-from' else 'Curve256 requires')
+            with patch.object(sys, 'argv', [str(path), *argv, '--native-curve']), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                run.assert_not_called()
+        argv = client_argv(Path('/owned/synapse-lie-bench'), Path('/owned/out'), Path('/owned/graphs'), 'ordered')
+        options = dict(zip(argv[1::2], argv[2::2]))
+        self.assertEqual(options['--depths'], '0,4096,8192,12288,16384,32768,65536,131072,196608,262144')
+        self.assertEqual(options['--context-capacity'], '266240')
+        self.assertEqual(options['--repetitions'], '1')
+        self.assertEqual(options['--warmups'], '1')
+        info = dict(schema='synapse-lie.llm.v1', ready=True,
+            backend=dict(synthetic=False, mtp=False, vision=False, prefix_state=True,
+                         model='bench', context_tokens=266240, build_id='q2-canonical-curve-retained256',
+                         source_pin='f783fedb9bea2ec7de941f6da4e02f4a4596b29e'),
+            cache=dict(budget_bytes=16384*1024*1024), scheduler=dict(queued=0, active=0, max_active=1))
+        check_backend(info, 'ordered')
+        info['backend']['context_tokens'] = 133760
+        with self.assertRaises(ValueError):
+            check_backend(info, 'ordered')
+
+    def test_curve256_server_arguments_start_the_actual_host_binary(self):
+        from q2_curve256 import server_argv
+        import socket
+        import subprocess
+        import time
+        import urllib.error
+        import urllib.request
+        binary = Path.cwd() / 'synapse-lie-server'
+        if not binary.is_file():
+            self.skipTest('Actual server is exercised by the .157 CTest host gate')
+        with socket.socket() as api, socket.socket() as management:
+            api.bind(('127.0.0.1', 0))
+            management.bind(('127.0.0.1', 0))
+            api_port, management_port = api.getsockname()[1], management.getsockname()[1]
+        argv = server_argv(binary, '/not-opened.gguf', management_port, api_port)
+        model_index = argv.index('--model')
+        del argv[model_index:model_index + 2]
+        # Keep the actual context/cache/timeout options; omit model access only.
+        with tempfile.TemporaryFile() as log:
+            child = subprocess.Popen(argv, stdout=log, stderr=subprocess.STDOUT)
+            try:
+                deadline = time.monotonic() + 8
+                ready = False
+                while time.monotonic() < deadline and child.poll() is None:
+                    try:
+                        with urllib.request.urlopen(
+                            f'http://127.0.0.1:{management_port}/actuator/health/liveness', timeout=.5
+                        ) as response:
+                            ready = response.status == 200
+                        if ready:
+                            break
+                    except (OSError, urllib.error.URLError):
+                        time.sleep(.05)
+                log.seek(0)
+                self.assertTrue(ready, log.read().decode(errors='replace'))
+            finally:
+                if child.poll() is None:
+                    child.terminate()
+                    try:
+                        child.wait(timeout=3)
+                    except subprocess.TimeoutExpired:
+                        child.kill()
+                        child.wait(timeout=3)
+                log.seek(0)
+                self.assertNotIn(b'ERROR: AddressSanitizer', log.read())
+
+    def test_curve256_capacity_and_mmq_reuse_boundaries(self):
+        from q2_curve_headroom import ENGINE, extend_engine
+        from q2_reuse import verify_sources
+        import subprocess
+        with tempfile.TemporaryDirectory() as directory:
+            base = Path(directory)
+            original, candidate = base / 'old', base / 'new'
+            for root in (original, candidate):
+                (root / ENGINE).parent.mkdir(parents=True)
+                (root / 'mmq.hip').write_text('immutable numerical code')
+            source = ('namespace gufo::models::qwen38_flash_next {\n'
+                      '  const Config& c = m->weights_->config;\n}\n')
+            (original / ENGINE).write_text(source)
+            (candidate / ENGINE).write_text(extend_engine(source))
+            with self.assertRaises(RuntimeError):
+                verify_sources(original, candidate)
+            self.assertEqual(verify_sources(original, candidate, curve_headroom=True)['changed'], [ENGINE])
+            (candidate / ENGINE).write_text(extend_engine(source) + '\n// unadmitted edit\n')
+            with self.assertRaises(RuntimeError):
+                verify_sources(original, candidate, curve_headroom=True)
+            (candidate / ENGINE).write_text(extend_engine(source))
+            (candidate / 'mmq.hip').write_text('changed numerical code')
+            with self.assertRaises(RuntimeError):
+                verify_sources(original, candidate, curve_headroom=True)
+            if not (Path.cwd() / 'synapse-lie-server').is_file():
+                self.skipTest('Compiled capacity checks run in the .157 host gate')
+            code = base / 'capacity.c'
+            code.write_text('''#include "q2_curve_headroom.h"
+#include <assert.h>
+int main(void) {
+  assert(lie_q2_curve_capacity(262144, 266240, true) == 266240);
+  assert(lie_q2_curve_capacity(262144, 266240, false) == 262144);
+  const uint32_t requests[] = {0, 1, 9216, 133760, 262144, 266239, 266241, UINT32_MAX};
+  for (unsigned i=0; i<sizeof(requests)/sizeof(requests[0]); ++i)
+    assert(lie_q2_curve_capacity(262144, requests[i], true) == 262144);
+  const uint32_t declarations[] = {0, 131072, 262143, 262145, 1048576, UINT32_MAX};
+  for (unsigned i=0; i<sizeof(declarations)/sizeof(declarations[0]); ++i)
+    assert(lie_q2_curve_capacity(declarations[i], 266240, true) == declarations[i]);
+  return 0;
+}
+''')
+            for compiler, standard in [('cc', 'c17'), ('c++', 'c++20')]:
+                executable = base / ('capacity-' + standard)
+                args = [compiler, '-std=' + standard, '-Wall', '-Wextra', '-Werror',
+                        '-I', str(remote.ROOT / 'experiments'), str(code), '-o', str(executable)]
+                if Path.cwd().name == 'sanitize':
+                    args += ['-fsanitize=address,undefined', '-fno-omit-frame-pointer']
+                subprocess.run(args, check=True, capture_output=True, timeout=15)
+                subprocess.run([str(executable)], check=True, capture_output=True, timeout=5)
+
+    def test_native_curve_admission_and_exact_cli(self):
+        from q2_native_curve import check_backend, client_argv
+        info = dict(schema='synapse-lie.llm.v1', ready=True,
+            backend=dict(synthetic=False, mtp=False, vision=False, prefix_state=True,
+                         model='bench', context_tokens=133760, build_id='q2-canonical-curve-iq2-scale-reuse',
+                         source_pin='f783fedb9bea2ec7de941f6da4e02f4a4596b29e'),
+            cache=dict(budget_bytes=16384*1024*1024), scheduler=dict(queued=0, active=0, max_active=1))
+        check_backend(info, 'scale')
+        for group, field, value in [('backend','synthetic',True), ('backend','mtp',True),
+                                    ('backend','context_tokens',4096), ('cache','budget_bytes',0),
+                                    ('scheduler','active',1), ('scheduler','max_active',2)]:
+            changed = json.loads(json.dumps(info)); changed[group][field] = value
+            with self.assertRaises(ValueError): check_backend(changed, 'scale')
+        with self.assertRaises(ValueError): check_backend(info, 'ordered')
+        argv = client_argv(Path('/owned/synapse-lie-bench'), Path('/owned/out.jsonl'),
+                           Path('/owned/graphs'), 'scale')
+        self.assertEqual(argv[0], '/owned/synapse-lie-bench')
+        options = dict(zip(argv[1::2], argv[2::2]))
+        self.assertEqual(options['--suite'], 'http-curve')
+        self.assertEqual(options['--depths'], '0,4096,8192,12288,16384,32768,65536,131072')
+        self.assertEqual([options[k] for k in ('--pp','--tg','--task','--warmups','--repetitions')],
+                         ['2048','128','prose','1','1'])
+        self.assertFalse(any('python' in a.lower() for a in argv))
+
+    def test_historical_counting_scope(self):
+        for mode, variant in remote.COUNTING_SOURCES.items():
+            base = [mode, 'q2-fixture', '--source-variant', variant]
+            self.refuse(base, 'Historical counting requires a full MMQ rebuild')
+            self.refuse(base + ['--rebuild-mmq', '--detach'], 'Persistent launch is limited')
+            for wrong in set(remote.COUNTING_SOURCES.values()) - {variant}:
+                self.refuse([mode, 'q2-fixture', '--source-variant', wrong, '--rebuild-mmq'],
+                            'requires the existing library component only' if wrong in remote.NORM_SHAPE_VARIANTS
+                            else 'Shared Q8 producer requires its isolated component mode and source' if wrong == remote.Q8_PRODUCER_VARIANT
+                            else 'Historical counting requires its matched provider')
+            with patch.object(sys, 'argv', [str(path), *base, '--rebuild-mmq']), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                mkdir.assert_called_once()
+                run.assert_not_called()
+
+    def test_hc_bk256_isolated_scope(self):
+        for variant in remote.HC_BK_VARIANTS:
+            for mode in ('cpu', 'operators', 'q2-bench', 'ud-counting-legacy'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                            'Historical counting requires its matched provider'
+                            if mode in remote.COUNTING_SOURCES
+                            else 'HC BK256 requires its component or matched counting mode')
+            argv = [remote.HC_BK_MODE, 'q2-fixture', '--source-variant', variant]
+            self.refuse(argv+['--rebuild-mmq'], 'HC BK256 component builds kernels directly')
+            self.refuse(argv+['--detach'], 'Persistent launch is limited')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')):
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+        self.refuse([remote.HC_BK_MODE, 'q2-fixture'],
+                    'HC BK256 requires its component or matched counting mode')
+
+    def test_binary_replay_scope(self):
+        controls = [('q2-counting-iq2-mixed', 'curve-iq2-mixed-q2', 'q2-norm-fixed-model-before-r1'),
+                    ('ud-counting-legacy', 'qualified', 'q2-norm-fixed-model-ud-r1')]
+        for mode, variant, label in controls:
+            argv = [mode, 'q2-fixture', '--source-variant', variant, '--replay-from', label]
+            for extra in (['--rebuild-mmq'], ['--native-curve'], ['--detach'], ['--point-only']):
+                self.refuse(argv+extra, 'Binary replay requires')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')):
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+        self.refuse(['q2-counting-shared-q8', 'q2-fixture', '--source-variant', 'shared-q8-producer',
+                     '--replay-from', 'q2-norm-fixed-model-before-r1'], 'Binary replay requires')
+
+    def test_reaudit_composition_scope(self):
+        for variant in remote.REAUDIT_SOURCES.values():
+            for mode in ('cpu', 'shared-q8-producer-check', 'q2-curve', 'operators', 'q2-bench'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                            'Historical counting requires its matched provider')
+        for mode, variant in remote.REAUDIT_SOURCES.items():
+            argv = [mode, 'q2-fixture', '--source-variant', variant]
+            self.refuse(argv, 'Historical counting requires a full MMQ rebuild')
+            self.refuse(argv+['--rebuild-mmq', '--native-curve'], 'Native curve requires')
+            self.refuse(argv+['--rebuild-mmq', '--point-only'], 'Focused point requires')
+            self.refuse(argv+['--rebuild-mmq', '--detach'], 'Persistent launch is limited')
+            self.refuse(argv+['--replay-from', 'q2-norm-fixed-model-before-r1'], 'Binary replay requires')
+
+    def test_historical_counting_harness_is_frozen(self):
+        root = path.parents[1]
+        manifest = json.loads((root/'config/q2-counting-harness.json').read_text())
+        self.assertEqual(manifest['source'], 'experiments/counting-baseline/q2_model.cpp')
+        self.assertEqual(manifest['sha256'],
+                         '681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52')
+        self.assertEqual(hashlib.sha256((root/manifest['source']).read_bytes()).hexdigest(),
+                         manifest['sha256'])
+        self.assertEqual(hashlib.sha256((root/'tests/q2_profile_markers.hip').read_bytes()).hexdigest(),
+                         manifest['markers_sha256'])
+
+    def test_iq2_mixed_component_scope(self):
+        for mode in remote.MIXED_TILE_MODES:
+            self.refuse([mode, 'q2-fixture'], 'IQ2 mixed tiles requires')
+            argv = [mode, 'q2-fixture', '--source-variant', 'iq2-mixed']
+            self.refuse(argv + ['--rebuild-mmq'], 'no MMQ selection')
+            self.refuse(argv + ['--detach'], 'Persistent launch is limited')
+            with patch.object(sys, 'argv', [str(path), *argv]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                mkdir.assert_called_once()
+                run.assert_not_called()
+        for mode in ('cpu', 'q2-curve', 'q2-bench', 'operators', 'iq2-live-epilogue-check'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'iq2-mixed'],
+                        'IQ2 mixed tiles requires')
+
+    def test_iq2_epilogue_component_scope(self):
+        for variant in remote.EPILOGUE_VARIANTS:
+            for mode in ('cpu', 'q2-curve', 'q2-bench', 'q2-profile', 'operators', 'iq2-wmma-signs-check'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                            'IQ2 live epilogue requires its isolated component mode and source')
+            base = ['iq2-live-epilogue-check', 'q2-fixture', '--source-variant', variant]
+            self.refuse(base + ['--rebuild-mmq'], 'no MMQ selection')
+            self.refuse(base + ['--detach'], 'Persistent launch is limited')
+            with patch.object(sys, 'argv', [str(path), *base]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                mkdir.assert_called_once()
+                run.assert_not_called()
+        for variant in ('qualified', *remote.WMMA_SIGN_VARIANTS):
+            self.refuse(['iq2-live-epilogue-check', 'q2-fixture', '--source-variant', variant],
+                        'IQ2 live epilogue requires its isolated component mode and source')
+
+    def test_iq2_wmma_component_scope(self):
+        for variant in remote.WMMA_SIGN_VARIANTS:
+            for mode in ('cpu', 'q2-curve', 'q2-bench', 'q2-profile', 'operators'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                            'IQ2 WMMA signs requires its isolated component mode and source')
+            base = ['iq2-wmma-signs-check', 'q2-fixture', '--source-variant', variant]
+            self.refuse(base + ['--rebuild-mmq'], 'no MMQ selection')
+            self.refuse(base + ['--detach'], 'Persistent launch is limited')
+            with patch.object(sys, 'argv', [str(path), *base]), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                mkdir.assert_called_once()
+                run.assert_not_called()
+        self.refuse(['iq2-wmma-signs-check', 'q2-fixture'],
+                    'IQ2 WMMA signs requires its isolated component mode and source')
+
+    def test_ple_cache_first_host_scope(self):
+        for extra in (['--source-variant', 'curve-q2'], ['--rebuild-mmq']):
+            self.refuse(['ple-cache-first-cpu', 'q2-fixture', *extra],
+                        'PLE cache-first host checks require their fixed source and no GPU build')
+        argv = [str(path), 'ple-cache-first-cpu', 'q2-fixture']
+        with patch.object(sys, 'argv', argv), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            mkdir.assert_called_once()
+            run.assert_not_called()
+
+    def test_iq2_signs_scope(self):
+        for variant in remote.SIGN_VARIANTS:
+            for mode in ('cpu', 'q2-curve', 'q2-bench', 'q2-profile', 'operators'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                            'IQ2 signs source requires its isolated component mode')
+            self.refuse(['iq2-signs-check','q2-fixture','--source-variant',variant],
+                        'IQ2 signs requires a full MMQ rebuild')
+            self.refuse(['iq2-signs-check','q2-fixture','--source-variant',variant,
+                         '--rebuild-mmq','--detach'],
+                        'Persistent launch is limited to Terminal-Bench task runs')
+            argv=[str(path),'iq2-signs-check','q2-fixture','--source-variant',variant,
+                  '--rebuild-mmq']
+            with patch.object(sys,'argv',argv), \
+                 patch.object(Path,'mkdir',side_effect=RuntimeError('staging reached')) as mkdir, \
+                 patch.object(remote.subprocess,'run',side_effect=AssertionError('No process')) as run:
+                with self.assertRaisesRegex(RuntimeError,'staging reached'):
+                    remote.main()
+                mkdir.assert_called_once();run.assert_not_called()
+        self.refuse(['iq2-signs-check','q2-fixture','--source-variant','curve-q2'],
+                    'IQ2 signs source requires its isolated component mode')
+
+    def test_canonical_curve_scope(self):
+        for mode, variant in [('q2-curve', 'qualified'), ('ud-curve', 'curve-q2'),
+                              ('q2-curve', 'curve-ud'), ('q2-bench', 'curve-q2'),
+                              ('q2-curve-ple','curve-q2'), ('ud-curve','curve-ple-ud'),
+                              ('q2-curve-ple','curve-ple-ud'),
+                              ('q2-curve-iq2','curve-q2'), ('q2-curve','curve-iq2-q2'),
+                              ('q2-curve-iq2','curve-ud'), ('q2-bench','curve-iq2-q2'),
+                              ('q2-curve-ple','curve-iq2-q2'),
+                              ('q2-curve-ple-cache-first','curve-iq2-q2'),
+                              ('q2-curve-iq2','curve-ple-cache-first-q2'),
+                              ('q2-curve-ple','curve-ple-cache-first-q2'),
+                              ('ud-curve','curve-ple-cache-first-q2'),
+                              ('q2-bench','curve-ple-cache-first-q2'),
+                              ('q2-curve-routes','curve-iq2-q2'),
+                              ('q2-curve-iq2','curve-routes-q2'),
+                              ('ud-curve','curve-routes-q2'),
+                              ('q2-curve-ple','curve-routes-q2')]:
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Canonical curve requires its matched Q2 or UD composition')
+        for mode, variant in [('q2-curve', 'curve-q2'), ('ud-curve', 'curve-ud'),
+                              ('q2-curve-ple','curve-ple-q2'), ('ud-curve-ple','curve-ple-ud'),
+                              ('q2-curve-iq2','curve-iq2-q2'),
+                              ('q2-curve-ple-cache-first','curve-ple-cache-first-q2'),
+                              ('q2-curve-routes','curve-routes-q2')]:
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Canonical curve requires a full MMQ rebuild')
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant,
+                         '--rebuild-mmq', '--detach'],
+                        'Persistent launch is limited to Terminal-Bench task runs')
+
+    def test_iq2_curve_valid_selection_reaches_staging(self):
+        argv=[str(path),'q2-curve-iq2','q2-fixture','--source-variant','curve-iq2-q2',
+              '--rebuild-mmq']
+        with patch.object(sys,'argv',argv), \
+             patch.object(Path,'mkdir',side_effect=RuntimeError('staging reached')) as mkdir, \
+             patch.object(remote.subprocess,'run',side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError,'staging reached'):
+                remote.main()
+            mkdir.assert_called_once();run.assert_not_called()
+
+    def test_mixed_model_scope(self):
+        mode, variant = 'q2-curve-iq2-mixed', 'curve-iq2-mixed-q2'
+        base = [mode, 'q2-fixture', '--source-variant', variant]
+        self.refuse(base, 'Canonical curve requires a full MMQ rebuild')
+        self.refuse(base + ['--rebuild-mmq', '--detach'], 'Persistent launch is limited')
+        for wrong in ('curve-q2', 'curve-iq2-q2', 'curve-ud'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', wrong, '--rebuild-mmq'],
+                        'Canonical curve requires its matched Q2 or UD composition')
+        for wrong in ('q2-curve-iq2', 'ud-curve', 'q2-bench'):
+            self.refuse([wrong, 'q2-fixture', '--source-variant', variant, '--rebuild-mmq'],
+                        'Canonical curve requires its matched Q2 or UD composition')
+        with patch.object(sys, 'argv', [str(path), *base, '--rebuild-mmq']), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            mkdir.assert_called_once()
+            run.assert_not_called()
+
+    def test_route_profile_valid_selection_reaches_staging(self):
+        argv=[str(path),'q2-curve-routes','q2-fixture','--source-variant','curve-routes-q2',
+              '--rebuild-mmq']
+        with patch.object(sys,'argv',argv), \
+             patch.object(Path,'mkdir',side_effect=RuntimeError('staging reached')) as mkdir, \
+             patch.object(remote.subprocess,'run',side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError,'staging reached'):
+                remote.main()
+            mkdir.assert_called_once();run.assert_not_called()
+
+    def test_ple_curve_valid_selection_reaches_staging(self):
+        argv=[str(path),'q2-curve-ple-cache-first','q2-fixture',
+              '--source-variant','curve-ple-cache-first-q2','--rebuild-mmq']
+        with patch.object(sys,'argv',argv), \
+             patch.object(Path,'mkdir',side_effect=RuntimeError('staging reached')) as mkdir, \
+             patch.object(remote.subprocess,'run',side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError,'staging reached'):
+                remote.main()
+            mkdir.assert_called_once();run.assert_not_called()
+
+    def test_collection_bounds_and_paths(self):
+        def archive(mode, size=1, name='results/output.f32', kind=tarfile.REGTYPE):
+            receipt = tarfile.TarInfo('results/result.json')
+            data = json.dumps({'mode': mode, 'finished_at': '2026-10-06T11:20:12Z', 'commands': [{'exit_code': 0}]}).encode()
+            receipt.size = len(data)
+            member = tarfile.TarInfo(name)
+            member.size, member.type = size, kind
+            result = Mock()
+            result.getmembers.return_value = [receipt, member]
+            result.extractfile.return_value = io.BytesIO(data)
+            return result
+        self.assertEqual(remote.collection_receipt(archive('q2-ple-first-access', 320000000))['mode'],
+                         'q2-ple-first-access')
+        self.assertEqual(remote.collection_receipt(archive('iq2-live-epilogue-check', 320000000))['mode'],
+                         'iq2-live-epilogue-check')
+        self.assertEqual(remote.collection_receipt(archive('q2-terminal-full', 1024**3))['mode'],
+                         'q2-terminal-full')
+        self.assertEqual(remote.collection_receipt(archive('hc-norm-ragged-bench', 1106304168))['mode'],
+                         'hc-norm-ragged-bench')
+        for mode, size in [('q2-ple-lookahead', 129000000), ('q2-ple-first-access', 385000000),
+                           ('iq2-live-epilogue-check', 384000000), ('iq2-wmma-signs-check', 129000000)]:
+            with self.assertRaisesRegex(ValueError, 'Oversized collection'):
+                remote.collection_receipt(archive(mode, size))
+        for mode, size in [('hc-norm-ragged-bench', 1120000000), ('q2-terminal-full', 2 * 1024**3),
+                           ('q2-terminal-smoke', 129000000), ('cpu', 129000000)]:
+            with self.assertRaisesRegex(ValueError, 'Oversized collection'):
+                remote.collection_receipt(archive(mode, size))
+        for name, kind in [('../escape', tarfile.REGTYPE), ('/absolute', tarfile.REGTYPE),
+                           ('source/file', tarfile.REGTYPE), ('results/link', tarfile.SYMTYPE),
+                           ('results/result.json', tarfile.REGTYPE)]:
+            value = archive('q2-ple-first-access', name=name, kind=kind)
+            with self.assertRaisesRegex(ValueError, 'Unsafe collection'):
+                remote.collection_receipt(value)
+            value.extractfile.assert_not_called()
+
+    def test_collection_refuses_live_receipts_and_unfinished_commands(self):
+        for receipt in ({'mode': 'cpu'},
+                        {'mode': 'cpu', 'finished_at': '2026-10-06T11:20:12Z', 'commands': [{'pid': 123}]},
+                        {'mode': 'cpu', 'finished_at': '2026-10-06T11:20:12Z', 'commands': [{'exit_code': None}]}):
+            data = json.dumps(receipt).encode()
+            member = tarfile.TarInfo('results/result.json'); member.size = len(data)
+            archive = Mock(); archive.getmembers.return_value = [member]
+            archive.extractfile.return_value = io.BytesIO(data)
+            with self.assertRaisesRegex(ValueError, 'Refusing incomplete collection'):
+                remote.collection_receipt(archive)
+        # A terminal safe numerical failure still preserves its actual evidence.
+        data = json.dumps({'mode': 'iq2-fixed-bounds-check', 'finished_at': '2026-10-06T11:20:12Z',
+                           'commands': [{'exit_code': 1}]}).encode()
+        member = tarfile.TarInfo('results/result.json'); member.size = len(data)
+        archive = Mock(); archive.getmembers.return_value = [member]
+        archive.extractfile.return_value = io.BytesIO(data)
+        self.assertEqual(remote.collection_receipt(archive)['commands'][0]['exit_code'], 1)
+
+    def test_streamed_artifact_digest(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'telemetry.jsonl'
+            payload = b'bounded observation\n' * 100000
+            path.write_bytes(payload)
+            with patch.object(Path, 'read_bytes', side_effect=AssertionError('No whole-file read')):
+                self.assertEqual(remote.file_sha256(path), hashlib.sha256(payload).hexdigest())
+
+    def test_existing_collection_cannot_launch_model(self):
+        self.refuse(['q2-ple-first-access', 'q2-fixture', '--existing-collection'],
+                    'Existing collection requires collect mode')
+
+    def refuse(self, argv, reason):
+        with patch.object(sys, 'argv', [str(path), *argv]), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process may start')) as run, \
+             patch.object(Path, 'mkdir', side_effect=AssertionError('No staging may start')) as mkdir, \
+             contextlib.redirect_stderr(io.StringIO()) as error:
+            with self.assertRaises(SystemExit) as result:
+                remote.main()
+            self.assertEqual(result.exception.code, 2)
+            self.assertIn(reason, error.getvalue())
+            run.assert_not_called()
+            mkdir.assert_not_called()
+
+    def test_terminal_tasks_require_persistent_supervision(self):
+        for mode in ('q2-terminal-smoke', 'q2-terminal-full'):
+            self.refuse([mode, 'q2-fixture'], 'require the persistent supervisor')
+        self.refuse(['cpu', 'q2-fixture', '--detach'], 'limited to Terminal-Bench task runs')
+
+    def test_terminal_variants_are_frozen(self):
+        for mode in ('terminal-cpu', 'q2-terminal-build', 'q2-terminal-probe'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'shared-overlap'],
+                        'three frozen Q2 variants')
+            self.refuse([mode, 'q2-fixture', '--rebuild-mmq'], 'requires bench2k')
+
+    def test_ple_source_is_fixed(self):
+        for mode in ('ple-cpu', 'q2-ple', 'ud-ple', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'hc-moe-fused'],
+                        'fixed instrumented Q2/UD source')
+            self.refuse([mode, 'q2-fixture', '--rebuild-mmq'], 'requires bench2k')
+
+    def test_changed_executor_header_cannot_reuse_mmq(self):
+        for variant in ('stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced'):
+            self.refuse(['q2-bench2k', 'q2-fixture', '--source-variant', variant],
+                        'explicitly rebuild MMQ')
+
+    def test_deferred_norm_requires_component_scope(self):
+        for variant in ('qualified', 'hc-up-chains', 'hc-sequence'):
+            self.refuse(['hc-deferred-bench', 'q2-fixture', '--source-variant', variant],
+                        'requires the isolated hc-deferred-norm source')
+        for mode in ('q2-bench', 'q2-bench2k', 'q2-profile', 'ud-bench2k'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'hc-deferred-norm'],
+                        'not wired for model measurements')
+        self.refuse(['hc-deferred-bench', 'q2-fixture', '--source-variant',
+                     'hc-deferred-norm', '--rebuild-mmq'], 'requires bench2k')
+
+    def test_sequence_requires_preserved_control_source(self):
+        for variant in ('qualified', 'hc-up-chains', 'hc-norm-half'):
+            self.refuse(['hc-sequence-bench', 'q2-fixture', '--source-variant', variant],
+                        'requires the isolated hc-sequence source')
+        self.refuse(['hc-sequence-bench', 'q2-fixture', '--source-variant',
+                     'hc-sequence', '--rebuild-mmq'], 'requires bench2k')
+
+    def test_norm_requires_paired_output_source(self):
+        for mode in ('hc-norm-operators', 'hc-norm-bench'):
+            for variant in ('qualified', 'hc-moe-fused', 'packed'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                            'require the isolated hc-norm-half source')
+
+    def test_iq2_entry_requires_correct_source(self):
+        self.refuse(['iq2-pair-operators', 'q2-fixture'], 'require the isolated IQ2 source')
+        self.refuse(['routed-operators', 'q2-fixture'], 'require the isolated stack source')
+
+    def test_scaled_input_source_guard(self):
+        for variant in ('qualified', 'hc-up-chains', 'shared-overlap'):
+            self.refuse(['scaled-input-check', 'q2-fixture', '--source-variant', variant],
+                        'Scaled checks require the isolated scaled-input source')
+
+    def test_scaled_tiles_component_only(self):
+        for variant in ('qualified', 'hc-up-chains', 'scaled-input'):
+            self.refuse(['scaled-tiles-check', 'q2-fixture', '--source-variant', variant],
+                        'Scaled tile checks require the isolated scaled-tiles source')
+        for mode in ('q2-bench', 'q2-bench2k', 'q2-profile', 'scaled-input-check'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'scaled-tiles'],
+                        'component-only; no model dispatch')
+        self.refuse(['q2-terminal-full', 'q2-fixture', '--detach',
+                     '--source-variant', 'scaled-tiles'],
+                    'requires one of its three frozen Q2 variants')
+
+    def test_narrow_vector_component_only(self):
+        for variant in ('qualified', 'hc-up-chains', 'scaled-input'):
+            self.refuse(['narrow-vector-check', 'q2-fixture', '--source-variant', variant],
+                        'Narrow checks require the isolated narrow-vector source')
+        for mode in ('q2-bench', 'q2-bench2k', 'q2-profile', 'scaled-input-check'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'narrow-vector'],
+                        'component-only; no model dispatch')
+        self.refuse(['q2-terminal-full', 'q2-fixture', '--detach',
+                     '--source-variant', 'narrow-vector'],
+                    'requires one of its three frozen Q2 variants')
+
+    def test_scaled_library_source_boundaries(self):
+        self.refuse(['q2-bench2k', 'q2-fixture', '--source-variant', 'scaled-library'],
+                    'requires a full MMQ rebuild')
+        self.refuse(['q2-profile', 'q2-fixture', '--source-variant', 'scaled-library',
+                     '--rebuild-mmq'], 'requires bench2k')
+        for mode in ('q2-bench', 'ud-bench2k', 'q2-ple-lookahead',
+                     'hc-library-bench', 'operators', 'cpu', 'scaled-input-check'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'scaled-library'],
+                        'requires its explicit component, bench2k or profile experiment')
+        self.refuse(['q2-terminal-full', 'q2-fixture', '--detach',
+                     '--source-variant', 'scaled-library'],
+                    'requires one of its three frozen Q2 variants')
+
+    def test_ragged_paired_norm_scope(self):
+        for variant in ('qualified', 'library-norm-cycle', 'hc-library-ragged'):
+            self.refuse(['hc-norm-ragged-bench', 'q2-fixture', '--source-variant', variant],
+                        'requires its isolated component mode and source')
+        for mode in ('cpu', 'q2-bench2k', 'q2-curve-iq2', 'hc-library-norm-bench'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'hc-norm-ragged'],
+                        'requires its isolated component mode and source')
+        self.refuse(['hc-norm-ragged-bench', 'q2-fixture', '--source-variant',
+                     'hc-norm-ragged', '--rebuild-mmq'], 'builds its kernels directly')
+        self.refuse(['hc-norm-ragged-bench', 'q2-fixture', '--source-variant',
+                     'hc-norm-ragged', '--detach'], 'Persistent launch is limited')
+        argv = [str(path), 'hc-norm-ragged-bench', 'q2-fixture',
+                '--source-variant', 'hc-norm-ragged']
+        with patch.object(sys, 'argv', argv), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process may start')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            mkdir.assert_called_once()
+            run.assert_not_called()
+
+    def test_fixed_norm_shape_component_scope(self):
+        for variant in ('norm-shape-reference', 'norm-fixed-shape'):
+            for mode in ('cpu', 'q2-bench2k', 'q2-counting-iq2-mixed',
+                         'q2-curve-iq2-mixed', 'hc-norm-ragged-bench'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                            'requires the existing library component only')
+            self.refuse(['hc-library-norm-bench', 'q2-fixture',
+                         '--source-variant', variant, '--rebuild-mmq'],
+                        'builds its kernels directly')
+            self.refuse(['hc-library-norm-bench', 'q2-fixture',
+                         '--source-variant', variant, '--detach'],
+                        'Persistent launch is limited')
+            argv = [str(path), 'hc-library-norm-bench', 'q2-fixture',
+                    '--source-variant', variant]
+            with patch.object(sys, 'argv', argv), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process may start')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                mkdir.assert_called_once()
+                run.assert_not_called()
+
+    def test_shared_q8_producer_scope(self):
+        for mode in ('cpu', 'q2-counting-iq2-mixed', 'q2-counting-norm-fixed',
+                     'q2-curve-iq2-mixed', 'hc-library-norm-bench'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'shared-q8-producer'],
+                        'Shared Q8 producer requires its isolated component')
+        self.refuse(['shared-q8-producer-check', 'q2-fixture'],
+                    'Shared Q8 producer requires its isolated component')
+        self.refuse(['shared-q8-producer-check', 'q2-fixture', '--source-variant',
+                     'shared-q8-producer', '--rebuild-mmq'], 'builds kernels directly')
+        self.refuse(['shared-q8-producer-check', 'q2-fixture', '--source-variant',
+                     'shared-q8-producer', '--detach'], 'Persistent launch is limited')
+        argv = [str(path), 'shared-q8-producer-check', 'q2-fixture',
+                '--source-variant', 'shared-q8-producer']
+        with patch.object(sys, 'argv', argv), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process may start')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            mkdir.assert_called_once()
+            run.assert_not_called()
+
+    def test_saved_q8_oracle_scope(self):
+        mode = 'shared-q8-oracle-replay'
+        self.refuse([mode, 'q2-fixture'], 'requires its saved-array provider')
+        self.refuse([mode, 'q2-fixture', '--source-variant', 'reaudit-q8-row'],
+                    'Historical counting requires its matched provider')
+        args = [mode, 'q2-fixture', '--source-variant', 'shared-q8-producer']
+        self.refuse(args + ['--rebuild-mmq'], 'builds kernels directly')
+        self.refuse(args + ['--detach'], 'Persistent launch is limited')
+        self.refuse(args + ['--native-curve'], 'Native curve requires')
+        self.refuse(args + ['--point-only'], 'Focused point requires')
+        with patch.object(sys, 'argv', [str(path), *args]), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')), \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            run.assert_not_called()
+
+    def test_saved_q8_source_member_size_is_bounded(self):
+        limits = remote.source_data_limits('shared-q8-oracle-replay')
+        self.assertEqual(limits, {'oracle-replay-data/shared-q8-n2048-p0-mixed-reference.bin': 20971520})
+        for mode in ('cpu', 'shared-q8-producer-check', 'q2-counting-shared-q8'):
+            self.assertEqual(remote.source_data_limits(mode), {})
+        for name in ('source/weights.bin', 'oracle-replay-data/../weights.bin',
+                     'oracle-replay-data/shared-q8-n2048-p0-q8-reference.bin'):
+            self.assertEqual(limits.get(name,16000000),16000000)
+
+    def test_fixed_norm_shape_model_scope(self):
+        self.refuse(['q2-counting-norm-fixed', 'q2-fixture', '--source-variant',
+                     'norm-shape-reference', '--rebuild-mmq'],
+                    'requires the existing library component only')
+        for variant in ('qualified', 'curve-iq2-mixed-q2', 'library-norm-cycle'):
+            self.refuse(['q2-counting-norm-fixed', 'q2-fixture', '--source-variant',
+                         variant, '--rebuild-mmq'], 'Historical counting requires its matched provider')
+        self.refuse(['q2-counting-norm-fixed', 'q2-fixture', '--source-variant',
+                     'norm-fixed-shape'], 'Historical counting requires a full MMQ rebuild')
+        for flag, reason in (('--native-curve', 'Native curve requires'),
+                             ('--point-only', 'Focused point requires'),
+                             ('--detach', 'Persistent launch is limited')):
+            self.refuse(['q2-counting-norm-fixed', 'q2-fixture', '--source-variant',
+                         'norm-fixed-shape', '--rebuild-mmq', flag], reason)
+        argv = [str(path), 'q2-counting-norm-fixed', 'q2-fixture',
+                '--source-variant', 'norm-fixed-shape', '--rebuild-mmq']
+        with patch.object(sys, 'argv', argv), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process may start')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            mkdir.assert_called_once()
+            run.assert_not_called()
+
+    def test_library_norm_cycle_scope(self):
+        for variant in ('qualified', 'scaled-library', 'hc-sequence'):
+            self.refuse(['hc-library-norm-bench', 'q2-fixture', '--source-variant', variant],
+                        'requires its preserved-control source')
+        for mode in ('ud-bench2k', 'q2-profile', 'hc-sequence-bench', 'hc-pp-bench', 'cpu'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'library-norm-cycle'],
+                        'requires its explicit component or bench2k experiment')
+        self.refuse(['q2-bench2k', 'q2-fixture', '--source-variant', 'library-norm-cycle'],
+                    'requires a full MMQ rebuild')
+        self.refuse(['hc-library-norm-bench', 'q2-fixture', '--source-variant',
+                     'library-norm-cycle', '--rebuild-mmq'], 'requires bench2k')
+        # An allowed invocation must reach staging, without creating files or SSH.
+        for mode in ('hc-library-norm-bench', 'q2-bench2k'):
+            argv = [str(path), mode, 'q2-fixture', '--source-variant', 'library-norm-cycle']
+            if mode == 'q2-bench2k':
+                argv.append('--rebuild-mmq')
+            with patch.object(sys, 'argv', argv), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process may start')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                mkdir.assert_called_once()
+                run.assert_not_called()
+
+    def test_hc_decode_reduction_scope(self):
+        for variant in ('qualified', 'library-norm-bound', 'library-norm-cycle'):
+            self.refuse(['hc-decode-reduce-bench', 'q2-fixture', '--source-variant', variant],
+                        'HC decode reduction requires its preserved-control source')
+        for mode in ('q2-bench2k', 'ud-bench2k', 'q2-profile', 'cpu', 'hc-bench'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'hc-decode-reduce'],
+                        'HC decode reduction is component-only')
+        self.refuse(['hc-decode-reduce-bench', 'q2-fixture', '--source-variant',
+                     'hc-decode-reduce', '--rebuild-mmq'], 'requires bench2k')
+        argv = [str(path), 'hc-decode-reduce-bench', 'q2-fixture',
+                '--source-variant', 'hc-decode-reduce']
+        with patch.object(sys, 'argv', argv), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process may start')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            mkdir.assert_called_once()
+            run.assert_not_called()
+
+    def test_ragged_library_scope(self):
+        for variant in ('qualified', 'library-norm-bound', 'hc-decode-reduce'):
+            self.refuse(['hc-library-ragged-bench', 'q2-fixture', '--source-variant', variant],
+                        'Ragged HC library requires its isolated source')
+        for mode in ('cpu', 'ud-original-baseline', 'q2-decode-baseline', 'q2-bench2k', 'q2-profile', 'hc-library-norm-bench'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'hc-library-ragged'],
+                        'Ragged HC library requires its component or original Q2 baseline experiment')
+        self.refuse(['hc-library-ragged-bench', 'q2-fixture', '--source-variant',
+                     'hc-library-ragged', '--rebuild-mmq'], 'requires bench2k')
+        self.refuse(['hc-library-ragged-bench', 'q2-fixture', '--source-variant',
+                     'hc-library-ragged', '--detach'], 'Persistent launch is limited')
+        argv = [str(path), 'hc-library-ragged-bench', 'q2-fixture',
+                '--source-variant', 'hc-library-ragged']
+        with patch.object(sys, 'argv', argv), \
+             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process may start')) as run:
+            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                remote.main()
+            mkdir.assert_called_once()
+            run.assert_not_called()
+
+    def test_decode_baseline_scope(self):
+        for mode, variant in (('q2-decode-baseline', 'library-norm-bound'),
+                              ('ud-decode-baseline', 'qualified')):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'requires a full MMQ rebuild')
+            for wrong in ('scaled-library', 'library-norm-cycle',
+                          'qualified' if variant != 'qualified' else 'library-norm-bound'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', wrong,
+                             '--rebuild-mmq'], 'requires its fixed Q2 or pristine UD source')
+            argv = [str(path), mode, 'q2-fixture', '--source-variant', variant,
+                    '--rebuild-mmq']
+            with patch.object(sys, 'argv', argv), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process may start')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                mkdir.assert_called_once()
+                run.assert_not_called()
+        for mode in ('cpu', 'q2-bench2k', 'q2-profile', 'operators'):
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'library-norm-bound'],
+                        'requires the Q2 decode baseline experiment')
+
+    def test_original_baseline_scope(self):
+        for mode, variant in (('q2-original-baseline', 'library-norm-bound'),
+                              ('q2-original-baseline', 'hc-library-ragged'),
+                              ('ud-original-baseline', 'qualified')):
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                        'Original baseline requires a full MMQ rebuild')
+            for wrong in ('scaled-library', 'library-norm-cycle',
+                          'qualified' if variant != 'qualified' else 'library-norm-bound'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', wrong,
+                             '--rebuild-mmq'], 'Original baseline requires its fixed Q2 or pristine UD source')
+            self.refuse([mode, 'q2-fixture', '--source-variant', 'hc-decode-reduce',
+                         '--rebuild-mmq'], 'HC decode reduction is component-only')
+            self.refuse([mode, 'q2-fixture', '--source-variant', variant,
+                         '--rebuild-mmq', '--detach'], 'Persistent launch is limited')
+            argv = [str(path), mode, 'q2-fixture', '--source-variant', variant,
+                    '--rebuild-mmq']
+            with patch.object(sys, 'argv', argv), \
+                 patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
+                 patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process may start')) as run:
+                with self.assertRaisesRegex(RuntimeError, 'staging reached'):
+                    remote.main()
+                mkdir.assert_called_once()
+                run.assert_not_called()
+
+    def test_combined_source_boundaries(self):
+        for variant in ('combined-retained', 'combined-scaled'):
+            self.refuse(['q2-bench2k', 'q2-fixture', '--source-variant', variant],
+                        'requires a full MMQ rebuild')
+            for mode in ('q2-bench', 'ud-bench2k', 'q2-profile', 'q2-ple', 'operators', 'cpu'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                            'requires its explicit Q2 model or conversion checks')
+            self.refuse(['q2-terminal-full', 'q2-fixture', '--detach',
+                         '--source-variant', variant],
+                        'requires one of its three frozen Q2 variants')
+
+    def test_phased_hc_component_only(self):
+        for variant in ('hc-down-phased', 'hc-down-phased-free', 'hc-row160-wide', 'hc-row160-loads'):
+            for mode in ('q2-bench', 'q2-bench2k', 'q2-profile', 'operators', 'hc-input-bench'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                            'Phased HC source is component-only; no model dispatch')
+            self.refuse(['q2-terminal-full', 'q2-fixture', '--detach',
+                         '--source-variant', variant],
+                        'requires one of its three frozen Q2 variants')
+
+    def test_shared_fork_source_guard(self):
+        for variant in ('qualified', 'hc-up-chains', 'down-scatter'):
+            self.refuse(['shared-fork-check', 'q2-fixture', '--source-variant', variant],
+                        'require the isolated shared-overlap source')
+
+    def test_packed_bench_requires_measured_source(self):
+        for variant in ('qualified', 'packed', 'hc-norm-half'):
+            self.refuse(['packed-bench', 'q2-fixture', '--source-variant', variant],
+                        'Packed benchmark requires')
+
+    def test_packed_entry_requires_correct_source(self):
+        self.refuse(['packed-operators', 'q2-fixture'], 'require the isolated packed source')
+
+    def test_packed_tiles_bench_requires_retained_source(self):
+        for mode in ('packed-tiles-bench', 'packed-tiles16-bench'):
+            for variant in ('qualified', 'packed', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'hc-down-wide'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                            'requires retained hc-up-chains source')
+            self.refuse([mode, 'q2-fixture', '--source-variant',
+                         'hc-up-chains', '--rebuild-mmq'], 'requires bench2k')
+
+    def test_hc_input_requires_isolated_source(self):
+        for variant in ('qualified', 'affine-palette', 'hc-library-down'):
+            self.refuse(['hc-input-bench', 'q2-fixture', '--source-variant', variant],
+                        'requires the isolated hc-input source')
+        self.refuse(['hc-input-bench', 'q2-fixture', '--source-variant',
+                     'hc-input', '--rebuild-mmq'], 'requires bench2k')
+
+    def test_hc_up_chain_benchmark_requires_measured_sources(self):
+        for variant in ('qualified', 'hc-up-fused', 'hc-input'):
+            self.refuse(['hc-up-chain-bench', 'q2-fixture', '--source-variant', variant],
+                        'requires palette or hc-up-chains')
+        self.refuse(['hc-up-chain-bench', 'q2-fixture', '--source-variant',
+                     'hc-up-chains', '--rebuild-mmq'], 'requires bench2k')
+
+    def test_hc_library_requires_current_native_control(self):
+        for variant in ('qualified', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'hc-moe-fused', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced'):
+            self.refuse(['hc-library-bench', 'q2-fixture', '--source-variant', variant],
+                        'requires the measured affine-palette source')
+        self.refuse(['hc-library-bench', 'q2-fixture', '--source-variant',
+                     'affine-palette', '--rebuild-mmq'], 'requires bench2k')
+
+    def test_hc_up_entry_requires_correct_source(self):
+        self.refuse(['hc-up-operators', 'q2-fixture'], 'require the isolated hc-up-fused source')
+        self.refuse(['hc-up-operators', 'q2-fixture', '--source-variant', 'hc-prefetch'],
+                    'require the isolated hc-up-fused source')
+        self.refuse(['hc-up-operators', 'q2-fixture', '--source-variant', 'hc-prefetch2'],
+                    'require the isolated hc-up-fused source')
+
+    def test_hc_up_bench_requires_measured_source_family(self):
+        self.refuse(['hc-up-bench', 'q2-fixture'], 'requires the measured hc-up-fused source')
+        self.refuse(['hc-up-bench', 'q2-fixture', '--source-variant', 'packed'],
+                    'requires the measured hc-up-fused source')
+
+    def test_hc_moe_entry_requires_fused_source(self):
+        for mode in ('hc-moe-operators', 'hc-moe-bench'):
+            for variant in ('qualified', 'hc-up-vec-exact', 'packed'):
+                self.refuse([mode, 'q2-fixture', '--source-variant', variant],
+                            'require the isolated hc-moe-fused source')
+
+    def test_q2_source_cannot_replace_ud_control(self):
+        for variant in ('packed', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced'):
+            self.refuse(['ud-bench2k', 'q2-fixture', '--source-variant', variant],
+                        'Stack source requires')
+
+    def test_rebuild_flag_does_not_silently_apply_elsewhere(self):
+        self.refuse(['q2-profile', 'q2-fixture', '--rebuild-mmq'], 'requires bench2k')
+
+
+class WmmaCycleReportTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        spec = importlib.util.spec_from_file_location(
+            'wmma_report', path.with_name('analyze-q2-iq2-wmma-signs.py'))
+        cls.report = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(cls.report)
+
+    @staticmethod
+    def events():
+        rows = [dict(event='iq2_wmma_weights', bytes=432537600,
+                     gate_sha256='a'*64, up_sha256='b'*64)]
+        for n, active, tile, tiles in ((2040,512,64,512), (2048,128,128,256)):
+            rows.extend(dict(event='iq2_wmma_cycle', sample=i, warmup=i < 2, tokens=n,
+                             active_experts=active, tile=tile, calls=8,
+                             microseconds_per_call=100+i) for i in range(7))
+            rows.append(dict(event='iq2_wmma_geometry', tokens=n, active_experts=active,
+                             tile=tile, tiles=tiles, output_values=n*10*640,
+                             active_weight_bytes=active*640*10*66*2,
+                             input_sha256='c'*64, ids_sha256='d'*64))
+        rows.append(dict(event='iq2_wmma_complete', numerical_pass=True,
+                         independent_checks=20, failures=0, model_inference=False))
+        return rows
+
+    def parse(self, rows):
+        return self.report.observations('\n'.join(json.dumps(row) for row in rows))
+
+    def test_complete_cycles_exclude_warmup(self):
+        result = self.parse(self.events())
+        self.assertEqual([r['median_us'] for r in result['cases'].values()], [104,104])
+        self.assertEqual(len(self.report.output_inventory()), 22)
+
+    def test_incomplete_and_invalid_timing_is_rejected(self):
+        with self.assertRaises(ValueError):
+            self.parse(self.events()[:-1])
+        for change in (dict(microseconds_per_call=0), dict(microseconds_per_call=float('nan')),
+                       dict(warmup=0), dict(calls=1), dict(sample=2), dict(tile=128)):
+            rows = self.events()
+            rows[1].update(change)
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                self.parse(rows)
+
+    def test_numerical_failure_is_retained_without_success(self):
+        rows = self.events()
+        rows[-1].update(numerical_pass=False, failures=3)
+        result = self.parse(rows)
+        self.assertFalse(result['completion']['numerical_pass'])
+        self.assertEqual(len(result['cases']), 2)
+        rows[-1]['numerical_pass'] = True
+        with self.assertRaises(ValueError):
+            self.parse(rows)
+
+    def test_model_artifacts_still_reject_command_failure(self):
+        with patch.object(self.report.common, 'artifact_integrity', return_value=(
+                {'commands': [{'exit_code': 0}, {'exit_code': 1}]}, {'exit_code': 1})):
+            with self.assertRaises(ValueError):
+                self.report.common.artifacts(Path('/unused-no-access'))
+
+
+class EpilogueCycleReportTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        spec = importlib.util.spec_from_file_location(
+            'epilogue_report', path.with_name('analyze-q2-iq2-live-epilogue.py'))
+        cls.report = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(cls.report)
+        cls.geometry = cls.report.cases()
+
+    def events(self):
+        rows = [dict(event='iq2_epilogue_weights', bytes=432537600,
+                     gate_sha256='a'*64, up_sha256='b'*64)]
+        for name, geometry in self.geometry.items():
+            rows.extend(dict(event='iq2_epilogue_cycle', sample=i, warmup=i < 2,
+                             case=name, tokens=geometry['tokens'],
+                             active_experts=geometry['active_experts'], tile=geometry['tile'],
+                             calls=8, microseconds_per_call=100+i) for i in range(7))
+            rows.append(dict(event='iq2_epilogue_geometry', input_sha256='c'*64, **geometry))
+        rows.append(dict(event='iq2_epilogue_complete', numerical_pass=True,
+                         independent_checks=51, failures=0, model_inference=False))
+        return rows
+
+    def parse(self, rows):
+        return self.report.observations('\n'.join(json.dumps(row) for row in rows))
+
+    def test_complete_cycles_and_full_tile_control(self):
+        result = self.parse(self.events())
+        self.assertEqual([r['median_us'] for r in result['cases'].values()], [104]*5)
+        full = self.geometry['full-tiles']
+        self.assertEqual(full['live_fragments'], full['reserved_fragments'])
+        self.assertGreater(full['active_weight_bytes'], 32*1024**2)
+        self.assertEqual(len(self.report.output_inventory()), 102)
+
+    def test_partial_duplicate_and_wrong_work_is_rejected(self):
+        for rows in (self.events()[:-1], self.events() + self.events()[:1]):
+            with self.assertRaises(ValueError):
+                self.parse(rows)
+        for change in (dict(case='full-tiles'), dict(calls=1), dict(warmup=0),
+                       dict(microseconds_per_call=float('nan'))):
+            rows = self.events()
+            rows[1].update(change)
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                self.parse(rows)
+        for change in (dict(counts_sha256='f'*64), dict(ids_sha256='f'*64),
+                       dict(live_fragments=0), dict(active_weight_bytes=1024)):
+            rows = self.events()
+            rows[8].update(change)
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                self.parse(rows)
+
+    def test_numerical_failure_preserves_performance(self):
+        rows = self.events()
+        rows[-1].update(numerical_pass=False, failures=1)
+        report = self.parse(rows)
+        self.assertFalse(report['completion']['numerical_pass'])
+        self.assertEqual(len(report['cases']), 5)
+        rows[-1]['numerical_pass'] = True
+        with self.assertRaises(ValueError):
+            self.parse(rows)
+
+    def test_malformed_counts_cannot_create_a_case(self):
+        for value in (True, -1, 2041, 1.5):
+            plan = json.loads(self.report.PLAN_PATH.read_text())
+            plan['representative_routing'][0]['counts'][0] = value
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                self.report.cases(plan)
+
+    def test_candidate_cannot_replace_reference(self):
+        for variant, manifest in (
+                ('iq2-live-epilogue', 'q2-iq2-live-epilogue-source.json'),
+                ('iq2-epilogue-break', 'q2-iq2-epilogue-break-source.json'),
+                ('iq2-live-stage', 'q2-iq2-live-stage-source.json'),
+                ('iq2-prefill-scale-reuse', 'q2-iq2-prefill-scale-reuse-source.json'),
+                ('iq2-prefill-grid-lds', 'q2-iq2-prefill-grid-lds-source.json')):
+            self.assertEqual(self.report.source_manifest(variant, True), manifest)
+            with self.assertRaises(ValueError):
+                self.report.source_manifest(variant, False)
+        self.assertEqual(self.report.source_manifest('iq2-epilogue-reference', False),
+                         'q2-iq2-signs-ordered-asm-source.json')
+        for variant in ('iq2-epilogue-reference', 'qualified', 'curve-iq2-q2'):
+            with self.assertRaises(ValueError):
+                self.report.source_manifest(variant, True)
+
+
+class MixedTileReportTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        spec = importlib.util.spec_from_file_location(
+            'mixed_report', path.with_name('analyze-q2-iq2-mixed.py'))
+        cls.report = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(cls.report)
+
+    def events(self, mixed):
+        rows = [dict(event='iq2_mixed_weights', bytes=432537600,
+                     gate_sha256='a'*64, up_sha256='b'*64)]
+        for name, geometry in self.report.geometry(mixed).items():
+            for scope in self.report.SCOPES:
+                rows.extend(dict(event='iq2_mixed_cycle', sample=i, warmup=i < 2,
+                    case=name, scope=scope, policy='mixed' if mixed else 'reference',
+                    calls=8, microseconds_per_call=100+i,
+                    wall_microseconds_per_call=110+i) for i in range(7))
+            rows.append(dict(event='iq2_mixed_geometry', input_sha256='c'*64, **geometry))
+        rows.append(dict(event='iq2_mixed_complete', numerical_pass=True,
+                         independent_checks=5, failures=0, model_inference=False))
+        return rows
+
+    def parse(self, rows, mixed):
+        return self.report.observations('\n'.join(json.dumps(r) for r in rows), mixed)
+
+    def test_both_scopes_and_policy(self):
+        for mixed in (False, True):
+            result = self.parse(self.events(mixed), mixed)
+            self.assertEqual(len(result['cases']), 5)
+            for case in result['cases'].values():
+                self.assertEqual(case['scopes']['map-upload-cycle']['median_us'], 104)
+                self.assertEqual(case['scopes']['resident-map-cycle']['median_wall_us'], 114)
+            with self.assertRaises(ValueError):
+                self.parse(self.events(mixed), not mixed)
+        self.assertEqual(len(self.report.output_inventory()), 10)
+        self.assertEqual(self.report.geometry(False)['full-tiles'],
+                         self.report.geometry(True)['full-tiles'])
+
+    def test_incomplete_wrong_map_and_scope_rejected(self):
+        with self.assertRaises(ValueError):
+            self.parse(self.events(True)[:-1], True)
+        for index, change in ((1, dict(calls=1)), (1, dict(scope='resident-kernel-only')),
+                              (1, dict(wall_microseconds_per_call=float('nan'))),
+                              (15, dict(wide_tiles=0)), (15, dict(map_sha256='f'*64)),
+                              (-1, dict(independent_checks=1))):
+            rows = self.events(True)
+            rows[index].update(change)
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                self.parse(rows, True)
+
+    def test_numeric_failure_keeps_timings(self):
+        rows = self.events(True)
+        rows[-1].update(failures=1, numerical_pass=False)
+        report = self.parse(rows, True)
+        self.assertFalse(report['completion']['numerical_pass'])
+        self.assertEqual(len(report['cases']), 5)
+
+
+class PleHostReportTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        spec = importlib.util.spec_from_file_location(
+            'ple_report', path.with_name('analyze-q2-ple-cache-first.py'))
+        cls.report = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(cls.report)
+
+    @staticmethod
+    def rows():
+        return [dict(fixture='ple-cache-first', format=fmt, strict=strict,
+                     unique_cold_rows=1024, resident_rows=128, exact_rows=True,
+                     pread_calls=1024 if strict else 1152,
+                     resident_pread_calls=0 if strict else 128)
+                for fmt in ('BF16', 'IQ4_NL') for strict in (True, False)]
+
+    @staticmethod
+    def log(rows):
+        return '\n'.join('20: '+json.dumps(row, separators=(',', ':')) for row in rows)
+
+    def test_paired_ctest_prefix_and_unobserved_control(self):
+        rows = self.rows()
+        self.assertEqual(self.report.observations(self.log(rows)), rows)
+        for row in rows:
+            row.update(pread_calls=1024, resident_pread_calls=0)
+        self.assertEqual(self.report.observations(self.log(rows)), rows)
+
+    def test_incomplete_or_duplicated_pair_is_rejected(self):
+        rows = self.rows()
+        for invalid in (rows[:-1], rows + rows[:1], rows[:3] + rows[:1]):
+            with self.assertRaises(ValueError):
+                self.report.observations(self.log(invalid))
+
+    def test_false_success_and_inconsistent_reads_are_rejected(self):
+        for change in (dict(exact_rows=False), dict(strict=1),
+                       dict(resident_pread_calls=1, pread_calls=1025),
+                       dict(pread_calls=1025), dict(pread_calls=True),
+                       dict(resident_rows=127), dict(unique_cold_rows=1023)):
+            rows = self.rows()
+            rows[0].update(change)
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                self.report.observations(self.log(rows))
+
+
+if __name__ == '__main__':
+    unittest.main()

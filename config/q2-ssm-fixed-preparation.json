@@ -1,0 +1,26 @@
+{
+  "schema": "synapse-lie.q2-ssm-fixed-preparation.v1",
+  "files": {
+    "tools/analyze-q2-ssm-fixed-shape-static.py": "c7906a0fd6bc817b1572dd362fe3daa62c2cdcd01e8b3ebe7d5cd621f3124791",
+    "tools/prepare-q2-ssm-fixed-shape.py": "ccfd51b151799536a8eb954f471e832bafad0880ab92288dfc6d747db882551d",
+    "tools/prepare-q2-ssm-fixed-bounds.py": "0a64cde14dae805e6d5fad3e663f64dc8f14bf43331999c8d4bb94b4100ea968",
+    "tools/analyze-q2-producer-fusion-boundary.py": "44922e76f506aef66ce9c53e2d76505e79f8f99ac06bbb273dfbaffb00cd72da",
+    "config/q2-ssm-fixed-shape-source.json": "9f8e5e96477abc97152fecd647134ef4661b3e09c9a864e436225e60e365872c",
+    "config/q2-ssm-fixed-shape-static.json": "0ec14ed75ea6fbadef4d5f2e7690a06eba8f2a3a1291c9097c3118a88bbac11f",
+    "config/q2-ssm-fixed-bounds-source.json": "dd1e671a1bb521b51fb0df6989b926052d3145c835a9e86e29ffdcd7bd4d060a",
+    "config/q2-ssm-fixed-bounds-static.json": "c3a17d65a611d4672d10221f668264ad9321a1b9612f79a56191423a004b99a0",
+    "config/q2-producer-fusion-boundary.json": "ede2b4e253c0b4117c68b9ad8fe0849042417aba59e01c20cb4376c5b037f105",
+    "experiments/q2-ssm-fixed-shape.patch": "b798c40befa2369b9d5d51d4b91739802451c278b733df2247a79eab2ecb761f",
+    "experiments/q2-ssm-fixed-bounds.patch": "024f53b1f588315306e462f1041622d3b1d179b072e87fd00d3e57c34b9a5580",
+    "docs/Q2-SSM-FIXED-SHAPE.md": "875c5d5d0635f84a496552b094770bc8067c993669c1905be26772d94b100fdd",
+    "third_party/gufo/LIE-Q2-SSM-FIXED-SHAPE.md": "57e184c804f541e93a3934a07890cbce7dd306479b2aa6753f6d271cc9e45b51"
+  },
+  "frozen_fixtures": 88,
+  "frozen_manifests": 5,
+  "frozen_window_helper_exact": true,
+  "static_reports_verified": 2,
+  "preserved_checker_failure": true,
+  "gpu_run": false,
+  "model_inference": false,
+  "goal_met": false
+}

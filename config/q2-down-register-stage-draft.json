@@ -1,0 +1,28 @@
+{
+  "schema": "synapse-lie.q2-down-register-stage-draft.v1",
+  "parent_manifest": "config/q2-ssm-fixed-bounds-source.json",
+  "parent_manifest_sha256": "dd1e671a1bb521b51fb0df6989b926052d3145c835a9e86e29ffdcd7bd4d060a",
+  "parent_source": ".deps/gufo-q2-ssm-fixed-bounds-run",
+  "parent_include": "src/models/qwen38_flash_next/kernels/rocm/q2_down_half_storage.inc",
+  "parent_include_sha256": "07314a9dd06c99bb09f6a121bc290967e23bc5a0df34e59f9ace35af38bcafde",
+  "candidate_include": "experiments/q2-down-register-stage-draft.inc",
+  "candidate_include_sha256": "d2c00886d580553fd4135b8cf6b1a67e26e800d0296c6d39fb30d71e74325e00",
+  "active_shape": {
+    "BM": 128,
+    "BN": 48,
+    "BK": 2,
+    "m": 2560,
+    "k": 640
+  },
+  "expected_lds_bytes": [
+    18560,
+    8192
+  ],
+  "wave_count": 8,
+  "arithmetic": "Original F32 affine, half palette, ordered WMMA, inverse F32 product and F16 storage unchanged in source",
+  "mechanism": "Remove wave-private codes and F32-affine LDS; preserve activation and output LDS; cross-half-wave register exchange",
+  "gpu_run": false,
+  "model_measured": false,
+  "numerical_qualification": false,
+  "goal_met": false
+}

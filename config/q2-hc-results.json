@@ -1,0 +1,623 @@
+{
+  "scope": "HC component exploration; full Q2/UD PP and TG parity remains required",
+  "promotion": false,
+  "micro": {
+    "reference": {
+      "path": "evidence/q2-hc-reference-r3",
+      "binary_sha256": "5dba5c892f6e66713bdb6f2ec1ae56e7de8fab313bc8228ea3309dbc1da65f68",
+      "complete": true,
+      "runner_state": "SYNTHETIC_HC_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "thermal_stop": null,
+      "command_wall_s": 1.519171,
+      "mmq_reuse": null,
+      "thermal_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 78000
+      },
+      "finished_at": "2026-10-02T06:43:50.381721+00:00",
+      "operators": [
+        {
+          "event": "operator",
+          "label": "320x10240-t1-p0",
+          "relative_rms": 3.39449559624e-07,
+          "error_over_peak": 4.4677293837e-07,
+          "max_abs_error": 1.35789740474e-06
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t1-p1",
+          "relative_rms": 3.48790827798e-07,
+          "error_over_peak": 2.74645749557e-07,
+          "max_abs_error": 4.02881995394e-12
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t1-p2",
+          "relative_rms": 3.26951471408e-07,
+          "error_over_peak": 2.5567405994e-07,
+          "max_abs_error": 1.6573992383e-06
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t2-p0",
+          "relative_rms": 3.33048242746e-07,
+          "error_over_peak": 4.4677293837e-07,
+          "max_abs_error": 1.35789740474e-06
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t3-p0",
+          "relative_rms": 3.36516888351e-07,
+          "error_over_peak": 4.36339522372e-07,
+          "max_abs_error": 1.35789740474e-06
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t8-p0",
+          "relative_rms": 3.26642583965e-07,
+          "error_over_peak": 4.1333057615e-07,
+          "max_abs_error": 1.5736458141e-06
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t9-p0",
+          "relative_rms": 3.27672095892e-07,
+          "error_over_peak": 4.08800915058e-07,
+          "max_abs_error": 1.5736458141e-06
+        },
+        {
+          "event": "operator",
+          "label": "319x10240-t1-p0",
+          "relative_rms": 3.39226594327e-07,
+          "error_over_peak": 4.4677293837e-07,
+          "max_abs_error": 1.35789740474e-06
+        },
+        {
+          "event": "operator",
+          "label": "320x10239-t1-p0",
+          "relative_rms": 3.3208100455e-07,
+          "error_over_peak": 3.18444749956e-07,
+          "max_abs_error": 9.96530449604e-07
+        },
+        {
+          "event": "operator",
+          "label": "10240x320-t1-p0",
+          "relative_rms": 8.6566995987e-08,
+          "error_over_peak": 9.11460997453e-08,
+          "max_abs_error": 7.72333808019e-08
+        },
+        {
+          "event": "operator",
+          "label": "512x2560-t1-p0",
+          "relative_rms": 1.7650408239e-07,
+          "error_over_peak": 1.77730139228e-07,
+          "max_abs_error": 3.0428515152e-07
+        }
+      ],
+      "us_per_launch": {
+        "min": 134.839490056,
+        "median": 135.476350784,
+        "max": 136.893317103,
+        "samples": [
+          135.862067342,
+          136.893317103,
+          135.436162353,
+          135.476350784,
+          134.839490056
+        ]
+      }
+    },
+    "candidate": {
+      "path": "evidence/q2-hc-four-wave-r1",
+      "binary_sha256": "f59ae80b4ce5a13e28ebeeb48b117da1846d66c120f53b56c792a3007e2b1db9",
+      "complete": true,
+      "runner_state": "SYNTHETIC_HC_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "thermal_stop": null,
+      "command_wall_s": 1.02038,
+      "mmq_reuse": null,
+      "thermal_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 77875
+      },
+      "finished_at": "2026-10-02T06:44:40.756055+00:00",
+      "operators": [
+        {
+          "event": "operator",
+          "label": "320x10240-t1-p0",
+          "relative_rms": 1.91800720312e-07,
+          "error_over_peak": 2.2428570271e-07,
+          "max_abs_error": 6.81681783909e-07
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t1-p1",
+          "relative_rms": 1.93533242967e-07,
+          "error_over_peak": 1.62952697929e-07,
+          "max_abs_error": 2.3903777212e-12
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t1-p2",
+          "relative_rms": 1.72875009065e-07,
+          "error_over_peak": 1.49478870042e-07,
+          "max_abs_error": 9.68992182493e-07
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t2-p0",
+          "relative_rms": 3.33048242746e-07,
+          "error_over_peak": 4.4677293837e-07,
+          "max_abs_error": 1.35789740474e-06
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t3-p0",
+          "relative_rms": 3.36516888351e-07,
+          "error_over_peak": 4.36339522372e-07,
+          "max_abs_error": 1.35789740474e-06
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t8-p0",
+          "relative_rms": 3.26642583965e-07,
+          "error_over_peak": 4.1333057615e-07,
+          "max_abs_error": 1.5736458141e-06
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t9-p0",
+          "relative_rms": 3.27672095892e-07,
+          "error_over_peak": 4.08800915058e-07,
+          "max_abs_error": 1.5736458141e-06
+        },
+        {
+          "event": "operator",
+          "label": "319x10240-t1-p0",
+          "relative_rms": 3.39226594327e-07,
+          "error_over_peak": 4.4677293837e-07,
+          "max_abs_error": 1.35789740474e-06
+        },
+        {
+          "event": "operator",
+          "label": "320x10239-t1-p0",
+          "relative_rms": 3.3208100455e-07,
+          "error_over_peak": 3.18444749956e-07,
+          "max_abs_error": 9.96530449604e-07
+        },
+        {
+          "event": "operator",
+          "label": "10240x320-t1-p0",
+          "relative_rms": 8.6566995987e-08,
+          "error_over_peak": 9.11460997453e-08,
+          "max_abs_error": 7.72333808019e-08
+        },
+        {
+          "event": "operator",
+          "label": "512x2560-t1-p0",
+          "relative_rms": 1.7650408239e-07,
+          "error_over_peak": 1.77730139228e-07,
+          "max_abs_error": 3.0428515152e-07
+        }
+      ],
+      "us_per_launch": {
+        "min": 47.2348108888,
+        "median": 47.3382510245,
+        "max": 47.5807264447,
+        "samples": [
+          47.5807264447,
+          47.3313741386,
+          47.4673062563,
+          47.3382510245,
+          47.2348108888
+        ]
+      }
+    },
+    "frontiers": [
+      {
+        "name": "hc-10240x320-t1-p0.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0
+      },
+      {
+        "name": "hc-319x10240-t1-p0.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0
+      },
+      {
+        "name": "hc-320x10239-t1-p0.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0
+      },
+      {
+        "name": "hc-320x10240-t1-p0.f32",
+        "exact": false,
+        "max_absolute_delta": 1.3113021850585938e-06,
+        "relative_l2": 3.7613840197521884e-07
+      },
+      {
+        "name": "hc-320x10240-t1-p1.f32",
+        "exact": false,
+        "max_absolute_delta": 4.547473508864641e-12,
+        "relative_l2": 3.9428735221617096e-07
+      },
+      {
+        "name": "hc-320x10240-t1-p2.f32",
+        "exact": false,
+        "max_absolute_delta": 1.9073486328125e-06,
+        "relative_l2": 3.6919922468496515e-07
+      },
+      {
+        "name": "hc-320x10240-t2-p0.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0
+      },
+      {
+        "name": "hc-320x10240-t3-p0.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0
+      },
+      {
+        "name": "hc-320x10240-t8-p0.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0
+      },
+      {
+        "name": "hc-320x10240-t9-p0.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0
+      },
+      {
+        "name": "hc-512x2560-t1-p0.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0
+      }
+    ],
+    "speedup": 2.861879090418528
+  },
+  "model": {
+    "reference": {
+      "path": "evidence/q2-hc-model-reference-r4",
+      "binary_sha256": "f39f917dbb7ca8cb72d53fc2cb74d143c1646caa284f336d4834422c7569ee26",
+      "complete": false,
+      "runner_state": "FAILED",
+      "thermal_stop": [
+        {
+          "path": "/sys/class/hwmon/hwmon2/temp1_input",
+          "device": "amdgpu",
+          "temperature_mc": 71000,
+          "limit_mc": 85000,
+          "over_limit": false
+        },
+        {
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "device": "k10temp",
+          "temperature_mc": 85250,
+          "limit_mc": 85000,
+          "over_limit": true
+        }
+      ],
+      "command_wall_s": 110.330454,
+      "mmq_reuse": {
+        "files_verified": 1019,
+        "changed": [],
+        "reference_manifest_sha256": "12db42d22dba9bb941fd4d9643e707fd9084b1ae8f2bffef08d36815c579771b",
+        "candidate_manifest_sha256": "12db42d22dba9bb941fd4d9643e707fd9084b1ae8f2bffef08d36815c579771b",
+        "reference": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-explore-reference-r1",
+        "archive": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-explore-reference-r1/build/hip/cmake/hip/qwen/libgufo_qwen38_flash_next_mmq.a",
+        "sha256": "a7705e8c8c5f4f9157f789bb475319e38398c884777c001222394c4766745d1e",
+        "reference_binary_sha256": "05a6b9d1d4962bfe3428c17f29d59cb78c83beb0a594e901b3d66deb179af852",
+        "unchanged_after": true
+      },
+      "thermal_max_mc": {
+        "amdgpu": 77000,
+        "k10temp": 85250
+      },
+      "finished_at": "2026-10-02T07:01:26.426092+00:00",
+      "measured_samples": 2,
+      "measurements": {
+        "prefill_tok_s": {
+          "min": 609.5867437,
+          "median": 609.7737514,
+          "max": 609.9607591,
+          "samples": [
+            609.9607591,
+            609.5867437
+          ]
+        },
+        "decode_steps_s": {
+          "min": 20.42144273,
+          "median": 20.42302583,
+          "max": 20.42460893,
+          "samples": [
+            20.42144273,
+            20.42460893
+          ]
+        },
+        "prefill_s": {
+          "min": 3.357593041,
+          "median": 3.3586230759999998,
+          "max": 3.359653111,
+          "samples": [
+            3.357593041,
+            3.359653111
+          ]
+        },
+        "decode_s": {
+          "min": 6.217989312,
+          "median": 6.218471339500001,
+          "max": 6.218953367,
+          "samples": [
+            6.218953367,
+            6.217989312
+          ]
+        }
+      }
+    },
+    "candidate": {
+      "path": "evidence/q2-hc-model-four-wave-r1",
+      "binary_sha256": "7d2ca127a9b8c490ff68476e7d8cd513c2402b9d3fc97e861d43414564c3d529",
+      "complete": true,
+      "runner_state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "thermal_stop": null,
+      "command_wall_s": 110.322019,
+      "mmq_reuse": {
+        "files_verified": 1019,
+        "changed": [
+          "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+        ],
+        "reference_manifest_sha256": "12db42d22dba9bb941fd4d9643e707fd9084b1ae8f2bffef08d36815c579771b",
+        "candidate_manifest_sha256": "3aa31709228d23043d73b799ea1e991d3d1e632b0c3f080db57fc453948cea03",
+        "reference": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-explore-reference-r1",
+        "archive": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-explore-reference-r1/build/hip/cmake/hip/qwen/libgufo_qwen38_flash_next_mmq.a",
+        "sha256": "a7705e8c8c5f4f9157f789bb475319e38398c884777c001222394c4766745d1e",
+        "reference_binary_sha256": "05a6b9d1d4962bfe3428c17f29d59cb78c83beb0a594e901b3d66deb179af852",
+        "unchanged_after": true
+      },
+      "thermal_max_mc": {
+        "amdgpu": 77000,
+        "k10temp": 84750
+      },
+      "finished_at": "2026-10-02T07:06:57.955379+00:00",
+      "measured_samples": 3,
+      "measurements": {
+        "prefill_tok_s": {
+          "min": 609.6872984,
+          "median": 609.7616184,
+          "max": 609.9742416,
+          "samples": [
+            609.7616184,
+            609.6872984,
+            609.9742416
+          ]
+        },
+        "decode_steps_s": {
+          "min": 22.91108834,
+          "median": 22.92458161,
+          "max": 22.9364405,
+          "samples": [
+            22.91108834,
+            22.9364405,
+            22.92458161
+          ]
+        },
+        "prefill_s": {
+          "min": 3.357518827,
+          "median": 3.35868959,
+          "max": 3.359099009,
+          "samples": [
+            3.35868959,
+            3.359099009,
+            3.357518827
+          ]
+        },
+        "decode_s": {
+          "min": 5.537040501,
+          "median": 5.539904812,
+          "max": 5.543167489,
+          "samples": [
+            5.543167489,
+            5.537040501,
+            5.539904812
+          ]
+        }
+      }
+    },
+    "ud": {
+      "path": "evidence/q2-hc-model-ud-r1",
+      "binary_sha256": "6ef945ca020e7d587edbb5e43de6801408bf59272ae540d2a5a8ef6527a5eec6",
+      "complete": true,
+      "runner_state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "thermal_stop": null,
+      "command_wall_s": 110.344832,
+      "mmq_reuse": {
+        "files_verified": 1019,
+        "changed": [],
+        "reference_manifest_sha256": "c32a2d85cfa39b5cbcceb820654cf045b524b26442608bc3734ed341b885ced2",
+        "candidate_manifest_sha256": "c32a2d85cfa39b5cbcceb820654cf045b524b26442608bc3734ed341b885ced2",
+        "reference": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-explore-ud-r1",
+        "archive": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-explore-ud-r1/build/hip/cmake/hip/qwen/libgufo_qwen38_flash_next_mmq.a",
+        "sha256": "3a72d80f72e971eb44851427e186a51a6e3e6279c040c36aa2669cde1a631f2a",
+        "reference_binary_sha256": "7a4b1afb972212190414b0fac6bba148a45607a1cc4b2229401b8253de20cc39",
+        "unchanged_after": true
+      },
+      "thermal_max_mc": {
+        "amdgpu": 83000,
+        "k10temp": 83250
+      },
+      "finished_at": "2026-10-02T07:11:03.723744+00:00",
+      "measured_samples": 3,
+      "measurements": {
+        "prefill_tok_s": {
+          "min": 1681.350007,
+          "median": 1684.618967,
+          "max": 1685.163389,
+          "samples": [
+            1681.350007,
+            1685.163389,
+            1684.618967
+          ]
+        },
+        "decode_steps_s": {
+          "min": 24.17087235,
+          "median": 24.31592218,
+          "max": 24.32482896,
+          "samples": [
+            24.32482896,
+            24.17087235,
+            24.31592218
+          ]
+        },
+        "prefill_s": {
+          "min": 1.215312422,
+          "median": 1.215705177,
+          "max": 1.218068809,
+          "samples": [
+            1.218068809,
+            1.215312422,
+            1.215705177
+          ]
+        },
+        "decode_s": {
+          "min": 5.221002795,
+          "median": 5.222915219,
+          "max": 5.254258024,
+          "samples": [
+            5.221002795,
+            5.254258024,
+            5.222915219
+          ]
+        }
+      }
+    },
+    "historical_numerical_reference": {
+      "path": "evidence/q2-explore-reference-r1",
+      "binary_sha256": "05a6b9d1d4962bfe3428c17f29d59cb78c83beb0a594e901b3d66deb179af852",
+      "complete": true,
+      "runner_state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "thermal_stop": null,
+      "command_wall_s": 167.780407,
+      "mmq_reuse": null,
+      "thermal_max_mc": {},
+      "finished_at": "2026-10-02T06:00:57.642996+00:00"
+    },
+    "fresh_reference_files_exact_to_historical": 19,
+    "frontiers": [
+      {
+        "name": "arithmetic-0-last.f32",
+        "exact": false,
+        "max_absolute_delta": 0.5953645706176758,
+        "relative_l2": 0.0458371036579086,
+        "kl_p_to_candidate": 2.8112453454390414e-08
+      },
+      {
+        "name": "arithmetic-0-prefill.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0,
+        "kl_p_to_candidate": 0.0
+      },
+      {
+        "name": "counting-0-last.f32",
+        "exact": false,
+        "max_absolute_delta": 0.6446942090988159,
+        "relative_l2": 0.04824721473551185,
+        "kl_p_to_candidate": 3.2777259434119246e-06
+      },
+      {
+        "name": "counting-0-prefill.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0,
+        "kl_p_to_candidate": 0.0
+      },
+      {
+        "name": "pp2048-0-last.f32",
+        "exact": false,
+        "max_absolute_delta": 1.164262294769287,
+        "relative_l2": 0.06555212418964379,
+        "kl_p_to_candidate": 2.420483480579869e-07
+      },
+      {
+        "name": "pp2048-0-prefill.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0,
+        "kl_p_to_candidate": 0.0
+      },
+      {
+        "name": "pp2048-1-last.f32",
+        "exact": false,
+        "max_absolute_delta": 1.164262294769287,
+        "relative_l2": 0.06555212418964379,
+        "kl_p_to_candidate": 2.420483480579869e-07
+      },
+      {
+        "name": "pp2048-1-prefill.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0,
+        "kl_p_to_candidate": 0.0
+      },
+      {
+        "name": "pp2048-2-last.f32",
+        "exact": false,
+        "max_absolute_delta": 1.164262294769287,
+        "relative_l2": 0.06555212418964379,
+        "kl_p_to_candidate": 2.420483480579869e-07
+      },
+      {
+        "name": "pp2048-2-prefill.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0,
+        "kl_p_to_candidate": 0.0
+      },
+      {
+        "name": "pp2048-3-last.f32",
+        "exact": false,
+        "max_absolute_delta": 1.164262294769287,
+        "relative_l2": 0.06555212418964379,
+        "kl_p_to_candidate": 2.420483480579869e-07
+      },
+      {
+        "name": "pp2048-3-prefill.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0,
+        "kl_p_to_candidate": 0.0
+      }
+    ],
+    "token_files": [
+      "arithmetic-0-output.u32",
+      "arithmetic-input.i32",
+      "counting-0-output.u32",
+      "counting-input.i32",
+      "pp2048-0-output.u32",
+      "pp2048-1-output.u32",
+      "pp2048-2-output.u32",
+      "pp2048-3-output.u32",
+      "pp2048-input.i32"
+    ],
+    "changed_tokens": [],
+    "comparison_complete": false,
+    "relative_medians": {
+      "reference": {
+        "prefill_tok_s": 0.9999801024560795,
+        "decode_steps_s": 1.1224870301209426
+      },
+      "ud": {
+        "prefill_tok_s": 0.36195818184682704,
+        "decode_steps_s": 0.9427806784500903
+      }
+    },
+    "limit": "Measured isolated requests with explicit sample counts; 15s idle before warmup/each request excluded from PP/TG but included in command wall. A partial reference retains FAILED and cannot establish a completed comparison. Sequential arms; no sustained-serving, statistical parity or long-context qualification."
+  }
+}

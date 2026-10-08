@@ -1,0 +1,85 @@
+{
+  "schema": "synapse-lie.q2-dense-q8-sample.v1",
+  "at": "2026-10-07T08:10:01.259232+00:00",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "plan_sha256": "d4790ef79e64a0dbccd21e85cf380f2e7c640bb486268104b9686e8dc592b9a4",
+  "model_path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+  "model_stat_identity_unchanged": true,
+  "gpu_client_absent_before_after": true,
+  "sample_bytes_upper_bound": 13369344,
+  "total_model_q8_bytes_from_metadata": 3896606720,
+  "tensors": [
+    {
+      "name": "output.weight",
+      "tensor_bytes": 675430400,
+      "sample_offsets": [
+        1451002848,
+        1619581920,
+        1788160992
+      ],
+      "sampled_blocks": 98304,
+      "code_min": -127,
+      "code_max": 127,
+      "marginal_code_entropy_bits": 7.652865739662025,
+      "block_range_widths": {
+        "8": 98304
+      },
+      "range_codec_bytes_per_block_with_original_fallback": 34.0,
+      "original_bytes_per_block": 34
+    },
+    {
+      "name": "blk.0.attn_qkv.weight",
+      "tensor_bytes": 27852800,
+      "sample_offsets": [
+        2004147168,
+        2010831840,
+        2017516512
+      ],
+      "sampled_blocks": 98304,
+      "code_min": -127,
+      "code_max": 127,
+      "marginal_code_entropy_bits": 7.612120340317289,
+      "block_range_widths": {
+        "8": 98304
+      },
+      "range_codec_bytes_per_block_with_original_fallback": 34.0,
+      "original_bytes_per_block": 34
+    },
+    {
+      "name": "blk.0.attn_gate.weight",
+      "tensor_bytes": 16711680,
+      "sample_offsets": [
+        2029214688,
+        2033114080,
+        2037013472
+      ],
+      "sampled_blocks": 98304,
+      "code_min": -127,
+      "code_max": 127,
+      "marginal_code_entropy_bits": 7.636149181767806,
+      "block_range_widths": {
+        "8": 98304
+      },
+      "range_codec_bytes_per_block_with_original_fallback": 34.0,
+      "original_bytes_per_block": 34
+    },
+    {
+      "name": "blk.0.ssm_out.weight",
+      "tensor_bytes": 16711680,
+      "sample_offsets": [
+        2045926368,
+        2049825760,
+        2053725152
+      ],
+      "sampled_blocks": 98304,
+      "code_min": -127,
+      "code_max": 127,
+      "marginal_code_entropy_bits": 7.544701750509979,
+      "block_range_widths": {
+        "8": 98304
+      },
+      "range_codec_bytes_per_block_with_original_fallback": 34.0,
+      "original_bytes_per_block": 34
+    }
+  ]
+}

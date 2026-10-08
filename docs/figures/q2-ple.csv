@@ -1,0 +1,7 @@
+arm,case,cache,prefill_ms,ple_wait_ms
+q2,padding,repeated_owned_cache,1579.75792,3e-05
+q2,varied,first_owned_cache,4927.223776,3374.175764
+q2,varied,repeated_owned_cache,1569.672607,21.601597
+ud,padding,repeated_owned_cache,1216.0168840000001,3e-05
+ud,varied,first_owned_cache,1355.30673,169.122211
+ud,varied,repeated_owned_cache,1244.2661930000002,56.642164

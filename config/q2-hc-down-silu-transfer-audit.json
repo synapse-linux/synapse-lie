@@ -1,0 +1,22 @@
+{
+  "schema": "synapse-lie.q2-hc-down-silu-transfer-audit.v1",
+  "device_model_sha256": "2698f3c38cd4a9f18b4eabdd1666b3a6e30124fd394d44f92cc256f7a7bf6e1e",
+  "fixture_sha256": "5b4ef15df401122788bc5c66d57206192691ce1eb3164d43d5c7e3fbc67a8cc2",
+  "production_mixer_copy_line": 190,
+  "production_allocation_line": 54,
+  "fixture_allocation_line": 41,
+  "hc_weight_allocation_class_matches": true,
+  "hc_weights_are_registered_host_mapping": false,
+  "production_tail_margin_bytes": 4096,
+  "fixture_guard_bytes": 64,
+  "limits": [
+    "Same hipMalloc allocation class does not prove matching placement or cache history.",
+    "Production interleaves other model layers; the component rotates only its HC weights.",
+    "Eight model output calls are insufficient to attribute a small timing difference."
+  ],
+  "retained_server_sha256": "a4afb757bf04302f6036b7eabe8f76c7c88911d3d239d29d5ea5cb1c639e9d20",
+  "candidate_server_sha256": "8e48aa828594803c3887feb0f8cddf1d8167de41b46e3801815cc04a5c8a4bab",
+  "candidate_promoted": false,
+  "candidate_preserved_for_composition": true,
+  "new_gpu_run": false
+}

@@ -1,0 +1,31 @@
+{
+  "schema": "synapse-lie.q2-decode-q8-planar-window-plan.v1",
+  "label": "q2-decode-q8-planar-component-r1",
+  "source_commit": "2e5c6b1570aa9e46cd03003ecefc3af69a3f8853",
+  "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+  "component_only": true,
+  "model_access": false,
+  "remote_build": false,
+  "remote_cleanup": false,
+  "timeout_seconds": 300,
+  "previous_release": "q2-native128-profile-r1/release.json",
+  "previous_release_sha256": "0a924578de5bff0f32994045dfa7af118743576ec1b28fdd7bd2309cc2e2714e",
+  "staged_sha256": {
+    "candidate.inc": "1f8444b05f0f54e9237a36f14d0afa72b22c4eae35257315f32aa38cb24018db",
+    "control.inc": "3f91d04b00bab5e62d4f9b5370e453b5c5f0152a560e65312ae79e3d2cae1fcb",
+    "fixture.hip": "5f7bbf3c86e8ea17c203dd7a60dc87d0e27e020e79a9efc5d39bc73a8d3d4ff8",
+    "q2-decode-q8-planar-window.py": "71c410dda9870644a9db8202d5177b0955c810e8cd982df61f651fe945833879",
+    "q2-native128-profile-window.py": "fadf40de9ef661cfab2e703c3219224269724148483dbf4e51aa91caf0702c73",
+    "q2_decode_q8_planar_check": "9fb09b2a814d764500f4032576df6e0f0a24c1c5650612585c63194e4d91c853",
+    "q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "record-command.py": "a191e8e822f2a6c03fe9911d6f1212ddd3c8c168fdaf278f6e3f4f3c1fcf2217",
+    "source-manifest.json": "6fe0f25f8885a673a7e22beeb90e7047bb523da7013b165c879f94e50600f255",
+    "static-manifest.json": "8f1233da5e25361564dc69b5c01bd8b2e04e5f0ef7ec742082561826de265309"
+  },
+  "cpu_check_sha256": {
+    "cpu-test-command.json": "38cab15560208c6aa4ea1b4d6ce390749d566db5a451247d126b5ceda1fd7697",
+    "cpu-test.stdout": "2587dfa91b0517c51aaa8c308da9d13a4b5cfed12e87edcf23c3a1bea118d733",
+    "cpu-test.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "scope": "Synthetic lossless Q8 planar scale/code consumer, native dot/reduction and byte-exact R3 scalar controls. Four dense shapes, 64 calls, two warmups/six balanced measured pairs. Exhaustive scale bits, allocation-end operands, all timed outputs and FP64 checks; packing time/extra resident bytes reported. No original-model access, quantization, prefill/dispatch changes, remote build/tuning/cleanup."
+}

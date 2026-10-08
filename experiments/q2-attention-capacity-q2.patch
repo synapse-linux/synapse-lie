@@ -1,0 +1,90 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -3141,8 +3141,9 @@
+ constexpr std::uint32_t kWmmaKSteps = kWmmaHeadDim / 16;
+ // Row padding keeps a 16-byte-per-lane fragment read off a single bank group.
+ constexpr std::uint32_t kWmmaKStride = kWmmaHeadDim + 8;
+-// Union-mask capacity: one bit per 4-token block, 262,144 tokens of context.
+-constexpr std::uint32_t kWmmaMaxMaskWords = 2048;
++// Sparse mask extent covers the private context headroom; pitch is separate.
++#include "lie_q2_attention_capacity.h"
++constexpr std::uint32_t kWmmaMaxMaskWords = LIE_Q2_ATTENTION_MASK_WORDS;
+ 
+ /// Two row layouts share the kernel. The dense window packs 16 queries x 2
+ /// heads (a row block is 16 queries of one head, grid.y over head pairs).
+@@ -3284,7 +3285,9 @@
+   // Four 512-block selections plus their incomplete tail. The same LDS
+   // stores a mask for arbitrary wider selections used by operator callers.
+   constexpr unsigned kListCapacity = 4 * 512 + 4;
+-  __shared__ unsigned union_words[kListCapacity];
++  constexpr unsigned kUnionCapacity =
++      kListCapacity > kWmmaMaxMaskWords ? kListCapacity : kWmmaMaxMaskWords;
++  __shared__ unsigned union_words[kUnionCapacity];
+   __shared__ unsigned wave_counts[8];
+   bool compact = false;
+   unsigned selected = 0;
+@@ -3294,10 +3297,11 @@
+     const unsigned live_rows = min(kQueryRows, n_tokens - query_start);
+     const unsigned word_count = (n_blocks + 31) / 32;
+     const unsigned words_per_thread = (word_count + 255) / 256;
+-    unsigned local_words[8];
++    static_assert(kThreads == LIE_Q2_ATTENTION_SCAN_THREADS);
++    unsigned local_words[LIE_Q2_ATTENTION_WORDS_PER_THREAD];
+     unsigned count = 0;
+ #pragma unroll
+-    for (unsigned j = 0; j < 8; ++j) {
++    for (unsigned j = 0; j < LIE_Q2_ATTENTION_WORDS_PER_THREAD; ++j) {
+       const unsigned w = tid * words_per_thread + j;
+       unsigned bits = 0;
+       if (j < words_per_thread && w < word_count) {
+@@ -3332,7 +3336,7 @@
+     }
+     compact = selected <= kListCapacity;
+ #pragma unroll
+-    for (unsigned j = 0; j < 8; ++j) {
++    for (unsigned j = 0; j < LIE_Q2_ATTENTION_WORDS_PER_THREAD; ++j) {
+       const unsigned word = tid * words_per_thread + j;
+       unsigned bits = local_words[j];
+       if (compact) {
+@@ -6895,7 +6899,8 @@
+                          bool last_only) {
+   if (heads != kWmmaQueryHeads || kv_heads != kWmmaKvHeads ||
+       d != kWmmaHeadDim || ratio != kWmmaRatio || n_tokens == 0 ||
+-      (mask != nullptr && mask_words > kWmmaMaxMaskWords)) {
++      (mask != nullptr &&
++       !lie_q2_attention_mask_supported(start_pos, n_tokens, mask_words))) {
+     return false;
+   }
+   if (mask != nullptr) {
+--- /dev/null
++++ b/src/models/qwen38_flash_next/kernels/rocm/lie_q2_attention_capacity.h
+@@ -0,0 +1,29 @@
++/* SPDX-License-Identifier: MIT */
++#ifndef LIE_Q2_ATTENTION_CAPACITY_H
++#define LIE_Q2_ATTENTION_CAPACITY_H
++
++#include <stdbool.h>
++#include <stdint.h>
++
++/* The selected GPU kernel covers four tokens per bit, with 32 bits per word.
++ * Allocation pitch may exceed the visible extent. Keep those bounds separate.
++ * These limits cover the private 256K-prefix benchmark plus its headroom. */
++enum {
++  LIE_Q2_ATTENTION_TOKENS_PER_WORD = 128,
++  LIE_Q2_ATTENTION_MAX_TOKENS = 266240,
++  LIE_Q2_ATTENTION_MASK_WORDS = 2080,
++  LIE_Q2_ATTENTION_SCAN_THREADS = 256,
++  LIE_Q2_ATTENTION_WORDS_PER_THREAD = 9
++};
++
++static inline bool lie_q2_attention_mask_supported(uint32_t start_pos,
++                                                   uint32_t tokens,
++                                                   uint32_t mask_words) {
++  const uint64_t end = (uint64_t)start_pos + tokens;
++  if (tokens == 0 || end > LIE_Q2_ATTENTION_MAX_TOKENS)
++    return false;
++  const uint32_t visible_words = (uint32_t)((end + 127u) / 128u);
++  return mask_words >= visible_words;
++}
++
++#endif

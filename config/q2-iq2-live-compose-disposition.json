@@ -1,0 +1,28 @@
+{
+  "schema": "synapse-lie.q2-iq2-live-compose-disposition.v1",
+  "model_result_sha256": "f50cce8bd5a11be6e089ac819c9a5c1d049a9980127b168a199324230e87a7a9",
+  "final_audit_sha256": "39b0f9ff77dee29aa560c75b418ff4c5b8bd1e36bcfca726686fa0549bd672cd",
+  "decision": "RETAIN_MARGINAL_COMPOSITION_WITH_SAVED_PARENT",
+  "candidate_pp": 1511.097261,
+  "candidate_tg": 25.14684805,
+  "parent_pp": 1509.852296,
+  "parent_tg": 25.20625148,
+  "changes": {
+    "prefill_tok_s": 0.0824560788693196,
+    "decode_steps_s": -0.23566943322427258,
+    "prefill_s": -0.082388098461883,
+    "decode_s": 0.2362261216324546
+  },
+  "parent_model_files_exact": 21,
+  "within_arm_replays_exact": 9,
+  "stable_causal_gain_established": false,
+  "reason": "Nominal PP increases0.082456% with overlapping historical samples; TG decreases0.235669%. Preserve both variants and all evidence, with no default promotion or historical rerun.",
+  "next_source_opportunity": "config/q2-scaled-live-stage-opportunity.json",
+  "next_source_opportunity_sha256": "5a0154b5971bc5cedddd296472c012bc6cc8c4eff689ee522ee614fdcaf2bf8d",
+  "next_runtime_admitted": false,
+  "controls_rerun": false,
+  "component_rerun": false,
+  "full_curve_admitted": false,
+  "promoted": false,
+  "goal_met": false
+}

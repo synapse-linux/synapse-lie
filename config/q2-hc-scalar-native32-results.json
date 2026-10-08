@@ -1,0 +1,70 @@
+{
+  "schema": "synapse-lie.q2-hc-scalar-native32-results.v1",
+  "source_commit": "6c5bd9bc7edc97cf79ac89a589df3575397defe3",
+  "plan_sha256": "4ce1d478d42b174b4e62a9e7616842077e8a218c94577fcc6360b566c0c7e9fa",
+  "server_sha256": "578e332084e6dafd011d28d620a97cd812def02a98a7aa6411954c1b7d361a5a",
+  "client_sha256": "87d856cf454d5114f93d7d4260d54b58f6e92800f70e4013a505aa16973560c9",
+  "request_sha256": "200e66bde770068819ce66451f66252acaf6eb021c129fdfed055e893681af58",
+  "tokens": 32711,
+  "prefill_calls": 16,
+  "full_chunks": 15,
+  "tail_tokens": 1991,
+  "cached_tokens": 0,
+  "output_tokens": 8,
+  "decode_calls": 8,
+  "new_prefill_ms": 23049.918058,
+  "new_prefill_tps": 1419.1373660283753,
+  "new_decode_ms": 298.222941,
+  "new_decode_tps": 26.82556872779281,
+  "original_full_curve_reference": {
+    "prefill_tps": 1402.2457164097352,
+    "decode_tps": 26.234155426831332,
+    "prefill_change_percent": 1.2046141001513577,
+    "decode_change_percent": 2.2543637915501513,
+    "same_request_different_preceding_sequence": true
+  },
+  "same_sequence_saved_controls": [
+    {
+      "name": "00-retained.jsonl",
+      "path": "evidence/q2-select-live-grid-pair-r2/results/00-retained.jsonl",
+      "sha256": "1470734c1f81509f859e8e04d25aab032eb294e0458b476507a7af8190e45a7e",
+      "prefill_tps": 1426.532712425717,
+      "decode_tps": 26.250492410017937,
+      "all_four_outputs_exact": true,
+      "prefill_change_percent": -0.5184140772184875,
+      "decode_change_percent": 2.1907258301768318
+    },
+    {
+      "name": "03-retained.jsonl",
+      "path": "evidence/q2-select-live-grid-pair-r2/results/03-retained.jsonl",
+      "sha256": "c3bb01cacf5cc897dc186c71e83d1986f6ea4b7f2cb8fec3afac39481b2f237e",
+      "prefill_tps": 1422.901120905163,
+      "decode_tps": 26.25373135258994,
+      "all_four_outputs_exact": true,
+      "prefill_change_percent": -0.26451274944484515,
+      "decode_change_percent": 2.178118483513991
+    }
+  ],
+  "all_saved_outputs_exact": true,
+  "sampled_peak_cpu_mc": 86375,
+  "sampled_peak_gpu_mc": 87000,
+  "server_exit_code": 0,
+  "client_exit_code": 0,
+  "artifact_count": 15,
+  "release_at": "2026-10-07T11:25:23.218979+00:00",
+  "release_sha256": "f57e3961aec8b3242b671b872a560144bdb0c96a32894162a9b3aa35f1a5fc3d",
+  "retired_identities": 1962,
+  "retired_groups": 1568,
+  "controls_rebuilt_or_rerun": false,
+  "new_precision_reduction": false,
+  "sustained_tg128_measured": false,
+  "full_128k_measured": false,
+  "independent_parent_quality_qualified": false,
+  "goal_met": false,
+  "limits": [
+    "One new observation; historical controls are not contemporaneous.",
+    "Same-sequence controls and earlier full-curve observation remain separate.",
+    "Eight native decode calls are not the direct fixed TG128 scope.",
+    "Streamed output equality does not qualify inherited task quality."
+  ]
+}

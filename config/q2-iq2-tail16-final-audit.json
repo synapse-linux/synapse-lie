@@ -1,0 +1,82 @@
+{
+  "schema": "synapse-lie.q2-iq2-tail16-final.v1",
+  "plan_sha256": "f56ed6057f08355be3f7f0794e321e1dc96ee4330264a752a94cbe6875d49511",
+  "model_result_sha256": "0c9246c421ae57fd34f9d48d1c7090ccaa29b47b5bf04de6847676327cb948cd",
+  "component_result_sha256": "aa57b624d532dbea22f681e85e974c3a2a9f02af15f8ee29e0e82d192cc8e64f",
+  "release_sha256": "b7da267d9739b263a8ed46a5592246d143e3ea1ab127c99bcbfaae1c1e23a46f",
+  "runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 37,
+  "host_reused": false,
+  "frozen_fixtures_verified": 116,
+  "frozen_manifests_verified": 12,
+  "provider_files_verified": 1029,
+  "retired_identities": 1312,
+  "retired_groups": 1049,
+  "thermal_max_c": {
+    "q2-iq2-tail16-host-r1": {
+      "amdgpu": 40.0,
+      "k10temp": 67.0
+    },
+    "q2-iq2-tail16-component-r1": {
+      "amdgpu": 39.0,
+      "k10temp": 65.125
+    },
+    "q2-iq2-tail16-model-r1": {
+      "amdgpu": 71.0,
+      "k10temp": 79.375
+    }
+  },
+  "component_parent_exact": true,
+  "parent_model_checks": {
+    "input_exact": true,
+    "output_tokens_exact": true,
+    "changed_files": [],
+    "max_matched_history_kl": 0.0
+  },
+  "within_arm_exact": true,
+  "figures": {
+    "docs/figures/q2-iq2-tail16-component.csv": "e2a38d79961c2392ad58f840f5890d90fe1ca78c9449353b9418909f44c98ea9",
+    "docs/figures/q2-iq2-tail16-component.svg": "2f98e2c4d30711dd4d823f1b2aa490b694da50e473a106ede5443ed9dfdea880",
+    "docs/figures/q2-iq2-tail16-component.png": "5f3511d1f8c19b26d733adad501f9451169e24e59871302e4d1f6e9c6439e336",
+    "docs/figures/q2-iq2-tail16-model.csv": "e5def69e2e22df5a9a427495b409ea2d74e956a4edbea943cb432144261654e7",
+    "docs/figures/q2-iq2-tail16-model.svg": "1239f989933e85558f312fa65ee127f6c4521fea21a9d9042039b2f34a7e9698",
+    "docs/figures/q2-iq2-tail16-model.png": "b14ce69317bd20bf9af081b2d3592b6ef26517d530f861b580b830c01021c082"
+  },
+  "raw_model_reanalysis": true,
+  "controls_rerun": false,
+  "full_curve": false,
+  "independent_quality": false,
+  "goal_met": false,
+  "classified_preparation_failures": {
+    "evidence/q2-iq2-tail16-preparation/wiring-initial-failure.json": {
+      "sha256": "a82b152bc9dd0cdaa41657f2d0bf7a4864d5827cd871dd64b27d50fcc2d02bd8",
+      "classification": "Local wiring anchor mismatch; corrected before host and GPU qualification",
+      "exit_code": 1,
+      "error": "AssertionError: expected dedicated old short-tiles result-state line does not exist; remote wiring was written, runner wiring was not written",
+      "gpu_run": false,
+      "model_access": false
+    },
+    "evidence/q2-iq2-tail16-preparation/wiring-second-failure.json": {
+      "sha256": "d6ddb3543e8ebadfc5928bd6a8a8df09238412a5bae20ef7782ac5f77cc2da39",
+      "classification": "Local wiring anchor mismatch; corrected before host and GPU qualification",
+      "exit_code": 1,
+      "error": "ValueError: no dedicated four-wave result-state anchor; runner write aborted before mutation",
+      "gpu_run": false
+    }
+  },
+  "unclassified_command_failures": {}
+}

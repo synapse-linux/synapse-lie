@@ -1,0 +1,220 @@
+{
+  "schema": "synapse-lie.q2-down-half-storage-isa-delta.v1",
+  "candidate_assembly_sha256": "ad92ce6cce758ae86cb2a209cdd6364b67344e5003b9307eb537bb1197afd390",
+  "rows": [
+    {
+      "name": "down-bn16",
+      "parent_symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi16ELi2ELb0ELb0ELb1EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+      "candidate_symbol": "_ZN4gufo6models17qwen38_flash_next4rocm25RoutedQ2HalfStorageKernelILNS2_10WeightTypeE10ELi128ELi16ELi2ELb0ELb0ELb1EEEvPKvPKNSt11conditionalIXaaeqT_LS4_10EntT5_Ef6__halfE4typeEPKiSE_SE_SE_PKfPfPS8_mmS6_",
+      "parent_resources": {
+        "group_segment_fixed_size": 14464,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 86,
+        "next_free_sgpr": 30,
+        "wavefront_size32": 1
+      },
+      "candidate_resources": {
+        "group_segment_fixed_size": 14464,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 86,
+        "next_free_sgpr": 30,
+        "wavefront_size32": 1
+      },
+      "parent_instructions": 1058,
+      "candidate_instructions": 1040,
+      "mnemonic_changes": {
+        "v_lshlrev_b64": [
+          42,
+          34
+        ],
+        "global_store_b32": [
+          8,
+          0
+        ],
+        "s_cbranch_execnz": [
+          0,
+          8
+        ],
+        "s_mov_b32": [
+          26,
+          18
+        ],
+        "s_and_not1_b32": [
+          17,
+          25
+        ],
+        "s_mov_b64": [
+          0,
+          22
+        ],
+        "s_and_b32": [
+          29,
+          21
+        ],
+        "s_branch": [
+          3,
+          11
+        ],
+        "s_delay_alu": [
+          124,
+          116
+        ],
+        "v_mov_b32_e32": [
+          52,
+          44
+        ],
+        "v_add_co_u32": [
+          48,
+          40
+        ],
+        "v_add_co_ci_u32_e64": [
+          48,
+          40
+        ]
+      }
+    },
+    {
+      "name": "down-bn48",
+      "parent_symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi48ELi2ELb0ELb0ELb1EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+      "candidate_symbol": "_ZN4gufo6models17qwen38_flash_next4rocm25RoutedQ2HalfStorageKernelILNS2_10WeightTypeE10ELi128ELi48ELi2ELb0ELb0ELb1EEEvPKvPKNSt11conditionalIXaaeqT_LS4_10EntT5_Ef6__halfE4typeEPKiSE_SE_SE_PKfPfPS8_mmS6_",
+      "parent_resources": {
+        "group_segment_fixed_size": 18560,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 96,
+        "next_free_sgpr": 36,
+        "wavefront_size32": 1
+      },
+      "candidate_resources": {
+        "group_segment_fixed_size": 18560,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 96,
+        "next_free_sgpr": 36,
+        "wavefront_size32": 1
+      },
+      "parent_instructions": 2551,
+      "candidate_instructions": 2577,
+      "mnemonic_changes": {
+        "global_store_b32": [
+          36,
+          12
+        ],
+        "s_delay_alu": [
+          348,
+          350
+        ],
+        "global_store_b16": [
+          24,
+          48
+        ],
+        "v_cvt_f16_f32_e32": [
+          40,
+          64
+        ]
+      }
+    },
+    {
+      "name": "down-bn64",
+      "parent_symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi64ELi2ELb0ELb0ELb1EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+      "candidate_symbol": "_ZN4gufo6models17qwen38_flash_next4rocm25RoutedQ2HalfStorageKernelILNS2_10WeightTypeE10ELi128ELi64ELi2ELb0ELb0ELb1EEEvPKvPKNSt11conditionalIXaaeqT_LS4_10EntT5_Ef6__halfE4typeEPKiSE_SE_SE_PKfPfPS8_mmS6_",
+      "parent_resources": {
+        "group_segment_fixed_size": 20608,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 104,
+        "next_free_sgpr": 36,
+        "wavefront_size32": 1
+      },
+      "candidate_resources": {
+        "group_segment_fixed_size": 20608,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 104,
+        "next_free_sgpr": 36,
+        "wavefront_size32": 1
+      },
+      "parent_instructions": 3225,
+      "candidate_instructions": 3259,
+      "mnemonic_changes": {
+        "global_store_b32": [
+          48,
+          16
+        ],
+        "s_delay_alu": [
+          446,
+          448
+        ],
+        "global_store_b16": [
+          32,
+          64
+        ],
+        "v_cvt_f16_f32_e32": [
+          52,
+          84
+        ]
+      }
+    },
+    {
+      "name": "combine",
+      "parent_symbol": "_ZN4gufo6models17qwen38_flash_next4rocm30HcCombineMoeDeferredNormKernelEPfPKfS5_S5_S5_jjS5_jS5_S3_jfP6__half",
+      "candidate_symbol": "_ZN4gufo6models17qwen38_flash_next4rocm34HcCombineMoeHalfDeferredNormKernelEPfPK6__halfPKfS8_S8_jjS8_jS8_S3_jfPS4_",
+      "parent_resources": {
+        "group_segment_fixed_size": 10368,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 84,
+        "next_free_sgpr": 32,
+        "wavefront_size32": 1
+      },
+      "candidate_resources": {
+        "group_segment_fixed_size": 10368,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 84,
+        "next_free_sgpr": 32,
+        "wavefront_size32": 1
+      },
+      "parent_instructions": 1722,
+      "candidate_instructions": 1729,
+      "mnemonic_changes": {
+        "s_lshl_b64": [
+          13,
+          14
+        ],
+        "v_lshlrev_b64": [
+          1,
+          2
+        ],
+        "v_fma_mix_f32": [
+          0,
+          4
+        ],
+        "global_load_b128": [
+          22,
+          21
+        ],
+        "v_add_nc_u32_e32": [
+          39,
+          40
+        ],
+        "s_delay_alu": [
+          287,
+          288
+        ],
+        "s_lshr_b32": [
+          0,
+          1
+        ],
+        "v_dual_fmac_f32": [
+          3,
+          0
+        ],
+        "global_load_b64": [
+          0,
+          1
+        ],
+        "v_fmac_f32_e32": [
+          43,
+          44
+        ]
+      }
+    }
+  ],
+  "scope": "Static instructions and resources only, not traffic or performance. Original retained bodies remain unchanged.",
+  "gpu_run": false
+}

@@ -1,0 +1,26 @@
+{
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "baseline_checkpoint": "5e32120",
+  "files": 1019,
+  "changed": [
+    "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp"
+  ],
+  "patch_sha256": "8aa5376c4fc9cb2f4292ab22ed044aa4c63c8458ea90d14f2df727324c4ef267",
+  "inventory_hash_encoding": "UTF-8 json.dumps(path->{bytes,sha256}, sort_keys=True, separators=(comma,colon))",
+  "baseline_inventory_sha256": "0f1c493ccf3570b70e314bf2f0d9cebc09da126f45716b106e072dab6c88e966",
+  "candidate_inventory_sha256": "d9e2d6ff499f72ef3c6a953cacc40f8d027ac873a73e96a4676240ff83bf4998",
+  "exact_reconstruction": true,
+  "format_files": 486,
+  "gpu_runtime": "Not run; awaiting core handover",
+  "static_checks": {
+    "device_assembly": "evidence/q2-packed-static-r2.json",
+    "fixture_host_syntax": "evidence/q2-packed-syntax.json (fixture entry)",
+    "executor_host_syntax": "evidence/q2-packed-executor-syntax-r2.json"
+  },
+  "retained_static_failures": [
+    "evidence/q2-packed-static.json",
+    "evidence/q2-packed-syntax.json (executor entry)"
+  ]
+}

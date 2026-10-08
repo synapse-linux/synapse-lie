@@ -1,0 +1,169 @@
+{
+  "observed_at": "2026-10-03T12:33:21.689577+00:00",
+  "scope": "Read-only engine feature audit and preserved interrupted Core-19 baseline; not a final score",
+  "label": "q2-terminal-qualified-full-r1",
+  "campaign_state": "FAILED",
+  "finished_at": "2026-10-03T12:25:27.556979+00:00",
+  "thermal_stop": [
+    {
+      "path": "/sys/class/hwmon/hwmon2/temp1_input",
+      "device": "amdgpu",
+      "temperature_mc": 99000,
+      "limit_mc": 98000,
+      "inclusive": true,
+      "over_limit": true
+    },
+    {
+      "path": "/sys/class/hwmon/hwmon3/temp1_input",
+      "device": "k10temp",
+      "temperature_mc": 96500,
+      "limit_mc": 98000,
+      "inclusive": true,
+      "over_limit": false
+    }
+  ],
+  "session_exit_code": -15,
+  "cleanup_exit_code": 0,
+  "supervisor_collection": {
+    "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-terminal-qualified-full-r1/results.tar.gz",
+    "sha256": "f79ae1d5f5581ef1c6fc6193e835c95cba8d26006361996f1b227f1875f4af42",
+    "verified_artifacts": 11,
+    "existing_archive": false
+  },
+  "partial_task_collection": {
+    "label": "q2-terminal-qualified-full-r1",
+    "scope": "Interrupted thermal failure; partial tasks only, no final score or normalized export",
+    "verified_files": 34,
+    "archive_sha256": "dc8717aceea4d0cebda6b44353a40be7834a41fc5d28a21b85618d7a86dfb057",
+    "uncompressed_bytes": 1096848
+  },
+  "release": {
+    "at": "2026-10-03T12:30:15.043714+00:00",
+    "state": "Q2_TERMINAL_WINDOW_RELEASED_AFTER_THERMAL_STOP",
+    "label": "q2-terminal-qualified-full-r1",
+    "campaign_state": "FAILED",
+    "finished_at": "2026-10-03T12:25:27.556979+00:00",
+    "session_exit_code": -15,
+    "cleanup_exit_code": 0,
+    "checked_pids": [
+      3003240,
+      3003242,
+      3003662,
+      3005076,
+      3005077,
+      3005085,
+      3005086,
+      3005177,
+      3005292,
+      3064452
+    ],
+    "live_owned": [],
+    "owned_task_containers": [],
+    "kfd": [],
+    "unreadable_proc_entries": 449,
+    "leases": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067,
+        "free_verified_ex_nb": true
+      }
+    ],
+    "thermal": {
+      "amdgpu": {
+        "/sys/class/hwmon/hwmon2/temp1_input": 50000
+      },
+      "k10temp": {
+        "/sys/class/hwmon/hwmon3/temp1_input": 51125
+      }
+    },
+    "restart_scheduled": false,
+    "pending_arms": [
+      "retained full",
+      "scaled full"
+    ],
+    "qualification": "Partial evidence only; no Core-19 result; fresh coordinated admission required for any next GPU workload"
+  },
+  "full_task_denominator": 19,
+  "trials": [
+    {
+      "trial": "break-filter-js-from-html__7qcSKnD",
+      "completed": true,
+      "verifier_result": {
+        "rewards": {
+          "reward": 0.0
+        }
+      },
+      "exception_info": null,
+      "agent_steps": 6,
+      "peak_prompt_tokens": 4806,
+      "peak_completion_tokens": 1771
+    },
+    {
+      "trial": "build-cython-ext__TMxsGLK",
+      "completed": true,
+      "verifier_result": {
+        "rewards": {
+          "reward": 1.0
+        }
+      },
+      "exception_info": null,
+      "agent_steps": 32,
+      "peak_prompt_tokens": 38329,
+      "peak_completion_tokens": 796
+    },
+    {
+      "trial": "cobol-modernization__o98ttA3",
+      "completed": false,
+      "verifier_result": null,
+      "exception_info": null,
+      "agent_steps": 31,
+      "peak_prompt_tokens": 57330,
+      "peak_completion_tokens": 1806
+    }
+  ],
+  "task_failure_diagnosis": {
+    "task": "break-filter-js-from-html",
+    "variant": "qualified",
+    "observed": "Official pytest verifier collected one test; no alert appeared in the browser within five seconds; reward 0",
+    "agent_verification": "Invoked python /app/test_outputs.py twice; file defines a pytest test but has no main entry, so those calls did not run the test",
+    "task_instruction_caveat": "The upstream instruction says the file can be run to verify; this is ambiguous because it does not self-execute its test",
+    "underlying_browser_cause": "Not established beyond absence of the expected alert",
+    "transport": "Commands and terminal observations are retained in the trajectory; no task exception",
+    "numerical_attribution": "Baseline task failure does not establish a scaled-input regression"
+  },
+  "feature_audit": {
+    "core_pin": "ae9c34ef26b0bb12ae5c995cb2ec99131da5aefd",
+    "thinking": "Adapter fixes enable_thinking=false; chat parser rejects true. Possible quality factor requiring a separate matched comparison, not a proven cause",
+    "tools": "Terminus JSON command protocol worked in the observed task. ATIF tool_calls are its normalized representation and do not prove native API tool-call coverage",
+    "generation": "Omitted temperature defaults to greedy 0; common to all arms. Independent effect on quality has not been tested",
+    "ceilings": "Peak failed-task prompt 4806 and output 1771 are below configured 262144/4096. ATIF lacks finish_reason; no full wire-level truncation audit",
+    "cache_batch_mtp": "Disabled in this profile; primarily performance features. Their absence is not an observed cause of this task failure",
+    "generalization": "Results apply to the frozen text-only, thinking-off composition, not full model capability or latest core branch"
+  },
+  "next_comparison": "Keep task/scoring/serving profile frozen across Q2 arithmetic arms. Qualify thinking and any core/template changes in a separate cohort; do not feed the failure diagnosis to the evaluated agents.",
+  "source_evidence": {
+    ".deps/lie-terminal-core-bench/adapters/gufo.cpp": "376e0a8d116edab5ea6f74a4a003f2f8d0cbff943a8a6a2f2e422f77e3b82a01",
+    ".deps/lie-terminal-core-bench/src/chat.c": "8b718cd6cf3e89c71657a00ecca347bbb898d6671106d2301dcbdc0e57345a67",
+    ".deps/terminal-bench-mini/tasks/break-filter-js-from-html/instruction.md": "ad42558111b2a8e8534bdf52b584b804348e1a8d68d756f812a31d5147e65be5",
+    ".deps/terminal-bench-mini/tasks/break-filter-js-from-html/environment/tests/test_outputs.py": "31ba6a0baac550de110680ff32a16bbc4fa858e1bfe41f2a63516f90073729bc"
+  }
+}

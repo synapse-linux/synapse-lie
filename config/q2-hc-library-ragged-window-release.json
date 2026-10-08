@@ -1,0 +1,147 @@
+{
+  "at": "2026-10-03T21:11:50.582832+00:00",
+  "state": "Q2_HC_LIBRARY_RAGGED_WINDOW_RELEASED",
+  "labels": [
+    "q2-hc-library-ragged-host-r1",
+    "q2-hc-library-ragged-component-r1",
+    "q2-hc-library-ragged-model-host-r1",
+    "q2-hc-library-ragged-model-control-r1",
+    "q2-hc-library-ragged-model-candidate-r1",
+    "q2-hc-library-ragged-model-ud-r1"
+  ],
+  "command_exits": {
+    "q2-hc-library-ragged-host-r1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-hc-library-ragged-component-r1": [
+      0,
+      0,
+      1
+    ],
+    "q2-hc-library-ragged-model-host-r1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-hc-library-ragged-model-control-r1": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-hc-library-ragged-model-candidate-r1": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-hc-library-ragged-model-ud-r1": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "checked_pids": [
+    3234268,
+    3234269,
+    3234339,
+    3234464,
+    3234690,
+    3234760,
+    3234905,
+    3235366,
+    3235367,
+    3235564,
+    3235706,
+    3237105,
+    3237106,
+    3237176,
+    3237295,
+    3237533,
+    3237606,
+    3237736,
+    3238147,
+    3238149,
+    3238374,
+    3239559,
+    3239592,
+    3239593,
+    3240472,
+    3240473,
+    3240689,
+    3241874,
+    3241879,
+    3241880,
+    3242709,
+    3242711,
+    3242928,
+    3243932,
+    3243937,
+    3243938
+  ],
+  "live_owned": [],
+  "live_owned_groups": [],
+  "kfd": [],
+  "unreadable_or_retired_proc_entries": 0,
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "thermal": [
+    {
+      "path": "/sys/class/hwmon/hwmon2/temp1_input",
+      "device": "amdgpu",
+      "temperature_mc": 41000,
+      "limit_mc": null,
+      "inclusive": false,
+      "limit_source": "no_exposed_gpu_threshold",
+      "over_limit": false
+    },
+    {
+      "path": "/sys/class/hwmon/hwmon3/temp1_input",
+      "device": "k10temp",
+      "temperature_mc": 43125,
+      "limit_mc": 98000,
+      "inclusive": true,
+      "limit_source": "owner_cpu_limit",
+      "over_limit": false
+    }
+  ],
+  "gpu_reserved": false,
+  "restart_scheduled": false,
+  "qualification": "Ragged component retains numerical exit1 and all timings; original-C17 Q2 control/candidate/UD complete. Existing operator/position/KL rejection remains; no numerical promotion or parity claim."
+}

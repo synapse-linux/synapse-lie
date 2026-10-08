@@ -1,0 +1,75 @@
+{
+  "schema": "synapse-lie.q2-ssm-bk4-source.v1",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "parent_manifest": "config/q2-hc-scalar-isolated-source.json",
+  "parent_manifest_sha256": "eb12a4783802ee991f88d896b8698f7f61abc6dac68b2ae7372d0795ee850810",
+  "donor": "experiments/q2-ssm-wave-balance.inc",
+  "donor_sha256": "caa6ed0fe648986142f3cf30d2773f9052f7859b1d6f834d6c67e6d6cb5fdaef",
+  "files": {
+    "experiments/q2-ssm-bk4.inc": "3192cf2e8a04adf8dc2b0e9b010affc7f448377fa4068f809199890d01279371",
+    "tests/q2_ssm_bk4.hip": "f3a79b3dd9e5544231277fa5b550d8177f6e075561a9b9aecee3303224730084",
+    "tools/prepare-q2-ssm-bk4-probe.py": "9b3fa58cb57ba355e7fb843cc3d79966228e581083da1914ff2adaec403ede7c",
+    "experiments/q2-ssm-resident-oracle.inc": "29609c9f4e94d84907e3c975902fe5ab60ec8fb87e96b1ac23b983b22b1a58d0"
+  },
+  "parent_geometry": [
+    256,
+    128,
+    2,
+    8,
+    1
+  ],
+  "candidate_geometry": [
+    128,
+    128,
+    4,
+    4,
+    2
+  ],
+  "k32_blocks": 80,
+  "parent_stages": 40,
+  "candidate_stages": 20,
+  "parent_row_blocks": 64,
+  "candidate_row_blocks": 128,
+  "candidate_lds_bytes": 65536,
+  "same_k16_order": true,
+  "new_precision_boundary": false,
+  "prompt_chunk_tokens": 2048,
+  "risks": [
+    "Twice as many output-row blocks and duplicated activation reads.",
+    "64KiB LDS and register occupancy must be checked; fewer stages do not imply a win."
+  ],
+  "binary": "evidence/q2-ssm-bk4-preparation/q2_ssm_bk4_check",
+  "binary_sha256": "c935fe895dccf90fe3f85c14b15e0679d09208f9bf2fb4e4e18c134ccab2844e",
+  "gpu_run": false,
+  "remote_staged": false,
+  "runtime_qualified": false,
+  "model_run": false,
+  "native_control_exact": [
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb1ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "sha256": "f2f50979e465603dce1a8aa1e5fd9444406d11d28423cbdb4a01d48f2cfde874",
+      "native_sha256": "f2f50979e465603dce1a8aa1e5fd9444406d11d28423cbdb4a01d48f2cfde874",
+      "exact": true,
+      "resources": {
+        "num_vgpr": 220,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    }
+  ],
+  "candidate_functions": [
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm17DenseSsmBk4KernelILi128ELi128ELi4ELi4ELi2ELi1ELb0ELb1ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "sha256": "c0cdfeba09952a17b3ff93bce658793bf695b23003761673d0d5a1544082bf3e",
+      "bytes": 13444,
+      "bundle": "0",
+      "resources": {
+        "num_vgpr": 170,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    }
+  ],
+  "private_scratch_bytes": 0,
+  "component_gpu_admitted": false
+}

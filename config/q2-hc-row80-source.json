@@ -1,0 +1,32 @@
+{
+  "scope": "Isolated HC row80 experiment; numerical replay and speed unproven",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-hc-up-chains",
+  "donor": ".deps/gufo-q2-bench-hc-chain-coalesced",
+  "candidate": ".deps/gufo-q2-bench-hc-row80",
+  "base_sha256": "a5ccc81f7762beae74cf0bbb06e6aeebd44edf1c804c1473b63619af023a6cd5",
+  "donor_sha256": "f92ed87029211b44c5c9dd7d0e460c52fb15b686397d387f9012c33faf13fc50",
+  "candidate_sha256": "facd1d66410b060e838f21ae0e40383031f29a8a37cb0d37c900cc523b348d98",
+  "patch_sha256": "121aef7d74346346d8a7e71f6c7811bbcf51b50a6ba0bccf288b39983d64b60f",
+  "changed_files": [
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  ],
+  "dispatch": "Only M320/K10240/n>=96 original-F16 HC down",
+  "geometry": "BM80/BN128/BK2/WM1/WN8, four-row grouping, 512 threads",
+  "mechanism": "Coalesced 16-byte stage fetches, five row tiles per paired wave, bounded odd epilogue",
+  "arithmetic": "Original F16 operands, two ordered K16 sums and final low+high F32 addition",
+  "logical_staging_n2048": {
+    "input_mib": 160,
+    "weights_mib": 100,
+    "blocks": 64
+  },
+  "reference_staging_n2048": {
+    "input_mib": 200,
+    "weights_mib": 100,
+    "blocks": 80
+  },
+  "physical_traffic_measured": false,
+  "model_conversion": false,
+  "numerical_limits_changed": false,
+  "promoted": false
+}

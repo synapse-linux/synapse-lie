@@ -1,0 +1,44 @@
+{
+  "schema": "synapse-lie.q2-norm-ragged-host.v1",
+  "label": "q2-norm-ragged-host-r2",
+  "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+  "debug_tests": 22,
+  "asan_ubsan_tests": 22,
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "verified_artifacts": 7,
+  "fixtures": {
+    "CMakeLists.txt": "e81e0380bf40e5152570ed937bdf4b22800ee86cf624ef94f48f98b881db3eab",
+    "cmake/hip/CMakeLists.txt": "77a41cea52095fea97ea69de8170b626127ebb3a6d1ee3ba53492cf2af9271c4",
+    "tests/q2_hc_library_norm.cpp": "691590bfa9710e91578b75e0e351bef37cd90cca8038c1e12e827e991cd055c8",
+    "tests/q2_hc_sequence.cpp": "9949bf6df8e4119a0c2d1eda99b9cda4af3e69f94a5270fedbc607c694247b8a",
+    "tests/q2_hc_norm_half.cpp": "94aae9e5c7acaa14778b363e272a1d874ec7b222395c4b0a8d1d754a54f648c8",
+    "tests/q2_hc_moe_fused.cpp": "f743aed14d492b9bdc2de25e69f9b126c534964da61443d275e49c6bc14f4483",
+    "tests/q2_hc.cpp": "de9b86b56cc74abf12efc4bb4d5b2570b2a18db7d23abdb1c338d0c752927ba1",
+    "tests/q2_operator_fixture.hpp": "2ba80826f7ce8cf004f0f15f87cbf05e1083dd4d0a6da92e27bf300df3bfc93f",
+    "tests/q2_remote_test.py": "6a970ccd66f67e1a24679836e908c3e4d7700a41a1722db0d40e7fae04c2b9f3",
+    "tools/q2-remote.py": "98f04b8813cecca8b340f75a1116e0c8b1beddda6fe09e30876a0b5284432bfd",
+    "tools/q2-runner.py": "eb990d497bf485d595f74498c518ba1391080c222c6b9561bbafc7730a7510dc",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9"
+  },
+  "finished_at": "2026-10-04T14:33:55.972795+00:00",
+  "model_inference": false,
+  "gpu_access": false,
+  "failed_cohort": {
+    "label": "q2-norm-ragged-host-r1",
+    "command_exits": [
+      0,
+      0,
+      8
+    ],
+    "fix": "All invalid combinations were refused, but another variant guard ran first; prioritize the new component scope guard to make its diagnostic consistent. Initial CTest exit8 retained."
+  },
+  "local_report_failure": "Initial audit expected another CTest summary literal; actual passing logs inspected and literal corrected without rerunning tests."
+}

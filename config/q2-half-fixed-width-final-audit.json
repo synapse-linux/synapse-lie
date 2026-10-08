@@ -1,0 +1,114 @@
+{
+  "schema": "synapse-lie.q2-half-fixed-width-final-audit.v1",
+  "fixtures_verified": 72,
+  "manifests_verified": 4,
+  "provider_files": 1026,
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifact_count": 874,
+  "component_result_sha256": "89f736b388321de3ff69a3ce0096ba1bb132f264d4d5d9d4e018612bd710233e",
+  "model_result_sha256": "f3b8e79ceb684975b9e6bbc59b2409137a8296c32f48cda56dc80313760c6579",
+  "component_numerical_pass": false,
+  "component_parent_exact": false,
+  "within_arm_exact": true,
+  "changed_parent_files": [
+    "pp2048-0-last.f32",
+    "pp2048-0-prefill.f32",
+    "pp2048-1-last.f32",
+    "pp2048-1-prefill.f32",
+    "pp2048-2-last.f32",
+    "pp2048-2-prefill.f32",
+    "pp2048-3-last.f32",
+    "pp2048-3-prefill.f32"
+  ],
+  "measurements": {
+    "prefill_tok_s": {
+      "samples": [
+        1569.569346,
+        1568.270062,
+        1569.533792
+      ],
+      "min": 1568.270062,
+      "median": 1569.533792,
+      "max": 1569.569346
+    },
+    "decode_steps_s": {
+      "samples": [
+        25.13728924,
+        25.16043516,
+        25.16597874
+      ],
+      "min": 25.13728924,
+      "median": 25.16043516,
+      "max": 25.16597874
+    },
+    "prefill_s": {
+      "samples": [
+        1.304816512,
+        1.30589753,
+        1.30484607
+      ],
+      "min": 1.304816512,
+      "median": 1.30484607,
+      "max": 1.30589753
+    },
+    "decode_s": {
+      "samples": [
+        5.052255188,
+        5.047607452,
+        5.046495562
+      ],
+      "min": 5.046495562,
+      "median": 5.047607452,
+      "max": 5.052255188
+    }
+  },
+  "changes": {
+    "fixed_q2": {
+      "prefill_tok_s": 8.71810559559405,
+      "decode_steps_s": 0.2569345140509327,
+      "prefill_s": -8.019000635390883,
+      "decode_s": -0.25627603905775675
+    },
+    "fixed_ud": {
+      "prefill_tok_s": -6.895532069550747,
+      "decode_steps_s": 3.3633280348096095,
+      "prefill_s": 7.406231091932525,
+      "decode_s": -3.25388908034393
+    },
+    "best_parent": {
+      "prefill_tok_s": -0.13887282020410563,
+      "decode_steps_s": -0.1860012408006373,
+      "prefill_s": 0.13906598060640096,
+      "decode_s": 0.18634786022642125
+    }
+  },
+  "admission_exit": 0,
+  "host_rerun": false,
+  "preserved_preparation_failures": [],
+  "release_sha256": "a8e0d9f6a30c8f0d10d6c4ed5896dc84c521ee28e9f682db223c982293cc59a4",
+  "retired_identities": 974,
+  "retired_groups": 774,
+  "gpu_released": true,
+  "model_stats_unchanged": true,
+  "main_release_mirrors_exact": true,
+  "controls_rerun": false,
+  "component_rerun": false,
+  "q4_run": false,
+  "full_curve_run": false,
+  "promoted": false,
+  "goal_met": false
+}

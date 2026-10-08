@@ -1,0 +1,14 @@
+{
+  "schema": "synapse-lie.q2-counter-calibration-staging.v1",
+  "arms": [
+    {
+      "mode": "counter-calibration",
+      "capsule_sha256": "3fb80f2cf93b46e261fd71ea8b2cff1df42c22dcbeb0c43db2bafce0e32b25a3",
+      "provider_not_used": true,
+      "fixture_files": 105,
+      "capsule_path": "evidence/q2-counter-stage-r1/source.tar.gz",
+      "ssh_executed": false
+    }
+  ],
+  "gpu_run": false
+}

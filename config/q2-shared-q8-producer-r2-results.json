@@ -1,0 +1,346 @@
+{
+  "schema": "synapse-lie.q2-shared-q8-producer-r2-result.v1",
+  "state": "FAILED_CPU_RECIPROCAL_TIE_ORACLE_AFTER_EXACT_GPU_REPLAY",
+  "plan_sha256": "e595a6f69214267c0a40d668a0423e23b20ba187703eb74c5a5a5d7fd5be77b4",
+  "command_exits": [
+    0,
+    0,
+    1
+  ],
+  "artifacts_verified": 92,
+  "source_files_verified": 1022,
+  "archive_sha256": "4e9860ed665d8280f34c899e46fc87f9d70c1cee30732ff16a624a7bb69f651c",
+  "capsule_sha256": "552857eea8441f20b23ac529b167c73f8d8b43b81d7a8d1486ba91e96d5c9f2c",
+  "binary_sha256": "a5d3abba58fcba9e6ce7b357a71b738fcff6b970655e5d6c72c94282e83cd6f7",
+  "completed_checks": [
+    {
+      "event": "hc_up_fused",
+      "label": "hc-up-n96-p0-i1-h1",
+      "values": 245760,
+      "exact_mixed": true,
+      "exact_inject": true,
+      "exact_half": true,
+      "mix_oracle_values": 2520,
+      "mix_rrms": 7.70092886464e-08,
+      "mix_scaled_max": 1.2549650109e-07,
+      "inject_oracle_values": 108,
+      "inject_rrms": 1.01102186256e-07,
+      "inject_scaled_max": 1.20111479879e-07,
+      "independent_pass": true
+    },
+    {
+      "event": "hc_up_fused",
+      "label": "hc-up-n129-p0-i1-h1",
+      "values": 330240,
+      "exact_mixed": true,
+      "exact_inject": true,
+      "exact_half": true,
+      "mix_oracle_values": 3360,
+      "mix_rrms": 7.69947435133e-08,
+      "mix_scaled_max": 9.6982467855e-08,
+      "inject_oracle_values": 144,
+      "inject_rrms": 1.15044859909e-07,
+      "inject_scaled_max": 1.02979185534e-07,
+      "independent_pass": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n96-p0-mixed",
+      "bytes": 983040,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n96-p0-half",
+      "bytes": 491520,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n96-p0-q8",
+      "bytes": 368640,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n96-p0-inject",
+      "bytes": 4608,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n96-p0-gate",
+      "bytes": 245760,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n96-p0-up",
+      "bytes": 245760,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n96-p0-activated",
+      "bytes": 122880,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n96-p0-down",
+      "bytes": 983040,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_oracle",
+      "n": 96,
+      "pattern": 0,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n96-p0-reject-q8",
+      "bytes": 368640,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n97-p1-mixed",
+      "bytes": 993280,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n97-p1-half",
+      "bytes": 496640,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n97-p1-q8",
+      "bytes": 368640,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n97-p1-inject",
+      "bytes": 4656,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n97-p1-gate",
+      "bytes": 248320,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n97-p1-up",
+      "bytes": 248320,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n97-p1-activated",
+      "bytes": 124160,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n97-p1-down",
+      "bytes": 993280,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_oracle",
+      "n": 97,
+      "pattern": 1,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n97-p1-reject-q8",
+      "bytes": 368640,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n127-p2-mixed",
+      "bytes": 1300480,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n127-p2-half",
+      "bytes": 650240,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n127-p2-q8",
+      "bytes": 368640,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n127-p2-inject",
+      "bytes": 6096,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n127-p2-gate",
+      "bytes": 325120,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n127-p2-up",
+      "bytes": 325120,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n127-p2-activated",
+      "bytes": 162560,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n127-p2-down",
+      "bytes": 1300480,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_oracle",
+      "n": 127,
+      "pattern": 2,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n127-p2-reject-q8",
+      "bytes": 368640,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n129-p0-mixed",
+      "bytes": 1320960,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n129-p0-half",
+      "bytes": 660480,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n129-p0-q8",
+      "bytes": 737280,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n129-p0-inject",
+      "bytes": 6192,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n129-p0-gate",
+      "bytes": 330240,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n129-p0-up",
+      "bytes": 330240,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n129-p0-activated",
+      "bytes": 165120,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n129-p0-down",
+      "bytes": 1320960,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_oracle",
+      "n": 129,
+      "pattern": 0,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n129-p0-reject-q8",
+      "bytes": 737280,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n2048-p0-mixed",
+      "bytes": 20971520,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n2048-p0-half",
+      "bytes": 10485760,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n2048-p0-q8",
+      "bytes": 5898240,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n2048-p0-inject",
+      "bytes": 98304,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n2048-p0-gate",
+      "bytes": 5242880,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n2048-p0-up",
+      "bytes": 5242880,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n2048-p0-activated",
+      "bytes": 2621440,
+      "exact": true
+    },
+    {
+      "event": "shared_q8_exact",
+      "name": "shared-q8-n2048-p0-down",
+      "bytes": 20971520,
+      "exact": true
+    }
+  ],
+  "benchmark_samples": 0,
+  "all_gpu_reference_candidate_pairs_exact": true,
+  "all_five_shapes_reached": true,
+  "r2_2048_cpu_code_differences": 12,
+  "r2_2048_codes_total": 5242880,
+  "r2_2048_scale_differences": 0,
+  "inference": "All five GPU producer/consumer shapes match. Twelve CPU reciprocal/half-code tie results differ from both production GPU paths at2048; use a separate serial GPU format oracle for the production FP32 contract while retaining CPU diagnostics.",
+  "numerical_thresholds_changed": false,
+  "model_run": false,
+  "promoted": false,
+  "goal_met": false
+}

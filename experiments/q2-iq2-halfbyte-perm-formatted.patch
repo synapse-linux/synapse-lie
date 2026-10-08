@@ -1,0 +1,201 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -4164,6 +4164,116 @@
+   hi = __hfma2(__hadd2(__builtin_bit_cast(__half2, p1), magic), scale2, bias2);
+ }
+ 
++// SPDX-License-Identifier: MIT
++// Lossless half high-byte encoding of the independently pinned
++// IQ2 codebook above; its original table and notices remain.
++static const __device__ std::uint64_t kIq2HalfHighGrid[256] = {
++    0x4848484848484848ULL, 0x4848484848484851ULL, 0x4848484848484e4eULL,
++    0x4848484848485148ULL, 0x4848484848485151ULL, 0x48484848484e484eULL,
++    0x48484848484e4e48ULL, 0x4848484848514848ULL, 0x4848484848514851ULL,
++    0x4848484848515148ULL, 0x4848484848515151ULL, 0x484848484e48484eULL,
++    0x484848484e484e48ULL, 0x484848484e4e4848ULL, 0x484848484e4e5148ULL,
++    0x484848484e51484eULL, 0x484848484e514e48ULL, 0x4848484851484848ULL,
++    0x4848484851484851ULL, 0x4848484851485151ULL, 0x4848484851514851ULL,
++    0x4848484e4848484eULL, 0x4848484e48484e48ULL, 0x4848484e484e4848ULL,
++    0x4848484e484e4e4eULL, 0x4848484e4e484848ULL, 0x4848484e51484e48ULL,
++    0x4848484e514e5148ULL, 0x4848485148484848ULL, 0x4848485148484851ULL,
++    0x4848485148514851ULL, 0x4848485151484851ULL, 0x48484e484848484eULL,
++    0x48484e4848484e48ULL, 0x48484e48484e4848ULL, 0x48484e484851484eULL,
++    0x48484e4848514e48ULL, 0x48484e484e484848ULL, 0x48484e484e484851ULL,
++    0x48484e484e485148ULL, 0x48484e484e514848ULL, 0x48484e485148484eULL,
++    0x48484e4851484e48ULL, 0x48484e48514e4848ULL, 0x48484e4851514e48ULL,
++    0x48484e4e48484848ULL, 0x48484e4e48484851ULL, 0x48484e4e48485148ULL,
++    0x48484e4e48514848ULL, 0x48484e4e4e484e51ULL, 0x48484e4e4e51514eULL,
++    0x48484e4e51484848ULL, 0x48484e4e514e484eULL, 0x48484e514848514eULL,
++    0x48484e51484e4848ULL, 0x48484e514e484848ULL, 0x48484e5151484e48ULL,
++    0x48484e5151514e48ULL, 0x4848514848484848ULL, 0x4848514848484e4eULL,
++    0x4848514848485148ULL, 0x48485148484e4e48ULL, 0x4848514848515148ULL,
++    0x484851484e48484eULL, 0x484851484e484e48ULL, 0x484851484e4e4848ULL,
++    0x484851484e4e4851ULL, 0x4848514851485148ULL, 0x4848514e48484e48ULL,
++    0x4848514e4e484848ULL, 0x4848515148484851ULL, 0x48485151484e4e48ULL,
++    0x484e48484848484eULL, 0x484e484848484e48ULL, 0x484e4848484e4848ULL,
++    0x484e48484851484eULL, 0x484e48484e484848ULL, 0x484e48484e514848ULL,
++    0x484e484851484e48ULL, 0x484e4848514e4848ULL, 0x484e4848514e4e4eULL,
++    0x484e484e48484848ULL, 0x484e484e48485148ULL, 0x484e484e48514848ULL,
++    0x484e484e4e4e4848ULL, 0x484e484e4e4e5151ULL, 0x484e484e51484848ULL,
++    0x484e485148514e48ULL, 0x484e48514e484e4eULL, 0x484e4e4848484848ULL,
++    0x484e4e4848485148ULL, 0x484e4e4848514848ULL, 0x484e4e4848514e4eULL,
++    0x484e4e484e48514eULL, 0x484e4e4851484848ULL, 0x484e4e4e484e5148ULL,
++    0x484e4e4e4e514851ULL, 0x484e4e5148484848ULL, 0x484e4e51484e4e51ULL,
++    0x484e51484848484eULL, 0x484e514848484e48ULL, 0x484e5148484e4848ULL,
++    0x484e51484e484848ULL, 0x484e51485148484eULL, 0x484e514e48484848ULL,
++    0x484e514e48484e4eULL, 0x484e514e51514848ULL, 0x484e51514e4e484eULL,
++    0x4851484848484848ULL, 0x4851484848484851ULL, 0x4851484848485151ULL,
++    0x485148484e484e48ULL, 0x485148484e51484eULL, 0x4851484851484848ULL,
++    0x4851484851484851ULL, 0x4851484e4851514eULL, 0x4851484e4e485148ULL,
++    0x4851485148484848ULL, 0x4851485148484851ULL, 0x48514e484848484eULL,
++    0x48514e4848484e48ULL, 0x48514e48484e4848ULL, 0x48514e484e484848ULL,
++    0x48514e484e4e4e51ULL, 0x48514e4e48484848ULL, 0x48514e4e4e48484eULL,
++    0x48514e4e4e514e48ULL, 0x48514e51514e4848ULL, 0x4851514848485148ULL,
++    0x4851514848514848ULL, 0x48515148514e4e48ULL, 0x485151514e484e48ULL,
++    0x4e4848484848484eULL, 0x4e48484848484e48ULL, 0x4e484848484e4848ULL,
++    0x4e484848484e5148ULL, 0x4e4848484851484eULL, 0x4e48484848514e48ULL,
++    0x4e4848484e484848ULL, 0x4e4848484e485148ULL, 0x4e4848484e4e4e51ULL,
++    0x4e4848484e514848ULL, 0x4e4848485148484eULL, 0x4e48484851484e48ULL,
++    0x4e484848514e4848ULL, 0x4e48484e48484848ULL, 0x4e48484e48514848ULL,
++    0x4e48484e4e51484eULL, 0x4e48484e51484848ULL, 0x4e48484e51484e4eULL,
++    0x4e4848514848484eULL, 0x4e484851484e4848ULL, 0x4e4848514e485148ULL,
++    0x4e4848514e4e4e51ULL, 0x4e4848514e515148ULL, 0x4e484e4848484848ULL,
++    0x4e484e4848485148ULL, 0x4e484e4848514848ULL, 0x4e484e4851484848ULL,
++    0x4e484e48514e514eULL, 0x4e484e4e484e4851ULL, 0x4e484e4e48514e48ULL,
++    0x4e484e5148484848ULL, 0x4e4851484848484eULL, 0x4e48514848484e48ULL,
++    0x4e485148484e4848ULL, 0x4e4851484e484848ULL, 0x4e4851484e484e4eULL,
++    0x4e48514e48484848ULL, 0x4e48514e4e4e5148ULL, 0x4e48514e4e51484eULL,
++    0x4e48514e51484851ULL, 0x4e4851514e484e4eULL, 0x4e485151514e4848ULL,
++    0x4e4e484848484848ULL, 0x4e4e484848485148ULL, 0x4e4e4848484e484eULL,
++    0x4e4e4848484e514eULL, 0x4e4e484848514848ULL, 0x4e4e484851484848ULL,
++    0x4e4e484851485148ULL, 0x4e4e484e48484e48ULL, 0x4e4e484e4e484851ULL,
++    0x4e4e484e51514e48ULL, 0x4e4e4851514e484eULL, 0x4e4e4e48514e4848ULL,
++    0x4e4e4e48514e4851ULL, 0x4e4e4e4e48485151ULL, 0x4e4e4e514848484eULL,
++    0x4e4e4e514e4e4e48ULL, 0x4e4e514848484848ULL, 0x4e4e5148484e484eULL,
++    0x4e4e5148484e514eULL, 0x4e4e51484e514e48ULL, 0x4e4e514e4e484848ULL,
++    0x4e4e515148485148ULL, 0x4e51484848484e48ULL, 0x4e514848484e4848ULL,
++    0x4e5148484e484848ULL, 0x4e5148484e515148ULL, 0x4e51484e48484848ULL,
++    0x4e51484e4e4e4e4eULL, 0x4e514851484e5148ULL, 0x4e5148514e514848ULL,
++    0x4e514e4848484848ULL, 0x4e514e4848484e4eULL, 0x4e514e4e484e4848ULL,
++    0x4e514e4e484e4851ULL, 0x4e514e4e51484e48ULL, 0x4e5151484e484851ULL,
++    0x5148484848484848ULL, 0x5148484848484851ULL, 0x5148484848485151ULL,
++    0x514848484e48484eULL, 0x5148484851484851ULL, 0x5148484e48484e48ULL,
++    0x5148484e484e5148ULL, 0x5148484e4e484848ULL, 0x51484851484e484eULL,
++    0x51484e484848484eULL, 0x51484e4848484e48ULL, 0x51484e48484e4848ULL,
++    0x51484e48484e4e4eULL, 0x51484e484e484848ULL, 0x51484e484e514848ULL,
++    0x51484e4e48484848ULL, 0x51484e4e4e484e51ULL, 0x51484e4e514e4e48ULL,
++    0x51484e514848514eULL, 0x51484e514e484848ULL, 0x51484e514e514848ULL,
++    0x5148514848484851ULL, 0x5148514e48484e48ULL, 0x51485151484e484eULL,
++    0x514e484848484e48ULL, 0x514e4848484e4848ULL, 0x514e484848514e48ULL,
++    0x514e48484e484848ULL, 0x514e48485151484eULL, 0x514e484e484e4e51ULL,
++    0x514e484e51484848ULL, 0x514e48514e484e4eULL, 0x514e4e4848484848ULL,
++    0x514e4e4848514851ULL, 0x514e4e484e484e48ULL, 0x514e4e4e4e4e484eULL,
++    0x514e51485148484eULL, 0x514e514e48514848ULL, 0x5151484848484851ULL,
++    0x515148484e4e4848ULL, 0x5151484851484e4eULL, 0x5151484e4848514eULL,
++    0x5151485148484848ULL, 0x51514e48484e5148ULL, 0x515151484e4e4848ULL,
++    0x5151514e48484e48ULL,
++};
++
++/// Each IQ2 magnitude is exactly8,25 or43. Their F16 high bytes
++/// are48,4e or51; the low bytes are00,40 or60. The sign stays in bit7.
++/// Keep one byte per weight in LDS and reconstruct the original F16 bits.
++__device__ __forceinline__ void Iq2HalfBytesToHalves(std::uint32_t high,
++                                                     __half2 scale2,
++                                                     __half2 bias2, __half2& lo,
++                                                     __half2& hi) {
++  const std::uint32_t selectors = high & 0x03030303U;
++  const std::uint32_t low =
++      __builtin_amdgcn_perm(0x00406000U, 0x00406000U, selectors);
++  const std::uint32_t p0 = __builtin_amdgcn_perm(low, high, 0x01050004U);
++  const std::uint32_t p1 = __builtin_amdgcn_perm(low, high, 0x03070206U);
++  // These are the exact signed magnitude operands of the original half add.
++  // Retain the same rounded scale, packed half FMA and zero bias.
++  lo = __hfma2(__builtin_bit_cast(__half2, p0), scale2, bias2);
++  hi = __hfma2(__builtin_bit_cast(__half2, p1), scale2, bias2);
++}
++
+ template<WeightType kType, int BM, int BN, int BK, bool kPair = false,
+          bool kPacked = false, bool kScaled = false>
+ __launch_bounds__(256) __global__ void RoutedF16GEMMKernel(
+@@ -4329,19 +4439,18 @@
+         __builtin_memcpy(&group, block + 2 + (sb32 % 8) * 8, 8);
+         __builtin_memcpy(&d, block, 2);
+         // One packed group: four grid indices, four parity-completed sign
+-        // masks and a four-bit scale. All codebook magnitudes are 8/25/43;
+-        // packed xor-plus-one negation therefore cannot carry across bytes.
++        // masks and a four-bit scale. Store the lossless F16 high bytes;
++        // applying signs changes bit7 without integer negation or byte carry.
+         uint2 signed_codes[4];
+ #pragma unroll
+         for (int part = 0; part < 4; ++part) {
+           const unsigned code = (group.x >> (8 * part)) & 255U;
+           const unsigned sign = (group.y >> (7 * part)) & 127U;
+           const uint2 magnitude =
+-              reinterpret_cast<const uint2*>(iq2xxs_grid)[code];
++              reinterpret_cast<const uint2*>(kIq2HalfHighGrid)[code];
+           const uint2 mask = reinterpret_cast<const uint2*>(ksigns64)[sign];
+-          signed_codes[part] =
+-              make_uint2((magnitude.x ^ mask.x) + (mask.x & 0x01010101U),
+-                         (magnitude.y ^ mask.y) + (mask.y & 0x01010101U));
++          signed_codes[part] = make_uint2(magnitude.x ^ (mask.x & 0x80808080U),
++                                          magnitude.y ^ (mask.y & 0x80808080U));
+         }
+         f_codes[u] = make_uint4(signed_codes[0].x, signed_codes[0].y,
+                                 signed_codes[1].x, signed_codes[1].y);
+@@ -4582,7 +4691,7 @@
+                                           c1.x, c1.y, c1.z, c1.w};
+ #pragma unroll
+           for (int i = 0; i < 8; ++i) {
+-            nib[i] = kSigned ? words[i] ^ 0x80808080U : words[i];
++            nib[i] = (kSigned && !kIQ2) ? words[i] ^ 0x80808080U : words[i];
+           }
+         } else if constexpr (kQ5) {
+           // Q5_1: K block kb's 16 bytes are chunk kb; elements 0-15 take
+@@ -4661,6 +4770,8 @@
+             h[2 * i + 1] =
+                 __floats2half2_rn(fmaf(float((nib[i] >> 16U) & 3U), d, bias),
+                                   fmaf(float((nib[i] >> 24U) & 3U), d, bias));
++          } else if constexpr (kIQ2) {
++            Iq2HalfBytesToHalves(nib[i], scale2, bias2, h[2 * i], h[2 * i + 1]);
+           } else {
+             CodesToHalves(nib[i], magic, scale2, bias2, h[2 * i], h[2 * i + 1]);
+           }
+@@ -6241,13 +6352,13 @@
+ }
+ 
+ bool HcMixRawQ8F16Gemm(const void* up, const __half* low_rank, const float* xn,
+-                     const float* inject_w, float* mixed, __half* mixed_half, void* mixed_q8,
+-                     float* inject, std::uint32_t n_tokens,
+-                     std::uint32_t hidden, std::uint32_t rank,
+-                     hipStream_t stream) {
++                       const float* inject_w, float* mixed, __half* mixed_half,
++                       void* mixed_q8, float* inject, std::uint32_t n_tokens,
++                       std::uint32_t hidden, std::uint32_t rank,
++                       hipStream_t stream) {
+   if (n_tokens < 96 || hidden != 2560 || rank != 320 || up == nullptr ||
+-      low_rank == nullptr || xn == nullptr || mixed == nullptr || mixed_q8 == nullptr ||
+-      (inject_w != nullptr && inject == nullptr)) {
++      low_rank == nullptr || xn == nullptr || mixed == nullptr ||
++      mixed_q8 == nullptr || (inject_w != nullptr && inject == nullptr)) {
+     return false;
+   }
+   // Original half weights and the existing F32 normalized streams. Interleave
+@@ -6257,7 +6368,8 @@
+                                          false, true, true>),
+                      grid, dim3(512), 0, stream, up, low_rank, mixed, n_tokens,
+                      4 * hidden, rank, xn, mixed_half, mixed_q8);
+-  if (hipGetLastError() != hipSuccess) return false;
++  if (hipGetLastError() != hipSuccess)
++    return false;
+   if (inject_w != nullptr) {
+     // Keep the original F32 inject products, partials and reduction order.
+     // This specialization omits only the gate read and mixed-row output.
+@@ -6270,7 +6382,6 @@
+ }
+ 
+ #include "q2_hc_down_bk256.inc"
+-
+ #include "q2_hc_moe_deferred.inc"
+ 
+ bool UnquantizedF16Gemm(const void* w, const __half* x, float* out,

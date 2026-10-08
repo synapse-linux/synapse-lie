@@ -1,0 +1,16 @@
+{
+  "schema": "synapse-lie.q2-shared-q8-producer-r1-format-diagnostic.v1",
+  "scope": "Read-only comparison of retained GPU buffers with correctly rounded CPU F32 division/multiplication/reciprocal; no model forward or new GPU run",
+  "cpu_division_scale_mismatch": 317,
+  "cpu_multiply_scale_mismatch": 0,
+  "maximum_scale_ulp_to_cpu_division": 1,
+  "gpu_codes_mismatch_cpu_reciprocal": 0,
+  "matched_gpu_reference_candidate_buffers": 8,
+  "rows_checked": 96,
+  "padded_rows": 128,
+  "benchmark_samples": 0,
+  "inference": "The strict CPU byte oracle does not reproduce production gfx1151 reciprocal/division arithmetic. Actual fused/reference GPU bytes are equal in the completed case; other shapes remain untested.",
+  "numerical_gate_waived": false,
+  "promoted": false,
+  "goal_met": false
+}

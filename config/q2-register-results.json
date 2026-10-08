@@ -1,0 +1,246 @@
+{
+  "status": "Rejected both GPU scheduling candidates under exact replay gate; original runtime restored",
+  "arms": [
+    {
+      "label": "q2-register-host-r1",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "source_capsule_sha256": "735f2ee6f8a1b483791d3a3ccaa11e8bae9cb70b543995827348d9d76a088aab",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "started_at": "2026-10-02T04:08:02.645315+00:00",
+      "finished_at": "2026-10-02T04:08:26.794104+00:00",
+      "collection_sha256": "21b10b5b9628e6bfa055df0951408a8e5ad977884feb92e043769c45eb161938",
+      "verified_artifacts": 6
+    },
+    {
+      "label": "q2-register-reference-r1",
+      "state": "SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED",
+      "source_capsule_sha256": "70783d5fa114c371531ad776703b95cc8f7ba6f76f72ea43e1821b7a2c53754f",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "started_at": "2026-10-02T04:08:57.214908+00:00",
+      "finished_at": "2026-10-02T04:10:42.938108+00:00",
+      "collection_sha256": "ae11115a5fbf6194c89fe882ff8d9dc1fd09332b6b43ea20ae4ded530a4464d0",
+      "verified_artifacts": 48,
+      "operator_outputs": 44,
+      "max_relative_rms": 0.000164016,
+      "max_error_over_peak": 0.000200514,
+      "postflight_kfd": [],
+      "finite_f16_widening": "PASS in same successful operator executable"
+    },
+    {
+      "label": "q2-register-operators-r1",
+      "state": "SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED",
+      "source_capsule_sha256": "acc081e8ac8f5aae816d3d22cfcb8579e15715086d0bbd3af301ce55e70a5663",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "started_at": "2026-10-02T04:12:03.182654+00:00",
+      "finished_at": "2026-10-02T04:13:34.388989+00:00",
+      "collection_sha256": "96f857a88a133a85bfee2fdf86bbf9b769908d4dd33ede035900f8edbd097621",
+      "verified_artifacts": 48,
+      "operator_outputs": 44,
+      "max_relative_rms": 0.000164013,
+      "max_error_over_peak": 0.000200514,
+      "postflight_kfd": [],
+      "finite_f16_widening": "PASS in same successful operator executable",
+      "exact_replay_pass": false,
+      "exact_files": 20,
+      "max_absolute_difference": 4.76837158203125e-07
+    },
+    {
+      "label": "q2-register-operators-r2",
+      "state": "SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED",
+      "source_capsule_sha256": "3f6c07840ad3929304636343fd79ff239659c9b6b624f982818b03edc97f6591",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "started_at": "2026-10-02T04:18:39.043291+00:00",
+      "finished_at": "2026-10-02T04:20:13.818681+00:00",
+      "collection_sha256": "4960927a669e57d44877298d78f135d43cd955726be384dda1661cbe3964af25",
+      "verified_artifacts": 48,
+      "operator_outputs": 44,
+      "max_relative_rms": 0.000164015,
+      "max_error_over_peak": 0.000200514,
+      "postflight_kfd": [],
+      "finite_f16_widening": "PASS in same successful operator executable",
+      "exact_replay_pass": false,
+      "exact_files": 24,
+      "max_absolute_difference": 4.76837158203125e-07
+    }
+  ],
+  "model_runs": 0,
+  "performance_claim": null,
+  "closure": {
+    "at": "2026-10-02T04:22:17.419479+00:00",
+    "state": "Q2_REGISTER_WINDOW_RELEASED",
+    "runners": [
+      {
+        "label": "q2-register-host-r1",
+        "pid": 2351828,
+        "absent": true,
+        "finished_at": "2026-10-02T04:08:26.794104+00:00"
+      },
+      {
+        "label": "q2-register-reference-r1",
+        "pid": 2352333,
+        "absent": true,
+        "finished_at": "2026-10-02T04:10:42.938108+00:00"
+      },
+      {
+        "label": "q2-register-operators-r1",
+        "pid": 2353785,
+        "absent": true,
+        "finished_at": "2026-10-02T04:13:34.388989+00:00"
+      },
+      {
+        "label": "q2-register-operators-r2",
+        "pid": 2356175,
+        "absent": true,
+        "finished_at": "2026-10-02T04:20:13.818681+00:00"
+      }
+    ],
+    "commands": [
+      {
+        "label": "q2-register-host-r1",
+        "pid": 2351829,
+        "start_ticks": 147947693,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-register-host-r1",
+        "pid": 2351867,
+        "start_ticks": 147947746,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-register-host-r1",
+        "pid": 2351976,
+        "start_ticks": 147948148,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-register-host-r1",
+        "pid": 2352002,
+        "start_ticks": 147948801,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-register-host-r1",
+        "pid": 2352040,
+        "start_ticks": 147948853,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-register-host-r1",
+        "pid": 2352091,
+        "start_ticks": 147949455,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-register-reference-r1",
+        "pid": 2352342,
+        "start_ticks": 147953151,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-register-reference-r1",
+        "pid": 2352519,
+        "start_ticks": 147953354,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-register-reference-r1",
+        "pid": 2353415,
+        "start_ticks": 147963519,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-register-operators-r1",
+        "pid": 2353786,
+        "start_ticks": 147971748,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-register-operators-r1",
+        "pid": 2353964,
+        "start_ticks": 147971951,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-register-operators-r1",
+        "pid": 2354730,
+        "start_ticks": 147980664,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-register-operators-r2",
+        "pid": 2356176,
+        "start_ticks": 148011334,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-register-operators-r2",
+        "pid": 2356359,
+        "start_ticks": 148011544,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-register-operators-r2",
+        "pid": 2357136,
+        "start_ticks": 148020608,
+        "exit_code": 0
+      }
+    ],
+    "live_owned": [],
+    "kfd": [],
+    "leases": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067,
+        "free_verified_ex_nb": true
+      }
+    ]
+  },
+  "restoration": {
+    "patch_sha256": "3029cd490bc75d045e9dcf696ac6c1b23092684ad25641c93d500cb9f2727473",
+    "exact_source_files": 1019,
+    "runtime_restored": true
+  }
+}

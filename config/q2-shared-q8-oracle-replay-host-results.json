@@ -1,0 +1,33 @@
+{
+  "schema": "synapse-lie.q2-shared-q8-oracle-replay-host.v1",
+  "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+  "finished_at": "2026-10-04T19:54:30.203550+00:00",
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "debug_ctest": 23,
+  "sanitized_ctest": 23,
+  "fixtures": {
+    "CMakeLists.txt": "a76700516b9a689b75c45b890b102699e70ad0ae39563f8d6a4c8aaa2014c979",
+    "cmake/hip/CMakeLists.txt": "928b5b1b0abb9e2a3fe4eecb6e0d9b86b5f1ab236652fe96de150e4462849d82",
+    "tests/q2_shared_q8_oracle_replay.cpp": "9a0151e6dbb4f9e8ba1d20b8b840f90921ecd3637fa409b6fe6212238c2aa5fb",
+    "tests/q2_shared_q8_scalar_oracle.hip": "fec3cc9b8159986d8f281841574db0e0fadd4eb93d674065dc237d4928ad88af",
+    "tests/q2_remote_test.py": "76e5e20f419f28e34c61b9074bbe98427400de2877748ec0c23eba48947ff2bd",
+    "tools/q2-remote.py": "554b58f281d8f6d6d2d47819da1b2eb06c067893158ab05443becb3c84203b73",
+    "tools/q2-runner.py": "2caab3ef2e650fe45f4f249843c49af93ea60ea34e65932e81acedc1ffcfc573",
+    "tools/q2_oracle_replay.py": "2d40dbcb5c769fbaf8bc66cb27e998ffe71f6cac24eb880f290a54541cf983fa",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9"
+  },
+  "fixture_files_verified": 10,
+  "result_sha256": "f5d3f021007d74af2b407ff9d9e4c2466cde54eb872a7bf54e0397950efb4400",
+  "archive_sha256": "40d0083fed3fe4d61d1b76a9a08030356a7276b54832e0e5ada509d7263f854c",
+  "capsule_sha256": "e3755fb7c6f5c699fb4e72c366e5f806e0d88caec37f0a80ac5e03ef4cfc9a59",
+  "model_inference": false,
+  "gpu_qualification": false
+}

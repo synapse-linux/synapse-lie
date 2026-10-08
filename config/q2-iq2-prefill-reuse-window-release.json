@@ -1,0 +1,800 @@
+{
+  "schema": "synapse-lie.q2-iq2-prefill-reuse-window.v1",
+  "at": "2026-10-04T11:20:32.723493+00:00",
+  "state": "Q2_IQ2_PREFILL_REUSE_WINDOW_RELEASED",
+  "owner": "synapse-lie-q2",
+  "source_checkpoint": "a405f48",
+  "previous_release": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-counting-regression-window-release.json",
+  "previous_release_sha256": "0b931377b0fcbbb43302047f5172a44fa5cfc34b75792e66ec2bb4cb4089312f",
+  "previous_registry_event": {
+    "event": "end",
+    "owner": "synapse-lie-q2",
+    "label": "q2-iq2-prefill-reuse-after-r1",
+    "pid": 3544569,
+    "start_ticks": "167816097",
+    "at": "2026-10-04T11:19:48.549211+00:00",
+    "mode": "iq2-live-epilogue-check",
+    "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "model_access": false,
+    "state": "SYNTHETIC_IQ2_EPILOGUE_CYCLE_COMPLETE_NOT_MODEL_THROUGHPUT"
+  },
+  "cohorts": [
+    {
+      "label": "q2-iq2-prefill-reuse-host-r1",
+      "finished_at": "2026-10-04T11:09:13.004135+00:00",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "label": "q2-iq2-prefill-reuse-before-r1",
+      "finished_at": "2026-10-04T11:15:07.439470+00:00",
+      "command_exits": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "label": "q2-iq2-prefill-reuse-scale-r1",
+      "finished_at": "2026-10-04T11:15:55.634193+00:00",
+      "command_exits": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "label": "q2-iq2-prefill-reuse-grid-r1",
+      "finished_at": "2026-10-04T11:18:08.643868+00:00",
+      "command_exits": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "label": "q2-iq2-prefill-reuse-after-r1",
+      "finished_at": "2026-10-04T11:19:48.549290+00:00",
+      "command_exits": [
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "retired_identities": [
+    {
+      "pid": 3447355,
+      "start_ticks": 166089525
+    },
+    {
+      "pid": 3447363,
+      "start_ticks": 166089687
+    },
+    {
+      "pid": 3447576,
+      "start_ticks": 166089940
+    },
+    {
+      "pid": 3447719,
+      "start_ticks": 166091398
+    },
+    {
+      "pid": 3447980,
+      "start_ticks": 166096063
+    },
+    {
+      "pid": 3447981,
+      "start_ticks": 166096126
+    },
+    {
+      "pid": 3448182,
+      "start_ticks": 166096329
+    },
+    {
+      "pid": 3448316,
+      "start_ticks": 166097791
+    },
+    {
+      "pid": 3448548,
+      "start_ticks": 166102415
+    },
+    {
+      "pid": 3448577,
+      "start_ticks": 166102541
+    },
+    {
+      "pid": 3448772,
+      "start_ticks": 166102744
+    },
+    {
+      "pid": 3448912,
+      "start_ticks": 166104198
+    },
+    {
+      "pid": 3480871,
+      "start_ticks": null
+    },
+    {
+      "pid": 3480873,
+      "start_ticks": 166733401
+    },
+    {
+      "pid": 3480948,
+      "start_ticks": 166733453
+    },
+    {
+      "pid": 3481114,
+      "start_ticks": 166734056
+    },
+    {
+      "pid": 3481649,
+      "start_ticks": null
+    },
+    {
+      "pid": 3481650,
+      "start_ticks": 166740734
+    },
+    {
+      "pid": 3481720,
+      "start_ticks": 166740787
+    },
+    {
+      "pid": 3481874,
+      "start_ticks": 166741340
+    },
+    {
+      "pid": 3482092,
+      "start_ticks": 166742093
+    },
+    {
+      "pid": 3482169,
+      "start_ticks": 166742145
+    },
+    {
+      "pid": 3482361,
+      "start_ticks": 166742998
+    },
+    {
+      "pid": 3485053,
+      "start_ticks": null
+    },
+    {
+      "pid": 3485054,
+      "start_ticks": 166796463
+    },
+    {
+      "pid": 3485258,
+      "start_ticks": 166796673
+    },
+    {
+      "pid": 3485405,
+      "start_ticks": 166798128
+    },
+    {
+      "pid": 3485658,
+      "start_ticks": null
+    },
+    {
+      "pid": 3485659,
+      "start_ticks": 166803213
+    },
+    {
+      "pid": 3485856,
+      "start_ticks": 166803416
+    },
+    {
+      "pid": 3486003,
+      "start_ticks": 166804871
+    },
+    {
+      "pid": 3495232,
+      "start_ticks": null
+    },
+    {
+      "pid": 3495239,
+      "start_ticks": 167006298
+    },
+    {
+      "pid": 3495313,
+      "start_ticks": 167006351
+    },
+    {
+      "pid": 3495471,
+      "start_ticks": 167006953
+    },
+    {
+      "pid": 3495716,
+      "start_ticks": 167007707
+    },
+    {
+      "pid": 3495786,
+      "start_ticks": 167007759
+    },
+    {
+      "pid": 3495985,
+      "start_ticks": 167008612
+    },
+    {
+      "pid": 3506185,
+      "start_ticks": null
+    },
+    {
+      "pid": 3506188,
+      "start_ticks": 167223866
+    },
+    {
+      "pid": 3506619,
+      "start_ticks": 167224169
+    },
+    {
+      "pid": 3508094,
+      "start_ticks": 167241849
+    },
+    {
+      "pid": 3508095,
+      "start_ticks": 167241902
+    },
+    {
+      "pid": 3508096,
+      "start_ticks": 167241955
+    },
+    {
+      "pid": 3508097,
+      "start_ticks": 167241963
+    },
+    {
+      "pid": 3508223,
+      "start_ticks": 167243149
+    },
+    {
+      "pid": 3509900,
+      "start_ticks": null
+    },
+    {
+      "pid": 3509935,
+      "start_ticks": 167280261
+    },
+    {
+      "pid": 3510387,
+      "start_ticks": 167280714
+    },
+    {
+      "pid": 3511842,
+      "start_ticks": 167298546
+    },
+    {
+      "pid": 3511843,
+      "start_ticks": 167298599
+    },
+    {
+      "pid": 3511879,
+      "start_ticks": 167298652
+    },
+    {
+      "pid": 3511880,
+      "start_ticks": 167298660
+    },
+    {
+      "pid": 3511963,
+      "start_ticks": 167299787
+    },
+    {
+      "pid": 3513502,
+      "start_ticks": null
+    },
+    {
+      "pid": 3513503,
+      "start_ticks": 167333087
+    },
+    {
+      "pid": 3513949,
+      "start_ticks": 167333390
+    },
+    {
+      "pid": 3515427,
+      "start_ticks": 167351222
+    },
+    {
+      "pid": 3515428,
+      "start_ticks": 167351275
+    },
+    {
+      "pid": 3515429,
+      "start_ticks": 167351327
+    },
+    {
+      "pid": 3515430,
+      "start_ticks": 167351336
+    },
+    {
+      "pid": 3515521,
+      "start_ticks": 167352463
+    },
+    {
+      "pid": 3517172,
+      "start_ticks": null
+    },
+    {
+      "pid": 3517202,
+      "start_ticks": 167386917
+    },
+    {
+      "pid": 3517617,
+      "start_ticks": 167387220
+    },
+    {
+      "pid": 3518878,
+      "start_ticks": 167400795
+    },
+    {
+      "pid": 3518907,
+      "start_ticks": 167400848
+    },
+    {
+      "pid": 3518908,
+      "start_ticks": 167400902
+    },
+    {
+      "pid": 3518909,
+      "start_ticks": 167400910
+    },
+    {
+      "pid": 3519043,
+      "start_ticks": 167403000
+    },
+    {
+      "pid": 3522730,
+      "start_ticks": null
+    },
+    {
+      "pid": 3522736,
+      "start_ticks": 167481578
+    },
+    {
+      "pid": 3522818,
+      "start_ticks": 167481681
+    },
+    {
+      "pid": 3522981,
+      "start_ticks": 167482283
+    },
+    {
+      "pid": 3523220,
+      "start_ticks": 167483037
+    },
+    {
+      "pid": 3523290,
+      "start_ticks": 167483089
+    },
+    {
+      "pid": 3523461,
+      "start_ticks": 167483942
+    },
+    {
+      "pid": 3527106,
+      "start_ticks": null
+    },
+    {
+      "pid": 3527107,
+      "start_ticks": 167553460
+    },
+    {
+      "pid": 3527177,
+      "start_ticks": 167553512
+    },
+    {
+      "pid": 3527343,
+      "start_ticks": 167554065
+    },
+    {
+      "pid": 3527582,
+      "start_ticks": 167554818
+    },
+    {
+      "pid": 3527652,
+      "start_ticks": 167554871
+    },
+    {
+      "pid": 3527842,
+      "start_ticks": 167555724
+    },
+    {
+      "pid": 3526462,
+      "start_ticks": null
+    },
+    {
+      "pid": 3526466,
+      "start_ticks": 167544431
+    },
+    {
+      "pid": 3528339,
+      "start_ticks": null
+    },
+    {
+      "pid": 3528340,
+      "start_ticks": 167561219
+    },
+    {
+      "pid": 3528535,
+      "start_ticks": 167561422
+    },
+    {
+      "pid": 3529635,
+      "start_ticks": 167576901
+    },
+    {
+      "pid": 3529640,
+      "start_ticks": 167576954
+    },
+    {
+      "pid": 3530375,
+      "start_ticks": null
+    },
+    {
+      "pid": 3530377,
+      "start_ticks": 167589823
+    },
+    {
+      "pid": 3530581,
+      "start_ticks": 167590026
+    },
+    {
+      "pid": 3531676,
+      "start_ticks": 167605404
+    },
+    {
+      "pid": 3531681,
+      "start_ticks": 167605456
+    },
+    {
+      "pid": 3532279,
+      "start_ticks": null
+    },
+    {
+      "pid": 3532280,
+      "start_ticks": 167616849
+    },
+    {
+      "pid": 3532476,
+      "start_ticks": 167617052
+    },
+    {
+      "pid": 3533580,
+      "start_ticks": 167632429
+    },
+    {
+      "pid": 3533585,
+      "start_ticks": 167632482
+    },
+    {
+      "pid": 3534278,
+      "start_ticks": null
+    },
+    {
+      "pid": 3534279,
+      "start_ticks": 167646436
+    },
+    {
+      "pid": 3534474,
+      "start_ticks": 167646588
+    },
+    {
+      "pid": 3535367,
+      "start_ticks": 167657711
+    },
+    {
+      "pid": 3535373,
+      "start_ticks": 167657764
+    },
+    {
+      "pid": 3539787,
+      "start_ticks": null
+    },
+    {
+      "pid": 3539788,
+      "start_ticks": 167751611
+    },
+    {
+      "pid": 3539866,
+      "start_ticks": 167751714
+    },
+    {
+      "pid": 3540027,
+      "start_ticks": 167752317
+    },
+    {
+      "pid": 3540266,
+      "start_ticks": 167753070
+    },
+    {
+      "pid": 3540336,
+      "start_ticks": 167753122
+    },
+    {
+      "pid": 3540537,
+      "start_ticks": 167753976
+    },
+    {
+      "pid": 3542415,
+      "start_ticks": null
+    },
+    {
+      "pid": 3542416,
+      "start_ticks": 167788200
+    },
+    {
+      "pid": 3542626,
+      "start_ticks": 167788402
+    },
+    {
+      "pid": 3542763,
+      "start_ticks": 167789857
+    },
+    {
+      "pid": 3542933,
+      "start_ticks": null
+    },
+    {
+      "pid": 3542962,
+      "start_ticks": 167793069
+    },
+    {
+      "pid": 3543157,
+      "start_ticks": 167793222
+    },
+    {
+      "pid": 3543296,
+      "start_ticks": 167794677
+    },
+    {
+      "pid": 3543833,
+      "start_ticks": null
+    },
+    {
+      "pid": 3543834,
+      "start_ticks": 167806313
+    },
+    {
+      "pid": 3544030,
+      "start_ticks": 167806516
+    },
+    {
+      "pid": 3544166,
+      "start_ticks": 167807978
+    },
+    {
+      "pid": 3544569,
+      "start_ticks": null
+    },
+    {
+      "pid": 3544578,
+      "start_ticks": 167816260
+    },
+    {
+      "pid": 3544773,
+      "start_ticks": 167816463
+    },
+    {
+      "pid": 3544906,
+      "start_ticks": 167817918
+    }
+  ],
+  "retired_groups": [
+    3447363,
+    3447576,
+    3447719,
+    3447981,
+    3448182,
+    3448316,
+    3448577,
+    3448772,
+    3448912,
+    3480873,
+    3480948,
+    3481114,
+    3481650,
+    3481720,
+    3481874,
+    3482092,
+    3482169,
+    3482361,
+    3485054,
+    3485258,
+    3485405,
+    3485659,
+    3485856,
+    3486003,
+    3495239,
+    3495313,
+    3495471,
+    3495716,
+    3495786,
+    3495985,
+    3506188,
+    3506619,
+    3508094,
+    3508095,
+    3508096,
+    3509935,
+    3510387,
+    3511842,
+    3511843,
+    3511879,
+    3513503,
+    3513949,
+    3515427,
+    3515428,
+    3515429,
+    3517202,
+    3517617,
+    3518878,
+    3518907,
+    3518908,
+    3522736,
+    3522818,
+    3522981,
+    3523220,
+    3523290,
+    3523461,
+    3526466,
+    3527107,
+    3527177,
+    3527343,
+    3527582,
+    3527652,
+    3527842,
+    3528340,
+    3528535,
+    3529635,
+    3529640,
+    3530377,
+    3530581,
+    3531676,
+    3531681,
+    3532280,
+    3532476,
+    3533580,
+    3533585,
+    3534279,
+    3534474,
+    3535367,
+    3535373,
+    3539788,
+    3539866,
+    3540027,
+    3540266,
+    3540336,
+    3540537,
+    3542416,
+    3542626,
+    3542763,
+    3542962,
+    3543157,
+    3543296,
+    3543834,
+    3544030,
+    3544166,
+    3544578,
+    3544773,
+    3544906
+  ],
+  "owned_group_members": [],
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "unchanged_free_EX_NB": true
+    }
+  ],
+  "models": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "bytes": 147207127040,
+      "device": 52,
+      "inode": 3116203,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 52,
+      "inode": 3206497,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 52,
+      "inode": 3228516,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 52,
+      "inode": 3211726,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 52,
+      "inode": 3207513,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "bytes": 2786568256,
+      "device": 52,
+      "inode": 3206512,
+      "mtime_ns": 1790711824619908153,
+      "ctime_ns": 1790711826279892467
+    }
+  ],
+  "model_stats_unchanged": true,
+  "thermal": [
+    {
+      "path": "/sys/class/hwmon/hwmon2/temp1_input",
+      "device": "amdgpu",
+      "temperature_mc": 38000,
+      "limit_mc": null,
+      "inclusive": false,
+      "limit_source": "no_exposed_gpu_threshold",
+      "over_limit": false
+    },
+    {
+      "path": "/sys/class/hwmon/hwmon3/temp1_input",
+      "device": "k10temp",
+      "temperature_mc": 39625,
+      "limit_mc": 98000,
+      "inclusive": true,
+      "limit_source": "owner_cpu_limit",
+      "over_limit": false
+    }
+  ],
+  "scope": "Four IQ2 complete gate/up component arms: ordered reference, scale reuse, grid LDS, repeated ordered reference. Fixed recorded-routing fixture and independent FP64 checks; no original model, numerical source composition or interleaving.",
+  "gpu_reserved": false,
+  "restart_scheduled": false,
+  "observer_or_waiter": false,
+  "remote_cleanup": false,
+  "model_inference": false,
+  "planned_labels": [
+    "q2-iq2-prefill-reuse-before-r1",
+    "q2-iq2-prefill-reuse-scale-r1",
+    "q2-iq2-prefill-reuse-grid-r1",
+    "q2-iq2-prefill-reuse-after-r1"
+  ],
+  "next_window_owner": "core"
+}

@@ -1,0 +1,60 @@
+{
+  "schema": "synapse-lie.q2-producer-q8-ids-opportunity.v1",
+  "source": "evidence/q2-producer-q8-preparation/down-ids-reuse.hip.cpp",
+  "source_sha256": "62254a5cfc6a46c3e875ed1a2a72573f0b95bc26f8ba051d2a5b70a0f1afeb29",
+  "assembly_sha256": "30e16c89477f97cd7342035fb5a3cc082a3667bd0876a7b8b1c774a4a374e665",
+  "resources": {
+    "_ZN7qfn_mmq22Q2ProducerQ8DownKernelILi16ELb1EEEvPKcPKiS4_PKjS4_S4_P6__halfii": {
+      "group_segment_fixed_size": 28160,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 241,
+      "next_free_sgpr": 32,
+      "wavefront_size32": 1
+    },
+    "_ZN7qfn_mmq22Q2ProducerQ8DownKernelILi16ELb0EEEvPKcPKiS4_PKjS4_S4_P6__halfii": {
+      "group_segment_fixed_size": 28160,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 241,
+      "next_free_sgpr": 31,
+      "wavefront_size32": 1
+    },
+    "_ZN7qfn_mmq22Q2ProducerQ8DownKernelILi48ELb1EEEvPKcPKiS4_PKjS4_S4_P6__halfii": {
+      "group_segment_fixed_size": 32768,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 241,
+      "next_free_sgpr": 52,
+      "wavefront_size32": 1
+    },
+    "_ZN7qfn_mmq22Q2ProducerQ8DownKernelILi48ELb0EEEvPKcPKiS4_PKjS4_S4_P6__halfii": {
+      "group_segment_fixed_size": 32768,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 241,
+      "next_free_sgpr": 51,
+      "wavefront_size32": 1
+    },
+    "_ZN7qfn_mmq22Q2ProducerQ8DownKernelILi64ELb1EEEvPKcPKiS4_PKjS4_S4_P6__halfii": {
+      "group_segment_fixed_size": 34816,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 241,
+      "next_free_sgpr": 60,
+      "wavefront_size32": 1
+    },
+    "_ZN7qfn_mmq22Q2ProducerQ8DownKernelILi64ELb0EEEvPKcPKiS4_PKjS4_S4_P6__halfii": {
+      "group_segment_fixed_size": 34816,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 241,
+      "next_free_sgpr": 59,
+      "wavefront_size32": 1
+    }
+  },
+  "mechanism": "Reuse dead weight LDS for route IDs after the last K barrier; adds one terminal CTA barrier. BN48 LDS32960 to32768. No arithmetic change intended.",
+  "gpu_run": false,
+  "whole_model_change": false,
+  "proposed_only": true,
+  "hardware_occupancy_unmeasured": true,
+  "goal_met": false,
+  "patch": "experiments/q2-producer-q8-ids-reuse.patch",
+  "patch_sha256": "4f31eefe0f072b84f7bb4830f2dcd4e031cd48e6a1efa59834d36b18a6510165",
+  "parent_source_manifest": "config/q2-producer-q8-source-v2.json",
+  "parent_source_manifest_sha256": "313d228b2bfeaa961d1c867faa30a3a7b84a15659081e37d1537a35b004c573f"
+}

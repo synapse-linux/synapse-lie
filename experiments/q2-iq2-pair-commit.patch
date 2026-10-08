@@ -1,0 +1,56 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -4560,30 +4560,33 @@
+       if constexpr (kIQ2) {
+         const uint2 group = f_iq2_group[u];
+         const __half d = f_iq2_d[u];
+-        // One packed group: four grid indices, four parity-completed sign
+-        // masks and a four-bit scale. Store the lossless F16 high bytes;
+-        // applying signs changes bit7 without integer negation or byte carry.
+-        uint2 signed_codes[4];
+-#pragma unroll
+-        for (int part = 0; part < 4; ++part) {
+-          const unsigned code = (group.x >> (8 * part)) & 255U;
+-          const unsigned sign = (group.y >> (7 * part)) & 127U;
+-          const uint2 magnitude =
+-              reinterpret_cast<const uint2*>(kIq2HalfHighGrid)[code];
+-          const uint2 mask = reinterpret_cast<const uint2*>(ksigns64)[sign];
+-          signed_codes[part] = make_uint2(magnitude.x ^ (mask.x & 0x80808080U),
+-                                          magnitude.y ^ (mask.y & 0x80808080U));
++        // SPDX-License-Identifier: MIT
++        // Decode two eight-value slices and retire their original16-byte store.
++        // Preserve compact LDS bytes and avoid retaining the full32-byte group.
++#pragma unroll
++        for (int pair = 0; pair < 2; ++pair) {
++          uint2 high[2];
++#pragma unroll
++          for (int slice = 0; slice < 2; ++slice) {
++            const int part = 2 * pair + slice;
++            const unsigned code = (group.x >> (8 * part)) & 255U;
++            const unsigned sign = (group.y >> (7 * part)) & 127U;
++            const uint2 magnitude =
++                reinterpret_cast<const uint2*>(kIq2HalfHighGrid)[code];
++            const uint2 mask = reinterpret_cast<const uint2*>(ksigns64)[sign];
++            high[slice] = make_uint2(magnitude.x ^ (mask.x & 0x80808080U),
++                                     magnitude.y ^ (mask.y & 0x80808080U));
++          }
++          s_codes[swizzle(row, 2 * f_c + pair)] =
++              make_uint4(high[0].x, high[0].y, high[1].x, high[1].y);
++          // Compiler scheduling only; this is not a GPU synchronization.
++          __builtin_amdgcn_sched_barrier(0);
+         }
+-        f_codes[u] = make_uint4(signed_codes[0].x, signed_codes[0].y,
+-                                signed_codes[1].x, signed_codes[1].y);
+-        f_codes_hi[u] = make_uint4(signed_codes[2].x, signed_codes[2].y,
+-                                   signed_codes[3].x, signed_codes[3].y);
+         const float scale =
+             __half2float(d) * float(2 * (group.y >> 28) + 1) * 0.125F;
+         const std::uint32_t dm =
+             __builtin_bit_cast(std::uint16_t, __float2half_rn(scale));
+-        s_codes[swizzle(row, 2 * f_c)] = f_codes[u];
+-        s_codes[swizzle(row, (2 * f_c) + 1)] = f_codes_hi[u];
++
+         scale_bias = f_live[u] ? dm : 0U;
+       } else if constexpr (kSigned || kQ2) {
+         s_codes[swizzle(row, 2 * f_c)] = f_codes[u];

@@ -1,0 +1,34 @@
+{
+  "schema": "synapse-lie.q2-decode-down-live-source.v1",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "parent_manifest": "config/q2-decode-down-rows-model-source.json",
+  "parent_manifest_sha256": "e53280b48151f5a3a5d7a163944e90320d8e856fd249239df2a2b8c5253d1ea9",
+  "files": {
+    "experiments/q2-decode-down-rows.inc": "5721e2818fae494367a080f35ec4c238191eaae9d6c18013d6720357ddb7cb1f",
+    "experiments/q2-decode-down-live.inc": "d7b88204cb41997ce16619c6049cba2959a52e90bc9f0daaf3f665543e19811d",
+    "tests/q2_decode_down_live.hip": "d342c7342f77eb311cf756267a9180a138799a1d41a899d0563700737528e3b0",
+    "tools/q2-decode-down-live-window.py": "a39261fb808dcee8a4d88f98269734bce49b712d8a541a03cc0351a61c4d6d71",
+    "tests/q2_decode_down_live_window_test.py": "62a67d2096c745139cb023ac1ec8e4134994aea50b36364157acf0e72c6a6e39"
+  },
+  "retained_mmq_archive": ".deps/build-hc-scalar-matched/cmake/hip/qwen/libgufo_qwen38_flash_next_mmq.a",
+  "retained_mmq_archive_sha256": "5daa0088a8f461ef1908ec6bb1e1a9d1239ed1745ae81b5f49e1219f728f8d91",
+  "control_archive_rebuilt": false,
+  "scope": "Only Q2_K down,640 logical/768 physical columns; skip last Q2 block for lane offsets8..15. Same quantizer,4-row ownership, finite-ID/row bounds and wave reduction.",
+  "shape": {
+    "rows": 2560,
+    "slots": 10,
+    "logical_k": 640,
+    "stored_k": 768,
+    "packed_pitch": 1024
+  },
+  "weight_bytes": 82575360,
+  "graph_calls": 64,
+  "warmup_rounds": 2,
+  "measured_rounds": 6,
+  "balanced_order": true,
+  "every_call_output_retained": true,
+  "finite_mismatch_retains_timing": true,
+  "new_quantization": false,
+  "model_dispatch_changed": false,
+  "gpu_run": false
+}

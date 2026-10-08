@@ -1,0 +1,30 @@
+{
+  "scope": "CPU fixtures only on .157, Q2_HIP=OFF; no inference or GPU evidence",
+  "path": "evidence/q2-hc-norm-host-r1",
+  "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "debug": {
+    "passed": 10,
+    "total": 10
+  },
+  "asan_ubsan": {
+    "passed": 10,
+    "total": 10
+  },
+  "collection": {
+    "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-norm-host-r1/results.tar.gz",
+    "sha256": "6165298e8eba48491a9ea2552d6df46162fa7d87b8543bf80a3b4db4185d3bce",
+    "verified_artifacts": 7
+  },
+  "finished_at": "2026-10-02T16:12:17.121628+00:00",
+  "source_capsule_sha256": "56a88372ca890f0100409341dba48652834f97ef159ef4d6163cb832db5bbc95",
+  "transport_exit": 0,
+  "result_sha256": "2d477bc423ce7618c2f5a117b8e68c367d08eea7c79259df5fc59ee628927104"
+}

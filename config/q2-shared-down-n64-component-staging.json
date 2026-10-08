@@ -1,0 +1,14 @@
+{
+  "schema": "synapse-lie.q2-shared-down-n64-component-staging.v1",
+  "arms": [
+    {
+      "mode": "shared-down-n64-check",
+      "capsule_sha256": "526d5d105138aeb271b2cd1b5bfa8b3be1f206a175f40d35b4ee385edce1f75b",
+      "provider_files": 1028,
+      "fixture_files": 92,
+      "capsule_path": "evidence/q2-shared-down-n64-stage-component/source.tar.gz",
+      "ssh_executed": false
+    }
+  ],
+  "gpu_run": false
+}

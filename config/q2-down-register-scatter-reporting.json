@@ -1,0 +1,12 @@
+{
+  "schema": "synapse-lie.q2-down-register-scatter-reporting.v1",
+  "files": {
+    "tools/analyze-q2-down-register-scatter-component.py": "504b8eb92ab4bf179bcbf251fa8f9a9a247727784361ab3637a7597cdcc38c83",
+    "tools/analyze-q2-down-register-scatter-model.py": "bd5d704a0f8c6901ac350697bb248540cabb3ed0c21747726db752a9ad2533b0",
+    "tools/plot-q2-down-register-scatter.py": "1652ff740a1644d9ab3c9c553adfb96125b08949c65fe6188f7791ef77649d90"
+  },
+  "syntax_pass": true,
+  "runtime_evidence_available": false,
+  "gpu_run": false,
+  "goal_met": false
+}

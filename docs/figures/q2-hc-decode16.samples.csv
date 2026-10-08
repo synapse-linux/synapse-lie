@@ -1,0 +1,29 @@
+scope,arm,unit,sample,value
+HC down: 100 MiB rotating weights,Original,Microseconds / call,0,47.5599393249
+HC down: 100 MiB rotating weights,Original,Microseconds / call,1,47.7958843112
+HC down: 100 MiB rotating weights,Original,Microseconds / call,2,48.0146259069
+HC down: 100 MiB rotating weights,Original,Microseconds / call,3,47.793071717
+HC down: 100 MiB rotating weights,Original,Microseconds / call,4,47.8111878037
+HC down: 100 MiB rotating weights,Sixteen waves,Microseconds / call,0,30.274046585
+HC down: 100 MiB rotating weights,Sixteen waves,Microseconds / call,1,30.2649848163
+HC down: 100 MiB rotating weights,Sixteen waves,Microseconds / call,2,30.1809217781
+HC down: 100 MiB rotating weights,Sixteen waves,Microseconds / call,3,30.2399843931
+HC down: 100 MiB rotating weights,Sixteen waves,Microseconds / call,4,30.1993601024
+Prefill: 2048 tokens,Q2 (n=3),Tokens / second,0,1297.143947
+Prefill: 2048 tokens,Q2 (n=3),Tokens / second,1,1286.889766
+Prefill: 2048 tokens,Q2 (n=3),Tokens / second,2,1294.041322
+Prefill: 2048 tokens,Q2 HC (n=3),Tokens / second,0,1293.373483
+Prefill: 2048 tokens,Q2 HC (n=3),Tokens / second,1,1290.518008
+Prefill: 2048 tokens,Q2 HC (n=3),Tokens / second,2,1291.807941
+Prefill: 2048 tokens,UD (n=3),Tokens / second,0,1594.683527
+Prefill: 2048 tokens,UD (n=3),Tokens / second,1,1653.495313
+Prefill: 2048 tokens,UD (n=3),Tokens / second,2,1650.347716
+Decode: 127 calls,Q2 (n=3),Calls / second,0,23.17051391
+Decode: 127 calls,Q2 (n=3),Calls / second,1,23.16836602
+Decode: 127 calls,Q2 (n=3),Calls / second,2,23.20427864
+Decode: 127 calls,Q2 HC (n=3),Calls / second,0,24.05547823
+Decode: 127 calls,Q2 HC (n=3),Calls / second,1,24.06994669
+Decode: 127 calls,Q2 HC (n=3),Calls / second,2,24.0514823
+Decode: 127 calls,UD (n=3),Calls / second,0,24.13637006
+Decode: 127 calls,UD (n=3),Calls / second,1,24.12627546
+Decode: 127 calls,UD (n=3),Calls / second,2,24.14306703

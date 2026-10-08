@@ -1,0 +1,55 @@
+{
+  "scope": "Static hypotheses only; not GPU or model evidence",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": "measured F32 MoE/HC fusion; excludes rejected norm copy",
+  "variants": {
+    "hc-down64-wave4": {
+      "tile": [
+        64,
+        64
+      ],
+      "k_blocks": 2,
+      "waves": [
+        4,
+        2
+      ],
+      "file_count": 1019,
+      "changed_file": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "base_sha256": "92faa287e2b5681d16f0f54c2f99a3eba0a14c5faaf398e631f8a12b7548cbad",
+      "candidate_sha256": "e4ff364f12652d5f006db17ed9f1b7391f1e20bae287540b120602ec7a1b1527",
+      "patch_sha256": "263794f54b93d79702e4cb2988a0b3b83799ebec2f33543c601a1eb502d19496"
+    },
+    "hc-down64-k4": {
+      "tile": [
+        64,
+        64
+      ],
+      "k_blocks": 4,
+      "waves": [
+        2,
+        4
+      ],
+      "file_count": 1019,
+      "changed_file": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "base_sha256": "92faa287e2b5681d16f0f54c2f99a3eba0a14c5faaf398e631f8a12b7548cbad",
+      "candidate_sha256": "599c35d6a3e6c043e79da8b611843c7d786534fb1486dcec4ce925a264a7f1d2",
+      "patch_sha256": "a2bfa11d72303ea034684d8b2368821721625a136a1c2d911aec053d920a4939"
+    },
+    "hc-down128-wave4": {
+      "tile": [
+        64,
+        128
+      ],
+      "k_blocks": 2,
+      "waves": [
+        4,
+        2
+      ],
+      "file_count": 1019,
+      "changed_file": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "base_sha256": "92faa287e2b5681d16f0f54c2f99a3eba0a14c5faaf398e631f8a12b7548cbad",
+      "candidate_sha256": "0ba0f3554491e57e81668b8ea6caa087cce3ccbc5c93eacdc95e7ca8a9ed0ab1",
+      "patch_sha256": "e6bb306bf00de3e347997f7daaed7c915135579b8065cd33d5ad686fec5c1ffa"
+    }
+  }
+}

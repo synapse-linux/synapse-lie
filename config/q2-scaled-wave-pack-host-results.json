@@ -1,0 +1,24 @@
+{
+  "schema": "synapse-lie.q2-scaled-wave-pack-host.v1",
+  "capsule_sha256": "aed142dfa5a7d36d7db151000cec3dfa985344d681863a895768d2c0a58538e7",
+  "archive_sha256": "236720e8ef79ec6f486a16e66d2b1cb47e04e74b4da2c70c193cbf95d6eb9e2f",
+  "fixture_files_verified": 77,
+  "source_files_verified": 1020,
+  "plan_sha256": "5f800d2adb1a6c34290688730037790f51ccae0fb6b2b4dcc9b059e83092b649",
+  "test_counts": {
+    "debug": 27,
+    "asan_ubsan": 27
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts": 7,
+  "model_inference": false,
+  "gpu_run": false,
+  "goal_met": false
+}

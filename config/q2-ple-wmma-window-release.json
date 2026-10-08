@@ -1,0 +1,148 @@
+{
+  "at": "2026-10-04T02:58:06.736101+00:00",
+  "state": "Q2_PLE_WMMA_COMPONENT_WINDOW_RELEASED",
+  "cohorts": [
+    {
+      "label": "q2-ple-wmma-host-r1",
+      "finished_at": "2026-10-04T02:54:21.476358+00:00",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "verified_artifacts": 7
+    },
+    {
+      "label": "q2-iq2-wmma-reference-r1",
+      "finished_at": "2026-10-04T02:55:09.715651+00:00",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "verified_artifacts": 26
+    },
+    {
+      "label": "q2-iq2-wmma-candidate-r1",
+      "finished_at": "2026-10-04T02:56:45.725828+00:00",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "verified_artifacts": 26
+    }
+  ],
+  "retired_identities": [
+    {
+      "pid": 3369973,
+      "start_ticks": null
+    },
+    {
+      "pid": 3369974,
+      "start_ticks": 164782357
+    },
+    {
+      "pid": 3370044,
+      "start_ticks": 164782460
+    },
+    {
+      "pid": 3370239,
+      "start_ticks": 164783113
+    },
+    {
+      "pid": 3370597,
+      "start_ticks": 164783817
+    },
+    {
+      "pid": 3370667,
+      "start_ticks": 164783869
+    },
+    {
+      "pid": 3370884,
+      "start_ticks": 164784822
+    },
+    {
+      "pid": 3371458,
+      "start_ticks": null
+    },
+    {
+      "pid": 3371467,
+      "start_ticks": 164788535
+    },
+    {
+      "pid": 3371694,
+      "start_ticks": 164788738
+    },
+    {
+      "pid": 3371850,
+      "start_ticks": 164790192
+    },
+    {
+      "pid": 3372371,
+      "start_ticks": null
+    },
+    {
+      "pid": 3372378,
+      "start_ticks": 164798186
+    },
+    {
+      "pid": 3372573,
+      "start_ticks": 164798339
+    },
+    {
+      "pid": 3372740,
+      "start_ticks": 164799794
+    }
+  ],
+  "retired_groups": [
+    3369974,
+    3370044,
+    3370239,
+    3370597,
+    3370667,
+    3370884,
+    3371467,
+    3371694,
+    3371850,
+    3372378,
+    3372573,
+    3372740
+  ],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "unchanged_free_EX_NB": true
+    }
+  ],
+  "kfd": [],
+  "models": [],
+  "model_stats_unchanged": true,
+  "artifacts_verified": 59,
+  "restart_scheduled": false,
+  "observer_or_waiter": false,
+  "hardware_tuning": false
+}

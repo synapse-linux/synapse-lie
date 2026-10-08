@@ -1,0 +1,16 @@
+{
+  "schema": "synapse-lie.q2-hc-bk128-selection.v1",
+  "plan_sha256": "a8785499d55fb9e026120fadc626749f3ee7fe15260d1f346a27d241d0a5b9f5",
+  "component_parent_sha256": "d57ba27e1e72e670e411aba910b5cee9c70a8159decdc2e717499c22c1bf95dc",
+  "selected_key": "double",
+  "selected_model_arm": null,
+  "model_selected": false,
+  "parent_normalized_complete_cycle_ratio": 0.892982991252688,
+  "new_normalized_complete_cycle_ratio": 0.9495591276728237,
+  "relative_normalized_time_change_percent": 6.335634270118629,
+  "at_most_one_new_model": true,
+  "qualified_model_controls_rerun": false,
+  "strict_numeric_rejection_retained": true,
+  "numeric_thresholds_changed": false,
+  "goal_met": false
+}

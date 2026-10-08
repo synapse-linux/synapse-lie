@@ -1,0 +1,126 @@
+{
+  "schema": "synapse-lie.q2-iq2-wmma-ready.v1",
+  "at": "2026-10-04T02:32:39.803159+00:00",
+  "scope": "Source/syntax and retained-report reanalysis only, runtime pending on .157",
+  "checks": [
+    {
+      "name": "fixture-format",
+      "argv": [
+        "clang-format",
+        "--dry-run",
+        "--Werror",
+        "tests/q2_iq2_wmma_signs.cpp"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-iq2-wmma-ready-r2/fixture-format.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fixture-syntax",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-host-only",
+        "-fsyntax-only",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wpedantic",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-curve-iq2-wmma-signs",
+        "-isystem",
+        "/opt/rocm/include",
+        "-Ievidence/q2-iq2-wmma-signs-static",
+        "tests/q2_iq2_wmma_signs.cpp"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-iq2-wmma-ready-r2/fixture-syntax.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "retained-canonical-reanalysis",
+      "argv": [
+        "python3",
+        "tools/analyze-q2-iq2-curve.py",
+        "--baseline",
+        "evidence/q2-iq2-curve-baseline-r1",
+        "--candidate",
+        "evidence/q2-iq2-curve-candidate-r1",
+        "--baseline-repeat",
+        "evidence/q2-iq2-curve-baseline-r2",
+        "--ud",
+        "evidence/q2-iq2-curve-ud-r1",
+        "--host",
+        "evidence/q2-iq2-curve-host-r1",
+        "--output",
+        "evidence/q2-iq2-wmma-ready-r2/canonical-reanalysis.json"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-iq2-wmma-ready-r2/retained-canonical-reanalysis.log",
+      "log_sha256": "0cb12dc1abcf6d712336e257c695b38e1243b195ce16eb6bc43fb0a6b07bfeef"
+    },
+    {
+      "name": "host-configure",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "evidence/q2-iq2-wmma-ready-r2/host-build",
+        "-G",
+        "Ninja",
+        "-DQ2_HIP=OFF",
+        "-DQ2_PLE_CACHE_FIRST_CHECKS=ON",
+        "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-curve-ple-cache-first",
+        "-DGUFO_PLE_CONTROL_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-curve-q2",
+        "-DCMAKE_BUILD_TYPE=Debug"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-iq2-wmma-ready-r2/host-configure.log",
+      "log_sha256": "5768f6c25ae390fe825203fd8c07621918840e62c73285bf67bed16a87bc31bc"
+    },
+    {
+      "name": "component-build-no-execution",
+      "argv": [
+        "cmake",
+        "--build",
+        "evidence/q2-iq2-wmma-signs-static/build",
+        "--target",
+        "q2_iq2_wmma_signs",
+        "--parallel",
+        "4"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-iq2-wmma-ready-r2/component-build.log",
+      "log_sha256": "58a25fc4c03d25b076ee3d75c34439ccc451d076dca41db010847792638dc87c"
+    }
+  ],
+  "artifact_sha256": {
+    "tests/q2_iq2_wmma_signs.cpp": "d24415b0c8aa4d9a0c8b1856ecfb9253ccd77863ea3e1643e783a5ebf8eadd65",
+    "tests/q2_remote_test.py": "2b79e98ee1e5373efb5bc002e8754014afa3c716999d413f24ae922878ec97f6",
+    "tools/analyze-q2-curve.py": "c07dc66ffbba80b8fa934127c55fb01809ac4c31d2e7f7b14542c1d8bff2446a",
+    "tools/analyze-q2-iq2-wmma-signs.py": "1f6df34b0315ab83255ad5ba05794e30905ffe0349cd4b785fcca34fbd9ecbfc",
+    "tools/q2-remote.py": "b64d0d6abbccc3dcff7bfffd718875d36ea81aede6453bde12ab9450a8fec6c0",
+    "tools/q2-runner.py": "6e96ffa784f05f662d3984194d31d2ab9cb4d6599c0602de35e35e597a812e16",
+    "tests/q2_ple_cache_first.cpp": "73a02daabccb29777396357580cd349c41b65bea1c8ab57b56101ae9c249740a",
+    "tools/analyze-q2-ple-cache-first.py": "36024a5ba26ee316e0147504395d5120fb44bcc760765b3bf095fd7b6a443e0b",
+    "CMakeLists.txt": "4cdf53bf4e324a17f022ca2386c1a427fc3d9f67e594ba7765311784f985d02c",
+    "cmake/hip/CMakeLists.txt": "004ed0b9f1f849b17d1a6ba9f4036f29f6e944d636edb0108e994c1d046d8d66"
+  },
+  "canonical_reanalysis_exact": true,
+  "retained_result_sha256": "cb52ae3dfafd5f16f22876c1037e6b2d1e41f6b116f62a326fa7390b7acca42b",
+  "compiler_properties": "config/q2-iq2-wmma-signs-static.json",
+  "provider_delta_unchanged": true,
+  "numerical_limits_unchanged": true,
+  "failed_numerical_cases_preserve_arrays_and_timings": true,
+  "runner_failed_exit_preserved": true,
+  "gpu_run": false,
+  "goal_met": false
+}

@@ -1,0 +1,29 @@
+{
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "baseline_checkpoint": "8dc2752",
+  "files": 1019,
+  "changed": [
+    "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp"
+  ],
+  "patch_sha256": "b79107c23bfef360b60a86ef5e5e716c50bb38a14cf1af32f28c1fe37bdb1010",
+  "baseline_inventory_sha256": "d9e2d6ff499f72ef3c6a953cacc40f8d027ac873a73e96a4676240ff83bf4998",
+  "candidate_inventory_sha256": "a1ddb788661df580f9673df0f5005b4b3b93651416940bc7e9506531cec5bf0d",
+  "exact_reconstruction": true,
+  "runtime": "Not yet run on GPU; no performance qualification",
+  "retained_static_iterations": [
+    "evidence/q2-hc-up-fused-prepare-r1.json",
+    "evidence/q2-hc-up-fused-source-r1.patch",
+    "evidence/q2-hc-up-fused-static-r1.json"
+  ],
+  "generator_exact_reconstruction": true,
+  "format_files": 486,
+  "static_checks": {
+    "device_assembly": "evidence/q2-hc-up-fused-static-r2.json",
+    "host_syntax": "evidence/q2-hc-up-fused-syntax.json",
+    "format": "evidence/q2-hc-up-fused-format.json"
+  },
+  "static_note": "Final header documentation was corrected after static compilation; kernel/executor bodies and all declarations are unchanged.",
+  "patch_reconstruction_receipt": "evidence/q2-hc-up-fused-reconstruct-r2.json"
+}

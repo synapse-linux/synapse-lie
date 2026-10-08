@@ -1,0 +1,106 @@
+{
+  "schema": "synapse-lie.q2-current-routing-final-audit.v1",
+  "cohorts": [
+    {
+      "label": "q2-current-routing-host-r1",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "result_sha256": "43991f702b0c7815c414dc48be24798db94e685db98e0b98555ec8852134c061",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts_verified": 7,
+      "finished_at": "2026-10-06T02:18:58.587885+00:00"
+    },
+    {
+      "label": "q2-current-routing-r1",
+      "state": "FAILED",
+      "result_sha256": "5fadd00649f729a6ba3755ed8a01c7c8800e0173bcc9c37f7284f97e28afe50c",
+      "transport_exit": 1,
+      "command_exits": [
+        0,
+        0
+      ],
+      "artifacts_verified": 4,
+      "finished_at": "2026-10-06T02:22:29.632956+00:00"
+    },
+    {
+      "label": "q2-current-routing-v2-host-r1",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "result_sha256": "3dda09aa20184bb558e0140c774e3546c742e664fff4b0670726149790b06a35",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts_verified": 7,
+      "finished_at": "2026-10-06T02:26:42.489325+00:00"
+    },
+    {
+      "label": "q2-current-routing-v2-r1",
+      "state": "DIAGNOSTIC_ROUTING_COMPLETE_NOT_WALL_BENCHMARK",
+      "result_sha256": "851d6bdea7ddaf15781814edb8cfc06d4aed4b4d4fa2ffd5da740689e77b7134",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0
+      ],
+      "artifacts_verified": 20,
+      "finished_at": "2026-10-06T02:28:53.786613+00:00"
+    }
+  ],
+  "source_files_verified": 1027,
+  "fixtures_verified": 111,
+  "manifests_verified": 8,
+  "successful_diagnostic_binding": {
+    "capsule_sha256": "1346bf85e43874f5abc4b99d68cdc693812eea332c9344148ce69b24265243bd",
+    "archive_sha256": "db34e8577bdb10ed8f46133fd26d7f36b7895793ecc1f4c08931c5816e55296e",
+    "fixture_files_verified": 111,
+    "source_files_verified": 1027
+  },
+  "artifacts": {
+    "config/q2-current-routing-v2-results.json": "ccd2e21c6fde161dbc70b7f7692dbc460eb64da115eadac572ae2169d59b2496",
+    "config/q2-route-opportunities.json": "8cf4f396a216a86808c037675e9a1cde521773942f9190d47869fa8e32637d98",
+    "config/q2-fixed-input-route-fixtures.json": "1f3b62e2fc29d1169c6d73b8182c096d2265569326cbfa949aae7bac57efcee2",
+    "docs/figures/q2-current-routing.csv": "d1f088dabf84fb500bea05446aa5f9a03ccb54227a6d2dde70fd5feff927afb5",
+    "docs/figures/q2-current-routing.svg": "a80506670524cc1e82d7afdfb9b8b99474aeea2e55c83c39070d3863026666d1",
+    "docs/figures/q2-current-routing.png": "26534a8fac11cdbce3b0d0c0d04d7de6e2cb59152ebacba9215e2b7bd436ff95"
+  },
+  "release_at": "2026-10-06T02:29:27.961448+00:00",
+  "release_sha256": "5f4d8c1374b0b462c353afa708e27cbc0176083536920047b376b2df52574f3c",
+  "retired_identities": 1296,
+  "retired_groups": 1036,
+  "owned_debugger_children": [
+    {
+      "pid": 187716,
+      "state": "S",
+      "group": 187716,
+      "session": 187691,
+      "start_ticks": 181911072
+    }
+  ],
+  "main_mirrors_exact": true,
+  "remote_mirror_receipt": "evidence/q2-current-routing-v2-preparation/publish-release-stdout.txt",
+  "actual_command_exit_codes_preserved": true,
+  "initial_failure": "Transport1/stateFAILED despite child exits0: ownership guard stopped GDB before any counts. Preserved separately, not counted as successful inference.",
+  "successful_host_tests": {
+    "debug": 32,
+    "asan_ubsan": 32
+  },
+  "successful_diagnostic_commands": 2,
+  "gpu_builds": 0,
+  "performance_control_rerun": false,
+  "provider_changed": false,
+  "goal_met": false,
+  "full_curve": false,
+  "cleanup": false
+}

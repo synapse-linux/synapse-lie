@@ -1,0 +1,122 @@
+{
+  "schema": "synapse-lie.q2-norm-fixed-host.v1",
+  "label": "q2-norm-fixed-host-r1",
+  "finished_at": "2026-10-04T15:47:29.618858+00:00",
+  "commands": [
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-norm-fixed-host-r1",
+        "-B",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-norm-fixed-host-r1/build/debug",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DQ2_SANITIZERS=OFF",
+        "-DQ2_HIP=OFF",
+        "-DCMAKE_HIP_ARCHITECTURES=gfx1151"
+      ],
+      "started_at": "2026-10-04T15:46:58.941442+00:00",
+      "pid": 3648101,
+      "start_ticks": 169421323,
+      "exit_code": 0,
+      "finished_at": "2026-10-04T15:46:59.469977+00:00"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-norm-fixed-host-r1/build/debug",
+        "--parallel",
+        "2"
+      ],
+      "started_at": "2026-10-04T15:46:59.471159+00:00",
+      "pid": 3648181,
+      "start_ticks": 169421376,
+      "exit_code": 0,
+      "finished_at": "2026-10-04T15:47:05.002333+00:00"
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-norm-fixed-host-r1/build/debug",
+        "--output-on-failure"
+      ],
+      "started_at": "2026-10-04T15:47:05.003089+00:00",
+      "pid": 3648336,
+      "start_ticks": 169421929,
+      "exit_code": 0,
+      "finished_at": "2026-10-04T15:47:12.532058+00:00"
+    },
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-norm-fixed-host-r1",
+        "-B",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-norm-fixed-host-r1/build/sanitize",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DQ2_SANITIZERS=ON",
+        "-DQ2_HIP=OFF",
+        "-DCMAKE_HIP_ARCHITECTURES=gfx1151"
+      ],
+      "started_at": "2026-10-04T15:47:12.533310+00:00",
+      "pid": 3648586,
+      "start_ticks": 169422682,
+      "exit_code": 0,
+      "finished_at": "2026-10-04T15:47:13.052177+00:00"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-norm-fixed-host-r1/build/sanitize",
+        "--parallel",
+        "2"
+      ],
+      "started_at": "2026-10-04T15:47:13.053277+00:00",
+      "pid": 3648656,
+      "start_ticks": 169422734,
+      "exit_code": 0,
+      "finished_at": "2026-10-04T15:47:21.582801+00:00"
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-norm-fixed-host-r1/build/sanitize",
+        "--output-on-failure"
+      ],
+      "started_at": "2026-10-04T15:47:21.583575+00:00",
+      "pid": 3648847,
+      "start_ticks": 169423587,
+      "exit_code": 0,
+      "finished_at": "2026-10-04T15:47:29.618480+00:00"
+    }
+  ],
+  "debug_passed": 22,
+  "asan_ubsan_passed": 22,
+  "collection": {
+    "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-norm-fixed-host-r1/results.tar.gz",
+    "sha256": "3cf4efeb53bc5bd1f8df1ce4421666055a7e65b18e50b4bf1422573575d50c2c",
+    "verified_artifacts": 7,
+    "existing_archive": false
+  },
+  "files": {
+    "tests/q2_hc_library_norm.cpp": "691590bfa9710e91578b75e0e351bef37cd90cca8038c1e12e827e991cd055c8",
+    "tests/q2_hc_sequence.cpp": "9949bf6df8e4119a0c2d1eda99b9cda4af3e69f94a5270fedbc607c694247b8a",
+    "tests/q2_hc_norm_half.cpp": "94aae9e5c7acaa14778b363e272a1d874ec7b222395c4b0a8d1d754a54f648c8",
+    "tests/q2_hc_moe_fused.cpp": "f743aed14d492b9bdc2de25e69f9b126c534964da61443d275e49c6bc14f4483",
+    "tests/q2_remote_test.py": "3dc7d0e30735206ff6200e556aa420883ade2fb410652102f03fdd78471334cc",
+    "tools/q2-remote.py": "764294c8586950f3c0d0b0db725a5e46381c08764999fcbe3a12e71a1ce95ac4",
+    "tools/q2-runner.py": "5df4cc9b221f66679f98ed72d45b0305b5c024408e8ac8e48111d35d47a3d619",
+    "cmake/hip/CMakeLists.txt": "77a41cea52095fea97ea69de8170b626127ebb3a6d1ee3ba53492cf2af9271c4"
+  },
+  "model_inference": false,
+  "retained_audit_failure": "evidence/q2-norm-fixed-host-audit-first-failure.json",
+  "audit_correction": "Match actual CTest summary format and require all22 individual Passed records; original remote suite unchanged."
+}

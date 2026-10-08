@@ -1,0 +1,13 @@
+{
+  "schema": "synapse-lie.q2-prefill-chunks-build.v1",
+  "server": ".deps/build-prefill-chunks/cmake/curve/core/synapse-lie-server",
+  "server_sha256": "f6772a1eb2210a415f0c7e951c03f3c1bb8430114134cdb14a87a28311e66039",
+  "device_functions": 923,
+  "device_functions_byte_exact": 923,
+  "cpu_fixture_receipt": "evidence/q2-iommu-preparation/cpu-test-command.json",
+  "cpu_fixture_exit_code": 0,
+  "model_inference": false,
+  "format_changed_exit_code": 0,
+  "format_shared_exit_code": 1,
+  "source_manifest_sha256": "e813f6f7937cb4c0fa01e9dcfcc1dca081e6a60273c6d93d7a6ecacce8f3c666"
+}

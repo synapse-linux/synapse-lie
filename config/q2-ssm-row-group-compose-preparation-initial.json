@@ -1,0 +1,127 @@
+{
+  "schema": "synapse-lie.q2-ssm-row-group-preparation.v1",
+  "plan_sha256": "549e6150bdb23af496531d45a24a49301591ff729fb99d3cd6788f7d8e4dd39d",
+  "selected_source_sha256": "1fc536ca816c09a1a6df22731366c94bc627ea1222c6a9ef840bf54563fd7775",
+  "static_sha256": "3086dcf0e6e28dbf71b184da31032a3c1eb6aa3667962eba82ba7bc40516eb6b",
+  "staging_sha256": "95752d3c8f8415d1566c7596f55a9b09a1df746c4e3b1f88557318e85c8222e5",
+  "fixtures_verified": 88,
+  "manifests_verified": 5,
+  "provider_files_verified": 1027,
+  "launcher_guards": 142,
+  "analysis_guards": 8,
+  "helper_files": {
+    "tools/q2-remote.py": "adcc356a0875b5184bb338e9221eb9714114b71befdddaa50e1ddd21e6de210f",
+    "tools/q2-runner.py": "2265c5910e473c95da7620d947ed06cb28f612ce523dc85fabfaf600c7368a3e",
+    "tools/q2-ssm-row-group-window.py": "b13c145e4c0f12457e7b96ec9ed765f0066d0a39e9c9d7142f7f0808c742d46c",
+    "tools/freeze-q2-ssm-row-group-plan.py": "bbad51735eb64a3a6c37a9dc9c0b4019c912570fe53f8db96730c598c1eec428",
+    "tools/prepare-q2-ssm-row-group-compose.py": "7b41414591a9a7dcb9eabe70d6ca49ec171e3012a93894b4f7ba37f6891800a6",
+    "tools/analyze-q2-ssm-row-group-compose-static.py": "39b7c11e4cec7ead6946ef408a35af7ff40bda10c0d3c7f95e6d18bf85d91620",
+    "tools/analyze-q2-ssm-row-group-component.py": "a734a72a692788243feb5c889ad83f9b77b04d76f34a0b6ba666e668ca74b951",
+    "tools/analyze-q2-ssm-row-group-model.py": "08aa90ea0e9585a5fc07d9894c9e292f2a844c712b9b8b953dc12b41d5bb36ac",
+    "tools/verify-q2-ssm-row-group-preparation.py": "b6e5904f31dd5693bd4c6c62560d75d028d83e07554e03296c8025a9310af371",
+    "tests/q2_ssm_row_group_analysis_test.py": "b51471c2d497fee7ea4a8c20c9d91cb9f08d38a4ec6dcbeb481b7f7336667d18"
+  },
+  "local_commands": {
+    "analysis-guards": {
+      "argv": [
+        "python3",
+        "tests/q2_ssm_row_group_analysis_test.py"
+      ],
+      "started_at": "2026-10-05T20:07:09.767692+00:00",
+      "finished_at": "2026-10-05T20:07:09.851865+00:00",
+      "exit_code": 1
+    },
+    "analysis-guards-corrected": {
+      "argv": [
+        "python3",
+        "tests/q2_ssm_row_group_analysis_test.py"
+      ],
+      "started_at": "2026-10-05T20:07:24.021607+00:00",
+      "finished_at": "2026-10-05T20:07:24.095110+00:00",
+      "exit_code": 0
+    },
+    "assembly": {
+      "argv": [
+        "python3",
+        "evidence/q2-ssm-row-group-compose-preparation/compile-local.py",
+        "assembly"
+      ],
+      "started_at": "2026-10-05T19:54:12.430328+00:00",
+      "finished_at": "2026-10-05T19:54:22.514750+00:00",
+      "exit_code": 0
+    },
+    "fixture-device": {
+      "argv": [
+        "python3",
+        "evidence/q2-ssm-row-group-compose-preparation/compile-local.py",
+        "fixture-device"
+      ],
+      "started_at": "2026-10-05T19:54:12.430355+00:00",
+      "finished_at": "2026-10-05T19:54:14.422835+00:00",
+      "exit_code": 0
+    },
+    "fixture-host": {
+      "argv": [
+        "python3",
+        "evidence/q2-ssm-row-group-compose-preparation/compile-local.py",
+        "fixture-host"
+      ],
+      "started_at": "2026-10-05T19:54:12.430328+00:00",
+      "finished_at": "2026-10-05T19:54:14.425918+00:00",
+      "exit_code": 0
+    },
+    "freeze-plan": {
+      "argv": [
+        "python3",
+        "tools/freeze-q2-ssm-row-group-plan.py"
+      ],
+      "started_at": "2026-10-05T20:07:24.169706+00:00",
+      "finished_at": "2026-10-05T20:07:24.189597+00:00",
+      "exit_code": 0
+    },
+    "generation": {
+      "argv": [
+        "python3",
+        "tools/prepare-q2-ssm-row-group-compose.py"
+      ],
+      "started_at": "2026-10-05T19:54:06.556387+00:00",
+      "finished_at": "2026-10-05T19:54:06.874009+00:00",
+      "exit_code": 0
+    },
+    "launcher-guards": {
+      "argv": [
+        "python3",
+        "tests/q2_remote_test.py"
+      ],
+      "started_at": "2026-10-05T19:56:51.636659+00:00",
+      "finished_at": "2026-10-05T19:56:53.110773+00:00",
+      "exit_code": 0
+    },
+    "staging": {
+      "argv": [
+        "python3",
+        "evidence/q2-ssm-row-group-compose-preparation/stage-local.py"
+      ],
+      "started_at": "2026-10-05T20:07:29.525144+00:00",
+      "finished_at": "2026-10-05T20:07:32.591938+00:00",
+      "exit_code": 0
+    },
+    "static": {
+      "argv": [
+        "python3",
+        "tools/analyze-q2-ssm-row-group-compose-static.py"
+      ],
+      "started_at": "2026-10-05T19:55:29.607152+00:00",
+      "finished_at": "2026-10-05T19:55:30.168489+00:00",
+      "exit_code": 0
+    }
+  },
+  "preserved_failure": "Initial parser negative tests expected RuntimeError; existing shared require raises ValueError. Correct only those five test expectations; all source and actual failures retained.",
+  "remote_host_checks_pending": true,
+  "core_handover_required": true,
+  "gpu_admission_pending": true,
+  "gpu_run": false,
+  "model_inference": false,
+  "numerical_acceptance": false,
+  "goal_met": false
+}

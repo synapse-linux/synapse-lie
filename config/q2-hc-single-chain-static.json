@@ -1,0 +1,128 @@
+{
+  "scope": "Local static/device-only compilation; no GPU execution",
+  "at": "2026-10-03T04:39:18.591783+00:00",
+  "checks": [
+    {
+      "name": "device",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-device-only",
+        "-S",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-single-chain",
+        "-isystem",
+        "/opt/rocm/include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-single-chain/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+        "-o",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-single-chain-static/kernels.s"
+      ],
+      "exit_code": 0,
+      "stdout": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-single-chain-static/device.stdout",
+      "stderr": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-single-chain-static/device.stderr"
+    },
+    {
+      "name": "host",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-host-only",
+        "-fsyntax-only",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-single-chain",
+        "-isystem",
+        "/opt/rocm/include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests/q2_hc_pp.cpp"
+      ],
+      "exit_code": 0,
+      "stdout": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-single-chain-static/host.stdout",
+      "stderr": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-single-chain-static/host.stderr"
+    },
+    {
+      "name": "format",
+      "argv": [
+        "python3",
+        "tools/ci/check-format.py"
+      ],
+      "exit_code": 1,
+      "stdout": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-single-chain-static/format.stdout",
+      "stderr": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-single-chain-static/format.stderr"
+    },
+    {
+      "name": "reconstruction",
+      "argv": [
+        "patch",
+        "--batch",
+        "--fuzz=0",
+        "--no-backup-if-mismatch",
+        "-p1",
+        "-i",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/q2-hc-single-chain.patch"
+      ],
+      "exit_code": 0,
+      "stdout": "patching file src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp\n",
+      "stderr": ""
+    }
+  ],
+  "reconstructed_files": 1019,
+  "mismatches": [],
+  "reconstruction_exact": true,
+  "resources": [
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi1ELi4ELi2ELi8ELb1ELb0ELb0ELb1ELb1ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 24576,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 242,
+      "next_free_sgpr": 27
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi64ELi128ELi2ELi2ELi4ELi5ELb0ELb0ELb0ELb1ELb0ELb1EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 24576,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 219,
+      "next_free_sgpr": 22
+    }
+  ],
+  "assembly_sha256": "00df913e24dcd2f47af9c404de3b2015c515f6330da18cdc2f142551b76a9112",
+  "exit_code": 1,
+  "baseline_format": {
+    "argv": [
+      "python3",
+      "tools/ci/check-format.py"
+    ],
+    "exit_code": 1,
+    "stdout": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-single-chain-static/baseline-format.stdout",
+    "stderr": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-single-chain-static/baseline-format.stderr"
+  },
+  "full_format_matches_baseline": true,
+  "preexisting_format_files": [
+    "tests/models/deepseek_v4_flash/serving_test.cpp",
+    "tests/models/qwen/cpu/generator_test.cpp"
+  ],
+  "changed_file_format": {
+    "argv": [
+      "clang-format",
+      "--dry-run",
+      "--Werror",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-single-chain/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "source_checks_pass": true
+}

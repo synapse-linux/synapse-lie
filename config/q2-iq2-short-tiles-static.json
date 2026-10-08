@@ -1,0 +1,48 @@
+{
+  "schema": "synapse-lie.q2-iq2-short-tiles-static.v1",
+  "source_manifest_sha256": "433f678d9ad332fa73683f319386b0de49a234033d09e29f795e524eb7e29613",
+  "provider_files": 1027,
+  "changed_files": [
+    "src/models/qwen38_flash_next/CMakeLists.txt",
+    "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+    "src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
+    "src/models/qwen38_flash_next/kernels/rocm/q2_iq2_short_tiles.c",
+    "src/models/qwen38_flash_next/kernels/rocm/q2_iq2_short_tiles.h"
+  ],
+  "unchanged_numerical_sources": {
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "eac332ca91cbab303214d1fb62f5847b4cab00a7d170790339d1542f025650ff",
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/mmid.hip.cpp": "c1b8f825da82c8e07bb2628155875014f64fbc986f8b4b7b65f01443c1f06dfd",
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/mmvq.hip.cpp": "f868ab8ae8fb55a520aed7eaf695fa8197db1ce322f9906559ed45fa9bff166a",
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/moe_wave64.hip.cpp": "98e35595732b45ba4b96b10d9769dc11bc2e9be3d44d5a6607f2dfa35e703510",
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_ggml_stubs.hip.cpp": "ca4efcaa2b6286068f364f759a1a1dac14e007eda478d8cffb2c8e808c189e78",
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_mmq.hip.cpp": "5085ade562ff65c0260229b4981c9aa83a131ed4112d1d013f38730903dae09b",
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/quantize.hip.cpp": "984332a72a689511810aff9a272ea1afa873f39c50f4ed105ddf84838ba67cbb",
+    "src/models/qwen38_flash_next/kernels/rocm/q2_hc_down_bk256.inc": "3c7d735944663ceb9fc391a999812f7f9aecfcde422658c7e752e3b4eb280140",
+    "src/models/qwen38_flash_next/kernels/rocm/q2_hc_moe_deferred.inc": "63711baeb52e92de971467c9826743eb659062ac9f8553ab917c9ead58f955e5",
+    "src/models/qwen38_flash_next/kernels/rocm/q2_scaled_input.inc": "0c7d6d2374158fd340011601af4329e13fa5ccf9d1a2900e1743a44ee673ea0e",
+    "src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip": "7314d5ac3accf546149ae3c9f94a956a3d9d1cf654a1de372afe7397f060a3b0"
+  },
+  "host_map_coverage": "Independent full-row coverage and original128/64 descriptor preservation",
+  "preparation_receipts": {
+    "evidence/q2-iq2-short-tiles-preparation/map-debug-command.json": "8d054a240d216d36f1c132f5a7d68c970e5eac4cdcb5a3f7707423e418979e3b",
+    "evidence/q2-iq2-short-tiles-preparation/map-asan-unrestricted-command.json": "cb4f31eccd86f97ec0d1432ff0c1f886d4c5454ab685f2c16b54d90f2c76721c",
+    "evidence/q2-iq2-short-tiles-preparation/fixture-host-command.json": "f7a0c251fcef60cb9df556ff99303e383e261655388cdfc665071f33026308d3",
+    "evidence/q2-iq2-short-tiles-preparation/fixture-device-command.json": "0ce87eafb577566381cb98ff05adcc1ecc91df11c0976df432dde47acd501658",
+    "evidence/q2-iq2-short-tiles-preparation/executor-host-includes-command.json": "ed36251867d148cf24dcbba030e7e252693e3d855d2dfd3436a8b1d83c1c6ca7",
+    "evidence/q2-iq2-short-tiles-preparation/launcher-guards-command.json": "fd960d15d6ed2e0ab37435e7b4bbd84d83977597ef6dfe9e9c1b88110fcd0e6e",
+    "evidence/q2-iq2-short-tiles-preparation/generation-v2-command.json": "f3299bf4f5363aa799615f0adb6c0814bf3cd854411b3e23acb8b090b6a3059b"
+  },
+  "preserved_initial_failure_receipts": {
+    "evidence/q2-iq2-short-tiles-preparation/map-asan-command.json": "312db3c89b13b34f603f82902a748a958d4ede896f3f49fd05f3ff2757fd43a2",
+    "evidence/q2-iq2-short-tiles-preparation/executor-host-command.json": "151fb3030a1e400d394975eb35913bbf8f2a29730bbab390ad23587810a089ac"
+  },
+  "initial_failure_causes": [
+    "LeakSanitizer rejected sandbox ptrace; unrestricted same binary passes",
+    "Standalone executor syntax command omitted existing MMQ include directory"
+  ],
+  "launcher_guard_tests": 105,
+  "gpu_run": false,
+  "model_inference": false,
+  "numerical_acceptance": false,
+  "goal_met": false
+}

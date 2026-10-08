@@ -1,0 +1,33 @@
+{
+  "schema": "synapse-lie.q2-hc-scalar-matched-build.v1",
+  "provider_manifest_sha256": "db615337c240cf880a872e71101990d73bd475b3dafb2f85d93b5c646fb27061",
+  "provider_files_verified": 1029,
+  "component_result_sha256": "33cbb4469c5d0fb8e92bc06429229a7f0911b89cce89a9073c06bc7fb2eda47b",
+  "fixed_model_result_sha256": "92e58d0a58c9249e9bd48ca8316d5fdc8e9086a27e7625f288f57c0cb90ebc4f",
+  "core_manifest": "config/q2-curve128-source.json",
+  "core_manifest_sha256": "dbe8e6aafad31ee89bf770d8fcbecbfdfb5de7431794182f24bb8a7afcfd5005",
+  "core_files_verified": 333,
+  "core_changed_files": [],
+  "server": ".deps/build-hc-scalar-matched/cmake/curve/core/synapse-lie-server",
+  "server_sha256": "f2ceaa655ea27cfc3c1c49b4da24b27b59f126a7b166f577b3f329d44108733f",
+  "build_recipe_sha256": "b061e00bb61cad3b72b9e3c7145f06561eda072f59428bc73aee0b01b3c7c8b4",
+  "commands_sha256": "74f085d7a085226cc14e7a1ba234e4a573ae27b5eaac3f28a6f77fed90eee1b0",
+  "configure_and_build_exits": [
+    0,
+    0
+  ],
+  "mmq_archive": ".deps/build-hc-scalar-matched/cmake/hip/qwen/libgufo_qwen38_flash_next_mmq.a",
+  "mmq_archive_sha256": "5daa0088a8f461ef1908ec6bb1e1a9d1239ed1745ae81b5f49e1219f728f8d91",
+  "mmq_source_unchanged_from_qualified_model": true,
+  "remote_build": false,
+  "native_model_run": false,
+  "scope": "Same native333/provider1029 sources, original compiler and matching saved RelWithDebInfo build; own MMQ rebuilt in matching mode. Only new candidate rebuilt; historical binaries and measurements unchanged.",
+  "build_type": "RelWithDebInfo",
+  "saved_build_type": "RelWithDebInfo",
+  "device_audit_sha256": "0b4e9e55915c4185ca139037fcc778eeda91062efb1832ec41ffad81a755f8cd",
+  "common_device_functions": 920,
+  "byte_exact_device_functions": 907,
+  "common_function_size_changes": 0,
+  "common_function_resource_changes": 0,
+  "remaining_differences": "13 functions: address literals only in disassembly; includes two diagnostic helper string relocations. Runtime not yet measured."
+}

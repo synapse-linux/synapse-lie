@@ -1,0 +1,37 @@
+arm,source,metric,repetition,value
+Q2 scaled,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-reference-r1,prefill_tok_s,1,1385.81898
+Q2 scaled,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-reference-r1,prefill_tok_s,2,1387.531447
+Q2 scaled,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-reference-r1,prefill_tok_s,3,1386.762111
+Q2 scaled + HC library,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-candidate-r1,prefill_tok_s,1,1412.859913
+Q2 scaled + HC library,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-candidate-r1,prefill_tok_s,2,1412.177639
+Q2 scaled + HC library,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-candidate-r1,prefill_tok_s,3,1412.562577
+Fresh UD,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-ud-r1,prefill_tok_s,1,1660.059096
+Fresh UD,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-ud-r1,prefill_tok_s,2,1663.128511
+Fresh UD,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-ud-r1,prefill_tok_s,3,1658.054939
+Q2 scaled,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-reference-r1,decode_steps_s,1,24.11434157
+Q2 scaled,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-reference-r1,decode_steps_s,2,24.07681563
+Q2 scaled,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-reference-r1,decode_steps_s,3,24.08079861
+Q2 scaled + HC library,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-candidate-r1,decode_steps_s,1,24.13421721
+Q2 scaled + HC library,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-candidate-r1,decode_steps_s,2,24.11744601
+Q2 scaled + HC library,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-candidate-r1,decode_steps_s,3,24.11486955
+Fresh UD,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-ud-r1,decode_steps_s,1,24.28875649
+Fresh UD,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-ud-r1,decode_steps_s,2,24.25346957
+Fresh UD,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-ud-r1,decode_steps_s,3,24.27329718
+Q2 scaled,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-reference-r1,prefill_s,1,1.477826491
+Q2 scaled,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-reference-r1,prefill_s,2,1.476002583
+Q2 scaled,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-reference-r1,prefill_s,3,1.476821427
+Q2 scaled + HC library,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-candidate-r1,prefill_s,1,1.449542153
+Q2 scaled + HC library,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-candidate-r1,prefill_s,2,1.450242479
+Q2 scaled + HC library,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-candidate-r1,prefill_s,3,1.449847273
+Fresh UD,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-ud-r1,prefill_s,1,1.23369102
+Fresh UD,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-ud-r1,prefill_s,2,1.231414161
+Fresh UD,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-ud-r1,prefill_s,3,1.235182232
+Q2 scaled,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-reference-r1,decode_s,1,5.266575479
+Q2 scaled,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-reference-r1,decode_s,2,5.274783923
+Q2 scaled,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-reference-r1,decode_s,3,5.27391147
+Q2 scaled + HC library,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-candidate-r1,decode_s,1,5.262238212
+Q2 scaled + HC library,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-candidate-r1,decode_s,2,5.265897556
+Q2 scaled + HC library,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-candidate-r1,decode_s,3,5.266460171
+Fresh UD,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-ud-r1,decode_s,1,5.228756772
+Fresh UD,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-ud-r1,decode_s,2,5.236364209
+Fresh UD,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-library-model-ud-r1,decode_s,3,5.232086893

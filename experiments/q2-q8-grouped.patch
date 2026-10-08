@@ -1,0 +1,32 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5754,17 +5754,21 @@
+             a_codes[p][1].x, a_codes[p][1].y, a_codes[p][1].z, a_codes[p][1].w};
+         const __half2 scale2 = __half2half2(
+             __builtin_bit_cast(__half, static_cast<std::uint16_t>(a_d[p])));
+-        __half2 h[16];
+-#pragma unroll
+-        for (int i = 0; i < 8; ++i) {
+-          CodesToHalves(words[i] ^ 0x80808080U, magic, scale2, zero2, h[2 * i],
+-                        h[2 * i + 1]);
+-        }
++        // Decode and commit one16-byte group before expanding the next.
++        // Same byte permutation, half add/FMA and LDS addresses as the parent.
++        // The scheduler barrier bounds live decoded registers; it is not a
++        // device synchronization and does not change the K16 WMMA sequence.
+ #pragma unroll
+         for (int c = 0; c < 4; ++c) {
++          __half2 h[4];
++          CodesToHalves(words[2 * c] ^ 0x80808080U, magic, scale2, zero2,
++                        h[0], h[1]);
++          CodesToHalves(words[2 * c + 1] ^ 0x80808080U, magic, scale2, zero2,
++                        h[2], h[3]);
+           uint4 v;
+-          __builtin_memcpy(&v, &h[4 * c], 16);
++          __builtin_memcpy(&v, h, 16);
+           s_a[kk][row][swizzle(row, c)] = v;
++          __builtin_amdgcn_sched_barrier(0);
+         }
+       }
+     }

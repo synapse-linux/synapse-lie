@@ -1,0 +1,26 @@
+{
+  "schema": "synapse-lie.q2-decode-q5-source.v1",
+  "at": "2026-10-07T09:01:21.946079+00:00",
+  "source_commit": "73488f13",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "private_provider": ".deps/gufo-q2-iq2-token160-probe",
+  "source_sha256": {
+    "CMakeLists.txt": "c0a33764a23767fbcb61e40b0cf0d9843e007ec732bae6eae5e39df19a43abb2",
+    "cmake/hip/CMakeLists.txt": "3962335f8917a45de65784d4e4e88fa5d607755f3a9dacee03ad86429498b695",
+    "experiments/q2-decode-q5-dense.inc": "6093262fe406a6ef0f99b50201bc29cccbf399e7c61374460f52d5883cfe22f2",
+    "experiments/q2-decode-q8-control.inc": "3f91d04b00bab5e62d4f9b5370e453b5c5f0152a560e65312ae79e3d2cae1fcb",
+    "tests/q2_decode_q5_dense.hip": "019cdc6dedd49e37cf2206efc7c904e0a0227c9096c671243edb642f62c6e521",
+    "tests/q2_decode_q5_window_test.py": "7e95d8d9a3b39a07e44361f14d33818debf1ea95292da599be66e36d00f80bfe",
+    "tools/q2-decode-q5-window.py": "9c5f0511d385b0760bf371104c5c3448db38f63c895c81bda078117d3c413471"
+  },
+  "provider_include_sha256": {
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_mmq_prelude.h": "8d94863a4b812eca0df782181433280db4b578c2071ca9ccdcff0ec64335ba63",
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/mmvq.hpp": "151ba7c862bd5732d205938f6a6b4c9311361461f9c63ed5dc5b79bd47b4497a",
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/vecdotq.hpp": "afae2dcc0f6a4ece74842d9cb39d1fd6e5d947a1eb01c5015eb9c5d7028f1dd0",
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/ggml-common.h": "3a6ac624e0c93e18168e31fd6c2b0f418dc6528723e2f489d6b272393bd6555b"
+  },
+  "binary_sha256": "9811b486e466129099f25518be14820c8a341b67320b5770199fe10511e98d13",
+  "device_image_sha256": "d8564f05b05d3201b343f85d84ea2c389ebd8ea2ebf11722cedbfb7088824302",
+  "production_dispatch_changed": false,
+  "model_weights_accessed": false
+}

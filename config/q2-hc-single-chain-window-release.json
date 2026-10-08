@@ -1,0 +1,368 @@
+{
+  "at": "2026-10-03T05:04:19.071141+00:00",
+  "state": "Q2_HC_SINGLE_CHAIN_WINDOW_RELEASED",
+  "runners": [
+    {
+      "label": "q2-hc-single-chain-host-r1",
+      "pid": 2851374,
+      "absent": true,
+      "finished_at": "2026-10-03T04:42:01.439980+00:00"
+    },
+    {
+      "label": "q2-hc-single-chain-q2-profile-r1",
+      "pid": 2854408,
+      "absent": true,
+      "finished_at": "2026-10-03T04:53:02.664420+00:00"
+    },
+    {
+      "label": "q2-hc-single-chain-ud-profile-r1",
+      "pid": 2856327,
+      "absent": true,
+      "finished_at": "2026-10-03T04:56:58.593481+00:00"
+    },
+    {
+      "label": "q2-hc-single-chain-host-r2",
+      "pid": 2857935,
+      "absent": true,
+      "finished_at": "2026-10-03T04:58:29.756884+00:00"
+    },
+    {
+      "label": "q2-hc-single-chain-micro-ref-r1",
+      "pid": 2859155,
+      "absent": true,
+      "finished_at": "2026-10-03T05:00:19.458185+00:00"
+    },
+    {
+      "label": "q2-hc-single-chain-micro-r1",
+      "pid": 2859817,
+      "absent": true,
+      "finished_at": "2026-10-03T05:01:44.091210+00:00"
+    }
+  ],
+  "commands": [
+    {
+      "label": "q2-hc-single-chain-host-r1",
+      "pid": 2851375,
+      "start_ticks": 156789004,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-host-r1",
+      "pid": 2851451,
+      "start_ticks": 156789057,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-host-r1",
+      "pid": 2851553,
+      "start_ticks": 156789510,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-host-r1",
+      "pid": 2851786,
+      "start_ticks": 156790164,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-host-r1",
+      "pid": 2851856,
+      "start_ticks": 156790216,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-host-r1",
+      "pid": 2851937,
+      "start_ticks": 156790919,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-q2-profile-r1",
+      "pid": 2854409,
+      "start_ticks": 156839590,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-q2-profile-r1",
+      "pid": 2854615,
+      "start_ticks": 156839793,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-q2-profile-r1",
+      "pid": 2855690,
+      "start_ticks": 156855321,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-q2-profile-r1",
+      "pid": 2855695,
+      "start_ticks": 156855373,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-q2-profile-r1",
+      "pid": 2855889,
+      "start_ticks": 156857531,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-q2-profile-r1",
+      "pid": 2855890,
+      "start_ticks": 156857584,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-q2-profile-r1",
+      "pid": 2855891,
+      "start_ticks": 156857637,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-ud-profile-r1",
+      "pid": 2856328,
+      "start_ticks": 156867043,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-ud-profile-r1",
+      "pid": 2856523,
+      "start_ticks": 156867195,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-ud-profile-r1",
+      "pid": 2857420,
+      "start_ticks": 156878366,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-ud-profile-r1",
+      "pid": 2857453,
+      "start_ticks": 156878418,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-ud-profile-r1",
+      "pid": 2857606,
+      "start_ticks": 156881126,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-ud-profile-r1",
+      "pid": 2857614,
+      "start_ticks": 156881179,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-ud-profile-r1",
+      "pid": 2857615,
+      "start_ticks": 156881231,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-host-r2",
+      "pid": 2857936,
+      "start_ticks": 156887786,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-host-r2",
+      "pid": 2858006,
+      "start_ticks": 156887839,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-host-r2",
+      "pid": 2858082,
+      "start_ticks": 156888292,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-host-r2",
+      "pid": 2858339,
+      "start_ticks": 156888946,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-host-r2",
+      "pid": 2858409,
+      "start_ticks": 156888999,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-host-r2",
+      "pid": 2858479,
+      "start_ticks": 156889751,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-micro-ref-r1",
+      "pid": 2859184,
+      "start_ticks": 156899464,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-micro-ref-r1",
+      "pid": 2859379,
+      "start_ticks": 156899667,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-micro-ref-r1",
+      "pid": 2859521,
+      "start_ticks": 156901071,
+      "exit_code": 1,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-micro-r1",
+      "pid": 2859818,
+      "start_ticks": 156907927,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-micro-r1",
+      "pid": 2860039,
+      "start_ticks": 156908130,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-single-chain-micro-r1",
+      "pid": 2860157,
+      "start_ticks": 156909535,
+      "exit_code": 1,
+      "absent": true
+    }
+  ],
+  "live_owned": [],
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "observer": {
+    "pid": 2860991,
+    "state": "R",
+    "group": 2860988,
+    "session": 2860988,
+    "start_ticks": 156925332
+  },
+  "models": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "bytes": 147207127040,
+      "device": 52,
+      "inode": 3116203,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 52,
+      "inode": 3206497,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 52,
+      "inode": 3228516,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 52,
+      "inode": 3211726,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 52,
+      "inode": 3207513,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    }
+  ],
+  "result_sha256": {
+    "q2-hc-single-chain-host-r1": "878f2a795499a775368c3cca68ba8bacb05595f8de8c3cef33f44778c02e00bc",
+    "q2-hc-single-chain-q2-profile-r1": "9e3e709d60b857a5ed527c87261e7d87b8b6b12ad7f4d5252893d73b21d57861",
+    "q2-hc-single-chain-ud-profile-r1": "908a2c3a58b6e73eb0e129c876f76e04455549a56300ca6d46a907f51e647c72",
+    "q2-hc-single-chain-host-r2": "f3ca4e6f5e2874bb9ff61e9426f577fe5f518c73dcbce5c5450c0bbae9502ad7",
+    "q2-hc-single-chain-micro-ref-r1": "5d18093a7d7a401d08fcb6d338bf9bca58ace07c1ce7a3056a8c4dd47cdadc54",
+    "q2-hc-single-chain-micro-r1": "56298334bbe8b72f57122248fcdcabe5f97a2590fad0cce150e2917a538ecf94"
+  },
+  "thermal": {
+    "/sys/class/hwmon/hwmon4/temp1_input": "45500",
+    "/sys/class/hwmon/hwmon2/temp1_input": "44000",
+    "/sys/class/hwmon/hwmon0/temp1_input": "45000",
+    "/sys/class/hwmon/hwmon5/temp1_input": "47000",
+    "/sys/class/hwmon/hwmon3/temp1_input": "46000",
+    "/sys/class/hwmon/hwmon1/temp6_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp3_input": "40850",
+    "/sys/class/hwmon/hwmon1/temp7_input": "40850",
+    "/sys/class/hwmon/hwmon1/temp4_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp8_input": "40850",
+    "/sys/class/hwmon/hwmon1/temp1_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp9_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp2_input": "52850"
+  }
+}

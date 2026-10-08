@@ -1,0 +1,118 @@
+{
+  "schema": "synapse-lie.q2-iq2-wide-pair-opportunity.v1",
+  "source_manifest_sha256": "9b96d0fc50542d94bb585774f8ebac4e8dc4d35e5ad5e5ad5306676329060845",
+  "source": ".deps/gufo-q2-iq2-lane-commit-run/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+  "source_sha256": "ae71520e514a36ae60bf8980077ea030806a7691fed251e42e4775cab6821c60",
+  "anchors": {
+    "paired_geometry_limit": {
+      "line": 4291,
+      "literal": "static_assert(!kPair || BM == 128);"
+    },
+    "accumulator_row_tiles": {
+      "line": 4295,
+      "literal": "constexpr int kWaveRowTiles = BM / 128;"
+    },
+    "current_paired_source_row": {
+      "line": 4365,
+      "literal": "r_block + (kPair ? (tid >> 1) % kRows : (tid >> 1) + (u * 128));"
+    },
+    "current_projection_owner": {
+      "line": 4369,
+      "literal": "if ((tid >> 1) >= kRows)"
+    },
+    "current_grid": {
+      "line": 5422,
+      "literal": "const dim3 grid(static_cast<unsigned>((m + 63) / 64), n_tiles);"
+    },
+    "same_activation_consumed_by_row_tiles": {
+      "line": 4822,
+      "literal": "acc[u][j] = Wmma(a_lo[u], b_lo, acc[u][j]);"
+    },
+    "current_cross_wave_pair": {
+      "line": 4894,
+      "literal": "float product = base[idx + v + 4 * plane] * base[idx + v];"
+    }
+  },
+  "production_bn": 64,
+  "original_bm": 128,
+  "proposed_bm": 256,
+  "original_logical_rows_per_block": 64,
+  "proposed_logical_rows_per_block": 128,
+  "original_accumulator_values_per_lane": 32,
+  "proposed_accumulator_values_per_lane": 64,
+  "original_stage_lds_bytes": 17536,
+  "proposed_stage_lds_bytes": 26752,
+  "fetched_group_owners_verified": 512,
+  "accumulator_owners_verified": 4096,
+  "output_owners_verified": 2048,
+  "ragged_mapping": [
+    {
+      "output_rows": 1,
+      "current_blocks": 1,
+      "proposed_blocks": 1
+    },
+    {
+      "output_rows": 5,
+      "current_blocks": 1,
+      "proposed_blocks": 1
+    },
+    {
+      "output_rows": 63,
+      "current_blocks": 1,
+      "proposed_blocks": 1
+    },
+    {
+      "output_rows": 64,
+      "current_blocks": 1,
+      "proposed_blocks": 1
+    },
+    {
+      "output_rows": 65,
+      "current_blocks": 2,
+      "proposed_blocks": 1
+    },
+    {
+      "output_rows": 127,
+      "current_blocks": 2,
+      "proposed_blocks": 1
+    },
+    {
+      "output_rows": 128,
+      "current_blocks": 2,
+      "proposed_blocks": 1
+    },
+    {
+      "output_rows": 129,
+      "current_blocks": 3,
+      "proposed_blocks": 2
+    },
+    {
+      "output_rows": 640,
+      "current_blocks": 10,
+      "proposed_blocks": 5
+    }
+  ],
+  "fixed_shape_output_rows": 640,
+  "fixed_shape_grid_x": [
+    10,
+    5
+  ],
+  "activation_stage_loads_relative_at_full_output_shape": 0.5,
+  "matrix_operation_count_reduction": false,
+  "fixed_shape_weight_decode_count_reduction": false,
+  "epilogue_proposal": "Keep gate/up accumulators for one row in the same wave; evaluate the existing product and Sigmoid order before publishing only final SwiGLU values to per-wave transpose scratch.",
+  "synchronization_proposal": "Replace cross-wave paired epilogue block barriers with per-wave scratch lifetime barriers; preserve every stage barrier.",
+  "isolation": "Only nonpacked IQ2 BN64 candidate dispatch. Keep BN128/48/16, down, dense, vector decode and routing descriptors unchanged.",
+  "risks": [
+    "Doubled accumulators and prefetched weights can increase VGPR or private spills.",
+    "Larger LDS and fewer blocks may reduce useful occupancy.",
+    "A new epilogue helper can change floating-point contraction; preserve explicit product/value boundaries.",
+    "Full-output and model tests are required; logical enumeration is not GPU race or arithmetic proof."
+  ],
+  "candidate_implemented": false,
+  "candidate_compiled": false,
+  "gpu_run": false,
+  "model_inference": false,
+  "throughput_gain_established": false,
+  "goal_met": false
+}

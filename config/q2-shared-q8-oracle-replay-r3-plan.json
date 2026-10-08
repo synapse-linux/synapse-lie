@@ -1,0 +1,121 @@
+{
+  "schema": "synapse-lie.q2-shared-q8-oracle-replay-plan.v1",
+  "at": "2026-10-04T19:53:57.355349+00:00",
+  "source_results": "evidence/q2-shared-q8-producer-component-r3/results",
+  "origin_receipt_sha256": "1c539239e217e8495ca69023b0fdfd570b23979fa940d7f64ee6ec8c189e00e9",
+  "original_oracle_source_exact_sha256": "fec3cc9b8159986d8f281841574db0e0fadd4eb93d674065dc237d4928ad88af",
+  "arrays": {
+    "shared-q8-n96-p0-mixed-reference.bin": {
+      "bytes": 983040,
+      "sha256": "11d2c601e024d3a046f6579f4e76bca74d487dcec8a495d0af03ddc7b727b0ce"
+    },
+    "shared-q8-n96-p0-q8-reference.bin": {
+      "bytes": 368640,
+      "sha256": "a66b4d3e0102555213cfdfbcd8c46300e013231388c8988e20b2aad52369d57f"
+    },
+    "shared-q8-n96-p0-independent-q8.bin": {
+      "bytes": 368640,
+      "sha256": "a66b4d3e0102555213cfdfbcd8c46300e013231388c8988e20b2aad52369d57f"
+    },
+    "shared-q8-n97-p1-mixed-reference.bin": {
+      "bytes": 993280,
+      "sha256": "895365e27ed4255bccdcabe85bebf7c22aaaeebab375264d8e90eae30dc28399"
+    },
+    "shared-q8-n97-p1-q8-reference.bin": {
+      "bytes": 368640,
+      "sha256": "51368355c4ac577ff22e9ffaed732ed3fb4b0354bb480caa6d2b20a82950dd05"
+    },
+    "shared-q8-n97-p1-independent-q8.bin": {
+      "bytes": 368640,
+      "sha256": "51368355c4ac577ff22e9ffaed732ed3fb4b0354bb480caa6d2b20a82950dd05"
+    },
+    "shared-q8-n127-p2-mixed-reference.bin": {
+      "bytes": 1300480,
+      "sha256": "ee3e08cb6a9051f8890e10c71b535821c3ef6bb25eebc86830d75876a1ef9de6"
+    },
+    "shared-q8-n127-p2-q8-reference.bin": {
+      "bytes": 368640,
+      "sha256": "caf695c4f5e6ee492adbffa1adde9babf3456e74ae83ac29b50a949e42e0c93e"
+    },
+    "shared-q8-n127-p2-independent-q8.bin": {
+      "bytes": 368640,
+      "sha256": "66059f3b39df92d076e9f9ab83a0333f74050d1ff71b23060d30a313c93dd1ee"
+    },
+    "shared-q8-n129-p0-mixed-reference.bin": {
+      "bytes": 1320960,
+      "sha256": "be4b6570403f104030499ea18006da368e8f0a0c3f8a970b8b7be32c438b6c75"
+    },
+    "shared-q8-n129-p0-q8-reference.bin": {
+      "bytes": 737280,
+      "sha256": "8ba072770f6a1fb76a16f734b26115f9f320d9d57c7203d8eaf2fc7b7d4a2923"
+    },
+    "shared-q8-n129-p0-independent-q8.bin": {
+      "bytes": 737280,
+      "sha256": "8ba072770f6a1fb76a16f734b26115f9f320d9d57c7203d8eaf2fc7b7d4a2923"
+    },
+    "shared-q8-n2048-p0-mixed-reference.bin": {
+      "bytes": 20971520,
+      "sha256": "290d8350148535ee6588b06548db391452e1c97b267d56bc3762c087c134d067"
+    },
+    "shared-q8-n2048-p0-q8-reference.bin": {
+      "bytes": 5898240,
+      "sha256": "a75e52b69db4bc31c8bec0a7182cdbcc6c6f37f042315b9b44707a89446bbd87"
+    },
+    "shared-q8-n2048-p0-independent-q8.bin": {
+      "bytes": 5898240,
+      "sha256": "69f6a8ee0fdfc74d115c99bc3f47cb85410608b7de2afc4fe14a01a289bc0fbc"
+    }
+  },
+  "fixtures": {
+    "CMakeLists.txt": "a76700516b9a689b75c45b890b102699e70ad0ae39563f8d6a4c8aaa2014c979",
+    "cmake/hip/CMakeLists.txt": "928b5b1b0abb9e2a3fe4eecb6e0d9b86b5f1ab236652fe96de150e4462849d82",
+    "tests/q2_shared_q8_oracle_replay.cpp": "fb080546e6eecd9c10d4b0c8ccc4f02f355a6a14e0fc535b1d6b33ca45728228",
+    "tests/q2_shared_q8_scalar_oracle.hip": "fec3cc9b8159986d8f281841574db0e0fadd4eb93d674065dc237d4928ad88af",
+    "tests/q2_remote_test.py": "2282d62f00c89a8ca3912ef1d0f806a14860119bdadf915d109797c534fae03d",
+    "tools/q2-remote.py": "70f6dd33600b7ba34794735c22acc6f29d9a335be59a73095dece1113eae15d9",
+    "tools/q2-runner.py": "2caab3ef2e650fe45f4f249843c49af93ea60ea34e65932e81acedc1ffcfc573",
+    "tools/q2_oracle_replay.py": "45ebec32d09724447ea522035a1b54a42afaa4a546fb52087b51b78fbec59818",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9"
+  },
+  "host": "q2-shared-q8-oracle-replay-r3-host-r1",
+  "label": "q2-shared-q8-oracle-replay-r3",
+  "mode": "shared-q8-oracle-replay",
+  "source_variant": "shared-q8-producer",
+  "repetitions": 8,
+  "sequence": "Alternate legacy default-stream memset and same-nonblocking-stream memsetAsync order each repetition",
+  "standalone_oracle_only": true,
+  "new_model_forward": false,
+  "production_kernels_launched": false,
+  "controls_rerun": false,
+  "original_failures_preserved": true,
+  "independent_thresholds_changed": false,
+  "performance_or_quality_promotion": false,
+  "previous_release_sha256": "00a4f30dbc764f276b77d6791e7345714abe146be01ecbe3176aa9fcc63d50e6",
+  "cleanup": false,
+  "goal_met": false,
+  "previous_plan_sha256": "4bd77aa8b9912261097ccc94061015aa7d97536f4c45a3309ad6bca5cbd9217c",
+  "retained_staging_failure": {
+    "label": "q2-shared-q8-oracle-replay-r1",
+    "exit_code": 1,
+    "phase": "Extraction before runner/build/GPU",
+    "file_bytes": 20971520,
+    "old_source_file_cap": 16000000,
+    "no_gpu_run": true
+  },
+  "retained_reader_failure": {
+    "label": "q2-shared-q8-oracle-replay-r2",
+    "command_exits": [
+      0,
+      0,
+      1
+    ],
+    "error": "Retained array size differs",
+    "cause": "Codec allocation pads to128tokens; replay initially sized only16token logical tiles",
+    "oracle_launches": 0
+  },
+  "host_receipt": "config/q2-shared-q8-oracle-replay-r3-host-results.json",
+  "host_receipt_sha256": "10467050bf59c373689160ae6094326c04ab2364011c23959c1eddae96a57198",
+  "window_helper": "tools/q2-shared-q8-oracle-replay-r3-window.py",
+  "window_helper_sha256": "78a3743a84ff8ed69cf73c6e2338cc6c6e1e434462c7b3a4ea85aa35ef0063b6"
+}

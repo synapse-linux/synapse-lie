@@ -1,0 +1,382 @@
+{
+  "at": "2026-10-02T16:48:53.978770+00:00",
+  "state": "Q2_HC_NORM_WINDOW_RELEASED",
+  "runners": [
+    {
+      "label": "q2-hc-norm-host-r1",
+      "pid": 2585842,
+      "absent": true,
+      "finished_at": "2026-10-02T16:12:17.121628+00:00"
+    },
+    {
+      "label": "q2-hc-norm-micro-r1",
+      "pid": 2586377,
+      "absent": true,
+      "finished_at": "2026-10-02T16:13:19.363101+00:00"
+    },
+    {
+      "label": "q2-hc-norm-micro-r2",
+      "pid": 2589383,
+      "absent": true,
+      "finished_at": "2026-10-02T16:23:25.381721+00:00"
+    },
+    {
+      "label": "q2-hc-norm-reference-r1",
+      "pid": 2590351,
+      "absent": true,
+      "finished_at": "2026-10-02T16:29:48.085522+00:00"
+    },
+    {
+      "label": "q2-hc-norm-model-r1",
+      "pid": 2592275,
+      "absent": true,
+      "finished_at": "2026-10-02T16:34:27.116581+00:00"
+    },
+    {
+      "label": "q2-hc-norm-ud-r1",
+      "pid": 2594151,
+      "absent": true,
+      "finished_at": "2026-10-02T16:38:34.487761+00:00"
+    },
+    {
+      "label": "q2-hc-norm-profile-r1",
+      "pid": 2595905,
+      "absent": true,
+      "finished_at": "2026-10-02T16:41:51.060438+00:00"
+    },
+    {
+      "label": "q2-hc-norm-ref-profile-r1",
+      "pid": 2597600,
+      "absent": true,
+      "finished_at": "2026-10-02T16:45:31.555346+00:00"
+    }
+  ],
+  "commands": [
+    {
+      "label": "q2-hc-norm-host-r1",
+      "pid": 2585846,
+      "start_ticks": 152290723,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-host-r1",
+      "pid": 2585885,
+      "start_ticks": 152290776,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-host-r1",
+      "pid": 2585940,
+      "start_ticks": 152291178,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-host-r1",
+      "pid": 2585965,
+      "start_ticks": 152291832,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-host-r1",
+      "pid": 2586005,
+      "start_ticks": 152291885,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-host-r1",
+      "pid": 2586125,
+      "start_ticks": 152292487,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-micro-r1",
+      "pid": 2586378,
+      "start_ticks": 152297399,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-micro-r1",
+      "pid": 2586558,
+      "start_ticks": 152297602,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-micro-r1",
+      "pid": 2586694,
+      "start_ticks": 152299007,
+      "exit_code": 1,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-micro-r2",
+      "pid": 2589391,
+      "start_ticks": 152357994,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-micro-r2",
+      "pid": 2589604,
+      "start_ticks": 152358197,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-micro-r2",
+      "pid": 2589735,
+      "start_ticks": 152359609,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-reference-r1",
+      "pid": 2590352,
+      "start_ticks": 152372417,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-reference-r1",
+      "pid": 2590528,
+      "start_ticks": 152372620,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-reference-r1",
+      "pid": 2591603,
+      "start_ticks": 152388103,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-reference-r1",
+      "pid": 2591636,
+      "start_ticks": 152388155,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-model-r1",
+      "pid": 2592276,
+      "start_ticks": 152400424,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-model-r1",
+      "pid": 2592459,
+      "start_ticks": 152400576,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-model-r1",
+      "pid": 2593525,
+      "start_ticks": 152416054,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-model-r1",
+      "pid": 2593530,
+      "start_ticks": 152416106,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-ud-r1",
+      "pid": 2594154,
+      "start_ticks": 152428665,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-ud-r1",
+      "pid": 2594367,
+      "start_ticks": 152428819,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-ud-r1",
+      "pid": 2595261,
+      "start_ticks": 152440039,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-ud-r1",
+      "pid": 2595266,
+      "start_ticks": 152440092,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-profile-r1",
+      "pid": 2595908,
+      "start_ticks": 152452785,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-profile-r1",
+      "pid": 2596119,
+      "start_ticks": 152452988,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-profile-r1",
+      "pid": 2597256,
+      "start_ticks": 152468516,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-profile-r1",
+      "pid": 2597261,
+      "start_ticks": 152468568,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-profile-r1",
+      "pid": 2597385,
+      "start_ticks": 152470373,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-profile-r1",
+      "pid": 2597386,
+      "start_ticks": 152470426,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-profile-r1",
+      "pid": 2597387,
+      "start_ticks": 152470478,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-ref-profile-r1",
+      "pid": 2597603,
+      "start_ticks": 152474985,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-ref-profile-r1",
+      "pid": 2597784,
+      "start_ticks": 152475138,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-ref-profile-r1",
+      "pid": 2598906,
+      "start_ticks": 152490565,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-ref-profile-r1",
+      "pid": 2598911,
+      "start_ticks": 152490618,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-ref-profile-r1",
+      "pid": 2599043,
+      "start_ticks": 152492423,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-ref-profile-r1",
+      "pid": 2599044,
+      "start_ticks": 152492475,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-norm-ref-profile-r1",
+      "pid": 2599045,
+      "start_ticks": 152492528,
+      "exit_code": 0,
+      "absent": true
+    }
+  ],
+  "live_owned": [],
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "observer": {
+    "pid": 2599949,
+    "state": "R",
+    "group": 2599946,
+    "session": 2599946,
+    "start_ticks": 152512823
+  },
+  "result_sha256": {
+    "q2-hc-norm-host-r1": "2d477bc423ce7618c2f5a117b8e68c367d08eea7c79259df5fc59ee628927104",
+    "q2-hc-norm-micro-r1": "25d6a7369bc6023ec6fd507377df7383f01b91dc3de93465f9a1384f648f4e60",
+    "q2-hc-norm-micro-r2": "d1634358b19322542ee329017581187f7046d128db22093a9095f75c47101674",
+    "q2-hc-norm-reference-r1": "9c6d7b636cca361e8983730de5244920f654ae3f7ad2143b7d8f21917c5e22a8",
+    "q2-hc-norm-model-r1": "c9db3f062662823203164acf51e7cb3b7f72ea80a72f5957d162bd094edb9211",
+    "q2-hc-norm-ud-r1": "4947e288bf216c07249e143d91e94195a63b174db8f6bd9bb515c495396480bf",
+    "q2-hc-norm-profile-r1": "61d27f6832a1cb3a3734385e063083fe95b0ba59ef79c204e29e19e7c7fb924b",
+    "q2-hc-norm-ref-profile-r1": "b216e2e694718c2bf86ee2ba04b27108d2dedc6f08c13f265ac60a55a93b190e"
+  },
+  "thermal": {
+    "/sys/class/hwmon/hwmon4/temp1_input": "45500",
+    "/sys/class/hwmon/hwmon2/temp1_input": "44000",
+    "/sys/class/hwmon/hwmon0/temp1_input": "45000",
+    "/sys/class/hwmon/hwmon5/temp1_input": "47000",
+    "/sys/class/hwmon/hwmon3/temp1_input": "45625",
+    "/sys/class/hwmon/hwmon1/temp6_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp3_input": "40850",
+    "/sys/class/hwmon/hwmon1/temp7_input": "40850",
+    "/sys/class/hwmon/hwmon1/temp4_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp8_input": "40850",
+    "/sys/class/hwmon/hwmon1/temp1_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp9_input": "40850",
+    "/sys/class/hwmon/hwmon1/temp2_input": "51850"
+  }
+}

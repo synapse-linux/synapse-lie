@@ -1,0 +1,61 @@
+{
+  "schema": "synapse-lie.q2-scaled-selective-static.v1",
+  "source_manifest_sha256": "c8f18ecbf7d9e0cd8b9cca2abccf4ae052f47a2d328d2d4063c8aaed154d5f18",
+  "commands": [
+    {
+      "name": "executor-syntax",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-std=c++23",
+        "-include",
+        "chrono",
+        "-D__HIP_PLATFORM_AMD__=1",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I.deps/gufo-q2-scaled-selective-run",
+        "-I.deps/gufo-q2-scaled-selective-run/src/models/qwen38_flash_next/kernels/rocm/mmq",
+        "-isystem",
+        "/opt/rocm/include",
+        "-fsyntax-only",
+        ".deps/gufo-q2-scaled-selective-run/src/models/qwen38_flash_next/kernels/rocm/executor.cpp"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-05T00:07:44.717332+00:00",
+      "finished_at": "2026-10-05T00:07:46.549433+00:00"
+    },
+    {
+      "name": "c17-policy-syntax",
+      "argv": [
+        "cc",
+        "-std=c17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wpedantic",
+        "-Iexperiments",
+        "-fsyntax-only",
+        "experiments/q2_scaled_tiles_map.c",
+        "tests/q2_scaled_tiles_map.c"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-05T00:07:46.549469+00:00",
+      "finished_at": "2026-10-05T00:07:46.562219+00:00"
+    }
+  ],
+  "guards": {
+    "argv": [
+      "python3",
+      "-B",
+      "tests/q2_remote_test.py"
+    ],
+    "exit_code": 0,
+    "at": "2026-10-05T00:10:02.823666+00:00"
+  },
+  "local_guards": 81,
+  "source_files_verified": 1027,
+  "unchanged_kernel_files": true,
+  "old_component_rerun": false,
+  "gpu_run": false,
+  "model_inference": false,
+  "static_instruction_improvement_claimed": false
+}

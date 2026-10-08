@@ -1,0 +1,198 @@
+{
+  "schema": "synapse-lie.q2-scaled-wave-pack-static.v1",
+  "source_manifest_sha256": "3081b9fe3a353f91333a0bea6525fcb6c056bfd3e0c1753f5104f77369039dd4",
+  "provider_files": 1027,
+  "parent_assembly_sha256": "2f8baa990df67c16660bfaf7838aa28fc0600bf22e725afd52370173ac415e7d",
+  "parent_recompiled": false,
+  "candidate_assembly_path": "evidence/q2-scaled-wave-pack-preparation/candidate.s",
+  "candidate_assembly_sha256": "7974279c45bc933d7dbcf148da8342293318e4cd4321d5fcc063855e6a78dc50",
+  "other_kernels_exact": 161,
+  "parent_kernel": {
+    "resources": {
+      "group_segment_fixed_size": 36,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 13,
+      "next_free_sgpr": 14,
+      "wavefront_size32": 1
+    },
+    "instructions": 174,
+    "mnemonics": {
+      "buffer_gl0_inv": 2,
+      "ds_bpermute_b32": 5,
+      "ds_load_b128": 2,
+      "ds_load_b32": 1,
+      "ds_store_b32": 2,
+      "global_load_b32": 3,
+      "global_store_b16": 3,
+      "global_store_b32": 1,
+      "s_add_i32": 1,
+      "s_add_u32": 3,
+      "s_addc_u32": 3,
+      "s_and_saveexec_b32": 8,
+      "s_barrier": 2,
+      "s_cbranch_execnz": 3,
+      "s_cbranch_execz": 7,
+      "s_delay_alu": 22,
+      "s_endpgm": 2,
+      "s_load_b256": 1,
+      "s_lshl_b64": 3,
+      "s_mov_b32": 3,
+      "s_mul_hi_u32": 1,
+      "s_mul_i32": 2,
+      "s_or_b32": 9,
+      "s_waitcnt": 16,
+      "s_waitcnt_vscnt": 1,
+      "v_add_co_ci_u32_e64": 1,
+      "v_add_lshl_u32": 4,
+      "v_add_nc_u32_e32": 1,
+      "v_and_b32_e32": 2,
+      "v_bfe_u32": 1,
+      "v_cmp_gt_u32_e64": 3,
+      "v_cmp_gt_u64_e32": 1,
+      "v_cmp_gt_u64_e64": 2,
+      "v_cmp_ne_u32_e64": 1,
+      "v_cmp_neq_f32_e64": 1,
+      "v_cmpx_eq_u32_e32": 2,
+      "v_cndmask_b32_e64": 4,
+      "v_dual_mov_b32": 5,
+      "v_fma_mixlo_f16": 3,
+      "v_lshlrev_b32_e32": 2,
+      "v_lshrrev_b32_e32": 1,
+      "v_max3_f32": 4,
+      "v_max_f32_e32": 16,
+      "v_max_f32_e64": 3,
+      "v_mbcnt_lo_u32_b32": 1,
+      "v_min_i32_e32": 1,
+      "v_mov_b32_e32": 6,
+      "v_sub_nc_u32_e32": 2,
+      "v_xor_b32_e32": 1
+    },
+    "body_sha256": "172026b2d1287cdda9df4e49de0853a935e44c0bfc428a6292764a76eb5be3ea"
+  },
+  "candidate_kernel": {
+    "resources": {
+      "group_segment_fixed_size": 0,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 30,
+      "next_free_sgpr": 8,
+      "wavefront_size32": 1
+    },
+    "instructions": 238,
+    "mnemonics": {
+      "ds_bpermute_b32": 6,
+      "global_load_b128": 5,
+      "global_store_b32": 1,
+      "global_store_b64": 10,
+      "s_and_not1_saveexec_b32": 5,
+      "s_and_saveexec_b32": 6,
+      "s_cbranch_execz": 12,
+      "s_clause": 1,
+      "s_delay_alu": 42,
+      "s_endpgm": 1,
+      "s_load_b128": 1,
+      "s_load_b32": 1,
+      "s_load_b64": 1,
+      "s_lshl_b64": 1,
+      "s_mov_b32": 3,
+      "s_or_b32": 5,
+      "s_waitcnt": 13,
+      "s_xor_b32": 5,
+      "v_add_co_ci_u32_e64": 16,
+      "v_add_co_u32": 15,
+      "v_add_lshl_u32": 4,
+      "v_add_nc_u32_e32": 1,
+      "v_and_b32_e32": 3,
+      "v_bfe_u32": 1,
+      "v_cmp_eq_u32_e32": 1,
+      "v_cmp_gt_u32_e32": 3,
+      "v_cmp_ne_u32_e32": 1,
+      "v_cmp_ne_u64_e32": 1,
+      "v_cmp_neq_f32_e32": 1,
+      "v_cmpx_gt_u64_e64": 1,
+      "v_cndmask_b32_e32": 1,
+      "v_cndmask_b32_e64": 3,
+      "v_dual_max_f32": 1,
+      "v_dual_mov_b32": 1,
+      "v_fma_mixhi_f16": 5,
+      "v_fma_mixlo_f16": 15,
+      "v_lshlrev_b32_e32": 4,
+      "v_lshlrev_b64": 3,
+      "v_lshrrev_b32_e32": 1,
+      "v_mad_u32_u24": 1,
+      "v_mad_u64_u32": 1,
+      "v_max3_f32": 10,
+      "v_max_f32_e32": 9,
+      "v_mbcnt_lo_u32_b32": 1,
+      "v_min_i32_e32": 1,
+      "v_mov_b32_e32": 1,
+      "v_pack_b32_f16": 10,
+      "v_sub_nc_u32_e32": 2,
+      "v_xor_b32_e32": 1
+    },
+    "body_sha256": "f2cdcadff20f81df8c903f7cce4f2d0efe28d4f7a5e80302a00ef61945edf677"
+  },
+  "preserved_initial_format_source": ".deps/gufo-q2-scaled-wave-pack-run-initial-format",
+  "formatting_correction_instruction_equivalent": true,
+  "preserved_format_exits": {
+    "shared-format": 1,
+    "changed-format": 1,
+    "changed-format-corrected": 0
+  },
+  "commands": {
+    "prepare-formatted": {
+      "argv": [
+        "python3",
+        "tools/prepare-q2-scaled-wave-pack.py"
+      ],
+      "started_at": "2026-10-05T16:19:31.532963+00:00",
+      "finished_at": "2026-10-05T16:19:31.763166+00:00",
+      "exit_code": 0
+    },
+    "assembly-formatted": {
+      "argv": [
+        "python3",
+        "evidence/q2-scaled-wave-pack-preparation/compile-local.py",
+        "assembly"
+      ],
+      "started_at": "2026-10-05T16:19:31.809078+00:00",
+      "finished_at": "2026-10-05T16:19:42.836457+00:00",
+      "exit_code": 0
+    },
+    "fixture-host-final": {
+      "argv": [
+        "python3",
+        "evidence/q2-scaled-wave-pack-preparation/compile-local.py",
+        "fixture-host"
+      ],
+      "started_at": "2026-10-05T16:18:20.001471+00:00",
+      "finished_at": "2026-10-05T16:18:22.090246+00:00",
+      "exit_code": 0
+    },
+    "fixture-device-final": {
+      "argv": [
+        "python3",
+        "evidence/q2-scaled-wave-pack-preparation/compile-local.py",
+        "fixture-device"
+      ],
+      "started_at": "2026-10-05T16:18:22.110838+00:00",
+      "finished_at": "2026-10-05T16:18:24.235724+00:00",
+      "exit_code": 0
+    },
+    "launcher-guards-final": {
+      "argv": [
+        "python3",
+        "tests/q2_remote_test.py"
+      ],
+      "started_at": "2026-10-05T16:18:20.001319+00:00",
+      "finished_at": "2026-10-05T16:18:21.410324+00:00",
+      "exit_code": 0
+    }
+  },
+  "numerical_contract": "Same complete-row maximum, exponent/clamp[-120,120], signed-zero handling, F32 multiplication and RN-even F16 boundary. No accumulation, weight, layout, stream or executor-lifetime change.",
+  "packing_ctas_before": 20480,
+  "packing_ctas_after": 2560,
+  "static_instructions_not_dynamic_work_or_speed": true,
+  "gpu_run": false,
+  "independent_quality": false,
+  "goal_met": false
+}

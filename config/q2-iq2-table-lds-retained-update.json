@@ -1,0 +1,13 @@
+{
+  "schema": "synapse-lie.q2-iq2-table-lds-retained.v1",
+  "performance_parent": "iq2-fixed-bounds",
+  "parent_PP": 1587.893545,
+  "new_PP": 1562.063292,
+  "new_TG": 25.1628666,
+  "table_LDS_promoted": false,
+  "numerical_exact": true,
+  "isolated_operator_speedup": false,
+  "model_speedup": false,
+  "goal_met": false,
+  "full_curve_admitted": false
+}

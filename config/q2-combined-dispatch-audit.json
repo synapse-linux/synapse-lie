@@ -1,0 +1,45 @@
+{
+  "scope": "Source/dispatch presence audit, not runtime coverage or speed evidence",
+  "variants": {
+    "hc-up-chains": {
+      "paired_gate_up": true,
+      "moe_hc_fusion": true,
+      "paired_hc_up": true,
+      "scaled_down": false,
+      "compensated_packed_down": true,
+      "vector_prefill_calls": 0,
+      "prepared_ple": false,
+      "kernel_sha256": "a5ccc81f7762beae74cf0bbb06e6aeebd44edf1c804c1473b63619af023a6cd5"
+    },
+    "scaled-input": {
+      "paired_gate_up": true,
+      "moe_hc_fusion": true,
+      "paired_hc_up": true,
+      "scaled_down": true,
+      "compensated_packed_down": false,
+      "vector_prefill_calls": 0,
+      "prepared_ple": false,
+      "kernel_sha256": "0a72a7524c9cb04f967503a01b114b22f28cc3d63c44891a7b598e9553c949b4"
+    },
+    "combined-retained": {
+      "paired_gate_up": true,
+      "moe_hc_fusion": true,
+      "paired_hc_up": true,
+      "scaled_down": false,
+      "compensated_packed_down": true,
+      "vector_prefill_calls": 5,
+      "prepared_ple": true,
+      "kernel_sha256": "158b3e58168a2165f9a0df08bdf5b003945f2e35bdccf3d1cb238ba5032eacd4"
+    },
+    "combined-scaled": {
+      "paired_gate_up": true,
+      "moe_hc_fusion": true,
+      "paired_hc_up": true,
+      "scaled_down": true,
+      "compensated_packed_down": false,
+      "vector_prefill_calls": 5,
+      "prepared_ple": true,
+      "kernel_sha256": "156e6ce4823ca3da89e1f0444704573f4dbb4cba2785ab9e1844d98b28003871"
+    }
+  }
+}

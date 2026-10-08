@@ -1,0 +1,37 @@
+arm,source,metric,repetition,value
+Q2 palette,evidence/q2-hc-chain-model-ref-r1,prefill_tok_s,1,1314.914312
+Q2 palette,evidence/q2-hc-chain-model-ref-r1,prefill_tok_s,2,1314.802982
+Q2 palette,evidence/q2-hc-chain-model-ref-r1,prefill_tok_s,3,1311.863058
+Q2 HC reuse,evidence/q2-hc-chain-model-r1,prefill_tok_s,1,1310.904238
+Q2 HC reuse,evidence/q2-hc-chain-model-r1,prefill_tok_s,2,1313.10571
+Q2 HC reuse,evidence/q2-hc-chain-model-r1,prefill_tok_s,3,1309.564851
+Fresh UD,evidence/q2-hc-chain-ud-r1,prefill_tok_s,1,1658.286979
+Fresh UD,evidence/q2-hc-chain-ud-r1,prefill_tok_s,2,1658.437834
+Fresh UD,evidence/q2-hc-chain-ud-r1,prefill_tok_s,3,1652.143525
+Q2 palette,evidence/q2-hc-chain-model-ref-r1,decode_steps_s,1,24.06502059
+Q2 palette,evidence/q2-hc-chain-model-ref-r1,decode_steps_s,2,24.05194462
+Q2 palette,evidence/q2-hc-chain-model-ref-r1,decode_steps_s,3,24.07650578
+Q2 HC reuse,evidence/q2-hc-chain-model-r1,decode_steps_s,1,24.09679036
+Q2 HC reuse,evidence/q2-hc-chain-model-r1,decode_steps_s,2,24.09320504
+Q2 HC reuse,evidence/q2-hc-chain-model-r1,decode_steps_s,3,24.11580332
+Fresh UD,evidence/q2-hc-chain-ud-r1,decode_steps_s,1,24.3148542
+Fresh UD,evidence/q2-hc-chain-ud-r1,decode_steps_s,2,24.32725426
+Fresh UD,evidence/q2-hc-chain-ud-r1,decode_steps_s,3,24.31263003
+Q2 palette,evidence/q2-hc-chain-model-ref-r1,prefill_s,1,1.55751594
+Q2 palette,evidence/q2-hc-chain-model-ref-r1,prefill_s,2,1.557647821
+Q2 palette,evidence/q2-hc-chain-model-ref-r1,prefill_s,3,1.561138556
+Q2 HC reuse,evidence/q2-hc-chain-model-r1,prefill_s,1,1.562280402
+Q2 HC reuse,evidence/q2-hc-chain-model-r1,prefill_s,2,1.559661179
+Q2 HC reuse,evidence/q2-hc-chain-model-r1,prefill_s,3,1.56387826
+Fresh UD,evidence/q2-hc-chain-ud-r1,prefill_s,1,1.235009396
+Fresh UD,evidence/q2-hc-chain-ud-r1,prefill_s,2,1.234897057
+Fresh UD,evidence/q2-hc-chain-ud-r1,prefill_s,3,1.239601747
+Q2 palette,evidence/q2-hc-chain-model-ref-r1,decode_s,1,5.277369263
+Q2 palette,evidence/q2-hc-chain-model-ref-r1,decode_s,2,5.280238334
+Q2 palette,evidence/q2-hc-chain-model-ref-r1,decode_s,3,5.274851806
+Q2 HC reuse,evidence/q2-hc-chain-model-r1,decode_s,1,5.270411458
+Q2 HC reuse,evidence/q2-hc-chain-model-r1,decode_s,2,5.27119575
+Q2 HC reuse,evidence/q2-hc-chain-model-r1,decode_s,3,5.266256252
+Fresh UD,evidence/q2-hc-chain-ud-r1,decode_s,1,5.223144624
+Fresh UD,evidence/q2-hc-chain-ud-r1,decode_s,2,5.220482289
+Fresh UD,evidence/q2-hc-chain-ud-r1,decode_s,3,5.223622449

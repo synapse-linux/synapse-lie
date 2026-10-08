@@ -1,0 +1,22 @@
+{
+  "schema": "synapse-lie.q2-iq2-whole640-chain-preparation.v1",
+  "previous_goal_turn": "no progress toward optimization: provided the requested graph location",
+  "current_progress": "Integrated a separate LDS chain provider, compiler-verified parent and donor ISA, completed and collected .157 host qualification, froze component and model plan.",
+  "checkpoint_parent": "d09703bd",
+  "provider_files": 1034,
+  "host": "q2-iq2-whole640-chain-host-r1",
+  "host_debug": 39,
+  "host_asan_ubsan": 39,
+  "host_commands": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "host_artifacts": 7,
+  "GPU_admitted": false,
+  "model_measured": false,
+  "goal_met": false
+}

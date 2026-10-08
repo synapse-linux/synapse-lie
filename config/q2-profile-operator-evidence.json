@@ -1,0 +1,125 @@
+{
+  "q2-profile-host-r1": {
+    "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+    "started_at": "2026-10-02T02:41:57.626062+00:00",
+    "finished_at": "2026-10-02T02:42:21.772567+00:00",
+    "source_sha256": "5ac780e214843c7d02e40343d4e2aa93e4a775a20eb762fab5ca3feda85e2637",
+    "transport_exit": 0,
+    "collection_sha256": "8515af9cc7debd90e19d0542fe0f8e70a198b0cfd4a08a365b19684c9268deda",
+    "artifacts_verified": 6,
+    "command_exits": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "q2-profile-r1": {
+    "state": "DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK",
+    "started_at": "2026-10-02T02:42:49.779760+00:00",
+    "finished_at": "2026-10-02T02:44:58.169552+00:00",
+    "source_sha256": "e165fdde36641b3cadf6a1a2723acdb0d37ac9c9d3872fc4cb9fbbd9afbe58ac",
+    "transport_exit": 0,
+    "collection_sha256": "45122594ee6ec88d0b168d7cc1c7ade3058aaa2c33bd7cb63af4155accff7eab",
+    "artifacts_verified": 24,
+    "command_exits": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "q2-ud-profile-r1": {
+    "state": "DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK",
+    "started_at": "2026-10-02T02:46:28.708494+00:00",
+    "finished_at": "2026-10-02T02:48:02.045314+00:00",
+    "source_sha256": "7d8d3c5d93257769c6a6327ddcc00cfc6531af62ac946553b81e1844e67b8087",
+    "transport_exit": 0,
+    "collection_sha256": "689162f74ae6d9a3f23cb4117129011ef7ac5db87d461db56aaf56e7ba683f18",
+    "artifacts_verified": 24,
+    "command_exits": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "q2-down-wmma-operators-r1": {
+    "state": "FAILED",
+    "started_at": "2026-10-02T02:51:29.050063+00:00",
+    "finished_at": "2026-10-02T02:53:13.762615+00:00",
+    "source_sha256": "f2db19a3aa52ef9576785e561d51cf68f9d620e1639a98ca5a5d50111e730852",
+    "transport_exit": 1,
+    "collection_sha256": "b0dd40b40e6cd6745a7fdb2a86032cb192fdb9a4ccee031fbce85f6cbba173e9",
+    "artifacts_verified": 4,
+    "command_exits": [
+      0,
+      0,
+      1
+    ]
+  },
+  "q2-down-wmma-operators-r2": {
+    "state": "FAILED",
+    "started_at": "2026-10-02T02:58:36.780542+00:00",
+    "finished_at": "2026-10-02T03:00:20.993588+00:00",
+    "source_sha256": "1a91a08d913c7edd3a215a76a32cd349944cc224fb74c83104c6731922e0fbea",
+    "transport_exit": 1,
+    "collection_sha256": "b24b90f4bca84ceff50d3eaddb9a21fa52d12ddfb2a078e9782da6c1ff1ae82a",
+    "artifacts_verified": 4,
+    "command_exits": [
+      0,
+      0,
+      1
+    ]
+  },
+  "q2-down-wmma-operators-r3": {
+    "state": "FAILED",
+    "started_at": "2026-10-02T03:01:32.300877+00:00",
+    "finished_at": "2026-10-02T03:03:16.019089+00:00",
+    "source_sha256": "265a20a9f5dede2f421c8c07bdde9e3cbb81b4cc2c7131f595ad6f285e055d02",
+    "transport_exit": 1,
+    "collection_sha256": "b02db7bdc2c93140f0c3578c78c5432fb69a6efea036537905677daca3fd7618",
+    "artifacts_verified": 4,
+    "command_exits": [
+      0,
+      0,
+      1
+    ]
+  },
+  "q2-down-wmma-operators-r4": {
+    "state": "SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED",
+    "started_at": "2026-10-02T03:06:00.300173+00:00",
+    "finished_at": "2026-10-02T03:07:45.013485+00:00",
+    "source_sha256": "3b2469ad4320c34e52a77addc3957bc1ab299d6d62cc4d143331d71089b18aca",
+    "transport_exit": 0,
+    "collection_sha256": "8e988980db7bda2745110373872342235f68c6c7bc9f2654106632ef639d638e",
+    "artifacts_verified": 4,
+    "command_exits": [
+      0,
+      0,
+      0
+    ]
+  },
+  "q2-down-wmma-bench-r1": {
+    "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+    "started_at": "2026-10-02T03:08:11.245531+00:00",
+    "finished_at": "2026-10-02T03:12:12.768172+00:00",
+    "source_sha256": "2bae1f6b41d3b55fdf9f4562aaab3ad28193f51d18a91a8e9967723e8d9bf4ec",
+    "transport_exit": 0,
+    "collection_sha256": "5ea5553712d686197fdcf3e44e21567c3c8908d36941141e76ce2823a7c27b1d",
+    "artifacts_verified": 52,
+    "command_exits": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "acceptance": "REJECTED: saved-frontier KL exceeds declared bound; runtime restored"
+  }
+}

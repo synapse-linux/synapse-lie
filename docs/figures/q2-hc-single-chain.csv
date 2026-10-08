@@ -1,0 +1,5 @@
+scope,arm,unit,minimum,median,maximum
+HC down prefill,Two chains,Microseconds / call,1137.819290161,1161.767721176,1192.795753479
+HC down prefill,Single chain,Microseconds / call,1278.551220894,1326.033353806,1384.282469749
+HC up prefill,Two chains,Microseconds / call,932.2454333305,941.5873885155,945.2771544456
+HC up prefill,Single chain,Microseconds / call,935.0393414497,939.9914741516,945.0662136078

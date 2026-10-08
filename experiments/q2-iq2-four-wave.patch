@@ -1,0 +1,203 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -4277,8 +4277,8 @@
+ }
+ 
+ template<WeightType kType, int BM, int BN, int BK, bool kPair = false,
+-         bool kPacked = false, bool kScaled = false>
+-__launch_bounds__(256) __global__ void RoutedF16GEMMKernel(
++         bool kPacked = false, bool kScaled = false, bool kFourWave = false>
++__launch_bounds__(kFourWave ? 128 : 256) __global__ void RoutedF16GEMMKernel(
+     const void* __restrict__ w,
+     const std::conditional_t<kType == WeightType::kQ2_K && !kScaled, float,
+                              __half>* __restrict__ x,
+@@ -4289,12 +4289,14 @@
+     const float* __restrict__ swiglu_gate, float* __restrict__ out,
+     __half* __restrict__ out_half, std::size_t m, std::size_t k,
+     const void* __restrict__ w_up) {
+-  static_assert(BM == 128 || BM == 256, "eight waves, 16-row tiles");
++  static_assert(BM == 128 || BM == 256, "16-row wave tiles");
+   static_assert(!kPair || BM == 128);
+   static_assert(BN % 16 == 0 && BN / 16 <= 8);
+   static_assert(BK == 2, "one stage is one 32-byte Q4_K nibble group");
+   constexpr int kTokTiles = BN / 16;
+-  constexpr int kWaveRowTiles = BM / 128;  // 16-row tiles per wave
++  constexpr int kBlockThreads = kFourWave ? 128 : 256;
++  constexpr int kFetchRows = kBlockThreads / 2;
++  constexpr int kWaveRowTiles = BM / kFetchRows;  // 16-row tiles per wave
+   constexpr bool kQ5 = kType == WeightType::kQ5_1;
+   constexpr bool kQ5K = kType == WeightType::kQ5_K;
+   constexpr bool kQ8 = kType == WeightType::kQ8_0;
+@@ -4302,6 +4304,7 @@
+   constexpr bool kResidual = kQ2 && !kScaled;
+   static_assert(!kScaled || (kQ2 && !kPacked && !kPair));
+   constexpr bool kIQ2 = kType == WeightType::kIQ2_XXS;
++  static_assert(!kFourWave || (kIQ2 && kPair && !kPacked && BM == 128 && BN == 64));
+   constexpr bool kSigned = kQ8 || kIQ2;
+   constexpr bool kKQuant = kType == WeightType::kQ4_K || kQ5K;
+   // 16-byte code chunks per row and stage: Q4_K's nibble pair and Q5_1's
+@@ -4354,7 +4357,7 @@
+   constexpr int kRows = kPair ? BM / 2 : BM;
+   const int r_block = static_cast<int>(blockIdx.x) * kRows;
+ 
+-  // Weight fetch: unit u of a thread is (row = tid / 2 + 128 u, chunk c =
++  // Weight fetch: unit u of a thread is (row = tid / 2 + kFetchRows u, chunk c =
+   // tid % 2). Q4_K: the two 16-byte halves of one 32-byte nibble group (two
+   // K blocks, low and high nibbles); Q5_1: one 24-byte K block each.
+   const int f_c = tid & 1;
+@@ -4364,11 +4367,12 @@
+ #pragma unroll
+   for (int u = 0; u < kWaveRowTiles; ++u) {
+     const int r =
+-        r_block + (kPair ? (tid >> 1) % kRows : (tid >> 1) + (u * 128));
++        r_block + (kPair ? ((tid >> 1) + u * kFetchRows) % kRows
++                         : (tid >> 1) + u * kFetchRows);
+     f_live[u] = r < m_i;
+     const std::uint8_t* weights = w_expert;
+     if constexpr (kPair) {
+-      if ((tid >> 1) >= kRows) {
++      if ((tid >> 1) + u * kFetchRows >= kRows) {
+         weights = static_cast<const std::uint8_t*>(w_up) +
+                   static_cast<std::size_t>(expert) * m * row_bytes;
+       }
+@@ -4391,21 +4395,21 @@
+   std::uint32_t f_high[kWaveRowTiles];
+   std::uint32_t f_dm[kWaveRowTiles];  ///< Q5_1: d | m; Q8_0: d
+   int f_sb32[kWaveRowTiles];          ///< Q4_K: the K block in its superblock
+-  constexpr int kActFetch = BN <= 64 ? 2 : 4;
++  constexpr int kActFetch = kFourWave ? 4 : (BN <= 64 ? 2 : 4);
+   uint4 a_data[kActFetch];
+   uint4 a_residual[kActFetch];
+ 
+   // Activation fetch: BN tokens x (BK * 64) bytes per stage in 16-byte
+-  // chunks, eight per token; each thread fetches consecutive 256-chunk
+-  // strides, up to four for a 128-token tile.
++  // chunks, eight per token; each thread fetches kBlockThreads-chunk
++  // strides. Four-wave BN64 uses four fetches per thread.
+   constexpr int kActChunks = BN * BK * 4;
+-  static_assert(kActChunks <= kActFetch * 256);
++  static_assert(kActChunks <= kActFetch * kBlockThreads);
+   using Activation = std::conditional_t<kResidual, float, __half>;
+   const Activation* a_src[kActFetch];
+   int a_slot[kActFetch];
+ #pragma unroll
+   for (int i = 0; i < kActFetch; ++i) {
+-    const int chunk = tid + (i * 256);
++    const int chunk = tid + (i * kBlockThreads);
+     const int t = chunk / (BK * 4);
+     const int sub = chunk % (BK * 4);
+     const int c_row = t_local + t;
+@@ -4563,7 +4567,7 @@
+   const auto commit_stage = [&]() {
+ #pragma unroll
+     for (int u = 0; u < kWaveRowTiles; ++u) {
+-      const int row = (tid >> 1) + (u * 128);
++      const int row = (tid >> 1) + (u * kFetchRows);
+       std::uint32_t scale_bias = 0;
+       if constexpr (kIQ2) {
+         const uint2 group = f_iq2_group[u];
+@@ -4587,7 +4591,7 @@
+           const uint2 decoded =
+               make_uint2(magnitude.x ^ (mask.x & 0x80808080U),
+                          magnitude.y ^ (mask.y & 0x80808080U));
+-          const int peer_row = (peer_tid >> 1) + (u * 128);
++          const int peer_row = (peer_tid >> 1) + (u * kFetchRows);
+           const int chunk = 2 * (peer_tid & 1) + (part >> 1);
+           reinterpret_cast<uint2*>(
+               s_codes + swizzle(peer_row, chunk))[part & 1] = decoded;
+@@ -4683,7 +4687,7 @@
+     if constexpr (!kSigned && !kQ2) {
+ #pragma unroll
+       for (int u = 0; u < kWaveRowTiles; ++u) {
+-        const int row = (wave_id * 16) + (u * 128) + sub_lane;
++        const int row = (wave_id * 16) + (u * kFetchRows) + sub_lane;
+ #pragma unroll
+         for (int c = 0; c < BK; ++c) {
+           raw[u][c] = s_codes[swizzle(row, c)];
+@@ -4696,7 +4700,7 @@
+       v16h a_hi[kWaveRowTiles];
+ #pragma unroll
+       for (int u = 0; u < kWaveRowTiles; ++u) {
+-        const int row = (wave_id * 16) + (u * 128) + sub_lane;
++        const int row = (wave_id * 16) + (u * kFetchRows) + sub_lane;
+         const __half2 sb =
+             kQ2 ? __float2half2_rn(0.0F)
+                 : __builtin_bit_cast(__half2, s_scale[(kb * BM) + row]);
+@@ -4865,6 +4869,52 @@
+ #pragma unroll
+       for (int j = 0; j < kTokTiles; ++j)
+         acc[u][j] += acc_residual[u][j] * (1.0F / 4096.0F);
++  }
++
++  if constexpr (kFourWave) {
++    // SPDX-License-Identifier: MIT
++    // The same wave holds gate in u0 and up in u1 for its sixteen rows.
++    // Evaluate the original rounded F32 boundaries before transposing only
++    // final values. Each scratch plane has one wave and no cross-wave reader.
++    constexpr unsigned stride = 18;
++    constexpr unsigned plane = 16 * stride;
++    static_assert(4 * plane * sizeof(float) <= kLdsBytes);
++    float* scratch = reinterpret_cast<float*>(lds) + wave_id * plane;
++#pragma unroll
++    for (int j = 0; j < kTokTiles; ++j) {
++#pragma unroll
++      for (int l = 0; l < 8; ++l) {
++        float product = acc[1][j][l] * acc[0][j][l];
++        asm volatile("" : "+v"(product));
++        float value = product * SigmoidF(acc[0][j][l]);
++        asm volatile("" : "+v"(value));
++        scratch[sub_lane * stride + 2 * l + half_id] = value;
++      }
++      __builtin_amdgcn_wave_barrier();
++#pragma unroll
++      for (int unit = 0; unit < 4; ++unit) {
++        const int flat = (unit * 32 + lane_id) * 2;
++        const int t = t_local + j * 16 + flat / 16;
++        const int r = wave_id * 16 + flat % 16;
++        if (t < bucket_rows && r_block + r < m_i) {
++          const std::int32_t dst = rows_out[bucket_begin + t];
++          if (dst >= 0) {
++            const int idx = (flat / 16) * stride + flat % 16;
++            const auto offset = static_cast<std::size_t>(dst) * m + r_block + r;
++            if (m % 2 == 0 && r_block + r + 1 < m_i) {
++              *reinterpret_cast<float2*>(out + offset) =
++                  make_float2(scratch[idx], scratch[idx + 1]);
++            } else {
++              out[offset] = scratch[idx];
++              if (r_block + r + 1 < m_i)
++                out[offset + 1] = scratch[idx + 1];
++            }
++          }
++        }
++      }
++      __builtin_amdgcn_wave_barrier();
++    }
++    return;
+   }
+ 
+   if constexpr (kPair) {
+@@ -5006,7 +5056,7 @@
+   float* tile_scratch = reinterpret_cast<float*>(lds) + (wave_id * 256);
+ #pragma unroll
+   for (int u = 0; u < kWaveRowTiles; ++u) {
+-    const int r0 = r_block + (wave_id * 16) + (u * 128);
++    const int r0 = r_block + (wave_id * 16) + (u * kFetchRows);
+ #pragma unroll
+     for (int j = 0; j < kTokTiles; ++j) {
+ #pragma unroll
+@@ -5441,10 +5491,12 @@
+                      const std::int32_t* bounds, const std::int32_t* rows_token,
+                      const std::int32_t* rows_slot, float* out, std::size_t m,
+                      std::size_t k, hipStream_t stream) {
++  constexpr bool kFourWave = BN == 64 && !kPacked;
+   const dim3 grid(static_cast<unsigned>((m + 63) / 64), n_tiles);
+   hipLaunchKernelGGL(
+-      (RoutedF16GEMMKernel<WeightType::kIQ2_XXS, 128, BN, 2, true, kPacked>),
+-      grid, dim3(kThreads), 0, stream, gate, x, tiles, bounds, rows_token,
++      (RoutedF16GEMMKernel<WeightType::kIQ2_XXS, 128, BN, 2, true, kPacked,
++                           false, kFourWave>),
++      grid, dim3(kFourWave ? 128 : kThreads), 0, stream, gate, x, tiles, bounds, rows_token,
+       rows_slot, nullptr, out, nullptr, m, k, up);
+ }
+ 

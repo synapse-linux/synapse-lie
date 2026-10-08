@@ -1,0 +1,94 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/q2_iq2_fixed_bounds.inc
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_iq2_fixed_bounds.inc
+@@ -1,7 +1,7 @@
+ // SPDX-License-Identifier: MIT
+ // Official-Gufo-derived fixed geometry; original arithmetic unchanged.
+ template<WeightType kType, int BM, int BN, int BK, bool kPair = false,
+-         bool kPacked = false, bool kScaled = false>
++         bool kPacked = false, bool kScaled = false, bool kStageLayout = false>
+ __launch_bounds__(256) __global__ void RoutedIq2FixedBoundsKernel(
+     const void* __restrict__ w,
+     const std::conditional_t<kType == WeightType::kQ2_K && !kScaled, float,
+@@ -30,6 +30,8 @@
+   constexpr bool kResidual = kQ2 && !kScaled;
+   static_assert(!kScaled || (kQ2 && !kPacked && !kPair));
+   constexpr bool kIQ2 = kType == WeightType::kIQ2_XXS;
++  static_assert(!kStageLayout || (kIQ2 && kPair && BM == 128 &&
++                                   (BN == 64 || BN == 128) && BK == 2));
+   constexpr bool kSigned = kQ8 || kIQ2;
+   constexpr bool kKQuant = kType == WeightType::kQ4_K || kQ5K;
+   // 16-byte code chunks per row and stage: Q4_K's nibble pair and Q5_1's
+@@ -87,6 +89,7 @@
+   // K blocks, low and high nibbles); Q5_1: one 24-byte K block each.
+   const int f_c = tid & 1;
+   const std::uint8_t* f_ptr[kWaveRowTiles];
++  int f_row[kWaveRowTiles];
+   bool f_live[kWaveRowTiles];
+   uint4 f_header[kWaveRowTiles];
+ #pragma unroll
+@@ -101,8 +104,9 @@
+                   static_cast<std::size_t>(expert) * m * row_bytes;
+       }
+     }
+-    f_ptr[u] = weights +
+-               static_cast<std::size_t>(f_live[u] ? r : (m_i - 1)) * row_bytes;
++    f_row[u] = f_live[u] ? r : (m_i - 1);
++    f_ptr[u] = kStageLayout ? weights :
++               weights + static_cast<std::size_t>(f_row[u]) * row_bytes;
+     f_header[u] = make_uint4(0u, 0u, 0u, 0u);
+   }
+   // The next stage's weights and activations, fetched one stage ahead. The
+@@ -171,12 +175,22 @@
+         f_dm[u] = w0.x;
+       } else if constexpr (kIQ2) {
+         const int sb32 = kb0 + f_c;
+-        const auto* block = f_ptr[u] + (sb32 / 8) * 66;
+-        // SPDX-License-Identifier: MIT
+-        // Keep only the original group/header live across current-stage WMMA.
+-        // No codebook/sign lookup or conversion waits on these loads here.
+-        __builtin_memcpy(&f_iq2_group[u], block + 2 + (sb32 % 8) * 8, 8);
+-        __builtin_memcpy(&f_iq2_d[u], block, 2);
++        if constexpr (kStageLayout) {
++          // Pair-major bytes: adjacent lanes read adjacent 8-byte groups.
++          const auto* groups = f_ptr[u] +
++              ((kb0 / 2) * m + f_row[u]) * 16 + f_c * 8;
++          const auto* scale = f_ptr[u] + 40 * m * 16 +
++              ((sb32 / 8) * m + f_row[u]) * 2;
++          __builtin_memcpy(&f_iq2_group[u], groups, 8);
++          __builtin_memcpy(&f_iq2_d[u], scale, 2);
++        } else {
++          const auto* block = f_ptr[u] + (sb32 / 8) * 66;
++          // SPDX-License-Identifier: MIT
++          // Keep only the original group/header live across current-stage WMMA.
++          // No codebook/sign lookup or conversion waits on these loads here.
++          __builtin_memcpy(&f_iq2_group[u], block + 2 + (sb32 % 8) * 8, 8);
++          __builtin_memcpy(&f_iq2_d[u], block, 2);
++        }
+       } else if constexpr (kQ2) {
+         // Each Q2_K superblock stores 256 codes with independent affine
+         // scales every 16 elements. The input's logical K may end halfway
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5516,6 +5516,22 @@
+       reinterpret_cast<float*>(out), m, k, stream);
+ }
+ 
++// Private experiment only. Production dispatch never calls this symbol.
++void ProbeRoutedIq2StageLayout(const void* gate, const void* up,
++                               const __half* x, const std::int32_t* tiles,
++                               std::uint32_t n_tiles,
++                               const std::int32_t* bounds,
++                               const std::int32_t* rows_token,
++                               const std::int32_t* rows_slot, float* out,
++                               hipStream_t stream) {
++  const dim3 grid(10, n_tiles);
++  hipLaunchKernelGGL(
++      (RoutedIq2FixedBoundsKernel<WeightType::kIQ2_XXS, 128, 128, 2,
++                                 true, false, false, true>),
++      grid, dim3(kThreads), 0, stream, gate, x, tiles, bounds, rows_token,
++      rows_slot, nullptr, out, nullptr, 640, 2560, up);
++}
++
+ #include "q2_scaled_input.inc"
+ 
+ template<int BN, bool kPacked = false>

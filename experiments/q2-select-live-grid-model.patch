@@ -1,0 +1,53 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -1697,7 +1697,8 @@
+                    s_.mask + static_cast<std::size_t>(t0) * mask_words_,
+                    s_.scores, n, pos, t0, c.indexer_heads, c.indexer_head_dim,
+                    c.compress_ratio, c.indexer_top_k / c.compress_ratio,
+-                   mask_words_, max_blocks, stream_);
++                   mask_words_, max_blocks, stream_,
++                   prefill_phase ? (start_pos + t0 + n) / c.compress_ratio : 0U);
+     }
+     mask = s_.mask;
+   }
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
+@@ -497,12 +497,14 @@
+ /// b visible). Every block is visible when the count fits the budget.
+ /// Queries retain F32 precision; pooled cache keys are F16. Scores
+ /// still accumulate in FP32. `scores` holds n_tokens * max_blocks floats.
++// live_blocks is a host-known eager-prefill bound; zero preserves graph replay.
+ void SelectBlocks(const float* q, const __half* blocks, std::uint32_t* mask,
+                   float* scores, std::uint32_t n_tokens,
+                   const std::uint32_t* start_pos, std::uint32_t first_token,
+                   std::uint32_t heads, std::uint32_t dim, std::uint32_t ratio,
+                   std::uint32_t budget, std::uint32_t mask_words,
+-                  std::uint32_t max_blocks, hipStream_t stream);
++                  std::uint32_t max_blocks, hipStream_t stream,
++                  std::uint32_t live_blocks = 0);
+ 
+ /// Per-token attention (decode and narrow batches). With `partials`
+ /// (n_tokens * heads * splits * (d + 2) floats) the key tiles are split
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -6851,13 +6851,16 @@
+                   const std::uint32_t* start_pos, std::uint32_t first_token,
+                   std::uint32_t heads, std::uint32_t dim, std::uint32_t ratio,
+                   std::uint32_t budget, std::uint32_t mask_words,
+-                  std::uint32_t max_blocks, hipStream_t stream) {
++                  std::uint32_t max_blocks, hipStream_t stream,
++                  std::uint32_t live_blocks) {
+   if (heads != kSelectHeads || dim != kSelectDim) {
+     return;
+   }
+-  // Grids are sized by max_blocks so a captured decode graph replays at any
+-  // position; blocks past the live range return at once.
+-  const dim3 grid(n_tokens, (max_blocks + kThreads - 1) / kThreads);
++  // Eager prefill knows the live extent. Captured decode keeps the full
++  // capacity grid so replay remains valid as the device position advances.
++  // The allocated score pitch and mask stride never change.
++  const auto grid_blocks = live_blocks ? std::min(live_blocks, max_blocks) : max_blocks;
++  const dim3 grid(n_tokens, (grid_blocks + kThreads - 1) / kThreads);
+   hipLaunchKernelGGL(SelectScoreKernel, grid, dim3(kThreads), 0, stream, q,
+                      blocks, scores, n_tokens, start_pos, first_token, ratio,
+                      budget, max_blocks);

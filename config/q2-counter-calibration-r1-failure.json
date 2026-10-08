@@ -1,0 +1,30 @@
+{
+  "schema": "synapse-lie.q2-counter-calibration-failure.v1",
+  "label": "q2-counter-calibration-r1",
+  "stage": "COMPILER_DRIVER_ARGUMENT_REJECTED",
+  "receipt_sha256": "a1a0a22b1ef9d74755a2ae43103210b24d031c689d2e73787d0e8e03dce94d9f",
+  "commands": [
+    {
+      "argv": [
+        "/opt/rocm/bin/hipcc",
+        "-O3",
+        "-std=c++17",
+        "--offload-arch=gfx1151",
+        "-mwavefrontsize32",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-counter-calibration-r1/tests/q2_counter_calibration.hip",
+        "-o",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-counter-calibration-r1/build/counter-calibration/q2-counter-calibration"
+      ],
+      "started_at": "2026-10-06T00:58:33.117081+00:00",
+      "pid": 154273,
+      "start_ticks": 181370740,
+      "exit_code": 1,
+      "finished_at": "2026-10-06T00:58:33.645178+00:00"
+    }
+  ],
+  "message": "clang++: error: unknown argument: '-mwavefrontsize32'\nfailed to execute:/opt/rocm/lib/llvm/bin/clang++  --offload-arch=gfx1151 --driver-mode=g++ --hip-link  -O3 -std=c++17 -mwavefrontsize32 -x hip /home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-counter-calibration-r1/tests/q2_counter_calibration.hip -o \"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-counter-calibration-r1/build/counter-calibration/q2-counter-calibration\"\n",
+  "kernel_executed": false,
+  "model_inference": false,
+  "release_sha256": "d39fb71c9a2f8a7373069b58cc6fdf981af14b7a0201766f35b709e69e248c55",
+  "next_action": "Replace unsupported -mwavefrontsize32 with -mno-wavefrontsize64, preserve this source capsule and receipt, fresh host qualification and admission for r2."
+}

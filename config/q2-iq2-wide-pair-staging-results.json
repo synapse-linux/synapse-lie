@@ -1,0 +1,12 @@
+{
+  "schema": "synapse-lie.q2-iq2-wide-pair-staging.v1",
+  "capsule_sha256": "315c94aa685cd3101d87be1495e765146c83a5fbcd21fc753a246a9c0c8a634f",
+  "fixture_files_verified": 59,
+  "provider_files_verified": 1025,
+  "network_boundary_reached": true,
+  "network_calls_executed": 0,
+  "gpu_run": false,
+  "remote_build": false,
+  "model_inference": false,
+  "goal_met": false
+}

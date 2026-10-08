@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-03T16:26:50.122865+00:00",
+  "state": "Q2_LIBRARY_NORM_WINDOW_RELEASED",
+  "owner": "synapse-lie-q2",
+  "gpu_reserved": false,
+  "active_label": null,
+  "planned_remaining": [],
+  "remote_workload_scheduled": false,
+  "preflight_at": "2026-10-03T16:25:54.228235+00:00",
+  "preflight_kfd": [],
+  "latest_registry_event": "q2-scaled-library-profile release at16:14:41.510641 UTC",
+  "previous_release": "q2-scaled-library-profile-window-release.json",
+  "coordination": "Bounded host/component admission after fresh original four leases and empty KFD; no foreign admission since release, persistent owner Q2 authorization. Direct MCP transport failed.",
+  "source_variant": "library-norm-cycle",
+  "component": "hc-library-norm-bench",
+  "timing": "Paired ordinary/MoE producer + optional narrowing + actual hipBLASLt 7526 consumer, n2048, 10 experts, 100MiB rotating weights, 5x16 GPU-event samples",
+  "numerical": "Original controls, full buffer equality, scalar F16 conversion, independent FP64 norm and down; original thresholds unchanged, inherited failures retained",
+  "model_decision": "q2-library-norm-model-decision.json",
+  "goal_met": false,
+  "promoted": false,
+  "host_cohorts": [
+    "q2-library-norm-host-r1",
+    "q2-library-norm-host-r2"
+  ],
+  "core_coordination": {
+    "received": "f0f58b3 C17 sampler; core confirms no active .157 load and no requested campaign change",
+    "outgoing": "MCP HTTP transport failed; fallback receipt active"
+  },
+  "completed_at": "2026-10-03T16:50:57.568177+00:00",
+  "release_receipt": "q2-library-norm-window-release.json"
+}

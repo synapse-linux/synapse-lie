@@ -1,0 +1,49 @@
+{
+  "schema": "synapse-lie.q2-decode-q5-static.v1",
+  "at": "2026-10-07T09:01:21.948990+00:00",
+  "source_manifest_sha256": "8c64f13c89f9e47a33ca79510aaeeb5d98b90c69ab2529eb23c387695583bf32",
+  "binary_sha256": "9811b486e466129099f25518be14820c8a341b67320b5770199fe10511e98d13",
+  "device_image_sha256": "d8564f05b05d3201b343f85d84ea2c389ebd8ea2ebf11722cedbfb7088824302",
+  "target": "gfx1151",
+  "kernels": [
+    {
+      "symbol": "_ZN7qfn_mmqL14mul_mat_vec_q8ILi1ELb1ELi1ELb0EEEvPKvS2_PKNS_10block_q8_1EPfjjjj",
+      "vgpr_count": 20,
+      "sgpr_count": 14,
+      "private_segment_fixed_size": 0,
+      "group_segment_fixed_size": 0,
+      "vgpr_spill_count": 0,
+      "sgpr_spill_count": 0
+    },
+    {
+      "symbol": "_ZN7qfn_mmqL14mul_mat_vec_q8ILi1ELb0ELi1ELb0EEEvPKvS2_PKNS_10block_q8_1EPfjjjj",
+      "vgpr_count": 14,
+      "sgpr_count": 12,
+      "private_segment_fixed_size": 0,
+      "group_segment_fixed_size": 0,
+      "vgpr_spill_count": 0,
+      "sgpr_spill_count": 0
+    },
+    {
+      "symbol": "_ZN7qfn_mmqL20mul_mat_vec_q5_denseILb1EEEvPKvS2_PKNS_10block_q8_1EPfjj",
+      "vgpr_count": 60,
+      "sgpr_count": 14,
+      "private_segment_fixed_size": 0,
+      "group_segment_fixed_size": 0,
+      "vgpr_spill_count": 0,
+      "sgpr_spill_count": 0
+    },
+    {
+      "symbol": "_ZN7qfn_mmqL20mul_mat_vec_q5_denseILb0EEEvPKvS2_PKNS_10block_q8_1EPfjj",
+      "vgpr_count": 36,
+      "sgpr_count": 12,
+      "private_segment_fixed_size": 0,
+      "group_segment_fixed_size": 0,
+      "vgpr_spill_count": 0,
+      "sgpr_spill_count": 0
+    }
+  ],
+  "local_build_exit_code": 0,
+  "gpu_run": false,
+  "model_inference": false
+}

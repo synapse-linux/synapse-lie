@@ -1,0 +1,87 @@
+{
+  "schema": "synapse-lie.q2-iq2-register-stage-preparation.v1",
+  "at": "2026-10-06T03:15:04.666440+00:00",
+  "identities": {
+    "config/q2-iq2-register-stage-source.json": "f015b9dc0de39e59964de30e3db81691a1a10c11abea741f88b28d5069e6de4e",
+    "config/q2-iq2-register-stage-source-v2.json": "cd6d0e0879dc72d5b36dd8b469499b82b2d08be5554e8b7cee4cb9961d03a877",
+    "config/q2-iq2-register-stage-static-v2.json": "76bc480dec044f29dfd7f37e9c5a68b4f3118a7e2383c517eb1c24e679061b39",
+    "evidence/q2-iq2-register-stage-preparation/initial-scope-differences.json": "4b205a8df86bf6535e210b09613ab3f1891db7d6e360acae80258178ac600c3a",
+    "tools/analyze-q2-iq2-register-stage-static.py": "9f2322cd9ef76f10ec4dbe7a2a8cfb7e0d2a095f80fb968a89ae613c7957845d",
+    "tools/analyze-q2-iq2-register-stage-static-v2.py": "2ef94c533c92011ccf45e1897dcab3144c752f2a72341da8c594a69608bf223c",
+    "evidence/q2-iq2-register-stage-preparation/generation-command.json": "03bc16f1f4141337b7b04ffb8cfe8b7856a10ae0b563b400f1714fb8bc5262a1",
+    "evidence/q2-iq2-register-stage-preparation/assembly-command.json": "a0f8875e172451269a8793fbc2fe9148865008ee07ca489101ff931a4ca3128f",
+    "evidence/q2-iq2-register-stage-preparation/static-audit-command.json": "f49493667152907d19b8a8d341b661887920c0a5ab5ade42ad9e89fb7554258d",
+    "evidence/q2-iq2-register-stage-preparation/generation-v2-command.json": "5fd4f378572f826a791e21eb4f6d632aa8a6880c229669fd6432f63f12b060f4",
+    "evidence/q2-iq2-register-stage-preparation/assembly-v2-command.json": "62d3ffeb5d15d81a23644ee7a5591f6ce9f8dd1b30b87dfe66ce01b9a4d82921",
+    "evidence/q2-iq2-register-stage-preparation/static-audit-v2-command.json": "b2a7fa6a20b79e072a6266e9276671343a41adc98726195d69f7631d8c5fc364"
+  },
+  "commands": {
+    "generation-command.json": {
+      "argv": [
+        "python3",
+        "tools/prepare-q2-iq2-register-stage.py"
+      ],
+      "started_at": "2026-10-06T03:05:39.023200+00:00",
+      "finished_at": "2026-10-06T03:05:39.288573+00:00",
+      "exit_code": 0
+    },
+    "assembly-command.json": {
+      "argv": [
+        "python3",
+        "evidence/q2-iq2-register-stage-preparation/compile-local.py",
+        "assembly"
+      ],
+      "started_at": "2026-10-06T03:05:50.656395+00:00",
+      "finished_at": "2026-10-06T03:06:00.667910+00:00",
+      "exit_code": 0
+    },
+    "static-audit-command.json": {
+      "argv": [
+        "python3",
+        "tools/analyze-q2-iq2-register-stage-static.py"
+      ],
+      "started_at": "2026-10-06T03:06:51.162301+00:00",
+      "finished_at": "2026-10-06T03:06:51.715377+00:00",
+      "exit_code": 1
+    },
+    "generation-v2-command.json": {
+      "argv": [
+        "python3",
+        "tools/prepare-q2-iq2-register-stage-v2.py"
+      ],
+      "started_at": "2026-10-06T03:08:38.823449+00:00",
+      "finished_at": "2026-10-06T03:08:39.147895+00:00",
+      "exit_code": 0
+    },
+    "assembly-v2-command.json": {
+      "argv": [
+        "python3",
+        "evidence/q2-iq2-register-stage-preparation/compile-local.py",
+        "assembly-v2"
+      ],
+      "started_at": "2026-10-06T03:09:19.479969+00:00",
+      "finished_at": "2026-10-06T03:09:29.526426+00:00",
+      "exit_code": 0
+    },
+    "static-audit-v2-command.json": {
+      "argv": [
+        "python3",
+        "tools/analyze-q2-iq2-register-stage-static-v2.py"
+      ],
+      "started_at": "2026-10-06T03:10:50.883004+00:00",
+      "finished_at": "2026-10-06T03:10:51.590729+00:00",
+      "exit_code": 0
+    }
+  },
+  "classified_failures": {
+    "static-audit-command.json": "First shared-template source changed nine unrelated compiled Q2 bodies; retained and isolated before any device run."
+  },
+  "active_source_manifest": "config/q2-iq2-register-stage-source-v2.json",
+  "initial_source_preserved": true,
+  "last_gpu_release_sha256": "b7da267d9739b263a8ed46a5592246d143e3ea1ab127c99bcbfaae1c1e23a46f",
+  "gpu_reserved": false,
+  "runtime_fixture_prepared": false,
+  "model_inference": false,
+  "performance_gain": false,
+  "goal_met": false
+}

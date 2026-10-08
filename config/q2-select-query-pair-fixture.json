@@ -1,0 +1,21 @@
+{
+  "schema": "synapse-lie.q2-select-query-pair-fixture.v1",
+  "bindings": {
+    "tests/q2_select_query_pair.hip": "8f8e9db6918a27342fc9ffb75894a89ac539bcd0635c92d08429d5e7c270aaae",
+    "experiments/q2-select-query-pair.inc": "19070eaef4099a714bee1c8c2070d5e6d1dd720c6c32e5e082df729d89efacec"
+  },
+  "compile_receipt": "evidence/q2-select-query-pair-runtime-preparation/fixture-v2-command.json",
+  "compile_receipt_sha256": "91c239482b5d8170b066c82854aa398007d6fc894f430d6fbeb9be940708c522",
+  "cases": 6,
+  "pair_records": 48,
+  "oracle_records": 48,
+  "timing_records": 42,
+  "timing_cases": 3,
+  "score_pitch": 33440,
+  "mask_words": 1045,
+  "ratio": 4,
+  "budget": 512,
+  "arithmetic_limits": 2e-05,
+  "graph_replay_tested": false,
+  "model_inference": false
+}

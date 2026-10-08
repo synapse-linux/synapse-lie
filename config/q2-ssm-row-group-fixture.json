@@ -1,0 +1,41 @@
+{
+  "schema": "synapse-lie.q2-ssm-row-group-fixture.v1",
+  "source_manifest": "config/q2-ssm-row-group-source.json",
+  "source_manifest_sha256": "0ff9af05f495586ec908089a5dcd787b33e7fc2b80fcb5e40a30609fda64a74b",
+  "fixture": "tests/q2_ssm_row_group.hip",
+  "fixture_sha256": "1f315d7149629391c58ff83035400626167bf6520ebdbdaf08baf0b30de315c9",
+  "control_include": "experiments/q2-ssm-row-group-control.inc",
+  "control_include_sha256": "39007b053edc6feff11316641529514b07cd5f8e4b28c9a9ea5ebef14a0edf9a",
+  "oracle": "experiments/q2-ssm-row-group-oracle.inc",
+  "oracle_sha256": "f7b1dbcc361e9fc65fb96657f7f6d2c1d0bb2e7d16b7ef5f1447712acdcc3797",
+  "derived_from": "tests/q2_ssm_row128.hip",
+  "derived_from_sha256": "a91baed64ff54f376ecad511bcc6586dd37e9d287c726c91b2d6c8484f0f3eea",
+  "control_literal_parent_exact": true,
+  "numerical_shapes": [
+    1024,
+    1025,
+    1057,
+    2048,
+    2049
+  ],
+  "full_output_pairs": 30,
+  "sampled_fp64_checks": 60,
+  "samples_per_fp64_check": 24,
+  "timing_rows": 14,
+  "timed_shape": {
+    "M": 16384,
+    "N": 2048,
+    "K": 2560
+  },
+  "weight_rotations": 3,
+  "rotated_weight_bytes": 133693440,
+  "numerical_exit": 1,
+  "unsafe_runtime_exit": 2,
+  "timing_after_safe_numerical_rejection": true,
+  "launchers_changed": false,
+  "frozen_register_scatter_fixtures_changed": false,
+  "gpu_run": false,
+  "model_inference": false,
+  "numerical_acceptance": false,
+  "goal_met": false
+}

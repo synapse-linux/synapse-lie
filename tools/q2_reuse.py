@@ -1,0 +1,30 @@
+# SPDX-License-Identifier: MIT
+"""Verify immutable source coverage before reusing an owned MMQ archive."""
+import hashlib
+from pathlib import Path
+
+HC_KERNEL = 'src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp'
+HC_DISPATCH = 'src/models/qwen38_flash_next/kernels/rocm/blaslt.cpp'
+# Both translation units are rebuilt; every MMQ source/header stays identical.
+REBUILT_HC = frozenset((HC_KERNEL, HC_DISPATCH))
+
+
+def verify_sources(reference, candidate, *, curve_headroom=False):
+    def inventory(root):
+        return {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest()
+                for p in sorted(Path(root).rglob('*')) if p.is_file()}
+    old, new = inventory(reference), inventory(candidate)
+    if not old or set(old) != set(new):
+        raise RuntimeError('MMQ reuse requires identical source inventories')
+    changed = [name for name in old if old[name] != new[name]]
+    allowed = REBUILT_HC
+    if curve_headroom:
+        from q2_curve_headroom import ENGINE, extend_engine
+        if (Path(candidate) / ENGINE).read_text() != extend_engine((Path(reference) / ENGINE).read_text()):
+            raise RuntimeError('Curve headroom differs from its exact host-only edit')
+        allowed = allowed | {ENGINE}
+    if any(name not in allowed for name in changed):
+        raise RuntimeError('MMQ reuse source differs outside rebuilt HC translation units')
+    return {'files_verified': len(old), 'changed': changed,
+            'reference_manifest_sha256': hashlib.sha256(repr(sorted(old.items())).encode()).hexdigest(),
+            'candidate_manifest_sha256': hashlib.sha256(repr(sorted(new.items())).encode()).hexdigest()}

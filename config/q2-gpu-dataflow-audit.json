@@ -1,0 +1,47 @@
+{
+  "at": "2026-10-03T08:16:38.490197+00:00",
+  "scope": "Read-only source dependency audit, not runtime scheduling or measured hardware saturation",
+  "q2_head": "e49480445df7847b9953e79cca6dc899e1e08663",
+  "core_head": "1181c7fdb54d0c50e9382387909f9a3ad90d339b",
+  "files": [
+    {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-up-chains/src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "bytes": 117834,
+      "sha256": "b527672b4bb79566438ee2b3e9e501f8fc10a8cea90f81e44d293528911728cc"
+    },
+    {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-up-chains/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "bytes": 280088,
+      "sha256": "a5ccc81f7762beae74cf0bbb06e6aeebd44edf1c804c1473b63619af023a6cd5"
+    },
+    {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/ple_flow.h",
+      "bytes": 2032,
+      "sha256": "d1f32b0ab2f4176eff0b5bcc827ea833dc5fc642154255f6d698d5a01de69b2b"
+    },
+    {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/ple_flow.c",
+      "bytes": 6183,
+      "sha256": "15a88454be85957badd425c69e01b3f0d3ea3d365970a64ddc7cea981ece7f41"
+    },
+    {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/src/inference.c",
+      "bytes": 3189,
+      "sha256": "c05418baa2add3ea2ff76695b7969f5579146b4189fb62e0cd1f7f484a8e7293"
+    },
+    {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/src/worker.c",
+      "bytes": 42852,
+      "sha256": "efa7ecf4a36e877934517b9be1c9c47b1cf45cccc1adf59e8670a9ffb5fc4a2c"
+    },
+    {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/openai-reactive-api/docs/INFERENCE-REACTIVE.md",
+      "bytes": 21513,
+      "sha256": "c2c13f32d2b5f397fe913ba2d7ac41cc822df17167da0a46c710b49e6db63735"
+    }
+  ],
+  "source_provenance": "Q2 from independently fetched official Gufo pin; core only read, no imported code",
+  "core_modified": false,
+  "new_gpu_streams": false,
+  "direct_model_runs": false
+}

@@ -1,0 +1,126 @@
+{
+  "schema": "synapse-lie.q2-ud-counting2k-comparison.v1",
+  "binary_sha256": "b701e948e8b0e1e241faf0197ebc40446720e7e96c0388d912231fe225f2ef62",
+  "input_sha256": "75343e606f5b815fe01f69ddc6ce50a997e2de96d8a20304a82a7f24f1180b35",
+  "identical_harness_and_input": true,
+  "q2_rerun": false,
+  "old_reference_replaced": false,
+  "full_128k_curve": false,
+  "output_ids_equal": true,
+  "arms": [
+    {
+      "model": "Q2",
+      "evidence": "evidence/q2-counting-full-prefill-r1/results/01-short-133760.jsonl",
+      "evidence_sha256": "e1b70b965c05630b185ba2cfe48c0b32ea45522fd60137f7eaaeb87293e5d494",
+      "samples": [
+        {
+          "model": "Q2",
+          "rep": 1,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "chunk": 2048,
+          "context_capacity": 133760,
+          "output_tokens": 128,
+          "prefill_seconds": 1.302277407,
+          "prefill_tps": 1572.6296017972766,
+          "decode_seconds": 4.65701998,
+          "decode_tps": 27.4853877693692
+        },
+        {
+          "model": "Q2",
+          "rep": 2,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "chunk": 2048,
+          "context_capacity": 133760,
+          "output_tokens": 128,
+          "prefill_seconds": 1.304600741,
+          "prefill_tps": 1569.8289412515364,
+          "decode_seconds": 4.646002778,
+          "decode_tps": 27.55056467165978
+        },
+        {
+          "model": "Q2",
+          "rep": 3,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "chunk": 2048,
+          "context_capacity": 133760,
+          "output_tokens": 128,
+          "prefill_seconds": 1.302679786,
+          "prefill_tps": 1572.1438391921129,
+          "decode_seconds": 4.645481222,
+          "decode_tps": 27.553657819951898
+        }
+      ],
+      "prefill_median_tps": 1572.1438391921129,
+      "decode_median_tps": 27.55056467165978
+    },
+    {
+      "model": "UD-Q4_K_XL",
+      "evidence": "evidence/q2-ud-counting2k-r1/results/00-ud-2k.jsonl",
+      "evidence_sha256": "70e86ad73c38454e08e38f471d2a478f46b0060022ddda305ea09419616fd5b8",
+      "samples": [
+        {
+          "model": "UD-Q4_K_XL",
+          "rep": 1,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "chunk": 2048,
+          "context_capacity": 133760,
+          "output_tokens": 128,
+          "prefill_seconds": 1.237526207,
+          "prefill_tps": 1654.9144482077218,
+          "decode_seconds": 4.937691173,
+          "decode_tps": 25.923046929285952
+        },
+        {
+          "model": "UD-Q4_K_XL",
+          "rep": 2,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "chunk": 2048,
+          "context_capacity": 133760,
+          "output_tokens": 128,
+          "prefill_seconds": 1.235502384,
+          "prefill_tps": 1657.6252919638234,
+          "decode_seconds": 4.935878994,
+          "decode_tps": 25.93256442380281
+        },
+        {
+          "model": "UD-Q4_K_XL",
+          "rep": 3,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "chunk": 2048,
+          "context_capacity": 133760,
+          "output_tokens": 128,
+          "prefill_seconds": 1.240667069,
+          "prefill_tps": 1650.7248811324741,
+          "decode_seconds": 4.935723889,
+          "decode_tps": 25.933379353992464
+        }
+      ],
+      "prefill_median_tps": 1654.9144482077218,
+      "decode_median_tps": 25.93256442380281
+    }
+  ],
+  "ud_relative_to_q2_percent": {
+    "prefill": 5.264824181618311,
+    "decode": -5.872838786209522
+  },
+  "release_sha256": "4bbc66e0439fa2c36fd14a7e317ba6b5d4a0ed1dfac939fb6e6285a513a48f01",
+  "strong_closure": {
+    "at": "2026-10-08T00:40:07.739080+00:00",
+    "release_sha256": "4bbc66e0439fa2c36fd14a7e317ba6b5d4a0ed1dfac939fb6e6285a513a48f01",
+    "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+    "retired_identities": 65,
+    "retired_groups": 65,
+    "kfd_empty": true,
+    "original_five_leases_free": true,
+    "reference_model_stats_unchanged": true,
+    "glm_model_stats_unchanged": true,
+    "iommu_groups": 32,
+    "gpu_reserved": false
+  }
+}

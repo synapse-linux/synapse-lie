@@ -1,0 +1,21 @@
+{
+  "schema": "synapse-lie.q2-down-register-palette-phase-correction.v1",
+  "plan_sha256": "83bd662250d2f4de56d4a779d82799e80883965a80f67b9104725695f83703bf",
+  "admission_sha256": "f4762895f2a358009d3871a31ebb04fb158a0dc46e63a23d67ca652788fa4aa6",
+  "original_phase_preserved_sha256": "07891cb295beeb7b2979469db3b7dc28ccdd357ef82b593789d7554c61933458",
+  "added_files": {
+    "tools/q2-down-register-palette-phase-v4.py": "eb3dc98df841d10ce4f36ebaa2c4509fe6ef0a601fcc2c64f532e720366f808c",
+    "tools/q2_window_registry.py": "fcf4446b230453ef5c6b272ef4487e9440f3afbe41829b78d81a7eca5ea896c0",
+    "tests/q2_window_registry_test.py": "91bd980950ce2f587dbe3c1e56c3999f300489cedd8d5a383a1e320c68793874",
+    "config/q2-down-register-palette-analysis-correction-v2.json": "ceb481e5e4fb1a404dbee006ddf8bee7b3725ab3d4c94b4ecdfc1ebc73417e7a"
+  },
+  "prior_command": "evidence/q2-down-register-palette-preparation/model-launch-command.json",
+  "prior_command_exit": 1,
+  "prior_model_launch_established": false,
+  "model_cohort_created": false,
+  "correction": "Validate latest window admit/release event, then reject every foreign event since admission. Owned component start/end records do not close the window.",
+  "model_scope_changed": false,
+  "lease_policy_changed": false,
+  "source_or_model_modified": false,
+  "goal_met": false
+}

@@ -1,0 +1,278 @@
+{
+  "schema": "synapse-lie.q2-comparison-recovery-audit.v1",
+  "checked_at": "2026-10-06T16:18:39.960986+00:00",
+  "retained_checkpoint": "3235208e6338695ac88f561fb107a535f99e94dd",
+  "retained_files": {
+    "config/q2-fixed-prefill-reference.json": "7f58a7fa19b53338c96f575667f0d853b61d3e8f6af4864319a7a1445b2474d1",
+    "config/q2-counting-harness.json": "153c953edbfe47e14e4469fe25d45d20a7bf44021742b648973b2d1589474aae",
+    "config/q2-counting-regression-results.json": "aa4cfdcb90680feac108cc60aaa1e78a64b9b4bfdad87ee171e39a93a1458f41",
+    "config/q2-counting-regression-plan.json": "bc0e0d38bff71b2618226470e97f38965b6e320b0b92f343b6616d6dc89f73af",
+    "config/q2-iq2-fixed-bounds-model-results.json": "08885e1cbd1e50a110fa58c50d7101cd32071f23416ee1e07a9dea0495905ca3",
+    "config/q2-iq2-fixed-bounds-source.json": "2e81463dbbe134190c300f2b008684d584f0d75f60f36f16eb25b765c2c4b45c",
+    "config/q2-iq2-fixed-bounds-plan.json": "7c2491f260069e020ec973548ec3c58cd336e17b6b452f5873705daf0c927af5",
+    "config/q2-iq2-fixed-bounds-final-audit.json": "f3211a52a67b775dc10f597173ef2b3f136e886ca19987e355c94157177400ee",
+    "config/q2-iq2-fixed-bounds-component-results.json": "30cd6edc1a93341af91dc4925164605b29e36a80ca9917aaa14084dae7ed231f",
+    "experiments/q2-iq2-fixed-bounds.patch": "f01dd09ebf29abc130cc6494b7810d41f6e90c36005a14235b0b2dcb745d952a",
+    "experiments/counting-baseline/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52"
+  },
+  "provider_source": ".deps/gufo-q2-iq2-fixed-bounds-run",
+  "provider_files_verified": 1028,
+  "cohorts": {
+    "retained_q2": {
+      "path": "evidence/q2-iq2-fixed-bounds-model-r1",
+      "result_archive_sha256": "08f9084560d0b82f2f1d86c881985ddc14dd5eef0f4878537e4ca89b9d7bb029",
+      "artifacts_verified": 26,
+      "command_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "original_input_exact": true,
+      "original_harness_exact": true,
+      "recorded_binary_sha256": "a6e48992a0492a613ca3265d62bdd1378ee71c07edd8175479e18f6d5f9c3894",
+      "measurements": {
+        "prefill_tok_s": {
+          "samples": [
+            1589.688108,
+            1587.893545,
+            1585.263379
+          ],
+          "min": 1585.263379,
+          "median": 1587.893545,
+          "max": 1589.688108
+        },
+        "decode_steps_s": {
+          "samples": [
+            25.12414406,
+            25.11902171,
+            25.14732426
+          ],
+          "min": 25.11902171,
+          "median": 25.12414406,
+          "max": 25.14732426
+        },
+        "prefill_s": {
+          "samples": [
+            1.288303026,
+            1.289759006,
+            1.29189889
+          ],
+          "min": 1.288303026,
+          "median": 1.289759006,
+          "max": 1.29189889
+        },
+        "decode_s": {
+          "samples": [
+            5.054898575,
+            5.055929386,
+            5.050239091
+          ],
+          "min": 5.050239091,
+          "median": 5.054898575,
+          "max": 5.055929386
+        }
+      }
+    },
+    "fixed_q2": {
+      "path": "evidence/q2-counting-regression-mixed-r1",
+      "result_archive_sha256": "58bb3b20aa543177afe351b69fbf7e7cc875be314aa779e4d37f089f0dd48a3a",
+      "artifacts_verified": 26,
+      "command_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "original_input_exact": true,
+      "original_harness_exact": true,
+      "recorded_binary_sha256": "fb2a243fbe4e7db822ad718ea694a84e2d54a4950a855451c1399ebed7a00326",
+      "measurements": {
+        "prefill_tok_s": {
+          "samples": [
+            1443.398207,
+            1443.672867,
+            1443.841794
+          ],
+          "min": 1443.398207,
+          "median": 1443.672867,
+          "max": 1443.841794
+        },
+        "decode_steps_s": {
+          "samples": [
+            25.10565683,
+            25.08698337,
+            25.09595499
+          ],
+          "min": 25.08698337,
+          "median": 25.09595499,
+          "max": 25.10565683
+        },
+        "prefill_s": {
+          "samples": [
+            1.41887387,
+            1.418603928,
+            1.418437954
+          ],
+          "min": 1.418437954,
+          "median": 1.418603928,
+          "max": 1.41887387
+        },
+        "decode_s": {
+          "samples": [
+            5.058620886,
+            5.062386263,
+            5.060576497
+          ],
+          "min": 5.058620886,
+          "median": 5.060576497,
+          "max": 5.062386263
+        }
+      }
+    },
+    "fixed_ud": {
+      "path": "evidence/q2-counting-regression-ud-r1",
+      "result_archive_sha256": "0991791329fba9e5a86974135e876d8fc6f21d291954612bfa955f422f93cde5",
+      "artifacts_verified": 26,
+      "command_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "original_input_exact": true,
+      "original_harness_exact": true,
+      "recorded_binary_sha256": "e745e1a4e518a26e3e78be4bb853ab79280c70ff9c750babad169c14ef3e5eac",
+      "measurements": {
+        "prefill_tok_s": {
+          "samples": [
+            1686.364042,
+            1685.777092,
+            1685.400011
+          ],
+          "min": 1685.400011,
+          "median": 1685.777092,
+          "max": 1686.364042
+        },
+        "decode_steps_s": {
+          "samples": [
+            24.34621613,
+            24.34174251,
+            24.15102104
+          ],
+          "min": 24.15102104,
+          "median": 24.34174251,
+          "max": 24.34621613
+        },
+        "prefill_s": {
+          "samples": [
+            1.214447147,
+            1.214869991,
+            1.215141798
+          ],
+          "min": 1.214447147,
+          "median": 1.214869991,
+          "max": 1.215141798
+        },
+        "decode_s": {
+          "samples": [
+            5.216416355,
+            5.217375049,
+            5.258576845
+          ],
+          "min": 5.216416355,
+          "median": 5.217375049,
+          "max": 5.258576845
+        }
+      }
+    },
+    "best_parent": {
+      "path": "evidence/q2-ssm-fixed-bounds-model-r1",
+      "result_archive_sha256": "3a6b5caa2bc83a89218b611b31de28a8b0f72a46b967c0195e00814bf2559969",
+      "artifacts_verified": 26,
+      "command_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "original_input_exact": true,
+      "original_harness_exact": true,
+      "recorded_binary_sha256": "db356a95046fd6951ba279627868f4a7bdeb49efdcc17225a6aafea3d85b4787",
+      "measurements": {
+        "prefill_tok_s": {
+          "samples": [
+            1586.342395,
+            1584.079076,
+            1585.308983
+          ],
+          "min": 1584.079076,
+          "median": 1585.308983,
+          "max": 1586.342395
+        },
+        "decode_steps_s": {
+          "samples": [
+            25.17262901,
+            25.16079073,
+            25.15297051
+          ],
+          "min": 25.15297051,
+          "median": 25.16079073,
+          "max": 25.17262901
+        },
+        "prefill_s": {
+          "samples": [
+            1.291020152,
+            1.292864751,
+            1.291861727
+          ],
+          "min": 1.291020152,
+          "median": 1.291861727,
+          "max": 1.292864751
+        },
+        "decode_s": {
+          "samples": [
+            5.045162344,
+            5.047536119,
+            5.049105431
+          ],
+          "min": 5.045162344,
+          "median": 5.047536119,
+          "max": 5.049105431
+        }
+      }
+    }
+  },
+  "graph_hashes": {
+    "docs/figures/q2-iq2-fixed-bounds-model.csv": "722b93c4f471103c30ed03fae2ae5803856d858ffeff6d5693d0b1fa5f297c31",
+    "docs/figures/q2-iq2-fixed-bounds-model.svg": "728c4197ec7b2cb72592a32e041f174a8ca0e79a969f62b4d861849411831a26",
+    "docs/figures/q2-iq2-fixed-bounds-model.png": "136a58867162a53f944b3509e92aefdf14e6680ba3675f21459832992fb08521"
+  },
+  "frozen_protocol": {
+    "host": ".157",
+    "context_capacity": 9216,
+    "chunk": 2048,
+    "physical_prompt_tokens": 2048,
+    "output_tokens": 128,
+    "timed_decode_calls": 127,
+    "warmup_sessions": 1,
+    "measured_sessions": 3,
+    "identical_physical_input_each_session": true,
+    "pause_seconds_outside_timers": 15,
+    "timer": "Frozen direct-executor tester",
+    "greedy": true,
+    "mtp": false
+  },
+  "original_input_sha256": "75343e606f5b815fe01f69ddc6ce50a997e2de96d8a20304a82a7f24f1180b35",
+  "invalid_curve_report_preserved": true,
+  "attention_gpu_admitted": false,
+  "attention_gpu_executed": false,
+  "gpu_runs": 0,
+  "model_rebuilds": 0,
+  "control_reruns": 0,
+  "remote_commands": 0,
+  "scope": "Local preservation audit only; no new performance or quality evidence.",
+  "full_curve_parity": false,
+  "independent_quality": false,
+  "goal_met": false
+}

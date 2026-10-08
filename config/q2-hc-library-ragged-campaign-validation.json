@@ -1,0 +1,422 @@
+{
+  "at": "2026-10-03T21:22:59.205652+00:00",
+  "scope": "Two host cohorts, ragged HC component, original-C17 Q2 control/candidate/UD; .157 only",
+  "runs": {
+    "q2-hc-library-ragged-host-r1": {
+      "actual_command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "actual_transport_exit": 0,
+      "finished_at": "2026-10-03T20:47:36.178665+00:00",
+      "validation": {
+        "source_files_verified": 1020,
+        "source_capsule_sha256": "15e8ee164b407e358295143fe8f2b4a25c1b3856a7d29ff3e8dae73d0f8cf815",
+        "archive_sha256": "e5d5856e953e69554e28428084ecb7c63b90a0a5a10cbb214bcf46f7081d38a3",
+        "artifacts_verified": 7,
+        "temperature_max_c": {
+          "amdgpu": 40.0,
+          "k10temp": 67.75
+        },
+        "fixtures_sha256": {
+          "CMakeLists.txt": "e7ba612fe28f056631db71a88a4719d73239e68989ec4f3a6715c0db0370b1ea",
+          "cmake/hip/CMakeLists.txt": "a2c8ac41c2a6023690657c4388600eee56f40ddb271226947d0edfbb426573de",
+          "tools/q2-remote.py": "e1dfa33c465a00c3301d3c1ebe89e316e0a8ffdcfe0dcbe7d0796ddb1add528e",
+          "tools/q2-runner.py": "e5fb89123bfe4e0578af8d1fcd1c7c2ce2376b416bbf695ad07b20acd5569fd9",
+          "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+          "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+          "tests/q2_remote_test.py": "600952fda3124c40d567cadfd014b2837678f0979c6691aadfa6428952bde4fc",
+          "tests/q2_hc_library_ragged.cpp": "54f07efa1c1074292599afe3010a1d56386e372c5edc42df9a4b4eac2fe87533",
+          "tests/q2_hc_sequence.cpp": "9949bf6df8e4119a0c2d1eda99b9cda4af3e69f94a5270fedbc607c694247b8a",
+          "tests/q2_hc_norm_half.cpp": "94aae9e5c7acaa14778b363e272a1d874ec7b222395c4b0a8d1d754a54f648c8",
+          "tests/q2_hc_moe_fused.cpp": "f743aed14d492b9bdc2de25e69f9b126c534964da61443d275e49c6bc14f4483"
+        }
+      }
+    },
+    "q2-hc-library-ragged-component-r1": {
+      "actual_command_exits": [
+        0,
+        0,
+        1
+      ],
+      "actual_transport_exit": 1,
+      "finished_at": "2026-10-03T20:49:12.086568+00:00",
+      "validation": {
+        "source_files_verified": 1020,
+        "source_capsule_sha256": "aba8e5fce9cb3e55a21481bd1ce5f71e8251d46f5b15f47a2b679bdad7281d5f",
+        "archive_sha256": "68abf3a21704f605e705b57d100211e398212966985dad16deea2af6b3a2e339",
+        "artifacts_verified": 44,
+        "temperature_max_c": {
+          "amdgpu": 52.0,
+          "k10temp": 72.5
+        },
+        "fixtures_sha256": {
+          "CMakeLists.txt": "e7ba612fe28f056631db71a88a4719d73239e68989ec4f3a6715c0db0370b1ea",
+          "cmake/hip/CMakeLists.txt": "a2c8ac41c2a6023690657c4388600eee56f40ddb271226947d0edfbb426573de",
+          "tools/q2-remote.py": "e1dfa33c465a00c3301d3c1ebe89e316e0a8ffdcfe0dcbe7d0796ddb1add528e",
+          "tools/q2-runner.py": "e5fb89123bfe4e0578af8d1fcd1c7c2ce2376b416bbf695ad07b20acd5569fd9",
+          "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+          "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+          "tests/q2_remote_test.py": "600952fda3124c40d567cadfd014b2837678f0979c6691aadfa6428952bde4fc",
+          "tests/q2_hc_library_ragged.cpp": "54f07efa1c1074292599afe3010a1d56386e372c5edc42df9a4b4eac2fe87533",
+          "tests/q2_hc_sequence.cpp": "9949bf6df8e4119a0c2d1eda99b9cda4af3e69f94a5270fedbc607c694247b8a",
+          "tests/q2_hc_norm_half.cpp": "94aae9e5c7acaa14778b363e272a1d874ec7b222395c4b0a8d1d754a54f648c8",
+          "tests/q2_hc_moe_fused.cpp": "f743aed14d492b9bdc2de25e69f9b126c534964da61443d275e49c6bc14f4483"
+        }
+      }
+    },
+    "q2-hc-library-ragged-model-host-r1": {
+      "actual_command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "actual_transport_exit": 0,
+      "finished_at": "2026-10-03T20:54:03.849933+00:00",
+      "validation": {
+        "source_files_verified": 1020,
+        "source_capsule_sha256": "554ecde0e84e5b4364832ba37263b9e928cff1c23d60b26e5a3f5f573025cd1c",
+        "archive_sha256": "4b515d4a349c2c2781358660db3a0f13b8702f5cec59ada7157d9b671e707c8c",
+        "artifacts_verified": 7,
+        "temperature_max_c": {
+          "amdgpu": 40.0,
+          "k10temp": 67.0
+        },
+        "fixtures_sha256": {
+          "CMakeLists.txt": "e7ba612fe28f056631db71a88a4719d73239e68989ec4f3a6715c0db0370b1ea",
+          "cmake/hip/CMakeLists.txt": "a2c8ac41c2a6023690657c4388600eee56f40ddb271226947d0edfbb426573de",
+          "cmake/original-baseline/CMakeLists.txt": "1cc19208f6424e72de4b8b9ebed457b37ce79da87f2c1c9669f82fcf194ff9f6",
+          "tests/q2_remote_test.py": "c53a8936b5eb42102485115d074ef7ab7777a0838b8cb3a674eac5f7306b9074",
+          "tools/q2-runner.py": "e5fb89123bfe4e0578af8d1fcd1c7c2ce2376b416bbf695ad07b20acd5569fd9",
+          "tools/q2-remote.py": "22e730b61a8291197aabaf723c19bdf15357ce0bbf9fb579218a9eab72596642",
+          "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+          "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+          "tools/q2_reuse.py": "18120aa859d825261ed9e9c844d93dc5cc431206dbf93bca567d681375c3d214",
+          "config/q2-original-baseline-source.json": "5d20b6cd8cc92e5d8ceff13d308994a4fac6dc1b885fe557b1c71073f1b32b1e",
+          "config/models-157.inventory.json": "05335e60f5682bd1fe58a0399f1e78467c02f97625a4d49a4da7969c7d481b82"
+        }
+      }
+    },
+    "q2-hc-library-ragged-model-control-r1": {
+      "actual_command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "actual_transport_exit": 0,
+      "finished_at": "2026-10-03T20:59:15.811728+00:00",
+      "validation": {
+        "source_files_verified": 1020,
+        "source_capsule_sha256": "98b96b49d925975b8cb96137de9b3846bd4e985491900d5fb8789bc04bffd1cb",
+        "archive_sha256": "b7d7f55696900a0a132cd6af69c3fa7249017b4a1e71f45b9c077ab68e30978e",
+        "artifacts_verified": 7,
+        "temperature_max_c": {
+          "amdgpu": 87.0,
+          "k10temp": 87.125
+        },
+        "fixtures_sha256": {
+          "CMakeLists.txt": "e7ba612fe28f056631db71a88a4719d73239e68989ec4f3a6715c0db0370b1ea",
+          "cmake/hip/CMakeLists.txt": "a2c8ac41c2a6023690657c4388600eee56f40ddb271226947d0edfbb426573de",
+          "cmake/original-baseline/CMakeLists.txt": "1cc19208f6424e72de4b8b9ebed457b37ce79da87f2c1c9669f82fcf194ff9f6",
+          "tests/q2_remote_test.py": "c53a8936b5eb42102485115d074ef7ab7777a0838b8cb3a674eac5f7306b9074",
+          "tools/q2-runner.py": "e5fb89123bfe4e0578af8d1fcd1c7c2ce2376b416bbf695ad07b20acd5569fd9",
+          "tools/q2-remote.py": "22e730b61a8291197aabaf723c19bdf15357ce0bbf9fb579218a9eab72596642",
+          "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+          "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+          "tools/q2_reuse.py": "18120aa859d825261ed9e9c844d93dc5cc431206dbf93bca567d681375c3d214",
+          "config/q2-original-baseline-source.json": "5d20b6cd8cc92e5d8ceff13d308994a4fac6dc1b885fe557b1c71073f1b32b1e",
+          "config/models-157.inventory.json": "05335e60f5682bd1fe58a0399f1e78467c02f97625a4d49a4da7969c7d481b82",
+          "experiments/original-baseline/LICENSE": "7ea461cf01583ff889f2c0705702f4e97bc1751fd96d5381895754638dc1263d",
+          "experiments/original-baseline/tools/executor-bench.c": "27e2df5af26319df5f8d650cb610b1c754e7b82db79b9733f8f2fa5e0996066d",
+          "experiments/original-baseline/include/lie/executor.h": "e7f18980248e38376404f2029c8b22717c91217983c379513995bd7365db9fe9",
+          "experiments/original-baseline/adapters/gufo.cpp": "6385ad9a215b1670eafdb680b596b8897a6f9fd60c8431c63beaea0ab1cd82d1",
+          "experiments/original-baseline/adapters/gufo_binding.c": "e9e9bb8d70faed72030f1f51ba0b4943105386010ceb9b8ef4ab7b76213a4d28",
+          "experiments/original-baseline/adapters/gufo_device.cpp": "1b18751a11cd2758df53f83ca5bb29d1709624ff64fc3da4d9b86acb081b2e89"
+        }
+      }
+    },
+    "q2-hc-library-ragged-model-candidate-r1": {
+      "actual_command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "actual_transport_exit": 0,
+      "finished_at": "2026-10-03T21:05:03.242988+00:00",
+      "validation": {
+        "source_files_verified": 1020,
+        "source_capsule_sha256": "ab75b61cd95590c3b71ad09e077620b5679e02db7deb5fb2ccaa3ee4c5df590d",
+        "archive_sha256": "afb12b69e7eecfe7b21ed55500eade24bd20be50f17000d064560434c860b5a0",
+        "artifacts_verified": 7,
+        "temperature_max_c": {
+          "amdgpu": 88.0,
+          "k10temp": 87.375
+        },
+        "fixtures_sha256": {
+          "CMakeLists.txt": "e7ba612fe28f056631db71a88a4719d73239e68989ec4f3a6715c0db0370b1ea",
+          "cmake/hip/CMakeLists.txt": "a2c8ac41c2a6023690657c4388600eee56f40ddb271226947d0edfbb426573de",
+          "cmake/original-baseline/CMakeLists.txt": "1cc19208f6424e72de4b8b9ebed457b37ce79da87f2c1c9669f82fcf194ff9f6",
+          "tests/q2_remote_test.py": "c53a8936b5eb42102485115d074ef7ab7777a0838b8cb3a674eac5f7306b9074",
+          "tools/q2-runner.py": "e5fb89123bfe4e0578af8d1fcd1c7c2ce2376b416bbf695ad07b20acd5569fd9",
+          "tools/q2-remote.py": "22e730b61a8291197aabaf723c19bdf15357ce0bbf9fb579218a9eab72596642",
+          "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+          "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+          "tools/q2_reuse.py": "18120aa859d825261ed9e9c844d93dc5cc431206dbf93bca567d681375c3d214",
+          "config/q2-original-baseline-source.json": "5d20b6cd8cc92e5d8ceff13d308994a4fac6dc1b885fe557b1c71073f1b32b1e",
+          "config/models-157.inventory.json": "05335e60f5682bd1fe58a0399f1e78467c02f97625a4d49a4da7969c7d481b82",
+          "experiments/original-baseline/LICENSE": "7ea461cf01583ff889f2c0705702f4e97bc1751fd96d5381895754638dc1263d",
+          "experiments/original-baseline/tools/executor-bench.c": "27e2df5af26319df5f8d650cb610b1c754e7b82db79b9733f8f2fa5e0996066d",
+          "experiments/original-baseline/include/lie/executor.h": "e7f18980248e38376404f2029c8b22717c91217983c379513995bd7365db9fe9",
+          "experiments/original-baseline/adapters/gufo.cpp": "6385ad9a215b1670eafdb680b596b8897a6f9fd60c8431c63beaea0ab1cd82d1",
+          "experiments/original-baseline/adapters/gufo_binding.c": "e9e9bb8d70faed72030f1f51ba0b4943105386010ceb9b8ef4ab7b76213a4d28",
+          "experiments/original-baseline/adapters/gufo_device.cpp": "1b18751a11cd2758df53f83ca5bb29d1709624ff64fc3da4d9b86acb081b2e89"
+        }
+      }
+    },
+    "q2-hc-library-ragged-model-ud-r1": {
+      "actual_command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "actual_transport_exit": 0,
+      "finished_at": "2026-10-03T21:09:50.082352+00:00",
+      "validation": {
+        "source_files_verified": 1019,
+        "source_capsule_sha256": "eae2eabc1be72d82a297e00524d131b832e205e0076fe9fe8886de7519c964f6",
+        "archive_sha256": "f9c7e5e417d3dfb13052692a4442a0e64dec6ce9f49dbf8d52c717aa93763b58",
+        "artifacts_verified": 7,
+        "temperature_max_c": {
+          "amdgpu": 93.0,
+          "k10temp": 89.75
+        },
+        "fixtures_sha256": {
+          "CMakeLists.txt": "e7ba612fe28f056631db71a88a4719d73239e68989ec4f3a6715c0db0370b1ea",
+          "cmake/hip/CMakeLists.txt": "a2c8ac41c2a6023690657c4388600eee56f40ddb271226947d0edfbb426573de",
+          "cmake/original-baseline/CMakeLists.txt": "1cc19208f6424e72de4b8b9ebed457b37ce79da87f2c1c9669f82fcf194ff9f6",
+          "tests/q2_remote_test.py": "c53a8936b5eb42102485115d074ef7ab7777a0838b8cb3a674eac5f7306b9074",
+          "tools/q2-runner.py": "e5fb89123bfe4e0578af8d1fcd1c7c2ce2376b416bbf695ad07b20acd5569fd9",
+          "tools/q2-remote.py": "22e730b61a8291197aabaf723c19bdf15357ce0bbf9fb579218a9eab72596642",
+          "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+          "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+          "tools/q2_reuse.py": "18120aa859d825261ed9e9c844d93dc5cc431206dbf93bca567d681375c3d214",
+          "config/q2-original-baseline-source.json": "5d20b6cd8cc92e5d8ceff13d308994a4fac6dc1b885fe557b1c71073f1b32b1e",
+          "config/models-157.inventory.json": "05335e60f5682bd1fe58a0399f1e78467c02f97625a4d49a4da7969c7d481b82",
+          "experiments/original-baseline/LICENSE": "7ea461cf01583ff889f2c0705702f4e97bc1751fd96d5381895754638dc1263d",
+          "experiments/original-baseline/tools/executor-bench.c": "27e2df5af26319df5f8d650cb610b1c754e7b82db79b9733f8f2fa5e0996066d",
+          "experiments/original-baseline/include/lie/executor.h": "e7f18980248e38376404f2029c8b22717c91217983c379513995bd7365db9fe9",
+          "experiments/original-baseline/adapters/gufo.cpp": "6385ad9a215b1670eafdb680b596b8897a6f9fd60c8431c63beaea0ab1cd82d1",
+          "experiments/original-baseline/adapters/gufo_binding.c": "e9e9bb8d70faed72030f1f51ba0b4943105386010ceb9b8ef4ab7b76213a4d28",
+          "experiments/original-baseline/adapters/gufo_device.cpp": "1b18751a11cd2758df53f83ca5bb29d1709624ff64fc3da4d9b86acb081b2e89"
+        }
+      }
+    }
+  },
+  "total_artifacts": 79,
+  "source_file_instances": 6119,
+  "total_commands": 30,
+  "preserved_nonzero_commands": [
+    {
+      "label": "q2-hc-library-ragged-component-r1",
+      "exits": [
+        0,
+        0,
+        1
+      ]
+    }
+  ],
+  "closure": {
+    "at": "2026-10-03T21:11:50.582832+00:00",
+    "state": "Q2_HC_LIBRARY_RAGGED_WINDOW_RELEASED",
+    "labels": [
+      "q2-hc-library-ragged-host-r1",
+      "q2-hc-library-ragged-component-r1",
+      "q2-hc-library-ragged-model-host-r1",
+      "q2-hc-library-ragged-model-control-r1",
+      "q2-hc-library-ragged-model-candidate-r1",
+      "q2-hc-library-ragged-model-ud-r1"
+    ],
+    "command_exits": {
+      "q2-hc-library-ragged-host-r1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "q2-hc-library-ragged-component-r1": [
+        0,
+        0,
+        1
+      ],
+      "q2-hc-library-ragged-model-host-r1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "q2-hc-library-ragged-model-control-r1": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "q2-hc-library-ragged-model-candidate-r1": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "q2-hc-library-ragged-model-ud-r1": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "checked_pids": [
+      3234268,
+      3234269,
+      3234339,
+      3234464,
+      3234690,
+      3234760,
+      3234905,
+      3235366,
+      3235367,
+      3235564,
+      3235706,
+      3237105,
+      3237106,
+      3237176,
+      3237295,
+      3237533,
+      3237606,
+      3237736,
+      3238147,
+      3238149,
+      3238374,
+      3239559,
+      3239592,
+      3239593,
+      3240472,
+      3240473,
+      3240689,
+      3241874,
+      3241879,
+      3241880,
+      3242709,
+      3242711,
+      3242928,
+      3243932,
+      3243937,
+      3243938
+    ],
+    "live_owned": [],
+    "live_owned_groups": [],
+    "kfd": [],
+    "unreadable_or_retired_proc_entries": 0,
+    "leases": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067,
+        "free_verified_ex_nb": true
+      }
+    ],
+    "thermal": [
+      {
+        "path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "device": "amdgpu",
+        "temperature_mc": 41000,
+        "limit_mc": null,
+        "inclusive": false,
+        "limit_source": "no_exposed_gpu_threshold",
+        "over_limit": false
+      },
+      {
+        "path": "/sys/class/hwmon/hwmon3/temp1_input",
+        "device": "k10temp",
+        "temperature_mc": 43125,
+        "limit_mc": 98000,
+        "inclusive": true,
+        "limit_source": "owner_cpu_limit",
+        "over_limit": false
+      }
+    ],
+    "gpu_reserved": false,
+    "restart_scheduled": false,
+    "qualification": "Ragged component retains numerical exit1 and all timings; original-C17 Q2 control/candidate/UD complete. Existing operator/position/KL rejection remains; no numerical promotion or parity claim."
+  },
+  "files_sha256": {
+    "config/q2-hc-library-ragged-results.json": "ea6539f340a4de8bf8a77e8b5e61c6f549c794ad61ca5c0758afbd06cc6c55d0",
+    "config/q2-hc-library-ragged-model-results.json": "3413fb7e5add6d1bbf3abf230922fa321c7bf4277529bf96f8e16eae42ad132f",
+    "config/q2-hc-library-ragged-model-decision.json": "68928900e68a61fccc56b5b6a518a4d3edd0e80a7c1d56eb9f3fe0606841cdd4",
+    "config/q2-hc-library-ragged-window-release.json": "3daee0b46dc5a62e38a770a5fea27f6f9ee38384acfa80cfcbd20016cf164cbb",
+    "config/q2-hc-decode-attribution.json": "a11e9e4d1f02e2e15a731b963c7620e864b53551ce5938eec094743ba49de849",
+    "tools/analyze-q2-hc-library-ragged.py": "12cc2598c28ef6009c221698a5835cea4c65a45994f66effede59c484dca165e",
+    "tools/analyze-q2-hc-library-ragged-model.py": "198a2cb1744ab4fe89f11d047adf66d8f6919a2c070004cdfc3701847c6e5e29",
+    "tools/analyze-q2-hc-decode-attribution.py": "356759b9443f3451ae08159296f9f26ee1ec27ab335c7522261712330be3bcb0",
+    "tools/plot-q2-hc-library-ragged.py": "22af4be2e6aa8a86a101791fa703e16dc1fe37efb854906736386d7e0c0e3955",
+    "tools/q2-remote.py": "22e730b61a8291197aabaf723c19bdf15357ce0bbf9fb579218a9eab72596642",
+    "tests/q2_remote_test.py": "c53a8936b5eb42102485115d074ef7ab7777a0838b8cb3a674eac5f7306b9074",
+    "docs/Q2-HC-LIBRARY-RAGGED.md": "4c04aac0b66f287baed371cd0a63ea13a690e31bf1e2f2e8fd5e4dd5082f9e95",
+    "docs/Q2-HC-LIBRARY-RAGGED-MODEL.md": "c9e8ec219c2ef944b64e20c8822d4c90020503d6d3cbcea5bfa7674e8b3d299f",
+    "docs/Q2-HC-DECODE-ATTRIBUTION.md": "ac2493a40a218db6779ab31e96e890ad59ddeef03d3b7f5f2ab1931764287f40",
+    "docs/figures/q2-hc-library-ragged-component.csv": "9ecdecd0d174841c7cd2bcb165509561a3b1e8261594e5f46844bc59465f8325",
+    "docs/figures/q2-hc-library-ragged-component.svg": "f0dd932ec043365a470d57e05d3a6a9da819030739aea7560840f3fc84d973ef",
+    "docs/figures/q2-hc-library-ragged-component.png": "12052bb53d3d27558af14494c03859dab7d5f370c9f2971df0c0d34dd0f9c096",
+    "docs/figures/q2-hc-library-ragged-model.csv": "f3b36e15bfb02569c03633b57bf4a67591e656d8564282612fea25cfe3759d8a",
+    "docs/figures/q2-hc-library-ragged-model.svg": "7c16b1507a64ee3afddc8990a967f0956c3a9b842c4356b8bf3a79d24b0d0112",
+    "docs/figures/q2-hc-library-ragged-model.png": "c0247554e17b9fae481ccc27f30d765ec93648037501a1606669b4ce46d2840d",
+    "README.md": "2121873233f705d9f770ef0c025822ed60d30052cd4dda351a5961e5a9058e2c",
+    "docs/PROGRESS.md": "5f193bbe54c7d8f12cf11cb5cbf9aeb2fa8427b13f69423e29c9f42862ad1605",
+    "docs/COORDINATION.md": "3821bddfdffabda2be624d768634cde6575623eac145ee07fb69d91bac36b9cc",
+    "docs/Q2-CURVE-PARITY.md": "cca5f31d5d6fab0285df520aaf7cf4e2feea8687c97d3b5ff81da2ce176314a7",
+    "config/q2-curve-parity-plan.json": "e03581b10b0caf6b69709a7889e1c7a2b635cf5aab62d78bb8e607f9ab44bdd3",
+    "config/q2-context-header-audit.json": "76fd2088f6f2d2560ea2a0dd6887af7f69ca452513a696537ad04463e5281e67",
+    "config/q2-hc-library-ragged-clock-observations.json": "5f2f4c2f78e2427aad8a1e532114adcd2cff5ef2d907973e08fe2a4565dcedf1"
+  },
+  "local_failure": "One early control audit returned FileNotFoundError while collection was still running; actual exit1 retained. Subsequent audit of the completed collection passes; no GPU rerun.",
+  "outgoing_thread_delivery": false,
+  "numerical_pass": false,
+  "promoted": false,
+  "goal_met": false
+}

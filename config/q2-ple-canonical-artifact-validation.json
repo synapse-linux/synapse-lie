@@ -1,0 +1,28 @@
+{
+  "schema": "synapse-lie.q2-ple-canonical-artifact-validation.v1",
+  "csv_rows": 32,
+  "csv_fields_verified": true,
+  "matched_history": true,
+  "full_curve_parity_observed": false,
+  "numerical_qualified": false,
+  "promoted": false,
+  "goal_met": false,
+  "artifacts": {
+    "config/q2-ple-canonical-results.json": {
+      "bytes": 56313,
+      "sha256": "7b1d06a453967fc75b896553bbae8e69a697d45d93f1cd0a8ef0343d7dc36ba4"
+    },
+    "docs/figures/q2-ple-canonical/curve.png": {
+      "bytes": 216957,
+      "sha256": "38d45d5b261e4d5bcfceb311aaf1452712e545d5f84c37e91b8152be11feb7ac"
+    },
+    "docs/figures/q2-ple-canonical/curve.svg": {
+      "bytes": 101277,
+      "sha256": "ea58617aac00ad0413b6e327bd1277689ad833c926f83151e987d4a8297530cd"
+    },
+    "docs/figures/q2-ple-canonical/samples.csv": {
+      "bytes": 6575,
+      "sha256": "36d2339b362f331ea68ad1c58f9e205960ad9499950d9bfba71cb44366dcd757"
+    }
+  }
+}

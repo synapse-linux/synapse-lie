@@ -1,0 +1,21 @@
+{
+  "hypothesis": "Replace the measured Q2_K down MMQ hotspot with a compacted WMMA path reading the existing F32 slot buffer. Original encoded weights and 640/768 logical/storage geometry stay unchanged.",
+  "arithmetic_change": "F16 reconstructed weights and activation high plus scaled residual components (4096), accumulated separately in F32 before combination. Replaces Q8 activation MMQ; numerical equivalence is not assumed.",
+  "operator_gate": {
+    "relative_rms_max": 0.002,
+    "error_over_reference_peak_max": 0.002,
+    "routing": "experts 0/17/511; input/output tails; tile16/48/64; logical K640/storage768; nonzero stored padding; small and ordinary activations; output guards"
+  },
+  "model_screen_gate": {
+    "nonfinite_logits": 0,
+    "generated_token_ids": "identical to retained Q2 baseline for both semantics and all 512/2048/8192 C1 samples",
+    "saved_frontier_kl_p_to_candidate_max": 0.002,
+    "distribution": "stable float64 softmax at temperature1 over complete saved vocabulary; original Q2 baseline is p",
+    "relative_l2_and_max_error": "report without hiding drift",
+    "scope_limit": "Not an independent full-model teacher or general quality score"
+  },
+  "performance_gate": "Compare unprofiled PP and TG against original Q2 and existing UD; no integration or long-context expansion while the requested non-regression gate fails.",
+  "rejected_precursors": [
+    "Single F16 activation input: relative RMS 0.00586853; rounded-operand oracle confirms activation rounding dominates. No threshold change."
+  ]
+}

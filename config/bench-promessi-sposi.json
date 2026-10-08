@@ -1,0 +1,13 @@
+{
+  "schema": "synapse-lie.bench-corpus.v1",
+  "title": "I promessi sposi",
+  "author": "Alessandro Manzoni",
+  "path": "data/bench/promessi_sposi.txt",
+  "source": "https://raw.githubusercontent.com/antirez/ds4/0aaea5a238fb41a35106a551e73c8409dfb751ac/speed-bench/promessi_sposi.txt",
+  "upstream_pin": "0aaea5a238fb41a35106a551e73c8409dfb751ac",
+  "sha256": "f53e0d80cb2d4492d24ebd63c7000c397b16ae70f9bf09b3763e5d8323ec209f",
+  "bytes": 1329139,
+  "matches_read_only_ds4_157_corpus": true,
+  "token_policy": "Raw text, no chat template; exact prefix of tokenizer IDs, no padding or word-count estimation",
+  "third_party_text": true
+}

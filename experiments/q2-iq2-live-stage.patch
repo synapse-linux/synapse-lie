@@ -1,0 +1,18 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -4300,8 +4300,14 @@
+                                  : -1;
+     a_src[i] = src >= 0 ? x + (static_cast<std::size_t>(src) * k) + (sub * 8)
+                         : nullptr;
++    // Every K stage consumes only the live 16-row fragments. Keep
++    // zero padding inside the last live fragment; wholly dead fragments
++    // have no LDS reader. Decide this once, outside the stage loop.
++    const bool store_live =
++        chunk < kActChunks &&
++        (!(kIQ2 && kPair && kTokTiles > 1) || t < live_tok_tiles * 16);
+     // s_act[(kb * 4 + quarter) * kActStride + t]
+-    a_slot[i] = chunk < kActChunks ? (sub * kActStride) + t : -1;
++    a_slot[i] = store_live ? (sub * kActStride) + t : -1;
+   }
+ 
+   const auto swizzle = [](int row, int c) {

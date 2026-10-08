@@ -1,0 +1,13 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -4417,7 +4417,8 @@
+     // have no LDS reader. Decide this once, outside the stage loop.
+     const bool store_live =
+         chunk < kActChunks &&
+-        (!(kIQ2 && kPair && kTokTiles > 1) || t < live_tok_tiles * 16);
++        (!((kIQ2 && kPair && kTokTiles > 1) ||
++           (kQ2 && kScaled && BN >= 48)) || t < live_tok_tiles * 16);
+     // s_act[(kb * 4 + quarter) * kActStride + t]
+     a_slot[i] = store_live ? (sub * kActStride) + t : -1;
+   }

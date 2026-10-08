@@ -1,0 +1,30 @@
+{
+  "scope": "CPU fixtures only on .157, Q2_HIP=OFF; no inference or GPU evidence",
+  "path": "evidence/q2-hc-moe-host-r2",
+  "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "debug": {
+    "passed": 10,
+    "total": 10
+  },
+  "asan_ubsan": {
+    "passed": 10,
+    "total": 10
+  },
+  "collection": {
+    "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-moe-host-r2/results.tar.gz",
+    "sha256": "1eec9006dfc7cd456eee62f2b500192c95cbd5a5c0901affedee79adf0bb9008",
+    "verified_artifacts": 7
+  },
+  "finished_at": "2026-10-02T15:01:30.680651+00:00",
+  "source_capsule_sha256": "000fe196ea360fab501c4d34038ceed671707e454fb6958b94eccb8e98f8e44c",
+  "transport_exit": 0,
+  "result_sha256": "f090c98763e5ebb3048ae6a554fbb8dc0da068c23f421988e1b72374319704a6"
+}

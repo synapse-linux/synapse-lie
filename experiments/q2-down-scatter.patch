@@ -1,0 +1,54 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -4592,6 +4592,51 @@
+     return;
+   }
+ 
++  if constexpr (kQ2 && kPacked && BN >= 48) {
++    // Reuse the existing stage allocation for the complete F32 row tile.
++    // A two-float pad distributes the WMMA scatter across all LDS banks;
++    // each wave then writes 64 consecutive output columns with float2 stores.
++    // This only moves already-rounded results: both WMMA sums and their
++    // residual correction above retain the original arithmetic order.
++    constexpr unsigned stride = BM + 2;
++    static_assert(kLdsBytes >= 16 * stride * sizeof(float));
++    float* scratch = reinterpret_cast<float*>(lds);
++#pragma unroll
++    for (int j = 0; j < kTokTiles; ++j) {
++#pragma unroll
++      for (int u = 0; u < kWaveRowTiles; ++u) {
++#pragma unroll
++        for (int l = 0; l < 8; ++l)
++          scratch[sub_lane * stride + wave_id * 16 + u * 128 + 2 * l +
++                  half_id] = acc[u][j][l];
++      }
++      __syncthreads();
++#pragma unroll
++      for (int round = 0; round < 16 * BM / (256 * 2); ++round) {
++        const unsigned flat = (round * 256 + tid) * 2;
++        const unsigned tr = flat / BM, row = flat % BM;
++        const unsigned t = t_local + j * 16 + tr, r = r_block + row;
++        if (t < unsigned(bucket_rows) && r < m) {
++          const int dst = rows_out[bucket_begin + t];
++          if (dst >= 0) {
++            const float2 v =
++                *reinterpret_cast<const float2*>(scratch + tr * stride + row);
++            const std::size_t offset = std::size_t(dst) * m + r;
++            if (m % 2 == 0 && r + 1 < m)
++              *reinterpret_cast<float2*>(out + offset) = v;
++            else {
++              out[offset] = v.x;
++              if (r + 1 < m)
++                out[offset + 1] = v.y;
++            }
++          }
++        }
++      }
++      __syncthreads();
++    }
++    return;
++  }
++
+   // One wave writes a complete 128-byte line of F16 output. Padding the
+   // shared row by two floats also makes the accumulator scatter conflict-free.
+   // Narrow buckets keep the lighter wave-local epilogue below.

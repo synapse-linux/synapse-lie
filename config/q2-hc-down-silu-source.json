@@ -1,0 +1,94 @@
+{
+  "schema": "synapse-lie.q2-hc-down-silu-source.v1",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "provider_manifest": "config/q2-hc-scalar-isolated-source.json",
+  "provider_manifest_sha256": "eb12a4783802ee991f88d896b8698f7f61abc6dac68b2ae7372d0795ee850810",
+  "provider_files_verified": 1030,
+  "files": {
+    "experiments/q2-hc-down-silu.hip": "91a369819c4aec06f81cf30f3277509e98666f4baf03034e314e1cf5cc73fe2b",
+    "tests/q2_hc_down_silu.hip": "5b4ef15df401122788bc5c66d57206192691ce1eb3164d43d5c7e3fbc67a8cc2",
+    "tools/q2-hc-down-silu-window.py": "259f97d3e0341d90475c660dcb51cca785646888fe041d81ac74a20c7a16cb49",
+    "tests/q2_hc_down_silu_window_test.py": "83294be09884f0f3be69fff0c877a736a886d628931fe9c050adef9df7bc7344"
+  },
+  "component_binary": "evidence/q2-hc-down-silu-preparation/q2_hc_down_silu_check",
+  "component_binary_sha256": "b1eac16f83690c49b52bb5e01e115605cb978e3c39b0d0810952ee72585747f1",
+  "original_and_consumer_functions": [
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_115SiluScaleKernelEPffm",
+      "exact_to_saved_native": true,
+      "resources": {
+        "num_vgpr": 4,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_118HcDownF16VecKernelEPK6__halfPKfPf",
+      "exact_to_saved_native": true,
+      "resources": {
+        "num_vgpr": 13,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm19HcScalarUpMixKernelILb1EEEvPK6__halfPKfS8_S8_PfS9_S9_",
+      "exact_to_saved_native": true,
+      "resources": {
+        "num_vgpr": 44,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm19HcScalarUpMixKernelILb0EEEvPK6__halfPKfS8_S8_PfS9_S9_",
+      "exact_to_saved_native": true,
+      "resources": {
+        "num_vgpr": 44,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    }
+  ],
+  "candidate_functions": [
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm16HcDownSiluKernelILb1EEEvPK6__halfPKfPfS9_",
+      "sha256": "9bb98004a710f2f6adaddd16e6f06ac80fe3ca6458c50c34a076c0feb6202b1f",
+      "bytes": 796,
+      "bundle": "1",
+      "resources": {
+        "num_vgpr": 13,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm16HcDownSiluKernelILb0EEEvPK6__halfPKfPfS9_",
+      "sha256": "dd32accb613cbfe4959e0f95b236dd82a3b6b645c04a0a20ce122fc1008cc93e",
+      "bytes": 784,
+      "bundle": "1",
+      "resources": {
+        "num_vgpr": 13,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    }
+  ],
+  "compiler_common_mode": "RelWithDebInfo -O3",
+  "candidate_only_option": "-g0",
+  "arithmetic": "F16 weights; explicit F32 FMAs in saved3,1,2,0 order; original16-wave reduction; F32 scale0.25 before identical SiLU.",
+  "graph_calls": 64,
+  "down_weight_bytes": 104857600,
+  "chain_weight_bytes": 209715200,
+  "repetitions": 5,
+  "warmups": 2,
+  "expected_exact_comparisons": 70,
+  "expected_fp64_checks": 24,
+  "independent_limits": 2e-05,
+  "performance_even_if_numerical_failure": true,
+  "model_access": false,
+  "gpu_run": false,
+  "runtime_qualified": false,
+  "explicit_scale_rounding_boundary": true,
+  "static_correction": "Initial and RN-only inline SiLU folded 0.25 into the exponential multiplier. A register-only boundary restores the saved scaled-input operation sequence. No GPU run of either initial source."
+}

@@ -1,0 +1,72 @@
+{
+  "schema": "synapse-lie.q2-down-half-storage-disposition.v1",
+  "decision": "RETAIN_FASTER_EXPERIMENT_QUALITY_PENDING",
+  "model_result_sha256": "7b5bbaea0890bb9c9bb1c574551692b21aa100f71d4da4fcc811a23363cff65c",
+  "component_result_sha256": "f18921bad054ddc31050b808fa1c698783ed8b14f587e2bc41f7994c3ef72b84",
+  "final_audit_sha256": "c0b27752c7dcc06707fd9be7be41dac233c6ee4332490254ea2faf5bea034455",
+  "rounding_review_sha256": "d84f20b751f86b0d48535e57905d1d5e3a7fedeb13928ea641bade4ba5e143e5",
+  "candidate_pp": 1547.273268,
+  "candidate_tg": 25.17198641,
+  "parent_pp": 1511.097261,
+  "parent_tg": 25.14684805,
+  "changes": {
+    "fixed_q2": {
+      "prefill_tok_s": 7.176168740726219,
+      "decode_steps_s": 0.3029628481175495,
+      "prefill_s": -6.695675736208728,
+      "decode_s": -0.3020477609430694
+    },
+    "fixed_ud": {
+      "prefill_tok_s": -8.2160224300877,
+      "decode_steps_s": 3.41078252577407,
+      "prefill_s": 8.95147783759851,
+      "decode_s": -3.298285217831587
+    },
+    "best_parent": {
+      "prefill_tok_s": 2.394022405682872,
+      "decode_steps_s": 0.09996624606796178,
+      "prefill_s": -2.3380489996012166,
+      "decode_s": -0.09986641030022003
+    }
+  },
+  "absolute_pp_gain": 36.17600700000003,
+  "required_pp_increase_to_ud_percent": 8.951477858790247,
+  "model_parent_tokens_exact": true,
+  "changed_parent_logit_files": [
+    "pp2048-0-last.f32",
+    "pp2048-0-prefill.f32",
+    "pp2048-1-last.f32",
+    "pp2048-1-prefill.f32",
+    "pp2048-2-last.f32",
+    "pp2048-2-prefill.f32",
+    "pp2048-3-last.f32",
+    "pp2048-3-prefill.f32"
+  ],
+  "max_parent_kl": 0.002693241665735883,
+  "within_arm_replays": {
+    "checks": 9,
+    "exact": 9
+  },
+  "thermal_peaks_c": {
+    "q2-down-half-storage-component-r1": {
+      "amdgpu": 48.0,
+      "k10temp": 69.0
+    },
+    "q2-down-half-storage-model-r1": {
+      "amdgpu": 73.0,
+      "k10temp": 82.75
+    }
+  },
+  "preparation_failure": {
+    "path": "evidence/q2-down-half-storage-preparation/staging-command.json",
+    "sha256": "ef167f2c32edd4efaa20ab09d4f1424fbb34d49fa7cd9e43632879ccd37107c7",
+    "exit_code": 2,
+    "scope": "Local inherited1025-file guard refused before SSH; corrected1026 count in v2 plan. No provider bytes changed."
+  },
+  "controls_rerun": false,
+  "full_curve_admitted": false,
+  "quality_accepted": false,
+  "promoted": false,
+  "goal_met": false,
+  "reason": "New fixed-model PP improves nominally2.394%, with retained component savings and nonoverlapping observed PP ranges. F16 storage changes eight logit files; identical generated tokens on this prompt and nine deterministic replays do not establish independent task quality. Preserve1547 candidate and1511 parent; do not silently promote precision or redefine UD parity."
+}

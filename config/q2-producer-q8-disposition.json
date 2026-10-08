@@ -1,0 +1,58 @@
+{
+  "schema": "synapse-lie.q2-producer-q8-disposition.v1",
+  "decision": "RETAIN_EXPERIMENT_AND_KEEP_SAVED1574",
+  "next_composition_variant": "scaled-wave-pack",
+  "source_manifest": "config/q2-producer-q8-source-v2.json",
+  "retained_parent_manifest": "config/q2-scaled-wave-pack-source.json",
+  "model_result_sha256": "2630efe33c778bcaf917382d4542147516f6ec9228e7859e642e75535a015ba8",
+  "component_result_sha256": "0ea69262f1303c8eb39990345b654fd668dc4a7ac3a051ed2488bfee9e8c52e9",
+  "final_audit_sha256": "0738d1824fbae2805cad969f41ae135d26affe33e35981fd292d0ac22a658205",
+  "release_sha256": "b52d7308325786da5373cd32095fddc99048403ed07511364c4a4171c19c0de6",
+  "prefill_tok_s": 1090.135499,
+  "decode_steps_s": 25.17363991,
+  "nominal_pp_gain_percent": -30.763306569526016,
+  "nominal_decode_change_percent": -0.00893751918644714,
+  "component_cycle_time_changes_percent": {
+    "balanced/gate_up": 1.1850782277063265,
+    "balanced/expert_chain": 103.99720180996641,
+    "skew/gate_up": 0.5911562821961702,
+    "skew/expert_chain": 130.77716288408197
+  },
+  "full_q8_format_exact": true,
+  "all64_sampled_fp64_checks_pass": true,
+  "parent_model_checks": {
+    "input_exact": true,
+    "output_tokens_exact": true,
+    "changed_files": [
+      "pp2048-0-last.f32",
+      "pp2048-0-prefill.f32",
+      "pp2048-1-last.f32",
+      "pp2048-1-prefill.f32",
+      "pp2048-2-last.f32",
+      "pp2048-2-prefill.f32",
+      "pp2048-3-last.f32",
+      "pp2048-3-prefill.f32"
+    ],
+    "max_matched_history_kl": 0.009712839842082288
+  },
+  "thermal_max_c": {
+    "q2-producer-q8-host-r1": {
+      "amdgpu": 41.0,
+      "k10temp": 68.125
+    },
+    "q2-producer-q8-component-r1": {
+      "amdgpu": 70.0,
+      "k10temp": 78.875
+    },
+    "q2-producer-q8-model-r1": {
+      "amdgpu": 75.0,
+      "k10temp": 78.625
+    }
+  },
+  "independent_quality": false,
+  "controls_rerun": false,
+  "full_curve_admitted": false,
+  "promoted": false,
+  "goal_met": false,
+  "limits": "One new Q8 arithmetic candidate; saved original Q2/UD/parent cohorts unchanged. Full-chain regression survives model measurement; no general rejection of producer fusion or of integer arithmetic on other geometries. Scalar decode code is unchanged; context/concurrency and independent quality remain open."
+}

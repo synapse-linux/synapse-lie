@@ -1,0 +1,92 @@
+{
+  "arms": [
+    {
+      "label": "q2-stack-operators-r1",
+      "state": "SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "verified_artifacts": 16,
+      "result_sha256": "18ac96f6a0ef4c246d0f538b4f0a3ef50d089e55369d46392e08fb9c10c22dc0",
+      "collection_sha256": "4aa99f3b94800a5992ee52118dc53523d0409b0d607a48fc5c4d55072dae3bdc",
+      "capsule_sha256": "728e8b12e55d43751992492de5235de5cef9df6f84f7582456fab295cc924fa7",
+      "model_access": false
+    },
+    {
+      "label": "q2-iq2-pair-operators-r1",
+      "state": "SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "verified_artifacts": 22,
+      "result_sha256": "c16f0e40f8da7ef84f800ca04ba455cc14b047720ac6612e30421eb1e157cf14",
+      "collection_sha256": "8bf7daec0d61d8bec6e902c01fd5fc0a9384b1f149a510cae036cb7ad1141060",
+      "capsule_sha256": "8e57b78c4a78669b9e175fedcd85959619fc952481ba0905865b712807da628f",
+      "model_access": false
+    },
+    {
+      "label": "q2-stack-model-r1",
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "verified_artifacts": 26,
+      "result_sha256": "c9bcbb4c7a1d453a1f0bfa65b0fb4d7b5f8834dd9db442eee89e51ced0867c8e",
+      "collection_sha256": "2b03e49e7cf579941cfcdcc8ecc2f543fdac53acb4631dcdfc774fed6d893f8e",
+      "capsule_sha256": "126d44dc5275d91f40c64eace5f11d4bb3897074ab60bff8f6566720fbaabc15",
+      "model_access": true
+    },
+    {
+      "label": "q2-iq2-pair-model-r1",
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "verified_artifacts": 26,
+      "result_sha256": "8331eea41fb6e2e07ef86da7dd8bcc694178c5779ab331034c77b85bdbb501f1",
+      "collection_sha256": "f5a6cf03e0838c84bf02b15ba4ec2048b533f8ed697cad7813a3b013bd5a597e",
+      "capsule_sha256": "8f45b6219a3c32eafd3f1393b11b52b7f61205acc55ef3105276c7dbf76d4649",
+      "model_access": true
+    },
+    {
+      "label": "q2-stack-host-r1",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "verified_artifacts": 7,
+      "result_sha256": "514034d9c8d676b57f5d95dfcac396b92eaef4c7be84d55cb7ec6c600b7bd1a7",
+      "collection_sha256": "9202f07215c3ed6f2fb78f630cce161faa91f392e95646992349d2444c8fca27",
+      "capsule_sha256": "733d9eb9383d4e42b4dcee1cfe90855e08727267ed5e3c39471ec405928d20be",
+      "model_access": false
+    }
+  ],
+  "verified_artifacts": 97,
+  "commands": 20,
+  "closure": "evidence/q2-expert-stack-window-release.json",
+  "closure_sha256": "972b22d8f199a69e6b84e94e70914c059c9de9e823cf186d0bd394ec8fc799af",
+  "historical_controls": [
+    "q2-hc-prefill-model-wmma-r1",
+    "q2-hc-model-ud-r1"
+  ]
+}

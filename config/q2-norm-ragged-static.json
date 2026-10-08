@@ -1,0 +1,58 @@
+{
+  "scope": "Local static syntax only; no runtime, GPU or throughput claim",
+  "checks": [
+    {
+      "name": "executor",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-host-only",
+        "-fsyntax-only",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-norm-ragged",
+        "-isystem",
+        "/opt/rocm/include",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-norm-ragged/src/models/qwen38_flash_next/kernels/rocm/mmq",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-norm-ragged/src/models/qwen38_flash_next/kernels/rocm/executor.cpp"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-04T14:30:43.860268+00:00",
+      "finished_at": "2026-10-04T14:30:45.449047+00:00"
+    },
+    {
+      "name": "fixture",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-host-only",
+        "-fsyntax-only",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-norm-ragged",
+        "-isystem",
+        "/opt/rocm/include",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-norm-ragged/src/models/qwen38_flash_next/kernels/rocm/mmq",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests/q2_hc_library_norm.cpp"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-10-04T14:30:45.449335+00:00",
+      "finished_at": "2026-10-04T14:30:46.243452+00:00"
+    }
+  ],
+  "python_syntax": true,
+  "source_manifest_sha256": "06187213e68a20054c305e0d92f67ca3bb9c7c125e666f5cb25cd94ba79e4e4b",
+  "fixture_sha256": "691590bfa9710e91578b75e0e351bef37cd90cca8038c1e12e827e991cd055c8"
+}

@@ -1,0 +1,92 @@
+{
+  "source_manifest_sha256": "1135282512c64dc81064f47e1de11cbb547274c99cd42ffa4cb15d15e74d585e",
+  "output_tokens": 128,
+  "warmups": 1,
+  "repetitions": 3,
+  "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+  "model_stats": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "device": 54,
+      "inode": 3116203,
+      "bytes": 147207127040,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "device": 54,
+      "inode": 3206497,
+      "bytes": 10946624,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "device": 54,
+      "inode": 3228516,
+      "bytes": 49859583136,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "device": 54,
+      "inode": 3211726,
+      "bytes": 49376141504,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "device": 54,
+      "inode": 3207513,
+      "bytes": 12087983520,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "device": 54,
+      "inode": 3206512,
+      "bytes": 2786568256,
+      "mtime_ns": 1790711824619908153,
+      "ctime_ns": 1790711826279892467
+    },
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q4.gguf",
+      "device": 54,
+      "inode": 3116346,
+      "bytes": 177280286720,
+      "mtime_ns": 1789871998360000000,
+      "ctime_ns": 1790258428459084412
+    }
+  ],
+  "gpu_admitted": false,
+  "remote_build": false,
+  "remote_cleanup": false,
+  "cpu_tests": {
+    "exit_code": 0,
+    "ctest_pass": 4,
+    "cli_cases_per_configuration": 38,
+    "full_grid_points_per_configuration": 112,
+    "receipt_sha256": "ddb154b805bf2a1a17311813cad2eef516bd5f44b933e18941de485adbd6a82d"
+  },
+  "schema": "synapse-lie.q2-ud-counting2k-plan.v1",
+  "label": "q2-ud-counting2k-r1",
+  "source_parent_commit": "65afe48c07f7d7f3595b73cb7107aedcd7354bfa",
+  "runner_sha256": "9842a7f8142111291514eb5063d5fec84a9c3af8eb3ed6a0cb68ebe89c404b7f",
+  "order": [
+    "ud-2k"
+  ],
+  "capacity": 133760,
+  "model_index": 1,
+  "previous_release": "q2-counting-full-prefill-r1/release.json",
+  "previous_release_sha256": "d5be8bf0bcff502102dbaf6d89995d236ad46796ac927b3ac3ad0ef74fc7eda9",
+  "staged_sha256": {
+    "synapse-lie-bench": "b701e948e8b0e1e241faf0197ebc40446720e7e96c0388d912231fe225f2ef62",
+    "q2-ud-counting2k-window.py": "9842a7f8142111291514eb5063d5fec84a9c3af8eb3ed6a0cb68ebe89c404b7f",
+    "cpu-tests.json": "ddb154b805bf2a1a17311813cad2eef516bd5f44b933e18941de485adbd6a82d"
+  },
+  "scope": "Owner-requested UD model on same native synapse-lie-bench and physical2048 counting IDs as Q2 short-133760; full prefill from empty sequence, chunk2048, capacity133760, TG128, C1greedyAR, warm1+3measured, no pauses. Same retained executable b701e948; no rebuilding or rerunning the qualified Q2 arm. IOMMUon; no cleanup/build/model mutation/service/tuning."
+}

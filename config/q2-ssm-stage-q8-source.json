@@ -1,0 +1,41 @@
+{
+  "schema": "synapse-lie.q2-ssm-stage-q8-source.v1",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "parent_manifest": "config/q2-decode-down-rows-model-source.json",
+  "parent_manifest_sha256": "e53280b48151f5a3a5d7a163944e90320d8e856fd249239df2a2b8c5253d1ea9",
+  "provider": ".deps/gufo-q2-decode-down-rows-run",
+  "provider_files": 1032,
+  "files": {
+    "experiments/q2-ssm-stage-q8.inc": "a442a33e850b168b1c2ad0a29ea723a88ea94a3747400d57b869a5591a6cad84",
+    "tests/q2_ssm_stage_q8.hip": "42343114f6e36123d5be561024a586368f3579b181b49abcdff592115a23b83f",
+    "tools/prepare-q2-ssm-stage-q8.py": "ed956e97321cf7615994a2cd43e27432ce6144b2085baf0e97aba75a72f8d143",
+    "experiments/q2-ssm-resident-oracle.inc": "29609c9f4e94d84907e3c975902fe5ab60ec8fb87e96b1ac23b983b22b1a58d0"
+  },
+  "geometry": [
+    256,
+    128,
+    2,
+    8,
+    1
+  ],
+  "temporary_bytes_per_projection": 44564480,
+  "original_weight_bytes_unchanged": true,
+  "new_precision_boundary": false,
+  "packing_in_each_complete_timer": true,
+  "persistent_weight_cache": false,
+  "measured_pairs": 6,
+  "warmup_pairs": 2,
+  "weight_rotations": 3,
+  "compiled": true,
+  "gpu_run": false,
+  "model_run": false,
+  "dispatch_changed": false,
+  "object_sha256": "d2cb80695c8c579b172478adc38a95a73e2f85091f69f8ddf610bdcd0afa2ff3",
+  "assembly_sha256": "db3d826b1eec11e0b7c40b0f28bed85f501e23c81f145621b2af8b1f829a37bd",
+  "binary": "evidence/q2-ssm-stage-q8-preparation/q2_ssm_stage_q8_check",
+  "binary_sha256": "2a8933ee89cbc0329927dc66221c39f71f332db44af0a24c7dc3435ecc09621b",
+  "retained_link_inputs_sha256": {
+    "evidence/q2-ssm-wave-balance-preparation/w8a8.o": "410781439b5b6403876087051f55dcad43431bc0c97fddd816fde0bb03d024cc",
+    "evidence/q2-ssm-wave-balance-preparation/sha256.o": "13f11708a0e993be1e57b9a659a28adcfdaf3c58a0b8e3bbfa675104c6d516de"
+  }
+}

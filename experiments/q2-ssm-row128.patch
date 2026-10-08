@@ -1,0 +1,37 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5745,7 +5745,10 @@
+   // nearby rows are permuted so a fragment read (one row per lane, 64-byte
+   // stride) covers all bank groups.
+   constexpr int kLdsChunks = BK * (BM + BN) * 4;
+-  constexpr int kTransposeChunks = 8 * 16 * 36 * sizeof(float) / sizeof(uint4);
++  // SPDX-License-Identifier: MIT
++  // The smaller SSM row stage still needs all eight 32-token epilogue planes.
++  constexpr int kTransposeChunks =
++      8 * (kSsmConv ? 32 : 16) * 36 * sizeof(float) / sizeof(uint4);
+   constexpr int kLdsStorage =
+       kLdsChunks < kTransposeChunks ? kTransposeChunks : kLdsChunks;
+   static_assert(kLdsStorage * 16 >= 8 * 512 * 4, "epilogue transposes 16 KB");
+@@ -6214,8 +6217,8 @@
+         const auto* src = reinterpret_cast<const float4*>(
+             tile_scratch + (tok_l * kOutputStride) + row_l);
+         if constexpr (kSsmConv) {
+-          static_assert(BM == 256 && BN == 128 && BK == 2 && WM == 8 &&
+-                        WN == 1);
++          static_assert(BM == 128 && BN == 128 && BK == 2 && WM == 4 &&
++                        WN == 2);
+           static_assert(!kHcMix && kRowGroup == 1);
+           constexpr std::uint32_t channels = 10240;
+           if (tok < batch) {
+@@ -6469,8 +6472,8 @@
+       kernel != kSsmConvTaps) {
+     return false;
+   }
+-  hipLaunchKernelGGL((DenseF16GEMMKernel<256, 128, 2, 8, 1, 1, false, true>),
+-                     dim3((n_tokens + 127) / 128, m / 256), dim3(kThreads), 0,
++  hipLaunchKernelGGL((DenseF16GEMMKernel<128, 128, 2, 4, 2, 1, false, true>),
++                     dim3((n_tokens + 127) / 128, m / 128), dim3(kThreads), 0,
+                      stream, w, x, qkvz, n_tokens, m, k, nullptr, nullptr,
+                      nullptr, conv_w, convolved);
+   hipLaunchKernelGGL(

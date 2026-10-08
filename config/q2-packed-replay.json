@@ -1,0 +1,318 @@
+{
+  "scope": "Packed activation arithmetic replay; independent operators and optional complete saved model outputs. Does not establish task quality.",
+  "operators": {
+    "path": "evidence/q2-packed-operators-r1",
+    "counts": {
+      "independent_down": 12,
+      "independent_iq2": 18,
+      "exact_iq2_packing": 18,
+      "exact_down": 12,
+      "exact_chains": 2
+    },
+    "max_rrms": 0.000569941123956,
+    "max_scaled_error": 0.000521096293995,
+    "reference_replay": [
+      {
+        "name": "operator-IQ2-pair-n17-m5-tile128-normal.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n17-m5-tile128-tiny.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n17-m5-tile16-normal.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n17-m5-tile16-tiny.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n17-m5-tile48-normal.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n17-m5-tile48-tiny.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n17-m5-tile64-normal.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n17-m5-tile64-tiny.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n17-m640-tile64-normal.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n17-m640-tile64-tiny.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n65-m129-tile128-normal.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n65-m129-tile128-tiny.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n65-m129-tile16-normal.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n65-m129-tile16-tiny.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n65-m129-tile48-normal.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n65-m129-tile48-tiny.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n65-m129-tile64-normal.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-IQ2-pair-n65-m129-tile64-tiny.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=17 rows=5 tile=16 ordinary.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=17 rows=5 tile=16 tiny.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=17 rows=5 tile=48 ordinary.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=17 rows=5 tile=48 tiny.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=17 rows=5 tile=64 ordinary.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=17 rows=5 tile=64 tiny.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=65 rows=129 tile=16 ordinary.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=65 rows=129 tile=16 tiny.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=65 rows=129 tile=48 ordinary.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=65 rows=129 tile=48 tiny.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=65 rows=129 tile=64 ordinary.f32",
+        "exact": true
+      },
+      {
+        "name": "operator-Q2 routed F16 tokens=65 rows=129 tile=64 tiny.f32",
+        "exact": true
+      }
+    ],
+    "command_exits": [
+      0,
+      0,
+      0
+    ],
+    "verified_artifacts": 66
+  },
+  "model_replay": {
+    "candidate_vs_fresh_reference": [
+      {
+        "name": "arithmetic-0-last.f32",
+        "exact": true
+      },
+      {
+        "name": "arithmetic-0-output.u32",
+        "exact": true
+      },
+      {
+        "name": "arithmetic-0-prefill.f32",
+        "exact": true
+      },
+      {
+        "name": "arithmetic-input.i32",
+        "exact": true
+      },
+      {
+        "name": "counting-0-last.f32",
+        "exact": true
+      },
+      {
+        "name": "counting-0-output.u32",
+        "exact": true
+      },
+      {
+        "name": "counting-0-prefill.f32",
+        "exact": true
+      },
+      {
+        "name": "counting-input.i32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-0-last.f32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-0-output.u32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-0-prefill.f32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-1-last.f32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-1-output.u32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-1-prefill.f32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-2-last.f32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-2-output.u32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-2-prefill.f32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-3-last.f32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-3-output.u32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-3-prefill.f32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-input.i32",
+        "exact": true
+      }
+    ],
+    "fresh_reference_vs_retained": [
+      {
+        "name": "arithmetic-0-last.f32",
+        "exact": true
+      },
+      {
+        "name": "arithmetic-0-output.u32",
+        "exact": true
+      },
+      {
+        "name": "arithmetic-0-prefill.f32",
+        "exact": true
+      },
+      {
+        "name": "arithmetic-input.i32",
+        "exact": true
+      },
+      {
+        "name": "counting-0-last.f32",
+        "exact": true
+      },
+      {
+        "name": "counting-0-output.u32",
+        "exact": true
+      },
+      {
+        "name": "counting-0-prefill.f32",
+        "exact": true
+      },
+      {
+        "name": "counting-input.i32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-0-last.f32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-0-output.u32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-0-prefill.f32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-1-last.f32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-1-output.u32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-1-prefill.f32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-2-last.f32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-2-output.u32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-2-prefill.f32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-3-last.f32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-3-output.u32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-3-prefill.f32",
+        "exact": true
+      },
+      {
+        "name": "pp2048-input.i32",
+        "exact": true
+      }
+    ]
+  },
+  "all_recorded_replays_exact": true
+}

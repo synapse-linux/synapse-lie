@@ -1,0 +1,268 @@
+{
+  "scope": "Independent synthetic operator checks and exact replay; no model quality conclusion",
+  "candidate": "evidence/q2-affine-palette-operators-r1/results",
+  "retained_operator_reference": "evidence/q2-code-reuse-operators-r1/results",
+  "independent_down_cases": 12,
+  "independent_iq2_cases": 18,
+  "exact_packing": 18,
+  "exact_down": 12,
+  "exact_chains": 2,
+  "maximum_rrms": 0.000569941123956,
+  "maximum_error_over_peak": 0.000521096293995,
+  "replays": [
+    {
+      "name": "operator-IQ2-pair-n17-m5-tile128-normal.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-IQ2-pair-n17-m5-tile128-tiny.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-IQ2-pair-n17-m5-tile16-normal.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-IQ2-pair-n17-m5-tile16-tiny.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-IQ2-pair-n17-m5-tile48-normal.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-IQ2-pair-n17-m5-tile48-tiny.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-IQ2-pair-n17-m5-tile64-normal.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-IQ2-pair-n17-m5-tile64-tiny.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-IQ2-pair-n17-m640-tile64-normal.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-IQ2-pair-n17-m640-tile64-tiny.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-IQ2-pair-n65-m129-tile128-normal.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-IQ2-pair-n65-m129-tile128-tiny.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-IQ2-pair-n65-m129-tile16-normal.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-IQ2-pair-n65-m129-tile16-tiny.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-IQ2-pair-n65-m129-tile48-normal.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-IQ2-pair-n65-m129-tile48-tiny.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-IQ2-pair-n65-m129-tile64-normal.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-IQ2-pair-n65-m129-tile64-tiny.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-Q2 routed F16 tokens=17 rows=5 tile=16 ordinary.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-Q2 routed F16 tokens=17 rows=5 tile=16 tiny.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-Q2 routed F16 tokens=17 rows=5 tile=48 ordinary.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-Q2 routed F16 tokens=17 rows=5 tile=48 tiny.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-Q2 routed F16 tokens=17 rows=5 tile=64 ordinary.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-Q2 routed F16 tokens=17 rows=5 tile=64 tiny.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-Q2 routed F16 tokens=65 rows=129 tile=16 ordinary.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-Q2 routed F16 tokens=65 rows=129 tile=16 tiny.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-Q2 routed F16 tokens=65 rows=129 tile=48 ordinary.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-Q2 routed F16 tokens=65 rows=129 tile=48 tiny.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-Q2 routed F16 tokens=65 rows=129 tile=64 ordinary.f32",
+      "exact": true
+    },
+    {
+      "name": "operator-Q2 routed F16 tokens=65 rows=129 tile=64 tiny.f32",
+      "exact": true
+    },
+    {
+      "name": "packed-chain-iq2-n17-m640-tile64-normal.f32",
+      "exact": true
+    },
+    {
+      "name": "packed-chain-iq2-n17-m640-tile64-tiny.f32",
+      "exact": true
+    },
+    {
+      "name": "packed-down-n17-m5-tile16-normal.f32",
+      "exact": true
+    },
+    {
+      "name": "packed-down-n17-m5-tile16-tiny.f32",
+      "exact": true
+    },
+    {
+      "name": "packed-down-n17-m5-tile48-normal.f32",
+      "exact": true
+    },
+    {
+      "name": "packed-down-n17-m5-tile48-tiny.f32",
+      "exact": true
+    },
+    {
+      "name": "packed-down-n17-m5-tile64-normal.f32",
+      "exact": true
+    },
+    {
+      "name": "packed-down-n17-m5-tile64-tiny.f32",
+      "exact": true
+    },
+    {
+      "name": "packed-down-n65-m129-tile16-normal.f32",
+      "exact": true
+    },
+    {
+      "name": "packed-down-n65-m129-tile16-tiny.f32",
+      "exact": true
+    },
+    {
+      "name": "packed-down-n65-m129-tile48-normal.f32",
+      "exact": true
+    },
+    {
+      "name": "packed-down-n65-m129-tile48-tiny.f32",
+      "exact": true
+    },
+    {
+      "name": "packed-down-n65-m129-tile64-normal.f32",
+      "exact": true
+    },
+    {
+      "name": "packed-down-n65-m129-tile64-tiny.f32",
+      "exact": true
+    },
+    {
+      "name": "packed-iq2-n17-m5-tile128-normal.u32",
+      "exact": true
+    },
+    {
+      "name": "packed-iq2-n17-m5-tile128-tiny.u32",
+      "exact": true
+    },
+    {
+      "name": "packed-iq2-n17-m5-tile16-normal.u32",
+      "exact": true
+    },
+    {
+      "name": "packed-iq2-n17-m5-tile16-tiny.u32",
+      "exact": true
+    },
+    {
+      "name": "packed-iq2-n17-m5-tile48-normal.u32",
+      "exact": true
+    },
+    {
+      "name": "packed-iq2-n17-m5-tile48-tiny.u32",
+      "exact": true
+    },
+    {
+      "name": "packed-iq2-n17-m5-tile64-normal.u32",
+      "exact": true
+    },
+    {
+      "name": "packed-iq2-n17-m5-tile64-tiny.u32",
+      "exact": true
+    },
+    {
+      "name": "packed-iq2-n17-m640-tile64-normal.u32",
+      "exact": true
+    },
+    {
+      "name": "packed-iq2-n17-m640-tile64-tiny.u32",
+      "exact": true
+    },
+    {
+      "name": "packed-iq2-n65-m129-tile128-normal.u32",
+      "exact": true
+    },
+    {
+      "name": "packed-iq2-n65-m129-tile128-tiny.u32",
+      "exact": true
+    },
+    {
+      "name": "packed-iq2-n65-m129-tile16-normal.u32",
+      "exact": true
+    },
+    {
+      "name": "packed-iq2-n65-m129-tile16-tiny.u32",
+      "exact": true
+    },
+    {
+      "name": "packed-iq2-n65-m129-tile48-normal.u32",
+      "exact": true
+    },
+    {
+      "name": "packed-iq2-n65-m129-tile48-tiny.u32",
+      "exact": true
+    },
+    {
+      "name": "packed-iq2-n65-m129-tile64-normal.u32",
+      "exact": true
+    },
+    {
+      "name": "packed-iq2-n65-m129-tile64-tiny.u32",
+      "exact": true
+    }
+  ],
+  "artifacts_verified": 66,
+  "command_exits": [
+    0,
+    0,
+    0
+  ]
+}

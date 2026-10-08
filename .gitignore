@@ -7,3 +7,7 @@ __pycache__/
 # Local audit data and downloaded research docs are kept, not published by default.
 /evidence/*
 !/evidence/README.md
+
+/docs/figures/.mpl-cache/
+# Frozen private native-core source used by qualification CMake.
+/curve-core

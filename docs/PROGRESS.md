@@ -15,6 +15,25 @@ Root now owns only a separately admitted near-1M recall window on `.161`;
 its result remains unqualified while running. No future window is reserved.
 All six root tasks remain open; Terminal Bench stays last.
 
+## Isolated Q2 source integration — 2026-10-08 UTC
+
+Branch `feature/integrate-antirez-qwen`, created from `develop`, combines the
+root checkpoint `8a857fe5` with the Q2 qualification lineage `3a6d3095`.
+The canonical C17 build and runtime sources remain unchanged. Historical Q2
+targets are isolated behind `LIE_Q2_QUALIFICATION_ONLY=ON`; their Python test
+oracles require the separate, default-off `Q2_LEGACY_PYTHON_TESTS` option.
+Both compositions configure with Python discovery disabled. The standard
+native benchmark fixture passes; its initial sandbox loopback failure remains
+in local evidence. These HOST checks do not qualify Q2 original-weight serving.
+
+The [Q2 handoff](Q2-MAIN-HANDOFF.md) identifies the selected numerical patches
+and the advancing DS4 walk to port into the current provider and native bench.
+Neither port is complete here; no historical binary or qualification is
+substituted for a new current-core build. The owner now authorizes `.157`
+tests. Read-only discovery finds existing native ROCm 7.2.4 and a ROCm 10
+toolchain image, without installing dependencies or starting a build/GPU job.
+The original `.161` near-1M window continues independently.
+
 ## Current r70 YaRN4 near-1M recall admitted — 2026-10-08 UTC
 
 After the 786K cohort is fully collected, closed, released, independently

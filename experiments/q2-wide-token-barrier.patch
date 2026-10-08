@@ -1,0 +1,17 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/mmq/mmq.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/mmq/mmq.hpp
+@@ -1739,6 +1739,14 @@
+ 
+ #pragma unroll
+         for (int j0 = cgroup*ntx*tile_C::J; j0 < mmq_x; j0 += j_stride) {
++#if defined(AMD_WMMA_AVAILABLE) && defined(RDNA3)
++            // Like the routed UD pipeline, keep one token tile's LDS
++            // fragments live at a time. This compiler barrier leaves the
++            // Q2/Q8 bytes and every dot-product accumulation unchanged.
++            if constexpr (mmq_x >= 32) {
++                asm volatile("" ::: "memory");
++            }
++#endif
+             tile_B B;
+             load_ldmatrix(B, y_qs + j0*MMQ_TILE_Y_K + k01, MMQ_TILE_Y_K);
+ 

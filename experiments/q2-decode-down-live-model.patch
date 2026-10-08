@@ -1,0 +1,16 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/q2_decode_down_rows.inc
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_decode_down_rows.inc
+@@ -68,7 +68,12 @@
+   const uint32_t token_idx = gated ? 0 : blockIdx.z * blockDim.y + threadIdx.y;
+   const void* vx = is_up ? up_weights : weights;
+   const int row0 = c_rows_per_block * blockIdx.x;
+-  const int blocks_per_row_x = ncols_x / qk;
++  static_assert(type == GGML_TYPE_Q2_K && !gated && c_rows_per_block == 4);
++  static_assert(qk == 256 && qi == 16 && vdr == 1);
++  // Only physical K768/logical K640 is supported. Lanes8..15 read
++  // columns128..255 within each Q2 block: omit their last (third) block,
++  // whose Q8_1 activation scales and codes are exactly zero.
++  const int blocks_per_row_x = 3 - int((threadIdx.x & 15) >= 8);
+   constexpr int blocks_per_iter = vdr * warp_size / qi;
+ 
+   const uint32_t channel_dst = blockIdx.y;

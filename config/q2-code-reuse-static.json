@@ -1,0 +1,150 @@
+{
+  "scope": "Editing-host device assembly and source checks only; no runtime or model access",
+  "argv": [
+    "/opt/rocm/llvm/bin/clang++",
+    "-x",
+    "hip",
+    "--offload-arch=gfx1151",
+    "--offload-device-only",
+    "-S",
+    "-std=c++20",
+    "-O3",
+    "-ffast-math",
+    "-fno-finite-math-only",
+    "-DQFN_ROCM_BUILD=1",
+    "-DENGINE_ENABLE_HIP=1",
+    "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-code-reuse",
+    "-isystem",
+    "/opt/rocm/include",
+    "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-code-reuse/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+    "-o",
+    "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-code-reuse-static-r1.s"
+  ],
+  "started_at": "2026-10-02T21:00:58.305376+00:00",
+  "exit_code": 0,
+  "finished_at": "2026-10-02T21:01:07.878811+00:00",
+  "resources": {
+    "reference": [
+      {
+        "group_segment_fixed_size": 16640,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 112,
+        "next_free_sgpr": 24,
+        "tile": 16,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi16ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "wmma_instructions": 8,
+        "fma_mix_half_instructions": 64,
+        "cross_lane_instructions": {
+          "v_permlane16_b32": 0,
+          "v_permlanex16_b32": 0,
+          "ds_bpermute_b32": 0,
+          "ds_swizzle_b32": 0
+        }
+      },
+      {
+        "group_segment_fixed_size": 24832,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 144,
+        "next_free_sgpr": 30,
+        "tile": 48,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi48ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "wmma_instructions": 24,
+        "fma_mix_half_instructions": 64,
+        "cross_lane_instructions": {
+          "v_permlane16_b32": 0,
+          "v_permlanex16_b32": 0,
+          "ds_bpermute_b32": 0,
+          "ds_swizzle_b32": 0
+        }
+      },
+      {
+        "group_segment_fixed_size": 28928,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 169,
+        "next_free_sgpr": 31,
+        "tile": 64,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi64ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "wmma_instructions": 32,
+        "fma_mix_half_instructions": 64,
+        "cross_lane_instructions": {
+          "v_permlane16_b32": 0,
+          "v_permlanex16_b32": 0,
+          "ds_bpermute_b32": 0,
+          "ds_swizzle_b32": 0
+        }
+      }
+    ],
+    "candidate": [
+      {
+        "group_segment_fixed_size": 16640,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 120,
+        "next_free_sgpr": 24,
+        "tile": 16,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi16ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "wmma_instructions": 8,
+        "fma_mix_half_instructions": 64
+      },
+      {
+        "group_segment_fixed_size": 24832,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 152,
+        "next_free_sgpr": 30,
+        "tile": 48,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi48ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "wmma_instructions": 24,
+        "fma_mix_half_instructions": 64
+      },
+      {
+        "group_segment_fixed_size": 28928,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 169,
+        "next_free_sgpr": 31,
+        "tile": 64,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi64ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "wmma_instructions": 32,
+        "fma_mix_half_instructions": 64
+      }
+    ]
+  },
+  "assembly_sha256": "d666abcbe68262a3327c8a5fa90f7bcbfdcf11241cde639637b505bea91b968d",
+  "checks": [
+    {
+      "name": "reconstruct",
+      "argv": [
+        "patch",
+        "--batch",
+        "-p1",
+        "-i",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/q2-code-reuse.patch"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-code-reuse-reconstructed",
+      "exit_code": 0,
+      "log": "evidence/q2-code-reuse-static-r1/reconstruct.log"
+    },
+    {
+      "name": "changed-format",
+      "argv": [
+        "clang-format",
+        "--dry-run",
+        "--Werror",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-code-reuse/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit",
+      "exit_code": 0,
+      "log": "evidence/q2-code-reuse-static-r1/changed-format.log"
+    },
+    {
+      "name": "shared-format",
+      "argv": [
+        "python3",
+        "tools/ci/check-format.py"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-code-reuse",
+      "exit_code": 1,
+      "log": "evidence/q2-code-reuse-static-r1/shared-format.log"
+    }
+  ],
+  "reconstructed_files": 1019,
+  "reconstruction_exact": true
+}

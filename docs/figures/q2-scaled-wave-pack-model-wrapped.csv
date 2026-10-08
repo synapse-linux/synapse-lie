@@ -1,0 +1,17 @@
+candidate,historical,source,rep,warmup,prompt_tokens,output_tokens,decode_steps,prefill_s,decode_s,prefill_tok_s,decode_steps_s
+fixed_q2,True,q2-counting-regression-mixed-r1,0,True,2048,128,127,1.423943804,5.062085753,1438.259006,25.08847266
+fixed_q2,True,q2-counting-regression-mixed-r1,1,False,2048,128,127,1.41887387,5.058620886,1443.398207,25.10565683
+fixed_q2,True,q2-counting-regression-mixed-r1,2,False,2048,128,127,1.418603928,5.062386263,1443.672867,25.08698337
+fixed_q2,True,q2-counting-regression-mixed-r1,3,False,2048,128,127,1.418437954,5.060576497,1443.841794,25.09595499
+best_parent,True,q2-shared-q8-pair-model-r1,0,True,2048,128,127,1.302888892,5.053410088,1571.891519,25.1315444
+best_parent,True,q2-shared-q8-pair-model-r1,1,False,2048,128,127,1.299892328,5.057013018,1575.515107,25.11363913
+best_parent,True,q2-shared-q8-pair-model-r1,2,False,2048,128,127,1.303571798,5.056180622,1571.068048,25.11777357
+best_parent,True,q2-shared-q8-pair-model-r1,3,False,2048,128,127,1.301456792,5.063508496,1573.621201,25.08142331
+scaled_wave_pack,False,q2-scaled-wave-pack-model-r1,0,True,2048,128,127,1.299454876,5.046100466,1576.045492,25.16794916
+scaled_wave_pack,False,q2-scaled-wave-pack-model-r1,1,False,2048,128,127,1.301179549,5.043858837,1573.956493,25.17913449
+scaled_wave_pack,False,q2-scaled-wave-pack-model-r1,2,False,2048,128,127,1.299163507,5.04457217,1576.398959,25.17557401
+scaled_wave_pack,False,q2-scaled-wave-pack-model-r1,3,False,2048,128,127,1.300725903,5.044508852,1574.505432,25.17589001
+fixed_ud,True,q2-counting-regression-ud-r1,0,True,2048,128,127,1.212520558,5.217234208,1689.043527,24.34239962
+fixed_ud,True,q2-counting-regression-ud-r1,1,False,2048,128,127,1.214447147,5.216416355,1686.364042,24.34621613
+fixed_ud,True,q2-counting-regression-ud-r1,2,False,2048,128,127,1.214869991,5.217375049,1685.777092,24.34174251
+fixed_ud,True,q2-counting-regression-ud-r1,3,False,2048,128,127,1.215141798,5.258576845,1685.400011,24.15102104

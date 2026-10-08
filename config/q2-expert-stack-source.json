@@ -1,0 +1,28 @@
+{
+  "inventories": [
+    {
+      "source": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-stack",
+      "files": 1019,
+      "manifest_sha256": "4ad5ca397042bae2f4409d4ec6f8f6813a2d1c2aa88b042232daa834e08c10d6"
+    },
+    {
+      "source": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-iq2-pair",
+      "files": 1019,
+      "manifest_sha256": "7212a5a027cac05b6c18b9b541462ecc59858ba4c14de9159b4b509c5018296f"
+    }
+  ],
+  "reconstruction": {
+    "command_exit": 0,
+    "files_verified_each": 1019,
+    "exact_stack": true,
+    "exact_iq2_pair": true,
+    "log": "evidence/q2-expert-reconstruct.log"
+  },
+  "patches": {
+    "patches/gufo-q2.patch": "3029cd490bc75d045e9dcf696ac6c1b23092684ad25641c93d500cb9f2727473",
+    "experiments/q2-hc-four-wave.patch": "a6dc88909cdfcc8d4e81bc9ab48ffd092fa19706b89ad088dd268d6ded5906d6",
+    "experiments/q2-hc-prefill-wmma.patch": "c4787ca6c0a9bc4ae19d015ac323f9bbe7b700a24ee241f123a7d357956fd491",
+    "experiments/q2-compensated-down-source.patch": "f24fef34c9ff709eda5165e5d0deb12f22412be93a403e4d9949d6eedcd61c41",
+    "experiments/q2-iq2-pair.patch": "f16e96bcff348669b0a5965069d6da07af4bbec91fba04d54316147fbdf4fcb3"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schema": "synapse-lie.q2-decode-down-live-window-plan.v1",
+  "label": "q2-decode-down-live-component-r1",
+  "source_commit": "5962e2c2d69f97712308d18374e94bce27440d3e",
+  "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+  "component_only": true,
+  "model_access": false,
+  "remote_build": false,
+  "remote_cleanup": false,
+  "timeout_seconds": 300,
+  "previous_release": "q2-select-key-tile-steady-component-r1/release.json",
+  "previous_release_sha256": "da169b69563c872822ba792ea6126f3e7662229d567f90724dd02af8b9a2af4a",
+  "staged_sha256": {
+    "candidate.inc": "d7b88204cb41997ce16619c6049cba2959a52e90bc9f0daaf3f665543e19811d",
+    "control.inc": "5721e2818fae494367a080f35ec4c238191eaae9d6c18013d6720357ddb7cb1f",
+    "fixture.hip": "d342c7342f77eb311cf756267a9180a138799a1d41a899d0563700737528e3b0",
+    "q2-decode-down-live-window.py": "a39261fb808dcee8a4d88f98269734bce49b712d8a541a03cc0351a61c4d6d71",
+    "q2-decode-down-rows-native128-performance-window.py": "6f280e0896a77a1b008234dc32daf86b2392691dc3329afcd4bdc1fafe391551",
+    "q2_decode_down_live_check": "1a1fc05b6cd48fa4d25acc670021cfc6e6ace5f33137930ab3eebdf2f415c8b0",
+    "q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "record-command.py": "7bf0a757f529ff124558a88c4ed30fda7f16040c12c8bdfd7bfddd38891c5b05",
+    "source-manifest.json": "4ad1aefefa9f5e9b0b40d9d10c77f53225e57213d498e444a972af93f2ef35e8",
+    "static-manifest.json": "719a3ba67af6929dbc658d6c9509432a864243cc6382160a9f73278c569d4a5e"
+  },
+  "cpu_check_sha256": {
+    "cpu-test-command.json": "50a3324e81dd294c48ab61b6ed0f42cb715efc22bb4577db5166c8a71d1323b4",
+    "cpu-test.stdout": "06e8496e7787def7dd81af3a2f4f3e835cf8df70a1aedacf0183d3e9eff0054e",
+    "cpu-test.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "scope": "Synthetic original Q2_K quantizer plus4-row decode down, omitting only known-zero activation products at columns640..767. Six measured equally ordered graph pairs,64 changing-ID calls each,83MB weights; every output checked, finite mismatches retain timings and all per-repetition artifacts. No model/prefill/input/quantization/dispatch changes or remote build/cleanup."
+}

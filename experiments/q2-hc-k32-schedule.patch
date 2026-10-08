@@ -1,0 +1,14 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5574,6 +5574,11 @@
+             acc[i][j] = Wmma(a_hi[i], b_hi, acc[i][j]);
+         }
+       }
++      // Bound compiler motion between K32 blocks, retaining the original
++      // interleaved low/high WMMA updates and all memory operations.
++      if constexpr (kHalfWeights && !kHcMix && BM == 64 && BN == 128 &&
++                    BK == 2 && WM == 2 && WN == 4 && kRowGroup == 5)
++        __builtin_amdgcn_sched_barrier(0);
+     }
+     __syncthreads();
+   }

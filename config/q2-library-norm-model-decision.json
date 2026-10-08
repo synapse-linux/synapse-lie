@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-03T16:33:45.269553+00:00",
+  "decision": "Fresh full-model scaled-library control, paired-norm candidate and pristine UD comparison admitted",
+  "component_report": "q2-library-norm-results.json",
+  "basis": {
+    "ordinary_cycle_time_change_percent": -2.5297438999798305,
+    "moe_cycle_time_change_percent": -6.120211813804,
+    "full_buffer_hash_pairs_exact": 80,
+    "saved_pairs_exact": 18
+  },
+  "protocol": "C1 pp2048/tg128; one warmup, three samples; same fan82/CPU98; full MMQ build and original four leases per GPU arm",
+  "numerical": "Original control and candidate bytes exact in component; independent failures and exit1 retained. Owner authorized arithmetic performance exploration. No promotion or task-quality inference.",
+  "labels": [
+    "q2-library-norm-host-r2",
+    "q2-library-norm-model-reference-r1",
+    "q2-library-norm-model-candidate-r1",
+    "q2-library-norm-model-ud-r1"
+  ],
+  "goal_met": false
+}

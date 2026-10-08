@@ -1,0 +1,6 @@
+{
+  "independent_cases": 12,
+  "relative_rms_max": 0.000363415946063,
+  "error_over_peak_max": 0.000406923991302,
+  "prior_replay": "Prior compensated-down operator run printed metrics but did not save these F32 outputs; no byte-exact historical replay assertion is made."
+}

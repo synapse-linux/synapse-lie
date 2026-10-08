@@ -1,0 +1,62 @@
+{
+  "schema": "synapse-lie.q2-shared-down-component-final.v1",
+  "plan_sha256": "bbaf5825c0d47c263521b3fbe4280ecc994ae63d187cbe10eacad100371de600",
+  "result_sha256": "23d751ac0984741fe526b4c01cb1a4da58cd6b2febbf97832c768b69bc4f7a77",
+  "release_sha256": "c4efdddb7bad7a90977ef0d4fe09a70dc18f8916a81562156126a3a945179122",
+  "runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 11,
+  "host_reused": false,
+  "frozen_fixtures_verified": 92,
+  "frozen_manifests_verified": 8,
+  "provider_files_verified": 1028,
+  "retired_identities": 1160,
+  "retired_groups": 925,
+  "thermal_max_c": {
+    "q2-shared-down-host-r1": {
+      "amdgpu": 38.0,
+      "k10temp": 65.125
+    },
+    "q2-shared-down-component-r1": {
+      "amdgpu": 39.0,
+      "k10temp": 63.125
+    }
+  },
+  "figures": {
+    "docs/figures/q2-shared-down-component.csv": "82b256146e2d851a340a5ac889534c33c9ff88398f958f285a5eb7f3e3bfd0ca",
+    "docs/figures/q2-shared-down-component.svg": "22268eb9c80c9a466f6d15f4e797ba4b243dc354cc9f26d492b4da548f8a2cf1",
+    "docs/figures/q2-shared-down-component.png": "1e1ca43a4aa9364bdcae55147c59c112793d17b99aee23eaa62c20d9ceb539b2"
+  },
+  "preserved_nonzero_exits": {
+    "runtime-checks-command.json": 1
+  },
+  "failure_classification": {
+    "runtime-checks-command.json": "Initial local test label lacked q2- prefix; corrected test passes6. No GPU numerical failure."
+  },
+  "numerical_pass": true,
+  "time_change_percent": {
+    "generic-f16": 34.25813338606778,
+    "fixed-q8": 13.453439561755442,
+    "fixed-f16": 11.3090108181926
+  },
+  "decision": "RETAIN_COMPONENT_EVIDENCE_KEEP_SAVED1585",
+  "retained_model": {
+    "prefill_tok_s": 1585.308983,
+    "decode_steps_s": 25.16079073
+  },
+  "controls_rerun": false,
+  "model_inference": false,
+  "independent_model_quality": false,
+  "full_curve": false,
+  "promoted": false,
+  "goal_met": false
+}

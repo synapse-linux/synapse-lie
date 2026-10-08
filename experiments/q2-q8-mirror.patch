@@ -1,0 +1,580 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/device_model.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/device_model.cpp
+@@ -4,9 +4,12 @@
+ 
+ #include <algorithm>
+ #include <initializer_list>
+-
++#include <limits>
++
++// SPDX-License-Identifier: MIT
+ #include "src/core/hip/weight_upload.hpp"
+ #include "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp"
++#include "src/models/qwen38_flash_next/kernels/rocm/lie_q8_mirror_policy.h"
+ #include "src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_mmq.h"
+ 
+ namespace gufo::models::qwen38_flash_next::rocm {
+@@ -371,6 +374,53 @@
+     m->bytes_ -= c.count * (c.widen ? sizeof(std::uint16_t) : sizeof(float)) +
+                  kTailMargin;
+   }
++  // SPDX-License-Identifier: MIT
++  // Upload is complete before any conversion. Keep original Q8 allocations
++  // for decode; all mirrors join the same model allocation/byte ownership.
++  const auto mirror = [&](DeviceTensor& tensor) {
++    lie_q8_mirror_plan plan;
++    const int admitted = lie_q8_mirror_admit(
++        tensor.rows, tensor.cols, tensor.experts,
++        tensor.type == core::GgmlType::kQ8_0, m->q8_mirror_bytes_, &plan);
++    if (admitted == 0)
++      return true;
++    if (admitted < 0 || tensor.empty() ||
++        plan.allocation_bytes >
++            std::numeric_limits<std::size_t>::max() - m->bytes_) {
++      up.Fail("Q8 prefill mirror resource admission failed");
++      return false;
++    }
++    void* half = nullptr;
++    if (hipMalloc(&half, plan.allocation_bytes) != hipSuccess) {
++      up.Fail("Q8 prefill mirror allocation failed");
++      return false;
++    }
++    m->allocations_.push_back(half);
++    m->bytes_ += plan.allocation_bytes;
++    m->q8_mirror_bytes_ = plan.next_mirror_bytes;
++    if (hipMemsetAsync(static_cast<std::uint8_t*>(half) + plan.payload_bytes, 0,
++                       LIE_Q8_MIRROR_TAIL_BYTES, nullptr) != hipSuccess ||
++        !ConvertQ8Mirror(tensor.data, half, plan.elements, nullptr)) {
++      up.Fail("Q8 prefill mirror conversion launch failed");
++      return false;
++    }
++    tensor.prefill_half = half;
++    return true;
++  };
++  for (auto& layer : m->layers_) {
++    if (!mirror(layer.ssm_in) || !mirror(layer.ssm_out) ||
++        !mirror(layer.attn_qkv) || !mirror(layer.attn_out)) {
++      (void)hipDeviceSynchronize();
++      return nullptr;
++    }
++  }
++  const auto mirror_status = hipDeviceSynchronize();
++  if (mirror_status != hipSuccess) {
++    up.Fail("Q8 prefill mirror conversion failed: " +
++            std::string(hipGetErrorString(mirror_status)));
++    return nullptr;
++  }
++  // Only this fully synchronized return publishes any mirror to an executor.
+   return m;
+ }
+ 
+--- a/src/models/qwen38_flash_next/kernels/rocm/device_model.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/device_model.hpp
+@@ -15,6 +15,9 @@
+ /// One weight resident in device memory, still in its GGUF encoding.
+ struct DeviceTensor {
+   void* data{nullptr};
++  // SPDX-License-Identifier: MIT
++  // Read-only auxiliary mirror, published only with the completed model.
++  void* prefill_half{nullptr};
+   core::GgmlType type{core::GgmlType::kF32};
+   std::uint32_t cols{0};
+   std::uint32_t rows{0};
+@@ -103,6 +106,7 @@
+   bool has_mtp_{false};
+   std::vector<void*> allocations_;
+   std::size_t bytes_{0};
++  std::size_t q8_mirror_bytes_{0};
+   std::size_t max_half_cols_{1};
+   std::size_t max_q8_cols_{32};
+ };
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -1,5 +1,4 @@
+ #include "src/models/qwen38_flash_next/kernels/rocm/executor.hpp"
+-#include "iq2_mixed_tiles.h"
+ 
+ #include <algorithm>
+ #include <array>
+@@ -14,6 +13,7 @@
+ #include <type_traits>
+ #include <vector>
+ 
++#include "iq2_mixed_tiles.h"
+ #include "qfn_mmq.h"
+ #include "src/core/hip/snapshot_transfer.hpp"
+ #include "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp"
+@@ -823,9 +823,17 @@
+       const float* src = x + static_cast<std::size_t>(r0) * w.cols;
+       if (f16) {
+         PrepareHalfInput(src, rows, w.cols);
+-        if (!DenseF16Gemm(w.data, static_cast<const __half*>(s_.x_half),
+-                          out + static_cast<std::size_t>(r0) * w.rows, rows,
+-                          w.rows, w.cols, stream_)) {
++        // SPDX-License-Identifier: MIT
++        const bool mirror = w.prefill_half != nullptr && rows >= 1024;
++        const bool launched =
++            mirror ? DenseQ8MirrorGemm(
++                         w.prefill_half, static_cast<const __half*>(s_.x_half),
++                         out + static_cast<std::size_t>(r0) * w.rows, rows,
++                         w.rows, w.cols, stream_)
++                   : DenseF16Gemm(w.data, static_cast<const __half*>(s_.x_half),
++                                  out + static_cast<std::size_t>(r0) * w.rows,
++                                  rows, w.rows, w.cols, stream_);
++        if (!launched) {
+           AssignError(error_msg, "dense F16 GEMM failed");
+           return false;
+         }
+@@ -896,8 +904,8 @@
+       RoutedTileCols(n_tokens, config().num_experts_used, w.experts));
+ }
+ 
+-bool Executor::RouteHints(std::uint32_t n_tokens,
+-                          std::string* error_msg, bool mixed_iq2) const {
++bool Executor::RouteHints(std::uint32_t n_tokens, std::string* error_msg,
++                          bool mixed_iq2) const {
+   // Every column tile past an expert's bucket still costs a dispatch and a
+   // full shared-memory reservation, so the grid is cut to the real largest
+   // bucket. Counts are downloaded before the shared expert; wait only for
+@@ -944,8 +952,8 @@
+     const auto capacity = RoutedTileCapacity(
+         static_cast<std::size_t>(n_tokens) * c.num_experts_used, c);
+     if (!lie_iq2_mixed_tiles(counts_host_, c.num_experts, n_tokens,
+-                              c.num_experts_used, tiles_host_ + n_tiles,
+-                              capacity, &spans)) {
++                             c.num_experts_used, tiles_host_ + n_tiles,
++                             capacity, &spans)) {
+       AssignError(error_msg, "invalid IQ2 mixed expert map");
+       return false;
+     }
+@@ -1136,10 +1144,13 @@
+         // live beyond it; the fused up/inject consumers never overwrite them.
+         float* scales = s_.hc_gate + std::size_t(n_tokens) * c.hc_low_rank;
+         if (HcCombineMoeDeferredNorm(res, s_.down_e, s_.weights, s_.shexp_out,
+-              s_.router + c.num_experts, c.num_experts + 1, c.num_experts_used,
+-              s_.inject, inject_parts_, gamma, scales, n_tokens, c.hidden_size,
+-              c.hc_count, c.rms_eps, stream_, norm_half)) {
+-          lie_q2_deferred_norm_publish(&deferred_norm_, res, gamma, scales, n_tokens);
++                                     s_.router + c.num_experts,
++                                     c.num_experts + 1, c.num_experts_used,
++                                     s_.inject, inject_parts_, gamma, scales,
++                                     n_tokens, c.hidden_size, c.hc_count,
++                                     c.rms_eps, stream_, norm_half)) {
++          lie_q2_deferred_norm_publish(&deferred_norm_, res, gamma, scales,
++                                       n_tokens);
+           publish_half();
+           return;
+         }
+@@ -1234,7 +1245,7 @@
+        m.inject.type == GgmlType::kF32);
+   const auto deferred = deferred_norm_;
+   const bool consume_deferred = deferred.rows != 0 && normed && !xn_half_ &&
+-      fused_raw_projection && !produce_q8;
++                                fused_raw_projection && !produce_q8;
+   if (deferred.rows != 0) {
+     if (!lie_q2_deferred_norm_matches(&deferred, res, m.norm.f32(), n_tokens)) {
+       lie_q2_deferred_norm_clear(&deferred_norm_);
+@@ -1242,7 +1253,8 @@
+       return false;
+     }
+     if (!consume_deferred &&
+-        !ReconstructHcNorm(res, deferred.scales, deferred.gamma, s_.xn, n_tokens, stream_)) {
++        !ReconstructHcNorm(res, deferred.scales, deferred.gamma, s_.xn,
++                           n_tokens, stream_)) {
+       lie_q2_deferred_norm_clear(&deferred_norm_);
+       AssignError(error_msg, "deferred HC norm reconstruction failed");
+       return false;
+@@ -1318,8 +1330,9 @@
+       q8t_cols_ = c.hidden_size;
+     }
+   } else if (consume_deferred) {
+-    if (!HcMixDeferredNorm(m.up.data, reinterpret_cast<const __half*>(s_.hc_gate),
+-            res, fused_inject ? m.inject.f32() : nullptr, mixed,
++    if (!HcMixDeferredNorm(
++            m.up.data, reinterpret_cast<const __half*>(s_.hc_gate), res,
++            fused_inject ? m.inject.f32() : nullptr, mixed,
+             static_cast<__half*>(s_.x_half), inject, n_tokens, c.hidden_size,
+             c.hc_low_rank, stream_, deferred.scales, deferred.gamma)) {
+       AssignError(error_msg, "deferred raw F16 HC projection failed");
+@@ -1332,8 +1345,9 @@
+   } else if (fused_raw_projection && produce_q8) {
+     // The FFN shared gate/up reads these exact mixed rows next. Reuse the
+     // existing Q8 epilogue; publish its identity only after both launches pass.
+-    if (!HcMixRawQ8F16Gemm(m.up.data, reinterpret_cast<const __half*>(s_.hc_gate),
+-                           xn, fused_inject ? m.inject.f32() : nullptr, mixed,
++    if (!HcMixRawQ8F16Gemm(m.up.data,
++                           reinterpret_cast<const __half*>(s_.hc_gate), xn,
++                           fused_inject ? m.inject.f32() : nullptr, mixed,
+                            static_cast<__half*>(s_.x_half), s_.x_q8t, inject,
+                            n_tokens, c.hidden_size, c.hc_low_rank, stream_)) {
+       AssignError(error_msg, "fused raw HC Q8 producer failed");
+@@ -1478,10 +1492,13 @@
+     if (!projections_ready && !speculative && n_tokens >= 1024 &&
+         n_tokens <= options_.max_batch && DenseF16Route(l.ssm_in, n_tokens)) {
+       PrepareHalfInput(x, n_tokens, l.ssm_in.cols);
+-      convolved = DenseF16SsmGemm(
+-          l.ssm_in.data, static_cast<const __half*>(s_.x_half),
+-          l.ssm_conv1d.f32(), s.conv_state, s_.qkvz, s_.conv_scratch, n_tokens,
+-          l.ssm_in.rows, l.ssm_in.cols, channels, c.ssm_conv_kernel, stream_);
++      // SPDX-License-Identifier: MIT
++      const bool mirror = l.ssm_in.prefill_half != nullptr;
++      convolved = (mirror ? DenseQ8MirrorSsmGemm : DenseF16SsmGemm)(
++          mirror ? l.ssm_in.prefill_half : l.ssm_in.data,
++          static_cast<const __half*>(s_.x_half), l.ssm_conv1d.f32(),
++          s.conv_state, s_.qkvz, s_.conv_scratch, n_tokens, l.ssm_in.rows,
++          l.ssm_in.cols, channels, c.ssm_conv_kernel, stream_);
+     }
+     if (!projections_ready && !convolved &&
+         !Dense(l.ssm_in, x, s_.qkvz, n_tokens, error_msg)) {
+@@ -1525,8 +1542,11 @@
+     return true;
+   }
+   if (half_output) {
+-    if (!DenseF16Gemm(l.ssm_out.data, out_half, out, n_tokens, l.ssm_out.rows,
+-                      l.ssm_out.cols, stream_)) {
++    // SPDX-License-Identifier: MIT
++    const bool mirror = l.ssm_out.prefill_half != nullptr && n_tokens >= 1024;
++    if (!(mirror ? DenseQ8MirrorGemm : DenseF16Gemm)(
++            mirror ? l.ssm_out.prefill_half : l.ssm_out.data, out_half, out,
++            n_tokens, l.ssm_out.rows, l.ssm_out.cols, stream_)) {
+       AssignError(error_msg, "SSM output F16 GEMM failed");
+       return false;
+     }
+@@ -1566,11 +1586,13 @@
+         c.rotary_dim == 64;
+     if (fused_projection) {
+       PrepareHalfInput(x, n_tokens, l.attn_qkv.cols);
+-      prepared = AttentionF16Gemm(
+-          l.attn_qkv.data, static_cast<const __half*>(s_.x_half),
+-          l.attn_q_norm.f32(), l.attn_k_norm.f32(), s_.q, s_.attn_gate,
+-          s.k_cache, s.v_cache, n_tokens, pos, c.rope_theta, c.rms_eps, stream_,
+-          s.rope);
++      // SPDX-License-Identifier: MIT
++      const bool mirror = l.attn_qkv.prefill_half != nullptr;
++      prepared = (mirror ? AttentionQ8MirrorGemm : AttentionF16Gemm)(
++          mirror ? l.attn_qkv.prefill_half : l.attn_qkv.data,
++          static_cast<const __half*>(s_.x_half), l.attn_q_norm.f32(),
++          l.attn_k_norm.f32(), s_.q, s_.attn_gate, s.k_cache, s.v_cache,
++          n_tokens, pos, c.rope_theta, c.rms_eps, stream_, s.rope);
+       if (!prepared) {
+         AssignError(error_msg, "fused attention projection failed");
+         return false;
+@@ -1801,21 +1823,22 @@
+         scaled + static_cast<std::size_t>(n_tokens) * used * c.expert_ff);
+     const auto gate_up = [&](std::uint32_t offset, std::uint32_t count,
+                              std::uint32_t rows) {
+-      return RoutedGatedIQ2Gemm(
+-          l.ffn_gate_exps.data, l.ffn_up_exps.data,
+-          static_cast<const __half*>(s_.x_half), s_.routed_tiles + offset,
+-          count, rows, s_.routed_bounds, s_.rows_token, s_.rows_slot,
+-          s_.gate_e, c.expert_ff, c.hidden_size, stream_);
++      return RoutedGatedIQ2Gemm(l.ffn_gate_exps.data, l.ffn_up_exps.data,
++                                static_cast<const __half*>(s_.x_half),
++                                s_.routed_tiles + offset, count, rows,
++                                s_.routed_bounds, s_.rows_token, s_.rows_slot,
++                                s_.gate_e, c.expert_ff, c.hidden_size, stream_);
+     };
+-    const bool gate_ok = routed_iq2_mixed_
+-        ? ((!routed_pair_tiles_ ||
+-            gate_up(routed_pair_offset_, routed_pair_tiles_, 128)) &&
+-           (!routed_iq2_tail_tiles_ ||
+-            gate_up(routed_pair_offset_ + routed_pair_tiles_,
+-                    routed_iq2_tail_tiles_, 64)))
+-        : gate_up(pair_map ? routed_pair_offset_ : 0,
+-                  pair_map ? routed_pair_tiles_ : routed_n_tiles_,
+-                  pair_map ? routed_pair_rows_ : routed_tile_rows_);
++    const bool gate_ok =
++        routed_iq2_mixed_
++            ? ((!routed_pair_tiles_ ||
++                gate_up(routed_pair_offset_, routed_pair_tiles_, 128)) &&
++               (!routed_iq2_tail_tiles_ ||
++                gate_up(routed_pair_offset_ + routed_pair_tiles_,
++                        routed_iq2_tail_tiles_, 64)))
++            : gate_up(pair_map ? routed_pair_offset_ : 0,
++                      pair_map ? routed_pair_tiles_ : routed_n_tiles_,
++                      pair_map ? routed_pair_rows_ : routed_tile_rows_);
+     if (!gate_ok ||
+         !PackQ2ScaledRows(s_.gate_e, scaled, inverse, n_tokens * used,
+                           c.expert_ff, stream_) ||
+@@ -2223,7 +2246,8 @@
+     // Each combine also norms the residual for the mixer that follows it,
+     // unless PLE rewrites the residual first.
+     Combine(s_.res, l.hc_ffn.norm.f32(), n);
+-    if (!HcMix(l.hc_ffn, s_.res, true, s_.mixed, s_.inject, n, error_msg, true) ||
++    if (!HcMix(l.hc_ffn, s_.res, true, s_.mixed, s_.inject, n, error_msg,
++               true) ||
+         !Moe(l, s_.mixed, s_.block_out, n, error_msg)) {
+       return false;
+     }
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5727,7 +5727,8 @@
+ /// and use the same ordered K16 products. y is [batch][m].
+ template<int BM, int BN, int BK, int WM, int WN, int kRowGroup = 1,
+          bool kHcMix = false, bool kSsmConv = false, bool kAttention = false,
+-         bool kHalfWeights = false, bool kHcUpChains = false>
++         bool kHalfWeights = false, bool kHcUpChains = false,
++         bool kQ8Mirror = false>
+ __launch_bounds__(kHcUpChains ? 512 : 256) __global__ void DenseF16GEMMKernel(
+     const void* __restrict__ w, const __half* __restrict__ x,
+     float* __restrict__ y, std::size_t batch, std::size_t m, std::size_t k,
+@@ -5735,6 +5736,9 @@
+     __half* mixed_half = nullptr, void* mixed_q8 = nullptr,
+     const float* conv_w = nullptr, float* conv_out = nullptr,
+     AttentionProjectionOutput attention = {}) {
++  // SPDX-License-Identifier: MIT
++  // A Q8-derived F16 mirror keeps the Q8 low/high single chain.
++  static_assert(!kQ8Mirror || (kHalfWeights && !kHcMix && !kHcUpChains));
+   static_assert(WM * WN == 8, "256 threads is 8 waves");
+   static_assert(BM % (16 * WM) == 0 && BN % (16 * WN) == 0);
+   constexpr int kRowTiles = BM / 16;
+@@ -5907,8 +5911,9 @@
+   v8f acc[kWaveRowTiles][kWaveTokTiles];
+   // Separate K16 chains reduce FP32 accumulation error for the sensitive
+   // unquantized router/gate projections, with the same order in every chunk.
+-  v8f acc_high[(kHalfWeights && !kHcUpChains) ? kWaveRowTiles : 1]
+-              [(kHalfWeights && !kHcUpChains) ? kWaveTokTiles : 1]{};
++  v8f acc_high[(kHalfWeights && !kHcUpChains && !kQ8Mirror) ? kWaveRowTiles : 1]
++              [(kHalfWeights && !kHcUpChains && !kQ8Mirror) ? kWaveTokTiles
++                                                            : 1]{};
+ #pragma unroll
+   for (int i = 0; i < kWaveRowTiles; ++i) {
+ #pragma unroll
+@@ -5960,7 +5965,7 @@
+ #pragma unroll
+         for (int i = 0; i < kWaveRowTiles; ++i) {
+           acc[i][j] = Wmma(a_lo[i], b_lo, acc[i][j]);
+-          if constexpr (kHalfWeights && !kHcUpChains)
++          if constexpr (kHalfWeights && !kHcUpChains && !kQ8Mirror)
+             acc_high[i][j] = Wmma(a_hi[i], b_hi, acc_high[i][j]);
+           else if constexpr (!kHcUpChains)
+             acc[i][j] = Wmma(a_hi[i], b_hi, acc[i][j]);
+@@ -5970,7 +5975,7 @@
+     __syncthreads();
+   }
+ 
+-  if constexpr (kHalfWeights && !kHcUpChains) {
++  if constexpr (kHalfWeights && !kHcUpChains && !kQ8Mirror) {
+ #pragma unroll
+     for (int i = 0; i < kWaveRowTiles; ++i) {
+ #pragma unroll
+@@ -6289,6 +6294,9 @@
+   }
+ }
+ 
++// SPDX-License-Identifier: MIT
++#include "src/models/qwen38_flash_next/kernels/rocm/lie_q8_mirror.inc"
++
+ bool AttentionF16Gemm(const void* weights, const __half* input,
+                       const float* q_gamma, const float* k_gamma, float* query,
+                       float* gate, __half* keys, __half* values,
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
+@@ -202,6 +202,26 @@
+ /// Fixed geometry: 24 query heads, two KV heads, 256 dimensions, 64 rotary.
+ /// Requires at least 1024 tokens; cache capacity must include position +
+ /// tokens.
++// SPDX-License-Identifier: MIT
++// GPU-only, exact encoded-Q8 mirror; original Q8 weights remain for decode.
++bool ConvertQ8Mirror(const void* weights, void* half, std::size_t elements,
++                     hipStream_t stream);
++bool DenseQ8MirrorGemm(const void* w, const __half* x, float* out,
++                       std::size_t batch, std::size_t m, std::size_t k,
++                       hipStream_t stream);
++bool DenseQ8MirrorSsmGemm(const void* w, const __half* x, const float* conv_w,
++                          const float* history, float* qkvz, float* convolved,
++                          std::uint32_t n_tokens, std::uint32_t m,
++                          std::uint32_t k, std::uint32_t channels,
++                          std::uint32_t kernel, hipStream_t stream);
++bool AttentionQ8MirrorGemm(const void* w, const __half* input,
++                           const float* q_gamma, const float* k_gamma,
++                           float* query, float* gate, __half* keys,
++                           __half* values, std::uint32_t n_tokens,
++                           const std::uint32_t* position, float theta,
++                           float eps, hipStream_t stream,
++                           const qwen::vision::DeviceRope* rope);
++
+ bool AttentionF16Gemm(const void* weights, const __half* input,
+                       const float* q_gamma, const float* k_gamma, float* query,
+                       float* gate, __half* keys, __half* values,
+@@ -223,10 +243,10 @@
+ /// format from rounded F32 mixed values. Q8 output is required and
+ /// must not overlap other inputs/outputs; launch errors return false.
+ bool HcMixRawQ8F16Gemm(const void* up, const __half* low_rank, const float* xn,
+-                     const float* inject_w, float* mixed, __half* mixed_half, void* mixed_q8,
+-                     float* inject, std::uint32_t n_tokens,
+-                     std::uint32_t hidden, std::uint32_t rank,
+-                     hipStream_t stream);
++                       const float* inject_w, float* mixed, __half* mixed_half,
++                       void* mixed_q8, float* inject, std::uint32_t n_tokens,
++                       std::uint32_t hidden, std::uint32_t rank,
++                       hipStream_t stream);
+ 
+ /// Exact Q8_0 HC up projection and F16-input mixer for the Flash Next
+ /// 2560-hidden, rank-320 geometry. Returns false below 96 tokens or for other
+@@ -602,8 +622,7 @@
+                               std::uint32_t inject_parts, const float* gamma,
+                               float* norm_scales, std::uint32_t n_tokens,
+                               std::uint32_t hidden, std::uint32_t streams,
+-                              float eps, hipStream_t stream,
+-                              __half* norm_half);
++                              float eps, hipStream_t stream, __half* norm_half);
+ bool ReconstructHcNorm(const float* residual, const float* scales,
+                        const float* gamma, float* out, std::uint32_t tokens,
+                        hipStream_t stream);
+--- a/src/models/qwen38_flash_next/kernels/rocm/lie_q8_mirror.inc
++++ b/src/models/qwen38_flash_next/kernels/rocm/lie_q8_mirror.inc
+@@ -0,0 +1,95 @@
++// SPDX-License-Identifier: MIT
++// Exact GPU-only F16 mirror of original encoded Q8 weights. No file conversion.
++__global__ void Q8MirrorWeightsKernel(const std::uint8_t* weights,
++                                      __half* output, std::size_t blocks) {
++  const std::size_t block = std::size_t(blockIdx.x) * blockDim.x + threadIdx.x;
++  if (block >= blocks)
++    return;
++  const std::uint8_t* src = weights + block * 34;
++  std::uint16_t d;
++  __builtin_memcpy(&d, src, sizeof(d));
++  const __half2 scale = __half2half2(__builtin_bit_cast(__half, d));
++  const __half2 magic = __floats2half2_rn(-1152.0F, -1152.0F);
++  const __half2 zero = __floats2half2_rn(0.0F, 0.0F);
++#pragma unroll
++  for (unsigned word = 0; word < 8; ++word) {
++    std::uint32_t bits;
++    __builtin_memcpy(&bits, src + 2 + word * 4, sizeof(bits));
++    __half2 lo, hi;
++    CodesToHalves(bits ^ 0x80808080U, magic, scale, zero, lo, hi);
++    __builtin_memcpy(output + block * 32 + word * 4, &lo, sizeof(lo));
++    __builtin_memcpy(output + block * 32 + word * 4 + 2, &hi, sizeof(hi));
++  }
++}
++
++bool ConvertQ8Mirror(const void* weights, void* half, std::size_t elements,
++                     hipStream_t stream) {
++  if (weights == nullptr || half == nullptr || elements == 0 || elements % 32)
++    return false;
++  const std::size_t blocks = elements / 32;
++  if ((blocks + 255) / 256 > 0xffffffffULL)
++    return false;
++  hipLaunchKernelGGL(Q8MirrorWeightsKernel, dim3((blocks + 255) / 256),
++                     dim3(256), 0, stream,
++                     static_cast<const std::uint8_t*>(weights),
++                     static_cast<__half*>(half), blocks);
++  return hipGetLastError() == hipSuccess;
++}
++
++bool DenseQ8MirrorGemm(const void* w, const __half* x, float* out,
++                       std::size_t batch, std::size_t m, std::size_t k,
++                       hipStream_t stream) {
++  if (batch < 1024 || w == nullptr || x == nullptr || out == nullptr ||
++      !(((m == 16384 || m == 13312) && k == 2560) || (m == 2560 && k == 6144)))
++    return false;
++  hipLaunchKernelGGL((DenseF16GEMMKernel<256, 128, 2, 8, 1, 1, false, false,
++                                         false, true, false, true>),
++                     dim3((batch + 127) / 128, (m + 255) / 256), dim3(256), 0,
++                     stream, w, x, out, batch, m, k);
++  return hipGetLastError() == hipSuccess;
++}
++
++bool DenseQ8MirrorSsmGemm(const void* w, const __half* x, const float* conv_w,
++                          const float* history, float* qkvz, float* convolved,
++                          std::uint32_t n_tokens, std::uint32_t m,
++                          std::uint32_t k, std::uint32_t channels,
++                          std::uint32_t kernel, hipStream_t stream) {
++  if (n_tokens < 1024 || m != 16384 || k != 2560 || channels != 10240 ||
++      kernel != 4 || w == nullptr || x == nullptr || conv_w == nullptr ||
++      history == nullptr || qkvz == nullptr || convolved == nullptr)
++    return false;
++  hipLaunchKernelGGL((DenseF16GEMMKernel<256, 128, 2, 8, 1, 1, false, true,
++                                         false, true, false, true>),
++                     dim3((n_tokens + 127) / 128, m / 256), dim3(256), 0,
++                     stream, w, x, qkvz, n_tokens, m, k, nullptr, nullptr,
++                     nullptr, conv_w, convolved);
++  if (hipGetLastError() != hipSuccess)
++    return false;
++  hipLaunchKernelGGL(SsmConvBoundaryKernel,
++                     dim3(Blocks(channels), (n_tokens + 31) / 32, 3), dim3(256),
++                     0, stream, qkvz, conv_w, history, convolved, n_tokens,
++                     channels, m);
++  return hipGetLastError() == hipSuccess;
++}
++
++bool AttentionQ8MirrorGemm(const void* w, const __half* input,
++                           const float* q_gamma, const float* k_gamma,
++                           float* query, float* gate, __half* keys,
++                           __half* values, std::uint32_t n_tokens,
++                           const std::uint32_t* position, float theta,
++                           float eps, hipStream_t stream,
++                           const qwen::vision::DeviceRope* rope) {
++  if (n_tokens < 1024 || w == nullptr || input == nullptr ||
++      q_gamma == nullptr || k_gamma == nullptr || query == nullptr ||
++      gate == nullptr || keys == nullptr || values == nullptr ||
++      position == nullptr)
++    return false;
++  const AttentionProjectionOutput output{q_gamma, k_gamma,  query, gate, keys,
++                                         values,  position, theta, eps,  rope};
++  hipLaunchKernelGGL((DenseF16GEMMKernel<256, 128, 2, 8, 1, 1, false, false,
++                                         true, true, false, true>),
++                     dim3((n_tokens + 127) / 128, 52), dim3(256), 0, stream, w,
++                     input, nullptr, n_tokens, 13312, 2560, nullptr, nullptr,
++                     nullptr, nullptr, nullptr, output);
++  return hipGetLastError() == hipSuccess;
++}
+--- a/src/models/qwen38_flash_next/kernels/rocm/lie_q8_mirror_policy.h
++++ b/src/models/qwen38_flash_next/kernels/rocm/lie_q8_mirror_policy.h
+@@ -0,0 +1,54 @@
++/* SPDX-License-Identifier: MIT */
++#ifndef LIE_Q2_Q8_MIRROR_POLICY_H
++#define LIE_Q2_Q8_MIRROR_POLICY_H
++
++#include <stdbool.h>
++#include <stddef.h>
++#include <stdint.h>
++
++/* Own C17 resource admission for an isolated numerical-port experiment.
++ * No allocation, tensor read, conversion, model forward or GPU access here. */
++#define LIE_Q8_MIRROR_BUDGET_BYTES ((size_t)6 * 1024 * 1024 * 1024)
++#define LIE_Q8_MIRROR_TAIL_BYTES ((size_t)4096)
++
++typedef struct lie_q8_mirror_plan {
++  size_t elements;
++  size_t payload_bytes;
++  size_t allocation_bytes;
++  size_t next_mirror_bytes;
++} lie_q8_mirror_plan;
++
++/* 1 admits one checked allocation, 0 leaves the original route alone,
++ * -1 fails before allocating. The caller owns allocation/rollback/publication.
++ */
++static inline int lie_q8_mirror_admit(uint32_t rows, uint32_t cols,
++                                      uint32_t experts, bool q8,
++                                      size_t mirror_bytes,
++                                      lie_q8_mirror_plan* out) {
++  if (out == NULL)
++    return -1;
++  out->elements = 0;
++  out->payload_bytes = 0;
++  out->allocation_bytes = 0;
++  out->next_mirror_bytes = 0;
++  if (!q8 || experts != 1 ||
++      !(((rows == 16384 || rows == 13312) && cols == 2560) ||
++        (rows == 2560 && cols == 6144)))
++    return 0;
++  if ((size_t)rows > SIZE_MAX / cols)
++    return -1;
++  const size_t elements = (size_t)rows * cols;
++  if (elements > (SIZE_MAX - LIE_Q8_MIRROR_TAIL_BYTES) / 2)
++    return -1;
++  const size_t allocation = elements * 2 + LIE_Q8_MIRROR_TAIL_BYTES;
++  if (mirror_bytes > LIE_Q8_MIRROR_BUDGET_BYTES ||
++      allocation > LIE_Q8_MIRROR_BUDGET_BYTES - mirror_bytes)
++    return -1;
++  out->elements = elements;
++  out->payload_bytes = elements * 2;
++  out->allocation_bytes = allocation;
++  out->next_mirror_bytes = mirror_bytes + allocation;
++  return 1;
++}
++
++#endif

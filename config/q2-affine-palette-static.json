@@ -1,0 +1,125 @@
+{
+  "scope": "Editing-host device-only compilation; no GPU execution",
+  "argv": [
+    "/opt/rocm/llvm/bin/clang++",
+    "-x",
+    "hip",
+    "--offload-arch=gfx1151",
+    "--offload-device-only",
+    "-S",
+    "-std=c++20",
+    "-O3",
+    "-ffast-math",
+    "-fno-finite-math-only",
+    "-DQFN_ROCM_BUILD=1",
+    "-DENGINE_ENABLE_HIP=1",
+    "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-affine-palette",
+    "-isystem",
+    "/opt/rocm/include",
+    "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-affine-palette/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+    "-o",
+    "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-affine-palette-static-r1.s"
+  ],
+  "started_at": "2026-10-02T22:10:31.684323+00:00",
+  "finished_at": "2026-10-02T22:10:40.649905+00:00",
+  "exit_code": 0,
+  "assembly_sha256": "171fd66f12107e53d1c56e985db490f2f23b5b5165a6d52388b661ae9d04c52e",
+  "resources": {
+    "reference": [
+      {
+        "tile": 16,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi16ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "group_segment_fixed_size": 16640,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 112,
+        "next_free_sgpr": 24,
+        "wmma_instructions": 8,
+        "fma_mix_half_instructions": 64,
+        "perm_instructions": 0
+      },
+      {
+        "tile": 48,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi48ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "group_segment_fixed_size": 24832,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 144,
+        "next_free_sgpr": 30,
+        "wmma_instructions": 24,
+        "fma_mix_half_instructions": 64,
+        "perm_instructions": 0
+      },
+      {
+        "tile": 64,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi64ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "group_segment_fixed_size": 28928,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 169,
+        "next_free_sgpr": 31,
+        "wmma_instructions": 32,
+        "fma_mix_half_instructions": 64,
+        "perm_instructions": 0
+      }
+    ],
+    "candidate": [
+      {
+        "tile": 16,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi16ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "group_segment_fixed_size": 16640,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 113,
+        "next_free_sgpr": 26,
+        "wmma_instructions": 8,
+        "fma_mix_half_instructions": 12,
+        "perm_instructions": 64
+      },
+      {
+        "tile": 48,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi48ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "group_segment_fixed_size": 24832,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 144,
+        "next_free_sgpr": 32,
+        "wmma_instructions": 24,
+        "fma_mix_half_instructions": 12,
+        "perm_instructions": 64
+      },
+      {
+        "tile": 64,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi64ELi2ELb0ELb1EEEvPKvPKNSt11conditionalIXeqT_LS5_10EEf6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "group_segment_fixed_size": 28928,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 169,
+        "next_free_sgpr": 34,
+        "wmma_instructions": 32,
+        "fma_mix_half_instructions": 12,
+        "perm_instructions": 64
+      }
+    ]
+  },
+  "reconstructed_files": 1019,
+  "reconstruction_exact": true,
+  "retained_report_failure": "evidence/q2-affine-palette-static-analysis-r1.json",
+  "checks": [
+    {
+      "name": "reconstruct",
+      "exit_code": 0,
+      "log": "evidence/q2-affine-palette-static-r1/reconstruct.log"
+    },
+    {
+      "name": "changed-format",
+      "exit_code": 0,
+      "log": "evidence/q2-affine-palette-static-r1/changed-format.log"
+    },
+    {
+      "name": "shared-format",
+      "exit_code": 1,
+      "argv": [
+        "python3",
+        "tools/ci/check-format.py"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-affine-palette",
+      "log": "evidence/q2-affine-palette-static-r1/shared-format-r2.log"
+    }
+  ],
+  "assembly_reference_sha256": "36c120a803db64a8904282ef3bb7836932a784b8da9927a8fd81f2d3041d3b70"
+}

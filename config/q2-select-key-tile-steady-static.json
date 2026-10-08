@@ -1,0 +1,9 @@
+{
+  "schema": "synapse-lie.q2-select-key-tile-steady-static.v1",
+  "binary_sha256": "72f824dcfdcfedb89c8f986f3f6b95d83e6f0918880d525253ccb902c1a888a8",
+  "device_audit_sha256": "d20575f1839ee48e46b33c1ee7c435afc9aa4779315edb966d3e457efd46f2ae",
+  "common_functions": 167,
+  "exact_common_functions": 167,
+  "changed_functions": [],
+  "GPU_run": false
+}

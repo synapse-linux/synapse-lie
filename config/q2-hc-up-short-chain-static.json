@@ -1,0 +1,167 @@
+{
+  "schema": "synapse-lie.q2-hc-up-short-chain-static.v1",
+  "source_manifest_sha256": "2e81463dbbe134190c300f2b008684d584f0d75f60f36f16eb25b765c2c4b45c",
+  "retained_files": 1028,
+  "parent_assembly_sha256": "10f77ab9fd463dea4da04fb3c613a69fd3a56686782119780f16eacee3a9d331",
+  "parent_recompiled": false,
+  "variants": {
+    "ssm-resident": {
+      "draft": "experiments/q2-ssm-resident-draft.inc",
+      "draft_sha256": "7b0e35ba579286b068bd345e3eec32d777e1c91b8e5969d5f9e41d46232a234a",
+      "assembly_path": "evidence/q2-ssm-resident-preparation/candidate.s",
+      "assembly_sha256": "3325a57ae40a3a9767f289ca80358a8ded7e3556c7fc1dc2ba80f817410c1b8b",
+      "command_sha256": "2705b31ef9f8418710832ba0568d3d37d9ac4573780e2219b92adb64300589ed",
+      "original_kernels_exact": 164,
+      "added_kernels": [
+        {
+          "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm22DenseSsmResidentKernelILi128ELi128ELi2ELi4ELi2ELi1ELb0ELb1ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+          "resources": {
+            "group_segment_fixed_size": 32768,
+            "private_segment_fixed_size": 0,
+            "next_free_vgpr": 246,
+            "next_free_sgpr": 15,
+            "wavefront_size32": 1
+          },
+          "compiler_comments": {
+            "NumVgprs": 246,
+            "TotalNumSgprs": 17,
+            "NumVGPRsForWavesPerEU": 246,
+            "Occupancy": 5
+          },
+          "static_instructions": 2130
+        }
+      ]
+    },
+    "ssm-resident-fence": {
+      "draft": "experiments/q2-ssm-resident-fence-draft.inc",
+      "draft_sha256": "333eda5f305d279e5f419b0205ec202853dc59d9fc57ec74794b4611d625ffe8",
+      "assembly_path": "evidence/q2-ssm-resident-fence-preparation/candidate.s",
+      "assembly_sha256": "9bef74abe6929618bc0391e618e34c8f6fbe59da91354b0f6feab39a2c491b6f",
+      "command_sha256": "9d71aacbf8f248766242bee95cbd93cc9d4cca8df098d9fa2a22668ebccccec3",
+      "original_kernels_exact": 164,
+      "added_kernels": [
+        {
+          "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm27DenseSsmResidentFenceKernelILi128ELi128ELi2ELi4ELi2ELi1ELb0ELb1ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+          "resources": {
+            "group_segment_fixed_size": 32768,
+            "private_segment_fixed_size": 0,
+            "next_free_vgpr": 169,
+            "next_free_sgpr": 15,
+            "wavefront_size32": 1
+          },
+          "compiler_comments": {
+            "NumVgprs": 158,
+            "TotalNumSgprs": 17,
+            "NumVGPRsForWavesPerEU": 169,
+            "Occupancy": 8
+          },
+          "static_instructions": 2131
+        }
+      ]
+    },
+    "hc-up-short-chain": {
+      "draft": "experiments/q2-hc-up-short-chain-draft.inc",
+      "draft_sha256": "a081d6fe37caecf84755fcdd9de07097a0caa74e3d21ef5646148712bb468d63",
+      "assembly_path": "evidence/q2-hc-up-short-chain-preparation/candidate.s",
+      "assembly_sha256": "c1aa907f89457f23f9a5ece01599cd8e4f22dccf4762356596dc0a0c9737d090",
+      "command_sha256": "ad40883951d2f3f2e8a9aa5d7ff48c93d018ff4dd25665a0cf081301979bf042",
+      "original_kernels_exact": 164,
+      "added_kernels": [
+        {
+          "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm20HcUpShortChainKernelILi256ELi128ELi1ELi4ELi2ELi8ELb1ELb0ELb0ELb1ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+          "resources": {
+            "group_segment_fixed_size": 24576,
+            "private_segment_fixed_size": 68,
+            "next_free_vgpr": 256,
+            "next_free_sgpr": 28,
+            "wavefront_size32": 1
+          },
+          "compiler_comments": {
+            "NumVgprs": 256,
+            "TotalNumSgprs": 30,
+            "NumVGPRsForWavesPerEU": 256,
+            "Occupancy": 5
+          },
+          "static_instructions": 3157
+        },
+        {
+          "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm29HcMixDeferredShortChainKernelEPKvPK6__halfPfmmmPKfPS5_PvSA_SA_",
+          "resources": {
+            "group_segment_fixed_size": 24576,
+            "private_segment_fixed_size": 292,
+            "next_free_vgpr": 256,
+            "next_free_sgpr": 32,
+            "wavefront_size32": 1
+          },
+          "compiler_comments": {
+            "NumVgprs": 256,
+            "TotalNumSgprs": 34,
+            "NumVGPRsForWavesPerEU": 256,
+            "Occupancy": 5
+          },
+          "static_instructions": 3431
+        }
+      ]
+    },
+    "hc-up-short-chain-phased": {
+      "draft": "experiments/q2-hc-up-short-chain-phased-draft.inc",
+      "draft_sha256": "7d5930790f41df255f17e7af76d401ce3ae4f17e617d73635ed491956bfbe6bd",
+      "assembly_path": "evidence/q2-hc-up-short-chain-phased-preparation/candidate.s",
+      "assembly_sha256": "7228009211f14b44030bb8be574815669a815a075577a597d2d82f48b55cc783",
+      "command_sha256": "8fb579a0d2ad65f8a5afd385c778c40f9fded30985cea93c7f895b6362890313",
+      "original_kernels_exact": 164,
+      "added_kernels": [
+        {
+          "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm26HcUpShortChainPhasedKernelILi256ELi128ELi1ELi4ELi2ELi8ELb1ELb0ELb0ELb1ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+          "resources": {
+            "group_segment_fixed_size": 24576,
+            "private_segment_fixed_size": 0,
+            "next_free_vgpr": 248,
+            "next_free_sgpr": 28,
+            "wavefront_size32": 1
+          },
+          "compiler_comments": {
+            "NumVgprs": 248,
+            "TotalNumSgprs": 30,
+            "NumVGPRsForWavesPerEU": 248,
+            "Occupancy": 5
+          },
+          "static_instructions": 3094
+        },
+        {
+          "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm35HcMixDeferredShortChainPhasedKernelEPKvPK6__halfPfmmmPKfPS5_PvSA_SA_",
+          "resources": {
+            "group_segment_fixed_size": 24576,
+            "private_segment_fixed_size": 0,
+            "next_free_vgpr": 248,
+            "next_free_sgpr": 32,
+            "wavefront_size32": 1
+          },
+          "compiler_comments": {
+            "NumVgprs": 248,
+            "TotalNumSgprs": 34,
+            "NumVGPRsForWavesPerEU": 248,
+            "Occupancy": 5
+          },
+          "static_instructions": 3271
+        }
+      ]
+    }
+  },
+  "fixture": "tests/q2_hc_up_short_chain.hip",
+  "fixture_sha256": "06338c1091fdd21b3f325ab82a188c4d889f3bac8fa8baf272552af5c3e7e2e8",
+  "fixture_compile_receipt_sha256": "7a855484993f358a5b36db38ce46cd32170447c4bcb8f642be6de0b44d0c5c94",
+  "selected": "hc-up-short-chain-phased",
+  "selected_paths": [
+    "ordinary",
+    "deferred-normalization"
+  ],
+  "deliberately_changed_FP32_reduction": true,
+  "original_F16_operands": true,
+  "device_allocations_in_provider": 0,
+  "model_selector": false,
+  "GPU_run": false,
+  "numerical_acceptance": false,
+  "performance_measurement": false,
+  "goal_met": false
+}

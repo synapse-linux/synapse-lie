@@ -1,0 +1,304 @@
+{
+  "scope": "Diagnostic marked pp2048/tg16, 15 decode calls; not unprofiled throughput. UD is historical.",
+  "baseline_profile_replay": [
+    {
+      "name": "arithmetic-input.i32",
+      "exact": true
+    },
+    {
+      "name": "counting-input.i32",
+      "exact": true
+    },
+    {
+      "name": "arithmetic-0-prefill.f32",
+      "exact": true
+    },
+    {
+      "name": "arithmetic-0-last.f32",
+      "exact": true
+    },
+    {
+      "name": "counting-0-prefill.f32",
+      "exact": true
+    },
+    {
+      "name": "counting-0-last.f32",
+      "exact": true
+    },
+    {
+      "name": "profile input",
+      "exact": true
+    },
+    {
+      "name": "warm2048 prefill",
+      "exact": true
+    },
+    {
+      "name": "warm2048 first16 output",
+      "exact": true
+    },
+    {
+      "name": "profile2048 prefill",
+      "exact": true
+    },
+    {
+      "name": "profile2048 first16 output",
+      "exact": true
+    },
+    {
+      "name": "warm/profile prefill.f32",
+      "exact": true
+    },
+    {
+      "name": "warm/profile last.f32",
+      "exact": true
+    },
+    {
+      "name": "warm/profile output.u32",
+      "exact": true
+    }
+  ],
+  "profile_numerically_qualified_for_baseline": true,
+  "baseline_binary_sha256": "4a6f8d832fc99a2f690c6891d72c7925d052d96394956077d7dc80154df53009",
+  "arms": {
+    "iq2_pair": {
+      "path": "evidence/q2-iq2-current-profile-r1",
+      "binary_sha256": "827645d68b4eb5e539dc43d1be8ccb98574bf083b1846e9e845b85563bb79aaf",
+      "trace_sha256": "e1f46e9a9f0a5641708a60d7da48a15a5355fd180b87eecd6387cf2148c540fb",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "phases": {
+        "prefill": {
+          "dispatches": 2099,
+          "kernel_sum_ns": 1689264072,
+          "gpu_busy_union_ns": 1689259948,
+          "kernel_span_ns": 1694898807,
+          "inter_kernel_gap_ns": 5638859,
+          "largest_inter_kernel_gaps_ns": [
+            389052,
+            11430,
+            9560,
+            9160,
+            8080,
+            7000,
+            7000,
+            6991,
+            6960,
+            6960
+          ],
+          "groups": {
+            "other": {
+              "calls": 1446,
+              "ns": 805150801
+            },
+            "routed_down": {
+              "calls": 48,
+              "ns": 311965168
+            },
+            "routed_gate_up": {
+              "calls": 48,
+              "ns": 264889666
+            },
+            "hc_down_f16_wmma": {
+              "calls": 96,
+              "ns": 131792982
+            },
+            "hc_up_f16_wmma": {
+              "calls": 96,
+              "ns": 87345092
+            },
+            "explicit_activation_packing": {
+              "calls": 362,
+              "ns": 84847021
+            },
+            "q8_dense_gemv": {
+              "calls": 1,
+              "ns": 3097181
+            },
+            "hc_down_f16_gemv": {
+              "calls": 1,
+              "ns": 112481
+            },
+            "other_f16_gemv": {
+              "calls": 1,
+              "ns": 63680
+            }
+          }
+        },
+        "decode": {
+          "dispatches": 23594,
+          "kernel_sum_ns": 604331207,
+          "gpu_busy_union_ns": 604331207,
+          "kernel_span_ns": 688972668,
+          "inter_kernel_gap_ns": 84641461,
+          "largest_inter_kernel_gaps_ns": [
+            4997573,
+            2904729,
+            2499587,
+            2402706,
+            2400076,
+            2362315,
+            2352305,
+            2349196,
+            2348305,
+            2308135
+          ],
+          "groups": {
+            "q8_dense_gemv": {
+              "calls": 3285,
+              "ns": 261906258
+            },
+            "other_f16_gemv": {
+              "calls": 2715,
+              "ns": 79330360
+            },
+            "routed_gate_up": {
+              "calls": 720,
+              "ns": 76084139
+            },
+            "other": {
+              "calls": 9989,
+              "ns": 75509260
+            },
+            "hc_down_f16_gemv": {
+              "calls": 1455,
+              "ns": 69758861
+            },
+            "routed_down": {
+              "calls": 720,
+              "ns": 35130202
+            },
+            "explicit_activation_packing": {
+              "calls": 4710,
+              "ns": 6612127
+            }
+          }
+        }
+      }
+    },
+    "ud_historical": {
+      "path": "evidence/q2-ud-profile-r1",
+      "binary_sha256": "14e934395a438c09cfc843aaaae26d09d61ff8ca304c98a6cb84c4539f9ffac7",
+      "trace_sha256": "c3e60bf3c464d9b3b5e8152863b3b7483862775e2410043a7bc6216134f30340",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "phases": {
+        "prefill": {
+          "dispatches": 1630,
+          "kernel_sum_ns": 1246350095,
+          "gpu_busy_union_ns": 1246350095,
+          "kernel_span_ns": 1250886351,
+          "inter_kernel_gap_ns": 4536256,
+          "largest_inter_kernel_gaps_ns": [
+            375550,
+            11439,
+            11080,
+            10680,
+            9639,
+            9129,
+            9029,
+            8879,
+            8799,
+            7360
+          ],
+          "groups": {
+            "other": {
+              "calls": 1309,
+              "ns": 716370493
+            },
+            "routed_gate_up": {
+              "calls": 48,
+              "ns": 241964610
+            },
+            "routed_down": {
+              "calls": 48,
+              "ns": 179953516
+            },
+            "hc_up_q8_fused": {
+              "calls": 94,
+              "ns": 56128925
+            },
+            "hc_down_q8_wmma": {
+              "calls": 94,
+              "ns": 41908965
+            },
+            "explicit_activation_packing": {
+              "calls": 34,
+              "ns": 6869107
+            },
+            "q8_dense_gemv": {
+              "calls": 2,
+              "ns": 3119360
+            },
+            "hc_down_q8_gemv": {
+              "calls": 1,
+              "ns": 35119
+            }
+          }
+        },
+        "decode": {
+          "dispatches": 26144,
+          "kernel_sum_ns": 549377614,
+          "gpu_busy_union_ns": 549377614,
+          "kernel_span_ns": 635527153,
+          "inter_kernel_gap_ns": 86149539,
+          "largest_inter_kernel_gaps_ns": [
+            4105704,
+            2248733,
+            2235193,
+            2174205,
+            2127955,
+            2121505,
+            2089107,
+            2088437,
+            2087167,
+            2066998
+          ],
+          "groups": {
+            "q8_dense_gemv": {
+              "calls": 4380,
+              "ns": 285278336
+            },
+            "other": {
+              "calls": 10349,
+              "ns": 83569805
+            },
+            "routed_gate_up": {
+              "calls": 720,
+              "ns": 69618969
+            },
+            "routed_down": {
+              "calls": 720,
+              "ns": 47275627
+            },
+            "other_f16_gemv": {
+              "calls": 1260,
+              "ns": 28445317
+            },
+            "hc_down_q8_gemv": {
+              "calls": 1455,
+              "ns": 25205879
+            },
+            "explicit_activation_packing": {
+              "calls": 7260,
+              "ns": 9983681
+            }
+          }
+        }
+      }
+    }
+  }
+}

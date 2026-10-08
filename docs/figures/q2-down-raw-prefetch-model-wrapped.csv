@@ -1,0 +1,17 @@
+candidate,historical,source,rep,warmup,prompt_tokens,output_tokens,decode_steps,prefill_s,decode_s,prefill_tok_s,decode_steps_s
+fixed_q2,True,q2-counting-regression-mixed-r1,0,True,2048,128,127,1.423943804,5.062085753,1438.259006,25.08847266
+fixed_q2,True,q2-counting-regression-mixed-r1,1,False,2048,128,127,1.41887387,5.058620886,1443.398207,25.10565683
+fixed_q2,True,q2-counting-regression-mixed-r1,2,False,2048,128,127,1.418603928,5.062386263,1443.672867,25.08698337
+fixed_q2,True,q2-counting-regression-mixed-r1,3,False,2048,128,127,1.418437954,5.060576497,1443.841794,25.09595499
+best_parent,True,q2-iq2-raw-prefetch-model-r1,0,True,2048,128,127,1.363796655,5.049453854,1501.690147,25.1512349
+best_parent,True,q2-iq2-raw-prefetch-model-r1,1,False,2048,128,127,1.360659687,5.046135906,1505.152258,25.1677724
+best_parent,True,q2-iq2-raw-prefetch-model-r1,2,False,2048,128,127,1.362127728,5.049893669,1503.530071,25.14904438
+best_parent,True,q2-iq2-raw-prefetch-model-r1,3,False,2048,128,127,1.360512249,5.048710399,1505.31537,25.15493858
+down_raw_prefetch,False,q2-down-raw-prefetch-model-r1,0,True,2048,128,127,1.363053051,5.048084544,1502.509384,25.15805726
+down_raw_prefetch,False,q2-down-raw-prefetch-model-r1,1,False,2048,128,127,1.360977533,5.04227702,1504.800741,25.18703346
+down_raw_prefetch,False,q2-down-raw-prefetch-model-r1,2,False,2048,128,127,1.361963794,5.046976069,1503.711045,25.16358276
+down_raw_prefetch,False,q2-down-raw-prefetch-model-r1,3,False,2048,128,127,1.362448098,5.049783025,1503.176527,25.14959541
+fixed_ud,True,q2-counting-regression-ud-r1,0,True,2048,128,127,1.212520558,5.217234208,1689.043527,24.34239962
+fixed_ud,True,q2-counting-regression-ud-r1,1,False,2048,128,127,1.214447147,5.216416355,1686.364042,24.34621613
+fixed_ud,True,q2-counting-regression-ud-r1,2,False,2048,128,127,1.214869991,5.217375049,1685.777092,24.34174251
+fixed_ud,True,q2-counting-regression-ud-r1,3,False,2048,128,127,1.215141798,5.258576845,1685.400011,24.15102104

@@ -1,0 +1,431 @@
+{
+  "at": "2026-10-03T01:03:41.109532+00:00",
+  "state": "Q2_HC_LIBRARY_WINDOW_RELEASED",
+  "runners": [
+    {
+      "label": "q2-hc-library-host-r1",
+      "pid": 2764446,
+      "absent": true,
+      "finished_at": "2026-10-03T00:30:18.359762+00:00"
+    },
+    {
+      "label": "q2-hc-library-sweep-r1",
+      "pid": 2765442,
+      "absent": true,
+      "finished_at": "2026-10-03T00:31:10.661100+00:00"
+    },
+    {
+      "label": "q2-hc-library-sweep-r2",
+      "pid": 2766835,
+      "absent": true,
+      "finished_at": "2026-10-03T00:35:20.284421+00:00"
+    },
+    {
+      "label": "q2-hc-library-host-r2",
+      "pid": 2768838,
+      "absent": true,
+      "finished_at": "2026-10-03T00:41:16.924293+00:00"
+    },
+    {
+      "label": "q2-hc-library-micro-ref-r1",
+      "pid": 2770232,
+      "absent": true,
+      "finished_at": "2026-10-03T00:43:41.345315+00:00"
+    },
+    {
+      "label": "q2-hc-library-micro-r1",
+      "pid": 2770874,
+      "absent": true,
+      "finished_at": "2026-10-03T00:44:58.861092+00:00"
+    },
+    {
+      "label": "q2-hc-library-model-ref-r1",
+      "pid": 2771513,
+      "absent": true,
+      "finished_at": "2026-10-03T00:50:15.558254+00:00"
+    },
+    {
+      "label": "q2-hc-library-model-r1",
+      "pid": 2773552,
+      "absent": true,
+      "finished_at": "2026-10-03T00:55:11.518886+00:00"
+    },
+    {
+      "label": "q2-hc-library-ud-r1",
+      "pid": 2776017,
+      "absent": true,
+      "finished_at": "2026-10-03T01:01:17.382200+00:00"
+    }
+  ],
+  "commands": [
+    {
+      "label": "q2-hc-library-host-r1",
+      "pid": 2764447,
+      "start_ticks": 155278546,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-host-r1",
+      "pid": 2764525,
+      "start_ticks": 155278649,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-host-r1",
+      "pid": 2764610,
+      "start_ticks": 155279152,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-host-r1",
+      "pid": 2764859,
+      "start_ticks": 155279806,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-host-r1",
+      "pid": 2764929,
+      "start_ticks": 155279859,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-host-r1",
+      "pid": 2765015,
+      "start_ticks": 155280611,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-sweep-r1",
+      "pid": 2765443,
+      "start_ticks": 155284080,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-sweep-r1",
+      "pid": 2765638,
+      "start_ticks": 155284283,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-sweep-r1",
+      "pid": 2765775,
+      "start_ticks": 155285687,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-sweep-r1",
+      "pid": 2765780,
+      "start_ticks": 155285740,
+      "exit_code": 1,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-sweep-r2",
+      "pid": 2766837,
+      "start_ticks": 155309035,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-sweep-r2",
+      "pid": 2767040,
+      "start_ticks": 155309238,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-sweep-r2",
+      "pid": 2767182,
+      "start_ticks": 155310642,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-sweep-r2",
+      "pid": 2767187,
+      "start_ticks": 155310703,
+      "exit_code": 1,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-host-r2",
+      "pid": 2768839,
+      "start_ticks": 155344453,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-host-r2",
+      "pid": 2768913,
+      "start_ticks": 155344505,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-host-r2",
+      "pid": 2768986,
+      "start_ticks": 155344958,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-host-r2",
+      "pid": 2769215,
+      "start_ticks": 155345612,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-host-r2",
+      "pid": 2769313,
+      "start_ticks": 155345715,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-host-r2",
+      "pid": 2769403,
+      "start_ticks": 155346468,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-micro-ref-r1",
+      "pid": 2770233,
+      "start_ticks": 155359652,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-micro-ref-r1",
+      "pid": 2770430,
+      "start_ticks": 155359855,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-micro-ref-r1",
+      "pid": 2770576,
+      "start_ticks": 155361260,
+      "exit_code": 1,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-micro-r1",
+      "pid": 2770875,
+      "start_ticks": 155367403,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-micro-r1",
+      "pid": 2771070,
+      "start_ticks": 155367606,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-micro-r1",
+      "pid": 2771214,
+      "start_ticks": 155369012,
+      "exit_code": 1,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-model-ref-r1",
+      "pid": 2771520,
+      "start_ticks": 155375167,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-model-ref-r1",
+      "pid": 2771718,
+      "start_ticks": 155375370,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-model-ref-r1",
+      "pid": 2772847,
+      "start_ticks": 155390898,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-model-ref-r1",
+      "pid": 2772852,
+      "start_ticks": 155390951,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-model-r1",
+      "pid": 2773554,
+      "start_ticks": 155404914,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-model-r1",
+      "pid": 2773752,
+      "start_ticks": 155405066,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-model-r1",
+      "pid": 2774845,
+      "start_ticks": 155420594,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-model-r1",
+      "pid": 2774850,
+      "start_ticks": 155420647,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-ud-r1",
+      "pid": 2776018,
+      "start_ticks": 155444805,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-ud-r1",
+      "pid": 2776241,
+      "start_ticks": 155445008,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-ud-r1",
+      "pid": 2777112,
+      "start_ticks": 155456279,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-library-ud-r1",
+      "pid": 2777118,
+      "start_ticks": 155456332,
+      "exit_code": 0,
+      "absent": true
+    }
+  ],
+  "live_owned": [],
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "observer": {
+    "pid": 2778360,
+    "state": "R",
+    "group": 2778357,
+    "session": 2778357,
+    "start_ticks": 155481536
+  },
+  "models": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "bytes": 147207127040,
+      "device": 52,
+      "inode": 3116203,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 52,
+      "inode": 3206497,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 52,
+      "inode": 3228516,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 52,
+      "inode": 3211726,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 52,
+      "inode": 3207513,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    }
+  ],
+  "result_sha256": {
+    "q2-hc-library-host-r1": "3b00b2ddb62e1d7720e820c39aeb1009daf7e5eb1b290062f47afa23bdb048b3",
+    "q2-hc-library-sweep-r1": "d90eec7342f81ac5773dadf16c09f8a05d3e0d0b33d82bceec8e4d9871d48964",
+    "q2-hc-library-sweep-r2": "3ebf8cf17eadb88d1a1c44b354a3de999709fa4d37c43bf9264c0bd033845e0e",
+    "q2-hc-library-host-r2": "a44347ce998f0bc10866741e752cdbfc1ec4cea83ca447a4b0ba02f35585dc63",
+    "q2-hc-library-micro-ref-r1": "6d2c082c1b8347f8792d4135e3c8f911f56ae8f8ae1f113a2f3c083e0cd72ece",
+    "q2-hc-library-micro-r1": "d4ec4cdfb0414903a2299a6ccfd1fbcdfed9720160e2bfab2faec403d6256b23",
+    "q2-hc-library-model-ref-r1": "19a3e1df96282f301c6f862ac4d5780e836dc492262ef0d9375c90b059ddcb77",
+    "q2-hc-library-model-r1": "5cab9c50c3968c88f46105d41473a5813462a645db423e80f03cdaa08b5d50a5",
+    "q2-hc-library-ud-r1": "4b7903cb11c6f42beec1b2e3d6c1ae6f794dd059ba809d90997e6738bc153c80"
+  },
+  "thermal": {
+    "/sys/class/hwmon/hwmon4/temp1_input": "48500",
+    "/sys/class/hwmon/hwmon2/temp1_input": "48000",
+    "/sys/class/hwmon/hwmon0/temp1_input": "49000",
+    "/sys/class/hwmon/hwmon5/temp1_input": "49000",
+    "/sys/class/hwmon/hwmon3/temp1_input": "49250",
+    "/sys/class/hwmon/hwmon1/temp6_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp3_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp7_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp4_input": "43850",
+    "/sys/class/hwmon/hwmon1/temp8_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp1_input": "43850",
+    "/sys/class/hwmon/hwmon1/temp9_input": "43850",
+    "/sys/class/hwmon/hwmon1/temp2_input": "54850"
+  }
+}

@@ -1,5 +1,10 @@
 # SPDX-License-Identifier: MIT
 cmake_minimum_required(VERSION 3.21)
+option(LIE_Q2_QUALIFICATION_ONLY "Build experimental Q2 qualification targets instead of LIE products" OFF)
+if(LIE_Q2_QUALIFICATION_ONLY)
+  include(cmake/q2-qualification.cmake)
+  return()
+endif()
 project(synapse_lie VERSION 0.1.0 LANGUAGES C)
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)

@@ -1,0 +1,41 @@
+{
+  "schema": "synapse-lie.q2-down-live-stage-disposition.v1",
+  "model_result_sha256": "f5fec2a80ab4645ec0d8a4789848857f0faa6ae2d17617399336263029ff40d1",
+  "component_result_sha256": "f88675f33b55c2a936b470c063df1630838e3a38bcf267b360824d64767ed237",
+  "final_audit_sha256": "ad8f6df9b133df1027c39b25433021598c3b8f3037418d9a4354d433bbcc9d9d",
+  "decision": "RETAIN_NEGATIVE_RESULT_KEEP_PARENT",
+  "candidate_pp": 1506.753016,
+  "candidate_tg": 25.15614684,
+  "parent_pp": 1511.097261,
+  "parent_tg": 25.14684805,
+  "changes": {
+    "prefill_tok_s": -0.28748943645924285,
+    "decode_steps_s": 0.03697795438026841,
+    "prefill_s": 0.2883183165337533,
+    "decode_s": -0.036964262784788815
+  },
+  "component_exact_pairs": 477,
+  "parent_model_files_exact": 21,
+  "within_arm_replays_exact": 9,
+  "thermal_peaks_c": {
+    "q2-down-live-stage-component-r1": {
+      "amdgpu": 41.0,
+      "k10temp": 69.5
+    },
+    "q2-down-live-stage-model-r1": {
+      "amdgpu": 77.0,
+      "k10temp": 85.375
+    }
+  },
+  "observation_failure": "evidence/q2-down-live-stage-preparation/premature-events-observation.json",
+  "observation_failure_sha256": "5a06bdec4a8c3ef1e058eb86513c564e2972fc39833416ee433fdce4e1aef723",
+  "observation_failure_scope": "Read-only premature log lookup while model build was live; fixed availability handling, original job not restarted. All13 runtime commands exit0.",
+  "reason": "Component time changes are near zero; the new original model is0.287489% lower PP than the retained1511 parent. Historical samples overlap and do not prove causality. Keep the parent and preserve this source/result.",
+  "q8_load_review": "config/q2-q8-load-review.json",
+  "q8_load_review_sha256": "2d2eabd3f274692a67bf4753cf3c29e95af79bd9627079eeb0782481c45849c7",
+  "controls_rerun": false,
+  "component_rerun": false,
+  "full_curve_admitted": false,
+  "promoted": false,
+  "goal_met": false
+}

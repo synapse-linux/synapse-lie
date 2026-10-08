@@ -1,0 +1,22 @@
+{
+  "schema": "synapse-lie.q2-fixed-moe-profile-host.v1",
+  "capsule_sha256": "0cdc262058403a2466dde413cbac8b1f8df60ec18f8b1c619e36f630636e10d0",
+  "archive_sha256": "8d8e4eb373edd71562a9108f8844f6e787df8f85f65128c957bcf154759d5093",
+  "fixture_files_verified": 24,
+  "source_files_verified": 1020,
+  "commands": 6,
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "debug_tests_passed": 24,
+  "asan_ubsan_tests_passed": 24,
+  "artifacts_verified": 7,
+  "gpu_opened": false,
+  "model_inference": false,
+  "plan_sha256": "aebdb53cc45103c1e0d784af47eb3273610a9c48a1729e80c889e1ad107b1cbd"
+}

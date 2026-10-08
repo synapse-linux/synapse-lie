@@ -1,0 +1,38 @@
+{
+  "schema": "synapse-lie.q2-down-register-palette-analysis-correction.v2",
+  "plan_sha256": "83bd662250d2f4de56d4a779d82799e80883965a80f67b9104725695f83703bf",
+  "admission_sha256": "f4762895f2a358009d3871a31ebb04fb158a0dc46e63a23d67ca652788fa4aa6",
+  "original_frozen_files_preserved": {
+    "tools/analyze-q2-down-register-palette-component.py": "23e00025f27e6e4ad6f591adb70e90538593105395ffcd2fddba083b8e4598af",
+    "tools/analyze-q2-down-register-palette-model.py": "11bb25919e6dd42fbe1d5ccdc4f7bb13b56ab273fdbc86e2c027c4211ec4d7d4",
+    "tools/q2-down-register-palette-phase.py": "be1712d96bbbefa9c8a2b7354086974e2336014fb9e7fe1bdcf25e96c9f2a671"
+  },
+  "added_files": {
+    "tools/analyze-q2-down-register-palette-component-v3.py": "4754ea52889b438f493de7f4dda2ea681b2839d0217a64dd2b99d68c71e86c74",
+    "tools/analyze-q2-down-register-palette-model-v3.py": "affbe0d363a25b2087e60effaaa0f75f693654b379d22e3c1617b3e41a99d205",
+    "tools/q2-down-register-palette-phase-v3.py": "07891cb295beeb7b2979469db3b7dc28ccdd357ef82b593789d7554c61933458"
+  },
+  "component_receipt_sha256": "70177020edc4a822cc97605115cb2a08b041af544117cd0c088b991a6c3b8606",
+  "component_log_sha256": "b196fbc6241cb687ef2eac9df081bf03bb29c8374f96b24f07bd846322b34309",
+  "component_numerical_pairs": 123,
+  "component_numerical_exact": true,
+  "component_timing_samples": 70,
+  "component_timing_zeros": 70,
+  "component_timing_valid": false,
+  "initial_analysis_command": "evidence/q2-down-register-palette-preparation/component-analysis-command.json",
+  "initial_analysis_exit": 1,
+  "correction": "Preserve invalid raw timing distributions via explicit finite/nonnegative raw statistics; mark timings invalid and percent change unavailable. No performance estimate from zeros. All original numerical, artifact, input, geometry, ownership and safety checks remain; unchanged plan permits model measurement after timing rejection.",
+  "timing_cause": "Unresolved; HIP API returned success and all elapsed values zero",
+  "timing_threshold_or_finite_tolerance_changed": false,
+  "independent_quality": false,
+  "component_rerun": false,
+  "model_protocol_changed": false,
+  "model_performance_result": null,
+  "goal_met": false,
+  "previous_correction_manifest_sha256": "3fa0a35cec0f34eccdd0b769149105e0d8a2c15ac2550a6197896cbcbb18ec54",
+  "additional_analysis_failure": {
+    "command": "component-analysis-v2",
+    "exit_code": 1,
+    "reason": "Shared positive-timing statistics helper also rejects zero values"
+  }
+}

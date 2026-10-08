@@ -1,0 +1,23 @@
+{
+  "scope": "Isolated numerical experiment; executor dispatch unchanged",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-hc-up-chains",
+  "donor": ".deps/gufo-q2-bench-hc-sequence",
+  "donor_kernel_sha256": "b832e97c62d682874acca9dad06adaa10787b77c823debe634694b9516953194",
+  "output": ".deps/gufo-q2-bench-hc-deferred-norm",
+  "patch_sha256": "5b2003a194faac44be89c624edfb3cf61e0c340675c2068ae3cf653e3bc040f6",
+  "changed_files": {
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": {
+      "base_sha256": "a5ccc81f7762beae74cf0bbb06e6aeebd44edf1c804c1473b63619af023a6cd5",
+      "candidate_sha256": "14c59882425123c182b9702104fd2c90be72e3b22290d24aef2a4866696b76d3"
+    },
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp": {
+      "base_sha256": "7276c8a714fc5eef58e63b967b777586374dfcc69526ea1454733dbd0da8750e",
+      "candidate_sha256": "b2098af719d608665d69a721c9cf35a5c05c6fa62a701fedbf9fe3e7733da1d9"
+    }
+  },
+  "arithmetic": "Measured gamma*scale F32 rounding, then residual multiplication; exactness unproven",
+  "storage": "Four scales per token plus original F16 down input; no F32 norm write",
+  "promotion": false,
+  "model_wired": false
+}

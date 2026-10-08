@@ -1,0 +1,155 @@
+{
+  "schema": "synapse-lie.q2-hc-bk256-small-fp64.v1",
+  "cases": [
+    {
+      "tokens": 96,
+      "pattern": 0,
+      "moe": false,
+      "summary": {
+        "library": {
+          "relative_rms": 3.2877012083225985e-05,
+          "error_over_peak": 3.412573531609123e-05,
+          "samples": 315,
+          "pass_original_limits": false
+        },
+        "native": {
+          "relative_rms": 1.622549607155061e-05,
+          "error_over_peak": 1.8491339991710485e-05,
+          "samples": 315,
+          "pass_original_limits": true
+        }
+      },
+      "sample_file": "evidence/q2-hc-bk256-run-preparation/hc-bk256-n96-p0-moe0-fp64.json",
+      "sample_sha256": "734701183106ea29a5805d99eba914c7a3838b6f39072cb45e528612dd006f2a"
+    },
+    {
+      "tokens": 96,
+      "pattern": 0,
+      "moe": true,
+      "summary": {
+        "library": {
+          "relative_rms": 3.2818595358786254e-05,
+          "error_over_peak": 3.42182685279957e-05,
+          "samples": 315,
+          "pass_original_limits": false
+        },
+        "native": {
+          "relative_rms": 1.6291848179562786e-05,
+          "error_over_peak": 1.7189235133449265e-05,
+          "samples": 315,
+          "pass_original_limits": true
+        }
+      },
+      "sample_file": "evidence/q2-hc-bk256-run-preparation/hc-bk256-n96-p0-moe1-fp64.json",
+      "sample_sha256": "9f702c5b395b2edd5664f78fa422b2bb39c53c4dea86e7b708e25fd06b650990"
+    },
+    {
+      "tokens": 97,
+      "pattern": 1,
+      "moe": false,
+      "summary": {
+        "library": {
+          "relative_rms": 3.1358794459037314e-05,
+          "error_over_peak": 3.984746914877601e-05,
+          "samples": 315,
+          "pass_original_limits": false
+        },
+        "native": {
+          "relative_rms": 1.5762203676651244e-05,
+          "error_over_peak": 2.16019029528786e-05,
+          "samples": 315,
+          "pass_original_limits": false
+        }
+      },
+      "sample_file": "evidence/q2-hc-bk256-run-preparation/hc-bk256-n97-p1-moe0-fp64.json",
+      "sample_sha256": "ce090c37443102677dc4c27c4e504eb44c81ebb3f8c384cbe0b0166c5d4e6674"
+    },
+    {
+      "tokens": 97,
+      "pattern": 1,
+      "moe": true,
+      "summary": {
+        "library": {
+          "relative_rms": 3.1030100433667316e-05,
+          "error_over_peak": 3.54754964796954e-05,
+          "samples": 315,
+          "pass_original_limits": false
+        },
+        "native": {
+          "relative_rms": 1.554438639848763e-05,
+          "error_over_peak": 1.7964038974561293e-05,
+          "samples": 315,
+          "pass_original_limits": true
+        }
+      },
+      "sample_file": "evidence/q2-hc-bk256-run-preparation/hc-bk256-n97-p1-moe1-fp64.json",
+      "sample_sha256": "5dc151a594b63b97f5f31c153d398c521ff3eda30dcca92d7348b762b1ef63a8"
+    },
+    {
+      "tokens": 129,
+      "pattern": 2,
+      "moe": false,
+      "summary": {
+        "library": {
+          "relative_rms": 3.312139615459077e-05,
+          "error_over_peak": 3.800917438417325e-05,
+          "samples": 350,
+          "pass_original_limits": false
+        },
+        "native": {
+          "relative_rms": 1.6671130661311008e-05,
+          "error_over_peak": 1.7600703977636795e-05,
+          "samples": 350,
+          "pass_original_limits": true
+        }
+      },
+      "sample_file": "evidence/q2-hc-bk256-run-preparation/hc-bk256-n129-p2-moe0-fp64.json",
+      "sample_sha256": "fa59ffdbba86ae9a2e781806307d066dbc40a4878718581ede2f8c3121d9e00a"
+    },
+    {
+      "tokens": 129,
+      "pattern": 2,
+      "moe": true,
+      "summary": {
+        "library": {
+          "relative_rms": 3.334246215330189e-05,
+          "error_over_peak": 4.163612951483371e-05,
+          "samples": 350,
+          "pass_original_limits": false
+        },
+        "native": {
+          "relative_rms": 1.672221163824896e-05,
+          "error_over_peak": 1.7123503000912266e-05,
+          "samples": 350,
+          "pass_original_limits": true
+        }
+      },
+      "sample_file": "evidence/q2-hc-bk256-run-preparation/hc-bk256-n129-p2-moe1-fp64.json",
+      "sample_sha256": "3b146b7e7608d92dad59291ae58435e9356815dd73ba96397c3f3330cb999d9f"
+    }
+  ],
+  "script_sha256": "b9072f900e3017b91dde31142c3d0d2e3a9343c5e3de17cc6ef6a28228cfe291",
+  "sibling_saved_tensors_exact": 40,
+  "source_receipts": {
+    "initial": "32f8d58acb346012a1b5f489b2170de21b45aa8b3d4ef5eef6b17b60c8d77b68",
+    "bounded": "f94445ef1b6f39ae0722233ed364635d829a25a42975c61f6aa0203fc5f51fa8"
+  },
+  "original_limits": {
+    "relative_rms": 2e-05,
+    "error_over_peak": 2e-05
+  },
+  "reason": "hipBLASLt changed cout to fixed2; component error fields are rounded. Replay recovers small-shape errors without another GPU run.",
+  "weight_identity": "Deterministic synthetic fixture source reconstruction, not captured old payload hash",
+  "arithmetic": "Sequential FP64 dot over retained original half bits, matching existing analytic edges",
+  "covered_tokens": [
+    96,
+    97,
+    129
+  ],
+  "covers_2048": false,
+  "model_forward": false,
+  "independent_model_quality": false,
+  "numeric_exact_library_rejection_preserved": true,
+  "new_gpu_run": false,
+  "goal_met": false
+}

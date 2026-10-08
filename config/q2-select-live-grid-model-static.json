@@ -1,0 +1,10 @@
+{
+  "schema": "synapse-lie.q2-select-live-grid-model-static.v1",
+  "source_manifest_sha256": "7cc069099f4d943de2bdbf55156bed81a158fab86556a9202acb844058969e28",
+  "all_device_bodies_exact": 164,
+  "provider_files": 1028,
+  "parent_assembly_sha256": "10f77ab9fd463dea4da04fb3c613a69fd3a56686782119780f16eacee3a9d331",
+  "candidate_assembly_sha256": "ced9328f80263310b98a2b89908c438d540dcb4d7971fe2c06aaec8292949ea5",
+  "compile_receipt_sha256": "4327cd622c1e303b3db6f7a940e6b20085f0e2c9c43528a76ce4553294f72c4d",
+  "GPU_run": false
+}

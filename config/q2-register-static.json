@@ -1,0 +1,256 @@
+{
+  "scope": "Local static assembly only, no GPU run; remote trace is prior baseline metadata",
+  "compiler": "AMD clang 22.0.0git f58b06dce1f9c15707c5f808fd002e18c2accf7e",
+  "baseline_and_barrier": {
+    "reference": {
+      "type16-tile16": {
+        "amdhsa_group_segment_fixed_size": 0,
+        "amdhsa_private_segment_fixed_size": 0,
+        "amdhsa_next_free_vgpr": 172,
+        "amdhsa_next_free_sgpr": 67
+      },
+      "type16-tile32": {
+        "amdhsa_group_segment_fixed_size": 0,
+        "amdhsa_private_segment_fixed_size": 96,
+        "amdhsa_next_free_vgpr": 256,
+        "amdhsa_next_free_sgpr": 68
+      },
+      "type16-tile48": {
+        "amdhsa_group_segment_fixed_size": 0,
+        "amdhsa_private_segment_fixed_size": 0,
+        "amdhsa_next_free_vgpr": 127,
+        "amdhsa_next_free_sgpr": 68
+      },
+      "type16-tile64": {
+        "amdhsa_group_segment_fixed_size": 0,
+        "amdhsa_private_segment_fixed_size": 0,
+        "amdhsa_next_free_vgpr": 148,
+        "amdhsa_next_free_sgpr": 68
+      },
+      "type16-tile80": {
+        "amdhsa_group_segment_fixed_size": 0,
+        "amdhsa_private_segment_fixed_size": 0,
+        "amdhsa_next_free_vgpr": 171,
+        "amdhsa_next_free_sgpr": 68
+      },
+      "type10-tile16": {
+        "amdhsa_group_segment_fixed_size": 0,
+        "amdhsa_private_segment_fixed_size": 296,
+        "amdhsa_next_free_vgpr": 256,
+        "amdhsa_next_free_sgpr": 78
+      },
+      "type10-tile32": {
+        "amdhsa_group_segment_fixed_size": 0,
+        "amdhsa_private_segment_fixed_size": 320,
+        "amdhsa_next_free_vgpr": 256,
+        "amdhsa_next_free_sgpr": 78
+      },
+      "type10-tile48": {
+        "amdhsa_group_segment_fixed_size": 0,
+        "amdhsa_private_segment_fixed_size": 848,
+        "amdhsa_next_free_vgpr": 256,
+        "amdhsa_next_free_sgpr": 78
+      },
+      "type10-tile64": {
+        "amdhsa_group_segment_fixed_size": 0,
+        "amdhsa_private_segment_fixed_size": 1204,
+        "amdhsa_next_free_vgpr": 256,
+        "amdhsa_next_free_sgpr": 78
+      },
+      "type10-tile80": {
+        "amdhsa_group_segment_fixed_size": 0,
+        "amdhsa_private_segment_fixed_size": 2764,
+        "amdhsa_next_free_vgpr": 256,
+        "amdhsa_next_free_sgpr": 78
+      }
+    },
+    "candidate": {
+      "type16-tile16": {
+        "amdhsa_group_segment_fixed_size": 0,
+        "amdhsa_private_segment_fixed_size": 0,
+        "amdhsa_next_free_vgpr": 172,
+        "amdhsa_next_free_sgpr": 67
+      },
+      "type16-tile32": {
+        "amdhsa_group_segment_fixed_size": 0,
+        "amdhsa_private_segment_fixed_size": 96,
+        "amdhsa_next_free_vgpr": 256,
+        "amdhsa_next_free_sgpr": 68
+      },
+      "type16-tile48": {
+        "amdhsa_group_segment_fixed_size": 0,
+        "amdhsa_private_segment_fixed_size": 0,
+        "amdhsa_next_free_vgpr": 127,
+        "amdhsa_next_free_sgpr": 68
+      },
+      "type16-tile64": {
+        "amdhsa_group_segment_fixed_size": 0,
+        "amdhsa_private_segment_fixed_size": 0,
+        "amdhsa_next_free_vgpr": 148,
+        "amdhsa_next_free_sgpr": 68
+      },
+      "type16-tile80": {
+        "amdhsa_group_segment_fixed_size": 0,
+        "amdhsa_private_segment_fixed_size": 0,
+        "amdhsa_next_free_vgpr": 171,
+        "amdhsa_next_free_sgpr": 68
+      },
+      "type10-tile16": {
+        "amdhsa_group_segment_fixed_size": 0,
+        "amdhsa_private_segment_fixed_size": 516,
+        "amdhsa_next_free_vgpr": 256,
+        "amdhsa_next_free_sgpr": 77
+      },
+      "type10-tile32": {
+        "amdhsa_group_segment_fixed_size": 0,
+        "amdhsa_private_segment_fixed_size": 176,
+        "amdhsa_next_free_vgpr": 256,
+        "amdhsa_next_free_sgpr": 78
+      },
+      "type10-tile48": {
+        "amdhsa_group_segment_fixed_size": 0,
+        "amdhsa_private_segment_fixed_size": 456,
+        "amdhsa_next_free_vgpr": 256,
+        "amdhsa_next_free_sgpr": 78
+      },
+      "type10-tile64": {
+        "amdhsa_group_segment_fixed_size": 0,
+        "amdhsa_private_segment_fixed_size": 0,
+        "amdhsa_next_free_vgpr": 200,
+        "amdhsa_next_free_sgpr": 66
+      },
+      "type10-tile80": {
+        "amdhsa_group_segment_fixed_size": 0,
+        "amdhsa_private_segment_fixed_size": 0,
+        "amdhsa_next_free_vgpr": 228,
+        "amdhsa_next_free_sgpr": 66
+      }
+    }
+  },
+  "baseline_and_barrier_instruction_counts": {
+    "reference": {
+      "16": {
+        "scratch_load_instructions": 90,
+        "scratch_store_instructions": 55
+      },
+      "32": {
+        "scratch_load_instructions": 98,
+        "scratch_store_instructions": 79
+      },
+      "48": {
+        "scratch_load_instructions": 325,
+        "scratch_store_instructions": 229
+      },
+      "64": {
+        "scratch_load_instructions": 525,
+        "scratch_store_instructions": 398
+      },
+      "80": {
+        "scratch_load_instructions": 838,
+        "scratch_store_instructions": 680
+      }
+    },
+    "candidate": {
+      "16": {
+        "scratch_load_instructions": 115,
+        "scratch_store_instructions": 80
+      },
+      "32": {
+        "scratch_load_instructions": 54,
+        "scratch_store_instructions": 42
+      },
+      "48": {
+        "scratch_load_instructions": 141,
+        "scratch_store_instructions": 118
+      },
+      "64": {
+        "scratch_load_instructions": 0,
+        "scratch_store_instructions": 0
+      },
+      "80": {
+        "scratch_load_instructions": 0,
+        "scratch_store_instructions": 0
+      }
+    }
+  },
+  "bounded_k_loop": {
+    "16": {
+      "amdhsa_private_segment_fixed_size": 0,
+      "amdhsa_next_free_vgpr": 112,
+      "amdhsa_next_free_sgpr": 66,
+      "scratch_load_instructions": 0,
+      "scratch_store_instructions": 0
+    },
+    "32": {
+      "amdhsa_private_segment_fixed_size": 0,
+      "amdhsa_next_free_vgpr": 123,
+      "amdhsa_next_free_sgpr": 65,
+      "scratch_load_instructions": 0,
+      "scratch_store_instructions": 0
+    },
+    "48": {
+      "amdhsa_private_segment_fixed_size": 0,
+      "amdhsa_next_free_vgpr": 160,
+      "amdhsa_next_free_sgpr": 65,
+      "scratch_load_instructions": 0,
+      "scratch_store_instructions": 0
+    },
+    "64": {
+      "amdhsa_private_segment_fixed_size": 0,
+      "amdhsa_next_free_vgpr": 187,
+      "amdhsa_next_free_sgpr": 65,
+      "scratch_load_instructions": 0,
+      "scratch_store_instructions": 0
+    },
+    "80": {
+      "amdhsa_private_segment_fixed_size": 0,
+      "amdhsa_next_free_vgpr": 217,
+      "amdhsa_next_free_sgpr": 65,
+      "scratch_load_instructions": 0,
+      "scratch_store_instructions": 0
+    }
+  },
+  "command_receipts": [
+    "evidence/q2-register-static-r1/commands.json",
+    "evidence/q2-register-static-r2/commands.json",
+    "evidence/q2-register-static-r3/commands.json"
+  ],
+  "forced_full_unroll_barrier": {
+    "16": {
+      "amdhsa_private_segment_fixed_size": 296,
+      "amdhsa_next_free_vgpr": 256,
+      "amdhsa_next_free_sgpr": 78,
+      "scratch_load_instructions": 90,
+      "scratch_store_instructions": 55
+    },
+    "32": {
+      "amdhsa_private_segment_fixed_size": 1064,
+      "amdhsa_next_free_vgpr": 256,
+      "amdhsa_next_free_sgpr": 78,
+      "scratch_load_instructions": 236,
+      "scratch_store_instructions": 212
+    },
+    "48": {
+      "amdhsa_private_segment_fixed_size": 1940,
+      "amdhsa_next_free_vgpr": 256,
+      "amdhsa_next_free_sgpr": 78,
+      "scratch_load_instructions": 480,
+      "scratch_store_instructions": 454
+    },
+    "64": {
+      "amdhsa_private_segment_fixed_size": 2816,
+      "amdhsa_next_free_vgpr": 256,
+      "amdhsa_next_free_sgpr": 78,
+      "scratch_load_instructions": 753,
+      "scratch_store_instructions": 720
+    },
+    "80": {
+      "amdhsa_private_segment_fixed_size": 5692,
+      "amdhsa_next_free_vgpr": 256,
+      "amdhsa_next_free_sgpr": 78,
+      "scratch_load_instructions": 1226,
+      "scratch_store_instructions": 1060
+    }
+  },
+  "candidate_patch_sha256_at_bounded_k_screen": "9c5538eb5ffa7b81140a009bed783033c6dbdaeda9801a51f9861155de1fc135"
+}

@@ -1,0 +1,17 @@
+{
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "baseline_commit": "8dc2752",
+  "files": 1019,
+  "changed": [
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  ],
+  "patch_sha256": "fe2a08e3860d15d50a182abb9784cdb5b94802f5db2ba66a731c0f732f4eaba5",
+  "baseline_inventory_sha256": "9b80756b35b729b469ed1370b990253c2ca7f23e6e5b1629626aad9a9e037e39",
+  "candidate_inventory_sha256": "d2c3b7767ba9718e81762d9f3eb21dbc1b8296ad8e504385e26ed82cae2f2bb5",
+  "generator_exact": true,
+  "patch_exit": 0,
+  "patch_exact": true,
+  "baseline_source": ".deps/gufo-q2-bench-packed",
+  "candidate_source": ".deps/gufo-q2-bench-hc-prefetch2",
+  "gpu_status": "Not measured yet"
+}

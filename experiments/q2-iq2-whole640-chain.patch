@@ -1,0 +1,625 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/CMakeLists.txt
++++ b/src/models/qwen38_flash_next/CMakeLists.txt
+@@ -56,7 +56,9 @@
+     ${QFN_ROCM_DIR}/batch.cpp
+     engine.cpp)
+   target_sources(gufo_qwen38_flash_next PRIVATE ${QFN_HIP_SOURCES}
+-    ${QFN_ROCM_DIR}/iq2_mixed_tiles.c)
++    ${QFN_ROCM_DIR}/iq2_mixed_tiles.c
++    ${QFN_ROCM_DIR}/q2_iq2_tail16.c
++    ${QFN_ROCM_DIR}/q2_iq2_whole640_tiles.c)
+   set_target_properties(gufo_qwen38_flash_next PROPERTIES
+     C_STANDARD 17 C_STANDARD_REQUIRED ON C_EXTENSIONS OFF)
+   set_source_files_properties(${QFN_ROCM_DIR}/kernels.hip.cpp PROPERTIES LANGUAGE HIP)
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -1,5 +1,6 @@
+ #include "src/models/qwen38_flash_next/kernels/rocm/executor.hpp"
+ #include "iq2_mixed_tiles.h"
++#include "q2_iq2_whole640_tiles.h"
+ 
+ #include <algorithm>
+ #include <array>
+@@ -930,6 +931,7 @@
+   routed_pair_offset_ = 0;
+   routed_pair_rows_ = 64;
+   routed_iq2_tail_tiles_ = 0;
++  routed_iq2_whole640_tiles_ = 0;
+   routed_iq2_mixed_ = false;
+   if (!ExpertMatrixRows(n_tokens)) {
+     return true;
+@@ -959,23 +961,37 @@
+   // weight decoding, while short buckets retain the cheaper 64-token tile.
+   if (mixed_iq2 && n_tokens >= 1024 && n_tokens <= 4096 &&
+       c.num_experts <= 512 && routed_tile_rows_ == kRoutedTileRowsWide) {
+-    // Keep the original down map at offset zero. Append only the two
+-    // gate/up spans; their total fits one existing map-capacity reservation.
+-    lie_iq2_tile_spans spans{};
++    // Preserve down descriptors and the original reservation. Only the full
++    // 2048-row prefill partitions short tails into a fused producer span.
+     const auto capacity = RoutedTileCapacity(
+         static_cast<std::size_t>(n_tokens) * c.num_experts_used, c);
+-    if (!lie_iq2_mixed_tiles(counts_host_, c.num_experts, n_tokens,
+-                             c.num_experts_used, tiles_host_ + n_tiles,
+-                             capacity, &spans)) {
+-      AssignError(error_msg, "invalid IQ2 mixed expert map");
+-      return false;
+-    }
+     routed_pair_offset_ = n_tiles;
+     routed_pair_rows_ = 128;
+-    routed_pair_tiles_ = spans.wide;
+-    routed_iq2_tail_tiles_ = spans.tail;
++    if (n_tokens == 2048) {
++      lie_iq2_tail16_spans spans{};
++      if (!lie_iq2_whole640_tiles(counts_host_, c.num_experts, n_tokens,
++                                  c.num_experts_used, tiles_host_ + n_tiles,
++                                  capacity, &spans)) {
++        AssignError(error_msg, "invalid IQ2 whole640 expert map");
++        return false;
++      }
++      routed_pair_tiles_ = spans.wide128;
++      routed_iq2_tail_tiles_ = spans.tail64;
++      routed_iq2_whole640_tiles_ = spans.tail16;
++      n_tiles += spans.wide128 + spans.tail64 + spans.tail16;
++    } else {
++      lie_iq2_tile_spans spans{};
++      if (!lie_iq2_mixed_tiles(counts_host_, c.num_experts, n_tokens,
++                               c.num_experts_used, tiles_host_ + n_tiles,
++                               capacity, &spans)) {
++        AssignError(error_msg, "invalid IQ2 mixed expert map");
++        return false;
++      }
++      routed_pair_tiles_ = spans.wide;
++      routed_iq2_tail_tiles_ = spans.tail;
++      n_tiles += spans.wide + spans.tail;
++    }
+     routed_iq2_mixed_ = true;
+-    n_tiles += spans.wide + spans.tail;
+   } else if (n_tokens >= 1024 && routed_tile_rows_ == kRoutedTileRowsWide) {
+     for (std::uint32_t e = 0; e < c.num_experts; ++e) {
+       const std::uint32_t padded = (counts_host_[e] + 15u) / 16u * 16u;
+@@ -1861,13 +1877,27 @@
+                 gate_up(routed_pair_offset_, routed_pair_tiles_, 128)) &&
+                (!routed_iq2_tail_tiles_ ||
+                 gate_up(routed_pair_offset_ + routed_pair_tiles_,
+-                        routed_iq2_tail_tiles_, 64)))
++                        routed_iq2_tail_tiles_, 64)) &&
++               (!routed_iq2_whole640_tiles_ ||
++                RoutedGatedIQ2Whole640(
++                    l.ffn_gate_exps.data, l.ffn_up_exps.data,
++                    static_cast<const __half*>(s_.x_half),
++                    s_.routed_tiles + routed_pair_offset_ + routed_pair_tiles_ +
++                        routed_iq2_tail_tiles_,
++                    routed_iq2_whole640_tiles_, s_.routed_bounds,
++                    s_.rows_token, s_.rows_slot, scaled, inverse, stream_)))
+             : gate_up(pair_map ? routed_pair_offset_ : 0,
+                       pair_map ? routed_pair_tiles_ : routed_n_tiles_,
+                       pair_map ? routed_pair_rows_ : routed_tile_rows_);
+     if (!gate_ok ||
+-        !PackQ2ScaledRows(s_.gate_e, scaled, inverse, n_tokens * used,
+-                          c.expert_ff, stream_) ||
++        !(routed_iq2_whole640_tiles_
++              ? PackQ2ScaledOrdinaryRows(
++                    s_.gate_e, scaled, inverse,
++                    s_.routed_tiles + routed_pair_offset_, routed_pair_tiles_,
++                    routed_iq2_tail_tiles_, s_.routed_bounds, s_.rows_slot,
++                    stream_)
++              : PackQ2ScaledRows(s_.gate_e, scaled, inverse, n_tokens * used,
++                                  c.expert_ff, stream_)) ||
+         !(compact_down
+               ? RoutedQ2ScaledHalfGemm(
+                     l.ffn_down_exps.data, scaled, inverse, s_.routed_tiles,
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.hpp
+@@ -538,6 +538,7 @@
+   mutable std::uint32_t routed_pair_tiles_{0};
+   mutable std::uint32_t routed_pair_rows_{64};
+   mutable std::uint32_t routed_iq2_tail_tiles_{0};
++  mutable std::uint32_t routed_iq2_whole640_tiles_{0};
+   mutable bool routed_iq2_mixed_{false};
+   mutable std::uint32_t routed_tile_rows_{48};  ///< token rows per tile
+   mutable int routed_tile_cols_{0};
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5517,6 +5517,8 @@
+ }
+ 
+ #include "q2_scaled_input.inc"
++#include "q2_iq2_whole640_kernel.inc"
++#include "q2_iq2_whole640_chain.inc"
+ 
+ template<int BN, bool kPacked = false>
+ void LaunchRoutedQ2(const void* w, const float* x, const std::int32_t* tiles,
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
+@@ -326,6 +326,15 @@
+ 
+ /// Compensated activation slots: low half high value, high half residual *4096.
+ // Experimental one-plane row scaling; not independent quality qualification.
++// Disjoint producer/packing ownership for full Q2 prefill expert tails.
++bool RoutedGatedIQ2Whole640(const void*, const void*, const __half*,
++                            const std::int32_t*, std::uint32_t,
++                            const std::int32_t*, const std::int32_t*,
++                            const std::int32_t*, __half*, float*, hipStream_t);
++bool PackQ2ScaledOrdinaryRows(const float*, __half*, float*,
++                             const std::int32_t*, std::uint32_t, std::uint32_t,
++                             const std::int32_t*, const std::int32_t*,
++                             hipStream_t);
+ bool PackQ2ScaledRows(const float*, __half*, float*, std::uint32_t, std::size_t,
+                       hipStream_t);
+ bool RoutedQ2ScaledGemm(const void*, const __half*, const float*,
+--- /dev/null
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_iq2_tail16.c
+@@ -0,0 +1,43 @@
++/* SPDX-License-Identifier: MIT */
++#include "q2_iq2_tail16.h"
++
++int lie_iq2_tail16(const uint32_t *counts, uint32_t experts, uint32_t tokens,
++                   uint32_t used, int32_t *map, size_t capacity,
++                   struct lie_iq2_tail16_spans *spans) {
++    if (!counts || !map || !spans || !experts || experts > 512 ||
++        !tokens || tokens > 4096 || !used || used > experts)
++        return 0;
++    uint32_t total = 0, wide = 0, tail64 = 0, tail16 = 0;
++    for (uint32_t e = 0; e < experts; ++e) {
++        const uint32_t n = counts[e];
++        if (n > tokens)
++            return 0;
++        total += n;
++        const uint32_t groups = (n + 63u) / 64u;
++        wide += groups / 2u;
++        if (groups & 1u) {
++            if (n - (groups - 1u) * 64u <= 16u)
++                ++tail16;
++            else
++                ++tail64;
++        }
++    }
++    if (total != tokens * used || (size_t)wide + tail64 + tail16 > capacity)
++        return 0;
++    uint32_t wi = 0, ti = wide, si = wide + tail64;
++    for (uint32_t e = 0; e < experts; ++e) {
++        const uint32_t n = counts[e];
++        const uint32_t groups = (n + 63u) / 64u;
++        for (uint32_t j = 0; j < groups / 2u; ++j)
++            map[wi++] = (int32_t)(e | (j << 16));
++        if (groups & 1u) {
++            const uint32_t old_index = groups - 1u;
++            if (n - old_index * 64u <= 16u)
++                map[si++] = (int32_t)(e | ((old_index * 4u) << 16));
++            else
++                map[ti++] = (int32_t)(e | (old_index << 16));
++        }
++    }
++    *spans = (struct lie_iq2_tail16_spans){wide, tail64, tail16};
++    return 1;
++}
+--- /dev/null
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_iq2_tail16.h
+@@ -0,0 +1,31 @@
++/* SPDX-License-Identifier: MIT */
++#ifndef LIE_Q2_IQ2_TAIL16_H
++#define LIE_Q2_IQ2_TAIL16_H
++#include <stddef.h>
++#include <stdint.h>
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++struct lie_iq2_tail16_spans {
++    uint32_t wide128;
++    uint32_t tail64;
++    uint32_t tail16;
++};
++
++/* Bounded, allocation-free IQ2 gate/up map, with ordered128/64/16 spans.
++ * Keep every original128 descriptor and every tail with17..64 live rows.
++ * Select16 only for1..16-row tails, including tails following wide tiles.
++ * Bits0..15 hold the expert; bits16..30 hold the index in that span's width.
++ * Descriptor count/capacity stay unchanged. Inputs/outputs must not alias.
++ * Failure leaves outputs unchanged. Bounds:1..512 experts,1..4096 tokens,
++ * 1..experts used per token. No device or model arithmetic. */
++int lie_iq2_tail16(const uint32_t *counts, uint32_t experts, uint32_t tokens,
++                   uint32_t used, int32_t *map, size_t capacity,
++                   struct lie_iq2_tail16_spans *spans);
++
++#ifdef __cplusplus
++}
++#endif
++#endif
+--- /dev/null
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_iq2_whole640_tiles.c
+@@ -0,0 +1,16 @@
++/* SPDX-License-Identifier: MIT */
++#include "q2_iq2_whole640_tiles.h"
++
++int lie_iq2_whole640_tiles(const uint32_t *counts, uint32_t experts,
++                           uint32_t tokens, uint32_t used, int32_t *map,
++                           size_t capacity, struct lie_iq2_tail16_spans *spans) {
++    if (!lie_iq2_tail16(counts, experts, tokens, used, map, capacity, spans))
++        return 0;
++    const uint32_t first = spans->wide128 + spans->tail64;
++    for (uint32_t i = first; i < first + spans->tail16; ++i) {
++        const uint32_t descriptor = (uint32_t)map[i];
++        /* The qualified short-tail start is always a multiple of 128 rows. */
++        map[i] = (int32_t)((descriptor & 65535u) | ((descriptor >> 18u) << 16u));
++    }
++    return 1;
++}
+--- /dev/null
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_iq2_whole640_tiles.h
+@@ -0,0 +1,21 @@
++/* SPDX-License-Identifier: MIT */
++#ifndef LIE_IQ2_WHOLE640_TILES_H
++#define LIE_IQ2_WHOLE640_TILES_H
++#include "q2_iq2_tail16.h"
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++/* Reuse the qualified 128/64/16-row partition, but encode both tail spans
++ * in the original 64-row descriptor units. The last span still covers only
++ * 1..16 live rows. Capacity, row order and failure atomicity are unchanged.
++ * No allocation, device access or model execution. Inputs must not alias. */
++int lie_iq2_whole640_tiles(const uint32_t *counts, uint32_t experts,
++                           uint32_t tokens, uint32_t used, int32_t *map,
++                           size_t capacity, struct lie_iq2_tail16_spans *spans);
++
++#ifdef __cplusplus
++}
++#endif
++#endif
+--- /dev/null
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_iq2_whole640_kernel.inc
+@@ -0,0 +1,235 @@
++// SPDX-License-Identifier: MIT
++// Derived from the independently pinned MIT Gufo f783fedb provider and LIE's
++// retained IQ2 fixed-bounds/whole-row scaled packing implementations.
++// LDS variant: each complete K sweep owns one 128-column output group.
++// Keep the 640-value row in block-owned LDS until its final scale is known.
++// Compiler/component draft only: no production selector uses this kernel.
++// Sixteen waves own up to 16 rows and all 640 gate/up columns.
++// Five output groups halve stage-loop barriers relative to the eight-wave
++// draft.
++__launch_bounds__(512) __global__ void RoutedIq2Whole640Wave16LdsDraftKernel(
++    const void* __restrict__ gate, const void* __restrict__ up,
++    const __half* __restrict__ x, const std::int32_t* __restrict__ tiles,
++    const std::int32_t* __restrict__ bounds,
++    const std::int32_t* __restrict__ tokens,
++    const std::int32_t* __restrict__ slots, __half* __restrict__ out,
++    float* __restrict__ inverse) {
++  constexpr unsigned kColumns = 640;
++  constexpr unsigned kInput = 2560;
++  constexpr unsigned kGroups = 5;
++  constexpr unsigned kWeightRows = 256;
++  constexpr unsigned kActStride = 17;
++  constexpr unsigned kCodeBytes = kWeightRows * 4 * 16;
++  constexpr unsigned kScaleBytes = 2 * kWeightRows * 4;
++  constexpr unsigned kActBytes = 8 * kActStride * 16;
++  constexpr unsigned kLdsBytes = kCodeBytes + kScaleBytes + kActBytes;
++  constexpr unsigned kRowBytes = kInput / 256 * 66;
++  constexpr unsigned kFullRowBytes = 16 * kColumns * sizeof(float);
++  __shared__
++      __attribute__((aligned(16))) unsigned char lds[kLdsBytes + kFullRowBytes];
++  auto* whole_rows = reinterpret_cast<float*>(lds + kLdsBytes);
++  auto* codes = reinterpret_cast<uint4*>(lds);
++  auto* scales = reinterpret_cast<unsigned*>(lds + kCodeBytes);
++  auto* activations = reinterpret_cast<uint4*>(lds + kCodeBytes + kScaleBytes);
++
++  const unsigned tid = threadIdx.x;
++  const unsigned lane = tid & 31;
++  const unsigned wave = tid >> 5;
++  const unsigned sub_lane = lane & 15;
++  const unsigned half_id = lane >> 4;
++  const unsigned descriptor = static_cast<unsigned>(tiles[blockIdx.x]);
++  const unsigned expert = descriptor & 0xffffU;
++  // Descriptors retain the parent's 64-token tail units. Only tails with
++  // 1..16 live rows are eligible; no routing count or descriptor is rewritten.
++  const unsigned first = (descriptor >> 16) * 64;
++  const unsigned begin = static_cast<unsigned>(bounds[expert]);
++  const unsigned count = static_cast<unsigned>(bounds[expert + 1]) - begin;
++  if (first >= count || count - first > 16)
++    return;
++  const unsigned live = count - first;
++  const unsigned owner_row = tid >> 1;
++  const unsigned owner_k = tid & 1;
++  const auto* weights =
++      static_cast<const unsigned char*>(owner_row < 128 ? gate : up) +
++      (static_cast<std::size_t>(expert) * kColumns + owner_row % 128) *
++          kRowBytes;
++  const unsigned act_token = tid / 8;
++  const unsigned act_part = tid % 8;
++  const int source_token =
++      act_token < live ? tokens[begin + first + act_token] : -1;
++  const __half* source =
++      source_token >= 0
++          ? x + static_cast<std::size_t>(source_token) * kInput + act_part * 8
++          : nullptr;
++  uint4 pending_activation;
++  uint2 pending_codes;
++  __half pending_scale;
++  const auto fetch_activation = [&](unsigned kb) {
++    if (tid < 128) {
++      pending_activation =
++          source ? *reinterpret_cast<const uint4*>(source + kb * 32)
++                 : make_uint4(0U, 0U, 0U, 0U);
++    }
++  };
++  const auto fetch_weight = [&](unsigned group, unsigned kb) {
++    const unsigned k32 = kb + owner_k;
++    const auto* block = weights + group * 128 * kRowBytes + (k32 / 8) * 66;
++    __builtin_memcpy(&pending_codes, block + 2 + (k32 % 8) * 8, 8);
++    __builtin_memcpy(&pending_scale, block, 2);
++  };
++  const auto swizzle = [](unsigned row, unsigned chunk) {
++    return row * 4 + (chunk ^ ((row >> 1) & 3));
++  };
++  const auto commit_weight = [&]() {
++    const unsigned part = lane & 3;
++#pragma unroll
++    for (unsigned owner = 0; owner < 4; ++owner) {
++      const unsigned peer_lane = (lane & ~3U) + owner;
++      const unsigned peer_tid = (tid & ~3U) + owner;
++      const unsigned indices = __shfl(pending_codes.x, peer_lane, 32);
++      const unsigned signs = __shfl(pending_codes.y, peer_lane, 32);
++      const unsigned code = (indices >> (8 * part)) & 255U;
++      const unsigned sign = (signs >> (7 * part)) & 127U;
++      const uint2 magnitude =
++          reinterpret_cast<const uint2*>(kIq2HalfHighGrid)[code];
++      const uint2 mask = reinterpret_cast<const uint2*>(ksigns64)[sign];
++      const uint2 decoded = make_uint2(magnitude.x ^ (mask.x & 0x80808080U),
++                                       magnitude.y ^ (mask.y & 0x80808080U));
++      const unsigned peer_row = peer_tid >> 1;
++      const unsigned chunk = 2 * (peer_tid & 1) + (part >> 1);
++      reinterpret_cast<uint2*>(codes + swizzle(peer_row, chunk))[part & 1] =
++          decoded;
++    }
++    // Same rounded F32 scale product and F16 conversion as the parent.
++    const float scale = __half2float(pending_scale) *
++                        float(2 * (pending_codes.y >> 28) + 1) * .125F;
++    scales[owner_k * kWeightRows + owner_row] =
++        __builtin_bit_cast(unsigned short, __float2half_rn(scale));
++  };
++
++  constexpr unsigned kStride = 18;
++  constexpr unsigned kPlane = 16 * kStride;
++  static_assert(16 * kPlane * sizeof(float) <= kLdsBytes);
++  auto* scratch = reinterpret_cast<float*>(lds);
++  for (unsigned group = 0; group < kGroups; ++group) {
++    v8f accumulator{};
++    fetch_activation(0);
++    fetch_weight(group, 0);
++    for (unsigned kb0 = 0; kb0 < kInput / 32; kb0 += 2) {
++      if (tid < 128)
++        activations[act_part * kActStride + act_token] = pending_activation;
++      commit_weight();
++      __syncthreads();
++      if (kb0 + 2 < kInput / 32) {
++        fetch_weight(group, kb0 + 2);
++        fetch_activation(kb0 + 2);
++      }
++#pragma unroll
++      for (unsigned kb = 0; kb < 2; ++kb) {
++        const unsigned row = wave * 16 + sub_lane;
++        const __half2 scale =
++            __builtin_bit_cast(__half2, scales[kb * kWeightRows + row]);
++        const uint4 c0 = codes[swizzle(row, 2 * kb)];
++        const uint4 c1 = codes[swizzle(row, 2 * kb + 1)];
++        const unsigned words[8] = {c0.x, c0.y, c0.z, c0.w,
++                                   c1.x, c1.y, c1.z, c1.w};
++        __half2 decoded[16];
++#pragma unroll
++        for (unsigned i = 0; i < 8; ++i)
++          Iq2HalfBytesToHalves(words[i], __low2half2(scale),
++                               __high2half2(scale), decoded[2 * i],
++                               decoded[2 * i + 1]);
++        v16h a_lo, a_hi, b_lo, b_hi;
++        __builtin_memcpy(&a_lo, &decoded[0], 32);
++        __builtin_memcpy(&a_hi, &decoded[8], 32);
++        const auto* fragment = activations + kb * 4 * kActStride + sub_lane;
++        uint4 b[4];
++#pragma unroll
++        for (unsigned i = 0; i < 4; ++i)
++          b[i] = fragment[i * kActStride];
++        __builtin_memcpy(&b_lo, &b[0], 32);
++        __builtin_memcpy(&b_hi, &b[2], 32);
++        // K16 fragments are accumulated in the parent's original order.
++        accumulator = Wmma(a_lo, b_lo, accumulator);
++        accumulator = Wmma(a_hi, b_hi, accumulator);
++      }
++      __syncthreads();
++    }
++#pragma unroll
++    for (unsigned i = 0; i < 8; ++i)
++      scratch[wave * kPlane + sub_lane * kStride + 2 * i + half_id] =
++          accumulator[i];
++    __syncthreads();
++    const unsigned token = wave;
++    const unsigned column = lane * 4;
++    const unsigned index = column / 16 * kPlane + token * kStride + column % 16;
++    float output[4];
++#pragma unroll
++    for (unsigned i = 0; i < 4; ++i) {
++      float product = scratch[index + i + 8 * kPlane] * scratch[index + i];
++      asm volatile("" : "+v"(product));
++      float value = product * SigmoidF(scratch[index + i]);
++      asm volatile("" : "+v"(value));
++      output[i] = value;
++    }
++    *reinterpret_cast<float4*>(whole_rows + token * kColumns + group * 128 +
++                               column) =
++        make_float4(output[0], output[1], output[2], output[3]);
++    __syncthreads();
++  }
++
++  {
++    const unsigned token = wave;
++    // Whole waves own rows. All block barriers have completed before skipping.
++    if (token >= live)
++      return;
++    const int destination = slots[begin + first + token];
++    if (destination < 0)
++      return;
++    float4 values[5];
++    float maximum = 0.F;
++#pragma unroll
++    for (unsigned i = 0; i < 5; ++i) {
++      const unsigned column = (i * 32 + lane) * 4;
++      const float4 value = *reinterpret_cast<const float4*>(
++          whole_rows + token * kColumns + column);
++      values[i] = value;
++      maximum = fmaxf(maximum, fabsf(value.x));
++      maximum = fmaxf(maximum, fabsf(value.y));
++      maximum = fmaxf(maximum, fabsf(value.z));
++      maximum = fmaxf(maximum, fabsf(value.w));
++    }
++    for (unsigned offset = 16; offset; offset >>= 1)
++      maximum = fmaxf(maximum, __shfl_down(maximum, offset, 32));
++    float multiplier = 1.F;
++    if (lane == 0) {
++      const unsigned bits = __builtin_bit_cast(unsigned, maximum);
++      const int exponent = int((bits >> 23) & 255U) - 127;
++      int shift = maximum == 0.F ? 0 : 13 - exponent;
++      shift = shift < -120 ? -120 : shift > 120 ? 120 : shift;
++      multiplier = __builtin_bit_cast(float, unsigned(127 + shift) << 23);
++      inverse[destination] =
++          __builtin_bit_cast(float, unsigned(127 - shift) << 23);
++    }
++    multiplier = __shfl(multiplier, 0, 32);
++    auto* target = out + static_cast<std::size_t>(destination) * kColumns;
++#pragma unroll
++    for (unsigned i = 0; i < 5; ++i) {
++      const unsigned column = (i * 32 + lane) * 4;
++      const float4 value = values[i];
++      const __half2 lo =
++          __floats2half2_rn(value.x * multiplier, value.y * multiplier);
++      const __half2 hi =
++          __floats2half2_rn(value.z * multiplier, value.w * multiplier);
++      if (reinterpret_cast<std::uintptr_t>(target) % 8 == 0) {
++        *reinterpret_cast<uint2*>(target + column) = make_uint2(
++            __builtin_bit_cast(unsigned, lo), __builtin_bit_cast(unsigned, hi));
++      } else {
++        target[column] = __low2half(lo);
++        target[column + 1] = __high2half(lo);
++        target[column + 2] = __low2half(hi);
++        target[column + 3] = __high2half(hi);
++      }
++    }
++  }
++}
+--- /dev/null
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_iq2_whole640_chain.inc
+@@ -0,0 +1,110 @@
++// SPDX-License-Identifier: MIT
++// Original whole-row dyadic packing with routed ownership. Fused tail slots
++// are absent from this map and must never be read from the F32 intermediate.
++__global__ void PackQ2ScaledOrdinaryRowsKernel(const float* x, __half* out,
++                                               float* inverse,
++                                               const std::int32_t* tiles,
++                                               std::uint32_t wide_tiles,
++                                               const std::int32_t* bounds,
++                                               const std::int32_t* slots) {
++  const unsigned lane = threadIdx.x & 31;
++  const unsigned wave = threadIdx.x >> 5;
++  const unsigned block = blockIdx.x;
++  const unsigned wide_blocks = wide_tiles * 16;
++  const bool wide = block < wide_blocks;
++  const unsigned tile_index =
++      wide ? block / 16 : wide_tiles + (block - wide_blocks) / 8;
++  const unsigned chunk = wide ? block % 16 : (block - wide_blocks) % 8;
++  const unsigned descriptor = static_cast<unsigned>(tiles[tile_index]);
++  const unsigned expert = descriptor & 65535U;
++  const unsigned token =
++      (descriptor >> 16) * (wide ? 128 : 64) + chunk * 8 + wave;
++  const unsigned begin = static_cast<unsigned>(bounds[expert]);
++  if (token >= static_cast<unsigned>(bounds[expert + 1]) - begin)
++    return;
++  const int destination = slots[begin + token];
++  if (destination < 0)
++    return;
++  const float* src = x + static_cast<std::size_t>(destination) * 640;
++  __half* dst = out + static_cast<std::size_t>(destination) * 640;
++  float4 values[5];
++  float local = 0.F;
++#pragma unroll
++  for (unsigned i = 0; i < 5; ++i) {
++    const unsigned column = (i * 32 + lane) * 4;
++    const float4 value = reinterpret_cast<std::uintptr_t>(src) % 16 == 0
++                             ? *reinterpret_cast<const float4*>(src + column)
++                             : make_float4(src[column], src[column + 1],
++                                           src[column + 2], src[column + 3]);
++    values[i] = value;
++    local = fmaxf(local, fabsf(value.x));
++    local = fmaxf(local, fabsf(value.y));
++    local = fmaxf(local, fabsf(value.z));
++    local = fmaxf(local, fabsf(value.w));
++  }
++  for (unsigned offset = 16; offset; offset >>= 1)
++    local = fmaxf(local, __shfl_down(local, offset, 32));
++  float multiplier = 1.F;
++  if (lane == 0) {
++    const unsigned bits = __builtin_bit_cast(unsigned, local);
++    const int exponent = int((bits >> 23) & 255U) - 127;
++    int shift = local == 0.F ? 0 : 13 - exponent;
++    shift = shift < -120 ? -120 : shift > 120 ? 120 : shift;
++    multiplier = __builtin_bit_cast(float, unsigned(127 + shift) << 23);
++    inverse[destination] =
++        __builtin_bit_cast(float, unsigned(127 - shift) << 23);
++  }
++  multiplier = __shfl(multiplier, 0, 32);
++#pragma unroll
++  for (unsigned i = 0; i < 5; ++i) {
++    const unsigned column = (i * 32 + lane) * 4;
++    const float4 value = values[i];
++    const __half2 lo =
++        __floats2half2_rn(value.x * multiplier, value.y * multiplier);
++    const __half2 hi =
++        __floats2half2_rn(value.z * multiplier, value.w * multiplier);
++    if (reinterpret_cast<std::uintptr_t>(dst) % 8 == 0) {
++      *reinterpret_cast<uint2*>(dst + column) = make_uint2(
++          __builtin_bit_cast(unsigned, lo), __builtin_bit_cast(unsigned, hi));
++    } else {
++      dst[column] = __low2half(lo);
++      dst[column + 1] = __high2half(lo);
++      dst[column + 2] = __low2half(hi);
++      dst[column + 3] = __high2half(hi);
++    }
++  }
++}
++
++bool PackQ2ScaledOrdinaryRows(const float* x, __half* out, float* inverse,
++                              const std::int32_t* tiles,
++                              std::uint32_t wide_tiles,
++                              std::uint32_t tail_tiles,
++                              const std::int32_t* bounds,
++                              const std::int32_t* slots, hipStream_t stream) {
++  if (!wide_tiles && !tail_tiles)
++    return true;
++  if (!x || !out || !inverse || !tiles || !bounds || !slots ||
++      wide_tiles > 16384 || tail_tiles > 512)
++    return false;
++  hipLaunchKernelGGL(PackQ2ScaledOrdinaryRowsKernel,
++                     dim3(wide_tiles * 16 + tail_tiles * 8), dim3(256), 0,
++                     stream, x, out, inverse, tiles, wide_tiles, bounds, slots);
++  return hipGetLastError() == hipSuccess;
++}
++
++bool RoutedGatedIQ2Whole640(const void* gate, const void* up, const __half* x,
++                            const std::int32_t* tiles, std::uint32_t n_tiles,
++                            const std::int32_t* bounds,
++                            const std::int32_t* tokens,
++                            const std::int32_t* slots, __half* out,
++                            float* inverse, hipStream_t stream) {
++  if (!n_tiles)
++    return true;
++  if (!gate || !up || !x || !tiles || !bounds || !tokens || !slots || !out ||
++      !inverse || n_tiles > 512 || reinterpret_cast<std::uintptr_t>(x) % 16)
++    return false;
++  hipLaunchKernelGGL(RoutedIq2Whole640Wave16LdsDraftKernel, dim3(n_tiles),
++                     dim3(512), 0, stream, gate, up, x, tiles, bounds, tokens,
++                     slots, out, inverse);
++  return hipGetLastError() == hipSuccess;
++}

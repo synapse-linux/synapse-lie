@@ -1,0 +1,43 @@
+{
+  "schema": "synapse-lie.q2-rejected-recovery-scaled-update.v1",
+  "previous_recovery_status_sha256": "3c1d58edf1c9cba3594df8c8fc649ff824fc2ff556779483edc9a552f32059e3",
+  "original_inventory_sha256": "3a76a5bdef0bd3c26a8328fe0cfd04aed1f43a998447b4167ecc2a5d3083b9c0",
+  "original_reports_verified": 19,
+  "new_family": "scaled-tiles",
+  "new_disposition": "new_composition_measured",
+  "previous_disposition": "new_selective_integration_pending",
+  "remaining_selective_integration_families": [],
+  "disposition_family_counts": {
+    "already_in_fixed_reference": 5,
+    "new_composition_measured": 5,
+    "performance_measured_regression": 1,
+    "new_selective_integration_pending": 0
+  },
+  "new_model_result_sha256": "c7892995fb476f46ee18c38eede9f1fa08c157212e9ea9395b6411cd3b048109",
+  "source_manifest_sha256": "c8f18ecbf7d9e0cd8b9cca2abccf4ae052f47a2d328d2d4063c8aaed154d5f18",
+  "original_component_result_sha256": "28609d9923560f92570324249e3c2915d80688cbd7ca591b2bf632f65acb484c",
+  "candidate_prefill_tok_s": 1497.60605,
+  "candidate_decode_steps_s": 25.15356932,
+  "new_prefill_change_percent": 0.05178560894052442,
+  "combined_prefill_change_percent": 3.7358313114296493,
+  "candidate_prefill_gap_to_ud_percent": -11.162273048612526,
+  "candidate_prefill_increase_needed_for_ud_percent": 12.564789117939256,
+  "confirmed_false_format_rejection_families": [
+    "shared-q8"
+  ],
+  "all_nineteen_false_confirmed": false,
+  "qualified_controls_rerun": false,
+  "component_rerun": false,
+  "original_failures_preserved": true,
+  "original_tester_unchanged": true,
+  "independent_additive_gains_established": false,
+  "historical_pp_ranges_overlap": true,
+  "stable_increment_over_parent_established": false,
+  "exact_parent_model_files": 21,
+  "numerical_acceptance": false,
+  "independent_model_quality_complete": false,
+  "entire_reaudit_complete": false,
+  "goal_met": false,
+  "full_curve_admitted": false,
+  "limits": "All eleven families have a measured/model-composed disposition or already belong to fixed Q2. This closes the pending selective model integration, not original numerical acceptance, independent quality or parity. New median differs marginally within historical variation."
+}

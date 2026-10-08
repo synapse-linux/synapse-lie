@@ -1,0 +1,103 @@
+{
+  "schema": "synapse-lie.q2-iq2-order-control.v1",
+  "scope": "Same full canonical 0-128K HTTP curve, initial Q2 / ordered IQ2 / unchanged Q2 control. UD pending. Storage coldness not controlled.",
+  "rows": [
+    {
+      "depth": 0,
+      "initial_q2_prefill_tok_s": 833.3196850002246,
+      "control_q2_prefill_tok_s": 1398.3337604340452,
+      "iq2_prefill_tok_s": 1397.8611618269188,
+      "control_q2_decode_tok_s": 25.516572748867247,
+      "iq2_decode_tok_s": 26.83344830990758,
+      "prefill_change_percent": -0.03379726789831672,
+      "decode_change_percent": 5.160863780574898
+    },
+    {
+      "depth": 4096,
+      "initial_q2_prefill_tok_s": 705.315648864034,
+      "control_q2_prefill_tok_s": 1329.3487737857433,
+      "iq2_prefill_tok_s": 1330.1624700632426,
+      "control_q2_decode_tok_s": 25.511806486048453,
+      "iq2_decode_tok_s": 26.835450086101837,
+      "prefill_change_percent": 0.061210142405454526,
+      "decode_change_percent": 5.188357009438893
+    },
+    {
+      "depth": 8192,
+      "initial_q2_prefill_tok_s": 877.7862470642916,
+      "control_q2_prefill_tok_s": 1315.6515997020012,
+      "iq2_prefill_tok_s": 1317.5651156707215,
+      "control_q2_decode_tok_s": 25.485949671806452,
+      "iq2_decode_tok_s": 26.797356710995054,
+      "prefill_change_percent": 0.14544245369774167,
+      "decode_change_percent": 5.145607897983617
+    },
+    {
+      "depth": 12288,
+      "initial_q2_prefill_tok_s": 893.9769262798833,
+      "control_q2_prefill_tok_s": 1308.7052053715004,
+      "iq2_prefill_tok_s": 1285.4650872403845,
+      "control_q2_decode_tok_s": 25.451470491754808,
+      "iq2_decode_tok_s": 26.760890037757317,
+      "prefill_change_percent": -1.7758100170862212,
+      "decode_change_percent": 5.1447697154736405
+    },
+    {
+      "depth": 16384,
+      "initial_q2_prefill_tok_s": 935.3020585906426,
+      "control_q2_prefill_tok_s": 1299.8495948862133,
+      "iq2_prefill_tok_s": 1300.3486306496657,
+      "control_q2_decode_tok_s": 25.428653943475027,
+      "iq2_decode_tok_s": 26.73618739896054,
+      "prefill_change_percent": 0.03839180820732757,
+      "decode_change_percent": 5.141968813575448
+    },
+    {
+      "depth": 32768,
+      "initial_q2_prefill_tok_s": 1015.4150829673308,
+      "control_q2_prefill_tok_s": 1275.9395273594967,
+      "iq2_prefill_tok_s": 1274.4961835045247,
+      "control_q2_decode_tok_s": 25.314051011558476,
+      "iq2_decode_tok_s": 26.58921413053116,
+      "prefill_change_percent": -0.11312008320323308,
+      "decode_change_percent": 5.03737279501586
+    },
+    {
+      "depth": 65536,
+      "initial_q2_prefill_tok_s": 1072.4020162621837,
+      "control_q2_prefill_tok_s": 1179.6475769430022,
+      "iq2_prefill_tok_s": 1193.5057844598145,
+      "control_q2_decode_tok_s": 25.06750709526339,
+      "iq2_decode_tok_s": 26.277164381273217,
+      "prefill_change_percent": 1.1747752284394286,
+      "decode_change_percent": 4.825598658106678
+    },
+    {
+      "depth": 131072,
+      "initial_q2_prefill_tok_s": 1112.4107111730789,
+      "control_q2_prefill_tok_s": 1158.9972987777908,
+      "iq2_prefill_tok_s": 1158.6430858546094,
+      "control_q2_decode_tok_s": 24.559392940065727,
+      "iq2_decode_tok_s": 25.65118294938166,
+      "prefill_change_percent": -0.030562014558188633,
+      "decode_change_percent": 4.4455089422621885
+    }
+  ],
+  "candidate_history_exact": true,
+  "repeat_history_exact": true,
+  "requests_per_arm": 20,
+  "all_decode_cells_improved": true,
+  "decode_change_percent_range": [
+    4.4455089422621885,
+    5.188357009438893
+  ],
+  "prefill_change_percent_range": [
+    -1.7758100170862212,
+    1.1747752284394286
+  ],
+  "decode_change_percent_median": 5.143369264524544,
+  "prefill_gain_attributed_to_patch": false,
+  "numerical_qualified": false,
+  "promoted": false,
+  "goal_met": false
+}

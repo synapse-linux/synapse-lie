@@ -1,0 +1,12 @@
+{
+  "schema": "synapse-lie.q2-q8-aligned-pair-staging.v1",
+  "capsule_sha256": "ed602c0f2b1a280c99c430990bdce77dee4296443450292e88df47c1ff1bebcb",
+  "fixture_files_verified": 74,
+  "provider_files_verified": 1026,
+  "network_boundary_reached": true,
+  "network_calls_executed": 0,
+  "gpu_run": false,
+  "remote_build": false,
+  "model_inference": false,
+  "goal_met": false
+}

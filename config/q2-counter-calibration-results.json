@@ -1,0 +1,223 @@
+{
+  "schema": "synapse-lie.q2-counter-calibration-results.v1",
+  "state": "CALIBRATION_COMPLETE_WITH_PER_GROUP_VERDICTS",
+  "plan_sha256": "33ddbe6569e4322f0398b0dc8f30e5fe96211605b53111911316dff70ed6df8f",
+  "analyzer_sha256": "cf1aa6375fd65501419794d4d0bd407bce56fcd84ddf2b73cb5807bbbddf69d5",
+  "label": "q2-counter-calibration-r2",
+  "finished_at": "2026-10-06T01:03:35.488224+00:00",
+  "host_tests": {
+    "debug": 31,
+    "asan_ubsan": 31
+  },
+  "primary_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 26,
+  "fixture_files_verified": 105,
+  "gpu_topology": {
+    "hip_multiProcessorCount": 20,
+    "rocprofiler_cu_count": 40,
+    "fixture_field_label": "compute_units",
+    "note": "Saved fixture label means the HIP API field; do not substitute it for rocprofiler CU count."
+  },
+  "binary_sha256": "a348fc5bdad96535b574fd33cb38e20277e8ff87c09945439658ccd5695f30cb",
+  "complete_checks": [
+    {
+      "log": "02.log",
+      "mode": "waves",
+      "checks": 10,
+      "geometry": {
+        "event": "geometry",
+        "mode": "waves",
+        "threads": 16384,
+        "block_threads": 256,
+        "expected_waves": 512,
+        "input_bytes": 0,
+        "compute_units": 20,
+        "iterations": 10
+      }
+    },
+    {
+      "log": "03.log",
+      "mode": "read",
+      "checks": 10,
+      "geometry": {
+        "event": "geometry",
+        "mode": "read",
+        "threads": 16384,
+        "block_threads": 256,
+        "expected_waves": 512,
+        "input_bytes": 268435456,
+        "compute_units": 20,
+        "iterations": 10
+      }
+    },
+    {
+      "log": "04.log",
+      "mode": "waves",
+      "checks": 10,
+      "geometry": {
+        "event": "geometry",
+        "mode": "waves",
+        "threads": 16384,
+        "block_threads": 256,
+        "expected_waves": 512,
+        "input_bytes": 0,
+        "compute_units": 20,
+        "iterations": 10
+      }
+    },
+    {
+      "log": "05.log",
+      "mode": "waves",
+      "checks": 10,
+      "geometry": {
+        "event": "geometry",
+        "mode": "waves",
+        "threads": 16384,
+        "block_threads": 256,
+        "expected_waves": 512,
+        "input_bytes": 0,
+        "compute_units": 20,
+        "iterations": 10
+      }
+    },
+    {
+      "log": "06.log",
+      "mode": "read",
+      "checks": 10,
+      "geometry": {
+        "event": "geometry",
+        "mode": "read",
+        "threads": 16384,
+        "block_threads": 256,
+        "expected_waves": 512,
+        "input_bytes": 268435456,
+        "compute_units": 20,
+        "iterations": 10
+      }
+    }
+  ],
+  "complete_check_count": 50,
+  "passes": [
+    {
+      "name": "waves",
+      "counters": {
+        "SQ_WAVES_sum": [
+          512.0,
+          512.0,
+          512.0,
+          512.0,
+          512.0,
+          512.0,
+          512.0,
+          512.0,
+          512.0,
+          512.0
+        ]
+      },
+      "qualified": true,
+      "payload_ratios": null,
+      "csv_json_exact": true,
+      "csv_sha256": "12ce69e87e6abbbc9882f82906f9c57b8e0f8c57cf3a62dfac426ba241d35bac",
+      "json_sha256": "8a9a0a549b330315ebe9bac1ed7c46d09147ee65bda948767f6c5aec02fae3bb"
+    },
+    {
+      "name": "mixed",
+      "counters": {
+        "SQ_WAVES_sum": [
+          512.0,
+          512.0,
+          512.0,
+          512.0,
+          512.0,
+          512.0,
+          512.0,
+          512.0,
+          512.0,
+          512.0
+        ],
+        "GRBM_COUNT": [
+          21902.0,
+          12494.0,
+          12370.0,
+          12422.0,
+          12566.0,
+          12343.0,
+          12211.0,
+          12391.0,
+          12667.0,
+          12754.0
+        ]
+      },
+      "qualified": true,
+      "payload_ratios": null,
+      "csv_json_exact": true,
+      "csv_sha256": "79fbb8fd9d24d4349539f0c6ad109066f8ef8d4f528ca56d8dfa6fff235cbd7a",
+      "json_sha256": "1813cbf279aab1cbba8d0c67087fd51c9985ef1b774fff120d67f5e602eb3b09"
+    },
+    {
+      "name": "fetch",
+      "counters": {
+        "FETCH_SIZE": [
+          131079.8125,
+          131072.125,
+          131072.125,
+          131072.125,
+          131072.125,
+          131072.125,
+          131072.125,
+          131072.125,
+          131072.125,
+          131072.125
+        ]
+      },
+      "qualified": false,
+      "payload_ratios": [
+        0.5000298023223877,
+        0.5000004768371582,
+        0.5000004768371582,
+        0.5000004768371582,
+        0.5000004768371582,
+        0.5000004768371582,
+        0.5000004768371582,
+        0.5000004768371582,
+        0.5000004768371582,
+        0.5000004768371582
+      ],
+      "csv_json_exact": true,
+      "csv_sha256": "c25107d5d9effedc6cae8e192fb63f736a1081050811757b544d437333558172",
+      "json_sha256": "aafeb9d16f81460b677a2dca0d086a58506ba34812f2810a27f762ac3575de99"
+    }
+  ],
+  "thermal_max_mc": {
+    "amdgpu": 36000,
+    "k10temp": 40750
+  },
+  "release_at": "2026-10-06T01:04:20.298495+00:00",
+  "release_sha256": "7a3722f3ee8aa1b318131a33087f6d504974880e8dca5c9a5e9ed54d8b77f7a5",
+  "retained": {
+    "report": "config/q2-ssm-fixed-bounds-model-results.json",
+    "sha256": "f11b8e3e7663ce78de183032a924358e8429ea953a66cc0dd86849359852acdd",
+    "binary_sha256": "db356a95046fd6951ba279627868f4a7bdeb49efdcc17225a6aafea3d85b4787",
+    "prefill_tok_s": 1585.308983,
+    "decode_steps_s": 25.16079073
+  },
+  "disposition": "Use only the groups that passed their declared control. FETCH_SIZE is ineligible for bandwidth diagnosis; never multiply it by two as an assumed correction.",
+  "limits": "Known synthetic wave32 kernels on one40-CU gfx1151 device. This does not qualify other counters, derived occupancy, model traffic or DRAM bandwidth. JSON exposes derived scalar counts, not the underlying GL2C instance coverage. No model inference or throughput measurement is added.",
+  "model_inference": false,
+  "controls_rerun": false,
+  "throughput_change_claimed": false,
+  "goal_met": false
+}

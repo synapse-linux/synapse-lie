@@ -1,0 +1,153 @@
+{
+  "schema": "synapse-lie.q2-hc-norm-owner-final-audit.v1",
+  "files": {
+    "config/q2-hc-norm-owner-component-results.json": "24baff5ae93b26aff7e3441b5ea98efc8e96053c2528b620a66a8440cf5aeb9a",
+    "config/q2-hc-norm-owner-plan.json": "8aaa50640fb613261acca14ec188454892fe4a1822ab1101399e9348016288bb",
+    "config/q2-hc-norm-owner-window-release.json": "27506424d933e66e9db292653d130a713dac5d8c03d8f9cb05d169e1e10c3d92",
+    "config/q2-hc-rms-owner-ordinary-source.json": "5db4c4800e38c55d1b9b4a6785a5ec744b1ed9f4131fb7c7e7ab00c75cf10741",
+    "config/q2-hc-rms-owner-ordinary-static.json": "3dc63b6c783fb2d37e2d497f95049cb721e3aeffd401f8499aec2f60766606f2",
+    "config/q2-ssm-fixed-bounds-model-results.json": "f11b8e3e7663ce78de183032a924358e8429ea953a66cc0dd86849359852acdd",
+    "config/q2-fixed-prefill-reference.json": "7f58a7fa19b53338c96f575667f0d853b61d3e8f6af4864319a7a1445b2474d1",
+    "docs/figures/q2-hc-norm-owner.csv": "ef0bf34e65ce5eebc80fc5f35cb70b0b0b5bda0fb69b5ebbfc4eb5d33a9e9916",
+    "docs/Q2-HC-RMS-OWNER-RESULTS.md": "347435722d17a4fab5963fc7c57e76925438ac5079021f3bf3e380a26ad8f1f6",
+    "docs/figures/q2-hc-norm-owner.svg": "cb5900d4b3a744029e02841b25e990f9e4ff216c8adeecfed0bc65c26ba27bb2",
+    "docs/figures/q2-hc-norm-owner.png": "38e92ed260b649e366205adad5b642403c8312c19ea8051e3fa7efe0b860b9b2"
+  },
+  "receipts": {
+    "core-handover": {
+      "path": "evidence/q2-hc-norm-owner-runtime-preparation/core-handover-command.json",
+      "sha256": "49bbbb2e4a7279650b5d3d5cfe3c081c0092b1f81b9b5d5b0f727cff414f1215",
+      "exit_code": 255
+    },
+    "core-handover-r2": {
+      "path": "evidence/q2-hc-norm-owner-runtime-preparation/core-handover-r2-command.json",
+      "sha256": "fbc4d7caef598229a5790b81adc7406e501f1b3c7d14ae2d10d2d466290b5760",
+      "exit_code": 0
+    },
+    "source-generation": {
+      "path": "evidence/q2-hc-norm-owner-runtime-preparation/source-generation-command.json",
+      "sha256": "e4278e742353d9bbf81206e4a676f2255c4ac2df83d067b4b1cbe9e04eadcd70",
+      "exit_code": 0
+    },
+    "host-tests-r1": {
+      "path": "evidence/q2-hc-norm-owner-runtime-preparation/host-tests-r1-command.json",
+      "sha256": "2f6a9213d7ba55f2fda952e566a61045f0deb318960a4036c4da19fc2cdca6ad",
+      "exit_code": 0
+    },
+    "host-collection-r1": {
+      "path": "evidence/q2-hc-norm-owner-runtime-preparation/host-collection-r1-command.json",
+      "sha256": "cdd4b5cb88f076d965740a46d76b8e2e0d2c1881e3c89ac529b645cb9d756e9c",
+      "exit_code": 0
+    },
+    "freeze-plan": {
+      "path": "evidence/q2-hc-norm-owner-runtime-preparation/freeze-plan-command.json",
+      "sha256": "cd61b8792be082d7f1ed6111accfe444cccd935be761a317eac188bef301d78f",
+      "exit_code": 0
+    },
+    "helper-transfer": {
+      "path": "evidence/q2-hc-norm-owner-runtime-preparation/helper-transfer-command.json",
+      "sha256": "26f2dbebab649b71e27acb0894084ad3b8c952dc2f4088cf6e1adc1906604031",
+      "exit_code": 0
+    },
+    "admission": {
+      "path": "evidence/q2-hc-norm-owner-runtime-preparation/admission-command.json",
+      "sha256": "4497b9662f7d5036e75ace54c39b3e2911cb53c4c92033cb266663d849fbcc25",
+      "exit_code": 0
+    },
+    "admission-publish": {
+      "path": "evidence/q2-hc-norm-owner-runtime-preparation/admission-publish-command.json",
+      "sha256": "15cf142a876523da67b213c4139fd0cd20c09cfafcf7df8b7db3cbd59c768681",
+      "exit_code": 0
+    },
+    "gpu-component": {
+      "path": "evidence/q2-hc-norm-owner-runtime-preparation/gpu-component-command.json",
+      "sha256": "a815e62115564ee0f4bf306e70997b2af7aaafe2a51e64e6049e523131fdf9a2",
+      "exit_code": 0
+    },
+    "component-collection": {
+      "path": "evidence/q2-hc-norm-owner-runtime-preparation/component-collection-command.json",
+      "sha256": "d93da1939ed182c05e95eec0c6e7ea5c043b4d0194df1fdb5ff87858817c81f3",
+      "exit_code": 0
+    },
+    "release": {
+      "path": "evidence/q2-hc-norm-owner-runtime-preparation/release-command.json",
+      "sha256": "a86a9382870021b5ff08b68bb708ac1e9d1aff8748d76e2e4aec0a42239aecf8",
+      "exit_code": 0
+    },
+    "release-publish": {
+      "path": "evidence/q2-hc-norm-owner-runtime-preparation/release-publish-command.json",
+      "sha256": "88aa08c50be79fb09e957a491ae437c4ccfe94d244bd727e16399a27cce6f4c3",
+      "exit_code": 0
+    },
+    "component-analysis": {
+      "path": "evidence/q2-hc-norm-owner-runtime-preparation/component-analysis-command.json",
+      "sha256": "3bece7e4f0d41ba8d59cf378862579aa16a45a7789b3a26bdfeec31556d452c2",
+      "exit_code": 0
+    },
+    "component-plot": {
+      "path": "evidence/q2-hc-norm-owner-runtime-preparation/component-plot-command.json",
+      "sha256": "669fb5654a6b764a8aa5012ac3f4d06da58ac01b040e79f7fb37d7b578afd1c9",
+      "exit_code": 0
+    },
+    "ordinary-provider-generation": {
+      "path": "evidence/q2-hc-norm-owner-runtime-preparation/ordinary-provider-generation-command.json",
+      "sha256": "c9491494a9c21006c596410afa9c291e90a21bf66b0478eee0a9a852c81fae3f",
+      "exit_code": 0
+    },
+    "ordinary-provider-assembly": {
+      "path": "evidence/q2-hc-norm-owner-runtime-preparation/ordinary-provider-assembly-command.json",
+      "sha256": "a903775395edce59c4143ddce28addb887b210e1d471e809b092076f5ae05929",
+      "exit_code": 0
+    },
+    "ordinary-provider-static": {
+      "path": "evidence/q2-hc-norm-owner-runtime-preparation/ordinary-provider-static-command.json",
+      "sha256": "c54db71a6a8c0192192c05839c6ffb5af6f4315d37ee288ef32afe60f37482f5",
+      "exit_code": 0
+    }
+  },
+  "host_debug": 36,
+  "host_asan_ubsan": 36,
+  "primary_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 11,
+  "whole_output_records_exact": 120,
+  "original_source_inventory_exact": 1027,
+  "candidate_source_inventory_exact": 1028,
+  "original_numerical_bodies_exact": 162,
+  "qualified_ordinary_body_exact": true,
+  "release_at": "2026-10-06T10:17:30.469914+00:00",
+  "release_sha256": "27506424d933e66e9db292653d130a713dac5d8c03d8f9cb05d169e1e10c3d92",
+  "retired_identities": 1388,
+  "retired_groups": 1111,
+  "original_leases_unchanged_free": 4,
+  "retained_PP": 1585.308983,
+  "retained_TG": 25.16079073,
+  "fixed_UD_PP": 1685.777092,
+  "required_PP_increase_percent": 6.3374465216160525,
+  "required_prefill_saving_ms": 76.99173599999986,
+  "model_inference": false,
+  "new_model_rate": null,
+  "independent_quality": false,
+  "controls_rerun": false,
+  "component_rerun": false,
+  "original_model_plan_frozen": false,
+  "public_C17_ABI_state_metrics_changed": false,
+  "new_persistent_bytes": 0,
+  "GPU_reserved": false,
+  "current_job": false,
+  "waiter": false,
+  "restart_scheduled": false,
+  "remote_cleanup": false,
+  "full_curve_run": false,
+  "Q4_run": false,
+  "goal_met": false
+}

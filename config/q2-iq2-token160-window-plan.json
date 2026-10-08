@@ -1,0 +1,24 @@
+{
+  "schema": "synapse-lie.q2-iq2-token160-window-plan.v1",
+  "label": "q2-iq2-token160-component-r1",
+  "source_commit": "3bf426a056d3c171d2772b9c2a8e71e39803dcff",
+  "previous_release": "q2-select-live-grid-pair-r2-window-release.json",
+  "previous_release_sha256": "d14805883aaba480fcd51be1ae0b9efb38786076f7f4be3da8681447f7fa0d68",
+  "staged_sha256": {
+    "q2_iq2_token160_check": "a6e3a9bba9a4773b55c38a599edc9a88c8b44c541095d21c305dc79fe6b95433",
+    "q2-iq2-token160-window.py": "99bf23dfb1ff739002993d777655d148453fb490900c09a57d730e3ee0c1e599",
+    "q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "fixture.hip": "a6f433a0b4cbf59f48e964d3f86e51f2295b4b86eb29e8b986427917a4193075",
+    "source-manifest.json": "c25f529ada391e119336108c46c4b1754b89ce579df7854ace4d105a644d4867",
+    "static-report.json": "94a68d3ef9bd70e9a43aaf881c9889d5caae036d184fa8f4c3e719969eebe10b",
+    "map-audit.json": "a2b770199836f2426a77fd63dd1ef3a954e2050d891ec4a4f86548f606dba02b"
+  },
+  "component_only": true,
+  "original_routing": "config/q2-current-routing-v2-results.json",
+  "original_model_inference": false,
+  "model_access": false,
+  "remote_build": false,
+  "remote_cleanup": false,
+  "timeout_seconds": 900,
+  "scope": "One private synthetic IQ2 token160 gate/up operator. Compare guarded whole outputs and completed interleaved timings against retained 128/64 on edge and three saved route layers. No model, service, host tuning, or cleanup."
+}

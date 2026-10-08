@@ -1,0 +1,206 @@
+{
+  "at": "2026-10-03T21:14:13.058834+00:00",
+  "scope": "Bounded read-only headers; no tensor payload, GPU execution, model conversion or full weight hash",
+  "models": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "bytes": 147207127040,
+      "device": 52,
+      "inode": 3116203,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314,
+      "allocated_file_bytes": 147207127040,
+      "version": 3,
+      "metadata": {
+        "general.architecture": {
+          "bytes": 8,
+          "sha256": "8d236bb636f87a4f2046f5784286333af910f0ae287cf19fe3684e1ea6800234",
+          "text": "qwen4exp"
+        },
+        "general.name": {
+          "bytes": 63,
+          "sha256": "6b19851242a3db5354a18f07b3c0d18bb2862ff89614b08103bee9b310dad0b2",
+          "text": "Qwen3.8 Flash Next IQ2_XXS imatrix trunk, padded Q2_K down, MTP"
+        },
+        "qwen4exp.block_count": 49,
+        "qwen4exp.nextn_predict_layers": 1,
+        "qwen4exp.context_length": 262144,
+        "qwen4exp.embedding_length": 2560,
+        "qwen4exp.vocab_size": 248320,
+        "qwen4exp.attention.head_count": 24,
+        "qwen4exp.attention.head_count_kv": 2,
+        "qwen4exp.attention.key_length": 256,
+        "qwen4exp.attention.value_length": 256,
+        "qwen4exp.attention.layer_norm_rms_epsilon": 9.999999974752427e-07,
+        "qwen4exp.attention.indexer.head_count": 4,
+        "qwen4exp.attention.indexer.key_length": 128,
+        "qwen4exp.attention.indexer.top_k": 2048,
+        "qwen4exp.expert_count": 512,
+        "qwen4exp.expert_used_count": 10,
+        "qwen4exp.expert_feed_forward_length": 640,
+        "qwen4exp.expert_shared_feed_forward_length": 640,
+        "qwen4exp.ssm.conv_kernel": 4,
+        "qwen4exp.ssm.state_size": 128,
+        "qwen4exp.ssm.group_count": 16,
+        "qwen4exp.ssm.time_step_rank": 48,
+        "qwen4exp.ssm.inner_size": 6144,
+        "qwen4exp.full_attention_interval": 4,
+        "qwen4exp.hyper_connection.count": 4,
+        "qwen4exp.hyper_connection.low_rank": 320,
+        "qwen4exp.rope.dimension_count": 64,
+        "qwen4exp.rope.freq_base": 10000000.0,
+        "qwen4exp.attention.compress_ratios": {
+          "element_type": 10,
+          "count": 49,
+          "sha256": "6bde9d41ef06c27a493ca7bd07656523ba66131936d2f48868a6fb3c05f12d9f"
+        },
+        "qwen4exp.ple.layers": {
+          "element_type": 10,
+          "count": 1,
+          "sha256": "7c9fa136d4413fa6173637e883b6998d32e1d675f88cddff9dcbcf331820f4b8"
+        },
+        "qwen4exp.ple.ngram_size": 3,
+        "qwen4exp.ple.heads_per_ngram": 8,
+        "qwen4exp.ple.conv_kernel": 4,
+        "qwen4exp.ple.eos_token_id": 248044,
+        "qwen4exp.embedding_length_per_layer_input": 160,
+        "qwen4exp.ple.seed": 1234,
+        "qwen4exp.ple.vocab_base": 20000000,
+        "qwen4exp.ple.vocab_divisor": 128,
+        "qwen4exp.ple.row_count": 320001536,
+        "qwen4exp.ple.row_dimension": 160,
+        "qwen4exp.ple.layer_multipliers": {
+          "element_type": 10,
+          "count": 3,
+          "sha256": "37349930c3c77bf4927b2afb6b50f30c404f42f00f5790bda96e7d9589c26477"
+        },
+        "qwen4exp.ple.head_offsets": {
+          "element_type": 10,
+          "count": 16,
+          "sha256": "af1566f7a3be2f4a9ee8e2384aa161b8d45cfcbd92376827662a028679b7d8eb"
+        },
+        "qwen4exp.ple.head_vocab_sizes": {
+          "element_type": 10,
+          "count": 16,
+          "sha256": "81879b658d9974287ceecc77463e5fdd183cb4cd66692b061ea6af24ef414d39"
+        },
+        "general.file_type": 19
+      },
+      "tensor_count": 1256,
+      "header_bytes_read": 11025350,
+      "header_sha256": "2c1fe3665e20b93beeaffe73bb6329ec010eee5882a1a84f768392d0787f434d",
+      "data_start": 11025376,
+      "tensor_payload_read": false,
+      "full_hash_recomputed": false,
+      "inference_support_assessed": false,
+      "extent_validation_complete": true,
+      "unknown_storage_types": [],
+      "storage_type_counts": {
+        "BF16": 2,
+        "Q8_0": 337,
+        "F32": 472,
+        "F16": 298,
+        "IQ2_XXS": 96,
+        "Q2_K": 48,
+        "Q4_K": 2,
+        "MXFP4": 1
+      },
+      "known_encoded_tensor_bytes": 147196078592
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 52,
+      "inode": 3206497,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699,
+      "allocated_file_bytes": 10948608,
+      "version": 3,
+      "metadata": {
+        "general.architecture": {
+          "bytes": 8,
+          "sha256": "8d236bb636f87a4f2046f5784286333af910f0ae287cf19fe3684e1ea6800234",
+          "text": "qwen4exp"
+        },
+        "general.name": {
+          "bytes": 18,
+          "sha256": "050de5a75aec4f276f51694516dcf63a81ba4cf1abc5c00a8a7984cb26ec7dbc",
+          "text": "Qwen3.8 Flash Next"
+        },
+        "qwen4exp.block_count": 48,
+        "qwen4exp.context_length": 262144,
+        "qwen4exp.embedding_length": 2560,
+        "qwen4exp.attention.head_count": 24,
+        "qwen4exp.attention.head_count_kv": 2,
+        "qwen4exp.rope.dimension_sections": {
+          "element_type": 5,
+          "count": 4,
+          "sha256": "99254d8ed16a56c0706c94ac7466c57d61f3932e9548aa5be359f0b4382a8554"
+        },
+        "qwen4exp.rope.freq_base": 10000000.0,
+        "qwen4exp.attention.layer_norm_rms_epsilon": 9.999999974752427e-07,
+        "qwen4exp.expert_count": 512,
+        "qwen4exp.expert_used_count": 10,
+        "qwen4exp.attention.key_length": 256,
+        "qwen4exp.attention.value_length": 256,
+        "qwen4exp.expert_feed_forward_length": 640,
+        "qwen4exp.expert_shared_feed_forward_length": 640,
+        "qwen4exp.ssm.conv_kernel": 4,
+        "qwen4exp.ssm.state_size": 128,
+        "qwen4exp.ssm.group_count": 16,
+        "qwen4exp.ssm.time_step_rank": 48,
+        "qwen4exp.ssm.inner_size": 6144,
+        "qwen4exp.full_attention_interval": 4,
+        "qwen4exp.rope.dimension_count": 64,
+        "qwen4exp.hyper_connection.count": 4,
+        "qwen4exp.hyper_connection.low_rank": 320,
+        "qwen4exp.attention.indexer.head_count": 4,
+        "qwen4exp.attention.indexer.key_length": 128,
+        "qwen4exp.attention.indexer.top_k": 2048,
+        "qwen4exp.attention.compress_ratios": {
+          "element_type": 5,
+          "count": 48,
+          "sha256": "abf78f07ca22e9181efcc057c5af8c7d84bf02eeac3d9d99e30fdbc65e60ec1a"
+        },
+        "qwen4exp.ple.layers": {
+          "element_type": 5,
+          "count": 1,
+          "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450"
+        },
+        "qwen4exp.ple.ngram_size": 3,
+        "qwen4exp.ple.heads_per_ngram": 8,
+        "qwen4exp.ple.conv_kernel": 4,
+        "qwen4exp.ple.eos_token_id": 248044,
+        "qwen4exp.embedding_length_per_layer_input": 160,
+        "qwen4exp.ple.layer_multipliers": {
+          "element_type": 10,
+          "count": 3,
+          "sha256": "37349930c3c77bf4927b2afb6b50f30c404f42f00f5790bda96e7d9589c26477"
+        },
+        "qwen4exp.ple.head_offsets": {
+          "element_type": 10,
+          "count": 16,
+          "sha256": "af1566f7a3be2f4a9ee8e2384aa161b8d45cfcbd92376827662a028679b7d8eb"
+        },
+        "qwen4exp.ple.head_vocab_sizes": {
+          "element_type": 10,
+          "count": 16,
+          "sha256": "81879b658d9974287ceecc77463e5fdd183cb4cd66692b061ea6af24ef414d39"
+        },
+        "qwen4exp.ple.image_token_id": 248056,
+        "general.file_type": 15
+      },
+      "tensor_count": 0,
+      "header_bytes_read": 10946618,
+      "header_sha256": "acc44040f74d0e55fb89c3967056cce5dbda1bcc52e909c3ba6fc72b5e9c0858",
+      "data_start": 10946624,
+      "tensor_payload_read": false,
+      "full_hash_recomputed": false,
+      "inference_support_assessed": false,
+      "extent_validation_complete": true,
+      "unknown_storage_types": [],
+      "storage_type_counts": {},
+      "known_encoded_tensor_bytes": 0
+    }
+  ]
+}

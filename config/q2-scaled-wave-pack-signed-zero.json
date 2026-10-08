@@ -1,0 +1,1575 @@
+{
+  "schema": "synapse-lie.q2-scaled-wave-pack-signed-zero.v1",
+  "component_result_sha256": "3738b7f8d118e648ce4146d474dea7078125c01c82b672bc2d5457a6d5656bb7",
+  "cases": [
+    {
+      "case": "rows-1-offset-0",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 320,
+          "array_sha256": "6e2be08e17f26e84da6ef10de605dcbb7f532fd891b8f0f9b449b3ae6bfdae80",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 320,
+          "array_sha256": "6e2be08e17f26e84da6ef10de605dcbb7f532fd891b8f0f9b449b3ae6bfdae80",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-1-offset-1",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 320,
+          "array_sha256": "51090d0e566b8475d756d303428cfa04ce5c511a611ab1ea7d177665c010b6fe",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 320,
+          "array_sha256": "51090d0e566b8475d756d303428cfa04ce5c511a611ab1ea7d177665c010b6fe",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-7-offset-0",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 320,
+          "array_sha256": "c70e0759bf79773fbfe30e7fccdb090a8f93255f4befc5340eba7eb8766641f2",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 320,
+          "array_sha256": "c70e0759bf79773fbfe30e7fccdb090a8f93255f4befc5340eba7eb8766641f2",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-7-offset-1",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 320,
+          "array_sha256": "b22d2f9713bfc5c05632da567c8d47d22a36cafb037cd60bcfcb6224b4454d88",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 320,
+          "array_sha256": "b22d2f9713bfc5c05632da567c8d47d22a36cafb037cd60bcfcb6224b4454d88",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-8-offset-0",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 320,
+          "array_sha256": "e87ccc426988b98141c2e27413d82c93981cdad080fd119902ef9adc772804e9",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 320,
+          "array_sha256": "e87ccc426988b98141c2e27413d82c93981cdad080fd119902ef9adc772804e9",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-8-offset-1",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 320,
+          "array_sha256": "ce421c9083dd2dab4df700451e54e5e3416ab149714e295d1c68bd1262a58870",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 320,
+          "array_sha256": "ce421c9083dd2dab4df700451e54e5e3416ab149714e295d1c68bd1262a58870",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-9-offset-0",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 320,
+          "array_sha256": "3a984fd7ab205baa06c20468a1035103ab8c875aaa605e69b0328b361fbd9d24",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 320,
+          "array_sha256": "3a984fd7ab205baa06c20468a1035103ab8c875aaa605e69b0328b361fbd9d24",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-9-offset-1",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 320,
+          "array_sha256": "ba7d684b7724822ac89baf334f82eb8a16910c601e3aa01f65b408a68e4ad92b",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 320,
+          "array_sha256": "ba7d684b7724822ac89baf334f82eb8a16910c601e3aa01f65b408a68e4ad92b",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-15-offset-0",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 640,
+          "array_sha256": "a4949ddd44abf76b742c42c252cfd9073a037ce0ce7cc7ba38e292f7e42ee8cf",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 640,
+          "array_sha256": "a4949ddd44abf76b742c42c252cfd9073a037ce0ce7cc7ba38e292f7e42ee8cf",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-15-offset-1",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 640,
+          "array_sha256": "0162490df45203a51992e613b9c5702eaf4d60df81e01c815b756548c78eaffb",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 640,
+          "array_sha256": "0162490df45203a51992e613b9c5702eaf4d60df81e01c815b756548c78eaffb",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-16-offset-0",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 640,
+          "array_sha256": "e3b6e97777673d587ec5d0ee23b6e936823756ae37cb80729ef9190faa5be568",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 640,
+          "array_sha256": "e3b6e97777673d587ec5d0ee23b6e936823756ae37cb80729ef9190faa5be568",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-16-offset-1",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 640,
+          "array_sha256": "ea8de828a0a05fc399b254825d0d06be381aca13c93c7951c79a4d0a810d64be",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 640,
+          "array_sha256": "ea8de828a0a05fc399b254825d0d06be381aca13c93c7951c79a4d0a810d64be",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-17-offset-0",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 640,
+          "array_sha256": "07eba0d34510edc0989bdb84f33a90bd68ade4b17f292a198389cd412599255f",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 640,
+          "array_sha256": "07eba0d34510edc0989bdb84f33a90bd68ade4b17f292a198389cd412599255f",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-17-offset-1",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 640,
+          "array_sha256": "eed6041ce03db28a244310ebe940a787d399aa488b4cc026a2e0e29800d7fe3a",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 640,
+          "array_sha256": "eed6041ce03db28a244310ebe940a787d399aa488b4cc026a2e0e29800d7fe3a",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-31-offset-0",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 1280,
+          "array_sha256": "17dd1b5c9afce8a6c565bf02172bfe67bf604d84d860ffca1aaf4a28c2930581",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 1280,
+          "array_sha256": "17dd1b5c9afce8a6c565bf02172bfe67bf604d84d860ffca1aaf4a28c2930581",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-31-offset-1",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 1280,
+          "array_sha256": "ec2d3e11a88fe665a589a05ddfb15397ef7c96671e2ecc255970d21f69ed0d04",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 1280,
+          "array_sha256": "ec2d3e11a88fe665a589a05ddfb15397ef7c96671e2ecc255970d21f69ed0d04",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-33-offset-0",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 1280,
+          "array_sha256": "e4fd327cc38d2500e7e80417906cc413b13302501583cd880637ebefdac34e02",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 1280,
+          "array_sha256": "e4fd327cc38d2500e7e80417906cc413b13302501583cd880637ebefdac34e02",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-33-offset-1",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 1280,
+          "array_sha256": "a7c7404249351bb174bb1556f69a2e1cb77e85cb093f8b9e873cd253b88be41b",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 1280,
+          "array_sha256": "a7c7404249351bb174bb1556f69a2e1cb77e85cb093f8b9e873cd253b88be41b",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-97-offset-0",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 3520,
+          "array_sha256": "860e0b0477e675f90369057ab44ba8c5cda098d45d444825b31890c27087468e",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 3520,
+          "array_sha256": "860e0b0477e675f90369057ab44ba8c5cda098d45d444825b31890c27087468e",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-97-offset-1",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 3520,
+          "array_sha256": "94eb496faaee75c50eeb3a05e37f39504b1977926989c0eadfbda3094b197ae1",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 3520,
+          "array_sha256": "94eb496faaee75c50eeb3a05e37f39504b1977926989c0eadfbda3094b197ae1",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-257-offset-0",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 9280,
+          "array_sha256": "648ea5bf74d87ba822b3a63c255d763b239e76c5e4b44a6a7a5a21d12d23e239",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 9280,
+          "array_sha256": "648ea5bf74d87ba822b3a63c255d763b239e76c5e4b44a6a7a5a21d12d23e239",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-257-offset-1",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 9280,
+          "array_sha256": "10bec60c3808ca254b74fa32aaaa4cd47b0d3dd31184bf323ce9f9fb354c1b88",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 9280,
+          "array_sha256": "10bec60c3808ca254b74fa32aaaa4cd47b0d3dd31184bf323ce9f9fb354c1b88",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-1025-offset-0",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 36480,
+          "array_sha256": "61a9978954ca8daa82f7bb0b2014cc4eae7eb2ae141d589a8b4fe7caa708b670",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 36480,
+          "array_sha256": "61a9978954ca8daa82f7bb0b2014cc4eae7eb2ae141d589a8b4fe7caa708b670",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "rows-1025-offset-1",
+      "arms": {
+        "parent": {
+          "signed_zero_cells": 36480,
+          "array_sha256": "5e4366d8c240ecf98de2c30d83445cf7dbecb70b05485ebb927be39d33ab3460",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        },
+        "candidate": {
+          "signed_zero_cells": 36480,
+          "array_sha256": "5e4366d8c240ecf98de2c30d83445cf7dbecb70b05485ebb927be39d33ab3460",
+          "first_witnesses": [
+            {
+              "row": 0,
+              "column": 1,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 3,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 5,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            },
+            {
+              "row": 0,
+              "column": 7,
+              "expected_half_bits": 32768,
+              "observed_half_bits": 0
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "all_reported_oracle_mismatches_accounted_by_negative_to_positive_zero": true,
+  "nonzero_or_scale_mismatches_reported": 0,
+  "production_oracle_pass": true,
+  "parent_candidate_arrays_byte_exact": true,
+  "original_component_exit_preserved": 1,
+  "oracle_or_golden_changed": false,
+  "gpu_rerun": false,
+  "model_quality_accepted": false,
+  "limits": "Attribution uses unchanged fixture construction of alternating signed-zero rows, complete collected bytes, and original full-domain mismatch counters. Both original and candidate compiled kernels canonicalize those negative zeros; no task-quality conclusion follows."
+}

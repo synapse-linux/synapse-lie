@@ -1,0 +1,113 @@
+{
+  "scope": "Recorded tool command exits, no runtime tests or GPU execution",
+  "checks": [
+    {
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-device-only",
+        "-S",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I.deps/gufo-q2-bench-library-norm-bound",
+        "-isystem",
+        "/opt/rocm/include",
+        ".deps/gufo-q2-bench-library-norm-bound/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+        "-o",
+        "evidence/q2-hc-decode-reduce-static/reference.s"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit",
+      "exit_code": 0,
+      "log": "evidence/q2-hc-decode-reduce-static/reference-compiler.log",
+      "assembly_sha256": "e7efd3b926b097cc6c14201381eefc3bc0cd41d2be511498b5fe6cb6c705048c"
+    },
+    {
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-device-only",
+        "-S",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I.deps/gufo-q2-bench-hc-decode-reduce",
+        "-isystem",
+        "/opt/rocm/include",
+        ".deps/gufo-q2-bench-hc-decode-reduce/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+        "-o",
+        "evidence/q2-hc-decode-reduce-static/candidate.s"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit",
+      "exit_code": 0,
+      "log": "evidence/q2-hc-decode-reduce-static/candidate-compiler.log",
+      "assembly_sha256": "b3fb3dfbed923126314620401ab9a41b7986b2bc77f8470676e14688fed344e2"
+    },
+    {
+      "command": "HIP host-only fixture syntax -Wall -Wextra -Werror",
+      "exit_code": 0,
+      "log": "evidence/q2-hc-decode-reduce-static/fixture-syntax.log"
+    },
+    {
+      "command": "clang-format --dry-run --Werror changed kernel/header/fixture",
+      "exit_code": 0,
+      "log": "evidence/q2-hc-decode-reduce-static/changed-format.log"
+    },
+    {
+      "command": "Shared upstream formatting",
+      "exit_code": 1,
+      "log": "evidence/q2-hc-decode-reduce-static/shared-format.log",
+      "note": "Same five inherited violations as parent; byte-identical log"
+    },
+    {
+      "command": "Initial fixture host-only syntax",
+      "exit_code": 0,
+      "log": "evidence/q2-hc-decode-reduce-static/fixture-syntax-initial.log",
+      "note": "Return warning in renamed original main; explicit return added and strict syntax rerun passes"
+    },
+    {
+      "argv": [
+        "clang-format",
+        "--dry-run",
+        "--Werror",
+        "tests/q2_hc.cpp",
+        "tests/q2_hc_decode_reduce.cpp"
+      ],
+      "exit_code": 1,
+      "log": "evidence/q2-hc-decode-reduce-static/first-party-format-initial.log",
+      "note": "Existing style in reused first-party fixture; whitespace-only formatting applied"
+    },
+    {
+      "argv": [
+        "clang-format",
+        "--dry-run",
+        "--Werror",
+        "tests/q2_hc.cpp",
+        "tests/q2_hc_decode_reduce.cpp"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-hc-decode-reduce-static/first-party-format-final.log"
+    },
+    {
+      "command": "HIP host-only fixture syntax after whitespace-only format, -Wall -Wextra -Werror",
+      "exit_code": 0,
+      "log": "evidence/q2-hc-decode-reduce-static/fixture-syntax-formatted.log"
+    }
+  ],
+  "input_hashes": {
+    "tests/q2_hc.cpp": "de9b86b56cc74abf12efc4bb4d5b2570b2a18db7d23abdb1c338d0c752927ba1",
+    "tests/q2_hc_decode_reduce.cpp": "cda2db88878a7cd91bc57f8147e5d0861611c9bafccfca2ea25d161877d93ebe",
+    "experiments/q2-hc-decode-reduce.patch": "b1ff8c4f2980653c9c551432a2bc85e46dd3895c3de2dce51d91df5b0a1ee60b"
+  },
+  "kernel_source_hash": "62d764c75e4bc516fcfbfc6c70e70a39526a1e2ba9acc7a88e4dc0a7a9b197e9"
+}

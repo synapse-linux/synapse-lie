@@ -1,0 +1,150 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -1189,7 +1189,7 @@
+ 
+ bool Executor::HcMix(const DeviceMixer& m, const float* res, bool normed,
+                      float* mixed, float* inject, std::uint32_t n_tokens,
+-                     std::string* error_msg) const {
++                     std::string* error_msg, bool produce_q8) const {
+   const Config& c = config();
+   // Without `normed` this mixer's grouped norm of res is computed here (F32);
+   // otherwise the previous combine produced it, as F16 plus tiled Q8 on the
+@@ -1284,6 +1284,23 @@
+       q8t_rows_ = n_tokens;
+       q8t_cols_ = c.hidden_size;
+     }
++  } else if (fused_raw_projection && produce_q8) {
++    // The FFN shared gate/up reads these exact mixed rows next. Reuse the
++    // existing Q8 epilogue; publish its identity only after both launches pass.
++    if (!HcMixRawQ8F16Gemm(m.up.data, reinterpret_cast<const __half*>(s_.hc_gate),
++                           xn, fused_inject ? m.inject.f32() : nullptr, mixed,
++                           static_cast<__half*>(s_.x_half), s_.x_q8t, inject,
++                           n_tokens, c.hidden_size, c.hc_low_rank, stream_)) {
++      AssignError(error_msg, "fused raw HC Q8 producer failed");
++      return false;
++    }
++    half_src_ = mixed;
++    half_rows_ = n_tokens;
++    half_cols_ = c.hidden_size;
++    half_bf16_ = false;
++    q8t_src_ = mixed;
++    q8t_rows_ = n_tokens;
++    q8t_cols_ = c.hidden_size;
+   } else if (fused_raw_projection) {
+     if (!HcMixRawF16Gemm(m.up.data, reinterpret_cast<const __half*>(s_.hc_gate),
+                          xn, fused_inject ? m.inject.f32() : nullptr, mixed,
+@@ -2161,7 +2178,7 @@
+     // Each combine also norms the residual for the mixer that follows it,
+     // unless PLE rewrites the residual first.
+     Combine(s_.res, l.hc_ffn.norm.f32(), n);
+-    if (!HcMix(l.hc_ffn, s_.res, true, s_.mixed, s_.inject, n, error_msg) ||
++    if (!HcMix(l.hc_ffn, s_.res, true, s_.mixed, s_.inject, n, error_msg, true) ||
+         !Moe(l, s_.mixed, s_.block_out, n, error_msg)) {
+       return false;
+     }
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.hpp
+@@ -342,7 +342,7 @@
+   /// of res (F32 in s_.xn, or F16 plus tiled Q8 on the wide route).
+   bool HcMix(const DeviceMixer& m, const float* res, bool normed, float* mixed,
+              float* inject, std::uint32_t n_tokens,
+-             std::string* error_msg) const;
++             std::string* error_msg, bool produce_q8 = false) const;
+   /// Share mixer projections across decode requests without selecting the
+   /// prefill arithmetic. Injection rows are compact across the whole batch.
+   bool HcMixBatch(const DeviceMixer& m, const float* res, bool normed,
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -6240,6 +6240,35 @@
+   return true;
+ }
+ 
++bool HcMixRawQ8F16Gemm(const void* up, const __half* low_rank, const float* xn,
++                     const float* inject_w, float* mixed, __half* mixed_half, void* mixed_q8,
++                     float* inject, std::uint32_t n_tokens,
++                     std::uint32_t hidden, std::uint32_t rank,
++                     hipStream_t stream) {
++  if (n_tokens < 96 || hidden != 2560 || rank != 320 || up == nullptr ||
++      low_rank == nullptr || xn == nullptr || mixed == nullptr || mixed_q8 == nullptr ||
++      (inject_w != nullptr && inject == nullptr)) {
++    return false;
++  }
++  // Original half weights and the existing F32 normalized streams. Interleave
++  // gate rows only in the fetch addresses; no persistent weight repacking.
++  const dim3 grid((n_tokens + 127) / 128, 4 * hidden / 256);
++  hipLaunchKernelGGL((DenseF16GEMMKernel<256, 128, 1, 4, 2, 8, true, false,
++                                         false, true, true>),
++                     grid, dim3(512), 0, stream, up, low_rank, mixed, n_tokens,
++                     4 * hidden, rank, xn, mixed_half, mixed_q8);
++  if (hipGetLastError() != hipSuccess) return false;
++  if (inject_w != nullptr) {
++    // Keep the original F32 inject products, partials and reduction order.
++    // This specialization omits only the gate read and mixed-row output.
++    hipLaunchKernelGGL((HcMixEpilogueVec4Kernel<float, false>),
++                       dim3(n_tokens, HcInjectPartsVec4(hidden)),
++                       dim3(kThreads), 0, stream, xn, nullptr, inject_w,
++                       nullptr, inject, hidden);
++  }
++  return hipGetLastError() == hipSuccess;
++}
++
+ bool UnquantizedF16Gemm(const void* w, const __half* x, float* out,
+                         std::size_t batch, std::size_t m, std::size_t k,
+                         hipStream_t stream) {
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
+@@ -215,6 +215,15 @@
+ /// Mixed half rows are optional; inject keeps F32 partials.
+ bool HcMixRawF16Gemm(const void* up, const __half* low_rank, const float* xn,
+                      const float* inject_w, float* mixed, __half* mixed_half,
++                     float* inject, std::uint32_t n_tokens,
++                     std::uint32_t hidden, std::uint32_t rank,
++                     hipStream_t stream);
++
++/// Same raw-HC arithmetic; additionally emits the existing tiled Q8
++/// format from rounded F32 mixed values. Q8 output is required and
++/// must not overlap other inputs/outputs; launch errors return false.
++bool HcMixRawQ8F16Gemm(const void* up, const __half* low_rank, const float* xn,
++                     const float* inject_w, float* mixed, __half* mixed_half, void* mixed_q8,
+                      float* inject, std::uint32_t n_tokens,
+                      std::uint32_t hidden, std::uint32_t rank,
+                      hipStream_t stream);
+--- a/src/models/qwen38_flash_next/kernels/rocm/q2_scaled_input.inc
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_scaled_input.inc
+@@ -7,9 +7,19 @@
+   const std::size_t row = blockIdx.x;
+   __shared__ float maxima[8];
+   __shared__ float multiplier;
++  // The launcher admits only 640 columns. Retain the at most three
++  // original values per thread across the unchanged maximum reduction.
++  // This avoids reading the complete F32 row again after the barrier.
++  float values[3] = {};
+   float local = 0.0F;
+-  for (std::size_t c = tid; c < cols; c += 256)
+-    local = fmaxf(local, fabsf(x[row * cols + c]));
++#pragma unroll
++  for (unsigned i = 0; i < 3; ++i) {
++    const std::size_t c = tid + i * 256;
++    if (c < cols) {
++      values[i] = x[row * cols + c];
++      local = fmaxf(local, fabsf(values[i]));
++    }
++  }
+   for (unsigned offset = 16; offset; offset >>= 1)
+     local = fmaxf(local, __shfl_down(local, offset, 32));
+   if (lane == 0)
+@@ -29,8 +39,12 @@
+     inverse[row] = __builtin_bit_cast(float, unsigned(127 - shift) << 23);
+   }
+   __syncthreads();
+-  for (std::size_t c = tid; c < cols; c += 256)
+-    out[row * cols + c] = __float2half_rn(x[row * cols + c] * multiplier);
++#pragma unroll
++  for (unsigned i = 0; i < 3; ++i) {
++    const std::size_t c = tid + i * 256;
++    if (c < cols)
++      out[row * cols + c] = __float2half_rn(values[i] * multiplier);
++  }
+ }
+ 
+ bool PackQ2ScaledRows(const float* x, __half* out, float* inverse,

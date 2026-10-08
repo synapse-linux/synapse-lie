@@ -1,0 +1,13 @@
+{
+  "scope": "Isolated source identity; no runtime evidence",
+  "base": "measured HC up fused Q2 source",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "file_count": 1019,
+  "changed_files": [
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  ],
+  "base_kernel_sha256": "7bdb61778f39b91fed57a2600afcdff3bd81f109da2b6f2f0830c286202cbb0e",
+  "candidate_kernel_sha256": "880ce5bacf510bc317d555ceb3871cb9206ec4eeadd368b8d7229624369f9652",
+  "patch_sha256": "6d26dc2f6255c742c7fb99a3fdc01fa94ca6f9a0ee9b5cf8e8bdc67ea1563c0c",
+  "generator": "tools/prepare-q2-hc-up-vec.py"
+}

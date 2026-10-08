@@ -1,0 +1,77 @@
+{
+  "schema": "synapse-lie.q2-select-query-lds-static.v1",
+  "kernels": {
+    "SelectScoreKernel": {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_117SelectScoreKernelEPKfPK6__halfPfjPKjjjjj",
+      "sha256": "98c09f8f2e8d10e4a40dfe1a167a12fcb45dd095b1693fa31ce61e72461190ce",
+      "bytes": 5212,
+      "bundle": "0",
+      "resources": {
+        "num_vgpr": 115,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      },
+      "descriptor": {
+        "group_segment_fixed_size": 0,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 115,
+        "next_free_sgpr": 84
+      }
+    },
+    "SelectScoreQueryLdsKernel": {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm25SelectScoreQueryLdsKernelEPKfPK6__halfPfjPKjjjjj",
+      "sha256": "278d8f5430ab7eae1f37b50f0d9f99962a22f06f208692f462ae594712b79caa",
+      "bytes": 6760,
+      "bundle": "0",
+      "resources": {
+        "num_vgpr": 142,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      },
+      "descriptor": {
+        "group_segment_fixed_size": 2048,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 142,
+        "next_free_sgpr": 16
+      }
+    },
+    "SelectMarkKernel": {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_116SelectMarkKernelEPjPKfPKjjjjjj",
+      "sha256": "79d433f6b1c791d19d8693cdcf86c89430fa2e058d237acb5c06e7719f62107d",
+      "bytes": 6328,
+      "bundle": "0",
+      "resources": {
+        "num_vgpr": 45,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      },
+      "descriptor": {
+        "group_segment_fixed_size": 17456,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 45,
+        "next_free_sgpr": 30
+      }
+    }
+  },
+  "common_functions": 165,
+  "exact_common_functions": 153,
+  "changed_common_functions": [
+    "_ZN4gufo3hip30WKQuantA8BlockedWmmaGEMMKernelILi128ELi128ELi2ELi4ELi1ELNS_4core8GgmlTypeE8ELi64EEEvPKvS5_Pfmmm",
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi128ELi2ELb1ELb0ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi128ELi2ELb1ELb1ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi16ELi2ELb1ELb0ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi16ELi2ELb1ELb1ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi48ELi2ELb1ELb0ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi48ELi2ELb1ELb1ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi64ELi2ELb1ELb0ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi64ELi2ELb1ELb1ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_122MtpCandidateTileKernelILj64EEEvPKfPKjPjPfjj",
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_126RoutedIq2FixedBoundsKernelILNS2_10WeightTypeE16ELi128ELi128ELi2ELb1ELb0ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+    "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_126RoutedIq2FixedBoundsKernelILNS2_10WeightTypeE16ELi128ELi64ELi2ELb1ELb0ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_"
+  ],
+  "binary_sha256": "174ae1a3c9b140a43438783914a409916db5481db5efa00b5ebd2824a31dab0b",
+  "fixture_sha256": "22954fa9594794c055bf6b35f9d30870e6a538446b5f30d74767011ff965f8db",
+  "device_audit_sha256": "233a2a2ca848db5479237b09c4c55ea2a378167ff594f31f576432683a4bd896",
+  "GPU_run": false,
+  "model_dispatch_changed": false
+}

@@ -1,0 +1,24 @@
+{
+  "schema": "synapse-lie.q2-ssm-row-group-host.v1",
+  "capsule_sha256": "37d43512379c192458bd9b9236d25e03532b273aedf92b6949434ad511bbd0d1",
+  "archive_sha256": "4935eebded90703aeef08b95e064a0b10e7d8bffccd6eb61596351be6060f00f",
+  "fixture_files_verified": 88,
+  "source_files_verified": 1020,
+  "plan_sha256": "549e6150bdb23af496531d45a24a49301591ff729fb99d3cd6788f7d8e4dd39d",
+  "test_counts": {
+    "debug": 27,
+    "asan_ubsan": 27
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts": 7,
+  "model_inference": false,
+  "gpu_run": false,
+  "goal_met": false
+}

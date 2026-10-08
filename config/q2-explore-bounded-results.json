@@ -1,0 +1,414 @@
+{
+  "scope": "Bounded Q2 replay, not independent full-model teacher parity",
+  "protocol": {
+    "hypothesis": "Reduce observed Q2 PP register spills by bounding K-loop fragment lifetimes, following the UD principle of bounded temporary register use.",
+    "change": "Per-token-tile compiler memory barrier for widths >=32 on RDNA3 only; no new K-loop pragma. No allocation, precision, quantization, weight representation, tile geometry or explicit arithmetic change.",
+    "baseline": "a4a2b8b runtime; patch SHA256 3029cd490bc75d045e9dcf696ac6c1b23092684ad25641c93d500cb9f2727473",
+    "operator_gate": {
+      "independent_relative_rms_max": 0.002,
+      "independent_error_over_peak_max": 0.002,
+      "reference_comparison": "All recorded operator F32 bytes must match the same extended harness against the baseline. Original IQ2/Q2 checks plus Q2 tile16/32/48/64/80 with aligned64/ragged65 output rows and small/ordinary inputs."
+    },
+    "model_gate": "Every collected input/output/frontier file must match the corresponding original Q2 profile or benchmark. No KL relaxation for this scheduling-only candidate.",
+    "profile_gate": "Compare marked PP kernel durations and private-segment metadata against original trace; private bytes are a spill hypothesis, not proof of dynamic traffic or a wall-speed guarantee.",
+    "performance_gate": "A diagnostic gain must survive unprofiled Q2 C1 512/2048/8192 and a UD control; overall Q2 acceptance still requires no degradation versus UD.",
+    "coordination": "Core handed over after state-gpu-r1; all new GPU/build arms held four leases. Q2 released at2026-10-02T04:22:17.419479Z with fresh verified closure.",
+    "static_screen": "The token-tile barrier reduces spill metadata for some tiles but increases tile16. Disabling K-loop unrolling removes scratch instructions for all selected widths in local device-only assembly. This is not target performance or numerical evidence.",
+    "rejected_variant": "Bounded K loop passes independent operators but fails exact replay (20/44 exact; max absolute delta 4.76837158203125e-7), so no model run follows it.",
+    "rejected_static_variant": "Forcing full K unroll with the barrier increased private allocation to1064/1940/2816/5692B for widths32/48/64/80; not sent to GPU. Next candidate uses the original compiler unroll policy and leaves tile16 unchanged.",
+    "status": "Completed: both GPU variants rejected by unchanged exact replay gate; original runtime restored"
+  },
+  "arms": {
+    "baseline": "evidence/q2-explore-reference-r1",
+    "candidate": "evidence/q2-explore-bounded-r1",
+    "ud": "evidence/q2-explore-ud-r1"
+  },
+  "different_token_files": [],
+  "frontiers": [
+    {
+      "name": "arithmetic-0-last.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 1.2346514374626315e-06,
+      "relative_l2": 0.12417170679250232,
+      "max_absolute_error": 1.653908133506775
+    },
+    {
+      "name": "arithmetic-0-prefill.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 9.333886200506445e-05,
+      "relative_l2": 0.21851355476100492,
+      "max_absolute_error": 2.95900559425354
+    },
+    {
+      "name": "counting-0-last.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 7.211481047599675e-05,
+      "relative_l2": 0.10095174435904561,
+      "max_absolute_error": 1.3299293518066406
+    },
+    {
+      "name": "counting-0-prefill.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 5.8019239751896384e-05,
+      "relative_l2": 0.13539926660138232,
+      "max_absolute_error": 1.4543688297271729
+    },
+    {
+      "name": "pp2048-0-last.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 3.044836368598427e-07,
+      "relative_l2": 0.07501206414178838,
+      "max_absolute_error": 1.1752862930297852
+    },
+    {
+      "name": "pp2048-0-prefill.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 0.0024942178755511042,
+      "relative_l2": 0.2767418971258212,
+      "max_absolute_error": 3.0299179553985596
+    },
+    {
+      "name": "pp2048-1-last.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 3.044836368598427e-07,
+      "relative_l2": 0.07501206414178838,
+      "max_absolute_error": 1.1752862930297852
+    },
+    {
+      "name": "pp2048-1-prefill.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 0.0024942178755511042,
+      "relative_l2": 0.2767418971258212,
+      "max_absolute_error": 3.0299179553985596
+    },
+    {
+      "name": "pp2048-2-last.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 3.044836368598427e-07,
+      "relative_l2": 0.07501206414178838,
+      "max_absolute_error": 1.1752862930297852
+    },
+    {
+      "name": "pp2048-2-prefill.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 0.0024942178755511042,
+      "relative_l2": 0.2767418971258212,
+      "max_absolute_error": 3.0299179553985596
+    },
+    {
+      "name": "pp2048-3-last.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 3.044836368598427e-07,
+      "relative_l2": 0.07501206414178838,
+      "max_absolute_error": 1.1752862930297852
+    },
+    {
+      "name": "pp2048-3-prefill.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 0.0024942178755511042,
+      "relative_l2": 0.2767418971258212,
+      "max_absolute_error": 3.0299179553985596
+    },
+    {
+      "name": "pp512-0-last.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 7.219620773489091e-07,
+      "relative_l2": 0.08581918772531369,
+      "max_absolute_error": 1.3545708656311035
+    },
+    {
+      "name": "pp512-0-prefill.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 0.0006645680885106447,
+      "relative_l2": 0.15837487478998388,
+      "max_absolute_error": 1.6936931610107422
+    },
+    {
+      "name": "pp512-1-last.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 7.219620773489091e-07,
+      "relative_l2": 0.08581918772531369,
+      "max_absolute_error": 1.3545708656311035
+    },
+    {
+      "name": "pp512-1-prefill.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 0.0006645680885106447,
+      "relative_l2": 0.15837487478998388,
+      "max_absolute_error": 1.6936931610107422
+    },
+    {
+      "name": "pp512-2-last.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 7.219620773489091e-07,
+      "relative_l2": 0.08581918772531369,
+      "max_absolute_error": 1.3545708656311035
+    },
+    {
+      "name": "pp512-2-prefill.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 0.0006645680885106447,
+      "relative_l2": 0.15837487478998388,
+      "max_absolute_error": 1.6936931610107422
+    },
+    {
+      "name": "pp512-3-last.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 7.219620773489091e-07,
+      "relative_l2": 0.08581918772531369,
+      "max_absolute_error": 1.3545708656311035
+    },
+    {
+      "name": "pp512-3-prefill.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 0.0006645680885106447,
+      "relative_l2": 0.15837487478998388,
+      "max_absolute_error": 1.6936931610107422
+    },
+    {
+      "name": "pp8192-0-last.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 7.516274213733123e-08,
+      "relative_l2": 0.07022888312038505,
+      "max_absolute_error": 1.0749092102050781
+    },
+    {
+      "name": "pp8192-0-prefill.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 0.0005827176412254905,
+      "relative_l2": 0.24546522249380606,
+      "max_absolute_error": 2.7468948364257812
+    },
+    {
+      "name": "pp8192-1-last.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 7.516274213733123e-08,
+      "relative_l2": 0.07022888312038505,
+      "max_absolute_error": 1.0749092102050781
+    },
+    {
+      "name": "pp8192-1-prefill.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 0.0005827176412254905,
+      "relative_l2": 0.24546522249380606,
+      "max_absolute_error": 2.7468948364257812
+    },
+    {
+      "name": "pp8192-2-last.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 7.516274213733123e-08,
+      "relative_l2": 0.07022888312038505,
+      "max_absolute_error": 1.0749092102050781
+    },
+    {
+      "name": "pp8192-2-prefill.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 0.0005827176412254905,
+      "relative_l2": 0.24546522249380606,
+      "max_absolute_error": 2.7468948364257812
+    },
+    {
+      "name": "pp8192-3-last.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 7.516274213733123e-08,
+      "relative_l2": 0.07022888312038505,
+      "max_absolute_error": 1.0749092102050781
+    },
+    {
+      "name": "pp8192-3-prefill.f32",
+      "values": 248320,
+      "exact": false,
+      "kl_p_to_candidate": 0.0005827176412254905,
+      "relative_l2": 0.24546522249380606,
+      "max_absolute_error": 2.7468948364257812
+    }
+  ],
+  "measurements": [
+    {
+      "arm": "baseline",
+      "prompt_tokens": 512,
+      "prefill_tok_s": {
+        "min": 547.6080468,
+        "median": 548.1515085,
+        "max": 548.3729939
+      },
+      "decode_steps_s": {
+        "min": 20.80765878,
+        "median": 20.81538109,
+        "max": 20.81767532
+      }
+    },
+    {
+      "arm": "baseline",
+      "prompt_tokens": 2048,
+      "prefill_tok_s": {
+        "min": 605.7894583,
+        "median": 606.1617785,
+        "max": 606.9309931
+      },
+      "decode_steps_s": {
+        "min": 20.39270143,
+        "median": 20.39947312,
+        "max": 20.4038109
+      }
+    },
+    {
+      "arm": "baseline",
+      "prompt_tokens": 8192,
+      "prefill_tok_s": {
+        "min": 559.0908923,
+        "median": 559.553719,
+        "max": 559.7169997
+      },
+      "decode_steps_s": {
+        "min": 20.38151194,
+        "median": 20.38365512,
+        "max": 20.3860553
+      }
+    },
+    {
+      "arm": "candidate",
+      "prompt_tokens": 512,
+      "prefill_tok_s": {
+        "min": 618.0166905,
+        "median": 618.7194964,
+        "max": 623.9521146
+      },
+      "decode_steps_s": {
+        "min": 20.71725223,
+        "median": 20.73668717,
+        "max": 20.74198396
+      }
+    },
+    {
+      "arm": "candidate",
+      "prompt_tokens": 2048,
+      "prefill_tok_s": {
+        "min": 775.6000819,
+        "median": 776.2370968,
+        "max": 778.4510036
+      },
+      "decode_steps_s": {
+        "min": 20.34560114,
+        "median": 20.36103976,
+        "max": 20.37493343
+      }
+    },
+    {
+      "arm": "candidate",
+      "prompt_tokens": 8192,
+      "prefill_tok_s": {
+        "min": 789.7798112,
+        "median": 791.8815851,
+        "max": 792.984412
+      },
+      "decode_steps_s": {
+        "min": 20.24943741,
+        "median": 20.29877503,
+        "max": 20.31287152
+      }
+    },
+    {
+      "arm": "ud",
+      "prompt_tokens": 512,
+      "prefill_tok_s": {
+        "min": 1044.357476,
+        "median": 1047.698078,
+        "max": 1054.052754
+      },
+      "decode_steps_s": {
+        "min": 24.92578624,
+        "median": 24.98110996,
+        "max": 24.98604611
+      }
+    },
+    {
+      "arm": "ud",
+      "prompt_tokens": 2048,
+      "prefill_tok_s": {
+        "min": 1646.067673,
+        "median": 1650.064552,
+        "max": 1654.467856
+      },
+      "decode_steps_s": {
+        "min": 24.18400041,
+        "median": 24.33712946,
+        "max": 24.35743163
+      }
+    },
+    {
+      "arm": "ud",
+      "prompt_tokens": 8192,
+      "prefill_tok_s": {
+        "min": 1626.735508,
+        "median": 1628.665332,
+        "max": 1635.557647
+      },
+      "decode_steps_s": {
+        "min": 24.25625711,
+        "median": 24.27528049,
+        "max": 24.27921894
+      }
+    }
+  ],
+  "bounded_numerical_gate_pass": false,
+  "relative_medians": {
+    "baseline": {
+      "512": {
+        "prefill_tok_s": 1.128738107632153,
+        "decode_steps_s": 0.9962194340973269
+      },
+      "2048": {
+        "prefill_tok_s": 1.2805774371338063,
+        "decode_steps_s": 0.9981159631048354
+      },
+      "8192": {
+        "prefill_tok_s": 1.4152020766034799,
+        "decode_steps_s": 0.9958358748958269
+      }
+    },
+    "ud": {
+      "512": {
+        "prefill_tok_s": 0.5905513328621379,
+        "decode_steps_s": 0.8300947076892815
+      },
+      "2048": {
+        "prefill_tok_s": 0.47042832103698207,
+        "decode_steps_s": 0.8366245408467331
+      },
+      "8192": {
+        "prefill_tok_s": 0.4862150434107724,
+        "decode_steps_s": 0.8361911632024979
+      }
+    }
+  },
+  "all_medians_at_least_ud": false,
+  "statistical_limit": "Three samples per shape and noninterleaved arms are not a zero-margin confidence bound."
+}

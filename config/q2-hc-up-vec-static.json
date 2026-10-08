@@ -1,0 +1,15 @@
+{
+  "scope": "Local static gfx1151 compiler resources only; no GPU run or model evidence",
+  "command": "/opt/rocm/llvm/bin/clang++ -x hip --offload-arch=gfx1151 --offload-device-only -S -std=c++20 -O3 -ffast-math -fno-finite-math-only -DQFN_ROCM_BUILD=1 -DENGINE_ENABLE_HIP=1 -I.deps/gufo-q2-bench-hc-up-vec -isystem /opt/rocm/include .deps/gufo-q2-bench-hc-up-vec/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp -o evidence/q2-hc-up-vec-static-r1.s",
+  "exit_code": 0,
+  "assembly_sha256": "846df4192b289a04ca6668254f2b59c82c2bec9953ba8c41a3724a620923b681",
+  "kernel": "HcUpF16VecKernel",
+  "gfx1151": {
+    "next_free_vgpr": 19,
+    "next_free_sgpr": 8,
+    "private_bytes": 0,
+    "lds_bytes": 0,
+    "workgroup_threads": 128,
+    "waves_per_row": 1
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schema": "synapse-lie.q2-attention-v-tiles-window-plan.v1",
+  "label": "q2-attention-v-tiles-component-r1",
+  "source_commit": "e1f58fb934f9824ccbfdbb132dcc084fcc527d4a",
+  "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+  "component_only": true,
+  "model_access": false,
+  "remote_build": false,
+  "remote_cleanup": false,
+  "timeout_seconds": 300,
+  "previous_release": "q2-decode-q8-planar-component-r1/release.json",
+  "previous_release_sha256": "63ef8bc62ff61ad53c79df9ab764ccaa3193f32b5bd7ba5e1360071624212850",
+  "staged_sha256": {
+    "candidate.inc": "da23ab5bdf5771028de6915a51d1c0e5848031696835f013e5a2447e391641fa",
+    "control.inc": "c0a3dcfd2bbfc5a456bb0cdc742421310b04bddc699696ee2e4e21cc501c4142",
+    "fixture.hip": "d77a46085122597bfe8e8c6f63cf1d5e94631cbc9741bd8eb5582624450b7a9c",
+    "q2-attention-v-tiles-window.py": "df0090d0386522ed42a93856d99e31462f4731d164f5bd8deaabb4a2d43daffb",
+    "q2-native128-profile-window.py": "fadf40de9ef661cfab2e703c3219224269724148483dbf4e51aa91caf0702c73",
+    "q2_attention_v_tiles_check": "656d0fd28ddfaceb48f9814cdbd15f5b5f7f67a0e9787b77bde2cf12ef994f46",
+    "q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "record-command.py": "825f7053e5b28075aefe386997876c05dce62f0a82753e87eb4f36b74eefe593",
+    "source-manifest.json": "e3a35d26039bd3cf24763a4fce899e343d852c71268f3b73f48cb07dc1b710a6",
+    "static-manifest.json": "3fe9785bd90a07a954eeb8b7448f39daf2dd39a82a35e9763618fe3ad800d2be"
+  },
+  "cpu_check_sha256": {
+    "cpu-test-command.json": "b78e6dd4ba4abdbc9e037943481e5a3213383eaa8f69373841377e98fa43b3c1",
+    "cpu-test.stdout": "01059d37e86a14bcbdfb801f544fe2954f23c6f07e715a890cb1e6231c9e801a",
+    "cpu-test.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "scope": "Synthetic exact prefill V tile layout, original masks/arithmetic/early-late dispatch; complete packing plus attention timed, two pp2048 depths and numerical tails. Every timed output compared, FP64 samples retained, six balanced measured pairs. No original model, dispatch/precision change, remote build/tuning/cleanup."
+}

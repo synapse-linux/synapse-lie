@@ -1,0 +1,61 @@
+{
+  "schema": "synapse-lie.q2-iq2-table-dpp-draft-static.v1",
+  "production_kernels_preserved": 164,
+  "private_draft_bodies": 2,
+  "source": "experiments/q2-iq2-table-dpp-draft.inc",
+  "source_sha256": "3bf6314e0da28779f2426a6fdf478170a5376a2de830b3baab0ddd0507bce5ca",
+  "draft_assembly_sha256": "edc499848be049ad5989bb77b169c89b3a3a05b41b876c466558bddc4b2dc8af",
+  "pairs": [
+    {
+      "BN": 128,
+      "table_lds": {
+        "instructions": 1680,
+        "resources": {
+          "group_segment_fixed_size": 28800,
+          "private_segment_fixed_size": 0,
+          "next_free_vgpr": 169,
+          "next_free_sgpr": 29,
+          "wavefront_size32": 1
+        }
+      },
+      "table_dpp_draft": {
+        "instructions": 1662,
+        "resources": {
+          "group_segment_fixed_size": 28800,
+          "private_segment_fixed_size": 0,
+          "next_free_vgpr": 169,
+          "next_free_sgpr": 29,
+          "wavefront_size32": 1
+        }
+      }
+    },
+    {
+      "BN": 64,
+      "table_lds": {
+        "instructions": 997,
+        "resources": {
+          "group_segment_fixed_size": 20608,
+          "private_segment_fixed_size": 0,
+          "next_free_vgpr": 104,
+          "next_free_sgpr": 21,
+          "wavefront_size32": 1
+        }
+      },
+      "table_dpp_draft": {
+        "instructions": 979,
+        "resources": {
+          "group_segment_fixed_size": 20608,
+          "private_segment_fixed_size": 0,
+          "next_free_vgpr": 100,
+          "next_free_sgpr": 21,
+          "wavefront_size32": 1
+        }
+      }
+    }
+  ],
+  "limitations": "Standalone explicit instantiation outside the anonymous production namespace. No production selector or runtime qualification; preservation of164 other bodies verified.",
+  "provider_implemented": false,
+  "GPU_admission": false,
+  "model_inference": false,
+  "speedup_claim": false
+}

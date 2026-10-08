@@ -1,0 +1,16 @@
+{
+  "schema": "synapse-lie.q2-iq2-token160-probe-source.v1",
+  "retained_manifest": "config/q2-iq2-fixed-bounds-source.json",
+  "retained_manifest_sha256": "2e81463dbbe134190c300f2b008684d584f0d75f60f36f16eb25b765c2c4b45c",
+  "private_provider": ".deps/gufo-q2-iq2-token160-probe",
+  "private_patch": "experiments/q2-iq2-token160-probe.patch",
+  "private_patch_sha256": "e68ab68bb4726550c3a3df6120ce0982241993c9f86a5d7516c3cf05dca0b1cf",
+  "changed_files": {
+    "src/models/qwen38_flash_next/kernels/rocm/q2_iq2_fixed_bounds.inc": "0ac1fd9216acb91be3818d731ad2506c5929ea26c8bd3c91c43c733705d73989",
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "66e1cee773a8366a9084dcf6ec9563a2efca6bb363ca6f72c82eb059ebbeebff"
+  },
+  "unchanged_files": 1026,
+  "selected_by_production": false,
+  "gpu_run": false,
+  "model_run": false
+}

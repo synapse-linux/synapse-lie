@@ -1,0 +1,211 @@
+{
+  "schema": "synapse-lie.q2-iq2-whole640-results.v1",
+  "label": "q2-iq2-whole640-component-r1",
+  "result_sha256": "d8c348130bf2ce81e2f450d22b0d79c67c647b85c779728a608898f9db73b45e",
+  "plan_sha256": "3ac31b7beb4f8512f7bef1188a3b4557366700d00ff5bb6ea0a480091d227d42",
+  "release_sha256": "fe9a91904ce626a363a9ce80e3389d0f06fd6de5006e7b83cb796048ff841967",
+  "commands": [
+    0,
+    0,
+    0
+  ],
+  "verified_artifacts": 380,
+  "edge_cases": 32,
+  "replay_records": 56,
+  "exact_output_pairs": 104,
+  "scalar_packing_values": 9381676,
+  "actual_timed_buffer_replays": 21,
+  "timing_records": 63,
+  "timing_cases": [
+    {
+      "live_rows": 4,
+      "experts": 64,
+      "arms": [
+        {
+          "arm": "retained_gate_up_then_pack",
+          "samples_us": [
+            505.713333333,
+            517.859666667,
+            503.046666667,
+            495.547,
+            503.127
+          ],
+          "warmups_us": [
+            500.857,
+            504.960333333
+          ],
+          "mean_us": 505.0587333334,
+          "min_us": 495.547,
+          "max_us": 517.859666667,
+          "time_change_percent": 0.0
+        },
+        {
+          "arm": "whole640_register",
+          "samples_us": [
+            2710.028,
+            2711.17433333,
+            2694.405,
+            2705.688,
+            2707.50133333
+          ],
+          "warmups_us": [
+            2712.04433333,
+            2706.06133333
+          ],
+          "mean_us": 2705.759333332,
+          "min_us": 2694.405,
+          "max_us": 2711.17433333,
+          "time_change_percent": 435.7316198601145
+        },
+        {
+          "arm": "whole640_lds",
+          "samples_us": [
+            615.629666667,
+            620.373,
+            614.693,
+            620.639666667,
+            618.789666667
+          ],
+          "warmups_us": [
+            618.09,
+            622.336333333
+          ],
+          "mean_us": 618.0250000002001,
+          "min_us": 614.693,
+          "max_us": 620.639666667,
+          "time_change_percent": 22.366956397569826
+        }
+      ]
+    },
+    {
+      "live_rows": 8,
+      "experts": 64,
+      "arms": [
+        {
+          "arm": "retained_gate_up_then_pack",
+          "samples_us": [
+            518.119666667,
+            517.216333333,
+            524.613,
+            514.146666667,
+            519.866333333
+          ],
+          "warmups_us": [
+            524.732666667,
+            505.87
+          ],
+          "mean_us": 518.7924,
+          "min_us": 514.146666667,
+          "max_us": 524.613,
+          "time_change_percent": 0.0
+        },
+        {
+          "arm": "whole640_register",
+          "samples_us": [
+            2742.88,
+            2784.622,
+            2744.34,
+            2790.882,
+            2770.509
+          ],
+          "warmups_us": [
+            2782.28233333,
+            2786.64866667
+          ],
+          "mean_us": 2766.6466,
+          "min_us": 2742.88,
+          "max_us": 2790.882,
+          "time_change_percent": 433.2858769712123
+        },
+        {
+          "arm": "whole640_lds",
+          "samples_us": [
+            641.432333333,
+            623.366333333,
+            634.609,
+            621.876333333,
+            634.379333333
+          ],
+          "warmups_us": [
+            631.439333333,
+            640.552333333
+          ],
+          "mean_us": 631.1326666664,
+          "min_us": 621.876333333,
+          "max_us": 641.432333333,
+          "time_change_percent": 21.654185116512892
+        }
+      ]
+    },
+    {
+      "live_rows": 16,
+      "experts": 64,
+      "arms": [
+        {
+          "arm": "retained_gate_up_then_pack",
+          "samples_us": [
+            793.054,
+            548.178666667,
+            546.995333333,
+            535.479333333,
+            796.397
+          ],
+          "warmups_us": [
+            534.489,
+            540.462333333
+          ],
+          "mean_us": 644.0208666666,
+          "min_us": 535.479333333,
+          "max_us": 796.397,
+          "time_change_percent": 0.0
+        },
+        {
+          "arm": "whole640_register",
+          "samples_us": [
+            2808.70433333,
+            2879.22233333,
+            2840.70366667,
+            2876.19233333,
+            2795.72166667
+          ],
+          "warmups_us": [
+            2874.82233333,
+            2907.008
+          ],
+          "mean_us": 2840.108866666,
+          "min_us": 2795.72166667,
+          "max_us": 2879.22233333,
+          "time_change_percent": 340.9964045677858
+        },
+        {
+          "arm": "whole640_lds",
+          "samples_us": [
+            648.845333333,
+            935.039333333,
+            656.108666667,
+            931.866333333,
+            645.518666667
+          ],
+          "warmups_us": [
+            647.485666667,
+            648.402
+          ],
+          "mean_us": 763.4756666666,
+          "min_us": 645.518666667,
+          "max_us": 935.039333333,
+          "time_change_percent": 18.54828099255361
+        }
+      ]
+    }
+  ],
+  "aggregation": "Arithmetic mean of five measured component samples; all raw samples retained.",
+  "retained_model_PP": 1587.893545,
+  "retained_model_TG": 25.12414406,
+  "fixed_UD_PP": 1685.777092,
+  "fixed_UD_TG": 24.34174251,
+  "disposition": "Do not integrate these drafts: exact component outputs, slower complete gate/up+packing.",
+  "limitations": "Synthetic selected tails, not mixed routing/down/model throughput or independent model quality.",
+  "model_inference": false,
+  "controls_rebuilt_or_rerun": false,
+  "goal_met": false
+}

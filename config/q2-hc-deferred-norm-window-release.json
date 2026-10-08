@@ -1,0 +1,138 @@
+{
+  "at": "2026-10-03T07:14:59.723399+00:00",
+  "state": "Q2_HC_DEFERRED_NORM_WINDOW_RELEASED",
+  "runners": [
+    {
+      "label": "q2-hc-deferred-norm-host-r1",
+      "pid": 2901227,
+      "absent": true,
+      "finished_at": "2026-10-03T07:06:40.850264+00:00"
+    },
+    {
+      "label": "q2-hc-deferred-norm-micro-r1",
+      "pid": 2902274,
+      "absent": true,
+      "finished_at": "2026-10-03T07:08:00.248479+00:00"
+    }
+  ],
+  "commands": [
+    {
+      "label": "q2-hc-deferred-norm-host-r1",
+      "pid": 2901228,
+      "start_ticks": 157656946,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-deferred-norm-host-r1",
+      "pid": 2901303,
+      "start_ticks": 157656999,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-deferred-norm-host-r1",
+      "pid": 2901377,
+      "start_ticks": 157657451,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-deferred-norm-host-r1",
+      "pid": 2901605,
+      "start_ticks": 157658105,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-deferred-norm-host-r1",
+      "pid": 2901681,
+      "start_ticks": 157658157,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-deferred-norm-host-r1",
+      "pid": 2901790,
+      "start_ticks": 157658860,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-deferred-norm-micro-r1",
+      "pid": 2902275,
+      "start_ticks": 157664531,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-deferred-norm-micro-r1",
+      "pid": 2902477,
+      "start_ticks": 157664734,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-deferred-norm-micro-r1",
+      "pid": 2902614,
+      "start_ticks": 157666196,
+      "exit_code": 1,
+      "absent": true
+    }
+  ],
+  "live_owned": [],
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "observer": {
+    "pid": 2904671,
+    "state": "R",
+    "group": 2904668,
+    "session": 2904668,
+    "start_ticks": 157709398
+  },
+  "models": [],
+  "result_sha256": {
+    "q2-hc-deferred-norm-host-r1": "3dca4a38b6da11d5f4d62bba498d4050de9c5b44362c2237b2d697735122375f",
+    "q2-hc-deferred-norm-micro-r1": "7e93ed5dd010c215ba20576758b816d4af31f7c57ca77b763dc0b44fd8e1ea76"
+  },
+  "thermal": {
+    "/sys/class/hwmon/hwmon4/temp1_input": "46500",
+    "/sys/class/hwmon/hwmon2/temp1_input": "45000",
+    "/sys/class/hwmon/hwmon0/temp1_input": "47000",
+    "/sys/class/hwmon/hwmon5/temp1_input": "49000",
+    "/sys/class/hwmon/hwmon3/temp1_input": "47500",
+    "/sys/class/hwmon/hwmon1/temp6_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp3_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp7_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp4_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp8_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp1_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp9_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp2_input": "53850"
+  }
+}

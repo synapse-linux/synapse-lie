@@ -1,0 +1,71 @@
+{
+  "schema": "synapse-lie.q2-decode-down-rows-source.v1",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "parent_manifest": "config/q2-hc-scalar-isolated-source.json",
+  "parent_manifest_sha256": "eb12a4783802ee991f88d896b8698f7f61abc6dac68b2ae7372d0795ee850810",
+  "files": {
+    "experiments/q2-decode-down-rows.inc": "5721e2818fae494367a080f35ec4c238191eaae9d6c18013d6720357ddb7cb1f",
+    "tests/q2_decode_down_rows.hip": "23401da482ee6daf0282da262d5824b9b18b19961bf4fe88b75538f5d3ed9a32",
+    "tools/q2-decode-down-rows-window.py": "454e28184e2d4f210288c5d480de7f766fa2a35ae31b4eb2ff326189fa21f681",
+    "tests/q2_decode_down_rows_window_test.py": "aa63a6b9db6594e8c75f97a9a0c16cb9285958478dad3ebf422f6c7dbcec9a49"
+  },
+  "binary": "evidence/q2-decode-down-rows-preparation/q2_decode_down_rows_check",
+  "binary_sha256": "f4b7761a2e6f5e4075b4e32e2c7b217f66a5280e4a258a7d29decad64588997f",
+  "retained_mmq_archive": ".deps/build-hc-scalar-matched/cmake/hip/qwen/libgufo_qwen38_flash_next_mmq.a",
+  "retained_mmq_archive_sha256": "5daa0088a8f461ef1908ec6bb1e1a9d1239ed1745ae81b5f49e1219f728f8d91",
+  "control_archive_rebuilt": false,
+  "common_device_functions": 83,
+  "common_exact_device_functions": 83,
+  "changed_common_functions": [],
+  "candidate_functions": {
+    "_ZN7qfn_mmqL16Q2DownRowsKernelILNS_9ggml_typeE10ELi4ELb0EEEvPKvS3_PKiPfjjjjjjjjjS3_": {
+      "sha256": "eb134f2cb51582ffe4d709aa50f2007061ce043319c0bfd4516e280b01f3ae85",
+      "bytes": 2928,
+      "bundle": "0",
+      "resources": {
+        "num_vgpr": 78,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    },
+    "_ZN7qfn_mmqL16Q2DownRowsKernelILNS_9ggml_typeE10ELi8ELb0EEEvPKvS3_PKiPfjjjjjjjjjS3_": {
+      "sha256": "c80adea978a9fb7dbc7c9605c2faf8b74dba8673725ee818237586e41b88ac46",
+      "bytes": 5504,
+      "bundle": "0",
+      "resources": {
+        "num_vgpr": 104,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    }
+  },
+  "row_groups": [
+    2,
+    4,
+    8
+  ],
+  "shape": {
+    "rows": 2560,
+    "logical_k": 640,
+    "stored_k": 768,
+    "quantized_input_pitch": 1024,
+    "slots": 10
+  },
+  "weight_bytes": 82575360,
+  "numerical_boundaries_unchanged": true,
+  "prefill_changed": false,
+  "model_dispatch_changed": false,
+  "gpu_run": false,
+  "native_control_functions": {
+    "_ZN7qfn_mmqL17mul_mat_vec_q_moeILNS_9ggml_typeE10ELi2ELb0EEEvPKvS3_PKiPfjjjjjjjjjS3_": {
+      "sha256": "c1d0598b2959a43eb5e9665f1eea87b5eebd795b46de3800c778ff544d446386",
+      "bytes": 1840,
+      "bundle": "1",
+      "resources": {
+        "num_vgpr": 48,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    }
+  }
+}

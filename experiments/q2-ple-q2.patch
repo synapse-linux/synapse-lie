@@ -1,0 +1,176 @@
+--- a/src/models/qwen38_flash_next/ngram.cpp
++++ b/src/models/qwen38_flash_next/ngram.cpp
+@@ -9,6 +9,7 @@
+ #include <cstring>
+ #include <unordered_map>
+ 
++#include "q2_ple_diag.hpp"
+ #include "src/core/quant/ggml_dequant.hpp"
+ 
+ namespace gufo::models::qwen38_flash_next {
+@@ -26,6 +27,7 @@
+ void HashNgramRows(const Config& c, NgramHistory& history,
+                    std::span<const std::int32_t> tokens,
+                    std::span<std::uint32_t> rows) {
++  q2ple::Timer timing{q2ple::hash_ns};
+   const std::uint32_t n = c.ple_ngram_size;
+   const std::int64_t eos = c.ple_eos_token;
+   std::array<std::uint64_t, Config::kMaxPleNgram> ctx{};
+@@ -114,10 +116,15 @@
+   for (std::size_t i = 0; i < std::max<std::size_t>(1, workers); ++i) {
+     t->workers_.emplace_back([raw = t.get()] { raw->Worker(); });
+   }
++  q2ple::cache_slots = t->cache_count_;
++  q2ple::cache_bytes = t->cache_rows_.size();
++  q2ple::workers = t->workers_.size();
++  q2ple::direct = t->direct_;
+   return t;
+ }
+ 
+ void NgramTable::DecodeRow(const std::uint8_t* src, float* dst) const {
++  q2ple::Timer timing{q2ple::decode_ns};
+   if (type_ == core::GgmlType::kIQ4_NL) {
+     gufo::quant::DequantizeIQ4_NL(src, dst, row_dim_);
+   } else {
+@@ -141,6 +148,7 @@
+   }
+   const bool hit = entry.valid && entry.row == row;
+   if (hit) {
++    q2ple::Add(q2ple::cache_hits);
+     DecodeRow(cache_rows_.data() + slot * row_bytes_, dst);
+   }
+   entry.busy.clear(std::memory_order_release);
+@@ -155,6 +163,7 @@
+   if (ReadCached(row, dst)) {
+     return true;
+   }
++  q2ple::Add(q2ple::io_rows);
+   const std::uint64_t offset = base_offset_ + row * row_bytes_;
+   const std::uint64_t begin = direct_ ? offset & ~(kPage - 1) : offset;
+   const std::uint64_t end =
+@@ -180,7 +189,15 @@
+       entry != nullptr ? cache_rows_.data() + slot * row_bytes_ : nullptr;
+   std::size_t got = 0;
+   while (got < needed) {
+-    const ssize_t n = ::pread(fd_, base + got, length - got, begin + got);
++    q2ple::Add(q2ple::pread_calls);
++    q2ple::Add(q2ple::requested_bytes, length - got);
++    ssize_t n;
++    {
++      q2ple::Timer timing{q2ple::pread_ns};
++      n = ::pread(fd_, base + got, length - got, begin + got);
++    }
++    if (n > 0)
++      q2ple::Add(q2ple::returned_bytes, n);
+     if (n <= 0) {
+       if (n < 0 && errno == EINTR) {
+         continue;
+@@ -239,6 +256,9 @@
+ 
+ bool NgramTable::StartRead(std::span<const std::uint32_t> rows,
+                            std::span<float> out) {
++  q2ple::Timer timing{q2ple::start_ns};
++  q2ple::Add(q2ple::gathers);
++  q2ple::Add(q2ple::rows, rows.size());
+   std::lock_guard<std::mutex> lock(mutex_);
+   if (active_ || rows.size() > out.size() / row_dim_ ||
+       std::any_of(rows.begin(), rows.end(),
+@@ -260,6 +280,7 @@
+           {out.data() + it->second * row_dim_, out.data() + i * row_dim_});
+     }
+   }
++  q2ple::Add(q2ple::unique_rows, jobs_.size());
+   if (jobs_.size() >= kBatchJobs) {
+     std::sort(jobs_.begin(), jobs_.end(),
+               [](const Job& a, const Job& b) { return a.row < b.row; });
+@@ -280,12 +301,17 @@
+ }
+ 
+ bool NgramTable::WaitRead() {
++  q2ple::Timer timing{q2ple::wait_ns};
+   std::unique_lock<std::mutex> lock(mutex_);
+   if (!active_) {
+     return false;
+   }
+-  done_.wait(lock, [&] { return pending_ == 0; });
++  {
++    q2ple::Timer blocked{q2ple::blocked_ns};
++    done_.wait(lock, [&] { return pending_ == 0; });
++  }
+   if (!failed_) {
++    q2ple::Timer copies{q2ple::copies_ns};
+     for (const Copy& copy : copies_) {
+       std::copy_n(copy.src, row_dim_, copy.dst);
+     }
+--- /dev/null
++++ b/q2_ple_diag.hpp
+@@ -0,0 +1,69 @@
++// SPDX-License-Identifier: MIT
++// Diagnostic-only counters. Reset only after the previous gather has completed.
++#ifndef LIE_Q2_PLE_DIAG_HPP
++#define LIE_Q2_PLE_DIAG_HPP
++#include <array>
++#include <atomic>
++#include <chrono>
++#include <cstdint>
++#include <ostream>
++
++namespace q2ple {
++enum Metric {
++  hash_ns,
++  start_ns,
++  wait_ns,
++  blocked_ns,
++  copies_ns,
++  decode_ns,
++  pread_ns,
++  gathers,
++  rows,
++  unique_rows,
++  cache_hits,
++  io_rows,
++  pread_calls,
++  requested_bytes,
++  returned_bytes,
++  count
++};
++inline constexpr std::array<const char*, count> names{
++    "hash_ns",     "start_ns",        "wait_ns",       "blocked_ns",
++    "copies_ns",   "decode_ns",       "pread_ns",      "gathers",
++    "rows",        "unique_rows",     "cache_hits",    "io_rows",
++    "pread_calls", "requested_bytes", "returned_bytes"};
++inline std::array<std::atomic<std::uint64_t>, count> values{};
++inline std::uint64_t cache_slots = 0, cache_bytes = 0, workers = 0;
++inline bool direct = false;
++inline void Add(Metric m, std::uint64_t value = 1) {
++  values[m].fetch_add(value, std::memory_order_relaxed);
++}
++struct Timer {
++  Metric metric;
++  std::chrono::steady_clock::time_point start =
++      std::chrono::steady_clock::now();
++  ~Timer() {
++    Add(metric, std::chrono::duration_cast<std::chrono::nanoseconds>(
++                    std::chrono::steady_clock::now() - start)
++                    .count());
++  }
++};
++inline void Reset() {
++  for (auto& value : values)
++    value.store(0, std::memory_order_relaxed);
++}
++using Snapshot = std::array<std::uint64_t, count>;
++inline Snapshot Read() {
++  Snapshot result{};
++  for (int i = 0; i < count; ++i)
++    result[i] = values[i].load(std::memory_order_relaxed);
++  return result;
++}
++inline void Json(std::ostream& out, const Snapshot& snapshot) {
++  out << '{';
++  for (int i = 0; i < count; ++i)
++    out << (i ? "," : "") << '"' << names[i] << "\":" << snapshot[i];
++  out << '}';
++}
++}  // namespace q2ple
++#endif

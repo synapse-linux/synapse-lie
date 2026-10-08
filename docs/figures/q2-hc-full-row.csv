@@ -1,0 +1,21 @@
+arm,source,shape,repetition,microseconds
+Retained Q2,evidence/q2-hc-full-row-micro-ref-r1,320x10240,1,1153.237104416
+Retained Q2,evidence/q2-hc-full-row-micro-ref-r1,320x10240,2,1161.664485931
+Retained Q2,evidence/q2-hc-full-row-micro-ref-r1,320x10240,3,1170.699238777
+Retained Q2,evidence/q2-hc-full-row-micro-ref-r1,320x10240,4,1233.804702759
+Retained Q2,evidence/q2-hc-full-row-micro-ref-r1,320x10240,5,1143.157124519
+320 rows,evidence/q2-hc-full-row-micro-r1,320x10240,1,1194.769144058
+320 rows,evidence/q2-hc-full-row-micro-r1,320x10240,2,1235.570549965
+320 rows,evidence/q2-hc-full-row-micro-r1,320x10240,3,1198.654055595
+320 rows,evidence/q2-hc-full-row-micro-r1,320x10240,4,1195.13630867
+320 rows,evidence/q2-hc-full-row-micro-r1,320x10240,5,1231.132745743
+Retained Q2,evidence/q2-hc-full-row-micro-ref-r1,10240x320,1,927.3980259895
+Retained Q2,evidence/q2-hc-full-row-micro-ref-r1,10240x320,2,941.8025612831
+Retained Q2,evidence/q2-hc-full-row-micro-ref-r1,10240x320,3,952.6747465134
+Retained Q2,evidence/q2-hc-full-row-micro-ref-r1,10240x320,4,936.3126158714
+Retained Q2,evidence/q2-hc-full-row-micro-ref-r1,10240x320,5,951.9097208977
+320 rows,evidence/q2-hc-full-row-micro-r1,10240x320,1,926.0734319687
+320 rows,evidence/q2-hc-full-row-micro-r1,10240x320,2,956.5374851227
+320 rows,evidence/q2-hc-full-row-micro-r1,10240x320,3,960.3423476219
+320 rows,evidence/q2-hc-full-row-micro-r1,10240x320,4,951.3201117516
+320 rows,evidence/q2-hc-full-row-micro-r1,10240x320,5,947.647690773

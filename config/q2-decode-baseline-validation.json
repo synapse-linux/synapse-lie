@@ -1,0 +1,87 @@
+{
+  "previous_goal_turn": "No progress: answer clarified existing baseline; current turn makes verified code/measurement progress",
+  "checks": [
+    {
+      "command": "python3 tools/q2-remote.py cpu q2-decode-baseline-host-r1",
+      "exit_code": 0,
+      "debug_tests": 17,
+      "sanitizer_tests": 17,
+      "scope": "Host fixtures on .157 only"
+    },
+    {
+      "command": "python3 tools/q2-remote.py q2-decode-baseline q2-decode-baseline-q2-r1 --source-variant library-norm-bound --rebuild-mmq",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 tools/q2-remote.py ud-decode-baseline q2-decode-baseline-ud-r1 --rebuild-mmq",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 tools/analyze-q2-decode-baseline.py",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 tools/plot-q2-decode-baseline.py",
+      "exit_code": 0
+    },
+    {
+      "command": "clang-format --dry-run --Werror tests/q2_model.cpp tests/q2_argmax.hpp tests/q2_argmax.cpp",
+      "exit_code": 0
+    },
+    {
+      "command": "python3 .deps/gufo-q2-bench-library-norm-bound/tools/ci/check-format.py",
+      "exit_code": 1,
+      "note": "Same five untouched upstream-test violations as parent source, whose check also exits1; complete logs match byte for byte"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    },
+    {
+      "command": "Python AST source checks",
+      "exit_code": 0,
+      "paths": [
+        "tools/analyze-q2-decode-baseline.py",
+        "tools/plot-q2-decode-baseline.py",
+        "tools/prepare-q2-decode-baseline.py",
+        "tools/q2-remote.py",
+        "tools/q2-runner.py",
+        "tests/q2_remote_test.py"
+      ]
+    }
+  ],
+  "preserved_format_logs": {
+    "evidence/q2-decode-baseline-format.log": "bbf07a58823a9bf9c870d87464428c36d9d928005c863d64455d1f1de9aa4f4b",
+    "evidence/q2-decode-baseline-parent-format.log": "bbf07a58823a9bf9c870d87464428c36d9d928005c863d64455d1f1de9aa4f4b"
+  },
+  "artifacts_verified": 85,
+  "source_file_instances_verified": 3059,
+  "source_host_cohort": "q2-decode-baseline-host-r1",
+  "command_exits": {
+    "q2-decode-baseline-host-r1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-decode-baseline-q2-r1": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-decode-baseline-ud-r1": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "release": "2026-10-03T17:37:05.108908+00:00",
+  "graph_review": "PNG visually inspected; labels moved beyond samples/reference lines, SVG and 48-row CSV exported",
+  "numerical_pass": false,
+  "promoted": false,
+  "goal_met": false
+}

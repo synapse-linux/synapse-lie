@@ -1,0 +1,107 @@
+{
+  "schema": "synapse-lie.gpu-epoch-baseline.v1",
+  "state": "EPOCH_BOOTSTRAP_NOT_ADMITTED",
+  "at": "2026-10-07T15:00:36.580838+00:00",
+  "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+  "previous_boot_id": "01a007d1-8d99-4d24-b5ea-3788970135c3",
+  "interrupted_receipt": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-decode-down-rows-native128-r1/interrupted-receipt.json",
+  "interrupted_sha256": "858d0f6c1e3d26811bcdfc85206dd7ab8070a78d0a5c072c53699d747868f037",
+  "historical_release": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-decode-down-rows-component-r1/release.json",
+  "historical_release_sha256": "9954b78f2c76846bed0074ba73cf02ca1898429efd9916bb751d6db2bbdc4e25",
+  "historical_retired_identities": 1974,
+  "historical_retired_groups": 1580,
+  "retired_identities": [],
+  "retired_groups": [],
+  "retirement_scope": "Current boot only; prior boot inventories remain in historical release.",
+  "core_cpu_lease": {
+    "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/root-terminal-bench-r16/client.lock",
+    "device": 54,
+    "inode": 4486194
+  },
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 54,
+      "inode": 3232146
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 54,
+      "inode": 3206482
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 54,
+      "inode": 3228451
+    },
+    {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-coordination/epochs/8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653/gpu.lock",
+      "device": 54,
+      "inode": 5068717
+    }
+  ],
+  "models": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "device": 54,
+      "inode": 3116203,
+      "bytes": 147207127040,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "device": 54,
+      "inode": 3206497,
+      "bytes": 10946624,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "device": 54,
+      "inode": 3228516,
+      "bytes": 49859583136,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "device": 54,
+      "inode": 3211726,
+      "bytes": 49376141504,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "device": 54,
+      "inode": 3207513,
+      "bytes": 12087983520,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "device": 54,
+      "inode": 3206512,
+      "bytes": 2786568256,
+      "mtime_ns": 1790711824619908153,
+      "ctime_ns": 1790711826279892467
+    },
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q4.gguf",
+      "device": 54,
+      "inode": 3116346,
+      "bytes": 177280286720,
+      "mtime_ns": 1789871998360000000,
+      "ctime_ns": 1790258428459084412
+    }
+  ],
+  "mount_rebind": "Persistent inode/size/mtime/ctime retained; st_dev observed afresh after reboot.",
+  "kfd_clients": [],
+  "kfd_empty": true,
+  "gpu_reserved": false,
+  "new_gpu_admission": false,
+  "remote_cleanup": false
+}

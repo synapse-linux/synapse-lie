@@ -1,0 +1,64 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/q2_down_half_storage.inc
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_down_half_storage.inc
+@@ -885,11 +885,13 @@
+     std::uint32_t used, const float* inject, std::uint32_t inject_parts,
+     const float* gamma, float* norm_scales, std::uint32_t hidden, float eps,
+     __half* norm_half) {
++  // Integer geometry only; preserve the original floating normalization divisor.
++  constexpr std::uint32_t kHidden = 2560;
+   constexpr std::uint32_t kStreams = 4;
+   constexpr std::uint32_t kMaxChunks = 10;  // 4 x 2560 / 4 / kThreads
+   __shared__ float shared[kStreams][kThreads / 32];
+   const std::uint32_t t = blockIdx.x;
+-  const std::size_t hc_dim = static_cast<std::size_t>(kStreams) * hidden;
++  const std::size_t hc_dim = static_cast<std::size_t>(kStreams) * kHidden;
+   float w[kStreams];
+ #pragma unroll
+   for (std::uint32_t s = 0; s < kStreams; ++s) {
+@@ -908,13 +910,13 @@
+   // hidden2560 and eight-value ownership preserve all per-value FMA chains.
+   const bool aligned_experts =
+       reinterpret_cast<std::uintptr_t>(expert_out) % 16 == 0;
+-  for (std::uint32_t i = threadIdx.x * 8; i < hidden; i += kThreads * 8) {
++  for (std::uint32_t i = threadIdx.x * 8; i < kHidden; i += kThreads * 8) {
+     float4 lo{0.0F, 0.0F, 0.0F, 0.0F}, hi{0.0F, 0.0F, 0.0F, 0.0F};
+     const __half* rows =
+-        expert_out + static_cast<std::size_t>(t) * used * hidden + i;
++        expert_out + static_cast<std::size_t>(t) * used * kHidden + i;
+     for (std::uint32_t s = 0; s < used; ++s) {
+       const float wk = weights[t * used + s];
+-      const __half* p = rows + static_cast<std::size_t>(s) * hidden;
++      const __half* p = rows + static_cast<std::size_t>(s) * kHidden;
+       float4 a, b;
+       if (aligned_experts) {
+         const uint4 packed = *reinterpret_cast<const uint4*>(p);
+@@ -937,7 +939,7 @@
+       hi.z = __fmaf_rn(wk, b.z, hi.z);
+       hi.w = __fmaf_rn(wk, b.w, hi.w);
+     }
+-    const float* sh = shared_out + static_cast<std::size_t>(t) * hidden + i;
++    const float* sh = shared_out + static_cast<std::size_t>(t) * kHidden + i;
+     const float4 a = *reinterpret_cast<const float4*>(sh);
+     const float4 b = *reinterpret_cast<const float4*>(sh + 4);
+     lo.x = __fmaf_rn(g, a.x, lo.x);
+@@ -962,8 +964,8 @@
+     const std::uint32_t e = (c * kThreads + threadIdx.x) * 4;
+     v[c] = float4{0.0F, 0.0F, 0.0F, 0.0F};
+     if (e < hc_dim) {
+-      const std::uint32_t s = e / hidden;
+-      const std::uint32_t i = e - (s * hidden);
++      const std::uint32_t s = e / kHidden;
++      const std::uint32_t i = e - (s * kHidden);
+       const float ws = w[s];
+       const float4 r = *reinterpret_cast<const float4*>(dst + e);
+       const float4 b = *reinterpret_cast<const float4*>(src + i);
+@@ -1014,7 +1016,7 @@
+     // lanes past the row carry zeros instead of leaving.
+     float4 n{0.0F, 0.0F, 0.0F, 0.0F};
+     if (e < hc_dim) {
+-      const std::uint32_t s = e / hidden;
++      const std::uint32_t s = e / kHidden;
+       const float sc = scale[s];
+       const float4 gm = *reinterpret_cast<const float4*>(gamma + e);
+       n = DeferredHcNormValue(v[c], sc, gm);

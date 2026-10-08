@@ -1,0 +1,11 @@
+scope,arm,unit,sample,value
+HC down: 100 MiB rotating weights,Original,Microseconds / call,0,47.5599393249
+HC down: 100 MiB rotating weights,Original,Microseconds / call,1,47.7958843112
+HC down: 100 MiB rotating weights,Original,Microseconds / call,2,48.0146259069
+HC down: 100 MiB rotating weights,Original,Microseconds / call,3,47.793071717
+HC down: 100 MiB rotating weights,Original,Microseconds / call,4,47.8111878037
+HC down: 100 MiB rotating weights,32 waves,Microseconds / call,0,30.8718197048
+HC down: 100 MiB rotating weights,32 waves,Microseconds / call,1,30.7358913124
+HC down: 100 MiB rotating weights,32 waves,Microseconds / call,2,30.7640153915
+HC down: 100 MiB rotating weights,32 waves,Microseconds / call,3,30.757766217
+HC down: 100 MiB rotating weights,32 waves,Microseconds / call,4,30.7277739048

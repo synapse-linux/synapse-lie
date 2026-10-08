@@ -1,0 +1,24 @@
+{
+  "schema": "synapse-lie.q2-q8-k16-phases-host.v1",
+  "capsule_sha256": "fca56b7e27753d425aca78166e40ab1a49fd5e9c37943d53c9a1ae82a2b5ff50",
+  "archive_sha256": "78f92934915d7f99faaef26aea29814c9db486d15eb214fc21818b35df005770",
+  "fixture_files_verified": 40,
+  "source_files_verified": 1020,
+  "plan_sha256": "8d007282936f67599b24501e29b42d734be7a2c3b107284da05755f2676d9717",
+  "test_counts": {
+    "debug": 25,
+    "asan_ubsan": 25
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts": 7,
+  "model_inference": false,
+  "gpu_run": false,
+  "goal_met": false
+}

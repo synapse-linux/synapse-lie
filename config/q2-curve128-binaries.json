@@ -1,0 +1,32 @@
+{
+  "schema": "synapse-lie.q2-curve128-binaries.v1",
+  "native_bench": {
+    "label": "q2-native-row-ud-r1",
+    "receipt_sha256": "2bad4849defac0cde84cb4ab6de44a6fe7a5b4cb0c48b2647ed140185a9de0e0",
+    "binary_sha256": "87d856cf454d5114f93d7d4260d54b58f6e92800f70e4013a505aa16973560c9"
+  },
+  "server": {
+    "label": "q2-curve256-retained-r2",
+    "receipt_sha256": "58494a594e5e7252b623710d2b1418e7cef2e068a5c15a21763f79568e888f04",
+    "binary": "build/hip/cmake/curve/core/synapse-lie-server",
+    "binary_sha256": "9993fdce3cf0dc12890ffe0af07f9b5eba23b5ce58321603f3ed238314c931b3",
+    "command_exits": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "prior_failure": "Capacity266240 rejected before inference; only the unchanged compiled binary is reused at133760."
+  },
+  "numerical_qualification": {
+    "label": "q2-iq2-fixed-bounds-model-r1",
+    "receipt_sha256": "fd35331efd3aa215920c96d54f91a04a411af5d8b7271cfbcc8d31961aa00991",
+    "mode": "q2-counting-iq2-fixed-bounds"
+  },
+  "source_manifest": "config/q2-curve128-source.json",
+  "source_manifest_sha256": "dbe8e6aafad31ee89bf770d8fcbecbfdfb5de7431794182f24bb8a7afcfd5005",
+  "context_capacity": 133760,
+  "no_build": true
+}

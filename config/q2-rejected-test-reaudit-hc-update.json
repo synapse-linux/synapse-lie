@@ -1,0 +1,28 @@
+{
+  "schema": "synapse-lie.q2-rejected-test-reaudit-hc-update.v1",
+  "original_inventory_sha256": "3a76a5bdef0bd3c26a8328fe0cfd04aed1f43a998447b4167ecc2a5d3083b9c0",
+  "previous_oracle_update_sha256": "094535e64d35491f945148a510b2ffcb39fc9319a700f64883bad12163f4f337",
+  "confirmed_false_gpu_format_rejection_families": [
+    "shared-q8"
+  ],
+  "new_hc_component_report_sha256": "d57ba27e1e72e670e411aba910b5cee9c70a8159decdc2e717499c22c1bf95dc",
+  "new_hc_model_report_sha256": "bc98960636b4610451ab7b58a35de8019053825c923d285a4a520cc71ee1fa4c",
+  "small_fp64_recovery_sha256": "93e56d19e024a8ae702fc79341d479b36f2f6cf1e0a1c3834e8d9085fca05c5c",
+  "hc_independent_small_cases": {
+    "native_pass": 5,
+    "library_pass": 0,
+    "total": 6,
+    "covers_2048": false
+  },
+  "new_model_prefill_tok_s": 1477.969324,
+  "fixed_q2_prefill_tok_s": 1443.672867,
+  "fixed_ud_prefill_tok_s": 1685.777092,
+  "retained_strict_hc_byte_rejections": true,
+  "independent_additive_gains_not_established": true,
+  "qualified_inference_controls_rerun": false,
+  "original_failures_preserved": true,
+  "independent_task_quality": false,
+  "goal_met": false,
+  "entire_reaudit_complete": false,
+  "all_nineteen_false_confirmed": false
+}

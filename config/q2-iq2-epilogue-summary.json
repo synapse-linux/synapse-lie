@@ -1,0 +1,222 @@
+{
+  "schema": "synapse-lie.q2-iq2-epilogue-summary.v1",
+  "scope": "Synthetic complete narrow/compact/IQ2 gate-up-SwiGLU GPU cycle with recorded canonical routing counts; no model token/s",
+  "source_checkpoint": "aa2ee8e",
+  "host_evidence": "evidence/q2-epilogue-host-r1",
+  "host_debug_pass": 21,
+  "host_asan_ubsan_pass": 21,
+  "arms": {
+    "reference": {
+      "evidence": "evidence/q2-iq2-epilogue-reference-r1",
+      "source_variant": "iq2-epilogue-reference",
+      "commands": [
+        0,
+        0,
+        0
+      ],
+      "artifacts": 106,
+      "source_files": 1020,
+      "output_bytes": 262319680,
+      "peak_c": {
+        "k10temp": 66.125,
+        "amdgpu": 56.0
+      },
+      "result_sha256": "9d9e78b16ef982121829b3e917dab895c0905e7f98bcc58165a8b5779f02c508"
+    },
+    "continue": {
+      "evidence": "evidence/q2-iq2-epilogue-continue-r1",
+      "source_variant": "iq2-live-epilogue",
+      "commands": [
+        0,
+        0,
+        0
+      ],
+      "artifacts": 106,
+      "source_files": 1020,
+      "output_bytes": 262319680,
+      "peak_c": {
+        "k10temp": 70.0,
+        "amdgpu": 74.0
+      },
+      "result_sha256": "eb0defc6a42ca43a23c566c00dc370a227bbf1c1818b5f8c694f0afb0e9eace4"
+    },
+    "break": {
+      "evidence": "evidence/q2-iq2-epilogue-break-r1",
+      "source_variant": "iq2-epilogue-break",
+      "commands": [
+        0,
+        0,
+        0
+      ],
+      "artifacts": 106,
+      "source_files": 1020,
+      "output_bytes": 262319680,
+      "peak_c": {
+        "k10temp": 69.0,
+        "amdgpu": 75.0
+      },
+      "result_sha256": "5b860d502c3cf7dc332f553c97ae51f96c97494716ec5505d41135188155648e"
+    }
+  },
+  "rows": [
+    {
+      "case": "depth0-layer6",
+      "tokens": 2040,
+      "tile": 128,
+      "active_weight_bytes": 286387200,
+      "reference": {
+        "median_us": 5763.26513672,
+        "range_us": [
+          5743.82519531,
+          5768.91015625
+        ]
+      },
+      "continue": {
+        "median_us": 5707.43066406,
+        "range_us": [
+          5680.51171875,
+          5721.05126953
+        ],
+        "time_change_percent": -0.9687993062171829
+      },
+      "break": {
+        "median_us": 5716.09521484,
+        "range_us": [
+          5692.27099609,
+          5729.22998047
+        ],
+        "time_change_percent": -0.8184583003037926
+      }
+    },
+    {
+      "case": "depth0-layer0",
+      "tokens": 2040,
+      "tile": 64,
+      "active_weight_bytes": 321868800,
+      "reference": {
+        "median_us": 5948.10107422,
+        "range_us": [
+          5914.87646484,
+          6010.79003906
+        ]
+      },
+      "continue": {
+        "median_us": 5896.74169922,
+        "range_us": [
+          5880.59716797,
+          5970.69482422
+        ],
+        "time_change_percent": -0.8634583434131482
+      },
+      "break": {
+        "median_us": 5941.52587891,
+        "range_us": [
+          5911.14599609,
+          5958.96484375
+        ],
+        "time_change_percent": -0.11054276361405213
+      }
+    },
+    {
+      "case": "depth131072-layer16",
+      "tokens": 2046,
+      "tile": 128,
+      "active_weight_bytes": 274560000,
+      "reference": {
+        "median_us": 5714.97167969,
+        "range_us": [
+          5665.15234375,
+          5762.80029297
+        ]
+      },
+      "continue": {
+        "median_us": 5635.84814453,
+        "range_us": [
+          5599.52392578,
+          5661.72216797
+        ],
+        "time_change_percent": -1.384495664977503
+      },
+      "break": {
+        "median_us": 5668.51171875,
+        "range_us": [
+          5636.98242188,
+          5719.52050781
+        ],
+        "time_change_percent": -0.8129517265170527
+      }
+    },
+    {
+      "case": "depth131072-layer6",
+      "tokens": 2046,
+      "tile": 64,
+      "active_weight_bytes": 310041600,
+      "reference": {
+        "median_us": 5969.62548828,
+        "range_us": [
+          5932.05615234,
+          5997.58496094
+        ]
+      },
+      "continue": {
+        "median_us": 5977.72998047,
+        "range_us": [
+          5932.41113281,
+          5997.89941406
+        ],
+        "time_change_percent": 0.1357621546931309
+      },
+      "break": {
+        "median_us": 5937.15039062,
+        "range_us": [
+          5896.6015625,
+          5952.25488281
+        ],
+        "time_change_percent": -0.544005611805265
+      }
+    },
+    {
+      "case": "full-tiles",
+      "tokens": 2048,
+      "tile": 128,
+      "active_weight_bytes": 135168000,
+      "reference": {
+        "median_us": 3915.44335938,
+        "range_us": [
+          3903.96386719,
+          3935.34301758
+        ]
+      },
+      "continue": {
+        "median_us": 3948.81738281,
+        "range_us": [
+          3942.37280273,
+          3951.58740234
+        ],
+        "time_change_percent": 0.8523689494842834
+      },
+      "break": {
+        "median_us": 3940.7824707,
+        "range_us": [
+          3921.3527832,
+          3968.01196289
+        ],
+        "time_change_percent": 0.6471581630544287
+      }
+    }
+  ],
+  "independent_checks_per_arm": 51,
+  "independent_checks_passed": 153,
+  "exact_output_pairs_per_candidate": 102,
+  "analyzer_exit_codes": {
+    "continue": 0,
+    "break": 0
+  },
+  "tolerance": 0.002,
+  "decision": "Neither guard advances to a full model comparison: small mixed component changes, with increased full-tile control time. One process per variant cannot isolate sub-percent order/clock variability. No uniform component improvement or whole-model improvement is established.",
+  "model_inference": false,
+  "promoted": false,
+  "goal_met": false,
+  "release": "config/q2-iq2-epilogue-window-release.json",
+  "release_sha256": "2c5f328a762c9ffe3172c566767c4e3126e74ac09cae9a4a488e567320104160"
+}

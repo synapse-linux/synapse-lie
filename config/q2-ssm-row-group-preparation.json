@@ -1,0 +1,101 @@
+{
+  "schema": "synapse-lie.q2-ssm-row-group-preparation.v1",
+  "fixture_manifest_sha256": "f46e4306faf4a74bcda52841a4988622d3fed392ae0044143147ba9d249be4f6",
+  "static_report_sha256": "fc92f5fdab5559fb8086ad96f06e91965a18378751519a1a1efa9e11d2163b44",
+  "scripts": {
+    "tools/prepare-q2-ssm-row-group.py": "4fae52ebff7e61695b743afa5a3525add1f9408e9a4047b68a22aa4ff8e4bdbe",
+    "tools/prepare-q2-ssm-row-group-fixture.py": "d5a4adc05831ac9a51111b8eff3409bb0eb2e5b1ffff97caa48ec8f1eab84ba4",
+    "tools/analyze-q2-ssm-row-group-static.py": "23e15456a59bdba230dbeaa0ba5fa77bc5abf039f9815d74065b4f0ed673fbb3",
+    "tools/verify-q2-ssm-row-group-preparation.py": "97116371ec2c88a3fe1fc142c5de9f1dc080c4a2e9dd7c52a0c9e705040d6d9c"
+  },
+  "commands": {
+    "assembly-command.json": {
+      "argv": [
+        "python3",
+        "evidence/q2-ssm-row-group-preparation/compile-local.py"
+      ],
+      "started_at": "2026-10-05T19:29:47.411054+00:00",
+      "finished_at": "2026-10-05T19:29:57.448066+00:00",
+      "exit_code": 0
+    },
+    "fixture-device-command.json": {
+      "argv": [
+        "python3",
+        "evidence/q2-ssm-row-group-preparation/syntax-device.py"
+      ],
+      "started_at": "2026-10-05T19:34:39.747353+00:00",
+      "finished_at": "2026-10-05T19:34:41.810421+00:00",
+      "exit_code": 0
+    },
+    "fixture-generation-command.json": {
+      "argv": [
+        "python3",
+        "tools/prepare-q2-ssm-row-group-fixture.py"
+      ],
+      "started_at": "2026-10-05T19:34:33.601296+00:00",
+      "finished_at": "2026-10-05T19:34:33.663139+00:00",
+      "exit_code": 0
+    },
+    "fixture-host-command.json": {
+      "argv": [
+        "python3",
+        "evidence/q2-ssm-row-group-preparation/syntax-host.py"
+      ],
+      "started_at": "2026-10-05T19:34:39.748870+00:00",
+      "finished_at": "2026-10-05T19:34:41.694152+00:00",
+      "exit_code": 0
+    },
+    "generation-command.json": {
+      "argv": [
+        "python3",
+        "tools/prepare-q2-ssm-row-group.py"
+      ],
+      "started_at": "2026-10-05T19:29:40.898509+00:00",
+      "finished_at": "2026-10-05T19:29:41.190086+00:00",
+      "exit_code": 0
+    },
+    "static-command.json": {
+      "argv": [
+        "python3",
+        "tools/analyze-q2-ssm-row-group-static.py"
+      ],
+      "started_at": "2026-10-05T19:30:07.175856+00:00",
+      "finished_at": "2026-10-05T19:30:07.436083+00:00",
+      "exit_code": 1
+    },
+    "static-r2-command.json": {
+      "argv": [
+        "python3",
+        "tools/analyze-q2-ssm-row-group-static.py"
+      ],
+      "started_at": "2026-10-05T19:30:29.239970+00:00",
+      "finished_at": "2026-10-05T19:30:30.053581+00:00",
+      "exit_code": 0
+    },
+    "static-r3-command.json": {
+      "argv": [
+        "python3",
+        "tools/analyze-q2-ssm-row-group-static.py"
+      ],
+      "started_at": "2026-10-05T19:32:21.742968+00:00",
+      "finished_at": "2026-10-05T19:32:22.526722+00:00",
+      "exit_code": 0
+    }
+  },
+  "provider_files_verified": 1027,
+  "literal_parent_control_verified": true,
+  "frozen_register_scatter_plan_sha256": "edb8ca6208f58a8bdc20ae8a64b08af76f4606ec2a992886daa408b34e7bb159",
+  "frozen_register_scatter_fixture_hashes_unchanged": 85,
+  "frozen_register_scatter_manifest_hashes_unchanged": 4,
+  "compiler_actual_vgprs": 222,
+  "compiler_descriptor_next_free_vgpr": 241,
+  "compiler_static_occupancy": 4,
+  "measured_hardware_occupancy": false,
+  "numerical_gpu_checks_executed": false,
+  "gpu_run": false,
+  "model_inference": false,
+  "remote_staging": false,
+  "launcher_wiring": false,
+  "goal_met": false,
+  "remaining": "New isolated fixture requires launcher/plan/host qualification and fresh coordinated .157 admission before GPU/model. Existing register-scatter campaign remains first and unchanged."
+}

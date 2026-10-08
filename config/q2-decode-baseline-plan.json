@@ -1,0 +1,77 @@
+{
+  "at": "2026-10-03T17:21:57.775567+00:00",
+  "state": "Q2_DECODE_BASELINE_WINDOW_RELEASED",
+  "owner": "synapse-lie-q2",
+  "gpu_reserved": false,
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "thermal": [
+    {
+      "path": "/sys/class/hwmon/hwmon2/temp1_input",
+      "device": "amdgpu",
+      "temperature_mc": 38000,
+      "limit_mc": null,
+      "inclusive": false,
+      "limit_source": "no_exposed_gpu_threshold",
+      "over_limit": false
+    },
+    {
+      "path": "/sys/class/hwmon/hwmon3/temp1_input",
+      "device": "k10temp",
+      "temperature_mc": 39125,
+      "limit_mc": 98000,
+      "inclusive": true,
+      "limit_source": "owner_cpu_limit",
+      "over_limit": false
+    }
+  ],
+  "previous_event": {
+    "event": "window_release",
+    "owner": "synapse-lie-q2",
+    "label": "q2-library-norm",
+    "at": "2026-10-03T16:50:57.568177+00:00",
+    "receipt": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-library-norm-window-release.json",
+    "restart_scheduled": false
+  },
+  "planned": [
+    "q2-decode-baseline-host-r1",
+    "q2-decode-baseline-q2-r1",
+    "q2-decode-baseline-ud-r1"
+  ],
+  "restart_scheduled": false,
+  "scope": "Host fixtures then corrected Argmax current2K and historical2042 completed128 comparison; original models and numerical limits unchanged",
+  "previous_goal_turn": "No progress: baseline explanation only; this turn applies and qualifies the harness correction",
+  "goal_met": false,
+  "promoted": false,
+  "measurement": "Both current pp2048/tg127-forward and historical physical2042/tg128-completed, one warmup plus three measured requests per scope, 15s cooldown outside timers, context9216, no MTP",
+  "limits": "Direct executor, finite checks retained in timed sampling; historical C ABI bookkeeping is not reproduced. Existing operator failures and KL0.002996>0.002 remain.",
+  "completed_at": "2026-10-03T17:37:05.108908+00:00",
+  "planned_remaining": [],
+  "active_label": null,
+  "release_receipt": "q2-decode-baseline-window-release.json"
+}

@@ -1,0 +1,299 @@
+{
+  "scope": "Synthetic unchanged-kernel scheduling replay, not model or hardware fault qualification",
+  "cases": [
+    {
+      "event": "shared_fork_check",
+      "tokens": 96,
+      "pattern": 0,
+      "mode": 0,
+      "bytes_compared": 1597568,
+      "exact": true,
+      "output_sha256": "11d91119eaa81444a0bda30081b20aedbd600cb1c9da3ac1f254fbf0c3bf83e9"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 96,
+      "pattern": 0,
+      "mode": 1,
+      "bytes_compared": 1597568,
+      "exact": true,
+      "output_sha256": "11d91119eaa81444a0bda30081b20aedbd600cb1c9da3ac1f254fbf0c3bf83e9"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 96,
+      "pattern": 0,
+      "mode": 2,
+      "bytes_compared": 1597568,
+      "exact": true,
+      "output_sha256": "11d91119eaa81444a0bda30081b20aedbd600cb1c9da3ac1f254fbf0c3bf83e9"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 96,
+      "pattern": 0,
+      "mode": 3,
+      "bytes_compared": 1597568,
+      "exact": true,
+      "output_sha256": "11d91119eaa81444a0bda30081b20aedbd600cb1c9da3ac1f254fbf0c3bf83e9"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 96,
+      "pattern": 1,
+      "mode": 0,
+      "bytes_compared": 1597568,
+      "exact": true,
+      "output_sha256": "cea2e216f75901608ff596c7ad01b27b1650fc83078f1a0c4a71705c7d548d6e"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 96,
+      "pattern": 1,
+      "mode": 1,
+      "bytes_compared": 1597568,
+      "exact": true,
+      "output_sha256": "cea2e216f75901608ff596c7ad01b27b1650fc83078f1a0c4a71705c7d548d6e"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 96,
+      "pattern": 1,
+      "mode": 2,
+      "bytes_compared": 1597568,
+      "exact": true,
+      "output_sha256": "cea2e216f75901608ff596c7ad01b27b1650fc83078f1a0c4a71705c7d548d6e"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 96,
+      "pattern": 1,
+      "mode": 3,
+      "bytes_compared": 1597568,
+      "exact": true,
+      "output_sha256": "cea2e216f75901608ff596c7ad01b27b1650fc83078f1a0c4a71705c7d548d6e"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 97,
+      "pattern": 0,
+      "mode": 0,
+      "bytes_compared": 1614208,
+      "exact": true,
+      "output_sha256": "4b4f030b5c5960d3085ee0596c7a074233fc657e0f0fb69b8fb28ef551f6d299"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 97,
+      "pattern": 0,
+      "mode": 1,
+      "bytes_compared": 1614208,
+      "exact": true,
+      "output_sha256": "4b4f030b5c5960d3085ee0596c7a074233fc657e0f0fb69b8fb28ef551f6d299"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 97,
+      "pattern": 0,
+      "mode": 2,
+      "bytes_compared": 1614208,
+      "exact": true,
+      "output_sha256": "4b4f030b5c5960d3085ee0596c7a074233fc657e0f0fb69b8fb28ef551f6d299"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 97,
+      "pattern": 0,
+      "mode": 3,
+      "bytes_compared": 1614208,
+      "exact": true,
+      "output_sha256": "4b4f030b5c5960d3085ee0596c7a074233fc657e0f0fb69b8fb28ef551f6d299"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 97,
+      "pattern": 1,
+      "mode": 0,
+      "bytes_compared": 1614208,
+      "exact": true,
+      "output_sha256": "29cfc50768a9dab1a5592b8a9e9845baa77a269cfff9d68077340ef47be507bb"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 97,
+      "pattern": 1,
+      "mode": 1,
+      "bytes_compared": 1614208,
+      "exact": true,
+      "output_sha256": "29cfc50768a9dab1a5592b8a9e9845baa77a269cfff9d68077340ef47be507bb"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 97,
+      "pattern": 1,
+      "mode": 2,
+      "bytes_compared": 1614208,
+      "exact": true,
+      "output_sha256": "29cfc50768a9dab1a5592b8a9e9845baa77a269cfff9d68077340ef47be507bb"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 97,
+      "pattern": 1,
+      "mode": 3,
+      "bytes_compared": 1614208,
+      "exact": true,
+      "output_sha256": "29cfc50768a9dab1a5592b8a9e9845baa77a269cfff9d68077340ef47be507bb"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 129,
+      "pattern": 0,
+      "mode": 0,
+      "bytes_compared": 2146688,
+      "exact": true,
+      "output_sha256": "bc6d5e1c41e3745a655a00c0e9548f543f4c3d422a3400c75a8aedf66f13695a"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 129,
+      "pattern": 0,
+      "mode": 1,
+      "bytes_compared": 2146688,
+      "exact": true,
+      "output_sha256": "bc6d5e1c41e3745a655a00c0e9548f543f4c3d422a3400c75a8aedf66f13695a"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 129,
+      "pattern": 0,
+      "mode": 2,
+      "bytes_compared": 2146688,
+      "exact": true,
+      "output_sha256": "bc6d5e1c41e3745a655a00c0e9548f543f4c3d422a3400c75a8aedf66f13695a"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 129,
+      "pattern": 0,
+      "mode": 3,
+      "bytes_compared": 2146688,
+      "exact": true,
+      "output_sha256": "bc6d5e1c41e3745a655a00c0e9548f543f4c3d422a3400c75a8aedf66f13695a"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 129,
+      "pattern": 1,
+      "mode": 0,
+      "bytes_compared": 2146688,
+      "exact": true,
+      "output_sha256": "b9d2ae51d9ef1a2049d702ee4e22f9bb53023f091585f83ea8f78b3471bdb9d7"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 129,
+      "pattern": 1,
+      "mode": 1,
+      "bytes_compared": 2146688,
+      "exact": true,
+      "output_sha256": "b9d2ae51d9ef1a2049d702ee4e22f9bb53023f091585f83ea8f78b3471bdb9d7"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 129,
+      "pattern": 1,
+      "mode": 2,
+      "bytes_compared": 2146688,
+      "exact": true,
+      "output_sha256": "b9d2ae51d9ef1a2049d702ee4e22f9bb53023f091585f83ea8f78b3471bdb9d7"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 129,
+      "pattern": 1,
+      "mode": 3,
+      "bytes_compared": 2146688,
+      "exact": true,
+      "output_sha256": "b9d2ae51d9ef1a2049d702ee4e22f9bb53023f091585f83ea8f78b3471bdb9d7"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 2048,
+      "pattern": 0,
+      "mode": 0,
+      "bytes_compared": 34078848,
+      "exact": true,
+      "output_sha256": "fa0ba3543526a9144178086d1ac8083005c5b5ed38f55152295a689a376c9d18"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 2048,
+      "pattern": 0,
+      "mode": 1,
+      "bytes_compared": 34078848,
+      "exact": true,
+      "output_sha256": "fa0ba3543526a9144178086d1ac8083005c5b5ed38f55152295a689a376c9d18"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 2048,
+      "pattern": 0,
+      "mode": 2,
+      "bytes_compared": 34078848,
+      "exact": true,
+      "output_sha256": "fa0ba3543526a9144178086d1ac8083005c5b5ed38f55152295a689a376c9d18"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 2048,
+      "pattern": 0,
+      "mode": 3,
+      "bytes_compared": 34078848,
+      "exact": true,
+      "output_sha256": "fa0ba3543526a9144178086d1ac8083005c5b5ed38f55152295a689a376c9d18"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 2048,
+      "pattern": 1,
+      "mode": 0,
+      "bytes_compared": 34078848,
+      "exact": true,
+      "output_sha256": "7850259e4ce4c702622bb5bb9967ad1fa7bf3cf5af78695b7248836782dbb405"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 2048,
+      "pattern": 1,
+      "mode": 1,
+      "bytes_compared": 34078848,
+      "exact": true,
+      "output_sha256": "7850259e4ce4c702622bb5bb9967ad1fa7bf3cf5af78695b7248836782dbb405"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 2048,
+      "pattern": 1,
+      "mode": 2,
+      "bytes_compared": 34078848,
+      "exact": true,
+      "output_sha256": "7850259e4ce4c702622bb5bb9967ad1fa7bf3cf5af78695b7248836782dbb405"
+    },
+    {
+      "event": "shared_fork_check",
+      "tokens": 2048,
+      "pattern": 1,
+      "mode": 3,
+      "bytes_compared": 34078848,
+      "exact": true,
+      "output_sha256": "7850259e4ce4c702622bb5bb9967ad1fa7bf3cf5af78695b7248836782dbb405"
+    }
+  ],
+  "bytes_compared": 315498496,
+  "commands": [
+    0,
+    0,
+    0
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "schema": "synapse-lie.q2-current-routing-staging.v1",
+  "arms": [
+    {
+      "mode": "q2-current-routing",
+      "capsule_sha256": "7c2e369622dbe5571e65b05da37537bc2a0983ade85d5d582eb7ae3a08b355b9",
+      "provider_files": 1027,
+      "fixture_files": 110,
+      "capsule_path": "evidence/q2-current-routing-stage-diagnostic/source.tar.gz",
+      "ssh_executed": false
+    }
+  ],
+  "gpu_run": false
+}

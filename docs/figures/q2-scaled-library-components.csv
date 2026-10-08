@@ -1,0 +1,5 @@
+scope,arm,unit,minimum,median,maximum
+HC down prefill,Scaled,Microseconds / call,1170.02928257,1196.710944176,1234.839916229
+HC down prefill,Scaled + HC library,Microseconds / call,981.3593626022,988.4264469147,1046.899795532
+HC up prefill,Scaled,Microseconds / call,928.8904666901,944.152534008,962.3945355415
+HC up prefill,Scaled + HC library,Microseconds / call,922.7980971336,949.8524665833,964.1495347023

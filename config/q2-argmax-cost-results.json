@@ -1,0 +1,377 @@
+{
+  "scope": "Host-only .157 diagnostic on saved logits; no model forward or GPU execution",
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/c++",
+        "--version"
+      ],
+      "exit_code": 0,
+      "output": "c++ (GCC) 16.2.1 20260810\nCopyright (C) 2026 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n"
+    },
+    {
+      "argv": [
+        "/usr/bin/c++",
+        "-std=c++20",
+        "-O2",
+        "-g",
+        "-DNDEBUG",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-argmax-cost-r1/probe.cpp",
+        "-o",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-argmax-cost-r1/timing"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "argv": [
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-argmax-cost-r1/timing",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-library-norm-model-reference-r1/results/pp2048-1-last.f32"
+      ],
+      "exit_code": 0,
+      "output": "{\"event\":\"argmax_host_cost\",\"changed\":false,\"rep\":0,\"iterations\":32,\"vocab\":248320,\"argmax\":18,\"microseconds_per_call\":2808.89203125,\"timing_valid\":true}\n{\"event\":\"argmax_host_cost\",\"changed\":true,\"rep\":0,\"iterations\":32,\"vocab\":248320,\"argmax\":18,\"microseconds_per_call\":978.05121875,\"timing_valid\":true}\n{\"event\":\"argmax_host_cost\",\"changed\":true,\"rep\":1,\"iterations\":32,\"vocab\":248320,\"argmax\":18,\"microseconds_per_call\":979.5199375,\"timing_valid\":true}\n{\"event\":\"argmax_host_cost\",\"changed\":false,\"rep\":1,\"iterations\":32,\"vocab\":248320,\"argmax\":18,\"microseconds_per_call\":2735.361625,\"timing_valid\":true}\n{\"event\":\"argmax_host_cost\",\"changed\":false,\"rep\":2,\"iterations\":32,\"vocab\":248320,\"argmax\":18,\"microseconds_per_call\":2578.9210625,\"timing_valid\":true}\n{\"event\":\"argmax_host_cost\",\"changed\":true,\"rep\":2,\"iterations\":32,\"vocab\":248320,\"argmax\":18,\"microseconds_per_call\":777.42671875,\"timing_valid\":true}\n{\"event\":\"argmax_host_cost\",\"changed\":true,\"rep\":3,\"iterations\":32,\"vocab\":248320,\"argmax\":18,\"microseconds_per_call\":768.055375,\"timing_valid\":true}\n{\"event\":\"argmax_host_cost\",\"changed\":false,\"rep\":3,\"iterations\":32,\"vocab\":248320,\"argmax\":18,\"microseconds_per_call\":1940.603125,\"timing_valid\":true}\n{\"event\":\"argmax_host_cost\",\"changed\":false,\"rep\":4,\"iterations\":32,\"vocab\":248320,\"argmax\":18,\"microseconds_per_call\":1902.97875,\"timing_valid\":true}\n{\"event\":\"argmax_host_cost\",\"changed\":true,\"rep\":4,\"iterations\":32,\"vocab\":248320,\"argmax\":18,\"microseconds_per_call\":678.745375,\"timing_valid\":true}\nPASS host-only diagnostic; not model inference\n"
+    },
+    {
+      "argv": [
+        "/usr/bin/c++",
+        "-std=c++20",
+        "-O2",
+        "-g",
+        "-DNDEBUG",
+        "-DQ2_TRACK_NEW=1",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-argmax-cost-r1/probe.cpp",
+        "-o",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-argmax-cost-r1/allocations"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "argv": [
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-argmax-cost-r1/allocations",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-library-norm-model-reference-r1/results/pp2048-1-last.f32"
+      ],
+      "exit_code": 0,
+      "output": "{\"event\":\"argmax_host_cost\",\"changed\":false,\"rep\":0,\"iterations\":1,\"vocab\":248320,\"argmax\":18,\"allocation_count\":248320,\"timing_valid\":false}\n{\"event\":\"argmax_host_cost\",\"changed\":true,\"rep\":0,\"iterations\":1,\"vocab\":248320,\"argmax\":18,\"allocation_count\":0,\"timing_valid\":false}\n{\"event\":\"argmax_host_cost\",\"changed\":true,\"rep\":1,\"iterations\":1,\"vocab\":248320,\"argmax\":18,\"allocation_count\":0,\"timing_valid\":false}\n{\"event\":\"argmax_host_cost\",\"changed\":false,\"rep\":1,\"iterations\":1,\"vocab\":248320,\"argmax\":18,\"allocation_count\":248320,\"timing_valid\":false}\n{\"event\":\"argmax_host_cost\",\"changed\":false,\"rep\":2,\"iterations\":1,\"vocab\":248320,\"argmax\":18,\"allocation_count\":248320,\"timing_valid\":false}\n{\"event\":\"argmax_host_cost\",\"changed\":true,\"rep\":2,\"iterations\":1,\"vocab\":248320,\"argmax\":18,\"allocation_count\":0,\"timing_valid\":false}\n{\"event\":\"argmax_host_cost\",\"changed\":true,\"rep\":3,\"iterations\":1,\"vocab\":248320,\"argmax\":18,\"allocation_count\":0,\"timing_valid\":false}\n{\"event\":\"argmax_host_cost\",\"changed\":false,\"rep\":3,\"iterations\":1,\"vocab\":248320,\"argmax\":18,\"allocation_count\":248320,\"timing_valid\":false}\n{\"event\":\"argmax_host_cost\",\"changed\":false,\"rep\":4,\"iterations\":1,\"vocab\":248320,\"argmax\":18,\"allocation_count\":248320,\"timing_valid\":false}\n{\"event\":\"argmax_host_cost\",\"changed\":true,\"rep\":4,\"iterations\":1,\"vocab\":248320,\"argmax\":18,\"allocation_count\":0,\"timing_valid\":false}\nPASS host-only diagnostic; not model inference\n"
+    }
+  ],
+  "source_sha256": "2b7fa352409a40967854cb7ed10356371600ba991fb0378d744dd0a3ab5bb2e4",
+  "input_logits_sha256": "2df301a6fa5e8f430de2401a4353a66d4653b2663f6e1925391dd4e3df176ba7",
+  "events": [
+    {
+      "event": "argmax_host_cost",
+      "changed": false,
+      "rep": 0,
+      "iterations": 32,
+      "vocab": 248320,
+      "argmax": 18,
+      "microseconds_per_call": 2808.89203125,
+      "timing_valid": true
+    },
+    {
+      "event": "argmax_host_cost",
+      "changed": true,
+      "rep": 0,
+      "iterations": 32,
+      "vocab": 248320,
+      "argmax": 18,
+      "microseconds_per_call": 978.05121875,
+      "timing_valid": true
+    },
+    {
+      "event": "argmax_host_cost",
+      "changed": true,
+      "rep": 1,
+      "iterations": 32,
+      "vocab": 248320,
+      "argmax": 18,
+      "microseconds_per_call": 979.5199375,
+      "timing_valid": true
+    },
+    {
+      "event": "argmax_host_cost",
+      "changed": false,
+      "rep": 1,
+      "iterations": 32,
+      "vocab": 248320,
+      "argmax": 18,
+      "microseconds_per_call": 2735.361625,
+      "timing_valid": true
+    },
+    {
+      "event": "argmax_host_cost",
+      "changed": false,
+      "rep": 2,
+      "iterations": 32,
+      "vocab": 248320,
+      "argmax": 18,
+      "microseconds_per_call": 2578.9210625,
+      "timing_valid": true
+    },
+    {
+      "event": "argmax_host_cost",
+      "changed": true,
+      "rep": 2,
+      "iterations": 32,
+      "vocab": 248320,
+      "argmax": 18,
+      "microseconds_per_call": 777.42671875,
+      "timing_valid": true
+    },
+    {
+      "event": "argmax_host_cost",
+      "changed": true,
+      "rep": 3,
+      "iterations": 32,
+      "vocab": 248320,
+      "argmax": 18,
+      "microseconds_per_call": 768.055375,
+      "timing_valid": true
+    },
+    {
+      "event": "argmax_host_cost",
+      "changed": false,
+      "rep": 3,
+      "iterations": 32,
+      "vocab": 248320,
+      "argmax": 18,
+      "microseconds_per_call": 1940.603125,
+      "timing_valid": true
+    },
+    {
+      "event": "argmax_host_cost",
+      "changed": false,
+      "rep": 4,
+      "iterations": 32,
+      "vocab": 248320,
+      "argmax": 18,
+      "microseconds_per_call": 1902.97875,
+      "timing_valid": true
+    },
+    {
+      "event": "argmax_host_cost",
+      "changed": true,
+      "rep": 4,
+      "iterations": 32,
+      "vocab": 248320,
+      "argmax": 18,
+      "microseconds_per_call": 678.745375,
+      "timing_valid": true
+    },
+    {
+      "event": "argmax_host_cost",
+      "changed": false,
+      "rep": 0,
+      "iterations": 1,
+      "vocab": 248320,
+      "argmax": 18,
+      "allocation_count": 248320,
+      "timing_valid": false
+    },
+    {
+      "event": "argmax_host_cost",
+      "changed": true,
+      "rep": 0,
+      "iterations": 1,
+      "vocab": 248320,
+      "argmax": 18,
+      "allocation_count": 0,
+      "timing_valid": false
+    },
+    {
+      "event": "argmax_host_cost",
+      "changed": true,
+      "rep": 1,
+      "iterations": 1,
+      "vocab": 248320,
+      "argmax": 18,
+      "allocation_count": 0,
+      "timing_valid": false
+    },
+    {
+      "event": "argmax_host_cost",
+      "changed": false,
+      "rep": 1,
+      "iterations": 1,
+      "vocab": 248320,
+      "argmax": 18,
+      "allocation_count": 248320,
+      "timing_valid": false
+    },
+    {
+      "event": "argmax_host_cost",
+      "changed": false,
+      "rep": 2,
+      "iterations": 1,
+      "vocab": 248320,
+      "argmax": 18,
+      "allocation_count": 248320,
+      "timing_valid": false
+    },
+    {
+      "event": "argmax_host_cost",
+      "changed": true,
+      "rep": 2,
+      "iterations": 1,
+      "vocab": 248320,
+      "argmax": 18,
+      "allocation_count": 0,
+      "timing_valid": false
+    },
+    {
+      "event": "argmax_host_cost",
+      "changed": true,
+      "rep": 3,
+      "iterations": 1,
+      "vocab": 248320,
+      "argmax": 18,
+      "allocation_count": 0,
+      "timing_valid": false
+    },
+    {
+      "event": "argmax_host_cost",
+      "changed": false,
+      "rep": 3,
+      "iterations": 1,
+      "vocab": 248320,
+      "argmax": 18,
+      "allocation_count": 248320,
+      "timing_valid": false
+    },
+    {
+      "event": "argmax_host_cost",
+      "changed": false,
+      "rep": 4,
+      "iterations": 1,
+      "vocab": 248320,
+      "argmax": 18,
+      "allocation_count": 248320,
+      "timing_valid": false
+    },
+    {
+      "event": "argmax_host_cost",
+      "changed": true,
+      "rep": 4,
+      "iterations": 1,
+      "vocab": 248320,
+      "argmax": 18,
+      "allocation_count": 0,
+      "timing_valid": false
+    }
+  ],
+  "summary": {
+    "original": {
+      "samples_us": [
+        2808.89203125,
+        2735.361625,
+        2578.9210625,
+        1940.603125,
+        1902.97875
+      ],
+      "median_us": 2578.9210625,
+      "min_us": 1902.97875,
+      "max_us": 2808.89203125,
+      "allocations_per_call": [
+        248320,
+        248320,
+        248320,
+        248320,
+        248320
+      ]
+    },
+    "same_checks_no_string": {
+      "samples_us": [
+        978.05121875,
+        979.5199375,
+        777.42671875,
+        768.055375,
+        678.745375
+      ],
+      "median_us": 777.42671875,
+      "min_us": 678.745375,
+      "max_us": 979.5199375,
+      "allocations_per_call": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "saved_ms_per_call": 1.8014943437500002,
+  "baseline": {
+    "main_worktree": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie",
+    "receipt": "evidence/t0-c1-perf-r2/remote-results/result.json",
+    "measurements_sha256": "c60dba6a099ec97f9cbe98048601ab4850a805b49d6dbc7f97b9c57a563afc7a",
+    "identity": {
+      "event": "identity",
+      "program": "lie-executor-bench",
+      "build_id": "t0-perf-linked-r1",
+      "engine": "gufo-embedded-f783fedb",
+      "ownership": "delegated",
+      "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+      "synthetic": false,
+      "context": 9216,
+      "chunk": 2048,
+      "output_limit": 128,
+      "timing": "CLOCK_MONOTONIC; synchronous completed LIE calls; fresh session",
+      "eos_policy": "honor EOS; report actual emitted tokens, no replacement run",
+      "scope": "C1 embedded-provider baseline; not pristine numerical qualification or speedup"
+    },
+    "profile": {
+      "profile": 1,
+      "prompt_tokens": 2042,
+      "completed_decode_tokens": 128,
+      "eos": false,
+      "measured_repetitions": 3,
+      "prefill_tps": {
+        "median": 1642.6521064558135,
+        "min": 1642.0276200609042,
+        "max": 1648.9808424240166,
+        "all": [
+          1648.9808424240166,
+          1642.6521064558135,
+          1642.0276200609042
+        ]
+      },
+      "decode_tps": {
+        "median": 26.049385991367725,
+        "min": 26.037053994263626,
+        "max": 26.05362296429508,
+        "all": [
+          26.05362296429508,
+          26.049385991367725,
+          26.037053994263626
+        ]
+      },
+      "prefill_seconds": [
+        1.238340645,
+        1.243111668,
+        1.243584441
+      ],
+      "decode_seconds": [
+        4.91294436,
+        4.913743458,
+        4.916070767
+      ]
+    }
+  },
+  "current_decode_rates": {
+    "reference": 24.08612132,
+    "candidate": 24.09657332,
+    "ud": 24.31815223
+  },
+  "current_vs_historical_percent": {
+    "reference": -7.536702293168496,
+    "candidate": -7.496578506744267,
+    "ud": -6.645967632179217
+  },
+  "implementation_findings": [
+    "Current Argmax constructs a std::string per logit before checking finiteness inside the decode timer",
+    "The diagnostic removes only eager message construction; finite checks, std::max_element, tie behavior and error text remain",
+    "Historical harness validates full logits outside timing; physical prompts and completed-step boundaries also differ"
+  ],
+  "next": "Apply the prepared harness-only patch after this checkpoint; qualify it and rerun matched Q2/UD plus the historical physical input fixture, preserving old samples. No inferred subtraction or kernel-speedup claim.",
+  "goal_met": false
+}

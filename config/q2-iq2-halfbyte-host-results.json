@@ -1,0 +1,24 @@
+{
+  "schema": "synapse-lie.q2-iq2-halfbyte-host.v1",
+  "capsule_sha256": "3a5866b3a03d8bda9049e21970a18b0048db7bfd9605772b8ec977ea0f89cfdf",
+  "archive_sha256": "8a24a13f43faf5471db0b654b701ee8ac9dcd18f9e3cea9156e71e87dab03b4b",
+  "fixture_files_verified": 32,
+  "source_files_verified": 1020,
+  "plan_sha256": "b5205a3af13e428bc19eaf1d8ac73b1230832057a2c73a6f911496c53a5fd42f",
+  "test_counts": {
+    "debug": 25,
+    "asan_ubsan": 25
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts": 7,
+  "model_inference": false,
+  "gpu_run": false,
+  "goal_met": false
+}

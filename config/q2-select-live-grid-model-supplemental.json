@@ -1,0 +1,74 @@
+{
+  "schema": "synapse-lie.q2-select-live-grid-model-supplemental.v1",
+  "at": "2026-10-06T22:14:45.000941+00:00",
+  "result_sha256": "23c8c515d0cb231283295d9af7a7775988bff29fae1c74e01823dce9f1afa7e1",
+  "original_exit_code": 1,
+  "original_postflight_error": "KeyError('archive')",
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "archive": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-iq2-fixed-bounds-model-r1/build/hip/cmake/hip/qwen/libgufo_qwen38_flash_next_mmq.a",
+  "archive_sha256": "64d076782dc6459e99872ff08e389377bf5d7fe62b93b174c4bf9532eda3cbdf",
+  "archives_unchanged": true,
+  "server_binary_sha256": "b608798b59301b7d8aa4492a878d04f13a93809bb026515caea1003a02840cca",
+  "native_binary_sha256": "87d856cf454d5114f93d7d4260d54b58f6e92800f70e4013a505aa16973560c9",
+  "model_stats_unchanged": true,
+  "kfd": [],
+  "artifacts": {
+    "telemetry.jsonl": {
+      "bytes": 424839,
+      "sha256": "52d1c16dbe4fb116d4128a4394052215c20d38317590b34a15a24316423b29bc"
+    },
+    "01.log": {
+      "bytes": 845,
+      "sha256": "822b4c09185ab2bfc54dcc07d92b968eb8208ad6444d6a03b4f38870645e14af"
+    },
+    "02.log": {
+      "bytes": 3876,
+      "sha256": "972eecf4c0738b9872a27b249af1adf28cb282e76657d3e1ae69467ce7048091"
+    },
+    "03.log": {
+      "bytes": 16735,
+      "sha256": "dd0e4be33fa7c08b0a5347d2f7d80fa78a663ab9c2e0768f3973929274edf054"
+    },
+    "04.log": {
+      "bytes": 405,
+      "sha256": "c90672406e21acbd1a843220b8cc96626d63f04a52608cc4fd85c360070aa703"
+    },
+    "05.log": {
+      "bytes": 1544,
+      "sha256": "d225c8edf930614ea92c00935b0acfdd16e77858dc85d19d42203891765d7a00"
+    },
+    "06.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "curve-session.json": {
+      "bytes": 11608,
+      "sha256": "987081045fdcb63181ae116ff8b52fa54d9c90e310904e379b95fa744440313e"
+    },
+    "curve-server.log": {
+      "bytes": 91,
+      "sha256": "677999d5bef7fd1380cf04f30f1c219973a6b09474e9b80454f401acf9dcb0f1"
+    },
+    "full-prefill.requests.jsonl": {
+      "bytes": 458828,
+      "sha256": "7f6de5ab422bbe1dabc7c42f57edea5a12a3280a461049a76f23e7f0a782f7c9"
+    },
+    "curve-client.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "full-prefill.jsonl": {
+      "bytes": 506243,
+      "sha256": "d96eb6f4fab92b0f4939486147c7b54ae5525bd69e915de7e7ed4e4085a2c5c7"
+    }
+  },
+  "model_rerun": false,
+  "original_receipt_modified": false
+}

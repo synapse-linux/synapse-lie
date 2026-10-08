@@ -1,0 +1,160 @@
+{
+  "schema": "synapse-lie.q2-counting-iommu-closure.v1",
+  "state": "Q2_IOMMU_BOOT_RELEASED",
+  "at": "2026-10-08T06:33:49.403452+00:00",
+  "boot_id": "be3e89fd-955b-47a4-a385-11c3ad98bb78",
+  "previous_boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+  "plan_sha256": "60345fc3b8008ffc0d0e44eeb6b564169e28e9ab76cfc78287c39cb4d116f924",
+  "baseline_sha256": "01919b3ca6a8ee52edee53a511dd16de370c6ab26505510d118c698f596e612d",
+  "collection_sha256": "cf4dadb8766a16aba3eb2da0f197b090ba67e578dbcd74583fecc3084f79fccd",
+  "configuration_sha256": "8c7c638757fa2d6bb48533eef5c1dea317bea2eba92fd5cef9ea6c0dcf0e3349",
+  "exact_original_restored": true,
+  "cmdline": "quiet nowatchdog splash rw rootflags=subvol=/@ root=UUID=e828b148-fd51-44a7-b85d-2207c4df92e8 amd_iommu=off",
+  "iommu_groups": 0,
+  "kfd_empty": true,
+  "original_five_leases_free": true,
+  "models_unchanged": true,
+  "glm_model_unchanged": true,
+  "core_cpu_lease": {
+    "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/root-terminal-bench-r16/client.lock",
+    "device": 53,
+    "inode": 4486194
+  },
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 53,
+      "inode": 3232146
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 53,
+      "inode": 3206482
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 53,
+      "inode": 3228451
+    },
+    {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-coordination/epochs/be3e89fd-955b-47a4-a385-11c3ad98bb78/gpu.lock",
+      "device": 53,
+      "inode": 5078770
+    }
+  ],
+  "models": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "device": 53,
+      "inode": 3116203,
+      "bytes": 147207127040,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "device": 53,
+      "inode": 3206497,
+      "bytes": 10946624,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "device": 53,
+      "inode": 3228516,
+      "bytes": 49859583136,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "device": 53,
+      "inode": 3211726,
+      "bytes": 49376141504,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "device": 53,
+      "inode": 3207513,
+      "bytes": 12087983520,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "device": 53,
+      "inode": 3206512,
+      "bytes": 2786568256,
+      "mtime_ns": 1790711824619908153,
+      "ctime_ns": 1790711826279892467
+    },
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q4.gguf",
+      "device": 53,
+      "inode": 3116346,
+      "bytes": 177280286720,
+      "mtime_ns": 1789871998360000000,
+      "ctime_ns": 1790258428459084412
+    }
+  ],
+  "glm_model_path": "/home/paperboy/ds4-launcher/models/gguf/GLM-5.3-Flash-Q2.gguf",
+  "glm_model_stats": {
+    "st_dev": 53,
+    "st_ino": 786094,
+    "st_size": 96505816384,
+    "st_mtime_ns": 1787989371366313995,
+    "st_ctime_ns": 1787989421761133727,
+    "st_atime_ns": 1787939182094821252
+  },
+  "retired_identities": [
+    {
+      "boot_id": "be3e89fd-955b-47a4-a385-11c3ad98bb78",
+      "pid": 1073,
+      "start_ticks": 980
+    }
+  ],
+  "retired_groups": [],
+  "service_stop_sha256": "3c2b3ad64286d3bb17ce16cc21418b194352634299adcdd8a156fb1861c511ba",
+  "service_process_retired": true,
+  "power": {
+    "fan1": {
+      "rpm": 0,
+      "mode": "curve",
+      "level": 0,
+      "rampup_curve": "40,50,60,70,82",
+      "rampdown_curve": "35,45,55,65,78"
+    },
+    "fan2": {
+      "rpm": 0,
+      "mode": "curve",
+      "level": 0,
+      "rampup_curve": "40,50,60,70,82",
+      "rampdown_curve": "35,45,55,65,78"
+    },
+    "fan3": {
+      "rpm": 0,
+      "mode": "curve",
+      "level": 0,
+      "rampup_curve": "40,50,60,70,82",
+      "rampdown_curve": "35,45,55,65,78"
+    },
+    "apu_power_mode": "performance",
+    "cpu_temp": 36,
+    "cpu_temp_min": 35,
+    "cpu_temp_max": 68,
+    "vram_total": 536870912,
+    "vram_used": 282492928,
+    "gpu_power_watts": 4.52,
+    "gpu_freq": 610000000,
+    "gpu_temp_c": 35,
+    "tdp_watts": 120,
+    "cpu_temp_raw": 37000
+  },
+  "gpu_reserved": false,
+  "gpu_admitted": false,
+  "own_all_hosts": "NONE",
+  "future_grant": false
+}

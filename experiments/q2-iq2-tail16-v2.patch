@@ -1,0 +1,206 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/CMakeLists.txt
++++ b/src/models/qwen38_flash_next/CMakeLists.txt
+@@ -56,7 +56,8 @@
+     ${QFN_ROCM_DIR}/batch.cpp
+     engine.cpp)
+   target_sources(gufo_qwen38_flash_next PRIVATE ${QFN_HIP_SOURCES}
+-    ${QFN_ROCM_DIR}/iq2_mixed_tiles.c)
++    ${QFN_ROCM_DIR}/iq2_mixed_tiles.c
++    ${QFN_ROCM_DIR}/q2_iq2_tail16.c)
+   set_target_properties(gufo_qwen38_flash_next PROPERTIES
+     C_STANDARD 17 C_STANDARD_REQUIRED ON C_EXTENSIONS OFF)
+   set_source_files_properties(${QFN_ROCM_DIR}/kernels.hip.cpp PROPERTIES LANGUAGE HIP)
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -1,11 +1,13 @@
+ #include "src/models/qwen38_flash_next/kernels/rocm/executor.hpp"
+ #include "iq2_mixed_tiles.h"
++#include "q2_iq2_tail16.h"
+ 
+ #include <algorithm>
+ #include <array>
+ #include <bit>
+ #include <cmath>
+ #include <cstddef>
++#include <cstdio>
+ #include <cstdlib>
+ #include <cstring>
+ #include <memory>
+@@ -256,6 +258,19 @@
+ }
+ 
+ Executor::~Executor() {
++  // Bounded host copies are charged to inference; only output is deferred.
++  // The original tester's complete event precedes executor teardown.
++  if (short_tile_calls_ != 0) {
++    std::fprintf(stdout, "{\"event\":\"iq2_short_tile_usage\",\"calls\":%llu,"
++        "\"records\":%u,\"capacity\":256}\n",
++        static_cast<unsigned long long>(short_tile_calls_), short_tile_record_count_);
++    for (std::uint32_t i = 0; i < short_tile_record_count_; ++i) {
++      const auto& s = short_tile_records_[i];
++      std::fprintf(stdout, "{\"event\":\"iq2_short_tile_map\",\"index\":%u,"
++          "\"wide128\":%u,\"tail64\":%u,\"tail16\":%u}\n",
++          i, s.wide128, s.tail64, s.tail16);
++    }
++  }
+   // Readers write pinned staging memory; drain them before freeing it,
+   // including when a forward failed before reaching PLE.
+   if (ple_pending_) {
+@@ -930,6 +945,7 @@
+   routed_pair_offset_ = 0;
+   routed_pair_rows_ = 64;
+   routed_iq2_tail_tiles_ = 0;
++  routed_iq2_tail16_tiles_ = 0;
+   routed_iq2_mixed_ = false;
+   if (!ExpertMatrixRows(n_tokens)) {
+     return true;
+@@ -959,12 +975,12 @@
+   // weight decoding, while short buckets retain the cheaper 64-token tile.
+   if (mixed_iq2 && n_tokens >= 1024 && n_tokens <= 4096 &&
+       c.num_experts <= 512 && routed_tile_rows_ == kRoutedTileRowsWide) {
+-    // Keep the original down map at offset zero. Append only the two
+-    // gate/up spans; their total fits one existing map-capacity reservation.
+-    lie_iq2_tile_spans spans{};
++    // Keep down routing unchanged. Append128/64/16 gate/up spans;
++    // selecting16 for short tails adds no descriptors or memory.
++    lie_iq2_tail16_spans spans{};
+     const auto capacity = RoutedTileCapacity(
+         static_cast<std::size_t>(n_tokens) * c.num_experts_used, c);
+-    if (!lie_iq2_mixed_tiles(counts_host_, c.num_experts, n_tokens,
++    if (!lie_iq2_tail16(counts_host_, c.num_experts, n_tokens,
+                              c.num_experts_used, tiles_host_ + n_tiles,
+                              capacity, &spans)) {
+       AssignError(error_msg, "invalid IQ2 mixed expert map");
+@@ -972,10 +988,14 @@
+     }
+     routed_pair_offset_ = n_tiles;
+     routed_pair_rows_ = 128;
+-    routed_pair_tiles_ = spans.wide;
+-    routed_iq2_tail_tiles_ = spans.tail;
++    routed_pair_tiles_ = spans.wide128;
++    routed_iq2_tail_tiles_ = spans.tail64;
++    routed_iq2_tail16_tiles_ = spans.tail16;
++    ++short_tile_calls_;
++    if (short_tile_record_count_ < 256)
++      short_tile_records_[short_tile_record_count_++] = spans;
+     routed_iq2_mixed_ = true;
+-    n_tiles += spans.wide + spans.tail;
++    n_tiles += spans.wide128 + spans.tail64 + spans.tail16;
+   } else if (n_tokens >= 1024 && routed_tile_rows_ == kRoutedTileRowsWide) {
+     for (std::uint32_t e = 0; e < c.num_experts; ++e) {
+       const std::uint32_t padded = (counts_host_[e] + 15u) / 16u * 16u;
+@@ -1861,7 +1881,11 @@
+                 gate_up(routed_pair_offset_, routed_pair_tiles_, 128)) &&
+                (!routed_iq2_tail_tiles_ ||
+                 gate_up(routed_pair_offset_ + routed_pair_tiles_,
+-                        routed_iq2_tail_tiles_, 64)))
++                        routed_iq2_tail_tiles_, 64)) &&
++           (!routed_iq2_tail16_tiles_ ||
++            gate_up(routed_pair_offset_ + routed_pair_tiles_ +
++                        routed_iq2_tail_tiles_,
++                    routed_iq2_tail16_tiles_, 16)))
+             : gate_up(pair_map ? routed_pair_offset_ : 0,
+                       pair_map ? routed_pair_tiles_ : routed_n_tiles_,
+                       pair_map ? routed_pair_rows_ : routed_tile_rows_);
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.hpp
+@@ -2,6 +2,7 @@
+ #define GUFO_MODELS_QWEN38_FLASH_NEXT_KERNELS_ROCM_EXECUTOR_HPP_
+ 
+ #include "lie_q2_deferred_norm_state.h"
++#include "q2_iq2_tail16.h"
+ 
+ #include <hip/hip_fp16.h>
+ #include <hip/hip_runtime.h>
+@@ -538,6 +539,10 @@
+   mutable std::uint32_t routed_pair_tiles_{0};
+   mutable std::uint32_t routed_pair_rows_{64};
+   mutable std::uint32_t routed_iq2_tail_tiles_{0};
++  mutable std::uint32_t routed_iq2_tail16_tiles_{0};
++  mutable lie_iq2_tail16_spans short_tile_records_[256]{};
++  mutable std::uint32_t short_tile_record_count_{0};
++  mutable std::uint64_t short_tile_calls_{0};
+   mutable bool routed_iq2_mixed_{false};
+   mutable std::uint32_t routed_tile_rows_{48};  ///< token rows per tile
+   mutable int routed_tile_cols_{0};
+--- /dev/null
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_iq2_tail16.c
+@@ -0,0 +1,43 @@
++/* SPDX-License-Identifier: MIT */
++#include "q2_iq2_tail16.h"
++
++int lie_iq2_tail16(const uint32_t *counts, uint32_t experts, uint32_t tokens,
++                   uint32_t used, int32_t *map, size_t capacity,
++                   struct lie_iq2_tail16_spans *spans) {
++    if (!counts || !map || !spans || !experts || experts > 512 ||
++        !tokens || tokens > 4096 || !used || used > experts)
++        return 0;
++    uint32_t total = 0, wide = 0, tail64 = 0, tail16 = 0;
++    for (uint32_t e = 0; e < experts; ++e) {
++        const uint32_t n = counts[e];
++        if (n > tokens)
++            return 0;
++        total += n;
++        const uint32_t groups = (n + 63u) / 64u;
++        wide += groups / 2u;
++        if (groups & 1u) {
++            if (n - (groups - 1u) * 64u <= 16u)
++                ++tail16;
++            else
++                ++tail64;
++        }
++    }
++    if (total != tokens * used || (size_t)wide + tail64 + tail16 > capacity)
++        return 0;
++    uint32_t wi = 0, ti = wide, si = wide + tail64;
++    for (uint32_t e = 0; e < experts; ++e) {
++        const uint32_t n = counts[e];
++        const uint32_t groups = (n + 63u) / 64u;
++        for (uint32_t j = 0; j < groups / 2u; ++j)
++            map[wi++] = (int32_t)(e | (j << 16));
++        if (groups & 1u) {
++            const uint32_t old_index = groups - 1u;
++            if (n - old_index * 64u <= 16u)
++                map[si++] = (int32_t)(e | ((old_index * 4u) << 16));
++            else
++                map[ti++] = (int32_t)(e | (old_index << 16));
++        }
++    }
++    *spans = (struct lie_iq2_tail16_spans){wide, tail64, tail16};
++    return 1;
++}
+--- /dev/null
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_iq2_tail16.h
+@@ -0,0 +1,31 @@
++/* SPDX-License-Identifier: MIT */
++#ifndef LIE_Q2_IQ2_TAIL16_H
++#define LIE_Q2_IQ2_TAIL16_H
++#include <stddef.h>
++#include <stdint.h>
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++struct lie_iq2_tail16_spans {
++    uint32_t wide128;
++    uint32_t tail64;
++    uint32_t tail16;
++};
++
++/* Bounded, allocation-free IQ2 gate/up map, with ordered128/64/16 spans.
++ * Keep every original128 descriptor and every tail with17..64 live rows.
++ * Select16 only for1..16-row tails, including tails following wide tiles.
++ * Bits0..15 hold the expert; bits16..30 hold the index in that span's width.
++ * Descriptor count/capacity stay unchanged. Inputs/outputs must not alias.
++ * Failure leaves outputs unchanged. Bounds:1..512 experts,1..4096 tokens,
++ * 1..experts used per token. No device or model arithmetic. */
++int lie_iq2_tail16(const uint32_t *counts, uint32_t experts, uint32_t tokens,
++                   uint32_t used, int32_t *map, size_t capacity,
++                   struct lie_iq2_tail16_spans *spans);
++
++#ifdef __cplusplus
++}
++#endif
++#endif

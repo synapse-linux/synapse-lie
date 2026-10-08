@@ -1,0 +1,340 @@
+{
+  "at": "2026-10-02T22:34:30.399078+00:00",
+  "state": "Q2_AFFINE_PALETTE_WINDOW_RELEASED",
+  "runners": [
+    {
+      "label": "q2-affine-palette-host-r1",
+      "pid": 2714679,
+      "absent": true,
+      "finished_at": "2026-10-02T22:12:54.699399+00:00"
+    },
+    {
+      "label": "q2-affine-palette-operators-r1",
+      "pid": 2715830,
+      "absent": true,
+      "finished_at": "2026-10-02T22:14:16.889684+00:00"
+    },
+    {
+      "label": "q2-affine-palette-micro-ref-r1",
+      "pid": 2716562,
+      "absent": true,
+      "finished_at": "2026-10-02T22:15:59.526028+00:00"
+    },
+    {
+      "label": "q2-affine-palette-micro-r1",
+      "pid": 2717264,
+      "absent": true,
+      "finished_at": "2026-10-02T22:17:30.512410+00:00"
+    },
+    {
+      "label": "q2-affine-palette-model-ref-r1",
+      "pid": 2718027,
+      "absent": true,
+      "finished_at": "2026-10-02T22:23:09.872915+00:00"
+    },
+    {
+      "label": "q2-affine-palette-model-r1",
+      "pid": 2720017,
+      "absent": true,
+      "finished_at": "2026-10-02T22:28:03.324231+00:00"
+    },
+    {
+      "label": "q2-affine-palette-ud-r1",
+      "pid": 2722008,
+      "absent": true,
+      "finished_at": "2026-10-02T22:32:27.834579+00:00"
+    }
+  ],
+  "commands": [
+    {
+      "label": "q2-affine-palette-host-r1",
+      "pid": 2714708,
+      "start_ticks": 154454330,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-host-r1",
+      "pid": 2714778,
+      "start_ticks": 154454383,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-host-r1",
+      "pid": 2714879,
+      "start_ticks": 154454835,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-host-r1",
+      "pid": 2715072,
+      "start_ticks": 154455490,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-host-r1",
+      "pid": 2715147,
+      "start_ticks": 154455542,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-host-r1",
+      "pid": 2715293,
+      "start_ticks": 154456245,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-operators-r1",
+      "pid": 2715831,
+      "start_ticks": 154463357,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-operators-r1",
+      "pid": 2716058,
+      "start_ticks": 154463560,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-operators-r1",
+      "pid": 2716169,
+      "start_ticks": 154464965,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-micro-ref-r1",
+      "pid": 2716563,
+      "start_ticks": 154473613,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-micro-ref-r1",
+      "pid": 2716764,
+      "start_ticks": 154473767,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-micro-ref-r1",
+      "pid": 2716905,
+      "start_ticks": 154475172,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-micro-r1",
+      "pid": 2717271,
+      "start_ticks": 154482662,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-micro-r1",
+      "pid": 2717494,
+      "start_ticks": 154482865,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-micro-r1",
+      "pid": 2717606,
+      "start_ticks": 154484277,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-model-ref-r1",
+      "pid": 2718028,
+      "start_ticks": 154492593,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-model-ref-r1",
+      "pid": 2718223,
+      "start_ticks": 154492796,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-model-ref-r1",
+      "pid": 2719299,
+      "start_ticks": 154508330,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-model-ref-r1",
+      "pid": 2719304,
+      "start_ticks": 154508383,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-model-r1",
+      "pid": 2720018,
+      "start_ticks": 154522094,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-model-r1",
+      "pid": 2720245,
+      "start_ticks": 154522247,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-model-r1",
+      "pid": 2721300,
+      "start_ticks": 154537724,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-model-r1",
+      "pid": 2721305,
+      "start_ticks": 154537777,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-ud-r1",
+      "pid": 2722009,
+      "start_ticks": 154551743,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-ud-r1",
+      "pid": 2722205,
+      "start_ticks": 154551953,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-ud-r1",
+      "pid": 2723127,
+      "start_ticks": 154563175,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-affine-palette-ud-r1",
+      "pid": 2723132,
+      "start_ticks": 154563228,
+      "exit_code": 0,
+      "absent": true
+    }
+  ],
+  "live_owned": [],
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "observer": {
+    "pid": 2724233,
+    "state": "R",
+    "group": 2724230,
+    "session": 2724230,
+    "start_ticks": 154586465
+  },
+  "models": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "bytes": 147207127040,
+      "device": 52,
+      "inode": 3116203,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 52,
+      "inode": 3206497,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 52,
+      "inode": 3228516,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 52,
+      "inode": 3211726,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 52,
+      "inode": 3207513,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    }
+  ],
+  "result_sha256": {
+    "q2-affine-palette-host-r1": "9a81fef529e07a64a6205759e9b3fc644697454d7229dd6d9779481f7fb7ff91",
+    "q2-affine-palette-operators-r1": "373cee29bd52d0dc149716043f691d23a0e347cac563b198b7d240ade743e441",
+    "q2-affine-palette-micro-ref-r1": "b0387b75c435c290420fe41fce677b21d67c9af0b36b59e5b8e6f58219f34a42",
+    "q2-affine-palette-micro-r1": "039525a77a4c736375314047d514bdd4b17210ba754ad381f2fef09f49d77e63",
+    "q2-affine-palette-model-ref-r1": "dbee1740c61be383d22cd8643a1fbdd81581ef6d6aa4b3131d63b27ec26d3d25",
+    "q2-affine-palette-model-r1": "6049aaa26d70d02c94d9f04439034ae79c9246e1dc244f0e63d689df3011f366",
+    "q2-affine-palette-ud-r1": "9f507b935f043e8c358fefacb2550227c4b67d15cf252fdc3fd6611f3d9b1010"
+  },
+  "thermal": {
+    "/sys/class/hwmon/hwmon4/temp1_input": "49000",
+    "/sys/class/hwmon/hwmon2/temp1_input": "48000",
+    "/sys/class/hwmon/hwmon0/temp1_input": "49000",
+    "/sys/class/hwmon/hwmon5/temp1_input": "50000",
+    "/sys/class/hwmon/hwmon3/temp1_input": "49500",
+    "/sys/class/hwmon/hwmon1/temp6_input": "43850",
+    "/sys/class/hwmon/hwmon1/temp3_input": "43850",
+    "/sys/class/hwmon/hwmon1/temp7_input": "43850",
+    "/sys/class/hwmon/hwmon1/temp4_input": "44850",
+    "/sys/class/hwmon/hwmon1/temp8_input": "43850",
+    "/sys/class/hwmon/hwmon1/temp1_input": "44850",
+    "/sys/class/hwmon/hwmon1/temp9_input": "43850",
+    "/sys/class/hwmon/hwmon1/temp2_input": "55850"
+  }
+}

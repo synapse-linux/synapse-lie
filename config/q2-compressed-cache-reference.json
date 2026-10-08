@@ -1,0 +1,16 @@
+{
+  "schema": "synapse-lie.q2-compressed-cache-reference.v1",
+  "repository": "https://github.com/antirez/ds4",
+  "commit": "0aaea5a238fb41a35106a551e73c8409dfb751ac",
+  "source": ".deps/antirez-ds4-cache-reference",
+  "files": {
+    "LICENSE": "4a8a1358f5b048627d71e4988de0bafd386f4988991929629e6cb9e29b7b9b2f",
+    "docs/SSD_STREAMING.md": "923c1d9ba422bb110ae05d440e8a208883d64e4c708391967bcbbadc5a10be3d",
+    "rocm/ds4_rocm_runtime.cuh": "9b8a6a01d85988996a5303f8d690948ee70ded7420d7f4a5a572378b9d47a1d4",
+    "ds4_cuda.cu": "c2184bb477b8589e329f33e4a7be301c1a287e4c1ba382d941377bef52b97230",
+    "ds4_ssd.c": "6f093186ee5cde476f08f808a993f46665ab25ac0c1b8c207cb404c7b94cd999",
+    "ds4_ssd.h": "61f4312a8b3686d5f5591f52365e6cb6301fd44d63775d5f490bbc2dd5c8e348"
+  },
+  "reference_scope": "Compressed expert slot cache: selected-hit protection, LRU eviction, complete gate/up/down publication, completion before slot reuse. Original representation retained. Independent C17 implementation; no Antirez Qwen executor or foreign DS4 project is imported.",
+  "limits": "Resident inference already avoids expert disk reads. Streaming cache is a memory-capacity mechanism; no speed gain over full residency assumed."
+}

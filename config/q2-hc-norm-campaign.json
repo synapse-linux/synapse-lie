@@ -1,0 +1,151 @@
+{
+  "scope": "Completed .157 HC norm-copy experiment; rejected for measured prefill regression, no runtime promotion or long-context qualification",
+  "arms": [
+    {
+      "label": "q2-hc-norm-host-r1",
+      "source_capsule_sha256": "56a88372ca890f0100409341dba48652834f97ef159ef4d6163cb832db5bbc95",
+      "source_variant": "qualified",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "result_sha256": "2d477bc423ce7618c2f5a117b8e68c367d08eea7c79259df5fc59ee628927104",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "collection_sha256": "6165298e8eba48491a9ea2552d6df46162fa7d87b8543bf80a3b4db4185d3bce",
+      "transport_exit": 0
+    },
+    {
+      "label": "q2-hc-norm-micro-r1",
+      "source_capsule_sha256": "09605e6438f70b1a45608d4970231e2e3728e649411382956dac7bbec5a5343d",
+      "source_variant": "hc-norm-half",
+      "state": "FAILED",
+      "result_sha256": "25d6a7369bc6023ec6fd507377df7383f01b91dc3de93465f9a1384f648f4e60",
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "artifacts": 70,
+      "collection_sha256": "2dff6e6b188aeaf750cb0dcaef3f1f4a3a3193c194ff36066c286be3cc38047f",
+      "transport_exit": 1
+    },
+    {
+      "label": "q2-hc-norm-micro-r2",
+      "source_capsule_sha256": "bf3f4d5ec8a9e2cc6e5668b419575641ab1f35da27cc9704a39aad11fad57775",
+      "source_variant": "hc-norm-half",
+      "state": "SYNTHETIC_HC_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "result_sha256": "d1634358b19322542ee329017581187f7046d128db22093a9095f75c47101674",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "artifacts": 70,
+      "collection_sha256": "ff96225ba4c15f6e695432eb7af96c1d49642624ff869cab7d45cef91b69a33e",
+      "transport_exit": 0
+    },
+    {
+      "label": "q2-hc-norm-reference-r1",
+      "source_capsule_sha256": "a36b58f0bf8fe1773998aef9cfcb10641c42e0b53e002f1683d6e28cd00ac930",
+      "source_variant": "hc-moe-fused",
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "result_sha256": "9c6d7b636cca361e8983730de5244920f654ae3f7ad2143b7d8f21917c5e22a8",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "collection_sha256": "7916c4fe848e20f54e4cdebb00b20c790e7302b96134277067c4fff92ab7b09f",
+      "transport_exit": 0
+    },
+    {
+      "label": "q2-hc-norm-model-r1",
+      "source_capsule_sha256": "8013f5a7ae8554849c52d888195b51bafe576e068c1ece803c134e2ddd8e8f39",
+      "source_variant": "hc-norm-half",
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "result_sha256": "c9db3f062662823203164acf51e7cb3b7f72ea80a72f5957d162bd094edb9211",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "collection_sha256": "e3b6d54ba312599caf47d584574c6511a85d6748967e86abb105d80d7703d2c4",
+      "transport_exit": 0
+    },
+    {
+      "label": "q2-hc-norm-ud-r1",
+      "source_capsule_sha256": "c6664fed25e7c7a3d18075a2626db61c81e8313cae3c1548bc7694828de5604e",
+      "source_variant": "qualified",
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "result_sha256": "4947e288bf216c07249e143d91e94195a63b174db8f6bd9bb515c495396480bf",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "collection_sha256": "2a1b545f88aa53f657ec5a83a3fd9f8e2256330f517a14fe1c3cc8273162fae6",
+      "transport_exit": 0
+    },
+    {
+      "label": "q2-hc-norm-profile-r1",
+      "source_capsule_sha256": "48bd509a7b2d6e80855c893461f2126274834bfb12be89c59acb36e9d036a27b",
+      "source_variant": "hc-norm-half",
+      "state": "DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK",
+      "result_sha256": "61d27f6832a1cb3a3734385e063083fe95b0ba59ef79c204e29e19e7c7fb924b",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "collection_sha256": "b75e4633b688f120d1f478f9c7f225c3d7719979c0a09ff31236ea26b364e640",
+      "transport_exit": 0
+    },
+    {
+      "label": "q2-hc-norm-ref-profile-r1",
+      "source_capsule_sha256": "1d389b903717b912d3fadc24ad9c126dc7f47394ad2c454a48c7520711fd9923",
+      "source_variant": "hc-moe-fused",
+      "state": "DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK",
+      "result_sha256": "b216e2e694718c2bf86ee2ba04b27108d2dedc6f08c13f265ac60a55a93b190e",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "collection_sha256": "8e45147a685fdd3697680860294b3f1ac65ce3de785da77449155aa8d33ea074",
+      "transport_exit": 0
+    }
+  ],
+  "artifact_total": 277,
+  "command_total": 38,
+  "closure": {
+    "path": "config/q2-hc-norm-window-release.json",
+    "sha256": "23600ca85e6db1f50f870c3ba0538402888dc790dc627f1e2f0e2a26b337874a",
+    "command_exit": 0,
+    "observer_retirement": {
+      "exit_code": 0,
+      "stdout": "{\"at\": \"2026-10-02T16:50:39.628961+00:00\", \"pid\": 2599949, \"absent\": true}\n",
+      "stderr": ""
+    }
+  }
+}

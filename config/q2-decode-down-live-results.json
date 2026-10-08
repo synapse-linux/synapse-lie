@@ -1,0 +1,244 @@
+{
+  "schema": "synapse-lie.q2-decode-down-live-results.v1",
+  "source_checkpoint": "5962e2c2d69f97712308d18374e94bce27440d3e",
+  "plan_sha256": "21948d04c0ded43d9251a2fd6c9231f5eefb05e542748027e6d0fe499d04ef91",
+  "result_sha256": "d91521ef0d9bebb165ffa751d7e9de5235fa8fd8b89d0f6fd2929006b5381033",
+  "release_sha256": "9343ed9cf3edb63074e13215c80b9905a0f44e7218059169a63c0048c4bb883a",
+  "release_at": "2026-10-07T19:23:30.657517+00:00",
+  "closure_at": "2026-10-07T19:24:39.322595+00:00",
+  "artifact_count": 36,
+  "exit_code": 0,
+  "exact_comparisons": 517,
+  "independent_checks": 1034,
+  "max_relative_rms": 9.21618842429e-08,
+  "max_peak_scaled": 1.47272649181e-07,
+  "arms": [
+    {
+      "arm": 0,
+      "samples_us": [
+        46.196625,
+        46.167859375,
+        46.23990625,
+        46.10475,
+        45.886625,
+        45.687421875
+      ],
+      "mean_us": 46.04719791666667
+    },
+    {
+      "arm": 1,
+      "samples_us": [
+        45.71553125,
+        45.92209375,
+        45.80975,
+        45.90740625,
+        45.413046875,
+        45.60334375
+      ],
+      "mean_us": 45.728528645833336
+    }
+  ],
+  "time_change_percent": -0.6920492130922717,
+  "saved_us": 0.3186692708333325,
+  "candidate_faster_pairs": 6,
+  "total_measured_pairs": 6,
+  "timing_rows": [
+    {
+      "event": "down_live_timing",
+      "case": "scalar10",
+      "arm": 0,
+      "rep": 0,
+      "order": 0,
+      "warmup": true,
+      "calls": 64,
+      "weight_bytes": 82575360,
+      "complete_cycle_us": 46.99846875
+    },
+    {
+      "event": "down_live_timing",
+      "case": "scalar10",
+      "arm": 1,
+      "rep": 0,
+      "order": 1,
+      "warmup": true,
+      "calls": 64,
+      "weight_bytes": 82575360,
+      "complete_cycle_us": 45.801
+    },
+    {
+      "event": "down_live_timing",
+      "case": "scalar10",
+      "arm": 1,
+      "rep": 1,
+      "order": 0,
+      "warmup": true,
+      "calls": 64,
+      "weight_bytes": 82575360,
+      "complete_cycle_us": 45.99584375
+    },
+    {
+      "event": "down_live_timing",
+      "case": "scalar10",
+      "arm": 0,
+      "rep": 1,
+      "order": 1,
+      "warmup": true,
+      "calls": 64,
+      "weight_bytes": 82575360,
+      "complete_cycle_us": 46.240671875
+    },
+    {
+      "event": "down_live_timing",
+      "case": "scalar10",
+      "arm": 0,
+      "rep": 2,
+      "order": 0,
+      "warmup": false,
+      "calls": 64,
+      "weight_bytes": 82575360,
+      "complete_cycle_us": 46.196625
+    },
+    {
+      "event": "down_live_timing",
+      "case": "scalar10",
+      "arm": 1,
+      "rep": 2,
+      "order": 1,
+      "warmup": false,
+      "calls": 64,
+      "weight_bytes": 82575360,
+      "complete_cycle_us": 45.71553125
+    },
+    {
+      "event": "down_live_timing",
+      "case": "scalar10",
+      "arm": 1,
+      "rep": 3,
+      "order": 0,
+      "warmup": false,
+      "calls": 64,
+      "weight_bytes": 82575360,
+      "complete_cycle_us": 45.92209375
+    },
+    {
+      "event": "down_live_timing",
+      "case": "scalar10",
+      "arm": 0,
+      "rep": 3,
+      "order": 1,
+      "warmup": false,
+      "calls": 64,
+      "weight_bytes": 82575360,
+      "complete_cycle_us": 46.167859375
+    },
+    {
+      "event": "down_live_timing",
+      "case": "scalar10",
+      "arm": 0,
+      "rep": 4,
+      "order": 0,
+      "warmup": false,
+      "calls": 64,
+      "weight_bytes": 82575360,
+      "complete_cycle_us": 46.23990625
+    },
+    {
+      "event": "down_live_timing",
+      "case": "scalar10",
+      "arm": 1,
+      "rep": 4,
+      "order": 1,
+      "warmup": false,
+      "calls": 64,
+      "weight_bytes": 82575360,
+      "complete_cycle_us": 45.80975
+    },
+    {
+      "event": "down_live_timing",
+      "case": "scalar10",
+      "arm": 1,
+      "rep": 5,
+      "order": 0,
+      "warmup": false,
+      "calls": 64,
+      "weight_bytes": 82575360,
+      "complete_cycle_us": 45.90740625
+    },
+    {
+      "event": "down_live_timing",
+      "case": "scalar10",
+      "arm": 0,
+      "rep": 5,
+      "order": 1,
+      "warmup": false,
+      "calls": 64,
+      "weight_bytes": 82575360,
+      "complete_cycle_us": 46.10475
+    },
+    {
+      "event": "down_live_timing",
+      "case": "scalar10",
+      "arm": 0,
+      "rep": 6,
+      "order": 0,
+      "warmup": false,
+      "calls": 64,
+      "weight_bytes": 82575360,
+      "complete_cycle_us": 45.886625
+    },
+    {
+      "event": "down_live_timing",
+      "case": "scalar10",
+      "arm": 1,
+      "rep": 6,
+      "order": 1,
+      "warmup": false,
+      "calls": 64,
+      "weight_bytes": 82575360,
+      "complete_cycle_us": 45.413046875
+    },
+    {
+      "event": "down_live_timing",
+      "case": "scalar10",
+      "arm": 1,
+      "rep": 7,
+      "order": 0,
+      "warmup": false,
+      "calls": 64,
+      "weight_bytes": 82575360,
+      "complete_cycle_us": 45.60334375
+    },
+    {
+      "event": "down_live_timing",
+      "case": "scalar10",
+      "arm": 0,
+      "rep": 7,
+      "order": 1,
+      "warmup": false,
+      "calls": 64,
+      "weight_bytes": 82575360,
+      "complete_cycle_us": 45.687421875
+    }
+  ],
+  "events_file": "evidence/q2-decode-down-live-component-r1/component.stdout",
+  "events_file_sha256": "bba6873cb1d939f151d65d723d2b125e9dec6eb55eb7af9617ed8658c4f0f228",
+  "checks_per_case": {
+    "scalar10": 1,
+    "scalar10-r0": 64,
+    "scalar10-r1": 64,
+    "scalar10-r2": 64,
+    "scalar10-r3": 64,
+    "scalar10-r4": 64,
+    "scalar10-r5": 64,
+    "scalar10-r6": 64,
+    "scalar10-r7": 64,
+    "ragged9": 1,
+    "zero1": 1,
+    "cancel8": 1,
+    "inactive11": 1
+  },
+  "decision": "Retain this exact small component improvement for phase-specific composition; it does not demonstrate a whole-model decode gain. Avoid extrapolating0.692% to tokens/s; original-model validation remains pending.",
+  "prefill_changed": false,
+  "model_dispatch_changed": false,
+  "model_inference": false
+}

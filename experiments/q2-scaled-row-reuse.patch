@@ -1,0 +1,39 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/q2_scaled_input.inc
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_scaled_input.inc
+@@ -7,9 +7,19 @@
+   const std::size_t row = blockIdx.x;
+   __shared__ float maxima[8];
+   __shared__ float multiplier;
++  // The launcher admits only 640 columns. Retain the at most three
++  // original values per thread across the unchanged maximum reduction.
++  // This avoids reading the complete F32 row again after the barrier.
++  float values[3] = {};
+   float local = 0.0F;
+-  for (std::size_t c = tid; c < cols; c += 256)
+-    local = fmaxf(local, fabsf(x[row * cols + c]));
++#pragma unroll
++  for (unsigned i = 0; i < 3; ++i) {
++    const std::size_t c = tid + i * 256;
++    if (c < cols) {
++      values[i] = x[row * cols + c];
++      local = fmaxf(local, fabsf(values[i]));
++    }
++  }
+   for (unsigned offset = 16; offset; offset >>= 1)
+     local = fmaxf(local, __shfl_down(local, offset, 32));
+   if (lane == 0)
+@@ -29,8 +39,12 @@
+     inverse[row] = __builtin_bit_cast(float, unsigned(127 - shift) << 23);
+   }
+   __syncthreads();
+-  for (std::size_t c = tid; c < cols; c += 256)
+-    out[row * cols + c] = __float2half_rn(x[row * cols + c] * multiplier);
++#pragma unroll
++  for (unsigned i = 0; i < 3; ++i) {
++    const std::size_t c = tid + i * 256;
++    if (c < cols)
++      out[row * cols + c] = __float2half_rn(values[i] * multiplier);
++  }
+ }
+ 
+ bool PackQ2ScaledRows(const float* x, __half* out, float* inverse,

@@ -1,0 +1,21 @@
+{
+  "schema": "synapse-lie.q2-shared-q8-fixed-model-host.v1",
+  "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+  "finished_at": "2026-10-04T18:43:30.235533+00:00",
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "debug_ctest": 23,
+  "sanitized_ctest": 23,
+  "source_fixture_files_verified": 11,
+  "result_sha256": "bc708da0f255a0d8dd98b3b92d841b76dd514c95ea6ff7a856dc4004de80bae1",
+  "archive_sha256": "f969b7375e60ab607e1a9ab5af43dee96f610246dcabe533fe3f463d1f08cea2",
+  "capsule_sha256": "d5de43651beaf41b818657a69167559a0ef152417ee4ecebb1e224841a2768ad",
+  "model_inference": false,
+  "gpu_qualification": false
+}

@@ -1,0 +1,110 @@
+{
+  "schema": "synapse-lie.q2-hc-bk256-component-selection.v1",
+  "plan_sha256": "e22b33e516ad2f9b5a96a016edb77a01bb692c70260d457e509b87c064acc6bc",
+  "arms": [
+    {
+      "key": "initial",
+      "variant": "hc-bk256-initial",
+      "label": "q2-hc-bk256-initial-component-r1",
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "archive_sha256": "dfb1b01baf8afb486c79aa6e17dc40a2386f36a73e7d1eb934fffda024a9a65c",
+      "capsule_sha256": "5911bf30de671d108b672ebd2f487fb1c3e8f9b78898583ca3449899b0b9fe9e",
+      "timing_samples": 56,
+      "summaries": [
+        {
+          "moe": false,
+          "complete": false,
+          "library_us": 1014.2,
+          "native_us": 3779.72,
+          "native_time_change_percent": 272.6799447840662
+        },
+        {
+          "moe": false,
+          "complete": true,
+          "library_us": 2904.43,
+          "native_us": 5768.05,
+          "native_time_change_percent": 98.59490502439378
+        },
+        {
+          "moe": true,
+          "complete": false,
+          "library_us": 1009.11,
+          "native_us": 3777.54,
+          "native_time_change_percent": 274.343728632161
+        },
+        {
+          "moe": true,
+          "complete": true,
+          "library_us": 3643.9,
+          "native_us": 6401.86,
+          "native_time_change_percent": 75.68703861247563
+        }
+      ],
+      "complete_cycle_total_native_us": 12169.91,
+      "retained_strict_rejection": true,
+      "printed_fp64_error_values_rounded": true
+    },
+    {
+      "key": "bounded",
+      "variant": "hc-bk256-bounded",
+      "label": "q2-hc-bk256-bounded-component-r1",
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "archive_sha256": "0c97a439eb1f105fd3bacc3d91e24d4924c31b12a2dd5c55a409df789ff57c5e",
+      "capsule_sha256": "c430139d5f41aee26cd22505aa6a6bbcd50d3216c113ecb239dd7242e94f7779",
+      "timing_samples": 56,
+      "summaries": [
+        {
+          "moe": false,
+          "complete": false,
+          "library_us": 1034.87,
+          "native_us": 694.05,
+          "native_time_change_percent": -32.93360518712495
+        },
+        {
+          "moe": false,
+          "complete": true,
+          "library_us": 2898.07,
+          "native_us": 2519.93,
+          "native_time_change_percent": -13.04799400980654
+        },
+        {
+          "moe": true,
+          "complete": false,
+          "library_us": 1020.88,
+          "native_us": 716.16,
+          "native_time_change_percent": -29.84875793433117
+        },
+        {
+          "moe": true,
+          "complete": true,
+          "library_us": 3626.22,
+          "native_us": 3306.15,
+          "native_time_change_percent": -8.826546651885426
+        }
+      ],
+      "complete_cycle_total_native_us": 5826.08,
+      "retained_strict_rejection": true,
+      "printed_fp64_error_values_rounded": true
+    }
+  ],
+  "selected_key": "bounded",
+  "selected_model_arm": {
+    "key": "bounded",
+    "variant": "hc-bk256-bounded",
+    "mode": "q2-counting-hc-bk256-bounded",
+    "label": "q2-hc-bk256-bounded-model-r1"
+  },
+  "numeric_rejections_retained": true,
+  "numeric_thresholds_changed": false,
+  "independent_model_quality": false,
+  "controls_rerun": false,
+  "goal_met": false
+}

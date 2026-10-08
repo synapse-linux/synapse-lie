@@ -1,0 +1,78 @@
+{
+  "scope": "Editing-host syntax, formatting, exact reconstruction and device-only compilation; no runtime/GPU execution",
+  "at": "2026-10-03T03:26:29.512879+00:00",
+  "checks": [
+    {
+      "name": "format",
+      "argv": [
+        "clang-format",
+        "--dry-run",
+        "--Werror",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-down-wide-coalesced/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-hc-down-wide-coalesced-static-checks-r1/format.log"
+    },
+    {
+      "name": "reconstruction",
+      "argv": [
+        "patch",
+        "--batch",
+        "--fuzz=0",
+        "--no-backup-if-mismatch",
+        "-p1",
+        "-i",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/q2-hc-down-wide-coalesced.patch"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-hc-down-wide-coalesced-static-checks-r1/reconstruction.log"
+    }
+  ],
+  "reconstructed_files": 1019,
+  "reconstruction_exact": true,
+  "mismatches": [],
+  "resources": [
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi1ELi4ELi2ELi8ELb1ELb0ELb0ELb1ELb1EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 24576,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 242,
+      "next_free_sgpr": 27
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi128ELi128ELi2ELi4ELi2ELi3ELb0ELb0ELb0ELb1ELb1EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 32768,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 135,
+      "next_free_sgpr": 22
+    }
+  ],
+  "device": {
+    "argv": [
+      "/opt/rocm/llvm/bin/clang++",
+      "-x",
+      "hip",
+      "--offload-arch=gfx1151",
+      "--offload-device-only",
+      "-S",
+      "-std=c++20",
+      "-O3",
+      "-ffast-math",
+      "-fno-finite-math-only",
+      "-DQFN_ROCM_BUILD=1",
+      "-DENGINE_ENABLE_HIP=1",
+      "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-down-wide-coalesced",
+      "-isystem",
+      "/opt/rocm/include",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-down-wide-coalesced/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "-o",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-down-wide-coalesced-static-r1.s"
+    ],
+    "started_at": "2026-10-03T03:24:16.273164+00:00",
+    "finished_at": "2026-10-03T03:24:25.103244+00:00",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-down-wide-coalesced/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp:46:11: warning: 5 enumeration values not handled in switch: 'kQ5_1', 'kQ2_K', 'kQ4_K'... [-Wswitch]\n   46 |   switch (type) {\n      |           ^~~~\n/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-down-wide-coalesced/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp:66:11: warning: 5 enumeration values not handled in switch: 'kQ5_1', 'kQ2_K', 'kQ4_K'... [-Wswitch]\n   66 |   switch (type) {\n      |           ^~~~\n2 warnings generated when compiling for gfx1151.\n"
+  },
+  "exit_code": 0
+}

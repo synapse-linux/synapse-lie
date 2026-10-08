@@ -1,0 +1,13 @@
+event,mode,rep,first_access_observation,seconds,tokens_per_second,good,flow_status,prepared,consumed,prepare_ns,consume_ns,consumer_wait_ns,peak_owned_slots
+prefill,native,0,True,14.10943122,580.604552534,True,0,0,0,0,0,0,0
+prefill,prepared_serial,0,True,6.735315082,1216.27569019,True,0,4,4,222722618,6512580414,380,1
+prefill,lookahead,0,True,6.58373219,1244.27904471,True,0,4,4,236724281,6525837604,57641592,2
+prefill,native,1,False,6.605825425,1240.11754368,True,0,0,0,0,0,0,0
+prefill,lookahead,1,False,6.597379895,1241.70506025,True,0,4,4,243935312,6539927610,57383997,2
+prefill,prepared_serial,1,False,6.735974125,1216.15669063,True,0,4,4,202564664,6533405331,400,1
+prefill,prepared_serial,2,False,6.781617875,1207.97133531,True,0,4,4,240439371,6541173014,480,1
+prefill,native,2,False,6.650061275,1231.86834846,True,0,0,0,0,0,0,0
+prefill,lookahead,2,False,6.60034904,1241.14648337,True,0,4,4,223999303,6549310546,50963616,2
+prefill,lookahead,3,False,6.601980679,1240.83974163,True,0,4,4,226192009,6551662149,50244801,2
+prefill,prepared_serial,3,False,6.771088986,1209.84970319,True,0,4,4,221387125,6549695231,480,1
+prefill,native,3,False,6.623812726,1236.74994129,True,0,0,0,0,0,0,0

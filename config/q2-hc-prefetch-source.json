@@ -1,0 +1,33 @@
+{
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "baseline_checkpoint": "8dc2752",
+  "files": 1019,
+  "changed": [
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  ],
+  "patch_sha256": "d5f3cdb35e6f8cf35708b713a72030feea36222f88dad5948923625014e80faf",
+  "baseline_inventory_sha256": "9b80756b35b729b469ed1370b990253c2ca7f23e6e5b1629626aad9a9e037e39",
+  "candidate_inventory_sha256": "0e4601c894713d983e59f85cb1d3768ce0aaefa6e93c1c1951a909b284adbc76",
+  "exact_reconstruction": true,
+  "patch_exit": 0,
+  "runtime": "Not yet run on GPU; no performance qualification",
+  "retained_static_iterations": [
+    "evidence/q2-hc-prefetch-r1.patch",
+    "evidence/q2-hc-prefetch-static-r1.json"
+  ],
+  "source_paths": {
+    "baseline": ".deps/gufo-q2-bench-packed",
+    "candidate": ".deps/gufo-q2-bench-hc-prefetch"
+  },
+  "inventory_hash_encoding": "SHA256 of UTF-8 json.dumps(path_to_sha256, sort_keys=True), no trailing newline",
+  "baseline_exact_to_measured_capsule": true,
+  "baseline_capsule": "evidence/q2-packed-model-r1/source.tar.gz",
+  "baseline_capsule_sha256": "8f65f38393f4873021c4d640a755ad939b07a086ed353e30ce069cb6c7a1ee39",
+  "generator_exact_reconstruction": true,
+  "format_files": 486,
+  "static_checks": {
+    "device_assembly": "evidence/q2-hc-prefetch-static-r2.json",
+    "format": "evidence/q2-hc-prefetch-format.json",
+    "host_syntax": "evidence/q2-hc-prefetch-syntax.json"
+  }
+}

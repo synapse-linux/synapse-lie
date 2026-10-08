@@ -1,0 +1,132 @@
+{
+  "scope": "Editing-host syntax only; no runtime, model or GPU access",
+  "checks": [
+    {
+      "name": "c17",
+      "argv": [
+        "cc",
+        "-std=c17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wpedantic",
+        "-pthread",
+        "-Iexperiments",
+        "-fsyntax-only",
+        "experiments/ple_flow.c",
+        "tests/ple_flow.c"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-ple-lookahead-static-r1/c17.log"
+    },
+    {
+      "name": "executor",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-host-only",
+        "-std=c++20",
+        "-include",
+        "chrono",
+        "-fsyntax-only",
+        "-DENGINE_ENABLE_HIP=1",
+        "-DQFN_ROCM_BUILD=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-ple-lookahead",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-ple-lookahead/src/models/qwen38_flash_next/kernels/rocm/mmq",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-ple-lookahead/src/models/qwen38_flash_next/kernels/rocm/executor.cpp"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-ple-lookahead-static-r1/executor.log"
+    },
+    {
+      "name": "harness",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-host-only",
+        "-std=c++20",
+        "-include",
+        "chrono",
+        "-fsyntax-only",
+        "-DENGINE_ENABLE_HIP=1",
+        "-DQFN_ROCM_BUILD=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-ple-lookahead",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-ple-lookahead/src/models/qwen38_flash_next/kernels/rocm/mmq",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests/q2_ple_lookahead.cpp"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-ple-lookahead-static-r1/harness.log"
+    },
+    {
+      "name": "harness-final",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-host-only",
+        "-std=c++20",
+        "-include",
+        "chrono",
+        "-fsyntax-only",
+        "-DENGINE_ENABLE_HIP=1",
+        "-DQFN_ROCM_BUILD=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-ple-lookahead",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests/q2_ple_lookahead.cpp"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-ple-lookahead-static-r2/harness.log"
+    },
+    {
+      "name": "reconstruct",
+      "argv": [
+        "patch",
+        "--batch",
+        "-p1",
+        "-i",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/q2-ple-lookahead.patch"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-ple-lookahead-reconstructed",
+      "exit_code": 0,
+      "log": "evidence/q2-ple-lookahead-static-r2/reconstruct.log"
+    },
+    {
+      "name": "changed-format",
+      "argv": [
+        "clang-format",
+        "--dry-run",
+        "--Werror",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-ple-lookahead/src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-ple-lookahead/src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
+        "experiments/ple_flow.c",
+        "experiments/ple_flow.h",
+        "tests/ple_flow.c",
+        "tests/q2_ple_lookahead.cpp"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit",
+      "exit_code": 0,
+      "log": "evidence/q2-ple-lookahead-static-r2/changed-format.log"
+    },
+    {
+      "name": "shared-format",
+      "argv": [
+        "python3",
+        "tools/ci/check-format.py"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-ple-lookahead",
+      "exit_code": 1,
+      "log": "evidence/q2-ple-lookahead-static-r2/shared-format.log"
+    }
+  ],
+  "reconstructed_files": 1019,
+  "reconstruction_exact": true,
+  "python_syntax": "All five edited Python files parse; no runtime tests on editing host",
+  "format_note": "Shared formatter inherited failures are retained; see prior q2-ple-cache64k static report for byte-identical original test files"
+}

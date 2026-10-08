@@ -1,0 +1,194 @@
+{
+  "at": "2026-10-03T05:26:44.312600+00:00",
+  "state": "Q2_STAGED_PALETTE_WINDOW_RELEASED",
+  "runners": [
+    {
+      "label": "q2-staged-palette-host-r1",
+      "pid": 2865351,
+      "absent": true,
+      "finished_at": "2026-10-03T05:20:15.411532+00:00"
+    },
+    {
+      "label": "q2-staged-palette-operators-r1",
+      "pid": 2866477,
+      "absent": true,
+      "finished_at": "2026-10-03T05:21:42.984050+00:00"
+    },
+    {
+      "label": "q2-staged-palette-micro-ref-r1",
+      "pid": 2867108,
+      "absent": true,
+      "finished_at": "2026-10-03T05:22:52.922604+00:00"
+    },
+    {
+      "label": "q2-staged-palette-micro-r1",
+      "pid": 2867582,
+      "absent": true,
+      "finished_at": "2026-10-03T05:23:32.836745+00:00"
+    }
+  ],
+  "commands": [
+    {
+      "label": "q2-staged-palette-host-r1",
+      "pid": 2865352,
+      "start_ticks": 157018402,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-staged-palette-host-r1",
+      "pid": 2865428,
+      "start_ticks": 157018454,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-staged-palette-host-r1",
+      "pid": 2865504,
+      "start_ticks": 157018907,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-staged-palette-host-r1",
+      "pid": 2865732,
+      "start_ticks": 157019561,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-staged-palette-host-r1",
+      "pid": 2865802,
+      "start_ticks": 157019613,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-staged-palette-host-r1",
+      "pid": 2865916,
+      "start_ticks": 157020316,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-staged-palette-operators-r1",
+      "pid": 2866478,
+      "start_ticks": 157027965,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-staged-palette-operators-r1",
+      "pid": 2866690,
+      "start_ticks": 157028169,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-staged-palette-operators-r1",
+      "pid": 2866814,
+      "start_ticks": 157029573,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-staged-palette-micro-ref-r1",
+      "pid": 2867109,
+      "start_ticks": 157034903,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-staged-palette-micro-ref-r1",
+      "pid": 2867311,
+      "start_ticks": 157035113,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-staged-palette-micro-ref-r1",
+      "pid": 2867450,
+      "start_ticks": 157036518,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-staged-palette-micro-r1",
+      "pid": 2867583,
+      "start_ticks": 157038902,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-staged-palette-micro-r1",
+      "pid": 2867778,
+      "start_ticks": 157039105,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-staged-palette-micro-r1",
+      "pid": 2867918,
+      "start_ticks": 157040509,
+      "exit_code": 0,
+      "absent": true
+    }
+  ],
+  "live_owned": [],
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "observer": {
+    "pid": 2868795,
+    "state": "R",
+    "group": 2868792,
+    "session": 2868792,
+    "start_ticks": 157059857
+  },
+  "models": [],
+  "result_sha256": {
+    "q2-staged-palette-host-r1": "fd30ed20f0ad32d6953f313c864ef0b49fb08ada1048c4eedd48267a5beefea9",
+    "q2-staged-palette-operators-r1": "809a8b2e4e57292a18d82e3506dbffb24de521a32492c27745c6c9d6760a2c84",
+    "q2-staged-palette-micro-ref-r1": "8793c86c1d84628268f2fd1d75045d8dd56cbb61ab0da6fe76170f9895642640",
+    "q2-staged-palette-micro-r1": "ee918aa2812900c5d2ef7f077e0eb99d206a595e724292bab8b276d7ee8c5d35"
+  },
+  "thermal": {
+    "/sys/class/hwmon/hwmon4/temp1_input": "46000",
+    "/sys/class/hwmon/hwmon2/temp1_input": "45000",
+    "/sys/class/hwmon/hwmon0/temp1_input": "46000",
+    "/sys/class/hwmon/hwmon5/temp1_input": "49000",
+    "/sys/class/hwmon/hwmon3/temp1_input": "46625",
+    "/sys/class/hwmon/hwmon1/temp6_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp3_input": "40850",
+    "/sys/class/hwmon/hwmon1/temp7_input": "40850",
+    "/sys/class/hwmon/hwmon1/temp4_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp8_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp1_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp9_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp2_input": "52850"
+  }
+}

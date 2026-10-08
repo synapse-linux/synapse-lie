@@ -1,0 +1,37 @@
+{
+  "scope": "Bounded Q2 replay, not independent full-model teacher parity",
+  "different_token_files": [],
+  "bounded_numerical_gate_pass": true,
+  "relative_medians": {
+    "baseline": {
+      "512": {
+        "prefill_tok_s": 1.001738867872807,
+        "decode_steps_s": 1.0012208316498317
+      },
+      "2048": {
+        "prefill_tok_s": 0.9997885145722344,
+        "decode_steps_s": 0.9999741725490197
+      },
+      "8192": {
+        "prefill_tok_s": 0.9993993802354034,
+        "decode_steps_s": 1.0001793483807655
+      }
+    },
+    "ud": {
+      "512": {
+        "prefill_tok_s": 0.5236902195657326,
+        "decode_steps_s": 0.833388085707926
+      },
+      "2048": {
+        "prefill_tok_s": 0.36751433619405643,
+        "decode_steps_s": 0.8380090242543797
+      },
+      "8192": {
+        "prefill_tok_s": 0.34452378366127845,
+        "decode_steps_s": 0.8394008460133348
+      }
+    }
+  },
+  "exact_frontiers": 28,
+  "frontier_count": 28
+}

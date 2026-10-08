@@ -1,0 +1,20 @@
+{
+  "schema": "synapse-lie.q2-scaled-expert-order-staging.v1",
+  "arms": [
+    {
+      "mode": "scaled-expert-order-check",
+      "capsule_sha256": "2b7975f1a12f588418099314c1a89d5775abf485f2e0ad33171e09e008e2433f",
+      "provider_files": 1028,
+      "fixture_files": 79,
+      "ssh_executed": false
+    },
+    {
+      "mode": "q2-counting-scaled-expert-order",
+      "capsule_sha256": "7396ff3884b0eb5d9a0ba4d0afa5ede2c4142a42db76bd5a6223b9c4e507e8f8",
+      "provider_files": 1028,
+      "fixture_files": 79,
+      "ssh_executed": false
+    }
+  ],
+  "gpu_run": false
+}

@@ -1,0 +1,228 @@
+{
+  "scope": "Three synthetic .157 GPU arms; no model inference",
+  "runs": {
+    "q2-stage-operators-r1": {
+      "state": "SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "model_access": false,
+      "binary_sha256": "21f8a276ae29453d9b63793383c919f4d6e878bec43006fc7071601d970a484b",
+      "binary_sha256_after": "21f8a276ae29453d9b63793383c919f4d6e878bec43006fc7071601d970a484b",
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-stage-operators-r1/results.tar.gz",
+        "sha256": "b4198dcad39a64884c8f459c13154fe0b904a9f5a4682a1f7dd6707869ab600c",
+        "verified_artifacts": 66
+      },
+      "temperature_max_mc": {
+        "amdgpu": 51000,
+        "k10temp": 82500
+      },
+      "result_sha256": "fb4e8dce302171164e1e4455218e50618e7b1949f388e2867adabcae342b607c"
+    },
+    "q2-stage-micro-ref-r1": {
+      "state": "SYNTHETIC_Q2_PACKED_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "model_access": false,
+      "binary_sha256": "7152d4f202ee5400500bbbd9f0bd11dc567de26ed0844c7e4758fce3b761425a",
+      "binary_sha256_after": "7152d4f202ee5400500bbbd9f0bd11dc567de26ed0844c7e4758fce3b761425a",
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-stage-micro-ref-r1/results.tar.gz",
+        "sha256": "8c1eb1674a3fbbdb837b86814d441c440f9d89336b5863ce1eb3d7cb386ced0d",
+        "verified_artifacts": 5
+      },
+      "temperature_max_mc": {
+        "amdgpu": 50000,
+        "k10temp": 82500
+      },
+      "result_sha256": "929b51271693009d437dc8265be6ed16381d904aeeed976b6ed783dd2ecda826"
+    },
+    "q2-stage-micro-r1": {
+      "state": "SYNTHETIC_Q2_PACKED_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "model_access": false,
+      "binary_sha256": "ac28e9fc5cd50b1578766fb952d9e2dce536ba0650f6bc767069959c4ae572bc",
+      "binary_sha256_after": "ac28e9fc5cd50b1578766fb952d9e2dce536ba0650f6bc767069959c4ae572bc",
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-stage-micro-r1/results.tar.gz",
+        "sha256": "34583ea047f6965d2e450fcc1e4482b834ce3ca649d2b09244be4cbe7044fd6f",
+        "verified_artifacts": 5
+      },
+      "temperature_max_mc": {
+        "amdgpu": 50000,
+        "k10temp": 79500
+      },
+      "result_sha256": "cba13a19f933542bd032be3217dd9fd1207ee1a43c2dda76700be106cdc344ad"
+    }
+  },
+  "closure": {
+    "at": "2026-10-02T19:42:40.462182+00:00",
+    "state": "Q2_STAGED_WEIGHTS_WINDOW_RELEASED",
+    "runners": [
+      {
+        "label": "q2-stage-operators-r1",
+        "pid": 2657223,
+        "absent": true,
+        "finished_at": "2026-10-02T19:36:57.585136+00:00"
+      },
+      {
+        "label": "q2-stage-micro-ref-r1",
+        "pid": 2657932,
+        "absent": true,
+        "finished_at": "2026-10-02T19:38:29.506468+00:00"
+      },
+      {
+        "label": "q2-stage-micro-r1",
+        "pid": 2658630,
+        "absent": true,
+        "finished_at": "2026-10-02T19:39:55.638289+00:00"
+      }
+    ],
+    "commands": [
+      {
+        "label": "q2-stage-operators-r1",
+        "pid": 2657227,
+        "start_ticks": 153519420,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-stage-operators-r1",
+        "pid": 2657427,
+        "start_ticks": 153519623,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-stage-operators-r1",
+        "pid": 2657566,
+        "start_ticks": 153521034,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-stage-micro-ref-r1",
+        "pid": 2657933,
+        "start_ticks": 153528562,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-stage-micro-ref-r1",
+        "pid": 2658168,
+        "start_ticks": 153528765,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-stage-micro-ref-r1",
+        "pid": 2658308,
+        "start_ticks": 153530170,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-stage-micro-r1",
+        "pid": 2658631,
+        "start_ticks": 153537174,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-stage-micro-r1",
+        "pid": 2658826,
+        "start_ticks": 153537377,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-stage-micro-r1",
+        "pid": 2658966,
+        "start_ticks": 153538790,
+        "exit_code": 0,
+        "absent": true
+      }
+    ],
+    "live_owned": [],
+    "kfd": [],
+    "leases": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067,
+        "free_verified_ex_nb": true
+      }
+    ],
+    "observer": {
+      "pid": 2659809,
+      "state": "R",
+      "group": 2659806,
+      "session": 2659806,
+      "start_ticks": 153555472
+    },
+    "result_sha256": {
+      "q2-stage-operators-r1": "fb4e8dce302171164e1e4455218e50618e7b1949f388e2867adabcae342b607c",
+      "q2-stage-micro-ref-r1": "929b51271693009d437dc8265be6ed16381d904aeeed976b6ed783dd2ecda826",
+      "q2-stage-micro-r1": "cba13a19f933542bd032be3217dd9fd1207ee1a43c2dda76700be106cdc344ad"
+    },
+    "thermal": {
+      "/sys/class/hwmon/hwmon4/temp1_input": "48000",
+      "/sys/class/hwmon/hwmon2/temp1_input": "47000",
+      "/sys/class/hwmon/hwmon0/temp1_input": "48000",
+      "/sys/class/hwmon/hwmon5/temp1_input": "50000",
+      "/sys/class/hwmon/hwmon3/temp1_input": "48125",
+      "/sys/class/hwmon/hwmon1/temp6_input": "43850",
+      "/sys/class/hwmon/hwmon1/temp3_input": "42850",
+      "/sys/class/hwmon/hwmon1/temp7_input": "42850",
+      "/sys/class/hwmon/hwmon1/temp4_input": "43850",
+      "/sys/class/hwmon/hwmon1/temp8_input": "43850",
+      "/sys/class/hwmon/hwmon1/temp1_input": "43850",
+      "/sys/class/hwmon/hwmon1/temp9_input": "43850",
+      "/sys/class/hwmon/hwmon1/temp2_input": "54850"
+    }
+  },
+  "retirement": {
+    "at": "2026-10-02T19:43:19.827958+00:00",
+    "expected": {
+      "pid": 2659809,
+      "state": "R",
+      "group": 2659806,
+      "session": 2659806,
+      "start_ticks": 153555472
+    },
+    "live": [],
+    "observer_retired": true
+  },
+  "observer_exit_codes": [
+    0,
+    0
+  ]
+}

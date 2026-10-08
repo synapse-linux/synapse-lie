@@ -1,0 +1,105 @@
+{
+  "scope": "C17 shared/routed overlap on .157; candidate not selected",
+  "goal_met": false,
+  "promoted": false,
+  "runs": {
+    "q2-shared-overlap-host-r1": {
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "commands": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "source_files_exact": 1019,
+      "guard_files_exact": 50,
+      "capsule_sha256": "acda485e8fcfc260951b1bb6e7f5c24434e532281d16ad15a2fbd770becf1fed",
+      "collection_sha256": "fc1fe61b4b144cd8e18efe12e912e2a1dd3d93324ffb775755eff012babaa590",
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 76750
+      }
+    },
+    "q2-shared-overlap-check-r1": {
+      "state": "SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED",
+      "commands": [
+        0,
+        0,
+        0
+      ],
+      "artifacts": 4,
+      "source_files_exact": 1022,
+      "guard_files_exact": 50,
+      "capsule_sha256": "dd87edf77f7d24061627b59c999c1092172ff6d38b53cbb0e44a2c4c89d0a5cf",
+      "collection_sha256": "8b44b31f363bced23b07eaaa776597c2387a46e5771de4982135b2b1547073d0",
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 80375
+      }
+    },
+    "q2-shared-overlap-reference-r1": {
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "commands": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "source_files_exact": 1019,
+      "guard_files_exact": 50,
+      "capsule_sha256": "fd3c81d1172b564ebdba8543fe1994c3276782c98d8d2271bf1f39f028dd15b6",
+      "collection_sha256": "e859551bf66fbfc8b81adc22f2af9189f9780372671272b0145c1d02bf58079a",
+      "thermal_max_mc": {
+        "amdgpu": 79000,
+        "k10temp": 92000
+      }
+    },
+    "q2-shared-overlap-candidate-r1": {
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "commands": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "source_files_exact": 1022,
+      "guard_files_exact": 50,
+      "capsule_sha256": "6f20ac649755af71e54fdcd44ef2fbda344be33f2339a1888ea83d0bef6bdb77",
+      "collection_sha256": "347de3a79402a9da038656d582692fa7bb4bd04ade7155884ec19cabefda989f",
+      "thermal_max_mc": {
+        "amdgpu": 78000,
+        "k10temp": 92625
+      }
+    },
+    "q2-shared-overlap-profile-r1": {
+      "state": "DIAGNOSTIC_PROFILE_COMPLETE_NOT_WALL_BENCHMARK",
+      "commands": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "source_files_exact": 1022,
+      "guard_files_exact": 50,
+      "capsule_sha256": "c2284c6864d7353104542054be8cacaa03f6384c821fea159f5ee940fdcbf300",
+      "collection_sha256": "7be11d94564d281c50079fd08fcbdd86febe07321a94e192ffb9043e6fdb9164",
+      "thermal_max_mc": {
+        "amdgpu": 75000,
+        "k10temp": 94375
+      }
+    }
+  },
+  "commands": 24,
+  "verified_artifacts": 89,
+  "closure": "2026-10-03T09:01:58.557499+00:00",
+  "observer_retirement": "2026-10-03T09:02:30.258978+00:00"
+}

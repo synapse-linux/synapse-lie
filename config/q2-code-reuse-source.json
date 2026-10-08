@@ -1,0 +1,14 @@
+{
+  "scope": "Static preparation only; GPU replay and benefit unproven",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-hc-moe-fused",
+  "candidate": ".deps/gufo-q2-bench-code-reuse",
+  "base_sha256": "92faa287e2b5681d16f0f54c2f99a3eba0a14c5faaf398e631f8a12b7548cbad",
+  "candidate_sha256": "240b6f78af4937ea9dbd08ad4849676e1d99bc9eece7af6a098aad18e907d7cd",
+  "patch_sha256": "08b9c80d95a5f52a247d79d44c522afa0d5d7ad1292f7161a2f9c7bcadf0add5",
+  "changed_files": [
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  ],
+  "mechanism": "Keep the original 32 Q2 code bytes per producer thread across adjacent K64 stages; halve their source fetches",
+  "unchanged": "Original model bytes, affine scale fetch/rounding, LDS plan, two activation planes, WMMA order and residual correction; raw-input control unchanged"
+}

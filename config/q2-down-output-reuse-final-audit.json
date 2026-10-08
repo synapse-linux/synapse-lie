@@ -1,0 +1,103 @@
+{
+  "schema": "synapse-lie.q2-down-output-reuse-final-audit.v1",
+  "fixtures_verified": 61,
+  "manifests_verified": 4,
+  "provider_files": 1025,
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifact_count": 37,
+  "component_result_sha256": "685dcad774d8d2ba5408a8b1d8a401948a91ef3a31e0f364f3edf003b727746f",
+  "model_result_sha256": "b5e29e6558dd24dbe8b1ddb351fd23411746075223b5b55d971abd5392d0b336",
+  "component_numerical_exact": true,
+  "within_arm_exact": true,
+  "changed_parent_files": [],
+  "measurements": {
+    "prefill_tok_s": {
+      "samples": [
+        1503.446273,
+        1500.058918,
+        1501.068984
+      ],
+      "min": 1500.058918,
+      "median": 1501.068984,
+      "max": 1503.446273
+    },
+    "decode_steps_s": {
+      "samples": [
+        25.10876819,
+        25.11985944,
+        25.13518725
+      ],
+      "min": 25.10876819,
+      "median": 25.11985944,
+      "max": 25.13518725
+    },
+    "prefill_s": {
+      "samples": [
+        1.36220365,
+        1.365279707,
+        1.364361013
+      ],
+      "min": 1.36220365,
+      "median": 1.364361013,
+      "max": 1.365279707
+    },
+    "decode_s": {
+      "samples": [
+        5.057994045,
+        5.055760774,
+        5.052677696
+      ],
+      "min": 5.052677696,
+      "median": 5.055760774,
+      "max": 5.057994045
+    }
+  },
+  "changes": {
+    "fixed_q2": {
+      "prefill_tok_s": 3.975701027011125,
+      "decode_steps_s": 0.09525220303241433,
+      "prefill_s": -3.8236828426433167,
+      "decode_s": -0.09516154933838505
+    },
+    "fixed_ud": {
+      "prefill_tok_s": -10.956852414031971,
+      "decode_steps_s": 3.1966361063935134,
+      "prefill_s": 12.305104505622765,
+      "decode_s": -3.0976165884600504
+    },
+    "best_parent": {
+      "prefill_tok_s": -0.5817331949137916,
+      "decode_steps_s": -0.3427405303344955,
+      "prefill_s": 0.5851371384391069,
+      "decode_s": 0.34391927534183075
+    }
+  },
+  "admission_exit": 0,
+  "host_rerun": false,
+  "release_sha256": "1626b7e453101e90b13e9e6df8a52a0acf9a1360571950a6b100d93f89d255a4",
+  "retired_identities": 866,
+  "retired_groups": 686,
+  "gpu_released": true,
+  "model_stats_unchanged": true,
+  "main_release_mirrors_exact": true,
+  "controls_rerun": false,
+  "component_rerun": false,
+  "q4_run": false,
+  "full_curve_run": false,
+  "promoted": false,
+  "goal_met": false
+}

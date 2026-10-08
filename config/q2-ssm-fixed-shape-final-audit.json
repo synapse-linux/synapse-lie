@@ -1,0 +1,87 @@
+{
+  "schema": "synapse-lie.q2-ssm-fixed-shape-final.v1",
+  "plan_sha256": "6f8cab7412398505533f3f9d586bac375ba33a710ae89a92a4b920ba74f7675e",
+  "model_result_sha256": "4c76417549a0b208f2e34a8b92456e35f84fbbba11c87045b49e8fa84b08366b",
+  "component_result_sha256": "f5299c2845ac32c8941e140f4e4b636cf6a810da2373dce4ae03c3b628931a26",
+  "release_sha256": "81d7fcbbe2aea754bbd4bc8acdc044a03275406f15099e2d057695a1333d805a",
+  "runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 37,
+  "new_artifacts_verified": 30,
+  "reused_host_artifacts": 7,
+  "host_reused": true,
+  "host_rerun": false,
+  "reused_host_label": "q2-ssm-pingpong-host-r1",
+  "new_runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "reused_host_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "frozen_fixtures_verified": 90,
+  "frozen_manifests_verified": 12,
+  "provider_files_verified": 1027,
+  "retired_identities": 1140,
+  "retired_groups": 909,
+  "thermal_max_c": {
+    "q2-ssm-pingpong-host-r1": {
+      "amdgpu": 38.0,
+      "k10temp": 64.875
+    },
+    "q2-ssm-fixed-shape-component-r1": {
+      "amdgpu": 42.0,
+      "k10temp": 63.875
+    },
+    "q2-ssm-fixed-shape-model-r1": {
+      "amdgpu": 73.0,
+      "k10temp": 80.5
+    }
+  },
+  "resources": [],
+  "component_parent_exact": true,
+  "independent_operator_pass": true,
+  "parent_model_checks": {
+    "input_exact": true,
+    "output_tokens_exact": true,
+    "changed_files": [],
+    "max_matched_history_kl": 0.0
+  },
+  "within_arm_exact": true,
+  "figures": {
+    "docs/figures/q2-ssm-fixed-shape-component.csv": "dfc809fd9991c948797b326c648bba04e758b7c213cdd9318fff2cbbb8b14bdc",
+    "docs/figures/q2-ssm-fixed-shape-component.svg": "02f139d6e1dbf897d0a148f59af5b23ed8cfe7d87f6aeb01b42ca9c247c11a9d",
+    "docs/figures/q2-ssm-fixed-shape-component.png": "7644d4c7f938eafb5c8db90202226a168cfa3929cacb20c0ae9afd2732fc11b1",
+    "docs/figures/q2-ssm-fixed-shape-model-wrapped.csv": "be9bd277d284850fe412c5862a42735a80cecea2175d17a2273dade6df6eb221",
+    "docs/figures/q2-ssm-fixed-shape-model-wrapped.svg": "6793d1ce7b107bdac4cad58357dfadd6b5ccff8b8c896d59ffb0ed8f50fb7eef",
+    "docs/figures/q2-ssm-fixed-shape-model-wrapped.png": "4361ea6e6f8b6b94e6dae4a43ef6fb58e7007b2190f88aa6435a83a915dfee47"
+  },
+  "preserved_nonzero_exits": {},
+  "controls_rerun": false,
+  "independent_quality": false,
+  "full_curve": false,
+  "goal_met": false
+}

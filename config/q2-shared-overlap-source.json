@@ -1,0 +1,46 @@
+{
+  "scope": "Prepared C17 fork/join with HIP adapter; runtime exactness and gain unproven",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-hc-up-chains",
+  "candidate": ".deps/gufo-q2-bench-shared-overlap",
+  "changed_files": [
+    {
+      "path": "src/models/qwen38_flash_next/CMakeLists.txt",
+      "base_sha256": "ab5344d84ce3cab2038ade110db82d35ad199d44b401e22d0bcc16e313fb07b7",
+      "sha256": "6e381124b1d9cd95d450236094f59f881fa12e89372ee1678a83de7c87799c3a"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "base_sha256": "b527672b4bb79566438ee2b3e9e501f8fc10a8cea90f81e44d293528911728cc",
+      "sha256": "c9966347aa3913f6f51aedbec91894a4d8467f785551e82df2f465dae62bf104"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
+      "base_sha256": "65bc2a863cf1c45d608d9f942097d2080b4279ca043ee862ad979f95b1cd1f99",
+      "sha256": "695008a06cdd0266e2f9b3283e3653e0806d9188f2ffd163ec96605f921b33f7"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/gpu_fork.c",
+      "base_sha256": null,
+      "sha256": "1e952c0a688db65c4afaa3fb1ae4170f0b63a20354446fbeb5f8e305ce7272b2"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/gpu_fork.h",
+      "base_sha256": null,
+      "sha256": "d61b588a4af72559a9f6d8592b4f7d947a33704306e6625c359fde8e3984648b"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/q2_shared_fork.hpp",
+      "base_sha256": null,
+      "sha256": "ec734730743cba2b04ae4921089e42849d4322dc327db81c95a30c2e6b123104"
+    }
+  ],
+  "patch_sha256": "2acc2557ea1c1daf71c6ca403cc69aa03f41ad720e31013962dc596ec883e824",
+  "kernel_sha256": "a5ccc81f7762beae74cf0bbb06e6aeebd44edf1c804c1473b63619af023a6cd5",
+  "tensor_allocation_bytes_added": 0,
+  "gpu_streams_added": 1,
+  "gpu_events_added": 2,
+  "activation_contract": "Original Q8 shared gate/up, F16 shared down input, original routed high/residual representation",
+  "guard": "Q2 prefill only, n>=96, exact original model geometry; decode and other shapes sequential",
+  "lifecycle": "One outstanding branch, input event, completion join before consumers; C17 drain/poison on failure"
+}
