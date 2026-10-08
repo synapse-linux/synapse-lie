@@ -1,5 +1,39 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2 requested UD2K .157 released — 2026-10-08 UTC: plan1b8b792a, source65afe48c,
+binaryb701e948, predecessor d5be8bf0. Specific Core/GLM current non-use ACKs
+precede admission00:37:24 with fresh original five leases and all registry,
+KFD, retired-process, model-stat, performance-mode and IOMMU checks. Only the
+UD-Q4_K_XL model runs: native2048/chunk2048/capacity133760/TG128/warm1+3;
+the prior Q2 arm is reused as evidence. Run00:37:37–00:38:27 and child exit0.
+All31 artifacts/58782780bytes hash-verify00:39:49 before release00:39:59 SHA
+4bbc66e0439fa2c36fd14a7e317ba6b5d4a0ed1dfac939fb6e6285a513a48f01.
+Strong00:40:07 verifies65 retired identities/groups, KFDempty, five original
+free leases, seven reference models and GLM stats unchanged,32 IOMMU groups.
+Core/GLM receive closure. Q2 CURRENT OWN all hosts NONE; no job, build, client,
+handle, lease, window, waiter, reservation or future grant. No remote build,
+cleanup, reboot, tuning, service or model mutation occurs. GLM must propose
+its next window with a new run ID and this predecessor before a specific ACK.
+
+Q2 focused full-prefill diagnostic .157 released — 2026-10-08 UTC:
+plan 0985d6bc, source 65afe48c / manifest 11352825, executable b701e948.
+Core and GLM give specific non-use acknowledgements for this plan; predecessor
+GLM native2048-r2 release 1c09adb2 / strong 00:18:20 and our fresh 00:18:32
+verification cover 57 retired identities, empty KFD, five original free leases
+and unchanged model stats. Four CPU CTests finish 00:18:40 with exit 0 and
+release the client lease. Verify/admit exit 0. The retained numerical provider
+runs five bounded counting-prompt arms only: full PP2048 at capacity9216 and
+133760, then identical PP8192 at capacity133760 with chunk2048/4096/8192.
+All use warm1/reps3 and TG128. This is not a complete context curve. IOMMU
+stays enabled; no remote build, cleanup, tuning, service or model mutation.
+Run00:20:53–00:25:04, all5 children/runner0 and20 samples fullTG128. All71
+artifacts/59139651bytes hash-verify00:25:42 before release00:26:00 SHA
+d5be8bf0bcff502102dbaf6d89995d236ad46796ac927b3ac3ad0ef74fc7eda9.
+Strong00:26:28 verifies63 retired identities/groups, empty KFD, five original
+free leases, seven model stats and GLM stats unchanged,32 IOMMU groups.
+Core/GLM receive closure. Q2 has no host ownership, job, window, waiter or
+reservation. Any subsequent curve requires its own fresh coordination.
+
 Exact-corpus native benchmark .157 released — 2026-10-07 UTC:
 source 032323df, plan 28d9f5d6 / exe 23b53980. Verify/admit/run/release exit 0;
 three native children exit 0 and 18/18 exact points complete TG128. Run 23:27:42

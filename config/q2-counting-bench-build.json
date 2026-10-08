@@ -10,5 +10,11 @@
   "device_functions": 923,
   "device_functions_byte_exact": 923,
   "model_inference": false,
-  "cpu_tests": "prepared; not executed"
+  "cpu_tests": {
+    "exit_code": 0,
+    "ctest_pass": 4,
+    "cli_cases_per_configuration": 38,
+    "full_grid_points_per_configuration": 112,
+    "receipt_sha256": "ddb154b805bf2a1a17311813cad2eef516bd5f44b933e18941de485adbd6a82d"
+  }
 }

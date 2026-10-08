@@ -33,6 +33,11 @@ changed together. No measured attribution of that difference exists yet.
 - Chunk sizes 2048, 4096 and 8192; no partial calls. Default grids include
   every multiple of the selected chunk through 131072: 64, 32 and 16 points.
   Explicit smaller grids are diagnostic subsets, never a completed curve.
+  Each point starts a fresh sequence; the model stays loaded between points.
+  Inside a point the chunks extend the same sequence without resetting state.
+  The 128K point with chunk2K therefore performs 64 consecutive prefill calls
+  inside one start/end timestamp interval. This differs from the 64 independent
+  prompt lengths in the complete 2K grid.
 - Fix context allocation at 133760 for the curve, C1, greedy AR, MTP off,
   no prefix-cache restore. Keep IOMMU enabled and the retained numerical
   provider unchanged. Chunk size is the tested variable.
@@ -89,16 +94,25 @@ The local Gufo source remains independently fetched under
 
 The correction compiles in Debug, ASan/UBSan and the GPU-linked build. Static
 ELF inspection verifies all 923 device functions byte-identical to the retained
-native executable; numerical kernels are not rebuilt. Runtime tests remain
-pending on .157 until the coordinated GLM window closes. The focused synthetic
-tests independently trace call start/end timestamps and check every prefill
-call lies inside the reported complete interval; they provide no performance
-or neural-inference evidence.
+native executable; numerical kernels are not rebuilt. All four focused CTests
+pass on .157 at 2026-10-08 00:18:40 UTC: 38 CLI invocations in Debug and the
+same 38 under ASan/UBSan/LSan. The synthetic tests independently trace call
+start/end timestamps across the 112-point default grid and check every prefill
+call lies inside the reported complete interval. They also exercise raw corpus
+regressions, invalid grids and tampered reports. They provide no performance
+or neural-inference evidence. Receipt:
+`evidence/q2-counting-bench-preparation/ctest.json`.
 
-The correction has no new GPU result yet. First
-check the same physical counting input with the full timing interval and
-equal warmup conditions; do not launch another full curve before resolving
-that discrepancy. Preserve the 1587.893545 historical observation on its own
+The [focused GPU diagnostic](Q2-COUNTING-FULL-PREFILL.md) now completes all
+five arms and 20 samples with full TG128. The 2048-token input is byte-identical
+to the retained reference; shared 8192-token inputs match across chunk sizes.
+The large 900-versus-1400 gap is not reproduced on this counting workload:
+2K-chunk full PP8192 spans 1540.27–1544.15 token/s; 4K spans1495.90–1499.86;
+8K spans1438.85–1439.70. No numerical kernel changes are involved. This does
+not identify the cause of the raw-corpus result or qualify a complete context
+curve. The default full 112-point GPU curve remains unexecuted.
+
+Preserve the 1587.893545 historical observation on its own
 2048-token contract. Do not reinterpret it as a long-context measurement or
 an interchangeable native TG reference. The old harness also paused 15 seconds
 between repetitions; the new focused chunk comparison uses the same no-pause

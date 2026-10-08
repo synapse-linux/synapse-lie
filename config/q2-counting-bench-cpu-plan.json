@@ -8,7 +8,8 @@
   "tests": 4,
   "source_manifest_sha256": "1135282512c64dc81064f47e1de11cbb547274c99cd42ffa4cb15d15e74d585e",
   "staged_manifest_sha256": "c925bfe54d0150f3357a2936c2afb1e2360cb7e6d040993de6aef5b365e52550",
-  "runtime_status": "WAIT_FOR_GLM_VERIFIED_RELEASE",
+  "runtime_status": "COMPLETE",
   "remote_build": false,
-  "remote_cleanup": false
+  "remote_cleanup": false,
+  "receipt_sha256": "ddb154b805bf2a1a17311813cad2eef516bd5f44b933e18941de485adbd6a82d"
 }

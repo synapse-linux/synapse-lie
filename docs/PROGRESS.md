@@ -1,5 +1,33 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+2026-10-08 requested UD2K comparison completes on .157 with the same native
+executableb701e948 and exact2048 physical counting IDs as saved Q2. No Q2
+rerun or model conversion: chunk2048/capacity133760/warm1+reps3/TG128,
+C1reactive greedy AR, MTPoff, IOMMUon. UDPP1654.914448/1657.625292/1650.724881
+and TG25.923047/25.932564/25.933379; saved Q2PP1572.629602/1569.828941/1572.143839
+and TG27.485388/27.550565/27.553658. All eight continuations match on this
+counting task only. All31 artifacts verify before release4bbc66e0 at00:39:59;
+strong00:40:07 finds65 retired identities/groups, empty KFD, five original
+free leases and unchanged models. Core/GLM receive closure; Q2 owns no host.
+The1587.893545 historical best is preserved. Lower2K observations already
+appear in the7October scalar-HC executable, whose build configuration differs;
+no causal regression attribution follows. The1542.547201 observation is at
+8192 input tokens, so its45.346344 difference from the best2K changes length.
+[Complete native comparison and historical caveats](Q2-UD-COUNTING2K.md).
+
+2026-10-08 full-prefill correction validated: source65afe48c / binb701e948
+preserves all923 GPU functions. Four .157 CPU CTests pass (38CLI per Debug
+and ASan/UBSan/LSan configuration), with independently traced prefill-call
+timestamps over all112 grid points. GPU plan0985d6bc completes5 short arms /
+20samples / allTG128. Exact historical2048 IDs measure1570.75–1577.63PP at
+capacity9216; changing only allocation to133760 gives1569.83–1572.63.
+At the same8192 IDs, full PP is1540.27–1544.15 (chunk2K),1495.90–1499.86
+(4K),1438.85–1439.70 (8K). All counting continuations match; differing logits
+across chunks and inherited task-quality limits remain explicit. No new kernel
+gain or complete128K curve is claimed. All71 artifacts verify before release
+d5be8bf0 at00:26:00 and strong00:26:28. Q2 owns no host/window/reservation.
+[Every measured repetition and elapsed prefill time](Q2-COUNTING-FULL-PREFILL.md).
+
 2026-10-08 measurement correction: withdraw the following exact-corpus
 table as a full-prefill or optimization comparison. It times the last chunk
 after untimed prefix replay, omits intermediate points and changes the input

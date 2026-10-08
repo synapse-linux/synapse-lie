@@ -6,8 +6,17 @@ as evidence for the requested full-prefill comparison. The earlier unaligned
 HTTP inputs also fail that exact-count contract. Historical records and
 qualified reference values remain preserved. The replacement uses the
 original counting prompt, exact token counts and the elapsed time between
-two timestamps enclosing every prefill chunk from an empty sequence. It has
-no new GPU result yet. IOMMU remains enabled.
+two timestamps enclosing every prefill chunk from an empty sequence. The
+[focused GPU diagnostic](docs/Q2-COUNTING-FULL-PREFILL.md) completes 2K/8K
+inputs with all 20 TG128 samples and four focused CPU CTests passing. It is
+not the complete 128K curve, which remains unexecuted. IOMMU remains enabled.
+
+The requested [UD model comparison at exact 2K](docs/Q2-UD-COUNTING2K.md)
+uses that same native executable and counting input, with no Q2 rerun. UD
+measures1650.72–1657.63PP /25.92–25.93TG versus saved Q2
+1569.83–1572.63PP /27.49–27.55TG at the same133760 allocation. All measured
+repetitions and elapsed phase times are retained. The older1587.89 Q2 prefill
+reference remains separate and unchanged; the observed lower2K rate is open.
 
 The historical [IOMMU-enabled chunk2K/4K/8K tables](docs/Q2-PREFILL-CHUNKS-RESULTS.md)
 and [PP/TG graph](docs/figures/q2-prefill-chunks128.png) are available. At the
