@@ -15,6 +15,30 @@ The near-1M cohort now passes complete independent saved-wire review and
 whole-container retirement. Root owns no remote window; no future window is reserved.
 All six root tasks remain open; Terminal Bench stays last.
 
+## Combined Q2/walk Halo HIP build verified and closed — 2026-10-08 UTC
+
+The exact compile-only window `halo-develop-q2-build-20261008-r1`, manifest
+`2e08ae71`, uses source `9e95e4c4` after four new specific non-use declarations
+and fresh global/original-FD admission on `.157`. Existing native ROCm7.2.4
+targets gfx1151 with one compiler job. Both primary C17 sampling ON and its
+matched OFF provider include the original Q2/IQ2 format recipe; all four
+compiler commands and seven linked consumers finish with exit0. Product
+configuration disables Python discovery and historical Python oracles.
+
+Controller34966 retires0 and the five original lease descriptors close at
+19:23:23.742237 UTC. Collection/strong closure at 19:24:50.182704 UTC verifies
+24 artifacts, all 3,015 frozen sources, seven binaries, six provider archives,
+eight unchanged model stats, two complete process/group scans, empty KFD and
+all five original leases free. All four peers receive final release. CPU/NVMe/
+GPU peaks are 76.125/47.85/39 C; no guard trips. No model payload/hash/conversion,
+GPU kernel, service, installation, tuning or Terminal Bench runs.
+
+The [receipt and 59-member portable archive](development/validation/develop-q2-halo-hip-build-2026-10-08.json)
+bind actual commands and selections. Root holds no job, lease, waiter or future
+grant. Original-weight walk/Q2 and UD-Q4 regression gates still precede the
+final `develop` merge; the separate `develop-integration` worktree is prepared
+at `30598a3` without merging. Broader roadmap acceptance remains open.
+
 ## Source branch consolidation — 2026-10-08 UTC
 
 Checkpoint `78e5833e` includes the complete OpenAI/reactive `db2031a0`,

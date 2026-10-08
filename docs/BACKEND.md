@@ -131,7 +131,11 @@ unsuppressed sanitizer checks, with [current usage](guides/BENCHMARKS.md#increme
 and [HOST evidence](development/validation/ds4-walk-native-host-2026-10-08.json).
 Selected Q2/IQ2 numerical-format source integration also passes independent
 patch-equivalence, synthetic metadata and [HOST/sanitizer checks](development/validation/qwen-q2-formats-native-host-2026-10-08.json).
-Combined HIP/weight qualification remains pending. This source consolidation
+The [combined gfx1151 HIP build](development/validation/develop-q2-halo-hip-build-2026-10-08.json)
+now passes for primary C17 sampling and its matched OFF control, both with
+the selected Q2 formats ON, and seven linked consumers. All 3,015 frozen source
+files, original model stats and whole-window closure verify. Original-weight
+qualification of this composition remains pending. This source consolidation
 does not close the full context, quality or comparative-performance queue.
 
 This is the work queue owned by this thread. Separate DGX Spark/CUDA,

@@ -1,5 +1,29 @@
 # DS4 / synapse-lie coordination
 
+## Combined Q2/walk Halo compile window verified and closed — 2026-10-08
+
+Four new exact declarations cover `halo-develop-q2-build-20261008-r1`, manifest
+`2e08ae71`, source `9e95e4c4` with current original Q2/IQ2 formats and native
+DS4 walk. Fresh global observation at 19:16:36.502128 UTC and the repeated
+in-lease check precede admission. Supervisor14764/start4665266 holds the five
+original leases on FD3..7; child14769 compiles only, with GPU visibility masked.
+Both sampler ON/OFF providers select Q2 formats ON. Four compiler commands,
+seven consumer links and controller34966 finish0; no model or kernel executes.
+
+The five original descriptors close at 19:23:23.742237 UTC, release SHA
+`b55379fb`. Independent collection/strong closure at 19:24:50.182704 UTC,
+SHA `4561be44`, verifies 24 artifacts, 3,015 unchanged source files, seven
+binaries/six provider archives, all eight original model stats, two complete
+process/group scans, empty KFD and all five original leases acquired nonblocking
+and released. All four final notices are delivered. CPU/NVMe/GPU peaks are
+76.125/47.85/39 C; CPU98 and lower exposed NVMe bounds do not trip.
+
+The [portable compilation receipt](development/validation/develop-q2-halo-hip-build-2026-10-08.json)
+does not qualify inference or performance. Root owns no job, handle, lease,
+waiter, reservation or future grant on any host. A new original-weight window
+requires a new exact proposal, declarations, fresh global and in-lease checks.
+No dependency/service/tuning, model conversion/hash or Terminal Bench occurs.
+
 ## Current r70 Strix Halo functional window closed — 2026-10-08
 
 Four actual exact-scope declarations admit `halo-r70-functional-20261008-r2`,
