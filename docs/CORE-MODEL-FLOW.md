@@ -50,6 +50,10 @@ synapse-lie-bench --suite core --model MODEL.gguf \
   --kv-cache-policy legacy --graphs graphs-c4-8192
 ```
 
+The [completed 20-point matrix](Q2-CORE-MULTI-2K8K.md) records the executor
+and whole-cohort rates. It also exposes a C1 versus C2+ continuation
+divergence; batch output parity needs separate numerical qualification.
+
 This is a full-prompt multi-request workload and has a different prefill
 numerator from the 2K incremental `ds4-walk` C1 curve. Its C1 arm is an
 internal baseline for the multi-user matrix. The source is the tracked

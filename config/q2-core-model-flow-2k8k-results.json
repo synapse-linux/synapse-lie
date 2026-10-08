@@ -1,0 +1,41 @@
+{
+  "schema": "synapse-lie.q2-core-model-flow-2k8k-results.v1",
+  "at": "2026-10-08T15:51:17.351902+00:00",
+  "branch_checkpoint": "4649b97b",
+  "plan_sha256": "f198c48dda05b08e6726631e1d304f56dd3492be30007829fea56b3dfa0ee0aa",
+  "source_manifest_sha256": "5ee33be5673438e93922d3ba8997229282da8231923076d1945d7f5e84e69f4b",
+  "binary_sha256": "54b1493fa7d34ba9fca3c11240da9a8e21d1f8bd1381479cd04e6a9f02ec3ea4",
+  "original_weight": true,
+  "synthetic": false,
+  "gpu_host": "192.168.5.157",
+  "boot_id": "be3e89fd-955b-47a4-a385-11c3ad98bb78",
+  "iommu": "off",
+  "points_complete": 20,
+  "output_tokens_per_user": 128,
+  "all_child_exit_codes_zero": true,
+  "collected_artifacts": 205,
+  "collection_manifest_sha256": "73bcc83b6d5525122e7cb89ca128c82c350cac7413fffbb4bd5f912a6f485e1d",
+  "native_result_sha256": "19a945fe2126940a2df5b0612611b6f69d80f89c70fcac7fd6320c0c313161ec",
+  "release_sha256": "3b8764a6df3f71519670e80ab62d29515f7911b797ed629972925763c1d94bb5",
+  "strong_closure_sha256": "53cb819e726146ef559882dda11fcaaf9b8b8b79d0836d736fe5f119166db167",
+  "strong_closure_at": "2026-10-08T15:47:47.556301+00:00",
+  "kfd_empty": true,
+  "original_five_leases_free": true,
+  "reference_model_stats_unchanged": true,
+  "glm_model_stats_unchanged": true,
+  "matrix_csv_sha256": "319339b4964fea1d96667d02dfcb5fec1f6850894a71c9e739904869b7ee0bc1",
+  "graph_sha256": "579980263b3d664d5427b97b6a7d19aad62f7f5c0cd6eb02fd937109937b846b",
+  "quality_sha256": "0692edb1899bf328401d8567b00b2e44856a16fce3428732b7d1c0b6f2bd79b5",
+  "continuation_parity": {
+    "c1_matches_ds4_walk_at_all_four_frontiers": true,
+    "within_each_cohort_all_users_identical": true,
+    "c2_c4_c6_c8_identical_per_frontier": true,
+    "c2_to_c8_differs_from_c1_at_all_four_frontiers": true,
+    "first_difference_zero_based": {
+      "2048": 13,
+      "4096": 6,
+      "6144": 9,
+      "8192": 14
+    }
+  }
+}

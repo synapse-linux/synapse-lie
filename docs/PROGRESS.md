@@ -1,5 +1,19 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+2026-10-08 15:47 UTC: Q2 model-owned core 2K/4K/6K/8K × C1/C2/C4/C6/C8
+completes on .157 (20/20 original-weight arms, 128 output tokens/user,
+exact Promessi physical prompts, chunk2048/cache off/IOMMU off). Serial PP
+at8K is1508.53 tok/s C1 and1472.41 C8; native TG grows27.95→91.33,
+while whole-cohort wall output grows12.70→18.22. All C2+ arms issue128
+native batches of full cohort width. Crucially, C1 outputs match the saved
+DS4 walk at all four depths, but C2+ continuations differ from C1 (first
+difference at output token14/7/10/15 for2K/4K/6K/8K); no batch output-parity
+claim. All205 result files/1,750,372bytes hash-verify on both hosts. Release
+SHA3b8764a6, independent strong closure15:47:47 SHA53cb819e:32 identities/
+31 groups retired, KFDempty, five free original leases, unchanged seven
+reference and GLM model stats. Four peer notices delivered. Q2 owns no host,
+job, lease, waiter or next reservation. [Full table, graph and limits](Q2-CORE-MULTI-2K8K.md).
+
 2026-10-08 15:21 UTC: prepare a model-owned core benchmark of exact
 Promessi 2K/4K/6K/8K physical prompts at C1/C2/C4/C6/C8. The benchmark
 submits jobs only; `src/worker.c` serializes prefill and sends ready rows to
