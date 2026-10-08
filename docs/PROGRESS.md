@@ -5696,6 +5696,97 @@ postponed while these separate feature branches advance. See
 [validation receipt](development/validation/vision-2026-10-03.json).
 
 
+## Shared core semantic events checkpoint — 2026-10-03
+
+Commit **`a399052`**, branch `feature/core-semantic-events`, imports the completed
+MTP/vision integration `01ff720` into persistent `worktrees/core-semantic-events`.
+HTTP, Responses and the direct benchmark consume shared C17 text/progress/tool/
+turn events. Qwen output grammar and UTF-8 decoding belong to the core; request
+ABI 4 preserves owned parallel-tool policy. Credits, cancellation and device
+owner scheduling remain shared, with no added inference thread.
+
+Native ASan/UBSan/LeakSanitizer checks pass **39/39**, including both native HTTP
+tool projections and full-size MTP pieces; the protocol-independent MTP/vision
+OFF build passes **16/16**. Official pinned provider and HIP server/bench rebuild
+and link, with no original weights or GPU execution. Exact contract/receipt are
+`docs/reference/EVENTS.md` and
+`docs/development/validation/core-events-2026-10-03.json` on that source branch.
+Original-weight tool behavior, GPU qualification, incremental argument streaming,
+constrained output and scoring/chat/eval clients remain open. This control branch
+records status only; no source integration, publication or deployment occurred.
+
+## Combined MTP/vision checkpoint — 2026-10-03
+
+Merge **`01ff720`**, branch `feature/mtp-vision-integration`, combines complete
+MTP `7d85b2f` and vision `806a790`. The dedicated persistent worktree was created
+from `develop`. Joint target/predictor/projector admission uses the shared C17
+core, reactive dispatcher, HTTP and direct benchmark client. One complete KV
+checkpoint preserves the unchanged DS4 base plus predictor/controller, prepared
+MRoPE and semantic image scope; restore starts with a fresh destination sampler.
+RAM keeps its default; SSD is explicit opt-in. Feature code is retained on that
+integration branch; this branch updates documentation/control only.
+
+Native ASan/UBSan/LeakSanitizer passes **36/36**, with **30/30** MTP-OFF,
+**29/29** vision-OFF and **26/26** both-OFF suites. Five focused changed checks
+pass. The combined synthetic client covers two users, default RAM hits and native
+JSON/CSV/SVG/PNG exports. Official Gufo was independently fetched and rebuilt;
+HIP server/bench compile and link. Changed documentation passes 261 local-link
+checks. The source-bound receipt is
+`docs/development/validation/mtp-vision-integration-2026-10-03.json` on the integration branch;
+failed attempts and actual exits remain in local `evidence/integration-*`.
+The recorded CPU peak is 90.375 C under the 95 C child-only guard.
+
+No original-weight model load/hash/conversion, GPU execution, remote build or
+performance measurement occurred. Original-weight mixed image/text MTP,
+cache-on/off continuation, sampled target/rejection/rollback, memory/resource
+fit and GPU cancellation/fault qualification remain open. Earlier entries below
+describe their dated independent feature branches.
+
+## MTP and vision branches — 2026-10-03
+
+At the owner's request, new performance campaigns remain deferred. Development
+continues in persistent `worktrees/mtp` (`feature/mtp`) and `worktrees/vision`
+(`feature/vision`), both based on the shared-core/native-tools checkpoint
+`a262902`. Feature code is not merged into this documentation/control branch.
+
+The MTP checkpoint is now **`7d85b2f`**. Its complete C predictor/hidden/controller
+codec connects to device transfers, scalar/batch pooled history and stable
+identity from the actual admitted target/predictor readers. Preload/postload
+witnesses reject changing files; only explicit SSD admission hashes weights.
+RAM retains its default budget; unsupported per-model state refuses readiness
+unless caches are explicitly disabled. Native CPU ASan/UBSan/LeakSanitizer tests
+pass **29/29**, including two synthetic model families, cache clones, SSD process
+restart, changed predictor/draft identity and Chat/Responses JSON/SSE reuse.
+MTP-OFF checks pass 3/3; server/bench HIP linking and native core-client
+CSV/SVG/PNG exports pass. The source-bound receipt is
+`docs/development/validation/mtp-cache-2026-10-03.json` on `feature/mtp`.
+
+Vision is now **`806a790`**. Semantic image identity covers the shared RAM/SSD
+lookup, deduplication, retention/protection and process restart. The model-neutral
+scope component stays outside the unchanged DS4 tensor payload; the Qwen adapter
+validates prepared MRoPE positions and actual admitted target/projector file
+witnesses. RAM retains its normal default and SSD remains opt-in. Full-prompt
+scope conservatively prevents earlier-prefix reuse when future images change;
+clients resupply matching images after restart. No pixels/embeddings are persisted.
+Native CPU ASan/UBSan/LeakSanitizer passes **30/30**, including equal-token image
+isolation, two fixture families, KVC/aligned process restart and Chat/Responses
+JSON/SSE cache reuse. Vision-OFF checks pass 3/3, HIP server/bench linking passes,
+and the native core-client smoke exports JSON/CSV/SVG/PNG. The receipt is
+`docs/development/validation/vision-cache-2026-10-03.json` on `feature/vision`.
+CPU-only guards remain at 95 C; the new provider build peaks at CPU92.125 C and
+the final full suite at CPU71.25 C. Raw failed compiler/fixture exits are preserved.
+
+No original-weight model load, GPU execution, heavy model hash or feature merge
+occurred in this slice. USB metadata showed that usable inputs still require
+the active compatibility work; the incomplete PLE-free artifact is not used.
+CPU-only completion used one job with a 95 C guard (within the owner's 98 C
+allowance), peaking at 94.625 C; all prior thermal refusals/interruption exits
+remain preserved. Local functional-GPU preparation retains its separate 85 C
+ceiling while fans are unconfigured. Original-weight MTP/cache/vision correctness,
+combined operation and performance remain open. The
+[implemented capabilities](BACKEND.md#implemented-capabilities-and-recorded-qualification-limits) records these gates.
+
+
 ## Native build, benchmark clients and reports — 2026-10-03
 
 Python is no longer required for the normal build, provider verification,
