@@ -20,9 +20,9 @@ a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex="0"]:focus-
 .site-header nav a:hover{color:var(--lime)}
 .site-header .nav-source{border:1px solid rgba(255,255,255,.28);padding:10px 15px;border-radius:5px}
 .site-header .nav-source:hover{border-color:var(--lime)}
-.hero{min-height:654px;background:var(--ink);color:var(--white);padding:clamp(70px,10vw,145px) clamp(22px,8.1vw,128px) 78px;position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(310px,.86fr);align-items:center;gap:30px}
+.hero{min-height:654px;background-color:var(--ink);background-image:linear-gradient(90deg,rgba(16,27,40,.96) 0%,rgba(16,27,40,.72) 39%,rgba(16,27,40,.30) 69%,rgba(16,27,40,.48) 100%),url("hero-compute-v1.webp");background-size:cover;background-position:center;color:var(--white);padding:clamp(70px,10vw,145px) clamp(22px,8.1vw,128px) 78px;position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(310px,.86fr);align-items:center;gap:30px}
 .hero:before{content:"";position:absolute;width:700px;height:700px;right:-160px;top:-190px;background:radial-gradient(circle,rgba(94,159,143,.16),transparent 68%);pointer-events:none}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:60px 60px;mask-image:linear-gradient(90deg,transparent 5%,black 50%,black 100%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:60px 60px;mask-image:linear-gradient(90deg,transparent 5%,black 50%,black 100%);opacity:.25;pointer-events:none}
 .hero-copy{max-width:710px;position:relative;z-index:2}
 .eyebrow,.section-kicker,.panel-eyebrow{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
 .eyebrow{color:var(--lime);display:flex;gap:11px;align-items:center;margin:0 0 26px}
@@ -236,6 +236,7 @@ pre{overflow-x:auto;padding:19px 20px 21px;margin:0;font:12px/1.65 ui-monospace,
 @media(max-width:1100px){.hero{grid-template-columns:1fr;padding-top:90px}.hero-measure{justify-self:start;width:min(100%,600px);transform:none;margin-top:30px}.reading-rail{grid-template-columns:1fr}.reading-card{min-height:0}.filter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:800px){.insight-grid{grid-template-columns:1fr 1fr}.method-panel{grid-template-columns:1fr}.dataset-heading{display:block}.dataset-heading .download-link{display:inline-block;margin-top:16px}.chart-toolbar{grid-template-columns:1fr auto;align-items:start}.toolbar-options{grid-column:1/-1;grid-row:2}.toolbar-reset{grid-column:2;grid-row:1}}
 @media(max-width:600px){.hero h1{font-size:clamp(50px,12vw,72px)}.hero-measure{padding:18px}.measure-top,.measure-bottom{font-size:8px}.measure-label strong{font-size:14px}.measure-value{font-size:22px}.filter-intro{display:block}.filter-intro>p{text-align:left;margin-top:7px}.filter-grid{grid-template-columns:1fr}.insight-grid{grid-template-columns:1fr}.explorer-controls{padding:22px 15px}.explorer-content{padding:21px 15px}.explorer-content .chart-card{padding:19px 13px}.dataset-heading h3{font-size:30px}.chart-toolbar{padding:13px}.site-header nav a:nth-child(1){display:none}}
+@media(max-width:700px){.hero{background-image:linear-gradient(180deg,rgba(16,27,40,.94) 0%,rgba(16,27,40,.86) 48%,rgba(16,27,40,.76) 100%),url("hero-compute-v1.webp");background-position:80% center}}
 .chart-plot{height:370px}
 
 /* Installation keeps the actual GPU build command above platform details. */

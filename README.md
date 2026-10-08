@@ -7,6 +7,12 @@ This is the static site published from `gh-pages` at
 ECharts, with no remote fonts, build step or CDN. Relative links work under the
 `/synapse-lie/` project path.
 
+The first-screen artwork is `assets/hero-compute-v1.webp` (2048 × 768, WebP,
+SHA-256 `0004759fce289b6be41516df567b43bebbe2aa20d5ee1e716e6bc7d`). It
+was generated with the built-in imagegen tool for this site: a dark silicon
+compute surface with teal/lime data paths, quiet space behind the title, and
+no text or logos. CSS gradients keep the overlaid copy legible.
+
 The benchmark explorer is driven by `data/catalog.json`. It has two request
 modes: one request and concurrent requests. The one-request view offers the
 literary-prompt and repeated-counting campaigns through one prompt-length chart
