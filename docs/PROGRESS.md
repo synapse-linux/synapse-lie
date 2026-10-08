@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+2026-10-08 14:53 UTC: Experimental [DS4 multi-flow walk](DS4-WALK-MULTI.md)
+implements one serial advancing prefill per frontier and a fixed reactive
+decode cohort at one requested width. Fork capture/preparation and frontier
+restore are measured separately outside the prefill/decode intervals; prefill
+throughput counts one physical chunk, decode throughput counts all confirmed
+outputs. The old qualified DS4 walk capsule and GPU evidence are untouched.
+Debug and ASan/UBSan focused synthetic CTests pass for C1/C2/C4, snapshot and
+replay; native report and graph export pass. No real-model or `.157` GPU test
+has been run for the new suite. Tracked [patch](../experiments/ds4-walk-multi.patch)
+and [source manifest](../config/ds4-walk-multi-source.json) preserve the work.
+
 2026-10-08 13:47 UTC: `synapse-lie-bench` defaults to the advancing
 [DS4-style walk](DS4-WALK-BENCH.md). Local Debug and ASan/UBSan focused CTests
 pass the exact-step, timer, snapshot and replay fixture. A local GPU-linked

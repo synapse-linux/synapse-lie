@@ -5,6 +5,11 @@ one tokenized corpus, one logical sequence per walk, fixed context steps,
 and prefill time/count for only the newly appended tokens. The previous
 full-prefill mode is explicitly selectable as `--suite fresh` and deprecated
 pending review; its existing results remain separate historical evidence.
+
+An experimental [multi-flow walk](docs/DS4-WALK-MULTI.md) keeps prefill serial
+and uses reactive native batching only for decode. It has a separate timing
+contract and CPU fixture qualification; no real-model speedup is claimed.
+
 The bounded Q2 four-point GPU check on `.157` is complete and released:
 [full table and graph](docs/DS4-WALK-BENCH.md),
 [frozen plan](config/q2-ds4-walk-promessi-plan.json). All four walk frontiers
