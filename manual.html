@@ -114,16 +114,17 @@ curl --fail http://127.0.0.1:8000/v1/models</code></pre></div>
 
           <section class="manual-section" id="server-pi">
             <p class="manual-kicker">Use an agent</p><h2>Connect Pi over HTTP</h2>
-            <p>The <a href="clients.html#pi">agent client guide</a> contains the complete Pi <code>models.json</code> and <code>settings.json</code> profiles, plus the current Codex and Claude Code integration status.</p>
-            <p>Develop includes a Pi OpenAI-provider profile. Copy it into a private directory, edit <code>baseUrl</code> in <code>models.json</code> to your server’s <code>http://SERVER-IP:8000/v1</code>, and set <code>contextWindow</code> to the configured context. The profile’s API key is a client placeholder, not server-side access control.</p>
-            <div class="code-block"><div class="code-top"><span>Prepare profile and launch Pi</span><button class="copy-button" type="button" aria-label="Copy Pi setup commands">Copy</button></div><pre><code>mkdir -p run
+            <p>The <a href="clients.html#pi">Pi guide</a> now uses live model discovery. Set one or more server addresses in <code>lie-endpoints.json</code>; Pi reads model IDs, context and output limits from each server’s <code>/v1/models</code>. Switch models with Pi’s <code>/model</code> picker without editing model definitions.</p>
+            <div class="code-block"><div class="code-top"><span>Prepare the Pi profile</span><button class="copy-button" type="button" aria-label="Copy Pi profile commands">Copy</button></div><pre><code>mkdir -p run
 mkdir -m 700 run/pi-profile
-cp config/pi-unsloth.models.json run/pi-profile/models.json
-cp config/pi-unsloth.settings.json run/pi-profile/settings.json
-# Edit run/pi-profile/models.json before starting Pi.
-env PI_CODING_AGENT_DIR="$PWD/run/pi-profile" PI_OFFLINE=1 PI_TELEMETRY=0 \
-  pi --provider synapse-lie --model qwen3.8-flash-next --thinking off \
-  --no-extensions --no-skills --no-prompt-templates --no-themes</code></pre></div>
+curl -fsSLo run/pi-profile/pi-lie-discovery.ts \
+  https://synapse-linux.github.io/synapse-lie/assets/pi-lie-discovery.ts
+curl -fsSLo run/pi-profile/lie-endpoints.json \
+  https://synapse-linux.github.io/synapse-lie/assets/pi-lie.endpoints.json
+curl -fsSLo run/pi-profile/settings.json \
+  https://synapse-linux.github.io/synapse-lie/assets/pi-lie.settings.json
+# Set your server address once in run/pi-profile/lie-endpoints.json.</code></pre></div>
+            <p>See the Pi guide for the launch command, multi-server example and verification steps. The existing server still loads one model per process.</p>
           </section>
 
           <section class="manual-section manual-bench-start" id="bench">

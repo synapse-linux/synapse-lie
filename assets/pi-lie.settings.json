@@ -1,0 +1,9 @@
+{
+  "defaultThinkingLevel": "off",
+  "packages": [],
+  "compaction": { "enabled": false },
+  "retry": {
+    "enabled": false,
+    "provider": { "maxRetries": 0, "timeoutMs": 630000 }
+  }
+}
