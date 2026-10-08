@@ -15,11 +15,13 @@ and the CLI parsers. The normal GPU path is now `make strix-halo` and
 `build/strix-halo/` on develop. No new original-weight qualification run was
 performed for the site.
 
-The guide links two deeper pages: `clients.html` contains the complete Pi
-profile and the Codex/Claude Code interoperability status; `reference.html`
-keeps the full option inventory inside searchable, expandable task groups,
-including the newer `ds4-walk` and `http-curve` suites. A local Codex CLI
-0.159.3 probe used
+The guide links separate references: `pi.html` contains the tested Pi profile;
+`clients.html` describes the Codex and Claude Code protocol gaps;
+`openai-api.html` lists the `/v1` model API; `actuator.html` documents the
+management listener, response shapes and error statuses. `reference.html`
+explains when to use each benchmark suite and which executable owns its
+settings. `cli-options.html` keeps the searchable flag inventory, including
+`ds4-walk` and `http-curve`. A local Codex CLI 0.159.3 probe used
 an isolated configuration and ephemeral loopback mock only. It confirmed
 provider selection and `/v1/responses` routing, but exposed unsupported
 `reasoning`, `reasoning.encrypted_content`, `prompt_cache_key` and

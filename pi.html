@@ -1,0 +1,75 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: MIT -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#101b28">
+    <meta name="description" content="Configure Pi for Synapse LIE using live model discovery, including multiple server endpoints and a tested GPU tool round trip.">
+    <title>Pi setup — Synapse LIE</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="assets/site.css"><link rel="stylesheet" href="assets/manual.css">
+    <script src="assets/site.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="brand" href="index.html#top" aria-label="Synapse LIE home"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>synapse<span class="brand-dot">.</span>lie</span></a>
+      <nav aria-label="Main navigation"><a href="index.html#benchmarks">Benchmarks</a><a href="index.html#install">Installation</a><a href="manual.html">Manual</a><a href="openai-api.html">APIs</a><a class="nav-source" href="https://github.com/synapse-linux/synapse-lie/tree/develop">Source <span aria-hidden="true">↗</span></a></nav>
+    </header>
+    <main id="main">
+      <section class="manual-hero client-hero" aria-labelledby="clients-title"><div class="manual-hero-inner">
+        <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> Pi setup</p>
+        <h1 id="clients-title">Connect Pi.<br><span>Switch models easily.</span></h1>
+        <p>Pi reads the live model catalog from each LIE server. Set the endpoint once, then choose a loaded model inside Pi.</p>
+        <div class="manual-hero-links"><a href="#pi">Set up Pi <span aria-hidden="true">↓</span></a><a href="clients.html">Codex &amp; Claude Code <span aria-hidden="true">↗</span></a></div>
+        <div class="manual-version"><span>Based on develop</span><strong>9e793a64</strong><span>Example API: port 8000</span></div>
+      </div></section>
+      <div class="manual-layout">
+        <aside class="manual-sidebar" aria-label="Client guide contents"><p>Pi setup</p><nav aria-label="Pi guide sections"><a href="#pi">Set up Pi</a><a href="#network">Address &amp; access</a><a href="openai-api.html">OpenAI API</a><a href="clients.html">Codex &amp; Claude Code</a></nav><a class="manual-sidebar-source" href="openai-api.html">API route reference ↗</a></aside>
+        <div class="manual-content">
+          <section class="manual-section" id="pi"><p class="manual-kicker">The working path</p><h2>Set up Pi</h2>
+            <p>Set the server address once. Pi reads the available model IDs, context sizes and output limits from LIE’s <code>/v1/models</code> endpoint, so changing the loaded model does not mean rewriting a model profile. This live catalog integration was checked with Pi 1.0.</p>
+            <div class="code-block"><div class="code-top"><span>Download the Pi client profile</span><button class="copy-button" type="button" aria-label="Copy Pi profile setup">Copy</button></div><pre><code>mkdir -p run
+mkdir -m 700 run/pi-profile
+curl -fsSLo run/pi-profile/pi-lie-discovery.ts \
+  https://synapse-linux.github.io/synapse-lie/assets/pi-lie-discovery.ts
+curl -fsSLo run/pi-profile/lie-endpoints.json \
+  https://synapse-linux.github.io/synapse-lie/assets/pi-lie.endpoints.json
+curl -fsSLo run/pi-profile/settings.json \
+  https://synapse-linux.github.io/synapse-lie/assets/pi-lie.settings.json</code></pre></div>
+            <p>In <code>lie-endpoints.json</code>, replace <code>127.0.0.1</code> with the trusted LAN address of your server when Pi runs on another machine. The file contains endpoint addresses only:</p>
+            <div class="code-block"><div class="code-top"><span>lie-endpoints.json · one server</span><button class="copy-button" type="button" aria-label="Copy Pi endpoint JSON">Copy</button></div><pre><code>{
+  "endpoints": [
+    { "provider": "synapse-lie", "baseUrl": "http://SERVER-IP:8000/v1" }
+  ]
+}</code></pre></div>
+            <p>Older LIE builds may list the model ID without context and output limits. In that case, add <code>"contextWindow": 16384</code> and <code>"maxTokens": 2048</code> to that endpoint, matching its actual server settings. Pi still discovers the model ID. A newer server’s catalog values take precedence over these optional fallbacks.</p>
+            <div class="code-block"><div class="code-top"><span>Check the catalog, then open Pi</span><button class="copy-button" type="button" aria-label="Copy Pi launch commands">Copy</button></div><pre><code>PI_LIE_PROFILE="$PWD/run/pi-profile"
+env PI_CODING_AGENT_DIR="$PI_LIE_PROFILE" PI_OFFLINE=1 PI_TELEMETRY=0 \
+  pi --no-extensions --extension "$PI_LIE_PROFILE/pi-lie-discovery.ts" \
+  --list-models synapse-lie
+env PI_CODING_AGENT_DIR="$PI_LIE_PROFILE" PI_OFFLINE=1 PI_TELEMETRY=0 \
+  pi --no-extensions --extension "$PI_LIE_PROFILE/pi-lie-discovery.ts" \
+  --thinking off</code></pre></div>
+            <p>Use Pi’s <code>/model</code> picker to choose a discovered model. If the LIE server loads a different model, restart Pi to read the new catalog. <code>PI_OFFLINE=1</code> stops Pi’s external catalog updates; the extension still reads your LIE server over HTTP. Pi uses its normal Chat Completions implementation, and the client’s placeholder key is not server authentication.</p>
+            <h3>Keep several models available</h3>
+            <p>Today one LIE process serves one loaded model. Run another process on a second port and add its address with a distinct provider alias. Pi can then switch between them with <code>/model</code>; neither entry names a model:</p>
+            <div class="code-block"><div class="code-top"><span>lie-endpoints.json · two servers</span><button class="copy-button" type="button" aria-label="Copy multi-server Pi endpoints">Copy</button></div><pre><code>{
+  "endpoints": [
+    { "provider": "synapse-lie-q2", "baseUrl": "http://SERVER-IP:8000/v1" },
+    { "provider": "synapse-lie-ud", "baseUrl": "http://SERVER-IP:8001/v1" }
+  ]
+}</code></pre></div>
+            <p>The earlier <a href="https://github.com/synapse-linux/synapse-lie/blob/develop/config/pi-unsloth.models.json">fixed Unsloth profile</a> records the Pi 0.87.1 original-weight GPU tool test. The live catalog path also passed a Pi 1.0 original-weight Q2 GPU read → edit → read round trip on .155. That test used the optional legacy metadata fallback with 16,384 context; it was a functional client check, not a long-context benchmark.</p>
+          </section>
+
+          <section class="manual-section" id="network"><p class="manual-kicker">Connect across machines</p><h2>Address and access</h2>
+            <p>For a remote client, start LIE with <code>--host 0.0.0.0 --port 8000</code> and use <code>http://SERVER-IP:8000/v1</code> in OpenAI clients. The management port is separate and defaults to <code>127.0.0.1:19880</code>. LIE has no built-in TLS or access control, so keep port 8000 on a trusted network or behind a configured proxy. Readiness is available at <code>http://127.0.0.1:19880/actuator/health/readiness</code> on the server host.</p>
+            <p>For model discovery and Chat Completions routes, see the <a href="openai-api.html">OpenAI API reference</a>. The <a href="clients.html">Codex and Claude Code guide</a> explains their separate protocol status. For server flags, use the <a href="cli-options.html">CLI flag index</a>.</p>
+          </section>
+        </div>
+      </div>
+    </main>
+    <footer class="site-footer"><div><span class="footer-brand">synapse<span>.</span>lie</span><p>A model change should not require a new client profile.</p></div><div class="footer-links"><a href="#main">Back to top ↑</a><a href="manual.html">Usage guide ↗</a><a href="openai-api.html">OpenAI API ↗</a><a href="clients.html">Codex &amp; Claude Code ↗</a><a href="index.html#install">Installation ↗</a></div><p class="footer-legal">Development preview · Source contracts from develop 9e793a64 · First-party site code MIT.</p></footer>
+  </body>
+</html>

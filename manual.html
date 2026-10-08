@@ -19,7 +19,7 @@
       <nav aria-label="Main navigation">
         <a href="index.html#benchmarks">Benchmarks</a>
         <a href="index.html#install">Installation</a>
-        <a href="manual.html" aria-current="page">Manual</a>
+        <a href="manual.html" aria-current="page">Manual</a><a href="openai-api.html">APIs</a>
         <a class="nav-source" href="https://github.com/synapse-linux/synapse-lie/tree/develop">Source <span aria-hidden="true">↗</span></a>
       </nav>
     </header>
@@ -30,7 +30,7 @@
           <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> Guide to using Synapse LIE</p>
           <h1 id="manual-title">From model file<br><span>to useful result.</span></h1>
           <p>Start the server, send your first request, then measure prefill and decode. Follow one path at a time; the full option index is there when you need it.</p>
-          <div class="manual-hero-links"><a href="#server">Start the server <span aria-hidden="true">↓</span></a><a href="#bench">Measure performance <span aria-hidden="true">↓</span></a><a href="clients.html">Connect an agent <span aria-hidden="true">↗</span></a></div>
+          <div class="manual-hero-links"><a href="#server">Start the server <span aria-hidden="true">↓</span></a><a href="#bench">Measure performance <span aria-hidden="true">↓</span></a><a href="pi.html">Connect Pi <span aria-hidden="true">↗</span></a></div>
           <div class="manual-version"><span>Based on develop</span><strong>9e793a64</strong><span>GPU build: build/strix-halo/</span></div>
         </div>
       </section>
@@ -43,14 +43,16 @@
             <a href="#server">Start the server</a>
             <a href="#server-api">Call the API</a>
             <a href="#server-options">Context &amp; cache</a>
-            <a href="clients.html#pi">Configure Pi</a>
-            <a href="clients.html#codex">Codex &amp; Claude Code</a>
+            <a href="pi.html">Configure Pi</a>
+            <a href="clients.html">Codex &amp; Claude Code</a>
+            <a href="openai-api.html">OpenAI API</a>
+            <a href="actuator.html">Actuator API</a>
             <a href="#bench">Measure performance</a>
             <a href="#bench-suites">Choose a suite</a>
             <a href="#bench-http">Measure HTTP</a>
             <a href="#bench-report">Export graphs</a>
             <a href="#troubleshooting">Troubleshooting</a>
-            <a href="reference.html">Option reference</a>
+            <a href="reference.html">Choose a benchmark</a>
           </nav>
           <a class="manual-sidebar-source" href="https://github.com/synapse-linux/synapse-lie/tree/develop/docs/guides">Full source guides ↗</a>
         </aside>
@@ -62,12 +64,13 @@
             <p>From the repository root, <a href="https://github.com/synapse-linux/synapse-lie/blob/develop/docs/guides/BUILD.md#gpu-inference-build">build for your GPU</a>, then download a compatible model. The <a href="index.html#install">installation guide</a> lists packages by distribution.</p>
             <div class="manual-journeys" aria-label="Common tasks">
               <a href="#server"><span class="journey-number">1</span><strong>Talk to the model</strong><span>Start the server and send an OpenAI request.</span><span class="journey-arrow" aria-hidden="true">↗</span></a>
-              <a href="clients.html"><span class="journey-number">2</span><strong>Connect an agent</strong><span>Use Pi today; see the exact Codex and Claude Code status.</span><span class="journey-arrow" aria-hidden="true">↗</span></a>
+              <a href="pi.html"><span class="journey-number">2</span><strong>Connect Pi</strong><span>Discover models automatically and use the tested agent path.</span><span class="journey-arrow" aria-hidden="true">↗</span></a>
               <a href="#bench"><span class="journey-number">3</span><strong>Measure a change</strong><span>Record a cold prompt, then inspect prefill and decode separately.</span><span class="journey-arrow" aria-hidden="true">↗</span></a>
             </div>
+            <div class="manual-next-links" aria-label="API references"><a href="openai-api.html"><strong>OpenAI model API →</strong><span>All /v1 routes, streaming, tools, records and limits.</span></a><a href="actuator.html"><strong>Actuator operations API →</strong><span>All management routes, response shapes and errors.</span></a></div>
             <div class="code-block"><div class="code-top"><span>Strix Halo · build once</span><button class="copy-button" type="button" aria-label="Copy Strix Halo build command">Copy</button></div><pre><code>make strix-halo</code></pre></div>
             <p>This creates <code>build/strix-halo/</code>. On Strix Point, use <code>make strix-point</code> and replace that path with <code>build/strix-point/</code>. The build does not download model weights.</p>
-            <p>Looking for a particular flag? The <a href="reference.html">searchable option reference</a> keeps every server and benchmark setting in one place.</p>
+            <p>Need to choose a measurement? The <a href="reference.html">benchmark guide</a> maps questions to suites. For exact flag syntax and defaults, use the <a href="cli-options.html">CLI flag index</a>.</p>
             <p>The documented model is <a href="https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/tree/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL">Unsloth Qwen3.8 Flash Next UD-Q4_K_XL</a>. Keep all four GGUF shards together and pass the first shard to the loader. The weights are downloaded separately.</p>
           </section>
 
@@ -99,7 +102,7 @@ curl --fail http://127.0.0.1:8000/v1/models</code></pre></div>
   -H 'Content-Type: application/json' \
   -d '{"model":"qwen3.8-flash-next","input":"Write a short greeting.","store":false,"max_output_tokens":128,"temperature":0}'</code></pre></div>
             </div>
-            <p>For tool calls, stored responses, streaming details and supported fields, see the <a href="https://github.com/synapse-linux/synapse-lie/blob/develop/docs/reference/OPENAI-REACTIVE.md">API contract</a>.</p>
+            <p>For tool calls, stored responses, streaming details and supported fields, see the separate <a href="openai-api.html">OpenAI API reference</a>. Health, metrics and runtime controls have their own <a href="actuator.html">Actuator API reference</a>.</p>
           </section>
 
           <section class="manual-section" id="server-options">
@@ -114,7 +117,7 @@ curl --fail http://127.0.0.1:8000/v1/models</code></pre></div>
 
           <section class="manual-section" id="server-pi">
             <p class="manual-kicker">Use an agent</p><h2>Connect Pi over HTTP</h2>
-            <p>The <a href="clients.html#pi">Pi guide</a> now uses live model discovery. Set one or more server addresses in <code>lie-endpoints.json</code>; Pi reads model IDs, context and output limits from each server’s <code>/v1/models</code>. Switch models with Pi’s <code>/model</code> picker without editing model definitions.</p>
+            <p>The <a href="pi.html">Pi guide</a> uses live model discovery. Set one or more server addresses in <code>lie-endpoints.json</code>; Pi reads model IDs, context and output limits from each server’s <code>/v1/models</code>. Switch models with Pi’s <code>/model</code> picker without editing model definitions.</p>
             <div class="code-block"><div class="code-top"><span>Prepare the Pi profile</span><button class="copy-button" type="button" aria-label="Copy Pi profile commands">Copy</button></div><pre><code>mkdir -p run
 mkdir -m 700 run/pi-profile
 curl -fsSLo run/pi-profile/pi-lie-discovery.ts \
@@ -129,7 +132,7 @@ curl -fsSLo run/pi-profile/settings.json \
 
           <section class="manual-section manual-bench-start" id="bench">
             <p class="manual-kicker">Measure the model</p><h2>Run a benchmark</h2>
-            <p>The native C benchmark saves raw measurements as JSONL. Direct suites run the model executor without HTTP; HTTP suites need an already running server. Pick a new output filename for every run: the tool refuses to overwrite evidence.</p>
+            <p>The server controls live model capacity, cache and active slots. The native C benchmark controls the test workload and saves raw measurements as JSONL. Direct benchmark suites load the model without HTTP; HTTP suites send requests to an already running server. Pick a new output filename for every run: the tool refuses to overwrite evidence.</p>
             <div class="code-block"><div class="code-top"><span>Common setup · GPU build on develop</span><button class="copy-button" type="button" aria-label="Copy benchmark setup commands">Copy</button></div><pre><code>LIE_BENCH=build/strix-halo/synapse-lie-bench
 LIE_MODEL=/path/to/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf
 mkdir -p results</code></pre></div>
@@ -138,31 +141,27 @@ mkdir -p results</code></pre></div>
           </section>
 
           <section class="manual-section" id="bench-suites">
-            <p class="manual-kicker">Choose a question</p><h2>Pick the right workload</h2>
-            <div class="manual-suite-grid"><article><strong>How fast is a full prompt?</strong><span>Use <code>fresh</code>. It starts with empty state and measures the whole prompt.</span></article><article><strong>What happens after 32K?</strong><span>Use <code>single</code>. It adds a new suffix after an occupied prefix.</span></article><article><strong>How do several users share decode?</strong><span>Use <code>multi</code>. Prepared sequences decode together at C1–C8.</span></article><article><strong>What does the shared engine do?</strong><span>Use <code>core</code> for admission, cache and per-job timing.</span></article><article><strong>What does an API caller see?</strong><span>Use <code>http</code> against a running server.</span></article><article><strong>What about concurrent API calls?</strong><span>Use <code>http-multi</code> for prepared HTTP cohorts.</span></article></div>
-            <p>For a growing context, two additional suites answer different questions: <code>ds4-walk</code> appends fixed raw-text token steps inside the executor; <code>http-curve</code> follows the canonical cached conversation protocol over HTTP. Their rates are not interchangeable with full cold-prompt prefill.</p>
-            <h3>Measure a fresh 8K prompt</h3>
-            <p>The <code>fresh</code> suite measures full prompt prefill from an empty sequence. It is the direct choice when you want to avoid mixing prefix construction or cache reuse into the number.</p>
-            <div class="code-block"><div class="code-top"><span>Direct executor · fresh prompt</span><button class="copy-button" type="button" aria-label="Copy fresh benchmark command">Copy</button></div><pre><code>"$LIE_BENCH" --model "$LIE_MODEL" --suite fresh \
+            <p class="manual-kicker">Choose one measurement</p><h2>Start with the result you need</h2>
+            <p><code>--suite</code> belongs to <code>synapse-lie-bench</code>, not the server. Choose one suite per benchmark command. The <a href="reference.html#suite-map">suite map</a> explains every name, why it exists, its distinctive options and when to use it.</p>
+            <div class="manual-suite-grid"><article><strong>New prompt</strong><span><code>fresh</code> loads the model directly and times the complete prompt from an empty sequence. Use <code>http --preset prefill</code> when you also want the server path.</span></article><article><strong>Growing conversation</strong><span><code>http-curve</code> prepares each depth on a running server, then times only the next turn and its output.</span></article><article><strong>Several users</strong><span><code>http-multi</code> measures prepared API requests together. Set active slots on the server first.</span></article><article><strong>Graphs</strong><span><code>report</code> reads finished JSONL in a separate command. It does not run the model.</span></article></div>
+            <h3>Example: a complete new 8K prompt</h3>
+            <p>This direct measurement uses the benchmark's generated prompt. It starts each sample with empty sequence state and times all 8,192 prompt tokens; there is no HTTP listener in this path.</p>
+            <div class="code-block"><div class="code-top"><span>Direct GPU benchmark</span><button class="copy-button" type="button" aria-label="Copy fresh benchmark command">Copy</button></div><pre><code>"$LIE_BENCH" --model "$LIE_MODEL" --suite fresh \
   --sizes 8192 --tg 128 --warmups 0 --repetitions 3 \
   --output results/fresh-8k.jsonl</code></pre></div>
-            <h3>Measure occupied context and concurrent decode</h3>
-            <p>These direct suites answer different questions. <code>single</code> times about 2,048 <em>new</em> tokens after each existing depth; <code>multi</code> prefills every sequence before timed decode. Neither measures HTTP latency.</p>
-            <div class="code-block"><div class="code-top"><span>Direct executor · depth and C1–C8</span><button class="copy-button" type="button" aria-label="Copy direct benchmark commands">Copy</button></div><pre><code>"$LIE_BENCH" --model "$LIE_MODEL" --suite single \
+            <details class="example-disclosure"><summary>Show direct diagnostics for context depth and batching <span aria-hidden="true">⌄</span></summary><div class="manual-diagnostic"><p><code>single</code> times a new suffix after an already occupied prefix. <code>multi</code> prepares sequences, then times their joint decode. Both bypass HTTP; choose them when isolating executor behavior. They are different measurements from a fresh full prompt or a served request.</p><div class="code-block"><div class="code-top"><span>Direct executor diagnostics</span><button class="copy-button" type="button" aria-label="Copy direct benchmark diagnostics">Copy</button></div><pre><code>"$LIE_BENCH" --model "$LIE_MODEL" --suite single \
   --depths 0,4096,8192,16384,32768,65536,131072 \
   --pp 2048 --tg 128 --warmups 1 --repetitions 3 \
-  --execution reactive --output results/single.jsonl
+  --output results/single.jsonl
 
 "$LIE_BENCH" --model "$LIE_MODEL" --suite multi \
   --users 1,2,4,6,8 --pp 2048 --tg 128 \
-  --warmups 1 --repetitions 3 --execution reactive \
-  --output results/multi.jsonl</code></pre></div>
-            <p>For a custom UTF-8 prompt, use <code>--suite core --prompt-file prompt.txt --context 32768 --chunk 2048 --users 1 --tg 128</code>. Add <code>--kv-cache-ram-mb 0</code> for cold execution and a new <code>--output</code> file. See the <a href="https://github.com/synapse-linux/synapse-lie/blob/develop/docs/guides/BENCHMARKS.md#shared-engine-and-cache">core benchmark guide</a> for the full command and cache-controlled comparison.</p>
+  --warmups 1 --repetitions 3 --output results/multi.jsonl</code></pre></div><p><code>core</code> goes deeper into the C engine and cache. <code>ds4-walk</code> follows exact raw-text steps for a DS4-style comparison. The <a href="reference.html#ds4-walk">2K walk example</a> shows exactly what its prefill rate counts.</p></div></details>
           </section>
 
           <section class="manual-section" id="bench-http">
             <p class="manual-kicker">Client-visible performance</p><h2>Measure the HTTP path</h2>
-            <p>Start the server first. The canonical <code>http-curve</code> workload grows one conversation across context depths, then measures a new turn at each depth. The server needs enough context and RAM prefix retention; the command only measures it and does not change its configuration.</p>
+            <p>Start the server first. The canonical <code>http-curve</code> workload grows one conversation across context depths, then measures a new turn at each depth. The server needs enough context and RAM prefix retention. <code>--context-capacity</code> is the benchmark’s expected limit; set the real capacity with the server’s <code>--context</code> before running this client.</p>
             <div class="code-block"><div class="code-top"><span>Growing conversation · running server required</span><button class="copy-button" type="button" aria-label="Copy HTTP curve benchmark command">Copy</button></div><pre><code>"$LIE_BENCH" --suite http-curve \
   --url http://127.0.0.1:8000/v1 --model qwen3.8-flash-next \
   --depths 0,4096,8192,16384,32768,65536,131072 \
@@ -177,7 +176,7 @@ mkdir -p results</code></pre></div>
   --server-label LIE --output results/http-prefill.jsonl \
   --export-requests results/http-requests.jsonl</code></pre></div></details>
             <p>For that cold example, start the server with <code>--kv-cache-ram-mb 0</code> and no disk cache. <code>--server-kv-cache off</code> is a declaration in the benchmark record; it cannot clear the server cache.</p>
-            <p>For prepared C1–C8 HTTP cohorts, use <code>--suite http-multi</code> with a request corpus, a server configured for the needed active slots, and cache capacity that retains the prepared prefixes. The <a href="https://github.com/synapse-linux/synapse-lie/blob/develop/docs/guides/BENCHMARKS.md#prepared-http-multi-user-cohorts">source guide</a> includes the pinned corpus and exact command.</p>
+            <p>For prepared C1–C8 HTTP cohorts, use <code>--suite http-multi</code> with a request corpus, a server configured for the needed active slots, and cache capacity that retains the prepared prefixes. The <a href="https://github.com/synapse-linux/synapse-lie/blob/develop/docs/guides/BENCHMARKS.md#prepared-http-multi-user-cohorts">source guide</a> includes the pinned corpus and exact command. <code>--users</code> chooses cohort sizes in the benchmark; <code>--max-active</code> belongs to the server and must have enough slots.</p>
           </section>
 
           <section class="manual-section" id="bench-report">
@@ -191,12 +190,12 @@ mkdir -p results</code></pre></div>
           <section class="manual-section" id="troubleshooting">
             <p class="manual-kicker">If something fails</p><h2>Find the cause</h2>
             <div class="manual-checks"><div><strong>Readiness is 503</strong><p>Wait for model loading, check the server log, model path and HIP-enabled build. An empty model list does not mean inference works.</p></div><div><strong>Context request is rejected</strong><p>Include chat-template and output tokens in the budget, or reduce the input. Above native context, select a YaRN profile and check memory fit.</p></div><div><strong>No graph appears</strong><p>Check the report exit code and raw JSONL. Use a new output directory; invalid or incomplete measurements are rejected.</p></div></div>
-            <p>Run <code>build/strix-halo/synapse-lie-server --help</code> or <code>build/strix-halo/synapse-lie-bench --help</code> for every option. The maintained <a href="https://github.com/synapse-linux/synapse-lie/blob/develop/docs/guides/USAGE.md">server guide</a>, <a href="https://github.com/synapse-linux/synapse-lie/blob/develop/docs/guides/BENCHMARKS.md">benchmark guide</a> and <a href="https://github.com/synapse-linux/synapse-lie/blob/develop/docs/reference/METRICS.md">metrics reference</a> go deeper.</p>
+            <p>Run <code>build/strix-halo/synapse-lie-server --help</code> or <code>build/strix-halo/synapse-lie-bench --suite fresh --help</code> for accepted options. The <a href="cli-options.html">flag index</a> groups them by executable and suite. The maintained <a href="https://github.com/synapse-linux/synapse-lie/blob/develop/docs/guides/USAGE.md">server guide</a>, <a href="https://github.com/synapse-linux/synapse-lie/blob/develop/docs/guides/BENCHMARKS.md">benchmark guide</a> and <a href="https://github.com/synapse-linux/synapse-lie/blob/develop/docs/reference/METRICS.md">metrics reference</a> go deeper.</p>
           </section>
         </div>
       </div>
     </main>
 
-    <footer class="site-footer"><div><span class="footer-brand">synapse<span>.</span>lie</span><p>Use the tool, preserve the measurement, inspect the method.</p></div><div class="footer-links"><a href="#main">Back to top ↑</a><a href="clients.html">Agent clients ↗</a><a href="reference.html">Every CLI option ↗</a><a href="index.html#benchmarks">Benchmark explorer ↗</a><a href="index.html#install">Installation ↗</a><a href="https://github.com/synapse-linux/synapse-lie/tree/develop">Develop source ↗</a></div><p class="footer-legal">Development preview · Manual based on develop 9e793a64 · First-party site code MIT.</p></footer>
+    <footer class="site-footer"><div><span class="footer-brand">synapse<span>.</span>lie</span><p>Use the tool, preserve the measurement, inspect the method.</p></div><div class="footer-links"><a href="#main">Back to top ↑</a><a href="pi.html">Pi setup ↗</a><a href="clients.html">Codex &amp; Claude ↗</a><a href="openai-api.html">OpenAI API ↗</a><a href="actuator.html">Actuator API ↗</a><a href="reference.html">Choose a benchmark ↗</a><a href="index.html#benchmarks">Benchmark explorer ↗</a><a href="index.html#install">Installation ↗</a><a href="https://github.com/synapse-linux/synapse-lie/tree/develop">Develop source ↗</a></div><p class="footer-legal">Development preview · Manual based on develop 9e793a64 · First-party site code MIT.</p></footer>
   </body>
 </html>
