@@ -50,3 +50,40 @@ four-point run is governed by [its frozen plan](../config/q2-ds4-walk-promessi-p
 The previous [full-prefill table](Q2-PROMESSI-SHORT.md) starts from an empty
 sequence at every point and measures all tokens; its rates answer a different
 question and are kept as separate evidence.
+
+## Q2 result on `.157`, 2026-10-08
+
+The real Q2 run used the same `I promessi sposi` bytes as the pinned DS4
+repository (SHA-256 `f53e0d80…209f`), chunk 2048, context capacity 133760,
+IOMMU off, C1 greedy AR and TG128. One walk with no warmup ran at four exact
+frontiers. All four prefill/decode frontiers, logits hashes and 128 output
+token IDs match the earlier measured full-prefill samples exactly. The first
+three points used bounded snapshots of 181,971,056; 222,873,712; and
+274,786,416 bytes. Snapshot restoration happened outside timed phases.
+
+| Context | New PP tokens | New PP seconds | New PP token/s | Decode seconds | TG token/s |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 2048 | 2048 | 1.281172706 | 1598.535459 | 4.591452259 | 27.877890 |
+| 4096 | 2048 | 1.351445508 | 1515.414412 | 4.591393521 | 27.878246 |
+| 6144 | 2048 | 1.363234988 | 1502.308859 | 4.587317327 | 27.903018 |
+| 8192 | 2048 | 1.378216359 | 1485.978589 | 4.577237508 | 27.964465 |
+
+![Incremental prefill and TG from the native benchmark](figures/q2-ds4-walk-promessi.png)
+
+[All values and the old full-prefill measurements (CSV)](figures/q2-ds4-walk-promessi.csv),
+[validated result](../config/q2-ds4-walk-promessi-results.json),
+[retained raw JSONL and telemetry](../evidence/q2-ds4-walk-promessi-r1/results/00-q2-c2048.jsonl).
+The previous full-prefill rates at 2048/4096/6144/8192 were
+1612.737061/1562.428666/1535.011659/1511.433870 token/s, but their
+numerators were 2048/4096/6144/8192 and they used one warmup per point.
+Those rates must not be ranked against the new incremental rates as if they
+were the same workload. The identical logits and output IDs establish that
+the advancing state reaches the same numerical frontiers.
+
+The native child and runner exited 0; all 15 result files hash-verified after
+collection. The window [release](../evidence/q2-ds4-walk-promessi-r1/release.json)
+and [independent closure](../evidence/q2-ds4-walk-promessi-r1/strong-closure.json)
+confirm empty KFD, nine retired process identities, eight retired groups,
+five free original leases and unchanged reference model stats. Telemetry
+observed peak CPU 76.25 °C and GPU 81 °C. This is a single measured walk,
+not a distribution or a performance claim beyond the four frontiers.

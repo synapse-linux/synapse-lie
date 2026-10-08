@@ -1,0 +1,105 @@
+{
+  "schema": "synapse-lie.q2-ds4-walk-promessi-plan.v1",
+  "label": "q2-ds4-walk-promessi-r1",
+  "source_parent_commit": "fc5f3208",
+  "source_manifest_sha256": "187706aa11f99968c91496e07fe5cba79c3fc79cd5e102fbe9f339af409b6417",
+  "runner_sha256": "afab7730d254b985349b7c6f451e94ce2a6dc2f9c3797ef96351d3fe226e863b",
+  "order": [
+    "q2-c2048"
+  ],
+  "output_tokens": 128,
+  "warmups": 0,
+  "repetitions": 1,
+  "previous_release": "q2-promessi-short-r1/release.json",
+  "previous_release_sha256": "2b93980ed3999ba65f24f00ad71338a39dfbe8dd466de8f90288f059c5067276",
+  "boot_id": "be3e89fd-955b-47a4-a385-11c3ad98bb78",
+  "model_stats": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "device": 53,
+      "inode": 3116203,
+      "bytes": 147207127040,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "device": 53,
+      "inode": 3206497,
+      "bytes": 10946624,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "device": 53,
+      "inode": 3228516,
+      "bytes": 49859583136,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "device": 53,
+      "inode": 3211726,
+      "bytes": 49376141504,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "device": 53,
+      "inode": 3207513,
+      "bytes": 12087983520,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "device": 53,
+      "inode": 3206512,
+      "bytes": 2786568256,
+      "mtime_ns": 1790711824619908153,
+      "ctime_ns": 1790711826279892467
+    },
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q4.gguf",
+      "device": 53,
+      "inode": 3116346,
+      "bytes": 177280286720,
+      "mtime_ns": 1789871998360000000,
+      "ctime_ns": 1790258428459084412
+    }
+  ],
+  "staged_sha256": {
+    "synapse-lie-bench": "24b19cb7baa9b2a81af461e4dc69f16f6f66a010b9ef463452668d0c19e05a3b",
+    "promessi_sposi.txt": "f53e0d80cb2d4492d24ebd63c7000c397b16ae70f9bf09b3763e5d8323ec209f",
+    "q2-ds4-walk-promessi-window.py": "afab7730d254b985349b7c6f451e94ce2a6dc2f9c3797ef96351d3fe226e863b",
+    "cpu-tests.json": "d5be05c0e5f6e2d4d53519edd6ec1cce57b5d6af7cf991347c150aad5387c37e"
+  },
+  "scope": "Owner-requested Q2-only DS4-bench algorithm: one tokenized Promessi corpus, one advancing logical sequence per walk, exact frontiers2048/4096/6144/8192, timed new2048-token sync, bounded 1GiB snapshot or untimed replay after each TG128. C1 serial greedy AR, zero warmups, one measured walk, chunk2048, capacity133760, IOMMUoff. Local-only link uses previously qualified numerical archives, no remote build, dependency, service, tuning, reboot, cleanup or model mutation.",
+  "gpu_admitted": false,
+  "remote_build": false,
+  "remote_cleanup": false,
+  "cpu_tests": {
+    "exit_code": 0,
+    "ctest_debug_pass": 1,
+    "ctest_asan_ubsan_pass": 1,
+    "receipt_sha256": "d5be05c0e5f6e2d4d53519edd6ec1cce57b5d6af7cf991347c150aad5387c37e"
+  },
+  "context_capacity": 133760,
+  "prompt_limit": 8192,
+  "arm_timeout_seconds": 600,
+  "total_points": 4,
+  "total_samples": 4,
+  "preparation_parent_commit": "fc5f3208",
+  "iommu": "off",
+  "sizes": [
+    2048,
+    4096,
+    6144,
+    8192
+  ],
+  "binary_source_label": "ds4-walk-bench-local-link",
+  "corpus_source_label": "q2-exact-bench128-r1"
+}

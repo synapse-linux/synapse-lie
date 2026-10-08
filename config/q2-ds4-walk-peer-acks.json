@@ -1,0 +1,19 @@
+{
+  "schema": "synapse-lie.q2-ds4-walk-peer-acks.v1",
+  "recorded_at_utc": "2026-10-08T13:42:15.013358+00:00",
+  "plan_sha256": "462194c89f8f741b35452d86a2014aee0d246d41a7ac54ce4f0863b8d7eb6019",
+  "acks": [
+    {
+      "thread": "01a0f71e-b42a-7f80-b04b-780e3c4bd45c",
+      "role": "Core",
+      "specific_non_use": ".157 GPU/build/client/handle/lease/waiter/reservation/intent through admission,2K-8K,collection/hash,original lease release,strong closure and final notices",
+      "other_host": ".161 only"
+    },
+    {
+      "thread": "01a1173b-a1f8-7012-a112-37039d798596",
+      "role": "GLM",
+      "specific_non_use": ".157 GPU/build/client/handle/lease/waiter/reservation/intent through verification/admission,2K-8K,collection/hash,original releases,whole independent closure and final notifications",
+      "other_host": ".155 only"
+    }
+  ]
+}

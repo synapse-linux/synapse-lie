@@ -1,0 +1,4 @@
+point=0 depth=0 users=1 warmup=0 output=128 completed
+point=1 depth=2048 users=1 warmup=0 output=128 completed
+point=2 depth=4096 users=1 warmup=0 output=128 completed
+point=3 depth=6144 users=1 warmup=0 output=128 completed
