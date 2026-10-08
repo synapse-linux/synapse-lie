@@ -472,7 +472,9 @@ Each sample records `quality`; the final `quality_summary` separates measured
 and warmup counts. A wrong answer preserves all remaining samples and ends with
 `quality_failed`, exit 1. HTTP or workload failure ends with `failed`, exit 1.
 Timing reports refuse failed quality runs. Source/client fixtures are separate
-from original-weight recall qualification, which remains pending.
+from the [original-weight recall results](../benchmarks/models/qwen3.8-flash-next/strix-point/README.md#yarn4-short-recall-control-current-r70-runtime).
+The current r70 YaRN4/seed77 ladder passes both cold turns through 786K;
+near-1M, other seeds and remaining profiles are still open.
 
 The [Strix Point recall protocol](../development/protocols/LONG-CONTEXT-RECALL-GPU-PROTOCOL.md)
 defines the native/YaRN ladder through 1M, three corpus seeds, memory admission
@@ -585,7 +587,7 @@ Use a new output directory for each report: existing artifacts are not replaced.
 
 | Published workload | LIE coverage |
 | --- | --- |
-| AR single user at eight prefix depths. | Canonical `http-curve` is implemented and CPU-qualified; its new GPU campaign remains separate. Direct LIE/Gufo GPU comparisons and fresh, cache-disabled [served HTTP AR](../benchmarks/2026-10-04/strix-point/http-depth/README.md) reach near 256K on Strix Point with two measured repetitions per engine. Explicit YaRN profiles permit total capacity through 1,048,576; original-weight 1M memory, quality and performance qualification remains open. |
+| AR single user at eight prefix depths. | Canonical `http-curve` is implemented and CPU-qualified; its new GPU campaign remains separate. Direct LIE/Gufo GPU comparisons and fresh, cache-disabled [served HTTP AR](../benchmarks/2026-10-04/strix-point/http-depth/README.md) reach near 256K on Strix Point with two measured repetitions per engine. Separate physical 1M PP/TG128 and current YaRN4/seed77 recall through 786K are qualified in the [model/platform results](../benchmarks/models/qwen3.8-flash-next/strix-point/README.md); near-1M recall and matched long-context performance remain open. |
 | AR multiple users. | Native batching and the [served 4K HTTP campaign](../benchmarks/2026-10-04/strix-point/http-multi/README.md) both compare LIE and official Gufo through C8. The HTTP campaign includes fresh sessions=C and fixed eight-session capacity. Long-context multi-client HTTP is still open. |
 | MTP single and multiple users. | Direct core and the [served 4K HTTP campaign](../benchmarks/2026-10-04/strix-point/http-multi/README.md) compare AR/MTP and LIE/Gufo through C8 on prose and repetition. The cold served [long-context campaign](../benchmarks/2026-10-04/strix-point/http-depth/README.md) matches MTP and AR through near 256K at C1, with prefill, draft acceptance, decode and wall time. Long-context multi-client HTTP is still open. |
 | Cold-file loading to HTTP readiness. | Still missing; `loading` measures model construction with uncontrolled OS file-cache state. |

@@ -99,11 +99,12 @@ GET time of 5.397 ms. Two own-process snapshots count 28 OS threads and one busy
 TID over ten seconds; source has one model owner. This establishes neither
 thread roles nor an inference bottleneck or reactive speedup.
 
-The near-1M target 1,048,064 has locally prepared frozen inputs, admission,
-closure and offline-review recipes. Both local preparation guards exit0 at
-CPU 48.125 C. No remote staging or next-window admission has occurred; its
-launcher requires the current run's collection, strong closure, four releases
-and successful archive postcheck first.
+Before completing this 786K window, the near-1M target 1,048,064 receives locally
+prepared frozen inputs, admission, closure and offline-review recipes. Both
+local preparation guards exit0 at CPU 48.125 C. Preparation performs no remote
+staging or next-window admission. After verified 786K collection, strong
+closure, four releases and archive postcheck, the separate near-1M window is
+admitted as recorded above.
 
 The complete frozen r70 AR matrix has 39 profile/size/seed combinations:
 five verified YaRN4/seed77 cohorts, one current unqualified near1M run and
@@ -1359,7 +1360,7 @@ resource, quality and comparative performance gates remain open.
 The [portable HOST and compilation receipt](development/validation/attention-fixture-host-2026-10-07.json)
 retains the exact source checkpoint, actual stage exits, raw outputs and archive
 hashes. It is component tooling evidence, not original-weight qualification.
-The [current roadmap](BACKEND.md#current-roadmap--2026-10-06-utc)
+The [current roadmap](BACKEND.md#current-roadmap--2026-10-08-utc)
 separates integrated source from open acceptance gates. The owned functional
 source is integrated; at that checkpoint all 650 files match the final HOST receipt.
 Open validation items are not missing implementations. The prepared r37 MTP
@@ -1937,7 +1938,7 @@ Closure at 2026-10-06T15:52:14.222826 UTC verifies the exact owned processes gon
 container removed, HTTP8000 unbound, original lease free then released and the
 preexisting router restored. No root GPU job or reservation remains. Closure is
 a dated observation, not admission for a later run. All six [owned roadmap
-items](BACKEND.md#current-roadmap--2026-10-06-utc) remain open; Terminal Bench
+items](BACKEND.md#current-roadmap--2026-10-08-utc) remain open; Terminal Bench
 stays stopped, collected, closed and deferred until modifications are finished.
 
 ## Bounded-integer original-weight protocol prepared — 2026-10-06 UTC
@@ -3391,7 +3392,7 @@ compilers, provider snapshot marshalling and new original-weight continuation,
 fault/fit/actual resources/matched cost remain unqualified; no GPU speedup or
 complete autonomous C executor is claimed.
 
-The [current roadmap](BACKEND.md#current-roadmap--2026-10-05-utc) records completed
+The [current roadmap](BACKEND.md#current-roadmap--2026-10-08-utc) records completed
 r11 OpenAI AR/MTP controls and six open tasks: Terminal Bench, full 1M acceptance, requested
 benchmark methods, DS4 directional steering and sampling temperatures, and the
 identified C17 sampling extractions. Assigned platform/weight-format work and

@@ -70,17 +70,26 @@ A shared-core fixture prefills 1,048,575 physical tokens and emits one token;
 neither test loads weights or proves GPU fit, throughput or recall quality.
 Original-weight Strix Point measurements qualify native context through near
 256K. A separate frozen `1bff953` YaRN4 C1 run completes physical PP1,048,448
-and fixed TG128 at capacity 1,048,576; long-context recall remains pending.
-Extended-context GPU tests use fresh coordinated admissions.
+and fixed TG128 at capacity 1,048,576. The current r70 runtime also passes two
+cold exact-recall turns at each tested depth through 786K, using YaRN4, seed 77,
+capacity 1,048,576 and chunk 256
+([complete results](../benchmarks/models/qwen3.8-flash-next/strix-point/README.md#yarn4-short-recall-control-current-r70-runtime)).
+The separately admitted near-1M recall run remains unqualified while running.
+Other seeds, native/YaRN2 controls and matched performance remain open.
+Each extended-context GPU run needs fresh coordinated admission.
 Short original-weight native/YaRN2/YaRN4 gates pass at capacity 4096; they
 qualify profile integration without reaching extended physical positions.
 
-The recorded qualified runtime's sparse WMMA attention path uses a 256K workspace.
-The current source adds a separate 1M sparse workspace under default-ON
+The earlier runtime's sparse WMMA attention path uses a 256K workspace.
+The current source provides a separate 1M sparse workspace under default-ON
 [`LIE_LONG_CONTEXT_WMMA`](BUILD.md); short visible frontiers keep the original
 kernel. OFF retains the 256K WMMA limit and generic causal-attention fallback.
-This is separate from YaRN and configured context capacity. Original-weight
-correctness, quality and performance of the long specialization remain pending.
+This is separate from YaRN and configured context capacity. The
+[generated GPU component qualification](../development/validation/attention-fixture-point-2026-10-07.json)
+compares complete outputs across 13 cases through 1M at its recorded r43 source.
+It does not load model weights or exercise indexer selection. The current
+original-weight recall results do not identify which sparse kernel ran;
+actual long-specialization dispatch and matched cost remain open.
 The indexer and mask scan still depend on visible depth, so this change alone
 does not establish constant prefill throughput.
 Model weights, active KV/index/recurrent state, scratch buffers, driver overhead,
