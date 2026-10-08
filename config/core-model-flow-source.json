@@ -1,0 +1,17 @@
+{
+  "schema": "synapse-lie.core-model-flow-source.v1",
+  "source": ".deps/lie-core-model-flow",
+  "parent_manifest_sha256": "187706aa11f99968c91496e07fe5cba79c3fc79cd5e102fbe9f339af409b6417",
+  "patch_sha256": "a6c905b94cc5aa760d74968c5ed239227d5a10b69bfbb9340c80f569854af6d4",
+  "generator_sha256": "c69ec02851b3c67a754330f62fdb930aec17b979bfa5047656f8efce8d21638f",
+  "changed_files": {
+    "CMakeLists.txt": "8447c35097945a0bef20ebdbdcb960186f37a7236c8c225bc833ada8628005d0",
+    "docs/reference/METRICS.md": "c24ebc903bf5c22c80fc59115d5a34fa85bfdce41e2e10e113f9672c97b02936",
+    "include/lie/core.h": "35dcc6ad20cbfeee66ec4447f3b85014ac247bd44bf3e1bc8fc827df0bccf784",
+    "src/worker.c": "2f97938a5013ae80bc876b2a6c5f667c368e206ae343c0574642e1f3734f4566",
+    "tests/test_core_bench.py": "89628e587e165894acc9111162f4499ab693de7b50ec5f2fb1555771739403a9",
+    "tools/bench-report.py": "903e2c53ac143212059dc0a9e69f518d0623746a2c6074ac94f54a85449c240a",
+    "tools/core-bench.c": "4c18795404deacdd53c6520fd21f434ea0e6108ed996a262464f5c8bbce6fe68",
+    "tools/native/report.c": "acc8c789a239026b7efc88635d3f6628108d097ae5503c53b0ecbc8535fa9ee3"
+  }
+}

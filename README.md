@@ -1,5 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+For concurrent-request diagnostics, the [model-owned core benchmark](docs/CORE-MODEL-FLOW.md)
+submits independent jobs with exact physical prompts. The C17 model owner
+executes their prefill calls serially; ready decode rows use native reactive
+batching. The proposed Q2 2K/4K/6K/8K by C1/C2/C4/C6/C8 GPU matrix is
+separate from the completed C1 DS4 walk below. It has passed focused CPU
+fixtures, but has no original-weight result yet.
+
 `synapse-lie-bench` now defaults to the advancing [DS4 benchmark walk](docs/DS4-WALK-BENCH.md):
 one tokenized corpus, one logical sequence per walk, fixed context steps,
 and prefill time/count for only the newly appended tokens. The previous

@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+2026-10-08 15:21 UTC: prepare a model-owned core benchmark of exact
+Promessi 2K/4K/6K/8K physical prompts at C1/C2/C4/C6/C8. The benchmark
+submits jobs only; `src/worker.c` serializes prefill and sends ready rows to
+native reactive decode. Add unique model-owner phase counters and physical
+PP/TG rates to avoid summing overlapping per-job decode time. Focused Debug
+and ASan/UBSan CTests both pass 2/2; their synthetic fixture is not GPU
+evidence. The earlier `ds4-walk-multi` prefix-cloning prototype was reverted
+as a59f7228; its measurements must not represent independent users. GPU
+coordination and original-weight results remain pending.
+[Contract and planned matrix](CORE-MODEL-FLOW.md).
+
 2026-10-08 13:47 UTC: `synapse-lie-bench` defaults to the advancing
 [DS4-style walk](DS4-WALK-BENCH.md). Local Debug and ASan/UBSan focused CTests
 pass the exact-step, timer, snapshot and replay fixture. A local GPU-linked
