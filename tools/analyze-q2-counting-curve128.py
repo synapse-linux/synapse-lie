@@ -129,7 +129,11 @@ def main():
     axes[1].set_xticks([2, 8, 16, 32, 48, 64, 80, 96, 112, 128])
     fig.suptitle('synapse-lie-bench · .157 GPU · IOMMU enabled · C1 greedy AR · warm1 + measured1')
     for extension in ('png', 'svg'):
-        fig.savefig(ROOT/'docs/figures'/('q2-counting-curve128.'+extension), dpi=160)
+        destination = ROOT/'docs/figures'/('q2-counting-curve128.'+extension)
+        fig.savefig(destination, dpi=160)
+        if extension == 'svg':
+            destination.write_text('\n'.join(line.rstrip() for line in
+                                   destination.read_text().splitlines())+'\n')
     plt.close(fig)
     lookup = {(r['prompt_tokens'], r['model'], r['prefill_chunk']): r for r in measured}
     lines = ['<!-- SPDX-License-Identifier: MIT -->', '', '# Complete Q2 and UD full-prefill curves through 128K', '',

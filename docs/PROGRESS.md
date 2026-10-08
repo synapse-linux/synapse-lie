@@ -1,24 +1,25 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-2026-10-08 owner requests the missing complete curves. The focused 2K/8K
-diagnostics and isolated UD2048 point did not complete that work. Prepare
-all112 Q2 points (chunk2K/4K/8K) and64 UD points (chunk2K), through131072 exact
-physical counting tokens, same retained native executableb701e948, full
-prefill from empty state, capacity133760, TG128, C1reactive greedy AR, IOMMUon.
-Use the already documented full-curve default warm1+measured1. GLM release9fef948a
-and strong00:59:01 precede specific Core/GLM ACKs, fresh verify01:01:00 and
-admission01:01:28 of plan ca98934d. The campaign is running, not complete;
-[live partial measurements](Q2-COUNTING-CURVE128-PROGRESS.md) preserve each
-finished point. The new first2K observation1545.070140 is42.823405 below the
-saved1587.893545 reference. Preserve this observed difference without claiming
-an isolated cause; the numerical executable remains b701e948.
+2026-10-08 complete exact-counting curves: all176 requested measurements and
+352 total samples finish01:01:53–06:04:08 UTC on .157, four children and runner
+exit0. Same retained b701e948 executable; Q2 chunks2K/4K/8K and UD chunk2K,
+all intermediate multiples through131072, capacity133760, TG128, C1 reactive
+greedy AR, warm1+measured1, IOMMU enabled. Every point starts empty and times
+all prefill chunks. Shared physical inputs match; all176 measured continuations
+finishTG128 and match on this counting task. This is not broad quality evidence.
+[Complete table](Q2-COUNTING-CURVE128.md), [PP/TG graph](figures/q2-counting-curve128.png)
+and [CSV with full durations/warmups](figures/q2-counting-curve128.csv).
+At128K Q2 PP2K/4K/8K is1386.957281/1397.800735/1357.680500; TG is
+25.994528/26.332016/26.366539. UD2K is1501.256197 PP /24.862537 TG.
+The current first2K1545.070140 remains42.823405 below the saved1587.893545;
+no isolated cause or replacement of the historical reference is claimed.
 
-The owner now explicitly requests a reboot with IOMMU disabled after this
-complete campaign. A new local boot draft and guarded one-shot helpers are
-prepared; the effective predecessor and peer declarations follow actual
-collection/strong closure. All tables must be shown before reboot. Read-only
-inspection confirms the original boot configuration and one-shot support;
-no boot mutation or additional GPU run has occurred.
+All61 files/111488084bytes hash-verify06:06:29 before release06:06:52 SHA
+36a39711; strong06:07:17 verifies77 retired identities/groups, empty KFD,
+five original leases free and all reference/GLM model stats unchanged.
+Analysis exits0. Complete tables are presented before the user-authorized
+IOMMU-off reboot. Q2 currently owns no host. The new boot plan must bind this
+actual release; the old f871 proposal remains unapplied.
 
 2026-10-08 requested UD2K comparison completes on .157 with the same native
 executableb701e948 and exact2048 physical counting IDs as saved Q2. No Q2

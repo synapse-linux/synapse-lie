@@ -1,30 +1,25 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-Q2/UD complete curves .157 ACTIVE — 2026-10-08 UTC: plan ca98934d, preparation
-checkpoint abda0168, source parent96f7ccb6/manifest11352825, retained binaryb701e948,
-runner e6d26ccf. GLM predecessor release9fef948a at00:52:18 and strong00:59:01
-verify72 retired identities/groups,36 artifacts,five free original leases and
-unchanged model stats. Specific Core/GLM non-use ACKs precede our fresh
-verify01:01:00 and admission01:01:28, both exit0. Four serial native curves:
-Q2 chunk2048, UD chunk2048, Q2 chunk4096, Q2 chunk8192, all through131072,
-176points/warm1+measured1/capacity133760/TG128/exactcounting/fullprefill.
-IOMMU remains enabled; no remote build, cleanup, tuning, service or model
-mutation. Enclosing ownership stays Q2 until collection/hash, release and
-strong closure; gaps between curves are not release. Core/GLM were notified.
-Other Q2 hosts NONE. Progress is preserved under
-`evidence/q2-counting-curve128-preparation/` and the live partial table.
+Q2/UD complete curves .157 RELEASED — 2026-10-08 UTC: plan ca98934d,
+source96f7ccb6/manifest11352825, retained binaryb701e948, runner e6d26ccf.
+All176 measured/352 total samples complete01:01:53–06:04:08, four native
+children and supervisor exit0. All61 artifacts/111488084bytes hash-verify
+06:06:29 before release06:06:52 SHA
+36a39711c484b9db9da4a364889b7bc9d3a5dcc2fd4983c7335a222476f06b7f.
+Strong06:07:17 verifies77 retired identities/groups, empty KFD, five original
+leases free, seven reference and GLM model stats unchanged. Boot8b9cbb46 and
+32 IOMMU groups remain unchanged. Core/GLM receive actual closure. Q2 CURRENT
+OWN ALL hosts/TB NONE: no job, handle, lease, window, waiter, reservation or
+future grant. Final analysis exits0; all exact physical inputs and counting
+continuations match. Complete tables are presented before the authorized boot.
 
-Owner steering during this run explicitly authorizes the .157 reboot with
-IOMMU off after the complete campaign. First finish all176 measured points,
-verify collection/release/strong closure and present the complete tables.
-Prepare a new boot plan bound to that actual release, with fresh specific
-peer declarations; the historical f8716328 proposal remains unapplied.
-The local draft is `config/q2-counting-iommu-boot-draft.json`. Read-only boot
-inspection02:45:16 confirms Limine12.7.0 one-shot entry support, original
-configuration SHA8c7c6387, no pending one-shot and32 enabled IOMMU groups.
-The temporary `amd_iommu=off` entry uses the same kernel; restore the exact
-original configuration after reconnect. Source/CPU-fixture preparation grants
-no new window and changes no running benchmark or boot configuration.
+The owner explicitly authorizes the .157 IOMMU-off reboot after this complete
+campaign. Prepare a NEW scoped plan bound to release36a39711, fresh specific
+peer declarations and guarded CPU fixtures under the original leases. The
+historical f8716328 proposal remains unapplied. The one-shot entry adds only
+amd_iommu=off to the current kernel and restores the exact original Limine
+configuration after reconnect. New-boot coordination metadata and actual
+IOMMU/power/fan/service readbacks follow; this is not new GPU-test admission.
 
 Q2 requested UD2K .157 released — 2026-10-08 UTC: plan1b8b792a, source65afe48c,
 binaryb701e948, predecessor d5be8bf0. Specific Core/GLM current non-use ACKs

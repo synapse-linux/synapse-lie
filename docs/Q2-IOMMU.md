@@ -2,16 +2,16 @@
 
 # User-authorized IOMMU measurement on .157
 
-Current request, 2026-10-08: the owner explicitly instructs a .157 reboot
-with IOMMU off after the complete counting-prompt campaign. Finish all176
-points (Q2 chunks2K/4K/8K and UD chunk2K through128K), collect and verify the
-evidence, release and strongly close the GPU window, and show all tables
-before applying the boot transition. The new local draft is
-`config/q2-counting-iommu-boot-draft.json`; its predecessor remains unset
-until the running campaign closes. Specific peer declarations, guarded CPU
-fixtures on .157 and fresh lease/model/process checks precede any boot write.
-No boot change has occurred. The historical server-based plan below does
-not supply the corrected full-prefill baseline or authorize its substitution.
+Current request, 2026-10-08: the owner explicitly authorizes a .157 reboot
+with IOMMU off after the complete counting-prompt campaign. All176 points
+(Q2 chunks2K/4K/8K and UD chunk2K through128K) now finish with352 samples,
+allTG128 and exact common inputs verified. All61 raw artifacts are collected
+and hash-verified before release36a39711 at06:06:52; strong06:07:17 finds
+77 retired identities/groups, KFD empty, five free leases and unchanged models.
+The complete tables are presented before the boot transition. The new scoped
+plan must bind this actual release, with fresh specific peer non-use and the
+seven guarded CPU fixtures on .157. No boot change has occurred yet.
+The historical server-based plan below remains deferred and is not reused.
 
 Read-only inspection02:45:16 confirms Limine12.7.0, one-shot entry support,
 the unchanged original configuration SHA8c7c6387 and32 IOMMU groups.

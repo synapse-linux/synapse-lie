@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-# Completed live view: Q2 and UD curves through 128K
+# Complete Q2 and UD full-prefill curves through 128K
 
 All 176 requested points complete on the .157 GPU with IOMMU enabled: 112 Q2 and 64 UD.
 Retained numerical executable; exact repeated counting chat; capacity 133760;
