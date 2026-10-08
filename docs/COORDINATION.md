@@ -1,5 +1,24 @@
 # DS4 / synapse-lie coordination
 
+## Held-out steering response launch rejected before admission — 2026-10-08
+
+The frozen `steering-conciseness-quality-point-20261008-r1` manifest `bb7c4fb8`
+binds the independently verified original 100-pair FFN bank to unchanged
+`4c703b3d`/r70 binaries and coordinator `e68672b4`. All four peers renew exact
+scope non-use for two serial servers, collection, independent review, strong
+closure and release. The 05:58:56 UTC read-only global observation verifies the
+pinned boot/filesystem, original lease 66308/105946405 free then released, router
+179296 active, resource admission and no foreign compute/hot sensors/HTTP8000.
+
+Automatic approval review rejects the direct launch before process creation,
+citing previous requests to defer tests and avoid occupying shared machines.
+The earlier rejection and renewed attempt are retained under local `evidence/`;
+neither creates a process, controller result, handle, lease, waiter or reservation.
+An explicit owner confirmation is pending. No indirect launch or workaround is
+used, and the expired observation cannot admit a later run. Other threads'
+source-only deferrals remain scoped to their respective owners. Root owns no
+host activity; all six tasks remain open and Terminal Bench stays last.
+
 ## Original 100-pair FFN learning verified and retired — 2026-10-08
 
 Four fresh specific Point/DGX/Q2/GLM non-use declarations and the 05:15:16 UTC

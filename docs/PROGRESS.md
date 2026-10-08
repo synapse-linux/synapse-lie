@@ -6,7 +6,33 @@ physical inputs with YaRN4 and seed 77. Original 100-pair FFN learning also
 passes complete capture, independent bank reconstruction and strong closure.
 Both windows are retired; root owns no remote job or future reservation.
 Held-out steering responses, larger recall inputs and wider gates remain
-pending. All six root tasks remain open; Terminal Bench stays last.
+pending. The next response launch was rejected before process creation by
+automatic approval review; root still owns no remote job or reservation.
+All six root tasks remain open; Terminal Bench stays last.
+
+## Complete steering response collection prepared — 2026-10-08 UTC
+
+The optional response collector now retains both serial phases' native wire,
+requests, logs, stored snapshots and execution identities. It binds the frozen
+manifest/helpers/training inputs, uses the existing streamed transfer primitives
+and rechecks every local content identity. Quality failures retain all available
+scores and wire; infrastructure failures retain partial files and actual exits.
+Twelve local HOST checks pass, including nested transfer, source drift,
+symlink/FIFO/foreign-file refusal, receipt replay and timeout without restart
+([receipt](development/validation/steering-quality-collection-host-r2-2026-10-08.json)).
+This runs no model or remote operation and changes no native runtime, default
+build dependency or build directory. Local CPU peaks at 48.375 C. The complete
+remote relative path is validated before creating a local parent or transferring
+bytes; the earlier eleven-check receipt and source remain in the portable evidence.
+
+Private offline review and full closure recipes are prepared for the frozen
+70-response cohort. Both serial GPU server identities must match actual host
+telemetry; both clients, supervisor, launcher, init and entire cgroup must retire.
+Four exact-scope non-use renewals and the 05:58:56 UTC global observation pass,
+but automatic approval review again rejects the launch as conflicting with an
+earlier test deferral. No process, handle or lease is created. The owner has
+been asked to confirm this specific launch; expired observations grant no run.
+All six tasks stay open and Terminal Bench stays last.
 
 ## Original 100-pair FFN bank independently verified — 2026-10-08 UTC
 

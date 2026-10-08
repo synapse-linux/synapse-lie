@@ -7,7 +7,9 @@ checker, serial server/client supervision, campaign body and native-client HOST
 fixtures are implemented. The coordinator now selects
 `bench_profile: "modern-steering-quality"` and executes exactly the bounded,
 SHA-checked profile bytes before its full input/model provenance checks.
-Original-weight learning and response execution remain pending. The dispatch
+Original 100-pair FFN learning is now
+[independently verified](../validation/steering-conciseness-original100-point-2026-10-08.json);
+held-out original response execution remains pending. The dispatch
 hook was applied after the admitted near-512K recall window was collected,
 strongly closed, released to all four peers and independently sealed.
 
@@ -116,6 +118,21 @@ Symlink/FIFO/directory/hash failures refuse before a model opens. A source swap
 after hashing cannot execute unchecked bytes; the full profile detects the
 remaining content drift. This is HOST checking-code evidence, without GPU
 admission or an original learned bank.
+
+After actual terminal state and original lease release, the optional
+[response collector](../../../tools/strix-point-steering-quality-collect.py)
+copies both phases' full wire, exported requests, server/client logs, stored
+snapshots and execution identities. It binds all frozen helpers and inputs,
+hashes bounded regular files in 1 MiB reads, refuses overwrite and rechecks the
+complete local inventory. Remote paths refuse traversal before local directory
+creation. Complete quality failures and infrastructure partial files remain
+distinct; a transfer timeout never restarts inference. Twelve
+[HOST checks](../validation/steering-quality-collection-host-r2-2026-10-08.json)
+pass without any model, GPU or remote access. This proves transfer boundaries,
+not original response quality or container retirement. The separate closure
+must verify both actual GPU server identities, both native clients, supervisor,
+launcher and init, the whole cgroup, both API/management ports, unchanged model
+stats and original lease, followed by all four release notifications.
 
 Passing establishes arithmetic-answer preservation and a response-length
 effect on this held-out corpus. It does not establish semantic explanation

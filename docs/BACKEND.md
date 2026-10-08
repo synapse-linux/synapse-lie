@@ -521,6 +521,10 @@ none of the six items.
    ([receipt](development/validation/steering-quality-campaign-host-2026-10-08.json)).
    Those HOST model servers and training metadata are simulated. Separate
    original 100-pair learning now passes; learned-bank responses remain pending.
+   The optional response collector now retains both phases' full/partial wire
+   with frozen-input checks, bounded transfer and complete local rehash. Twelve
+   [HOST checks](development/validation/steering-quality-collection-host-r2-2026-10-08.json)
+   pass; transfer remains separate from original response quality and closure.
    Learned direction quality, independent graph/
    correction/fault, vision and matched cost remain open.
    Separate `modern-core-steering-admission` windows now qualify original-model

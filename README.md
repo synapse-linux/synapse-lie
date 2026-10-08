@@ -7,7 +7,7 @@ scheduling, concurrent requests, cancellation, metrics and prompt caching.
 The current numerical backend is an embedded Gufo adapter using C++ and HIP,
 with owned [C17 sampling, grammar and schema components](docs/development/C17-SAMPLING.md).
 Gufo still owns model execution and controller state. The current
-[backend roadmap](docs/BACKEND.md#current-roadmap--2026-10-07-utc) covers the
+[backend roadmap](docs/BACKEND.md#current-roadmap--2026-10-08-utc) covers the
 sampler integration and qualification; full executor ownership is the
 architectural destination.
 
@@ -23,8 +23,11 @@ include prefill, decode, durations and memory. The
 [long-context recall protocol](docs/development/protocols/LONG-CONTEXT-RECALL-GPU-PROTOCOL.md)
 defines quality checks through 1M. The
 [native 8K, 128K and near-256K recall checks](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#original-weight-recall-8k-128k-and-near-256k)
-pass both cold turns at each size on the `90a88455`/r68 runtime; 512K–1M inputs, other seeds,
-YaRN/MTP and matched performance comparisons remain under qualification.
+pass both cold turns at each size on the `90a88455`/r68 runtime. The newer r70
+runtime also passes both cold turns with YaRN4 through near-512K physical inputs,
+seed 77; [all current-runtime rows](docs/benchmarks/models/qwen3.8-flash-next/strix-point/README.md#yarn4-short-recall-control-current-r70-runtime)
+include prefill, decode and TTFT. Larger recall inputs, other seeds/profiles,
+MTP and matched performance comparisons remain under qualification.
 The experimental [long-context sparse WMMA option](docs/guides/BUILD.md)
 extends the prefill workspace through 1M; its original-weight correctness and performance
 qualification remain pending.
