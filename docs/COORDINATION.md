@@ -14,6 +14,18 @@ strong closure; gaps between curves are not release. Core/GLM were notified.
 Other Q2 hosts NONE. Progress is preserved under
 `evidence/q2-counting-curve128-preparation/` and the live partial table.
 
+Owner steering during this run explicitly authorizes the .157 reboot with
+IOMMU off after the complete campaign. First finish all176 measured points,
+verify collection/release/strong closure and present the complete tables.
+Prepare a new boot plan bound to that actual release, with fresh specific
+peer declarations; the historical f8716328 proposal remains unapplied.
+The local draft is `config/q2-counting-iommu-boot-draft.json`. Read-only boot
+inspection02:45:16 confirms Limine12.7.0 one-shot entry support, original
+configuration SHA8c7c6387, no pending one-shot and32 enabled IOMMU groups.
+The temporary `amd_iommu=off` entry uses the same kernel; restore the exact
+original configuration after reconnect. Source/CPU-fixture preparation grants
+no new window and changes no running benchmark or boot configuration.
+
 Q2 requested UD2K .157 released — 2026-10-08 UTC: plan1b8b792a, source65afe48c,
 binaryb701e948, predecessor d5be8bf0. Specific Core/GLM current non-use ACKs
 precede admission00:37:24 with fresh original five leases and all registry,

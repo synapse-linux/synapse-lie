@@ -26,8 +26,9 @@ original130925-token prompt, prefill measures1302.02/1265.10/1232.32 token/s;
 decode25.80/25.55/26.02. Larger chunks do not provide a general prefill gain,
 so2048 remains the default. These unaligned HTTP prompts do not satisfy the
 owner's requested exact-grid comparison. All4K replies match2K; one short8K reply differs.
-The [IOMMU-off experiment](docs/Q2-IOMMU.md) remains deferred: no boot change
-or reboot occurred. The owner receives the tables before any restart.
+The owner has now authorized the [IOMMU-off transition](docs/Q2-IOMMU.md)
+after all four exact counting curves finish and their full tables are shown.
+A new boot draft is prepared; no boot change or reboot has occurred yet.
 
 The deferred [prefill SSM candidate](docs/Q2-SSM-STAGE-Q8.md) packs the original Q8
 bytes into contiguous operand stages, charging packing on every call. Local

@@ -2,6 +2,27 @@
 
 # User-authorized IOMMU measurement on .157
 
+Current request, 2026-10-08: the owner explicitly instructs a .157 reboot
+with IOMMU off after the complete counting-prompt campaign. Finish all176
+points (Q2 chunks2K/4K/8K and UD chunk2K through128K), collect and verify the
+evidence, release and strongly close the GPU window, and show all tables
+before applying the boot transition. The new local draft is
+`config/q2-counting-iommu-boot-draft.json`; its predecessor remains unset
+until the running campaign closes. Specific peer declarations, guarded CPU
+fixtures on .157 and fresh lease/model/process checks precede any boot write.
+No boot change has occurred. The historical server-based plan below does
+not supply the corrected full-prefill baseline or authorize its substitution.
+
+Read-only inspection02:45:16 confirms Limine12.7.0, one-shot entry support,
+the unchanged original configuration SHA8c7c6387 and32 IOMMU groups.
+The [Linux7.2 parameter documentation](https://www.kernel.org/doc/html/v7.2/admin-guide/kernel-parameters.html)
+defines `amd_iommu=off`; the [Limine12 configuration documentation](https://github.com/limine-bootloader/limine/blob/v12.x/CONFIG.md)
+documents one-shot selection. The prepared entry keeps the current kernel
+and initramfs and is selected for one boot. After reconnect, restore the
+original configuration exactly and verify the running command line and
+IOMMU state. Any subsequent performance comparison must use the retained
+native executable and the corrected exact counting/full-prefill contract.
+
 The owner explicitly requests disabling IOMMU and measuring the result,
 then clarifies that the4K/8K curves must run first with IOMMU enabled.
 Initial readback: kernel7.2.2-1-cachyos, Limine12.7.0, 32 IOMMU groups and no

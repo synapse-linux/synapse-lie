@@ -117,7 +117,11 @@ The large 900-versus-1400 gap is not reproduced on this counting workload:
 2K-chunk full PP8192 spans 1540.27–1544.15 token/s; 4K spans1495.90–1499.86;
 8K spans1438.85–1439.70. No numerical kernel changes are involved. This does
 not identify the cause of the raw-corpus result or qualify a complete context
-curve. The default full 112-point GPU curve remains unexecuted.
+curve. The complete campaign is now running:112 Q2 points plus64 matching
+UD chunk2K points. [Live partial measurements](Q2-COUNTING-CURVE128-PROGRESS.md)
+are explicitly incomplete until all four curves finish. Plan ca98934d uses
+the same retained numerical executable and the documented full-curve default
+of one warmup plus one measured repetition per point.
 
 Preserve the 1587.893545 historical observation on its own
 2048-token contract. Do not reinterpret it as a long-context measurement or

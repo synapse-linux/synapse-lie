@@ -13,6 +13,13 @@ finished point. The new first2K observation1545.070140 is42.823405 below the
 saved1587.893545 reference. Preserve this observed difference without claiming
 an isolated cause; the numerical executable remains b701e948.
 
+The owner now explicitly requests a reboot with IOMMU disabled after this
+complete campaign. A new local boot draft and guarded one-shot helpers are
+prepared; the effective predecessor and peer declarations follow actual
+collection/strong closure. All tables must be shown before reboot. Read-only
+inspection confirms the original boot configuration and one-shot support;
+no boot mutation or additional GPU run has occurred.
+
 2026-10-08 requested UD2K comparison completes on .157 with the same native
 executableb701e948 and exact2048 physical counting IDs as saved Q2. No Q2
 rerun or model conversion: chunk2048/capacity133760/warm1+reps3/TG128,

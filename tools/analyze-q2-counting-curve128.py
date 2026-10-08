@@ -4,6 +4,7 @@
 import csv
 import hashlib
 import json
+import os
 from pathlib import Path
 import struct
 
@@ -34,7 +35,10 @@ def main():
         records = [json.loads(line) for line in path.read_text().splitlines()]
         raw_hashes[str(path.relative_to(ROOT))] = sha(path)
         assert records[-1] == {'event': 'complete', 'exit_code': 0}
-        assert read(EVIDENCE/'results'/(tag+'.child.json'))['exit_code'] == 0
+        child = read(EVIDENCE/'results'/(tag+'.child.json'))
+        assert child['exit_code'] == 0
+        model_path = plan['model_stats'][1 if model == 'ud' else 0]['path']
+        assert child['argv'][child['argv'].index('--model')+1] == model_path
         identity = records[0]
         assert identity['synthetic'] is False and identity['suite'] == 'fresh'
         assert identity['measurement_contract'] == 'full-prefill-v1'
@@ -104,6 +108,9 @@ def main():
     with (ROOT/'docs/figures/q2-counting-curve128.csv').open('w') as f:
         writer = csv.DictWriter(f, fieldnames=list(rows[0]), lineterminator='\n')
         writer.writeheader(); writer.writerows(rows)
+    plot_config = ROOT/'.deps/q2-curve128-matplotlib'
+    plot_config.mkdir(parents=True, exist_ok=True)
+    os.environ['MPLCONFIGDIR'] = str(plot_config)
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
