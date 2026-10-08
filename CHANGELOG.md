@@ -14,8 +14,9 @@ stable release is declared. Detailed validation history is in
   prompt files, retains raw captures and physical token IDs, and publishes
   DS4-compatible `.f32` banks only after complete successful learning.
   Input/format/failure and sanitizer checks and coherent HIP compilation pass;
-  original-weight capture and learned quality remain pending. Runtime `.f32`
-  and DS4 cache formats are unchanged.
+  the first eight original-weight prompt pairs pass independent raw-row/bank
+  reconstruction on Strix Point. Learned response quality and wider runtime
+  qualification remain pending. Runtime `.f32` and DS4 cache formats are unchanged.
 
 - Optional Strix Point recall coordination now runs the native benchmark on
   separate context/RoPE/seed cohorts through 1M, with complete continuation,

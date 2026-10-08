@@ -11,7 +11,7 @@ acceptable as an **explicit transitional implementation**, not something to
 rename and claim as an owned backend. Do not require a big-bang rewrite before
 learning from real workloads; do not let the prototype define the final limits.
 
-## Current roadmap — 2026-10-07 UTC
+## Current roadmap — 2026-10-08 UTC
 
 The frozen `90a88455`/r68 runtime passes the complete unchanged AR and MTP
 workloads: 71 tool-transition checks and five baseline controls in each mode.
@@ -77,8 +77,10 @@ Terminal Bench stays last.
 The newer `4c703b3d`/r70 source adds the native C17 paired-prompt steering builder.
 Its [coherent HIP build](development/validation/steering-build-point-build-2026-10-07.json)
 passes both complete providers and seven consumers, including the actual builder
-linked to the primary provider. Original activations and learned direction
-quality remain unqualified. Earlier tool/recall results retain their frozen r68
+linked to the primary provider. Its first eight original-weight prompt pairs
+pass independent activation/bank reconstruction on `.161`
+([receipt](development/validation/steering-build-original-point-2026-10-08.json)).
+Held-out learned direction quality remains unqualified. Earlier tool/recall results retain their frozen r68
 identity and do not automatically qualify this later runtime.
 
 Strix Point integration is merged into `develop` at `30598a3`; current context
@@ -445,7 +447,13 @@ none of the six items.
    now has eighteen Debug/eighteen sanitizer HOST checks and 89 supervisor checks
    ([receipt](development/validation/steering-build-gate-host-2026-10-07.json));
    its independent raw-row oracle refuses incomplete captures and forged banks.
-   Original activations remain pending;
+   Eight original formal/casual prompt pairs now pass on `.161`: sixteen
+   short prefills yield 1536 attention/FFN rows, with all four FFN branches
+   retained. Independent local and remote reconstruction matches both
+   normalized 48-by-2560 banks
+   ([original receipt](development/validation/steering-build-original-point-2026-10-08.json)).
+   Actual prompts are 28–35 physical tokens; this does not qualify multiple
+   chunks or one-token tails. The job is collected and strongly closed;
    learned-direction quality, independent graph/
    correction/fault, vision and matched cost remain open.
    Separate `modern-core-steering-admission` windows now qualify original-model

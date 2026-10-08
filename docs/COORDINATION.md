@@ -1,5 +1,26 @@
 # DS4 / synapse-lie coordination
 
+## Original steering capture window verified and retired — 2026-10-08
+
+Specific current non-use declarations from Point, DGX, Q2 and the separate GLM
+thread plus fresh global/in-lease checks admit the frozen native capture job
+`steering-build-original-pairs-point-20261007-r1` on `.161`, plan `5d1893e5`.
+The `4c703b3d`/r70 builder and `80152419` coordinator pass eight prompt pairs.
+All 19 artifacts hash-verify and independent reconstruction verifies both banks.
+No decode, MTP, HTTP, performance or learned response quality is tested.
+
+The original lease releases at 00:11:28.331755 UTC; strong closure at
+00:14:16.203089 verifies all four observed supervisor/launcher/init/GPU identities
+retired, the whole container/cgroup absent, two complete scans empty, router
+restored, original lease unchanged/free and four model stats unchanged. All four
+peer owners receive verified release. The
+[receipt](development/validation/steering-build-original-point-2026-10-08.json)
+retains exact identities, thermal peaks and a corrected local checking-path
+failure without repeated GPU work. Root owns no job/handle/lease/window/waiter/
+reservation on any host. Further original captures and generated quality require
+a new specific proposal and fresh admission; no future grant is retained.
+All six root tasks stay open and Terminal Bench remains last.
+
 ## Native steering capture gate prepared locally — 2026-10-07
 
 The optional `modern-steering-build` route runs the native C17 client directly

@@ -52,9 +52,9 @@ The existing inference scheduler and model kernels are retained.
 Nine focused CTest checks plus the private borrowed-row fixture pass in each
 normal/sanitizer build. Exact pinned recipe composition and both sampler-mode
 adapter syntax checks pass. These are HOST checks, not original activation or
-quality evidence. The native builder is now integrated as described below;
-coherent HIP compilation, original-weight captures, learned-bank quality and
-matched cost remain pending.
+quality evidence. The native builder is now integrated as described below.
+Coherent HIP compilation and the first original short-prompt capture cohort
+pass; learned-bank quality and matched cost remain pending.
 
 ## Native bank builder
 
@@ -118,7 +118,8 @@ production target now passes the matching
 [coherent HIP build](validation/steering-build-point-build-2026-10-07.json) on `.161`,
 including both complete providers and all seven consumers. Collected commands
 verify the builder and both shared helpers as C17 with the primary-provider link.
-Original-weight activation/parity/learned-quality qualification remains open.
+The first original short-prompt activations pass the independent capture gate
+below; wider activation cases, generation parity and learned quality remain open.
 
 ## Original-weight capture gate
 
@@ -168,8 +169,30 @@ Eighteen HOST checks pass with both Debug and unsuppressed ASan/UBSan/LSan C17
 fixtures; 89 existing supervisor checks pass. The
 [HOST receipt](validation/steering-build-gate-host-2026-10-07.json) binds commands
 and preserves the initial fixture setup failure. These fixtures are not original
-weights. Even a passing original capture gate leaves held-out steering quality,
+weights. The first original short-prompt cohort now passes, as recorded below.
+Even a passing original capture gate leaves held-out steering quality,
 generation parity, graph/correction/fault/vision and matched cost open.
+
+### First original capture qualification
+
+On `.161`, the frozen `4c703b3d`/r70 native builder captures eight formal/casual
+prompt pairs, sixteen fresh prefills and 1536 original attention/FFN rows.
+Geometry is 48 layers, width 2560 and four FFN branches. The 37.5 MiB raw file
+retains all branch values; each final DS4-format bank is 480 KiB. Both remote
+and local independent reconstruction match every serialized coordinate, with
+maximum observed absolute error 0 and layer norm error below 3.6e-9.
+The [receipt and portable raw archive](validation/steering-build-original-point-2026-10-08.json)
+bind the actual native/controller exits 0, all 19 collected artifact hashes,
+unchanged model stats, exact process/container/cgroup retirement and restored
+service. CPU/GPU/NVMe peaks are 59/56/69.85 C; GPU is observed only.
+
+These prompts contain 28–35 physical tokens, with native capacity 8192 and
+chunk 256. They qualify original single-chunk capture and direction construction;
+no multiple chunks, one-token tails, generated responses or performance are
+tested. Held-out learned direction quality and the remaining runtime/fault/cost
+gates stay open. An initial local checking wrapper supplies a relative path and
+exits 1; the corrected wrapper resolves the same collected directory and passes,
+without changing checks or repeating GPU work.
 
 ## Shared bank contract
 

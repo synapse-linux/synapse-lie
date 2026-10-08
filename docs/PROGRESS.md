@@ -1,6 +1,28 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## First original steering banks pass independent reconstruction — 2026-10-08 UTC
+
+The frozen `4c703b3d`/r70 C17 builder completes eight formal/casual prompt pairs
+on `.161`: sixteen fresh prefills, 1536 attention/FFN rows, 48 layers, width 2560
+and four FFN branches. Both local and remote independent reconstruction match
+all serialized bank coordinates; maximum observed absolute error is 0 and layer
+norm error is below 3.6e-9. Each DS4-format bank is 480 KiB. Actual prompts are
+28–35 physical tokens, with capacity 8192/chunk 256; this qualifies original
+single-chunk capture and construction, not steering response quality or speed.
+
+Controller/native/collector/closure/review pass with actual exits 0; 19 artifacts
+hash-verify and four model stats stay unchanged. CPU/GPU/NVMe peaks are
+59/56/69.85 C. Exact identities and the whole container/cgroup are retired, two
+complete scans are empty, the router is restored and the original lease is free.
+An initial local review supplies a relative path and exits 1; the canonical-path
+correction passes on the same artifacts without a GPU repeat. The
+[receipt and portable raw archive](development/validation/steering-build-original-point-2026-10-08.json)
+preserve that failure, all rows and acceptance/closure proofs. Multiple chunks,
+one-token tails, learned quality, parity/fault/vision and matched cost stay open.
+All six root tasks remain open; Terminal Bench stays last. Root owns no remote
+job, handle, lease, window, waiter or reservation.
+
 ## Native steering capture qualification path prepared — 2026-10-07 UTC
 
 `modern-steering-build` now runs the native builder directly through the owned
