@@ -3,8 +3,10 @@
 
 This protocol checks a learned conciseness direction on original weights. It is
 separate from bank construction, general model quality and throughput. Its
-checker, serial server/client supervision and native-client HOST fixtures are
-implemented. Original-weight execution and outer campaign integration remain pending.
+checker, serial server/client supervision, campaign body and native-client HOST
+fixtures are implemented. Coordinator dispatch and original-weight execution
+remain pending. The coordinator stays frozen while the admitted long-context
+recall window uses its recorded hash.
 
 The owned [corpus](../../../tests/fixtures/steering-conciseness-v1.json) contains
 100 unique training questions and ten disjoint held-out arithmetic problems.
@@ -67,16 +69,41 @@ own children; process identities and actual exits are retained. The outer
 campaign still owns GPU admission, thermal/resource guards, original model
 provenance, container retirement and release notifications.
 
-The bank's SHA256, size, inode and timestamps must remain unchanged. Response
-storage is bounded to 128 records/64 MiB, with TTL covering the complete workload
-deadline so early responses do not expire while later scales run. The timeout
-accounts for 70 requests, two loads and bounded cleanup; configurations exceeding
-one day refuse before any process is launched. Eleven HOST checks per normal
-and sanitizer mode include real native C client round trips, simulated model
-server lifetimes, actual self-interruption and refusal paths
-([receipt](../validation/steering-quality-supervision-host-2026-10-08.json)).
-These simulations do not qualify model loading, applied numerical steering or
-original-weight response quality.
+The optional [campaign body](../../../tools/strix-point-steering-quality-profile.py)
+checks all five helper hashes before importing staged code. It binds settings,
+corpus, the independently qualified training receipt and the FFN bank to the
+same model and runtime. Admission requires 100 original training pairs with the
+exact paired prompt bytes, complete model-derived geometry, actual successful
+native/review/control exits and whole-container closure with all four peer
+releases. The earlier eight-pair formal/casual receipt cannot replace this
+training. Future 100-pair receipts must include `source_model`, `training_corpus`,
+the complete `closure` and `actual_exits.independent_review`. Bank rows must be
+finite and normalized. No Qwen geometry is hard-coded in the profile.
+
+After supervision, the campaign body independently reconstructs all 70 saved
+SSE observations, requests and stored snapshots. Actual container/native exits
+and both serial lifetimes must agree with the review. Complete quality failures
+retain their scores even when the container exits 1; launch or partial-read
+failures preserve available artifacts and still run model postflight. All
+admitted input identities must remain unchanged, including byte-identical inode
+replacement. These checks execute inside the existing owned campaign; they do
+not acquire a lease or replace outer admission and closure.
+
+Response storage is bounded to 128 records/64 MiB, with TTL covering the complete
+workload deadline so early responses do not expire while later scales run.
+The deadline is two model-load bounds plus 70 request bounds and 600 seconds
+for 70 three-second snapshot reads, two client margins, four owned retirements
+and setup/I/O. The earlier 180-second allowance omitted these costs. Configurations
+exceeding one day refuse before any process is launched. Seventeen campaign-body
+and twelve supervision HOST checks pass per normal/sanitizer mode, plus two
+focused native CTests per mode
+([receipt](../validation/steering-quality-profile-host-2026-10-08.json)).
+Across the two suites, four actual C clients consume 140 synthetic responses per
+mode. Model servers, snapshots and training metadata are simulated. These checks
+do not qualify GPU admission, model loading, applied numerical steering or
+original-weight response quality. The earlier eleven-case supervisor
+[receipt](../validation/steering-quality-supervision-host-2026-10-08.json)
+retains its original sources and deadline; it is historical evidence.
 
 Passing establishes arithmetic-answer preservation and a response-length
 effect on this held-out corpus. It does not establish semantic explanation

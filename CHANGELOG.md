@@ -23,6 +23,10 @@ stable release is declared. Detailed validation history is in
   now have native-client HOST coverage; original response execution remains pending.
   Optional own-child supervision now records serial server lifetimes and stored
   application snapshots, with timeout/signal/retirement and bank-identity checks.
+  The separate qualification campaign body binds original training provenance,
+  corpus, model/runtime and bank identities and independently reviews all saved
+  responses. Its deadline now includes snapshot reads and owned retirement.
+  Coordinator dispatch and original 100-pair response qualification remain pending.
   Learned response quality and wider runtime
   qualification remain pending. Runtime `.f32` and DS4 cache formats are unchanged.
 

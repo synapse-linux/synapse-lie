@@ -155,13 +155,22 @@ class Supervision(unittest.TestCase):
 
     def test_deadlines_bound_complete_matrix_and_server_retention(self):
         config=fixture.config(); args=types.SimpleNamespace(server='server',model='not-opened',bank=Path('/HOST-bank'),load_timeout=900)
-        self.assertEqual(runner.container_timeout(config,900),4080)
+        self.assertEqual(runner.container_timeout(config,900),4500)
         command=runner.server_command(args,config,'bank',41001,41002)
-        self.assertEqual(command[command.index('--response-store-ttl-seconds')+1],'4080')
+        self.assertEqual(command[command.index('--response-store-ttl-seconds')+1],'4500')
         self.assertNotIn('--model-mtp',command)
         self.assertNotIn('--dir-steering-file',runner.server_command(args,config,'absent',41001,41002))
         for cfg,load in (({**config,'request_timeout_seconds':1800},1800),(config,True)):
             with self.assertRaises(ValueError): runner.container_timeout(cfg,load)
+
+    def test_deadline_covers_snapshot_reads_client_slack_and_owned_retirement(self):
+        config=fixture.config()
+        deadline=runner.container_timeout(config,30)
+        model_loads_and_requests=2*30+70*config['request_timeout_seconds']
+        snapshot_and_client_slack=70*runner.SNAPSHOT_TIMEOUT_SECONDS+2*30
+        maximum_owned_retirement=4*30
+        self.assertGreaterEqual(deadline-model_loads_and_requests,
+                                snapshot_and_client_slack+maximum_owned_retirement+180)
 
     def test_replay_refuses_before_a_new_process(self):
         root,_result,_code,_children,_order=self.execute()

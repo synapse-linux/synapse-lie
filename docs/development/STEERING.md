@@ -65,7 +65,16 @@ The separate [own-child supervisor](../../tools/strix-point-steering-quality-run
 also passes eleven HOST checks per normal/sanitizer mode, including real C
 clients, serial retirement, signals, timeout and unchanged-bank identity
 ([receipt](validation/steering-quality-supervision-host-2026-10-08.json)).
-Original-weight execution and outer campaign integration remain pending.
+The new [campaign body](../../tools/strix-point-steering-quality-profile.py)
+binds exact helpers, corpus, original 100-pair training provenance and the bank
+to one model/runtime, then independently reconstructs all saved responses.
+Seventeen profile and twelve updated supervision HOST checks pass per mode,
+with four actual C clients consuming 140 synthetic responses and two focused
+native CTests per mode
+([receipt](validation/steering-quality-profile-host-2026-10-08.json)).
+The bounded deadline now includes snapshot reads and child retirement. Training
+metadata and model servers remain simulated. Coordinator dispatch, original
+100-pair learning and original-weight response execution remain pending.
 Answer preservation and response length are separate from general quality.
 
 ## Native bank builder

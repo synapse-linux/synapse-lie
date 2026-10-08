@@ -18,6 +18,10 @@ import subprocess
 import time
 
 HERE = Path(__file__).resolve().parent
+SNAPSHOT_TIMEOUT_SECONDS = 3
+# 70 bounded snapshot reads (210 s), two client deadline margins (60 s),
+# four owned retirements (120 s), plus container setup and bounded I/O slack.
+SUPERVISION_OVERHEAD_SECONDS = 600
 
 
 def module(name, path):
@@ -45,7 +49,7 @@ def container_timeout(config, load_seconds):
     quality.settings(config)
     if not quality.integer(load_seconds, 30, 1800):
         raise ValueError('Model readiness timeout must be 30..1800 seconds')
-    deadline = 2*load_seconds + 70*config['request_timeout_seconds'] + 180
+    deadline = 2*load_seconds + 70*config['request_timeout_seconds'] + SUPERVISION_OVERHEAD_SECONDS
     if deadline > 86400:
         raise ValueError('Steering campaign exceeds the one-day container bound')
     return deadline
@@ -68,7 +72,7 @@ def server_command(args, config, phase, api, management):
 
 
 def get(api, path):
-    connection = http.client.HTTPConnection('127.0.0.1', api, timeout=3)
+    connection = http.client.HTTPConnection('127.0.0.1', api, timeout=SNAPSHOT_TIMEOUT_SECONDS)
     try:
         connection.request('GET', path)
         response = connection.getresponse()

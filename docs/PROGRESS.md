@@ -7,6 +7,29 @@ observation precedes model loading; a later actual native GPU witness confirms
 inference is running. No 512K result is inferred. The separately
 prepared 100-pair conciseness inputs have no GPU admission or learned bank yet.
 
+## Steering campaign body and supervision bounds pass HOST checks — 2026-10-08 UTC
+
+The optional campaign body now binds all five helpers before staged imports,
+the corpus, complete original 100-pair training provenance, model/runtime and
+the FFN bank. It independently reconstructs all 70 saved responses and checks
+actual exits, serial lifetimes and unchanged input identities. Quality failures
+retain complete scores; partial-read failures still preserve model postflight.
+Geometry comes from the model receipt, without fixed Qwen dimensions.
+
+Seventeen profile and twelve supervision checks pass per normal/sanitizer mode;
+two focused native CTests pass per mode. Across both suites four actual C
+clients consume 140 synthetic HTTP responses per mode. The deadline now reserves
+600 seconds for snapshots, client margins, owned retirement and setup, replacing
+the incomplete 180-second allowance. The
+[receipt](development/validation/steering-quality-profile-host-2026-10-08.json)
+retains both source versions and all actual commands. Model servers, snapshots
+and training metadata are simulated: original learning and response quality
+remain unqualified. The coordinator stays frozen until the active near-512K
+recall window is sealed; its new dispatch hook remains pending. Native runtime,
+ABI/state/metrics and Python-free product dependencies are unchanged. No new
+build directory or second GPU window is created. All six root tasks remain
+open and Terminal Bench stays last.
+
 ## Current r70 YaRN4 near-256K recall passes — 2026-10-08 UTC
 
 Both cold Chat SSE turns pass at physical inputs 261630/261738 on `.161`,
