@@ -1,5 +1,25 @@
 # DS4 / synapse-lie coordination
 
+## Original multi-chunk capture window verified and retired — 2026-10-08
+
+Four specific current non-use declarations and fresh global/in-lease checks
+admit `steering-build-multichunk-tail-point-20261008-r1`, plan `786510c8`, on `.161`.
+The same `4c703b3d`/r70 builder passes chunk16/four final one-token chunks;
+all actual controller/native/collector/review/closure exits 0. Nineteen artifacts
+hash-verify; unchanged physical IDs/raw/banks and four model stats verify.
+
+The lease releases at 00:38:11.257783 UTC; strong closure at 00:45:03.828491
+proves supervisor/launcher/init/original GPU identities retired, whole container
+and recorded GPU cgroup absent, two scans empty, router restored and unchanged
+original lease free. The frontend first polls after retirement; no invented live
+witness is substituted. Actual coordinator PID/start and 57 saved Docker states
+corroborate the init; original GPU telemetry supplies the full cgroup. The
+[receipt](development/validation/steering-build-tail16-point-2026-10-08.json)
+retains that limitation and all closure conditions. All four owners receive
+verified release. Root owns no job/handle/lease/window/waiter/reservation on any
+host. No future grant remains; new work needs fresh specific admission. All six
+tasks stay open, and Terminal Bench remains last.
+
 ## Original steering capture window verified and retired — 2026-10-08
 
 Specific current non-use declarations from Point, DGX, Q2 and the separate GLM

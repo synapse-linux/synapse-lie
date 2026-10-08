@@ -1,6 +1,28 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Original multi-chunk and one-token-tail capture passes — 2026-10-08 UTC
+
+The frozen `4c703b3d`/r70 C17 builder passes the same eight prompt pairs with
+chunk16 on `.161`. All sixteen physical inputs match the qualified chunk256
+cohort: 500 total tokens, 28–35 per prompt. Four final chunks contain one token.
+All 1536 raw attention/FFN rows and both normalized banks are byte-identical
+to the parent; independent local and remote reconstruction pass. Native,
+controller, collector, review and strong closure all exit 0; 19 artifacts
+hash-verify and four model stats remain unchanged. CPU/GPU/NVMe peaks are
+58.625/57/64.85 C.
+
+The first frontend status read occurs after retirement. That absence is retained;
+actual supervisor-recorded init PID/start, 57 live Docker state records and the
+original GPU cgroup corroborate complete closure. All four identities and the
+whole container/cgroup are absent, two scans are empty, router restored and
+original lease unchanged/free. The
+[receipt](development/validation/steering-build-tail16-point-2026-10-08.json)
+stores new control proof and references byte-identical raw/bank payloads in the
+unchanged parent archive, avoiding another 38.4 MiB copy. No generation, learned
+response quality or performance is qualified. All six root tasks remain open;
+Terminal Bench stays last. Root owns no remote job/handle/lease/reservation.
+
 ## First original steering banks pass independent reconstruction — 2026-10-08 UTC
 
 The frozen `4c703b3d`/r70 C17 builder completes eight formal/casual prompt pairs

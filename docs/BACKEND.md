@@ -80,6 +80,9 @@ passes both complete providers and seven consumers, including the actual builder
 linked to the primary provider. Its first eight original-weight prompt pairs
 pass independent activation/bank reconstruction on `.161`
 ([receipt](development/validation/steering-build-original-point-2026-10-08.json)).
+The same physical prompts also pass multiple chunks and four one-token tails,
+with byte-identical raw activations and banks
+([receipt](development/validation/steering-build-tail16-point-2026-10-08.json)).
 Held-out learned direction quality remains unqualified. Earlier tool/recall results retain their frozen r68
 identity and do not automatically qualify this later runtime.
 
@@ -452,8 +455,11 @@ none of the six items.
    retained. Independent local and remote reconstruction matches both
    normalized 48-by-2560 banks
    ([original receipt](development/validation/steering-build-original-point-2026-10-08.json)).
-   Actual prompts are 28–35 physical tokens; this does not qualify multiple
-   chunks or one-token tails. The job is collected and strongly closed;
+   Actual prompts are 28–35 physical tokens. A separate chunk16 cohort now
+   passes multiple chunks and four final one-token chunks, preserving all
+   physical IDs and byte-identical raw activations and banks
+   ([tail receipt](development/validation/steering-build-tail16-point-2026-10-08.json)).
+   Both jobs are collected and strongly closed;
    learned-direction quality, independent graph/
    correction/fault, vision and matched cost remain open.
    Separate `modern-core-steering-admission` windows now qualify original-model

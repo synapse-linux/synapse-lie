@@ -173,7 +173,7 @@ weights. The first original short-prompt cohort now passes, as recorded below.
 Even a passing original capture gate leaves held-out steering quality,
 generation parity, graph/correction/fault/vision and matched cost open.
 
-### First original capture qualification
+### Original capture qualification
 
 On `.161`, the frozen `4c703b3d`/r70 native builder captures eight formal/casual
 prompt pairs, sixteen fresh prefills and 1536 original attention/FFN rows.
@@ -186,13 +186,27 @@ bind the actual native/controller exits 0, all 19 collected artifact hashes,
 unchanged model stats, exact process/container/cgroup retirement and restored
 service. CPU/GPU/NVMe peaks are 59/56/69.85 C; GPU is observed only.
 
-These prompts contain 28–35 physical tokens, with native capacity 8192 and
-chunk 256. They qualify original single-chunk capture and direction construction;
-no multiple chunks, one-token tails, generated responses or performance are
-tested. Held-out learned direction quality and the remaining runtime/fault/cost
-gates stay open. An initial local checking wrapper supplies a relative path and
-exits 1; the corrected wrapper resolves the same collected directory and passes,
-without changing checks or repeating GPU work.
+The same sixteen prompts contain 28–35 physical tokens, with native capacity
+8192. A separate chunk16 cohort also passes: all physical IDs, complete raw
+activation bytes and both banks match the chunk256 control byte for byte.
+Independent reconstruction verifies all 1536 rows, including four final
+one-token chunks. These are original capture/construction checks for these short
+inputs. Generated responses, held-out learned quality and the remaining
+graph/correction/fault/vision/cost gates stay open.
+
+| Prefill chunk | Completed prompt prefills | Final one-token chunks | Proof |
+| --- | --- | --- | --- |
+| 256 | 16 | 0 | [Original control](validation/steering-build-original-point-2026-10-08.json) |
+| 16 | 16 | 4 | [Multi-chunk control](validation/steering-build-tail16-point-2026-10-08.json) |
+
+The second receipt retains new control evidence and refers to byte-identical
+raw/bank payloads in the verified parent archive, avoiding a redundant 38.4 MiB
+copy. CPU/GPU/NVMe peaks are 58.625/57/64.85 C. Its frontend first polls after
+retirement; actual init PID/start recorded by the supervisor, 57 saved live
+Docker states and the original GPU cgroup corroborate strong closure. Missing
+frontend observation is explicit. Neither cohort is a performance comparison.
+The first cohort's relative-path checking error and corrected exit 0 remain
+preserved; no GPU work is repeated to correct bookkeeping.
 
 ## Shared bank contract
 

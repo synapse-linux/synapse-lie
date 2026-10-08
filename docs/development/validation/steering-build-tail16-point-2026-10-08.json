@@ -1,0 +1,631 @@
+{
+  "schema": "synapse-lie.original-steering-capture-qualification.v1",
+  "at_utc": "2026-10-08T00:48:56.088357+00:00",
+  "state": "ORIGINAL_MULTI_CHUNK_AND_ONE_TOKEN_TAIL_CAPTURES_VERIFIED_COLLECTED_STRONGLY_CLOSED_QUALITY_UNQUALIFIED",
+  "target": "pop@192.168.5.161",
+  "platform": "strix-point",
+  "job_label": "steering-build-multichunk-tail-point-20261008-r1",
+  "manifest_sha256": "786510c89b53e873f37b84c7a8c07a7bfddca16d717dd0ce6bcf39fdc576043b",
+  "runtime_source_commit": "4c703b3d604c6c877d6a2214d7aee0b15a013f61",
+  "coordinator_commit": "80152419df5ceb4b5ef1d60b7fd9de691c866701",
+  "root_checkpoint": "dfd873559efd9764c329b11926ac5d071ef8118e",
+  "runtime_build_id": "rocm10-point-modern-r70-runtime",
+  "upstream_source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "bundle_manifest_sha256": "6aa4bd13296af8c2e02383e9c6c6fb40c4247ffe5497fe10e468ca0ed90537b0",
+  "native_builder_sha256": "d4f4ee1f98b031dc883546654c37e036dadcae7614fdac53633c8b59fb16e3e4",
+  "actual_exits": {
+    "controller": 0,
+    "supervisor": 0,
+    "native_builder": 0,
+    "collector": 0,
+    "independent_local_review": 0,
+    "strong_closure": 0
+  },
+  "capture": {
+    "schema": "synapse-lie.point-steering-build.v1",
+    "state": "PASSED",
+    "classification": "ORIGINAL_ACTIVATION_CAPTURE_LEARNED_QUALITY_UNQUALIFIED",
+    "actual_native_exit_code": 0,
+    "pairs": 8,
+    "prompts": [
+      {
+        "pair": 0,
+        "side": "target",
+        "physical_tokens": 29,
+        "physical_ids_sha256": "23154e9564da46fd65f385000ed37a7780739e9d3937bde3cbc2a52a8753b637",
+        "one_token_tail": false
+      },
+      {
+        "pair": 0,
+        "side": "contrast",
+        "physical_tokens": 32,
+        "physical_ids_sha256": "ad06cfd32e070d6bd750750d7231446c44ca9fd94b353c2379821d7e8c2f0f8f",
+        "one_token_tail": false
+      },
+      {
+        "pair": 1,
+        "side": "target",
+        "physical_tokens": 29,
+        "physical_ids_sha256": "2b75cebec64a1b3c09a77a8b2647e7414cf14ae9dcb49b05a54d635e992c29c3",
+        "one_token_tail": false
+      },
+      {
+        "pair": 1,
+        "side": "contrast",
+        "physical_tokens": 32,
+        "physical_ids_sha256": "f3cc90c823053017f0b497eb339fef95987000bfd0ec72dfe621ea0b7de7b045",
+        "one_token_tail": false
+      },
+      {
+        "pair": 2,
+        "side": "target",
+        "physical_tokens": 32,
+        "physical_ids_sha256": "016e3dfb6ed9f253f760d19079998155702032aec141466f32cbe30e2fd7a9ba",
+        "one_token_tail": false
+      },
+      {
+        "pair": 2,
+        "side": "contrast",
+        "physical_tokens": 35,
+        "physical_ids_sha256": "7f3d5b88be7abf20e8a67c2c32f0af0258f76ab1a32ffb4c4cef9b14613abcfc",
+        "one_token_tail": false
+      },
+      {
+        "pair": 3,
+        "side": "target",
+        "physical_tokens": 30,
+        "physical_ids_sha256": "44ce7ec1e6ab0d9389f389cfbf6037b3028e73396a3a4bea7a72b423673d60d7",
+        "one_token_tail": false
+      },
+      {
+        "pair": 3,
+        "side": "contrast",
+        "physical_tokens": 33,
+        "physical_ids_sha256": "920fa04072ea441c75e0fbcbef973353df21cf6f6bbbbab41c2144b7c8e1435b",
+        "one_token_tail": true
+      },
+      {
+        "pair": 4,
+        "side": "target",
+        "physical_tokens": 30,
+        "physical_ids_sha256": "511af40cc1b0c236bf8df88f66e2b20bdbee4f8cf90b6b8b57ca5e1f31dea60b",
+        "one_token_tail": false
+      },
+      {
+        "pair": 4,
+        "side": "contrast",
+        "physical_tokens": 33,
+        "physical_ids_sha256": "7559665ba9aa511189d62369b67dec31352b9b4dd091241360c2cd26aaa63e10",
+        "one_token_tail": true
+      },
+      {
+        "pair": 5,
+        "side": "target",
+        "physical_tokens": 30,
+        "physical_ids_sha256": "6c53caa582d2a9d3840d7741c5669785ed8f2f12d55411e0581efecc9074e5e8",
+        "one_token_tail": false
+      },
+      {
+        "pair": 5,
+        "side": "contrast",
+        "physical_tokens": 33,
+        "physical_ids_sha256": "a4366c605cb3d783ac2152eb0262ab30069d7b6767dc3059804e71f4a5a05ccc",
+        "one_token_tail": true
+      },
+      {
+        "pair": 6,
+        "side": "target",
+        "physical_tokens": 28,
+        "physical_ids_sha256": "714523f471497d441b31ffa12c4b9c2f48f63419515c22d1fe25349c72cc98d9",
+        "one_token_tail": false
+      },
+      {
+        "pair": 6,
+        "side": "contrast",
+        "physical_tokens": 31,
+        "physical_ids_sha256": "fb9cba630d4bba8e851ce109396b4fa45f0b22c424ab9f6f1acceb0bb531f26d",
+        "one_token_tail": false
+      },
+      {
+        "pair": 7,
+        "side": "target",
+        "physical_tokens": 30,
+        "physical_ids_sha256": "f647f7f52a7cff5b903463035f9a783996577ce9e345159b79994e5de878e12c",
+        "one_token_tail": false
+      },
+      {
+        "pair": 7,
+        "side": "contrast",
+        "physical_tokens": 33,
+        "physical_ids_sha256": "5dd78c53e3c9e706f1b903165e784c57e46270801550f5c51629dbc68e81b111",
+        "one_token_tail": true
+      }
+    ],
+    "captured_rows": 1536,
+    "layers": 48,
+    "width": 2560,
+    "ffn_branches": 4,
+    "settings": {
+      "context": 8192,
+      "prefill_chunk": 16,
+      "components": "both",
+      "rope": "native",
+      "prompt_format": "chat",
+      "max_pairs": 8,
+      "max_host_bytes": 268435456,
+      "max_output_bytes": 67108864,
+      "timeout_seconds": 1200
+    },
+    "native_identity": {
+      "event": "identity",
+      "schema": "synapse-lie.steering-build.v1",
+      "program": "lie-steering-build",
+      "build_id": "rocm10-point-modern-r70-runtime",
+      "engine": "gufo-embedded-f783fedb",
+      "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+      "synthetic": false,
+      "classification": "ACTIVATION-CAPTURE-QUALITY-UNQUALIFIED",
+      "method": "paired target-minus-contrast; compensated FP64; unit L2 per trunk layer",
+      "capture": "last physical prompt token; FFN branch mean; predictor/decode excluded; fresh unsteered sequences",
+      "encoding": "headerless IEEE754-F32-little-endian",
+      "model": "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "target_sha256": "f08d7d173d158a7ffd09513535bba0622361c2e5b78afcc47ef029bd30a47b53",
+      "contrast_sha256": "49f3674d61d0deb6504acb80d61381b9dfcb5da0857490c0e25ad32597c96481",
+      "pairs": 8,
+      "components": 3,
+      "context": 8192,
+      "prefill_chunk": 16,
+      "rope": "native",
+      "prompt_format": "chat-thinking-disabled",
+      "max_host_bytes": 268435456,
+      "max_output_bytes": 67108864,
+      "host_budget_scope": "owned prompt/index/token/encoding buffers, direction learners and collectors; excludes JSON/stdio/crypto/allocator overhead and executor resources"
+    },
+    "source_inputs": {
+      "target-prompts.txt": {
+        "bytes": 708,
+        "sha256": "f08d7d173d158a7ffd09513535bba0622361c2e5b78afcc47ef029bd30a47b53"
+      },
+      "contrast-prompts.txt": {
+        "bytes": 708,
+        "sha256": "49f3674d61d0deb6504acb80d61381b9dfcb5da0857490c0e25ad32597c96481"
+      }
+    },
+    "journal": {
+      "bytes": 308970,
+      "sha256": "c0e7b6a68fc26ea92ceff53f0cf4419e1135b98fe681444efed402ddc2a1c06c"
+    },
+    "raw": {
+      "bytes": 39321600,
+      "sha256": "3329da2a8618d12b1a3cd93e66e1dc697d02d4523c06a8dabd5fa5adc0b35a70"
+    },
+    "banks": {
+      "direction.ffn.f32": {
+        "bytes": 491520,
+        "sha256": "54bd43d6fe2cb6b8e76ee6d61ad919076aa3c482bb383a93f60cc47d1a0ce818",
+        "independent_max_absolute_error": 0.0,
+        "maximum_layer_unit_norm_error": 3.55157570020026e-09
+      },
+      "direction.attention.f32": {
+        "bytes": 491520,
+        "sha256": "7af2726984b3a85540e6fb6c1c544c8402b8fa1c0fbc4fe1644ed64d45430c93",
+        "independent_max_absolute_error": 0.0,
+        "maximum_layer_unit_norm_error": 2.465786685945659e-09
+      }
+    },
+    "independent_oracle": "raw LE-F32 branch means rounded to F32; math.fsum target-minus-contrast; math.hypot unit L2 per layer",
+    "tolerances": {
+      "relative": 2e-06,
+      "absolute": 2e-08,
+      "unit_norm_absolute": 1e-06
+    },
+    "model_generation_or_quality_tested": false,
+    "performance_comparison": false
+  },
+  "physical_prompt_tokens": {
+    "total": 500,
+    "minimum": 28,
+    "maximum": 35,
+    "completed_prompt_prefills": 16,
+    "one_token_tails_observed": 4,
+    "all_prompts_require_multiple_chunks": true,
+    "chunk_calls_computed_from_successful_counts_and_frozen_native_loop": 37,
+    "individual_chunk_call_timing_or_trace_not_recorded": true
+  },
+  "parent_original_capture_receipt": "docs/development/validation/steering-build-original-point-2026-10-08.json",
+  "parent_original_capture_receipt_sha256": "09a760bf286510e4a9dc1558a4356eccfff2ce0822a2424b6f98f492885b7c01",
+  "cross_cohort": {
+    "all_physical_prompt_IDs_equal": true,
+    "complete_raw_activation_bytes_equal": true,
+    "both_complete_bank_bytes_equal": true,
+    "scope": "These16 short original prompts only, chunk256 versus16; no other source/model/long-context or general graph parity claim."
+  },
+  "thermal": {
+    "policy": "cpu-98-nvme-85-gpu-observe-v1",
+    "samples": 63,
+    "peaks_c": {
+      "k10temp": 58.625,
+      "amdgpu": 57.0,
+      "nvme": 64.85
+    },
+    "GPU_temperature_is_observation_only": true
+  },
+  "resources": {
+    "max_observed_gtt_bytes": 83714908160,
+    "min_observed_available_ram_bytes": 37282799616,
+    "requested_owned_host_peak_bytes": 6998970,
+    "requested_owned_host_scope_excludes_executor_allocator_crypto_stdio": true,
+    "OS_threads_observed": 27,
+    "thread_role_census_or_speedup_proof": false
+  },
+  "ownership": {
+    "all_four_specific_current_non_use": true,
+    "fresh_global_at_utc": "2026-10-08T00:36:52.873069+00:00",
+    "boot_id": "7a966774-3424-46c3-8045-34f759ea58a1",
+    "filesystem_uuid": "720d3f3a-db4b-4287-bf9c-77cc76bcb7cb",
+    "original_lease": {
+      "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+      "device": 66308,
+      "inode": 105946405,
+      "free_briefly": true,
+      "released": true
+    },
+    "actual_release_at_utc": "2026-10-08T00:38:11.257783+00:00",
+    "strong_closure_at_utc": "2026-10-08T00:45:03.828491+00:00",
+    "supervisor": {
+      "pid": 85222,
+      "start_ticks": 3589000
+    },
+    "launcher": {
+      "pid": 85321,
+      "start_ticks": 3589098
+    },
+    "container_init": {
+      "pid": 85486,
+      "start_ticks": 3589135,
+      "actually_observed_by_coordinator": true,
+      "matching_recorded_live_docker_states": 57,
+      "separate_frontend_live_observation": false
+    },
+    "whole_cgroup": {
+      "identity": "0::/system.slice/docker-bdccec41e2262037539a619dca7501aa089c91cd28db3a84acd73da90adc836a.scope\n",
+      "path": "/sys/fs/cgroup/system.slice/docker-bdccec41e2262037539a619dca7501aa089c91cd28db3a84acd73da90adc836a.scope",
+      "absent": true
+    },
+    "cgroup_source": "Direct original GPU telemetry; separate frontend init cgroup observation absent.",
+    "original_GPU_identities": [
+      {
+        "pid": 86473,
+        "start_ticks": 3593114,
+        "cgroup": "0::/system.slice/docker-bdccec41e2262037539a619dca7501aa089c91cd28db3a84acd73da90adc836a.scope\n",
+        "devices": [
+          "/dev/dri/renderD128",
+          "/dev/kfd"
+        ],
+        "status": {
+          "Threads": "27",
+          "VmRSS": "565832 kB",
+          "VmHWM": "888368 kB",
+          "VmSwap": "0 kB"
+        },
+        "identity_absent": true
+      }
+    ],
+    "container": "bdccec41e2262037539a619dca7501aa089c91cd28db3a84acd73da90adc836a",
+    "two_complete_cgroup_scans": [
+      {
+        "scan": 1,
+        "checked_processes": 376,
+        "members": [],
+        "unreadable": [],
+        "retired_during_scan": []
+      },
+      {
+        "scan": 2,
+        "checked_processes": 376,
+        "members": [],
+        "unreadable": [],
+        "retired_during_scan": []
+      }
+    ],
+    "restored_router": {
+      "MainPID": "86875",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "four_model_stats_unchanged": true,
+    "all_four_verified_release_notifications": true,
+    "current_root_own_all_hosts": "NONE",
+    "standing_reservation_or_future_grant": false
+  },
+  "retained_observation_limit": "Frontend status first read after process retirement. No invented live init/cgroup witness; actual supervisor PID/start +57 saved Docker states and original GPU cgroup used for unchanged strong closure conditions.",
+  "qualification_limits": [
+    "Only the sixteen28..35-token original prompts; capacity8192/chunk16/native.",
+    "Held-out learned response quality, generation parity, MTP correction/fault/vision and matched cost remain open.",
+    "No inference reactive speedup, long-context fit/quality, other models/platforms or performance comparison qualified."
+  ],
+  "roadmap": {
+    "open_items": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "terminal_bench_last": true,
+    "full_goal_complete": false
+  },
+  "raw": {
+    "path": "docs/development/validation/raw/steering-build-tail16-point-2026-10-08.tar.gz",
+    "bytes": 268134,
+    "sha256": "e622730a5d83ed17820394bb9bdf746781a53cec9b4ca1f5383662a60d705f03",
+    "regular_members": 58,
+    "uncompressed_bytes": 1786159,
+    "members": {
+      "adapters/gufo-state/activation-observer-edits.json": {
+        "bytes": 3099,
+        "sha256": "b5cf439a471464245f070cce94052da7ff69a1fe69f224273a36df695b468b9d"
+      },
+      "adapters/gufo_activation_observer.hpp": {
+        "bytes": 2715,
+        "sha256": "0097a25a48fb4d3435a5a7c54d4d84a72d6de23dfb3feb544995373598eaeb14"
+      },
+      "docs/development/validation/steering-build-original-point-2026-10-08.json": {
+        "bytes": 24283,
+        "sha256": "09a760bf286510e4a9dc1558a4356eccfff2ce0822a2424b6f98f492885b7c01"
+      },
+      "evidence/collect-steering-build-tail16-r1.py": {
+        "bytes": 4646,
+        "sha256": "907c8b5275af08a17e7c24cc761a692d9cb0664f041b2547646dc03e509e8f0f"
+      },
+      "evidence/context-r70-build-closure-r1.py": {
+        "bytes": 8032,
+        "sha256": "f91f6d82e09352f3453cdc051f49c41eac1fd8b1326bca762d144aceee7a80a5"
+      },
+      "evidence/launch-steering-build-tail16-r1.py": {
+        "bytes": 3418,
+        "sha256": "239839ded3a93cf801dc3ae8ad4aab3dd2f00f7d0031365e87858f5533f27c0a"
+      },
+      "evidence/prepare-steering-build-tail16-closure-derived-r2.py": {
+        "bytes": 6415,
+        "sha256": "e7865b9d0cf03086eb4107f1260e89b859f1962711e3c372c006f9a53883094c"
+      },
+      "evidence/prepare-steering-build-tail16-closure-r1.py": {
+        "bytes": 5193,
+        "sha256": "b0b7920686fa4272fd1bdc4ef0edf37793c89c60f2536608b66ef47bf87739bc"
+      },
+      "evidence/prepare-steering-build-tail16-closure-r2.py": {
+        "bytes": 2511,
+        "sha256": "17b5faeb8b0d99845cc13f4333fc198c52f955532ae4612ef5e3b8036dbd31c7"
+      },
+      "evidence/prepare-steering-tail16-recipes-r1.py": {
+        "bytes": 3317,
+        "sha256": "4731834313b7445962e83178f7d632b30635b5c800956889c9ad4c0573db40d1"
+      },
+      "evidence/read-steering-build-tail16-r1.py": {
+        "bytes": 4209,
+        "sha256": "e555c923401ada6cc0a6b65c7954fc6b1693e95ef742f87f8301defb384644ef"
+      },
+      "evidence/review-steering-build-tail16-r1.py": {
+        "bytes": 3361,
+        "sha256": "c80d65dc03915eacfbecb38f24b0a50ee9f122053ff2964140ca894d039207c4"
+      },
+      "evidence/seal-steering-build-tail16-r1.py": {
+        "bytes": 12343,
+        "sha256": "5f14ed535a7f4a5337a90f330c6d6e0af0e5bdd027376ff6197cdd59374bed9b"
+      },
+      "evidence/stage-steering-build-tail16-r1.py": {
+        "bytes": 3295,
+        "sha256": "797c5c087c90b17a3532330e857fd779abdb6c7437f7299194a9af8da09af7ac"
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/collection.json": {
+        "bytes": 10402,
+        "sha256": "342c21913cebdb0f9d4299ad75f45cee52754bc324cc6a5ec13aeff3fec2ed85"
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/contrast-prompts.txt": {
+        "bytes": 708,
+        "sha256": "49f3674d61d0deb6504acb80d61381b9dfcb5da0857490c0e25ad32597c96481"
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/controller-result.json": {
+        "bytes": 888,
+        "sha256": "3b14c0100779975ff42dda3324b6c9d2ba20750470fa37efba1be572b0db05fb"
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/controller-stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/controller-stdout.log": {
+        "bytes": 126080,
+        "sha256": "bcbd13c1b2061f4a921c38cb91ad7b63d13eb63bbff1d8b58453887b0824646f"
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/distrobox-create.log": {
+        "bytes": 248,
+        "sha256": "e6e7130c55909e7da41ec8082ec2f115e53b3a26d179d0298913db7998c6acba"
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/distrobox.stderr.log": {
+        "bytes": 1073,
+        "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/distrobox.stdout.log": {
+        "bytes": 92,
+        "sha256": "5b9183cd5e2b0c03f9174f087b85daa440c279f713f7848d2d1268faa2091884"
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/manifest.json": {
+        "bytes": 9914,
+        "sha256": "786510c89b53e873f37b84c7a8c07a7bfddca16d717dd0ce6bcf39fdc576043b"
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/plan.json": {
+        "bytes": 870,
+        "sha256": "05066273d84abe7d59396827d48472fbaa476184bf75ab36df5d31a649b9bc8a"
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/result.json": {
+        "bytes": 136036,
+        "sha256": "6afb56c28e56ffa13e02e265f65d050f4e080bc47adc543b489a9a378daf0048"
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/runner.py": {
+        "bytes": 172977,
+        "sha256": "e5037ecd3ac15aa18b3871e8d4961854aad4089513330bcf641dc9da87df85c2"
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/stdout.log": {
+        "bytes": 70278,
+        "sha256": "a4be6fd1f34333cbd86da9465f0f854c46220126642733c23fccd7655b4f4e21"
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/steering-build-gate.py": {
+        "bytes": 15878,
+        "sha256": "5782ea954c606c466404ecad752695d70d25cf4a8c9c139209e4d6ff3c4ad168"
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/steering-build-review.json": {
+        "bytes": 6587,
+        "sha256": "46fd2d7ffafa7eca7d12d1732556c069973931ffa1cca31d01e309a3ff12e636"
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/steering-build/build.jsonl": {
+        "bytes": 308970,
+        "sha256": "c0e7b6a68fc26ea92ceff53f0cf4419e1135b98fe681444efed402ddc2a1c06c"
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/steering-build/contrast-prompts.txt": {
+        "bytes": 708,
+        "sha256": "49f3674d61d0deb6504acb80d61381b9dfcb5da0857490c0e25ad32597c96481"
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/steering-build/target-prompts.txt": {
+        "bytes": 708,
+        "sha256": "f08d7d173d158a7ffd09513535bba0622361c2e5b78afcc47ef029bd30a47b53"
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/target-prompts.txt": {
+        "bytes": 708,
+        "sha256": "f08d7d173d158a7ffd09513535bba0622361c2e5b78afcc47ef029bd30a47b53"
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/telemetry.jsonl": {
+        "bytes": 97613,
+        "sha256": "6247554577f3090236f12bb0aade37b33dc5e7182b75747ec675e5afacafa33c"
+      },
+      "evidence/steering-build-tail16-closure-preparation-r2.json": {
+        "bytes": 500,
+        "sha256": "8574a149c10d1b673ac4804f28e9076db3b3a0df9e5a7b4e6ca6db44dd10afb8"
+      },
+      "evidence/steering-build-tail16-closure-r1.json": {
+        "bytes": 13602,
+        "sha256": "d074f7e919e5bab959768058fb43d038a8fba709ba22eeba4e7d07188d3e5d01"
+      },
+      "evidence/steering-build-tail16-closure-r1.py": {
+        "bytes": 146453,
+        "sha256": "0f9853b44c5b3a571527b3a56029a827ce2ea9c42d4e7128879024d8895dc6b9"
+      },
+      "evidence/steering-build-tail16-control-recipes-r1.json": {
+        "bytes": 2009,
+        "sha256": "fb70f08505a4073a99b9cea6cd006866e9af629844b2b9222ca32036030d208c"
+      },
+      "evidence/steering-build-tail16-fresh-r1.json": {
+        "bytes": 7998,
+        "sha256": "866943db56e03ec7e46204f5f67a0a87a004d07b79d687ed39e8c6c7eeb38301"
+      },
+      "evidence/steering-build-tail16-fresh-r1.py": {
+        "bytes": 5961,
+        "sha256": "f3071bb7a07700694a35026be53e7e48d2d951b63f12b6e1829e7e5bd2fac2c6"
+      },
+      "evidence/steering-build-tail16-live-1.json": {
+        "bytes": 300410,
+        "sha256": "0263398144d87d295af9ca781132b21d79d2d3748a097c0bb8d753e04587c3ba"
+      },
+      "evidence/steering-build-tail16-peer-coordination-r1.json": {
+        "bytes": 3947,
+        "sha256": "2be159e56f85bf12cf664bedc5f9cd3a1d341b68310cc1753fc9a74328b81830"
+      },
+      "evidence/steering-build-tail16-peer-raw-r1.json": {
+        "bytes": 6303,
+        "sha256": "60b08f46449a066dcd3455127865e4fcec1ae2c64f750dd65fc65bd3947e3185"
+      },
+      "evidence/steering-build-tail16-peer-release-r1.json": {
+        "bytes": 1713,
+        "sha256": "eab0a137893f81da07417c125fce97dc5b6fa248db08d3ccb1dc5d1ebd052bff"
+      },
+      "evidence/steering-build-tail16-prepared-r1.json": {
+        "bytes": 1051,
+        "sha256": "3cec510acb673594e9adb0474139cd143cd485c04caaeff19e5504a077d1fb84"
+      },
+      "evidence/steering-build-tail16-proposal-deliveries-r1.json": {
+        "bytes": 1801,
+        "sha256": "67855a4f151af644508044758c262ad09549863d1cc94d823ddc2f8a16753f13"
+      },
+      "evidence/steering-build-tail16-review-r1.json": {
+        "bytes": 7295,
+        "sha256": "fd7ff5bd8a87555d07f93c368e1d08c3b5b72aa1eb9a6fc6ed30b1f0ed45d82b"
+      },
+      "evidence/steering-build-tail16-stage-input-r1.json": {
+        "bytes": 1246,
+        "sha256": "daa245af569ed5bbb621e65a85cfe2f7fd67863d95aebc9a95cf80f333a0ef3d"
+      },
+      "evidence/steering-build-tail16-stage-r1.json": {
+        "bytes": 2280,
+        "sha256": "5c9fa977b0019b5928e40db7551c258f0fbe214f0aff2bea983d47f101de2b88"
+      },
+      "include/lie/activation_observer.h": {
+        "bytes": 2300,
+        "sha256": "debe0030122de07cc29eae5ec6262c70deb7fae022d0dd41efd813fe341b0c09"
+      },
+      "include/lie/steering_capture.h": {
+        "bytes": 1979,
+        "sha256": "d0d79eb31f41179077620ad90a1c35e8beb15795fb38bcea7442a2261aa20dc1"
+      },
+      "include/lie/steering_direction.h": {
+        "bytes": 2836,
+        "sha256": "b82dd96d681fd99d4116ba6e92a9db0923ad012fa9a7dd0f4b877de3a10a861a"
+      },
+      "src/steering_capture.c": {
+        "bytes": 5243,
+        "sha256": "f113984eba2b914503deda462f9e3782e740d17432a8a066ee6261268f2eb786"
+      },
+      "src/steering_direction.c": {
+        "bytes": 6887,
+        "sha256": "c042d8612601dec057fc08ba12a597e915e1e625d4d1bc888a979f92109ea8a4"
+      },
+      "tools/steering-build.c": {
+        "bytes": 27915,
+        "sha256": "24099905d9c7b831c3c38781f13999b0d93a16a407a666510eebebac7d0cf4b4"
+      },
+      "tools/strix-point-campaign.py": {
+        "bytes": 172977,
+        "sha256": "e5037ecd3ac15aa18b3871e8d4961854aad4089513330bcf641dc9da87df85c2"
+      },
+      "tools/strix-point-steering-build-gate.py": {
+        "bytes": 15878,
+        "sha256": "5782ea954c606c466404ecad752695d70d25cf4a8c9c139209e4d6ff3c4ad168"
+      }
+    },
+    "shared_artifacts": {
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/steering-build/activations.f32le": {
+        "bytes": 39321600,
+        "sha256": "3329da2a8618d12b1a3cd93e66e1dc697d02d4523c06a8dabd5fa5adc0b35a70",
+        "archive": "docs/development/validation/raw/steering-build-original-point-2026-10-08.tar.gz",
+        "archive_sha256": "5873bb9bc6b2e94c358f36d03960b88ed39a0ea7ff8356b74527fb9c4f367c65",
+        "member": "evidence/steering-build-original-pairs-point-20261007-r1/steering-build/activations.f32le",
+        "deduplicated_byte_identical_payload": true
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/steering-build/direction.ffn.f32": {
+        "bytes": 491520,
+        "sha256": "54bd43d6fe2cb6b8e76ee6d61ad919076aa3c482bb383a93f60cc47d1a0ce818",
+        "archive": "docs/development/validation/raw/steering-build-original-point-2026-10-08.tar.gz",
+        "archive_sha256": "5873bb9bc6b2e94c358f36d03960b88ed39a0ea7ff8356b74527fb9c4f367c65",
+        "member": "evidence/steering-build-original-pairs-point-20261007-r1/steering-build/direction.ffn.f32",
+        "deduplicated_byte_identical_payload": true
+      },
+      "evidence/steering-build-multichunk-tail-point-20261008-r1/steering-build/direction.attention.f32": {
+        "bytes": 491520,
+        "sha256": "7af2726984b3a85540e6fb6c1c544c8402b8fa1c0fbc4fe1644ed64d45430c93",
+        "archive": "docs/development/validation/raw/steering-build-original-point-2026-10-08.tar.gz",
+        "archive_sha256": "5873bb9bc6b2e94c358f36d03960b88ed39a0ea7ff8356b74527fb9c4f367c65",
+        "member": "evidence/steering-build-original-pairs-point-20261007-r1/steering-build/direction.attention.f32",
+        "deduplicated_byte_identical_payload": true
+      }
+    },
+    "shared_artifacts_bytes": 40304640,
+    "all_archived_shared_and_current_members_verified": true,
+    "parent_archive_retained_not_rewritten": true,
+    "no_duplicate_raw_or_bank_payloads": true
+  },
+  "GPU_repeat_heavyweight_model_hash_conversion_tuning_install_or_publication": false
+}
