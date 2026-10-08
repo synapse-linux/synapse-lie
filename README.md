@@ -1,8 +1,22 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-[IOMMU-off comparison](docs/Q2-IOMMU-COMPARISON.md) is prepared with the
-identical retained executable and all176 points from the complete ON curves.
-Four CPU orchestration checks pass; GPU admission and measurements follow.
+2026-10-08: the requested four-point Promessi sposi probe is prepared under
+plandfeed916. Retained b701e948; chunk2048 and exact2048/4096/6144/8192;
+fresh full-prefill, capacity133760, TG128, warm1+measured1, current IOMMUoff.
+Five orchestration CPU fixtures pass on .157 at12:57:28 and verify exits0
+at12:58:28. Core and GLM give specific current non-use. Admission remains
+a separate fresh five-lease check; no inference is claimed at preparation.
+
+2026-10-08 12:45 UTC: the owner stopped the remaining IOMMU-off curves.
+Q2 and UD chunk2K are complete through128K; Q2 chunk4K has13 measured
+points through53248, and chunk8K did not start. All52 artifacts verify;
+release fda04b1c and independent12:47:32 closure confirm empty KFD and
+five free original leases. The completed points remain in the [retained table](docs/Q2-COUNTING-CURVE128-OFF-PROGRESS.md).
+The new requested scope is Q2 Promessi sposi at2048/4096/6144/8192,
+chunk2048, using the retained native benchmark on the current OFF boot.
+
+[IOMMU-off comparison](docs/Q2-IOMMU-COMPARISON.md) retains141 completed
+measurements before the owner-requested stop, including both complete2K curves.
 
 [Benchmark correction](docs/Q2-BENCHMARK-CORRECTION.md): the latest corpus
 curve timed only the final chunk after untimed prefix replay. It is withdrawn
@@ -38,8 +52,7 @@ The authorized [IOMMU-off transition](docs/Q2-IOMMU.md) is complete after all
 four exact curves and the full table presentation. The new .157 boot uses the
 same kernel with `amd_iommu=off` and zero IOMMU groups. The exact original
 Limine configuration is restored for later boots; performance120W/fan82 remain.
-The authorized empty-queue user ComfyUI stop leaves KFD empty. No GPU benchmark
-has run with IOMMU off yet, so no OFF performance improvement is claimed.
+The authorized empty-queue user ComfyUI stop leaves KFD empty. The OFF measurements are retained in the stopped comparison linked above.
 
 The deferred [prefill SSM candidate](docs/Q2-SSM-STAGE-Q8.md) packs the original Q8
 bytes into contiguous operand stages, charging packing on every call. Local

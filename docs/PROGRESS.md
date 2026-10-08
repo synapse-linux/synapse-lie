@@ -1,5 +1,20 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+2026-10-08: the requested four-point Promessi sposi probe is prepared under
+plandfeed916. Retained b701e948; chunk2048 and exact2048/4096/6144/8192;
+fresh full-prefill, capacity133760, TG128, warm1+measured1, current IOMMUoff.
+Five orchestration CPU fixtures pass on .157 at12:57:28 and verify exits0
+at12:58:28. Core and GLM give specific current non-use. Admission remains
+a separate fresh five-lease check; no inference is claimed at preparation.
+
+2026-10-08 12:45 UTC: the owner stopped the remaining IOMMU-off curves.
+Q2 and UD chunk2K are complete through128K; Q2 chunk4K has13 measured
+points through53248, and chunk8K did not start. All52 artifacts verify;
+release fda04b1c and independent12:47:32 closure confirm empty KFD and
+five free original leases. The completed points remain in the [retained table](Q2-COUNTING-CURVE128-OFF-PROGRESS.md).
+The new requested scope is Q2 Promessi sposi at2048/4096/6144/8192,
+chunk2048, using the retained native benchmark on the current OFF boot.
+
 2026-10-08 IOMMU-off comparison prepared: frozen plan631ea5b1 repeats all176
 ON points with retained binaryb701e948 and identical workloads. Four CPU
 orchestration fixtures pass on .157 at09:04:47; they verify unchanged benchmark

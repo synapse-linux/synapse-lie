@@ -2,9 +2,17 @@
 
 # Exact 128K IOMMU comparison
 
-The owner has authorized the IOMMU-off repetition of the complete
-[IOMMU-on curves](Q2-COUNTING-CURVE128.md). Preparation is complete; this
-document does not yet contain measured IOMMU-off results.
+The owner stopped the remaining curves at12:45:44 UTC on2026-10-08.
+Q2 and UD chunk2K each complete all64 points through128K. Q2 chunk4K
+completes13 points through53248; chunk8K does not start. All141 completed
+measurements are preserved in the [retained table](Q2-COUNTING-CURVE128-OFF-PROGRESS.md).
+The requested replacement is four Q2 Promessi sposi points through8192.
+Collection of52 artifacts and independent closure pass; releasefda04b1c.
+The native child exits1 after the requested SIGTERM; the supervising run exits2.
+The complete176-point ON/OFF analysis has therefore not been executed.
+[Stop audit](../config/q2-counting-curve128-off-stop-audit.json).
+
+Original frozen protocol follows; its complete176-point scope was superseded.
 
 [Frozen OFF plan](../config/q2-counting-curve128-off-plan.json):
 `631ea5b145b49e311af1bb1a64f395fb3cdd3dc5df2f9791c072eca8bff8d3c0`.

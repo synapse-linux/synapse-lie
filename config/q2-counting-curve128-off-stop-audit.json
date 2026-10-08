@@ -1,0 +1,80 @@
+{
+  "schema": "synapse-lie.q2-counting-curve128-off-stop.v1",
+  "state": "STOPPED_BY_OWNER_RELEASED",
+  "at": "2026-10-08T12:55:35.003337+00:00",
+  "reason": "Owner explicitly stopped remaining curves to request Q2 Promessi sposi at2048/4096/6144/8192",
+  "full_128k_campaign": false,
+  "arms": [
+    {
+      "file": "evidence/q2-counting-curve128-off-r1/results/00-q2-c2048.jsonl",
+      "sha256": "48f1d7044d5143ffe66f5bfee475b8e2284f43815614425a87e2878fcc3dd590",
+      "complete": true,
+      "samples": 128,
+      "measured_points": 64,
+      "last_measured_tokens": 131072,
+      "child_exit_code": 0
+    },
+    {
+      "file": "evidence/q2-counting-curve128-off-r1/results/01-ud-c2048.jsonl",
+      "sha256": "70f278dfff2595f6ea751d8b55851f756a093df6b9873609d8221a3e5eaa96b9",
+      "complete": true,
+      "samples": 128,
+      "measured_points": 64,
+      "last_measured_tokens": 131072,
+      "child_exit_code": 0
+    },
+    {
+      "file": "evidence/q2-counting-curve128-off-r1/results/02-q2-c4096.jsonl",
+      "sha256": "286537b0a2c94c583798f72cb914b2a956a0baaf3d2c23baa5293f12573650d4",
+      "complete": false,
+      "samples": 26,
+      "measured_points": 13,
+      "last_measured_tokens": 53248,
+      "child_exit_code": 1
+    }
+  ],
+  "not_started": [
+    "q2-c8192"
+  ],
+  "run_command": {
+    "argv": [
+      "python3",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-counting-curve128-off-r1/q2-counting-curve128-off-window.py",
+      "run"
+    ],
+    "started_at": "2026-10-08T09:06:14.388671+00:00",
+    "finished_at": "2026-10-08T12:45:47.277031+00:00",
+    "exit_code": 2
+  },
+  "cancellation": {
+    "at": "2026-10-08T12:45:44.215857+00:00",
+    "reason": "Explicit user request: stop remaining curves; run only Q2 2K through8K with Promessi sposi",
+    "identity": {
+      "boot_id": "be3e89fd-955b-47a4-a385-11c3ad98bb78",
+      "pid": 6676,
+      "start_ticks": 2254166,
+      "process_group": 6676
+    },
+    "signal": "SIGTERM",
+    "scope": "Exact owned Q2 chunk4096 native child only; supervisor records exit and stops before next arm"
+  },
+  "collection_files": 52,
+  "collection_bytes": 98636303,
+  "collection_verified_at": "2026-10-08T12:47:30.724302+00:00",
+  "release_sha256": "fda04b1c6e80e30bb5032db9e198be7e9c87dc9616a29b877aeeae33783c0f37",
+  "strong_closure": {
+    "at": "2026-10-08T12:47:32.016638+00:00",
+    "release_sha256": "fda04b1c6e80e30bb5032db9e198be7e9c87dc9616a29b877aeeae33783c0f37",
+    "boot_id": "be3e89fd-955b-47a4-a385-11c3ad98bb78",
+    "retired_identities": 5,
+    "retired_groups": 4,
+    "kfd_empty": true,
+    "original_five_leases_free": true,
+    "reference_model_stats_unchanged": true,
+    "glm_model_stats_unchanged": true,
+    "iommu_groups": 0,
+    "gpu_reserved": false
+  },
+  "gpu_reserved": false,
+  "current_own_all_hosts": "NONE"
+}

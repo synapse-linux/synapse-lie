@@ -1,0 +1,175 @@
+{
+  "schema": "synapse-lie.q2-counting-curve128-window.v3",
+  "boot_id": "be3e89fd-955b-47a4-a385-11c3ad98bb78",
+  "state": "Q2_COUNTING_CURVE128_RELEASED",
+  "at": "2026-10-08T12:47:31.511427+00:00",
+  "plan_sha256": "631ea5b145b49e311af1bb1a64f395fb3cdd3dc5df2f9791c072eca8bff8d3c0",
+  "admission_sha256": "e03acb988bf4f352c5609a4066df30f3eb3721eac6b29c762fb6baf186e6cf81",
+  "pair_result_sha256": "75e1893460700877b9091d810e32c589b99c09111a28e54f5c1896a60cb95386",
+  "pair_state": "FAILED",
+  "kfd_empty": true,
+  "original_model_stats_unchanged": true,
+  "original_leases_free": true,
+  "retired_owned_identities": [
+    {
+      "boot_id": "be3e89fd-955b-47a4-a385-11c3ad98bb78",
+      "pid": 2904,
+      "start_ticks": 1000721,
+      "process_group": 2900
+    },
+    {
+      "boot_id": "be3e89fd-955b-47a4-a385-11c3ad98bb78",
+      "pid": 2906,
+      "start_ticks": 1000733,
+      "process_group": 2906
+    },
+    {
+      "boot_id": "be3e89fd-955b-47a4-a385-11c3ad98bb78",
+      "pid": 4875,
+      "start_ticks": 1641254,
+      "process_group": 4875
+    },
+    {
+      "boot_id": "be3e89fd-955b-47a4-a385-11c3ad98bb78",
+      "pid": 6676,
+      "start_ticks": 2254166,
+      "process_group": 6676
+    }
+  ],
+  "retired_identities": [
+    {
+      "boot_id": "be3e89fd-955b-47a4-a385-11c3ad98bb78",
+      "pid": 1073,
+      "start_ticks": 980
+    },
+    {
+      "boot_id": "be3e89fd-955b-47a4-a385-11c3ad98bb78",
+      "pid": 2904,
+      "start_ticks": 1000721,
+      "process_group": 2900
+    },
+    {
+      "boot_id": "be3e89fd-955b-47a4-a385-11c3ad98bb78",
+      "pid": 2906,
+      "start_ticks": 1000733,
+      "process_group": 2906
+    },
+    {
+      "boot_id": "be3e89fd-955b-47a4-a385-11c3ad98bb78",
+      "pid": 4875,
+      "start_ticks": 1641254,
+      "process_group": 4875
+    },
+    {
+      "boot_id": "be3e89fd-955b-47a4-a385-11c3ad98bb78",
+      "pid": 6676,
+      "start_ticks": 2254166,
+      "process_group": 6676
+    }
+  ],
+  "retired_groups": [
+    2900,
+    2906,
+    4875,
+    6676
+  ],
+  "models": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "device": 53,
+      "inode": 3116203,
+      "bytes": 147207127040,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "device": 53,
+      "inode": 3206497,
+      "bytes": 10946624,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "device": 53,
+      "inode": 3228516,
+      "bytes": 49859583136,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "device": 53,
+      "inode": 3211726,
+      "bytes": 49376141504,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "device": 53,
+      "inode": 3207513,
+      "bytes": 12087983520,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "device": 53,
+      "inode": 3206512,
+      "bytes": 2786568256,
+      "mtime_ns": 1790711824619908153,
+      "ctime_ns": 1790711826279892467
+    },
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q4.gguf",
+      "device": 53,
+      "inode": 3116346,
+      "bytes": 177280286720,
+      "mtime_ns": 1789871998360000000,
+      "ctime_ns": 1790258428459084412
+    }
+  ],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 53,
+      "inode": 3232146
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 53,
+      "inode": 3206482
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 53,
+      "inode": 3228451
+    },
+    {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-coordination/epochs/be3e89fd-955b-47a4-a385-11c3ad98bb78/gpu.lock",
+      "device": 53,
+      "inode": 5078770
+    }
+  ],
+  "glm_model_path": "/home/paperboy/ds4-launcher/models/gguf/GLM-5.3-Flash-Q2.gguf",
+  "glm_model_stats": {
+    "st_dev": 53,
+    "st_ino": 786094,
+    "st_size": 96505816384,
+    "st_mtime_ns": 1787989371366313995,
+    "st_ctime_ns": 1787989421761133727,
+    "st_atime_ns": 1787939182094821252
+  },
+  "core_cpu_lease": {
+    "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/root-terminal-bench-r16/client.lock",
+    "device": 53,
+    "inode": 4486194
+  },
+  "historical_release": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-counting-iommu-boot-r1/closure.json",
+  "historical_release_sha256": "9afc50dc121ab87ebca4a318726e3d9b1a5a1557b3f49ac107b8371e43165690",
+  "remote_cleanup": false,
+  "gpu_reserved": false,
+  "next_window_owner": "core"
+}
