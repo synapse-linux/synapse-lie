@@ -9,9 +9,27 @@ correcting response retention, the unchanged complete cohort finishes: all
 seventy wire responses and stored policies independently verify, but quality
 fails. Baseline arithmetic is 6/10; twenty negative-scale outputs truncate.
 Collection, whole-container retirement, four-peer release and portable evidence
-verification pass. Root owns no remote job or future reservation. Larger recall
-inputs and wider gates remain pending.
+verification pass. Root now owns a separate `.161` 786K recall window; this
+larger input remains unqualified while running. No future window is reserved.
 All six root tasks remain open; Terminal Bench stays last.
+
+## Current r70 YaRN4 786K recall in progress — 2026-10-08 UTC
+
+After full steering collection, closure, four-peer release and checkpoint
+`0fd741e6`, four new specific declarations and the 10:26:17 UTC global check
+admit manifest `4fc4b1e5` on `.161`. Original controller92498 runs one server:
+capacity1048576, physical target786432, YaRN4/seed77/chunk256/C1, three unscored
+calibrations and two cold natural-TG128 turns, with prefix caching off.
+
+The 10:28:17 witness verifies supervisor203585/start7125960, init203816/start7126087
+and actual GPU owner205318/start7135478 in the full recorded container cgroup.
+At 10:30:36 the read-only C-core view reports three completed calibrations and
+active prefill, with 128 calls started and 127 returned. The GET takes 5.397 ms;
+CPU/GPU/NVMe readings are 76.75/76/47.85 C. This is a discrete progress and
+responsiveness witness, not matched performance, completed recall or reactive
+speedup. Source and native runtime remain unchanged. Root owns only this `.161`
+scope through collection/oracle/strong closure and four-peer release; Terminal
+Bench and future windows remain unadmitted.
 
 ## Complete steering cohort fails quality; retention and closure pass — 2026-10-08 UTC
 

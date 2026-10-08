@@ -1,5 +1,32 @@
 # DS4 / synapse-lie coordination
 
+## Current r70 YaRN4 786K recall admitted and running — 2026-10-08
+
+After the complete steering failure is collected, independently reviewed,
+strongly closed, released to all four peers and checkpointed at `0fd741e6`,
+root proposes `recall-yarn4-786432-s77-ar-20261008-r1`, manifest `4fc4b1e5`.
+Four new current specific non-use declarations cover the original run through
+collection, independent oracle, complete cgroup closure and four-peer release.
+Separate Q2 activity stays on `.157`; root accesses only `.161`.
+
+Persistent staging verifies unchanged r70/`4c703b3d` artifacts and stat-only
+model identities. The 10:26:17 UTC global observation verifies pinned boot/FS,
+original lease66308/105946405 free and released, helper/manifest hashes,
+image/memory admission, router202966 active and no foreign compute, guarded hot
+sensor or HTTP8000 listener. Fresh in-lease admission then starts the original
+controller92498; no restart or future grant is created.
+
+The 10:28:17 UTC witness observes supervisor203585/start7125960 holding FD3,
+init203816/start7126087 and actual GPU owner205318/start7135478 in complete
+container `05e19a0bd97f4a16e18ba6ebb17222d98102e0550652e6ce96165136dfe6aed2`.
+Native C1/greedy AR/YaRN4/context1048576/target786432/chunk256/seed77, three
+calibrations and two cold natural-TG128 turns are unchanged. CPU98/NVMe85 guards
+and GPU observation remain active. A 10:30:36 read-only C-core view sees active
+prefill after three completed calibrations; no recall acceptance is claimed.
+All four peers receive actual admission identities. Root owns this `.161`
+scope; all other hosts and Terminal Bench are NONE. Collection, final exits and
+strong closure are pending; there is no lease waiter or future reservation.
+
 ## Corrected held-out cohort collected and strongly closed — 2026-10-08
 
 The owner's explicit `procedi` resumes the prepared GPU qualification. After

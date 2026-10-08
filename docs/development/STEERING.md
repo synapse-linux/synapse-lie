@@ -80,9 +80,23 @@ ownership/restore checks passing
 Original 100-pair FFN learning now passes on Strix Point: 200 complete prefills,
 9,600 branch-major rows and exact independent normalized-bank reconstruction
 ([receipt](validation/steering-conciseness-original100-point-2026-10-08.json)).
-The window is collected and strongly closed. Original response execution remains
-pending.
+The window is collected and strongly closed. The subsequent complete
+[original held-out cohort](validation/steering-conciseness-quality-point-2026-10-08.json)
+retains all seventy responses and stored application policies, but fails quality:
+31 arithmetic answers are correct, fifty outputs stop naturally and absent/zero
+parity passes 10/10. Both negative scales truncate every output. Its original
+controller/container exit1; collection, full independent review, strong closure
+and portable postcheck exit0. The earlier incomplete HTTP429 run is retained
+separately. The learned length effect is not scored after failed prerequisites.
 Answer preservation and response length are separate from general quality.
+
+Source review confirms that capture follows the same edited attention/FFN
+locations used at runtime, with FFN branch averaging before learning and chat
+rendering in the admitted builder. Sign and geometry follow the
+[pinned DS4 contract](https://github.com/antirez/ds4/blob/0aaea5a238fb41a35106a551e73c8409dfb751ac/dir-steering/README.md).
+This checks source alignment; it does not establish that a learned direction
+represents the desired behavior on a held-out prompt. The observed negative-scale
+quality failure remains a separate result, with unchanged bank and criteria.
 
 The receipt retains all raw rows and source/control artifacts in five ordered
 gzip-tar parts, each at most 80 MiB, with individual and combined hashes. List
