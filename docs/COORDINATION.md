@@ -1,5 +1,32 @@
 # DS4 / synapse-lie coordination
 
+## Current Core-19 campaign active on .157 — 2026-10-08 UTC
+
+The owner explicitly selects the installed 19-task Core-19 suite for both
+current `develop` quantizations, UD-Q4 followed by original Q2/IQ2, on `.157`
+alone. Four new specific declarations cover frozen r2 manifest `fec2bf27`
+through staging, both serial jobs, collection, independent review, whole-group
+and container closure, original five-FD release and four final notices.
+Fresh global observation is 21:43:49.882399 UTC. Repeated in-lease admission
+starts supervisor19696/start5547893 at 21:44:06.609296 UTC, retaining original
+FD3..7. The qualified server `732f14b2` has unchanged canonical `f902ad45` code.
+
+UD-Q4 session19700/start5547943 and GPU server19701/start5547949 run in
+session19700. Live doctor exits0; runner19835/start5550254 and Harbor19898/
+start5550306 execute the first task in the owned Docker container. Context is
+262144/native, chunk2048, RAM prefix cache4096 MiB, C1 AR/thinking off and no MTP
+or KV disk. Original task instructions, two conditional attempts and three-hour
+agent timeout remain unchanged. The [start witness](development/validation/core19-develop-halo-start-2026-10-08.json)
+is not a final score or performance comparison. CPU98 and lower SSD bounds are
+guarded; GPU is observed. The first witness records CPU75.375/GPU72/NVMe62.85 C.
+
+Root owns this `.157` campaign until collection/review/strong closure and final
+release. Root has no job, lease, waiter or reservation on other hosts, and no
+future grant. No new build, system installation, service/tuning, model payload
+hash/conversion, DS4 mutation or foreign termination occurs. R1 is staged only
+and superseded before any lease or GPU after a previous-receipt field-name
+failure; actual exits and files remain intact.
+
 ## Current Q2/walk functional window verified and released — 2026-10-08
 
 Four actual specific declarations cover

@@ -4,9 +4,15 @@
 ## Core-19 comparison requested — 2026-10-08 UTC
 
 The owner selects the existing 19-task Core-19 suite on `.157` for UD-Q4 and
-original Q2/IQ2, using the qualified `develop` runtime. Preparation is on
-`feature/terminal-bench-lite`, based on `9e793a64`; no benchmark admission or
-score is implied by preparation. Both models will run serially on one machine.
+original Q2/IQ2, using the qualified `develop` runtime. The campaign is on
+`feature/terminal-bench-lite`, based on `9e793a64`. The persistent r2 supervisor
+is admitted at 21:44:06 UTC after four current declarations, fresh global and
+original five-FD checks. UD-Q4 is model-ready, the live official doctor exits0
+and Harbor executes the first task in its owned container. Q2 follows serially
+on the same machine. The [start receipt](development/validation/core19-develop-halo-start-2026-10-08.json)
+records actual identities and profile; it is not a completed result or score.
+The r1 prerequisite/fresh failures remain private evidence and occur before
+lease acquisition or GPU/model execution. Only the receipt binding changes.
 The [implementation TODOs](BACKEND.md#explicit-implementation-todos) distinguish
 missing work from implemented features awaiting broader qualification.
 
@@ -27,7 +33,8 @@ verification pass. The separate `.161` 786K cohort now also passes both exact
 answers, independent saved-wire review, collection and complete retirement.
 The near-1M cohort now passes complete independent saved-wire review and
 whole-container retirement. Root owns no remote window; no future window is reserved.
-All six root tasks remain open; Terminal Bench stays last.
+The broader qualification tasks remain open. The owner's later Core-19 request
+above supersedes the earlier "Terminal Bench last" sequencing.
 
 ## Current Q2/walk original-weight integration gate passed — 2026-10-08 UTC
 
