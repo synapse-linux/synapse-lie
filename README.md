@@ -9,7 +9,9 @@ original counting prompt, exact token counts and the elapsed time between
 two timestamps enclosing every prefill chunk from an empty sequence. The
 [focused GPU diagnostic](docs/Q2-COUNTING-FULL-PREFILL.md) completes 2K/8K
 inputs with all 20 TG128 samples and four focused CPU CTests passing. It is
-not the complete 128K curve, which remains unexecuted. IOMMU remains enabled.
+not the complete 128K curve. The full Q2 chunk2K/4K/8K and UD chunk2K curves
+are now running; [live partial measurements](docs/Q2-COUNTING-CURVE128-PROGRESS.md)
+remain explicitly incomplete. IOMMU remains enabled.
 
 The requested [UD model comparison at exact 2K](docs/Q2-UD-COUNTING2K.md)
 uses that same native executable and counting input, with no Q2 rerun. UD

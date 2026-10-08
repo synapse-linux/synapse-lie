@@ -5,10 +5,13 @@ diagnostics and isolated UD2048 point did not complete that work. Prepare
 all112 Q2 points (chunk2K/4K/8K) and64 UD points (chunk2K), through131072 exact
 physical counting tokens, same retained native executableb701e948, full
 prefill from empty state, capacity133760, TG128, C1reactive greedy AR, IOMMUon.
-Use the already documented full-curve default warm1+measured1. Await the
-admitted GLM c4eff4bd window's collection/release/strong closure before freezing
-the predecessor and requesting specific non-use ACKs. No new GPU admission
-or completed curve is claimed at this preparation stage.
+Use the already documented full-curve default warm1+measured1. GLM release9fef948a
+and strong00:59:01 precede specific Core/GLM ACKs, fresh verify01:01:00 and
+admission01:01:28 of plan ca98934d. The campaign is running, not complete;
+[live partial measurements](Q2-COUNTING-CURVE128-PROGRESS.md) preserve each
+finished point. The new first2K observation1545.070140 is42.823405 below the
+saved1587.893545 reference. Preserve this observed difference without claiming
+an isolated cause; the numerical executable remains b701e948.
 
 2026-10-08 requested UD2K comparison completes on .157 with the same native
 executableb701e948 and exact2048 physical counting IDs as saved Q2. No Q2

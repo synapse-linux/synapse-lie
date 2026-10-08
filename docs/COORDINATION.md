@@ -1,5 +1,19 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+Q2/UD complete curves .157 ACTIVE — 2026-10-08 UTC: plan ca98934d, preparation
+checkpoint abda0168, source parent96f7ccb6/manifest11352825, retained binaryb701e948,
+runner e6d26ccf. GLM predecessor release9fef948a at00:52:18 and strong00:59:01
+verify72 retired identities/groups,36 artifacts,five free original leases and
+unchanged model stats. Specific Core/GLM non-use ACKs precede our fresh
+verify01:01:00 and admission01:01:28, both exit0. Four serial native curves:
+Q2 chunk2048, UD chunk2048, Q2 chunk4096, Q2 chunk8192, all through131072,
+176points/warm1+measured1/capacity133760/TG128/exactcounting/fullprefill.
+IOMMU remains enabled; no remote build, cleanup, tuning, service or model
+mutation. Enclosing ownership stays Q2 until collection/hash, release and
+strong closure; gaps between curves are not release. Core/GLM were notified.
+Other Q2 hosts NONE. Progress is preserved under
+`evidence/q2-counting-curve128-preparation/` and the live partial table.
+
 Q2 requested UD2K .157 released — 2026-10-08 UTC: plan1b8b792a, source65afe48c,
 binaryb701e948, predecessor d5be8bf0. Specific Core/GLM current non-use ACKs
 precede admission00:37:24 with fresh original five leases and all registry,
